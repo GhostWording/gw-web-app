@@ -1,4 +1,4 @@
-﻿// Gets an intention for a given intentionID
+// Gets an intention for a given intentionID
 cherryApp.factory('SingleIntentionQuerySvc', ['$http','AppUrlSvc', function ($http, AppUrlSvc) {
 
     var o = {};
@@ -7,7 +7,7 @@ cherryApp.factory('SingleIntentionQuerySvc', ['$http','AppUrlSvc', function ($ht
         // Read intention from cache or server then call doIfIntentionReadSuccessfullyFromServerOrCache;
 //        var url = AppUrlSvc.getApiIntentionRoot(id);
         var url = AppUrlSvc.urlIntentionFromId(id,areaId);
-        $http.get(url)
+        $http.get(url);
         $http({method: 'GET',cache:false,url: url, headers: {"Accept-Language":"fr-FR"}
         })
             .success(function (data, status) {

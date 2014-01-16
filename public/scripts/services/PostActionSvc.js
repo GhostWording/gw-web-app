@@ -1,4 +1,4 @@
-﻿// Send user action info to the server
+// Send user action info to the server
 cherryApp.factory('PostActionSvc', ['$http','AppUrlSvc','SelectedArea', function ($http, AppUrlSvc,SelectedArea) {
 
     // TODO : inject a service to provide AreaId and DeviceType
@@ -13,12 +13,12 @@ cherryApp.factory('PostActionSvc', ['$http','AppUrlSvc','SelectedArea', function
 //    + AreaId, UserId, UserAgent
 
     o.gulp = function (targetType, targetId, actionLocation, actionType,targetParameter) { // + targetParameter
-        if ( actionType == undefined ) actionType = 'click';
-        if ( actionLocation == undefined ) actionLocation = '';
-        if ( targetParameter == undefined ) targetParameter = '';
+        if ( actionType === undefined ) actionType = 'click';
+        if ( actionLocation === undefined ) actionLocation = '';
+        if ( targetParameter === undefined ) targetParameter = '';
 
         var area = SelectedArea.getSelectedAreaName();
-        if ( area == undefined )
+        if ( area === undefined )
             area = '';
 
         switch (targetType) {

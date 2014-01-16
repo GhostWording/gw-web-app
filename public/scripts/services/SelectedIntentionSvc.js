@@ -1,4 +1,4 @@
-﻿// Keeps track of the currently selected intention
+// Keeps track of the currently selected intention
 cherryApp.factory('SelectedIntention', function () {
     var selectedIntention;
     // In some cases, we know the intentionId, but not yet have the full object if it needs to be reloaded from the server
@@ -20,7 +20,7 @@ cherryApp.factory('SelectedIntention', function () {
 	};
 
 	o.getSelectedIntentionLabel = function () {
-		return selectedIntention == undefined  ? "" : selectedIntention.Label;
+		return selectedIntention === undefined  ? "" : selectedIntention.Label;
 	};
     o.getSelectedIntentionId = function () {
         return selecteIntentionId;

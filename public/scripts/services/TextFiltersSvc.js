@@ -1,4 +1,4 @@
-﻿// This servic keeps track of user choices that impact the filtering of texts
+// This servic keeps track of user choices that impact the filtering of texts
 cherryApp.factory('NormalTextFilters', function ($location,UserProfileSvc) {
 
     // We may want to use a list of properties instead of static variables
@@ -48,7 +48,7 @@ cherryApp.factory('NormalTextFilters', function ($location,UserProfileSvc) {
 		var valret = o.getSenderGender() + o.getRecipientGender() + o.getTuOuVous() + o.getCloseness() ;
         for (var propertyname in stylesToExclude)
             valret += stylesToExclude[propertyname];
-        for (var propertyname in stylesToPrefer)
+        for (propertyname in stylesToPrefer)
             valret += stylesToPrefer[propertyname];
         valret += o.contextValuesToWatch();
         return valret;
@@ -77,7 +77,7 @@ cherryApp.factory('NormalTextFilters', function ($location,UserProfileSvc) {
     o.atLeastOneStyleToExclude = function () {
         for (var propertyname in stylesToExclude)
         {
-         if ( stylesToExclude[propertyname] == true )
+         if ( stylesToExclude[propertyname] === true )
             return true;
         }
         return false;
@@ -85,7 +85,7 @@ cherryApp.factory('NormalTextFilters', function ($location,UserProfileSvc) {
     o.atLeastOneStyleToPrefer = function () {
         for (var propertyname in stylesToPrefer)
         {
-            if ( stylesToPrefer[propertyname] == true )
+            if ( stylesToPrefer[propertyname] === true )
                 return true;
         }
         return false;
@@ -93,7 +93,7 @@ cherryApp.factory('NormalTextFilters', function ($location,UserProfileSvc) {
     o.atLeastOneContextToInclude = function () {
         for (var propertyname in stylesToExclude)
         {
-            if ( contextsToInclude[propertyname] == true )
+            if ( contextsToInclude[propertyname] === true )
                 return true;
         }
         return false;
@@ -132,14 +132,14 @@ cherryApp.factory('NormalTextFilters', function ($location,UserProfileSvc) {
     o.getSylesToPrefer          = function()    { return stylesToPrefer; };
 
     o.getStyleToPrefer          = function(key) { var v = stylesToPrefer[key];
-                                                 return (v != undefined) ? v : false; };
+                                                 return (v !== undefined) ? v : false; };
 
     o.setStyleToPrefer          = function(key,value)
                                                 { stylesToPrefer[key] = value; };
     o.getContextsToInclude      = function() { return contextsToInclude ; };
 
     o.getContextToInclude       = function(key) { var v = contextsToInclude[key];
-                                                return (v != undefined) ? v : false; };
+                                                return (v !== undefined) ? v : false; };
 
     o.setContextToInclude       = function(key,value)
         { contextsToInclude[key]= value; };

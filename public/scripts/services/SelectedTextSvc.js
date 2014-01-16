@@ -1,4 +1,4 @@
-﻿// Keeps track of the currently selected text
+// Keeps track of the currently selected text
 
 cherryApp.factory('SelectedText', ['HelperService','$http','AppUrlSvc' , function(HelperService,$http,AppUrlSvc) {
 	var selectedTextContent;
@@ -19,7 +19,7 @@ cherryApp.factory('SelectedText', ['HelperService','$http','AppUrlSvc' , functio
         selectedText = txt;
     };
     o.getTextId = function () {
-        return selectedText != undefined ? selectedText.TextId : '';
+        return selectedText !== undefined ? selectedText.TextId : '';
     };
 
 //    o.readTextFromId = function (id, doIfSuccess) {
@@ -45,7 +45,7 @@ cherryApp.factory('SelectedText', ['HelperService','$http','AppUrlSvc' , functio
             .error(function (data, status) {
                 console.log("-- bad request -- " + url + " " + status);
             });
-    }
+    };
 
 
 	return o;

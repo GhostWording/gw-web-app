@@ -1,4 +1,4 @@
-﻿// Keeps track of the currently selected area
+// Keeps track of the currently selected area
 cherryApp.factory('SelectedArea', function () {
     var selectedArea;
     var selectedAreaName;
@@ -12,7 +12,7 @@ cherryApp.factory('SelectedArea', function () {
 //        return selectedArea;
 //    };
 //    o.getSelectedAreaName = function () {
-//        return selectedArea == undefined  ? "" : selectedArea.Name;
+//        return selectedArea === undefined  ? "" : selectedArea.Name;
 //    };
 
     o.setSelectedAreaName = function (areaName) {

@@ -1,4 +1,4 @@
-﻿// Gets a list of Intentions for a given area
+// Gets a list of Intentions for a given area
 cherryApp.factory('Intentions',  function ($http,FakeIntentions,AppUrlSvc)     {
 	var o = {};
 
@@ -16,7 +16,7 @@ cherryApp.factory('Intentions',  function ($http,FakeIntentions,AppUrlSvc)     {
 //			nbIntentions = 1000;
             queryCompleteList = true;
 			// Return cached intentions for this area if available
-			if (o.intentionArrays[areaName] != undefined) {
+			if (o.intentionArrays[areaName] !== undefined) {
 				thendo(o.intentionArrays[areaName]);
 				console.log("Intentions for AREA" + areaName + " read from cache");
 				return;
@@ -68,7 +68,7 @@ var reorderWithSortBy = function(intentions) {
 //	var retval = [];
 //	angular.forEach(intentions,
 //		function (intention) {
-////              if ( intention. == undefined )
+////              if ( intention. === undefined )
 //                    retval.push(intention);
 //		});
 //	return retval;
@@ -85,8 +85,8 @@ var reorderWithSortBy = function(intentions) {
 //
 //	angular.forEach(intentions,
 //		function (intention) {
-////            if ( intention.Areas == undefined )
-//              if ( intention.AreaIds == undefined )
+////            if ( intention.Areas === undefined )
+//              if ( intention.AreaIds === undefined )
 //
 //                    retval.push(intention);
 //			else
@@ -115,7 +115,7 @@ cherryApp.factory('FakeIntentions', function () {
 
 	intentionFactory.intentions = [];
 
-	intentionFactory.query = function (thendo) 	{
+  intentionFactory.query = function (thendo) {
 		var data = [
 			{ Id: "28033DDD-F628-409E-AAB6-6A6A51668388", Label: "Merci !" },
 			{ Id: "139789E2-37FA-444F-8DBC-170BCECF79E9", Label: "J'aimerais vous revoir" },
