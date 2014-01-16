@@ -1,4 +1,4 @@
-﻿// Boite permettant d'afficher un text et de l'envoyer
+// Boite permettant d'afficher un text et de l'envoyer
 cherryApp.controller('RecipientListController', ['$scope', '$filter', 'TypesDestinatairesStatiques', function ($scope, $filter, Recipients) {
 
     console.log('RecipientListController');
