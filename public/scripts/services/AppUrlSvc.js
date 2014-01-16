@@ -1,4 +1,4 @@
-﻿// Helps builds relative or abolute urls to query the APIs
+// Helps builds relative or abolute urls to query the APIs
 cherryApp.factory('AppUrlSvc', function ($location) {
 
     var protocolPrefix = "http://";
@@ -35,7 +35,7 @@ cherryApp.factory('AppUrlSvc', function ($location) {
 
     o.urlIntentions = function(areaName) {
         return newApiRoot+areaName+"/intentions";
-    }
+    };
     // Texts for an intention : Area is only provided for tracking purposes
     o.urlTextsForIntention = function(intentionId,areaName) {
 //        var url = newApiRoot+areaName+areaName+"/intention/"+intentionId+"/texts";

@@ -2,25 +2,26 @@
 // Remplace [ with "
 cherryApp.filter('replaceBrackets', function () {
     return function (input) {
-	    if ( input == undefined )
-	       return input;
+      if ( input === undefined )
+         return input;
         var out = input.replace('[', '"');
-        out = out.replace(']', '" ');            
+        out = out.replace(']', '" ');
         return out;
         };
     });
 
 // Remplace \n and \r mixtures with <br>
 cherryApp.filter('convertEndOfLineToBR', function() {
-	return function(input) {
-		if ( input == undefined )
-			return input;
-		var out = input.replace('\r\n', '\n');
-		out = out.replace(/\r\n\r\n/g, "</p><p>").replace(/\n\n/g, "</p><p>");
-		out = out.replace(/\r\n/g, "<br />").replace(/\n/g, "<br />");
-		return out;
-		}
-	});
+  return function(input) {
+    if ( input === undefined ) {
+      return input;
+    }
+    var out = input.replace('\r\n', '\n');
+    out = out.replace(/\r\n\r\n/g, "</p><p>").replace(/\n\n/g, "</p><p>");
+    out = out.replace(/\r\n/g, "<br />").replace(/\n/g, "<br />");
+    return out;
+  };
+});
 
 
 //function convertStyleNameToGuid(name) {
@@ -105,9 +106,9 @@ cherryApp.filter('convertEndOfLineToBR', function() {
 //    var idsToExclude = [];
 //    for (var propertyname in styleListObject) {
 //        // if the property exists and its value is true, push the corresponding guid in the list
-//        if (styleListObject[propertyname] == true) {
+//        if (styleListObject[propertyname] === true) {
 //            var guid = convertStyleNameToGuid(propertyname);
-//            if (guid != undefined)
+//            if (guid !== undefined)
 //                idsToExclude.push(guid);
 //            else
 //                console.log("tag id not found for " + propertyname);
@@ -136,7 +137,7 @@ cherryApp.filter('convertEndOfLineToBR', function() {
 //    // Make a list of guids from the nmame of the tags chosen by user for exclusion
 //    var idsToInclude = getIdsOfTagsWithTrueValue(contextListObject);
 //    // if no context defined, no need to match a choice
-//    if ( idsToInclude == undefined || idsToInclude.length == 0)
+//    if ( idsToInclude === undefined || idsToInclude.length == 0)
 //        return true;
 //
 //    var retval = false;
@@ -209,46 +210,46 @@ cherryApp.filter('OrderBySortOrderExceptFor0', function () {
 // Ancienne version pour une liste de textes
 // TODO : remplacer les crochets sur le serveur
 cherryApp.filter('RemplacerCrochets', function () {
-	return function (input) {
-		var out = [];
-		for (var i = 0; i < input.length; i++) {
-			var currentText = input[i];
-			if (!currentText || !currentText.Target) {
-				console.log("erreur dans RemplacerCrochets pour texte " + i);
-				continue;
-			}
-			currentText.Content = currentText.Content.replace('[', '"');
-			currentText.Content = currentText.Content.replace(']', '" ');
-			out.push(currentText);
-		}
-		return out;
-	};
+  return function (input) {
+    var out = [];
+    for (var i = 0; i < input.length; i++) {
+      var currentText = input[i];
+      if (!currentText || !currentText.Target) {
+        console.log("erreur dans RemplacerCrochets pour texte " + i);
+        continue;
+      }
+      currentText.Content = currentText.Content.replace('[', '"');
+      currentText.Content = currentText.Content.replace(']', '" ');
+      out.push(currentText);
+    }
+    return out;
+  };
 });
 
 
 // Ancienne version pour une liste de textes
 cherryApp.filter('RemplacerRetoursLigne', function () {
-	return function (input) {
-		var out = [];
-		for (var i = 0; i < input.length; i++) {
-			var currentText = input[i];
-			if (!currentText || !currentText.Target) {
-				console.log("erreur dans RemplacerRetoursLigne pour texte " + i);
-				continue;
-			}
-			//var textWithNormalizedLineBreaks = currentText.Content.replace('\r\n', '\n');
+  return function (input) {
+    var out = [];
+    for (var i = 0; i < input.length; i++) {
+      var currentText = input[i];
+      if (!currentText || !currentText.Target) {
+        console.log("erreur dans RemplacerRetoursLigne pour texte " + i);
+        continue;
+      }
+      //var textWithNormalizedLineBreaks = currentText.Content.replace('\r\n', '\n');
 
 
-			//var result = "<p>" + currentText.Content + "</p>";
-			var result =  currentText.Content ;
+      //var result = "<p>" + currentText.Content + "</p>";
+      var result =  currentText.Content ;
 
-			result = result.replace(/\r\n\r\n/g, "</p><p>").replace(/\n\n/g, "</p><p>");
-			result = result.replace(/\r\n/g, "<br />").replace(/\n/g, "<br />");
+      result = result.replace(/\r\n\r\n/g, "</p><p>").replace(/\n\n/g, "</p><p>");
+      result = result.replace(/\r\n/g, "<br />").replace(/\n/g, "<br />");
 
-			//currentText.Content =   result;
-			currentText.HtmlContent =   result;
-			out.push(currentText);
-		}
-		return out;
-	};
+      //currentText.Content =   result;
+      currentText.HtmlContent =   result;
+      out.push(currentText);
+    }
+    return out;
+  };
 });

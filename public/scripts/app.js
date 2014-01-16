@@ -1,4 +1,3 @@
-﻿
 // Notre application
 //var cherryApp = angular.module('cherryApp',  ['ui.bootstrap']);
 //var cherryApp = angular.module('cherryApp',  ['ngCookies','ngSanitize']);
@@ -20,7 +19,7 @@ cherryApp.config(['$httpProvider', '$locationProvider', function ($httpProvider,
 //}]);
 
 
-cherryApp.controller('NavBarController',	['$scope', 'PostActionSvc',
+cherryApp.controller('NavBarController',  ['$scope', 'PostActionSvc',
     function ($scope, PostActionSvc) {
         $scope.PostBox = PostActionSvc;
 
@@ -28,21 +27,21 @@ cherryApp.controller('NavBarController',	['$scope', 'PostActionSvc',
 ]);
 
 
-cherryApp.controller('CherryControler',	['$scope', '$cookies','NormalTextFilters','PostActionSvc',
-	 function ($scope, $cookies,TextFilters,PostActionSvc) {
+cherryApp.controller('CherryControler', ['$scope', '$cookies','NormalTextFilters','PostActionSvc',
+   function ($scope, $cookies,TextFilters,PostActionSvc) {
          $scope.PostBox = PostActionSvc;
 
        // Could send this to the server for statistics
-	    console.log(navigator.userAgent);
-		//console.log($cookies.uid);
+      console.log(navigator.userAgent);
+    //console.log($cookies.uid);
 
 
          $scope.Tabs = {};
-		$scope.Tabs.tabNumber = 0;
+    $scope.Tabs.tabNumber = 0;
         $scope.Tabs.showTabs = true;
 
-		$scope.Modal = {};
-		$scope.Modal.modalIsOpened = false;
+    $scope.Modal = {};
+    $scope.Modal.modalIsOpened = false;
 
         $scope.ContextFilters = {};
 
@@ -51,8 +50,8 @@ cherryApp.controller('CherryControler',	['$scope', '$cookies','NormalTextFilters
         $scope.currentText = {txt : ""};
 
        // Will go in a user profile form and a user info service
-	   $scope.nomPersoUtilisateur = "";
-	   $scope.nomProUtilisateur = "";
+     $scope.nomPersoUtilisateur = "";
+     $scope.nomProUtilisateur = "";
 
        PostActionSvc.gulp('Init','Init','App','Init');
 
@@ -63,14 +62,14 @@ cherryApp.controller('CherryControler',	['$scope', '$cookies','NormalTextFilters
            content: "Androïd : appuyer trois secondes sur le texte + icône sélection (T) + icône copier (feuilles)<br>iPhone : appuyer trois secondes sur le texte + relâcher + appuyer encore trois secondes + 'sélectionner tout' + 'copier'"
        });
 
-	  // Temporary compatibility with old controllers
-	  function OldInitializationCode() {
-			 $scope.MenuPanel = {};
-		     $scope.MenuPanel.showIntentions = true; // !!!!!!!
-			 $scope.MenuPanel.showQui = false;
-			 $scope.MenuPanel.page = "home";
-			 $scope.IntentionPanel = {};
-		 }
+    // Temporary compatibility with old controllers
+    function OldInitializationCode() {
+       $scope.MenuPanel = {};
+         $scope.MenuPanel.showIntentions = true; // !!!!!!!
+       $scope.MenuPanel.showQui = false;
+       $scope.MenuPanel.page = "home";
+       $scope.IntentionPanel = {};
+     }
    }
    ]);
 
