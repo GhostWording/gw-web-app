@@ -1,4 +1,4 @@
-﻿// Returns labels for the current contry
+// Returns labels for the current contry
 
 cherryApp.factory('AppLabels',  function ()     {
     var country = 'fr';
@@ -9,7 +9,7 @@ cherryApp.factory('AppLabels',  function ()     {
         var retval = [];
         for ( var i = 0; i < tagIds.length; i++ ) {
             var label = o.labelFromTagId(tagIds[i]);
-            if ( label != undefined && label != '')
+            if ( label !== undefined && label !== '')
                 retval.push(label);
         }
         return retval;

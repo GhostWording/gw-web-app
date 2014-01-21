@@ -1,4 +1,4 @@
-﻿// Usefull stateless functions
+// Usefull stateless functions
 
 cherryApp.factory('HelperService',function(){
 	// Application signature
@@ -17,15 +17,15 @@ cherryApp.factory('HelperService',function(){
         TxtDisplayModeEnum : TxtDisplayModeEnum,
         shouldDisplayAsCitation : function(txt) {
             var retval = TxtDisplayModeEnum.ContentNormal;
-            if (txt == undefined)
+            if (txt === undefined)
                 return retval;
-            //if ( txt.Author != 'Franck Pelé' && txt.Author != undefined && txt.Author != 'Inconnu' )
+            //if ( txt.Author != 'Franck Pelé' && txt.Author !== undefined && txt.Author != 'Inconnu' )
             if ( txt.IsQuote )
                 retval = TxtDisplayModeEnum.ContentQuote;
             return retval;
         },
         isQuote : function(txt) {
-          if ( txt == undefined )
+          if ( txt === undefined )
             return false;
           return   this.shouldDisplayAsCitation(txt) == TxtDisplayModeEnum.ContentQuote;
         },
@@ -116,7 +116,7 @@ cherryApp.factory('HelperService',function(){
 			return rootUrl;
 		},
 		mailTo: function (txt,intentionTxt) {
-			if ( txt != undefined && intentionTxt != undefined )
+			if ( txt !== undefined && intentionTxt !== undefined )
 			{
 			window.open(this.urlMailTo(txt,intentionTxt), '_blank');
 			}
@@ -128,11 +128,11 @@ cherryApp.factory('HelperService',function(){
 			return rootUrl;
 		},
 		sms:  function (txt) {
-			if ( txt != undefined )
+			if ( txt !== undefined )
 				window.open(this.urlSMSTo(txt), '_blank');
 		},
 		canTweet: function (txt) {
-			if ( txt != undefined)
+			if ( txt !== undefined)
 				return txt.length < MAX_TWEET;
 			else
 				return false;
@@ -143,7 +143,7 @@ cherryApp.factory('HelperService',function(){
 			return rootUrl;
 		},
 		tweet: function (txt) {
-			if ( txt != undefined )
+			if ( txt !== undefined )
 			{
 				window.open(this.urlTweetTo(txt), '_blank');
 			}

@@ -1,4 +1,4 @@
-﻿// Displays user profile and usage options for our App
+// Displays user profile and usage options for our App
 cherryApp.controller('UserProfileController', ['$scope', 'HelperService', 'UserProfileSvc','$cookies','PostActionSvc',
 	function ($scope, HelperService,UserProfileSvc,$cookies,PostActionSvc) {
 

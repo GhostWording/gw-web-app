@@ -1,4 +1,4 @@
-﻿cherryApp.directive('historyback', function () {
+cherryApp.directive('historyback', function () {
 	return {
 		restrict: 'ECMA',
 		link: function(scope, element, attrs) {

@@ -16,7 +16,7 @@ cherryApp.controller('TextFiltersController', ['$scope', '$filter','TheTexts','N
 
     $scope.AtLeastOneStyleToExclude = TextFilters.atLeastOneStyleToExclude;
 
-    $scope.AtLeastOneStyleToPrefer = TextFilters.atLeastOneStyleToPrefer
+    $scope.AtLeastOneStyleToPrefer = TextFilters.atLeastOneStyleToPrefer;
 
     $scope.showBreadcrumbs = function () {
         return TextFilters.getHideRecipientGender() || TextFilters.getHideCloseness() || TextFilters.getHideTuOuVous() ;
@@ -196,7 +196,7 @@ cherryApp.controller('TextFiltersController', ['$scope', '$filter','TheTexts','N
     setBestFilterDefaultValues(SelectedArea.getSelectedAreaName() , SelectedIntention.getSelectedIntentionId(), TextFilters.getSenderGender());
 
     function invertGender(gender) {
-        var retval = undefined;
+        var retval;
 
         switch (gender ) {
             case 'H' :

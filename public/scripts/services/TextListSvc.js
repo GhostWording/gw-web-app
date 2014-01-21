@@ -1,4 +1,4 @@
-﻿// Get texts for a given intention, filter them and order them
+// Get texts for a given intention, filter them and order them
 
 cherryApp.factory('TheTexts', ["$http","$filter","AppUrlSvc","HelperService", function ($http,$filter,AppUrlSvc,HelperService) {
 
@@ -35,7 +35,7 @@ cherryApp.factory('TheTexts', ["$http","$filter","AppUrlSvc","HelperService", fu
             retval = true;
         if ( textRecipient == 'N' && requiredRecipient != 'P' )
             retval = true;
-//        if ( retval == true )
+//        if ( retval === true )
 //            console.log ("requiredRecipient,textRecipient : " + requiredRecipient + "," + textRecipient);
         return retval;
     }
@@ -92,7 +92,7 @@ cherryApp.factory('TheTexts', ["$http","$filter","AppUrlSvc","HelperService", fu
         // Make a list of guids from the nmame of the tags chosen by user for exclusion
         var idsToInclude = getIdsOfTagsWithTrueValue(contextListObject);
         // if no context defined, no need to match a choice
-        if ( idsToInclude == undefined || idsToInclude.length == 0)
+        if ( idsToInclude === undefined || idsToInclude.length === 0)
             return true;
 
         var retval = false;
@@ -109,7 +109,7 @@ cherryApp.factory('TheTexts', ["$http","$filter","AppUrlSvc","HelperService", fu
     }
     // Converts a UI property name to a GUID
     function convertStyleNameToGuid(name) {
-        var retval = undefined;
+        var retval;
         switch(name) {
             // Style tags
             case 'romantic':
@@ -183,7 +183,7 @@ cherryApp.factory('TheTexts', ["$http","$filter","AppUrlSvc","HelperService", fu
 //            case 'sentimentalContext':
 //                retval = 'A6C9E6';
 //                break;
-        };
+        }
 
         return retval;
     }
@@ -202,9 +202,9 @@ cherryApp.factory('TheTexts', ["$http","$filter","AppUrlSvc","HelperService", fu
         var idsToExclude = [];
         for (var propertyname in styleListObject) {
             // if the property exists and its value is true, push the corresponding guid in the list
-            if (styleListObject[propertyname] == true) {
+            if (styleListObject[propertyname] === true) {
                 var guid = convertStyleNameToGuid(propertyname);
-                if (guid != undefined)
+                if (guid !== undefined)
                     idsToExclude.push(guid);
                 else
                     console.log("tag id not found for " + propertyname);
@@ -252,10 +252,10 @@ cherryApp.factory('TheTexts', ["$http","$filter","AppUrlSvc","HelperService", fu
                     tagCount[tag]++;
             }
         }
-        var isCurrentTextListEmpty = o.texts.length == 0;
+        var isCurrentTextListEmpty = o.texts.length === 0;
         // TODO : Tags are available for user choice only if one text is concerned or current text list is empty
         o.contextTagsUsedForCurrentTextList = [];
-        for (var i = 0; i < allContextTagsThatMayBeChosen.length; i++) {
+        for (i = 0; i < allContextTagsThatMayBeChosen.length; i++) {
             if ( tagCount[allContextTagsThatMayBeChosen[i]] > 0 || isCurrentTextListEmpty ) {
 //                o.contextObject.contextTagsUsedForCurrentTextList.push(allContextTagsThatMayBeChosen[i]);
                 o.contextTagsUsedForCurrentTextList[allContextTagsThatMayBeChosen[i]] = true;
@@ -267,7 +267,7 @@ cherryApp.factory('TheTexts', ["$http","$filter","AppUrlSvc","HelperService", fu
         // Pour que la rubrique soit montrée : au moins deux rubriques comportant 10 textes chacune
         var minCount = 5;
         var nbTagCountedMoreThanMinCount = 0;
-        for (var i = 0; i < allContextTagsThatMayBeChosen.length; i++) {
+        for (i = 0; i < allContextTagsThatMayBeChosen.length; i++) {
             if ( tagCount[allContextTagsThatMayBeChosen[i]] >= minCount  ) {
                 nbTagCountedMoreThanMinCount++;
             }
@@ -291,7 +291,7 @@ cherryApp.factory('TheTexts', ["$http","$filter","AppUrlSvc","HelperService", fu
     o.shouldDisplayThisContextFilter = function(filterName) {
         var valret = false;
         var tagId = convertStyleNameToGuid(filterName);
-        if ( o.contextTagsUsedForCurrentTextList[tagId] != undefined )
+        if ( o.contextTagsUsedForCurrentTextList[tagId] !== undefined )
             valret = true;
         return valret;
     };
@@ -318,36 +318,36 @@ cherryApp.factory('TheTexts', ["$http","$filter","AppUrlSvc","HelperService", fu
     };
 
     o.filterCurrentTextList = function (basicFilters) {
-		return o.filterOnBasicFilters(o.texts,basicFilters);
+    return o.filterOnBasicFilters(o.texts,basicFilters);
     };
 
-	o.filterOnBasicFilters = function (inputTexts, basicFilters) {
-		var out = [];
+  o.filterOnBasicFilters = function (inputTexts, basicFilters) {
+    var out = [];
 
-		//var senderGender = basicFilters.getSenderGender();
-		for (var i = 0; i < inputTexts.length; i++) {
-			var currentText = inputTexts[i];
+    //var senderGender = basicFilters.getSenderGender();
+    for (var i = 0; i < inputTexts.length; i++) {
+      var currentText = inputTexts[i];
 
-			if (currentText.Target === null || currentText.Target.length === 0) {
-				console.log("erreur target pour " + currentText.Content);
-				continue;
-			}
-			if (currentText.Sender === null || currentText.Sender.length === 0) {
-				console.log("erreur sender pour " + currentText.Content);
-				continue;
-			}
-			var textSenderGender = currentText.Sender.charAt(0);
-			var textRecipientGender = currentText.Target.charAt(0);
+      if (currentText.Target === null || currentText.Target.length === 0) {
+        console.log("erreur target pour " + currentText.Content);
+        continue;
+      }
+      if (currentText.Sender === null || currentText.Sender.length === 0) {
+        console.log("erreur sender pour " + currentText.Content);
+        continue;
+      }
+      var textSenderGender = currentText.Sender.charAt(0);
+      var textRecipientGender = currentText.Target.charAt(0);
 
-//			console.log ( textSender + " " + textTarget + " vs " +
-//				basicFilters.genreExpediteur + " " + basicFilters.genreDestinataire + " " + i);
+//      console.log ( textSender + " " + textTarget + " vs " +
+//        basicFilters.genreExpediteur + " " + basicFilters.genreDestinataire + " " + i);
 
             //console.log (basicFilters.getCloseness() + " " + currentText.Proximity);
 
-			if (
+      if (
                 // From user choice on top of list
                 isSenderCompatible   (basicFilters.getSenderGender(),    textSenderGender) &&
-				isRecipientCompatible(basicFilters.getRecipientGender(), textRecipientGender) &&
+        isRecipientCompatible(basicFilters.getRecipientGender(), textRecipientGender) &&
                 isClosenessCompatible(basicFilters.getCloseness(),       currentText.Proximity) &&
                 isTuOrVousCompatible (basicFilters.getTuOuVous(),        currentText.PoliteForm) &&
                 // From user choice in excluded styles dialog
@@ -356,36 +356,36 @@ cherryApp.factory('TheTexts', ["$http","$filter","AppUrlSvc","HelperService", fu
                 // TODO : if includedContexts are defined, they should be matched
                 )
 
-				out.push(currentText);
-		}
-		//console.log("out.length =" + out.length );
+        out.push(currentText);
+    }
+    //console.log("out.length =" + out.length );
         o.filteredTexts = out;
 
         return out;
-	};
+  };
 
-	o.textsAlreadyCachedForIntention = function(intentionId) 	{
-		return 	( o.textArraysForAreas[intentionId] != undefined );
-	};
+  o.textsAlreadyCachedForIntention = function(intentionId)  {
+    return  ( o.textArraysForAreas[intentionId] !== undefined );
+  };
 
-	o.resetTexts = function() 	{
-		o.texts = [];
-	}
+  o.resetTexts = function()   {
+    o.texts = [];
+  };
 
     // This is IT : queries the texts
-	o.queryTexts = function( intentionId, areaId, doIfSuccess, doIfError,queryCompleteList, nbTexts) {
-		if  ( queryCompleteList || nbTexts === undefined)
-			nbTexts = 10000;
-		if (queryCompleteList &&  o.textsAlreadyCachedForIntention(intentionId) ) {
-			console.log("textArraysForAreas for intention" + intentionId + " read from cache");
-			o.texts = o.textArraysForAreas[intentionId];
+  o.queryTexts = function( intentionId, areaId, doIfSuccess, doIfError,queryCompleteList, nbTexts) {
+    if  ( queryCompleteList || nbTexts === undefined)
+      nbTexts = 10000;
+    if (queryCompleteList &&  o.textsAlreadyCachedForIntention(intentionId) ) {
+      console.log("textArraysForAreas for intention" + intentionId + " read from cache");
+      o.texts = o.textArraysForAreas[intentionId];
             o.filteredTexts = o.texts;
 
             doIfSuccess(o.textArraysForAreas[intentionId]);
-			return;
-		}
+      return;
+    }
 
-	    //var url = AppUrlSvc.getApiIntentionRoot(intentionId) + "texts.json?n=" + nbTexts;
+      //var url = AppUrlSvc.getApiIntentionRoot(intentionId) + "texts.json?n=" + nbTexts;
         //var url = AppUrlSvc.getApiIntentionRoot(intentionId) + "texts";
 
 //        var url = "http://api-cvd-dev.azurewebsites.net/DayToDay/intention/8ED62C/texts";
@@ -393,7 +393,7 @@ cherryApp.factory('TheTexts', ["$http","$filter","AppUrlSvc","HelperService", fu
 
         var url = AppUrlSvc.urlTextsForIntention(intentionId,areaId);
         console.log (url);
-		//$http.get(url)
+    //$http.get(url)
         //$http({method: 'GET', url: url,   headers: {"Content-Type":"application/json","Accept":"application/vnd.cyrano.textspage-v1.1+json"}  } )
         $http({
             method: 'GET',
@@ -404,28 +404,28 @@ cherryApp.factory('TheTexts', ["$http","$filter","AppUrlSvc","HelperService", fu
 //            headers: {"Content-Type":"application/json","Accept-Language":"fr-FR"}
               headers: {"Accept-Language":"fr-FR"}
         })
-			.success(function (data, status) {
-				console.log(status + "*");
+      .success(function (data, status) {
+        console.log(status + "*");
 
 //                var texts = data.Items;
                 var texts = data;
                 console.log(texts.length+ " texts pour l'intention " + intentionId);
                 // Sort texts
-				$filter('OrderBySortOrderExceptFor0')(texts);
+        $filter('OrderBySortOrderExceptFor0')(texts);
 
-				var shuffled =  HelperService.shuffleTextIfSortOrderNotLessThan(texts, o.minSortOrderToGetShuffled);
+        var shuffled =  HelperService.shuffleTextIfSortOrderNotLessThan(texts, o.minSortOrderToGetShuffled);
 
-				if ( queryCompleteList )
-					o.textArraysForAreas[intentionId] = shuffled;
-				o.texts = shuffled;
+        if ( queryCompleteList )
+          o.textArraysForAreas[intentionId] = shuffled;
+        o.texts = shuffled;
                 o.filteredTexts = o.texts;
-				doIfSuccess(shuffled);
-			})
-			.error(function (data, status) {
-				console.log(status + "*");
-				doIfError();
-			});
-	};
+        doIfSuccess(shuffled);
+      })
+      .error(function (data, status) {
+        console.log(status + "*");
+        doIfError();
+      });
+  };
 
 
 
