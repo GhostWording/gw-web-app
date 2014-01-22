@@ -146,7 +146,7 @@ gulp.task('release', ['clean'], function() {
 
 
 gulp.task('watch', function() {
-    gulp.run('jshint','serve','livereload');
+    gulp.run('default','test','serve','livereload');
 
       gulp.watch(['scripts/**', 'assets/**', 'views/**', 'index.html', 'tests/**'], function() {
         gulp.run('default', 'test','refresh_html');
