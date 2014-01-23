@@ -1,6 +1,6 @@
 // People we should communicate with more often !
 
-cherryApp.factory('TypesDestinatairesStatiques', function () {
+cherryApp.factory('TypesDestinatairesStatiques', [function () {
     var typesDestinataires = {};
     typesDestinataires.query = function () {
         return [
@@ -16,4 +16,4 @@ cherryApp.factory('TypesDestinatairesStatiques', function () {
         ];
     };
     return typesDestinataires;
-});
+}]);

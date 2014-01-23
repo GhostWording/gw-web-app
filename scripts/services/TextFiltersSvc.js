@@ -1,5 +1,5 @@
 // This servic keeps track of user choices that impact the filtering of texts
-cherryApp.factory('NormalTextFilters', function ($location,UserProfileSvc) {
+cherryApp.factory('NormalTextFilters', ['$location','UserProfileSvc',function ($location,UserProfileSvc) {
 
     // We may want to use a list of properties instead of static variables
 //	var senderGender = "I";
@@ -145,5 +145,5 @@ cherryApp.factory('NormalTextFilters', function ($location,UserProfileSvc) {
         { contextsToInclude[key]= value; };
 
 	return o;
-});
+}]);
 
