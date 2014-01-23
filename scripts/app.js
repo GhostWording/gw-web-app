@@ -8,15 +8,14 @@ var cherryApp = angular.module('cherryApp',  ['ngCookies','ngSanitize','ngRoute'
 
 //CORS for angular v < 1.2
 cherryApp.config(['$httpProvider', '$locationProvider', function ($httpProvider, $locationProvider) {
-
-//    $locationProvider.html5Mode(true);
+  $locationProvider.html5Mode(true);
     $httpProvider.defaults.useXDomain = true;
     delete $httpProvider.defaults.headers.common['X-Requested-With'];
 }]);
 //CORS for angular v > 1.2
-//cherryApp.config(['$sceDelegateProvider', function ($sceDelegateProvider) {
-//    $sceDelegateProvider.resourceUrlWhitelist(['self', /^https?:\/\/(api\.)?cvd.io/]);
-//}]);
+cherryApp.config(['$sceDelegateProvider', function ($sceDelegateProvider) {
+   $sceDelegateProvider.resourceUrlWhitelist(['self', /^https?:\/\/(api\.)?cvd.io/]);
+}]);
 
 
 cherryApp.controller('NavBarController',  ['$scope', 'PostActionSvc',

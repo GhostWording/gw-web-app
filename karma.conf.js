@@ -14,12 +14,13 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      'http://ajax.googleapis.com/ajax/libs/angularjs/1.2.9/angular.js',
-      'http://ajax.googleapis.com/ajax/libs/angularjs/1.2.9/angular-mocks.js',
-      'http://ajax.googleapis.com/ajax/libs/angularjs/1.2.9/angular-sanitize.js',
-      'http://ajax.googleapis.com/ajax/libs/angularjs/1.2.9/angular-route.js',
-      'http://ajax.googleapis.com/ajax/libs/angularjs/1.2.9/angular-cookies.js',
+      'bower_components/angular/angular.js',
+      'bower_components/angular-mocks/angular-mocks.js',
+      'bower_components/angular-sanitize/angular-sanitize.js',
+      'bower_components/angular-route/angular-route.js',
+      'bower_components/angular-cookies/angular-cookies.js',
       'scripts/**/*.js',
+      'scripts/*.js',
       'tests/**/*.spec.js'
     ],
 
@@ -45,7 +46,7 @@ module.exports = function(config) {
 
     // level of logging
     // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
-    logLevel: config.LOG_INFO,
+    logLevel: config.LOG_DEBUG,
 
 
     // enable / disable watching file and executing tests whenever any file changes
@@ -60,7 +61,7 @@ module.exports = function(config) {
     // - Safari (only Mac; has to be installed with `npm install karma-safari-launcher`)
     // - PhantomJS
     // - IE (only Windows; has to be installed with `npm install karma-ie-launcher`)
-    browsers: ['Chrome'],
+    browsers: ['PhantomJS'],
 
 
     // If browser does not capture in given timeout [ms], kill it

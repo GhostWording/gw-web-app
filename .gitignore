@@ -6,10 +6,19 @@ lib-cov
 *.out
 *.pid
 *.gz
+*.err
 
 pids
 logs
 results
+.idea/
 
 npm-debug.log
-node_modules
+node_modules/
+bower_components/
+build/
+
+*.csproj
+*.sln
+*.config
+*.cs
