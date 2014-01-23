@@ -1,5 +1,5 @@
 // Helps builds relative or abolute urls to query the APIs
-cherryApp.factory('AppUrlSvc', function ($location) {
+cherryApp.factory('AppUrlSvc', ['$location',function ($location) {
 
     var protocolPrefix = "http://";
 
@@ -67,4 +67,4 @@ cherryApp.factory('AppUrlSvc', function ($location) {
 	};
 
     return o;
-});
+}]);

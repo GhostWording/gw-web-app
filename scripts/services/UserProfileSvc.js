@@ -1,5 +1,5 @@
 // Keeps track of our user's local profile and preferences
-cherryApp.factory('UserProfileSvc', function ($cookies,$cookieStore,PostActionSvc) {
+cherryApp.factory('UserProfileSvc', ['$cookies','$cookieStore','PostActionSvc',function ($cookies,$cookieStore,PostActionSvc) {
     // Things we know about our user
     var userGender = "I";
   var userReadsALot = "I";
@@ -68,4 +68,4 @@ cherryApp.factory('UserProfileSvc', function ($cookies,$cookieStore,PostActionSv
   };
 
     return o;
-});
+}]);

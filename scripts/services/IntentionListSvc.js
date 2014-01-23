@@ -1,5 +1,5 @@
 // Gets a list of Intentions for a given area
-cherryApp.factory('Intentions',  function ($http,FakeIntentions,AppUrlSvc)     {
+cherryApp.factory('Intentions',  ['$http','FakeIntentions','AppUrlSvc', function ($http,FakeIntentions,AppUrlSvc)     {
 	var o = {};
 
 	// Items from the most recent query
@@ -53,7 +53,7 @@ cherryApp.factory('Intentions',  function ($http,FakeIntentions,AppUrlSvc)     {
 	};
 
 	return o;
-});
+}]);
 
 var reorderWithSortBy = function(intentions) {
     intentions.sort(

@@ -1,6 +1,6 @@
 // Returns labels for the current contry
 
-cherryApp.factory('AppLabels',  function ()     {
+cherryApp.factory('AppLabels', [function ()     {
     var country = 'fr';
 
     var o = {};
@@ -110,4 +110,4 @@ cherryApp.factory('AppLabels',  function ()     {
 
     return o;
 
-});
+}]);

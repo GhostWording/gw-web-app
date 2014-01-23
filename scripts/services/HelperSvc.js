@@ -1,6 +1,6 @@
 // Usefull stateless functions
 
-cherryApp.factory('HelperService',function(){
+cherryApp.factory('HelperService',[function(){
 	// Application signature
 	var signatureAppli = "Ecrit avec www.CommentVousDire.com";
 	var urlAppli = "http://www.commentvousdire.com";
@@ -151,4 +151,4 @@ cherryApp.factory('HelperService',function(){
 
 	};
 
-});
+}]);

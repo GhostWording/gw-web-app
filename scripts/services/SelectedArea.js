@@ -1,5 +1,5 @@
 // Keeps track of the currently selected area
-cherryApp.factory('SelectedArea', function () {
+cherryApp.factory('SelectedArea', [function () {
     var selectedArea;
     var selectedAreaName;
     var o = {};
@@ -43,4 +43,4 @@ cherryApp.factory('SelectedArea', function () {
 
     return o;
 
-});
+}]);
