@@ -19,10 +19,6 @@
         <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.1/angular-route.min.js"></script>
 
 
-        <!--SCRIPTS -->
-
-        <!--/SCRIPTS-->
-
         <!--Reminder : include Respond.js for IE8 support with bootstrap 3.0 -->
 
         <!-- ui-bootstrap takes time to load and does not work the way we want for tabs at this stage -->
@@ -34,11 +30,6 @@
         <!--FastClick.attach(document.body);-->
         <!--}, false);-->
         <!--</script>-->
-
-
-        <!--Our application -->
-        <script src="scripts/build.js" type="text/javascript"></script>
-
 
         <!--CSS -->
         <!--<link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">-->
@@ -384,7 +375,14 @@
 <!--<input type="checkbox" ng-model="simple" ng-click="ToggleExcludedStyle('simple')" > Tout simples-->
 <!--</label>-->
 
-  </body>
+
+
+<!-- inject:js -->
+<script src="scripts/build.js"></script>
+<!-- endinject -->
+
+
+</body>
 </html>
 
 
