@@ -138,4 +138,3 @@ cherryApp.factory('FakeIntentions', function () {
 
 	return intentionFactory;
 });
-
