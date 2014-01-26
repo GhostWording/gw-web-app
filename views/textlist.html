@@ -178,7 +178,8 @@
                     <!--<i class="icon-envelope pull-right" ng-click="allowPopUp()"></i>-->
                     <img src="./assets/e-mail64.png" class = "pull-right envoyer"  ng-click="selectAndPopUp(txt,'send')" >
                     <!--<a href="#/text/{{txt.TextId}}" >-->
-                    <a href="#/area/{{ areaId }}/text/{{txt.TextId}}"  ng-click="selectThisText(txt,'open')" >
+                    <!--<a href="#/area/{{ areaId }}/text/{{txt.TextId}}"  ng-click="selectThisText(txt,'open')" >-->
+                    <a href="#/area/{{ areaId }}/intention/{{ intentionId }}/text/{{txt.TextId}}"  ng-click="selectThisText(txt,'open')" >
 
                         <div ng-switch on="whatToDisplay(txt)" ng-class= "{active: txt.TextId == getSelectedTextId(txt,txt.textId)}">
                             <div ng-switch-when="0" class ="well well-small bmw-texte" ng-bind-html="txt.Abstract | replaceBrackets | convertEndOfLineToBR"></div>
@@ -201,39 +202,5 @@
 
     </div> <!--/ Text list -->
 
-     <!-- Text list -->
-     <!--<div class = "listeTextes" >-->
-         <!--<div ng-repeat="txt in TextListPanel.lesTextes"  ng-click="selectThisText(txt)">-->
-
-             <!--<a href="#/text/{{txt.TextId}}">-->
-
-             <!--<div ng-switch on="whatToDisplay(txt)">-->
-                 <!--<div ng-switch-when="0" class ="well well-small bmw-texte">-->
-                     <!--<span ng-bind-html="txt.Abstract | replaceBrackets | convertEndOfLineToBR"></span>-->
-                     <!--<a href ="#/text/{{txt.TextId}}" ng-click="doNothing()"  class="pull-right ">&nbsp&nbsp&nbsp&nbsp...</a>-->
-                 <!--</div>-->
-
-                 <!--<div ng-switch-when="1" class ="well well-small bmw-texte" >-->
-
-                     <!--<span ng-bind-html="txt.Content | replaceBrackets | convertEndOfLineToBR" ></span>-->
-                     <!--&lt;!&ndash;<a href=""><i class="icon-envelope"></i></a>&ndash;&gt;-->
-                     <!--&lt;!&ndash;<a href ="#/text/{{txt.TextId}}" ng-click="doNothing()"  class="pull-right ">&nbsp&nbsp&nbsp&nbsp<i class="icon-pencil">&nbsp</i> </a>&ndash;&gt;-->
-
-                     <!--<a href ="" ng-click="allowPopUp()"  class="pull-right ">&nbsp&nbsp&nbsp&nbsp<i class="icon-envelope">&nbsp</i> </a>-->
-
-                 <!--</div>-->
-
-                 <!--<div ng-switch-when="2">-->
-                     <!--<blockquote>-->
-                        <!--<span ng-bind-html="txt.Content | replaceBrackets | convertEndOfLineToBR"></span>-->
-                        <!--<a href ="#/text/{{txt.TextId}}" ng-click="doNothing()"  class="pull-right ">&nbsp&nbsp&nbsp<i class="icon-pencil">&nbsp</i>&nbsp&nbsp&nbsp</a>-->
-                        <!--<small ng-hide="isAuthorOfCitationIsUnknown(txt.Author)" title="txt.Author">{{txt.Author}}</small>-->
-                    <!--</blockquote>-->
-                 <!--</div>-->
-                 <!--<div ng-switch-default>Default text : should not happen</div>-->
-             <!--</div>-->
-             <!--</a>-->
-         <!--</div>-->
-     <!--</div> &lt;!&ndash;/ Text list &ndash;&gt;-->
 
 </div> <!--/ Normal List TEMPLATE -->

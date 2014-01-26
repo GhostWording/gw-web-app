@@ -12,7 +12,10 @@ cherryApp.controller('TextListController',
     $scope.TextListPanel.showNbTexts = false; // 23 nov
 
     $scope.areaId = $routeParams.areaId;
-    var intentionId = $routeParams.intentionId;
+    $scope.intentionId = $routeParams.intentionId;
+
+//    var intentionId = $routeParams.intentionId;
+//    $scope.intentionId = intentionId;
 
     // if only one parameter, it will be a slug that derives both area and intention
     var intentionSlug =  $routeParams.intentionSlug;
@@ -21,7 +24,7 @@ cherryApp.controller('TextListController',
       switch (intentionSlug) {
         case 'BonneAnnee':
           $scope.areaId = 'Important';
-          intentionId = '938493';
+            $scope.intentionId = '938493';
           break;
         default:
           console.log('Unknown intentionSlug ' + intentionSlug);
@@ -31,13 +34,15 @@ cherryApp.controller('TextListController',
     }
 
     // Read area and intention id from the url
-    console.log('TextListController for intention ' + intentionId );
-    SelectedIntention.setSelectedIntentionId(intentionId);
+    console.log('TextListController for intention ' + $scope.intentionId );
+    SelectedIntention.setSelectedIntentionId($scope.intentionId);
     SelectedArea.setSelectedAreaName($scope.areaId);
 
     $scope.Tabs.tabNumber = SelectedArea.getTabNumberForArea($scope.areaId);
 
-    var intention = SelectedIntention.getSelectedIntention();
+
+
+     var intention = SelectedIntention.getSelectedIntention();
     if (intention !== undefined )
       $scope.TextListPanel.intentionCourante = intention.Label;
 //        Moved after text loadeding query to avoid possible bug when both queries run together
@@ -46,15 +51,15 @@ cherryApp.controller('TextListController',
     // Initialize display
     doBeforeReadingTexts();
     // Unless the texts are already cached, read the first few texts from the server to display something quickly
-    if ( ! TheTexts.textsAlreadyCachedForIntention(intentionId) ) {
+    if ( ! TheTexts.textsAlreadyCachedForIntention($scope.intentionId) ) {
       TheTexts.resetTexts();
       // We may want to load the 7 firt texts so the user sees something quickly, complete list query will then be lanched from doIfFirstTextsRead
 //          TheTexts.queryTexts(intentionId, $scope.areaId,  doIfFirstTextsRead,doIfErrorReadingTexts, false, 7);
-      TheTexts.queryTexts(intentionId, $scope.areaId, doIfAllTextsRead,doIfErrorReadingTexts, true);
+      TheTexts.queryTexts($scope.intentionId, $scope.areaId, doIfAllTextsRead,doIfErrorReadingTexts, true);
     }
     // if texts are cached there won't be a query, they will be waiting for us
     else
-      TheTexts.queryTexts(intentionId, $scope.areaId, doIfAllTextsRead,doIfErrorReadingTexts, true);
+      TheTexts.queryTexts($scope.intentionId, $scope.areaId, doIfAllTextsRead,doIfErrorReadingTexts, true);
 
     // Change filtered text list (and TextCount) each time TextFilters change
     $scope.filters = TextFilters.filterValuesToWatch;
@@ -118,7 +123,7 @@ cherryApp.controller('TextListController',
       $scope.TextListPanel.lesTextes = TheTexts.filterOnBasicFilters(data,TextFilters );
 
       // Fetch complete list from the server
-      TheTexts.queryTexts(intentionId, $scope.areaId,  doIfAllTextsRead,doIfErrorReadingTexts, true);
+      TheTexts.queryTexts($scope.intentionId, $scope.areaId,  doIfAllTextsRead,doIfErrorReadingTexts, true);
     }
 
     // Whate do we do when complete text list is read
@@ -134,7 +139,7 @@ cherryApp.controller('TextListController',
 
       if (intention === undefined ) {
         $scope.TextListPanel.intentionCourante = "...";
-        ReadAndDisplayIntention(intentionId);
+        ReadAndDisplayIntention($scope.intentionId);
       }
     }
 
@@ -153,14 +158,10 @@ cherryApp.controller('TextListController',
       $('#modalEnvoiTexte').modal('show');
 
 //            $('#myModal').modal();
-
-//            {
-//                keyboard: false
-//            }
+//            {   keyboard: false   }
 
       $scope.selectThisText(txt,action);
-//            return true;
-      return false;
+      return false; // true
     };
 
 //        $('#testId').popover({content:"hello"});
@@ -190,7 +191,7 @@ cherryApp.controller('TextListController',
 //                $scope.Modal.modalIsOpened = true;
 //                $('#modalEnvoiTexte').modal('show');
 //            }
-      PostActionSvc.postActionForText(intentionId,id,action); // Old
+      PostActionSvc.postActionForText($scope.intentionId,id,action); // Old
 
 //            var actionToSend = action == 'send' ? action : 'click';
       var actionToSend = action == 'send' ? action : 'open';

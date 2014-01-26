@@ -27,6 +27,7 @@ cherryApp.factory('PostActionSvc', ['$http','AppUrlSvc','SelectedArea', function
             case 'Text':
             case 'Navigation':
             case 'Command':
+            case 'Init':
                 break;
             default:
                 console.log("!!!! objectType " + targetType + " unknown !!!!!!!!!!!");
