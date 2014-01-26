@@ -1,7 +1,7 @@
 // Usefull stateless functions
 
 cherryApp.factory('HelperService',[function(){
-	// Application signature
+	// Application signaturef
 	var signatureAppli = "Ecrit avec www.CommentVousDire.com";
 	var urlAppli = "http://www.commentvousdire.com";
 	// Max tweet size

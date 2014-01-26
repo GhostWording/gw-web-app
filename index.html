@@ -18,12 +18,12 @@
         <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.1/angular-sanitize.min.js"></script>
         <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.1/angular-route.min.js"></script>
 
-
         <!--Reminder : include Respond.js for IE8 support with bootstrap 3.0 -->
 
         <!-- ui-bootstrap takes time to load and does not work the way we want for tabs at this stage -->
         <!--<script src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.6.0.js"></script>-->
 
+        <!--Prevent 300 ms delay on Android, does not seem to make a difference, verify initialisation -->
         <!--<script src="scripts/lib/fastclick.js"></script>-->
         <!--<script type="application/javascript">-->
         <!--window.addEventListener('load', function () {-->
@@ -42,7 +42,6 @@
 
         <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
         <title>Comment vous dire</title>
-        <!--Prevent 300 ms delay on Android, does not seem to make a difference -->
         <!--<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
 
         <meta name="description" content="Les mots sur le bout de la langue. L'inspiration au bout des doigts.">
@@ -364,6 +363,7 @@
 <script src="scripts/services/PostActionSvc.js"></script>
 <script src="scripts/services/AppLabels.js"></script>
 <script src="scripts/services/SelectedArea.js"></script>
+<script src="scripts/services/TextFilterHelperSvc.js"></script>
 
 <script src="scripts/controllers/TextFiltersController.js"></script>
 <script src="scripts/controllers/SelectedTextController.js"></script>

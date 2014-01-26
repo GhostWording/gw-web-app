@@ -1,65 +1,69 @@
+// Displays a list of texts
 cherryApp.controller('TextListController',
-  ['$scope', '$filter','$routeParams','$location', 'NormalTextFilters', 'SelectedText', 'SelectedIntention', 'TheTexts', 'AppUrlSvc', 'HelperService','SingleIntentionQuerySvc','PostActionSvc','SelectedArea',
-  function ($scope, $filter, $routeParams,$location,  TextFilters,SendText,SelectedIntention, TheTexts, AppUrlSvc, HelperSvc,SingleIntentionQuerySvc,PostActionSvc,SelectedArea) {
+ ['$scope', '$filter','$routeParams','$location', 'NormalTextFilters', 'SelectedText', 'SelectedIntention', 'TheTexts', 'AppUrlSvc', 'HelperService','SingleIntentionQuerySvc','PostActionSvc','SelectedArea',
+function ($scope, $filter, $routeParams,$location,  TextFilters,SendText,SelectedIntention, TheTexts, AppUrlSvc, HelperSvc,SingleIntentionQuerySvc,PostActionSvc,SelectedArea) {
     $scope.PostBox = PostActionSvc;
 
     // When in this view, we want to see the navigation tags
     $scope.Tabs.showTabs = true;
 
-    // List of texts to be displayed
+    $scope.areaId = $routeParams.areaId;
+    $scope.intentionId = $routeParams.intentionId;
+
+    // if only one parameter, it's a slug shortcut that implies both area and intention
+    var intentionSlug = $routeParams.intentionSlug;
+    var badRoute = false;
+    if (intentionSlug !== undefined) {
+        switch (intentionSlug) {
+            case 'BonneAnnee':
+                $scope.areaId = 'Important';
+                $scope.intentionId = '938493';
+                break;
+            default:
+                console.log('Unknown intentionSlug ' + intentionSlug);
+                badRoute = true;
+                break;
+        }
+    }
+    // Change to root if shortcup slug unknown
+    if ( badRoute ) {
+        $location.url('/');
+        return;
+    }
+
+    // Initialize list of texts to be displayed
     $scope.TextListPanel = {};
     $scope.TextListPanel.lesTextes = [];
     $scope.TextListPanel.showNbTexts = false; // 23 nov
 
-    $scope.areaId = $routeParams.areaId;
-    $scope.intentionId = $routeParams.intentionId;
-
-//    var intentionId = $routeParams.intentionId;
-//    $scope.intentionId = intentionId;
-
-    // if only one parameter, it will be a slug that derives both area and intention
-    var intentionSlug =  $routeParams.intentionSlug;
-    if ( intentionSlug !== undefined )
-    {
-      switch (intentionSlug) {
-        case 'BonneAnnee':
-          $scope.areaId = 'Important';
-            $scope.intentionId = '938493';
-          break;
-        default:
-          console.log('Unknown intentionSlug ' + intentionSlug);
-          $location.url('/'); // move to root
-          break;
-      }
-    }
-
-    // Read area and intention id from the url
-    console.log('TextListController for intention ' + $scope.intentionId );
+    // Read area and intention id from url
+    console.log('TextListController for intention ' + $scope.intentionId);
     SelectedIntention.setSelectedIntentionId($scope.intentionId);
     SelectedArea.setSelectedAreaName($scope.areaId);
 
     $scope.Tabs.tabNumber = SelectedArea.getTabNumberForArea($scope.areaId);
 
+    var intention = SelectedIntention.getSelectedIntention();
+    if (intention !== undefined)
+        $scope.TextListPanel.intentionLabel = intention.Label;
 
-
-     var intention = SelectedIntention.getSelectedIntention();
-    if (intention !== undefined )
-      $scope.TextListPanel.intentionCourante = intention.Label;
-//        Moved after text loadeding query to avoid possible bug when both queries run together
-//        if (intention === undefined ) ReadAndDisplayIntention();
+    //Previously moved after text loadeding query : not necessary, bug found
+    if (intention === undefined)
+        ReadAndDisplayIntention($scope.intentionId);
 
     // Initialize display
     doBeforeReadingTexts();
+
     // Unless the texts are already cached, read the first few texts from the server to display something quickly
-    if ( ! TheTexts.textsAlreadyCachedForIntention($scope.intentionId) ) {
-      TheTexts.resetTexts();
-      // We may want to load the 7 firt texts so the user sees something quickly, complete list query will then be lanched from doIfFirstTextsRead
+    if (!TheTexts.textsAlreadyCachedForIntention($scope.intentionId)) {
+        TheTexts.resetTexts();
+        // If there are many texts, we could load the 7 first texts so the user sees something quickly, complete list query could then be lanched from doIfFirstTextsRead
 //          TheTexts.queryTexts(intentionId, $scope.areaId,  doIfFirstTextsRead,doIfErrorReadingTexts, false, 7);
-      TheTexts.queryTexts($scope.intentionId, $scope.areaId, doIfAllTextsRead,doIfErrorReadingTexts, true);
+        TheTexts.queryTexts($scope.intentionId, $scope.areaId, doIfAllTextsRead, doIfErrorReadingTexts, true);
     }
-    // if texts are cached there won't be a query, they will be waiting for us
+    // if texts are cached they will be returned straight from the cache
     else
-      TheTexts.queryTexts($scope.intentionId, $scope.areaId, doIfAllTextsRead,doIfErrorReadingTexts, true);
+        TheTexts.queryTexts($scope.intentionId, $scope.areaId, doIfAllTextsRead, doIfErrorReadingTexts, true);
 
     // Change filtered text list (and TextCount) each time TextFilters change
     $scope.filters = TextFilters.filterValuesToWatch;
@@ -137,10 +141,10 @@ cherryApp.controller('TextListController',
       var txtList = TheTexts.filterOnBasicFilters(data,TextFilters );
       $scope.TextListPanel.lesTextes = txtList;
 
-      if (intention === undefined ) {
-        $scope.TextListPanel.intentionCourante = "...";
-        ReadAndDisplayIntention($scope.intentionId);
-      }
+//      if (intention === undefined ) {
+//        $scope.TextListPanel.intentionLabel = "...";
+//        ReadAndDisplayIntention($scope.intentionId);
+//      }
     }
 
     function doIfErrorReadingTexts  ()  {
@@ -226,7 +230,7 @@ cherryApp.controller('TextListController',
 
 
     function doIfIntentionRead(data) {
-      $scope.TextListPanel.intentionCourante = data.Label;
+      $scope.TextListPanel.intentionLabel = data.Label;
       SelectedIntention.setSelectedIntention(data);
     }
     function ReadAndDisplayIntention(id) {
