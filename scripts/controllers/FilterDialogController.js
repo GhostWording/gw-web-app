@@ -1,6 +1,6 @@
 // Asks user about filters to be applied to the next query
-cherryApp.controller('FilterDialogController', ['$scope', 'HelperService','NormalTextFilters','TheTexts','PostActionSvc',
-	function ($scope, HelperService, TextFilters,TheTexts,PostActionSvc) {
+cherryApp.controller('FilterDialogController', ['$scope', 'HelperService','NormalTextFilters','TheTexts','PostActionSvc','FilterVisibilityHelperSvc',
+	function ($scope, HelperService, TextFilters,TheTexts,PostActionSvc,FilterVisibilityHelperSvc) {
         $scope.PostBox = PostActionSvc;
         $scope.BasicFilters = TextFilters;
 
@@ -62,12 +62,7 @@ cherryApp.controller('FilterDialogController', ['$scope', 'HelperService','Norma
             TextFilters.setStyleToPrefer(key,newValue);
             $scope.PostBox.gulp('Command',key + ' - ' + newValue ,'FilterDialog');
         };
-//        $scope.ToggleExcludedStyle = function(key) {
-//            TextFilters.setStyleToExclude(key,$scope[key]);
-//            $scope.PostBox.gulp('Command',key ,'FilterDialog');
-//        };
 
-//        $scope.o = {};
         $scope.displayNbFilteredTexts = TheTexts.hasfilteredTexts;
         $scope.nbFilteredTexts = TheTexts.nbfilteredTexts;
         $scope.nbTextLabel = function () {
@@ -89,7 +84,7 @@ cherryApp.controller('FilterDialogController', ['$scope', 'HelperService','Norma
 
         };
 
-        $scope.shouldDisplayContextFilters = TheTexts.shouldDisplayContextFilters;
-        $scope.shouldDisplayThisContextFilter = TheTexts.shouldDisplayThisContextFilter;
+        $scope.shouldDisplayContextFilters = FilterVisibilityHelperSvc.shouldDisplayContextFilters;
+        $scope.shouldDisplayThisContextFilter = FilterVisibilityHelperSvc.shouldDisplayThisContextFilter;
 
     }]);

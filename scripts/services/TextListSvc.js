@@ -1,165 +1,51 @@
 // Get texts for a given intention, filter them and order them
 
-cherryApp.factory('TheTexts', ["$http","$filter","AppUrlSvc","HelperService","TextFilterHelperSvc", function ($http,$filter,AppUrlSvc,HelperService,TextFilterHelperSvc) {
+cherryApp.factory('TheTexts', ["$http","$filter","AppUrlSvc","HelperService","TextFilterHelperSvc","FilterVisibilityHelperSvc",
+    function ($http,$filter,AppUrlSvc,HelperService,TextFilterHelperSvc,FilterVisibilityHelperSvc) {
 
     var o = {};
-    // all items memorized from the most recent query
+    // texts memorized from the last query
     o.texts = [];
-    // memorize result of last filtering or ordering operation
-    o.filteredTexts = [];
-    // Once a text array is fully loaded, it's stored as a property of this object
-    o.textArraysForAreas = {};
-
-    o.minSortOrderToGetShuffled = 25;
-
-    o.getMinSortOrderToGetShuffled = function() {
-        return o.minSortOrderToGetShuffled;
+    o.getAllTexts = function() {
+        return o.texts;
     };
-
-    var shouldDisplayContextFilters = true;
-
-//    o.contextObject = {};
-    o.contextTagsUsedForCurrentTextList = [];
-    var showContextTags = true;
-
-    // Only tags used for the current text list will be suggested to the user so that he can filter it
-    o.setContextFiltersVisibility = function() {
-        showContextTags = false;
-
-        var allContextTagsThatMayBeChosen = contextTagsThatCanBeChosen();
-        // Pour chaque tag susceptible d'être proposé à l'utilisateur compter son nombre d'occurrences
-        var tagCount = [];
-        for (var i = 0; i < allContextTagsThatMayBeChosen.length; i++)
-            tagCount[allContextTagsThatMayBeChosen[i]] = 0;
-        // TODO for each text, increment occurence count of matching tags
-        for (var j = 0; j < o.texts.length; j++) {
-            for (var tagIndex = 0; tagIndex < allContextTagsThatMayBeChosen.length; tagIndex++) {
-                var tag = allContextTagsThatMayBeChosen[tagIndex];
-                var text = o.texts[j];
-                if ( isTextTaggedWithId(text,tag) )
-                    tagCount[tag]++;
-            }
-        }
-        var isCurrentTextListEmpty = o.texts.length === 0;
-        // TODO : Tags are available for user choice only if one text is concerned or current text list is empty
-        o.contextTagsUsedForCurrentTextList = [];
-        for (i = 0; i < allContextTagsThatMayBeChosen.length; i++) {
-            if ( tagCount[allContextTagsThatMayBeChosen[i]] > 0 || isCurrentTextListEmpty ) {
-//                o.contextObject.contextTagsUsedForCurrentTextList.push(allContextTagsThatMayBeChosen[i]);
-                o.contextTagsUsedForCurrentTextList[allContextTagsThatMayBeChosen[i]] = true;
-
-            }
-        }
-
-        // TODO : Context tags will be shown to user only if two of the tags have an occurence count of more than 5
-        // Pour que la rubrique soit montrée : au moins deux rubriques comportant 10 textes chacune
-        var minCount = 5;
-        var nbTagCountedMoreThanMinCount = 0;
-        for (i = 0; i < allContextTagsThatMayBeChosen.length; i++) {
-            if ( tagCount[allContextTagsThatMayBeChosen[i]] >= minCount  ) {
-                nbTagCountedMoreThanMinCount++;
-            }
-        }
-        if ( nbTagCountedMoreThanMinCount >= 2 || isCurrentTextListEmpty )
-            showContextTags = true;
-
-    };
-
-    o.shouldDisplayContextFilters = function() {
-        return showContextTags;
-    };
-
-    o.hasfilteredTexts = function() {
-        return o.filteredTexts.length > 0;
-    };
-    o.nbfilteredTexts = function() {
-        return o.filteredTexts.length;
-    };
-
-    o.shouldDisplayThisContextFilter = function(filterName) {
-        var valret = false;
-        var tagId = TextFilterHelperSvc.convertStyleNameToGuid(filterName);
-        if ( o.contextTagsUsedForCurrentTextList[tagId] !== undefined )
-            valret = true;
-        return valret;
-    };
-
-    o.reorderUsingPreferedFilters = function(texts,TextFilters) {
-        var tagsToPrefer = TextFilters.getSylesToPrefer ();
-        var idsToPrefer = TextFilterHelperSvc.getIdsOfTagsWithTrueValue(tagsToPrefer);
-        // TODO : could do a first pass to randomize
-
-        var useSortByIfSameNumberOfTags = false;
-
-        texts.sort(
-            function (a, b) {
-                var aSortOrder = TextFilterHelperSvc.numberOfTagsMatchedByText(a, idsToPrefer);
-                var bSortOrder = TextFilterHelperSvc.numberOfTagsMatchedByText(b, idsToPrefer);
-                if ( useSortByIfSameNumberOfTags && aSortOrder == bSortOrder ) {
-                    aSortOrder -= a.SortBy;
-                    bSortOrder -= b.SortBy;
-                }
-                return -(aSortOrder - bSortOrder);
-            });
-        o.filteredTexts = texts;
-    };
-
-    o.filterCurrentTextList = function (basicFilters) {
-        return o.filterOnBasicFilters(o.texts, basicFilters);
-    };
-
-    o.filterOnBasicFilters = function (inputTexts, basicFilters) {
-        var out = [];
-
-        //var senderGender = basicFilters.getSenderGender();
-        for (var i = 0; i < inputTexts.length; i++) {
-            var currentText = inputTexts[i];
-
-            if (currentText.Target === null || currentText.Target.length === 0) {
-                console.log("erreur target pour " + currentText.Content);
-                continue;
-            }
-            if (currentText.Sender === null || currentText.Sender.length === 0) {
-                console.log("erreur sender pour " + currentText.Content);
-                continue;
-            }
-            var textSenderGender = currentText.Sender.charAt(0);
-            var textRecipientGender = currentText.Target.charAt(0);
-
-//      console.log ( textSender + " " + textTarget + " vs " +
-//        basicFilters.genreExpediteur + " " + basicFilters.genreDestinataire + " " + i);
-
-            //console.log (basicFilters.getCloseness() + " " + currentText.Proximity);
-
-            if (
-            // From user choice on top of list
-                TextFilterHelperSvc.isSenderCompatible(basicFilters.getSenderGender(), textSenderGender) &&
-                    TextFilterHelperSvc.isRecipientCompatible(basicFilters.getRecipientGender(), textRecipientGender) &&
-                    TextFilterHelperSvc.isClosenessCompatible(basicFilters.getCloseness(), currentText.Proximity) &&
-                    TextFilterHelperSvc.isTuOrVousCompatible(basicFilters.getTuOuVous(), currentText.PoliteForm) &&
-                    // From user choice in excluded styles dialog
-                    TextFilterHelperSvc.areExcludedStylesCompatible(basicFilters.getSylesToExclude(), currentText) &&
-                    TextFilterHelperSvc.areIncludedContextsCompatible(basicFilters.getContextsToInclude(), currentText)
-            // TODO : if includedContexts are defined, they should be matched
-                )
-
-                out.push(currentText);
-        }
-        //console.log("out.length =" + out.length );
-        o.filteredTexts = out;
-
-        return out;
-    };
-
-    o.textsAlreadyCachedForIntention = function (intentionId) {
-        return  ( o.textArraysForAreas[intentionId] !== undefined );
-    };
-
     o.resetTexts = function () {
         o.texts = [];
     };
 
-    // This is it : queries the texts
+    // Most popular texts are sorted by SortOrder. Other are shuffled
+    o.minSortOrderToGetShuffled = 25;
+
+    // memorize result of last filtering or ordering operation
+    var filteredTexts = [];
+    o.hasfilteredTexts = function() {
+        return filteredTexts.length > 0;
+    };
+    o.nbfilteredTexts = function() {
+        return filteredTexts.length;
+    };
+    o.filterAndReorder = function(textFilters) {
+        //var t = o.filterCurrentTextList(textFilters);
+        var t = TextFilterHelperSvc.filterOnBasicFilters(o.texts, textFilters);
+
+        // Randomize order except for top texts
+        t = HelperService.shuffleTextIfSortOrderNotLessThan(t, o.minSortOrderToGetShuffled);
+        // Reorder using favorite tags
+        TextFilterHelperSvc.reorderUsingPreferedFilters(t, textFilters);
+        filteredTexts = t;
+        return t;
+    };
+
+    // If a text array is fully loaded for an intention, it's stored as a property of this object
+    o.textArraysForAreas = {};
+    o.textsAlreadyCachedForIntention = function (intentionId) {
+        return  ( o.textArraysForAreas[intentionId] !== undefined );
+    };
+    o.cacheReorderedTexts = function(t, intentionId) {
+        o.textArraysForAreas[intentionId] = t;
+    };
+
+    // This is it : queries the texts (or return a cached copy if available)
     o.queryTexts = function (intentionId, areaId, doIfSuccess, doIfError, queryCompleteList, nbTexts) {
         if (queryCompleteList || nbTexts === undefined)
             nbTexts = 10000;
@@ -167,13 +53,13 @@ cherryApp.factory('TheTexts', ["$http","$filter","AppUrlSvc","HelperService","Te
         if (queryCompleteList && o.textsAlreadyCachedForIntention(intentionId)) {
             console.log("textArraysForAreas for intention" + intentionId + " read from cache");
             o.texts = o.textArraysForAreas[intentionId];
-            o.filteredTexts = o.texts;
-            doIfSuccess(o.textArraysForAreas[intentionId]);
+            filteredTexts = o.texts;
+            doIfSuccess(filteredTexts);
             return;
         }
 
-        var url = AppUrlSvc.urlTextsForIntention(intentionId,areaId);
-        console.log (url);
+        var url = AppUrlSvc.urlTextsForIntention(intentionId, areaId);
+        console.log(url);
         $http({
             method: 'GET',
             cache: false,
@@ -190,17 +76,18 @@ cherryApp.factory('TheTexts', ["$http","$filter","AppUrlSvc","HelperService","Te
                 $filter('OrderBySortOrderExceptFor0')(texts);
                 var sortedAndShuffled = HelperService.shuffleTextIfSortOrderNotLessThan(texts, o.minSortOrderToGetShuffled);
 
+                // If all the texts were read for this intention, cache them for further use
                 if (queryCompleteList)
                     o.textArraysForAreas[intentionId] = sortedAndShuffled;
                 o.texts = sortedAndShuffled;
-                o.filteredTexts = sortedAndShuffled;
-                doIfSuccess(sortedAndShuffled);
+                filteredTexts = sortedAndShuffled;
+                doIfSuccess(filteredTexts);
             })
             .error(function (data, status) {
                 console.log(status + "*");
                 doIfError();
             });
-  };
+    };
 
-    return o;
+  return o;
 }]);

@@ -1,9 +1,6 @@
-//cherryApp.factory('TextFilterHelperSvc', ['$location', function($location) {
-
-cherryApp.factory("TextFilterHelperSvc", [function () {
-
+// Those functions calculate compatibility between user choices (filters) and text properties (tags)
+cherryApp.factory('TextFilterHelperSvc', ['HelperService',function (HelperService) {
     var o = {};
-
     // Returns true sender gender is compatible with text attributes
     o.isSenderCompatible = function (requiredSender, textSender) {
         var retval = false;
@@ -62,15 +59,13 @@ cherryApp.factory("TextFilterHelperSvc", [function () {
         return retval;
     };
 
-    /////
-
     // Number of tags matched by a text
     o.numberOfTagsMatchedByText = function (text,tagIds) {
         var retval  = 0;
         for (var i = 0; i < tagIds.length; i++) {
             if ( isTextTaggedWithId(text,tagIds[i]) )
                 retval++;
-            if ( HelperService.isQuote(text) && tagIds[i] == convertStyleNameToGuid('citation') )
+            if ( HelperService.isQuote(text) && tagIds[i] == o.convertStyleNameToGuid('citation') )
                 retval++;
         }
         return retval;
@@ -191,13 +186,13 @@ cherryApp.factory("TextFilterHelperSvc", [function () {
 
         return retval;
     };
-
+    // Context tags that can be chosen by users
     o.contextTagsThatCanBeChosen= function () {
         var visibleProperties = ['administrativeContext', 'familialContext','romanticContext','datingContext','friendlyContext','professionalContext'];
 
         var visibleTags = [];
         for (var i = 0; i < visibleProperties.length; i++)
-            visibleTags.push(convertStyleNameToGuid(visibleProperties[i]));
+            visibleTags.push(o.convertStyleNameToGuid(visibleProperties[i]));
 
         return visibleTags;
     };
@@ -207,7 +202,7 @@ cherryApp.factory("TextFilterHelperSvc", [function () {
         for (var propertyname in styleListObject) {
             // if the property exists and its value is true, push the corresponding guid in the list
             if (styleListObject[propertyname] === true) {
-                var guid = convertStyleNameToGuid(propertyname);
+                var guid = o.convertStyleNameToGuid(propertyname);
                 if (guid !== undefined)
                     idsToExclude.push(guid);
                 else
@@ -217,6 +212,60 @@ cherryApp.factory("TextFilterHelperSvc", [function () {
         return idsToExclude;
     };
 
+    o.filterOnBasicFilters = function (inputTexts, basicFilters) {
+        var out = [];
+
+        for (var i = 0; i < inputTexts.length; i++) {
+            var currentText = inputTexts[i];
+
+            if (currentText.Target === null || currentText.Target.length === 0) {
+                console.log("erreur target pour " + currentText.Content);
+                continue;
+            }
+            if (currentText.Sender === null || currentText.Sender.length === 0) {
+                console.log("erreur sender pour " + currentText.Content);
+                continue;
+            }
+            var textSenderGender = currentText.Sender.charAt(0);
+            var textRecipientGender = currentText.Target.charAt(0);
+            //  console.log ( textSender + " " + textTarget + " vs " +
+            if (
+                // From user input on the page
+                o.isSenderCompatible(basicFilters.getSenderGender(), textSenderGender) &&
+                o.isRecipientCompatible(basicFilters.getRecipientGender(), textRecipientGender) &&
+                o.isClosenessCompatible(basicFilters.getCloseness(), currentText.Proximity) &&
+                o.isTuOrVousCompatible(basicFilters.getTuOuVous(), currentText.PoliteForm) &&
+                // From user input in style dialog
+                o.areExcludedStylesCompatible(basicFilters.getSylesToExclude(), currentText) &&
+                o.areIncludedContextsCompatible(basicFilters.getContextsToInclude(), currentText)
+                )
+
+            out.push(currentText);
+        }
+        //console.log("out.length =" + out.length );
+        //o.filteredTexts = out; // oups does not exist in that context
+        return out;
+    };
+
+    o.reorderUsingPreferedFilters = function(texts,TextFilters) {
+        var tagsToPrefer = TextFilters.getSylesToPrefer ();
+        var idsToPrefer = o.getIdsOfTagsWithTrueValue(tagsToPrefer);
+        // TODO : could do a first pass to randomize
+
+        var useSortByIfSameNumberOfTags = false;
+
+        texts.sort(
+            function (a, b) {
+                var aSortOrder = o.numberOfTagsMatchedByText(a, idsToPrefer);
+                var bSortOrder = o.numberOfTagsMatchedByText(b, idsToPrefer);
+                if ( useSortByIfSameNumberOfTags && aSortOrder == bSortOrder ) {
+                    aSortOrder -= a.SortBy;
+                    bSortOrder -= b.SortBy;
+                }
+                return -(aSortOrder - bSortOrder);
+            });
+        //filteredTexts = texts;
+    };
 
     return o;
 }]);

@@ -1,7 +1,7 @@
 // Displays a list of texts
 cherryApp.controller('TextListController',
- ['$scope', '$filter','$routeParams','$location', 'NormalTextFilters', 'SelectedText', 'SelectedIntention', 'TheTexts', 'AppUrlSvc', 'HelperService','SingleIntentionQuerySvc','PostActionSvc','SelectedArea',
-function ($scope, $filter, $routeParams,$location,  TextFilters,SendText,SelectedIntention, TheTexts, AppUrlSvc, HelperSvc,SingleIntentionQuerySvc,PostActionSvc,SelectedArea) {
+ ['$scope', '$filter','$routeParams','$location', 'NormalTextFilters', 'SelectedText', 'SelectedIntention', 'TheTexts', 'AppUrlSvc', 'HelperService','SingleIntentionQuerySvc','PostActionSvc','SelectedArea','TextFilterHelperSvc','FilterVisibilityHelperSvc',
+function ($scope, $filter, $routeParams,$location,  TextFilters,SendText,SelectedIntention, TheTexts, AppUrlSvc, HelperSvc,SingleIntentionQuerySvc,PostActionSvc,SelectedArea,TextFilterHelperSvc,FilterVisibilityHelperSvc) {
     $scope.PostBox = PostActionSvc;
 
     // When in this view, we want to see the navigation tags
@@ -58,10 +58,10 @@ function ($scope, $filter, $routeParams,$location,  TextFilters,SendText,Selecte
     if (!TheTexts.textsAlreadyCachedForIntention($scope.intentionId)) {
         TheTexts.resetTexts();
         // If there are many texts, we could load the 7 first texts so the user sees something quickly, complete list query could then be lanched from doIfFirstTextsRead
-//          TheTexts.queryTexts(intentionId, $scope.areaId,  doIfFirstTextsRead,doIfErrorReadingTexts, false, 7);
+//      TheTexts.queryTexts(intentionId, $scope.areaId,  doIfFirstTextsRead,doIfErrorReadingTexts, false, 7);
         TheTexts.queryTexts($scope.intentionId, $scope.areaId, doIfAllTextsRead, doIfErrorReadingTexts, true);
     }
-    // if texts are cached they will be returned straight from the cache
+    // if texts are cached they won't be fetched from the server
     else
         TheTexts.queryTexts($scope.intentionId, $scope.areaId, doIfAllTextsRead, doIfErrorReadingTexts, true);
 
@@ -79,31 +79,31 @@ function ($scope, $filter, $routeParams,$location,  TextFilters,SendText,Selecte
 
     function filterAndReorder(TheTexts, TextFilters) {
       // Exclude texts not matching tags and properties
-      var texts = TheTexts.filterCurrentTextList(TextFilters);
-
-      // Randomize order
-      texts = HelperSvc.shuffleTextIfSortOrderNotLessThan(texts, TheTexts.getMinSortOrderToGetShuffled());
-
-      // Reorder using favorite tags
-      TheTexts.reorderUsingPreferedFilters(texts, TextFilters);
+//      var texts = TheTexts.filterCurrentTextList(TextFilters);
+//      // Randomize order except for top texts
+//      texts = HelperSvc.shuffleTextIfSortOrderNotLessThan(texts, TheTexts.getMinSortOrderToGetShuffled());
+//      // Reorder using favorite tags
+//      TheTexts.reorderUsingPreferedFilters(texts, TextFilters);
       // Display
-      $scope.TextListPanel.lesTextes = texts;
+      $scope.TextListPanel.lesTextes = TheTexts.filterAndReorder(TextFilters);
+      return $scope.TextListPanel.lesTextes;
     }
 
+    // Reordering the texts can be long, don't do it the first time, it will have been done while reading the texts
     var isFirstReorderTextsCall = true;
     var reorderTexts = function() {
       // Filters should be reaplied
-//            filterAndReorder(TheTexts, TextFilters);
       if ( isFirstReorderTextsCall )
         isFirstReorderTextsCall = false;
-      else
-        filterAndReorder(TheTexts, TextFilters);
+      else {
+          var t = filterAndReorder(TheTexts, TextFilters);
+          TheTexts.cacheReorderedTexts(t, $scope.intentionId);
+      }
 
     };
     //$scope.preferedTags = TextFilters.preferedValuesToWatch;
     //$scope.$watch('preferedTags()',reorderTexts,true);
     $scope.$watch(TextFilters.preferedValuesToWatch,reorderTexts,true);
-
 
     // Initialize display while we fetch the texts
     function doBeforeReadingTexts ()  {
@@ -124,7 +124,7 @@ function ($scope, $filter, $routeParams,$location,  TextFilters,SendText,Selecte
 //          $scope.TextListPanel.showProgressBar = false;
 
       // Populate list of texts.
-      $scope.TextListPanel.lesTextes = TheTexts.filterOnBasicFilters(data,TextFilters );
+      $scope.TextListPanel.lesTextes = TextFilterHelperSvc.filterOnBasicFilters(data,TextFilters );
 
       // Fetch complete list from the server
       TheTexts.queryTexts($scope.intentionId, $scope.areaId,  doIfAllTextsRead,doIfErrorReadingTexts, true);
@@ -138,7 +138,7 @@ function ($scope, $filter, $routeParams,$location,  TextFilters,SendText,Selecte
       $scope.TextListPanel.labelNbTexts = "façons de dire";
       $scope.TextListPanel.showProgressBar = false;
 
-      var txtList = TheTexts.filterOnBasicFilters(data,TextFilters );
+      var txtList = TextFilterHelperSvc.filterOnBasicFilters(data,TextFilters );
       $scope.TextListPanel.lesTextes = txtList;
 
 //      if (intention === undefined ) {
@@ -267,7 +267,8 @@ function ($scope, $filter, $routeParams,$location,  TextFilters,SendText,Selecte
 
     $scope.choseFiltersToDisplay = function() {
       console.log('choseFiltersToDisplay');
-      TheTexts.setContextFiltersVisibility();
+//      TheTexts.setContextFiltersVisibility();
+        FilterVisibilityHelperSvc.setContextFiltersVisibility(TheTexts.getAllTexts());
       $('#modalFiltres').modal('show');
     };
 
