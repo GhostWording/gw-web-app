@@ -4,7 +4,7 @@
   "description": "",
   "main": "gulpfile.js",
   "devDependencies": {
-    "postActionInfo": "~3.4.0",
+    "gulp": "~3.4.0",
     "gulp-clean": "~0.2.2",
     "gulp-rimraf": "~0.0.8",
     "gulp-util": "~2.2.10",

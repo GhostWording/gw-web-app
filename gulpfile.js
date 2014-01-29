@@ -8,9 +8,9 @@ var uglify = require('gulp-uglify');
 var path = require('path');
 var rename = require('gulp-rename');
 var childProcess = require('child_process');
-//var karma = require('postActionInfo-karma');
-//var refresh = require('postActionInfo-livereload');
-//var footer = require('postActionInfo-footer');
+//var karma = require('gulp-karma');
+//var refresh = require('gulp-livereload');
+//var footer = require('gulp-footer');
 //var lr = require('tiny-lr');
 var inject = require('gulp-inject');
 //var server = lr();
@@ -24,7 +24,7 @@ var define = function(name, desc){
 };
 
 function srcFiles() {
-    // Rather than using postActionInfo-ignore we can just provide multiple
+    // Rather than using gulp-ignore we can just provide multiple
     // glob patterns, where the ! indicates that we should exclude
     // the matching files
     return ['scripts/**/*.js', '!scripts/lib/**/*.js'];
@@ -42,8 +42,8 @@ function srcFiles() {
 define('clean','clean up build folder by removing all files');
 /*************************************************************/
 gulp.task('clean', function() {
-  // We indicate to postActionInfo that this task is async by returning
-  // the stream - postActionInfo can then wait for the stream to close before
+  // We indicate to gulp that this task is async by returning
+  // the stream - gulp can then wait for the stream to close before
   // starting dependent tasks - see 'default' task below
   return gulp.src('build', { read: false })
   .pipe(rimraf());
@@ -104,12 +104,12 @@ gulp.task('assets', function() {
 
               /*
 var es = require('event-stream');
-var cat = require('postActionInfo-cat');
+var cat = require('gulp-cat');
 
-postActionInfo.task('script-files',function(){
+gulp.task('script-files',function(){
    var files = "";
 
-   return postActionInfo.src(['scripts/* * /*.js']).pipe(
+   return gulp.src(['scripts/* * /*.js']).pipe(
        es.map(function(file,cb){
            console.log(file.path.replace(file.cwd,''));
        }));
@@ -182,12 +182,12 @@ gulp.task('serve', function(cb) {
 });
 
 /*************************************************************/
-define('default','run when postActionInfo is call without argument, it calls clean,jshint, js, assets tasks');
+define('default','run when gulp is call without argument, it calls clean,jshint, js, assets tasks');
 // We put 'clean' as a dependency so that it completes before
 // the other tasks are started
 /*************************************************************/
 gulp.task('default', ['clean'], function() {
-  // postActionInfo.run will execute tasks concurrently
+  // gulp.run will execute tasks concurrently
   gulp.run( 'jshint', 'js', 'assets');
 
   gulp.run('inject-scripts-dev');
