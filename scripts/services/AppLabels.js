@@ -1,4 +1,4 @@
-// Returns labels for the current contry
+// Returns labels for the current country : might want to read the culture from a current culture service
 
 cherryApp.factory('AppLabels', [function ()     {
     var country = 'fr';
@@ -88,25 +88,25 @@ cherryApp.factory('AppLabels', [function ()     {
         return retval;
     };
 
-    o.f = function(id) {
-        var retval = '';
-        switch (country)
-        {
-            case 'fr':
-                switch (id) {
-                    case xx:
-                        break;
-                    default:
-                        console.log("id " + id + " not known");
-                        break;
-                }
-                break;
-            default :
-                console.log("country " + country + " not known");
-                break;
-        }
-        return retval;
-    };
+//    o.f = function(id) {
+//        var retval = '';
+//        switch (country)
+//        {
+//            case 'fr':
+//                switch (id) {
+//                    case xx:
+//                        break;
+//                    default:
+//                        console.log("id " + id + " not known");
+//                        break;
+//                }
+//                break;
+//            default :
+//                console.log("country " + country + " not known");
+//                break;
+//        }
+//        return retval;
+//    };
 
     return o;
 

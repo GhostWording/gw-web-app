@@ -1,9 +1,10 @@
 // Helps builds relative or abolute urls to query the APIs
 cherryApp.factory('AppUrlSvc', ['$location',function ($location) {
 
-    var protocolPrefix = "http://";
 
     var siteName = "api.cvd.io";
+
+    var protocolPrefix = "http://";
     var root =  protocolPrefix + siteName;
     var apiRoot = root + "/api/";
 	var relativeApiRoot = "/api/";
@@ -38,7 +39,6 @@ cherryApp.factory('AppUrlSvc', ['$location',function ($location) {
     };
     // Texts for an intention : Area is only provided for tracking purposes
     o.urlTextsForIntention = function(intentionId,areaName) {
-//        var url = newApiRoot+areaName+areaName+"/intention/"+intentionId+"/texts";
         var url = newApiRoot+areaName+"/intention/"+intentionId+"/texts";
         return url;
     };
@@ -61,10 +61,10 @@ cherryApp.factory('AppUrlSvc', ['$location',function ($location) {
 	};
 
 	// Such as http://api.cvd.io/api/text/0d1e83a6-db37-4200-a359-3a8e603089c3
-	var devSiteName = siteName;
-	o.getApiTextRoot = function(textId) {
-		return protocolPrefix + devSiteName + "/api/text/" + textId;
-	};
+//	var devSiteName = siteName;
+//	o.getApiTextRoot = function(textId) {
+//		return protocolPrefix + devSiteName + "/api/text/" + textId;
+//	};
 
     return o;
 }]);

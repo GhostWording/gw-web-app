@@ -1,10 +1,15 @@
 
 
 cherryApp.config(['$routeProvider', function ($routeProvider) { $routeProvider
-    .when('/area/:areaName/intentions', {
+    .when('/area/:areaName/intention', {
             templateUrl: 'views/intentionList.html', controller: 'NewIntentionListController'})
-    .when('/area/:areaId/intention/:intentionId/texts', {
+    .when('/area/:areaId/intention/:intentionId/text', {
           templateUrl: 'views/textList.html', controller: 'TextListController'})
+
+    // New : use longer url tracing intentionId for single text
+    .when('/area/:areaId/intention/:intentionId/text/:textId', {
+        templateUrl: 'views/textdetail.html', controller: 'TextDetailController'})
+
     .when('/area/:areaId/text/:textId', {
             templateUrl: 'views/textdetail.html', controller: 'TextDetailController'})
     // Shortcut for human readable link

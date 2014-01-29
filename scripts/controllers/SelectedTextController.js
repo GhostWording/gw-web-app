@@ -90,7 +90,7 @@ cherryApp.controller('SelectedTextController', ['$scope', '$filter','SelectedTex
 
 //  $scope.urlMailTo = function () {
 //    var t = SendText.addSignatureAppli(SendText.getSelectedTextLabel());
-//    var rootUrl = "mailto:?subject=" + $scope.TextPanel.intentionCourante + "&body=" + t;
+//    var rootUrl = "mailto:?subject=" + $scope.TextPanel.intentionLabel + "&body=" + t;
 //    rootUrl = SendText.replaceEndOfLines(rootUrl);
 //    return rootUrl;
 //  };
@@ -129,17 +129,17 @@ cherryApp.controller('SelectedTextController', ['$scope', '$filter','SelectedTex
 //  };
 
 //  Browsers will not open a new window for us
-//  $scope.mailto = SendText.mailTo(SendText.getSelectedTextLabel(),$scope.TextPanel.intentionCourante);
+//  $scope.mailto = SendText.mailTo(SendText.getSelectedTextLabel(),$scope.TextPanel.intentionLabel);
 
-//  $scope.urlMailTo = SendText.urlMailTo($scope.libelleTexteCourant,$scope.TextPanel.intentionCourante);
-//  $scope.urlMailTo = SendText.urlMailTo(SendText.getSelectedTextLabel(),$scope.TextPanel.intentionCourante);
+//  $scope.urlMailTo = SendText.urlMailTo($scope.libelleTexteCourant,$scope.TextPanel.intentionLabel);
+//  $scope.urlMailTo = SendText.urlMailTo(SendText.getSelectedTextLabel(),$scope.TextPanel.intentionLabel);
 
 //  $scope.urlAppli = "http://www.commentvousdire.com";
 //
 //
 //  $scope.urlMailTo = function () {
 //    var txt = $scope.ajouterSignatureAppli($scope.libelleTexteCourant);
-//    var rootUrl = "mailto:?subject=" + $scope.TextPanel.intentionCourante +
+//    var rootUrl = "mailto:?subject=" + $scope.TextPanel.intentionLabel +
 //      "&body=" + txt;
 //    rootUrl = replaceEndOfLines(rootUrl);
 //    return rootUrl;
