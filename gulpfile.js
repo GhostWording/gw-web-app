@@ -7,13 +7,13 @@ var rimraf = require('gulp-rimraf');
 var uglify = require('gulp-uglify');
 var path = require('path');
 var rename = require('gulp-rename');
-var childProcess = require('child_process');
 //var karma = require('gulp-karma');
 //var refresh = require('gulp-livereload');
 //var footer = require('gulp-footer');
 //var lr = require('tiny-lr');
 var inject = require('gulp-inject');
 //var server = lr();
+var shelljs = require('shelljs');
 
 
 var definitions = [];
@@ -138,7 +138,6 @@ gulp.task('inject-scripts-dev', ['js'],function() {
 define('test','run karma unit tests (as defined in karma.conf)');
 /*************************************************************/
 gulp.task('test', function(cb) {
-  var shelljs = require('shelljs');
   var karma = path.resolve('node_modules', '.bin', 'karma');
   var configFile = path.resolve('karma.conf.js');
 
@@ -153,21 +152,7 @@ gulp.task('test', function(cb) {
 define('serve','run a a simple express server with builded files');
 /*************************************************************/
 gulp.task('serve', function(cb) {
-    var child = {};
-    //on windows, use that command instead
-    if(process.env.comspec)   {
-        child = childProcess.spawn(process.env.comspec, ['/c', 'node', './build/server.js']);
-    }   else   {
-        child = childProcess.spawn('node', ['./build/server.js']);
-    }
-    child.stdout.pipe(process.stdout);
-    child.stderr.pipe(process.stderr);
-    child.on('exit', function(exitCode) {
-        if ( exitCode ) {
-            gUtil.log('error with local static server');
-        }
-        cb();
-    });
+  shelljs.exec('node ./build/server.js', cb);
 });
 
 /*************************************************************/
