@@ -14,7 +14,7 @@ var rename = require('gulp-rename');
 var inject = require('gulp-inject');
 //var server = lr();
 var shelljs = require('shelljs');
-
+var bower = require('bower');
 
 var definitions = [];
 var columnSpace = "            ";
@@ -133,11 +133,17 @@ gulp.task('inject-scripts-dev', ['js'],function() {
         .pipe(inject(rootFile,conf)).pipe(gulp.dest('build'));
 });
 
+/*************************************************************/
+define('bower','install bower dependencies');
+/*************************************************************/
+gulp.task('bower', function() {
+  return bower.commands.install();
+});
 
 /*************************************************************/
 define('test','run karma unit tests (as defined in karma.conf)');
 /*************************************************************/
-gulp.task('test', function(cb) {
+gulp.task('test', ['bower'], function(cb) {
   var karma = path.resolve('node_modules', '.bin', 'karma');
   var configFile = path.resolve('karma.conf.js');
 
