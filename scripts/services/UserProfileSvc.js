@@ -1,12 +1,10 @@
 // Keeps track of our user's local profile and preferences
 cherryApp.factory('UserProfileSvc', ['$cookies','$cookieStore','PostActionSvc',function ($cookies,$cookieStore,PostActionSvc) {
     // Things we know about our user
-    var userGender = "I";
+  var userGender = "I";
   var userReadsALot = "I";
   var userAge = "I";
   var userIsDemonstrative = "I"; // effusive
-
-    // PostActionSvc should be used in calling controller
 
   var o = {};
     // Get and set methods use cookies to memorize user properties
@@ -15,7 +13,8 @@ cherryApp.factory('UserProfileSvc', ['$cookies','$cookieStore','PostActionSvc',f
           userGender = $cookies.UserGender;
       return userGender; };
     o.setUserGender = function (v) {
-        PostActionSvc.gulp('Command','setUserGender' + ' : ' + v ,'UserProfile');
+        // postActionInfo should be used in calling controller instead
+        PostActionSvc.postActionInfo('Command','setUserGender' + ' : ' + v ,'UserProfile');
       userGender = v;
       $cookies.UserGender = v;
     };
@@ -24,7 +23,7 @@ cherryApp.factory('UserProfileSvc', ['$cookies','$cookieStore','PostActionSvc',f
             userReadsALot = $cookies.UserReadsALot;
     return userReadsALot; };
   o.setUserReadsALot= function (v)  {
-        PostActionSvc.gulp('Command','setUserReadsALot' + ' : ' + v ,'UserProfile');
+        PostActionSvc.postActionInfo('Command','setUserReadsALot' + ' : ' + v ,'UserProfile');
 
     if ( v != 'T' && v != 'F' && v != 'I' )
       console.log('not a good value for userReadsALot :' + v);
@@ -40,7 +39,7 @@ cherryApp.factory('UserProfileSvc', ['$cookies','$cookieStore','PostActionSvc',f
 
     return userAge; };
   o.setUserAge= function (v)  {
-        PostActionSvc.gulp('Command','setUserAge' + ' : ' + v ,'UserProfile');
+        PostActionSvc.postActionInfo('Command','setUserAge' + ' : ' + v ,'UserProfile');
 
     if ( v != 'under25' && v != '25to45' && v != 'over45' &&  v != 'I' )
       console.log('not a good value for userReadsALot :' + v);
@@ -56,7 +55,7 @@ cherryApp.factory('UserProfileSvc', ['$cookies','$cookieStore','PostActionSvc',f
 
     return userIsDemonstrative; };
   o.setUserIsDemonstrative = function (v)  {
-        PostActionSvc.gulp('Command','setUserIsDemonstrative' + ' : ' + v ,'UserProfile');
+        PostActionSvc.postActionInfo('Command','setUserIsDemonstrative' + ' : ' + v ,'UserProfile');
 
     if ( v != 'T' && v != 'F' && v != 'I' )
       console.log('not a good value for userIsDemonstrative :' + v);
@@ -67,5 +66,5 @@ cherryApp.factory('UserProfileSvc', ['$cookies','$cookieStore','PostActionSvc',f
     }
   };
 
-    return o;
+  return o;
 }]);

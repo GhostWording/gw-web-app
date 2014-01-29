@@ -12,7 +12,7 @@ cherryApp.factory('PostActionSvc', ['$http','AppUrlSvc','SelectedArea', function
 //    actionLocation : where the object is located : MenuBar, SplashScreen, TextDetailView, TextList, IntentionList,.....
 //    + AreaId, UserId, UserAgent
 
-    o.gulp = function (targetType, targetId, actionLocation, actionType,targetParameter) { // + targetParameter
+    o.postActionInfo = function (targetType, targetId, actionLocation, actionType,targetParameter) { // + targetParameter
         if ( actionType === undefined ) actionType = 'click';
         if ( actionLocation === undefined ) actionLocation = '';
         if ( targetParameter === undefined ) targetParameter = '';

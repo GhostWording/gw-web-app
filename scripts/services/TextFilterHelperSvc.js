@@ -1,4 +1,4 @@
-// Those functions calculate compatibility between user choices (filters) and text properties (tags)
+// Those functions evaluate compatibility between user choices (filters) and text properties (tags)
 cherryApp.factory('TextFilterHelperSvc', ['HelperService',function (HelperService) {
     var o = {};
     // Returns true sender gender is compatible with text attributes

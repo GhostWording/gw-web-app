@@ -25,13 +25,8 @@ cherryApp.factory('SelectedText', ['HelperService','$http','AppUrlSvc' , functio
 //    o.readTextFromId = function (id, doIfSuccess) {
     o.readTextFromId = function (id, areaName, doIfSuccess) {
         // Read intention from cache or server then call doIfIntentionReadSuccessfullyFromServerOrCache;
-        //var url = AppUrlSvc.getApiTextRoot(id);
-
-        //var url = "http://api-cvd-dev.azurewebsites.net/General/text/"+id;
         var url = AppUrlSvc.urlTextFromId(id, areaName);
 
-
-//        $http.get(url)
         $http({
             method: 'GET',
             cache:false,
@@ -46,7 +41,6 @@ cherryApp.factory('SelectedText', ['HelperService','$http','AppUrlSvc' , functio
                 console.log("-- bad request -- " + url + " " + status);
             });
     };
-
 
 	return o;
 }]);

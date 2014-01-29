@@ -1,19 +1,9 @@
 // Keeps track of the currently selected area
+// !! Area names are now used as Ids as well !!
 cherryApp.factory('SelectedArea', [function () {
     var selectedArea;
     var selectedAreaName;
     var o = {};
-
-//    // GET AND SET
-//    o.setSelectedArea = function (area) {
-//        selectedArea = area;
-//    };
-//    o.getSelectedArea = function () {
-//        return selectedArea;
-//    };
-//    o.getSelectedAreaName = function () {
-//        return selectedArea === undefined  ? "" : selectedArea.Name;
-//    };
 
     o.setSelectedAreaName = function (areaName) {
         selectedAreaName = areaName;

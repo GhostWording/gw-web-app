@@ -11,7 +11,7 @@ cherryApp.controller('SelectedTextController', ['$scope', '$filter','SelectedTex
 
   $scope.fermer = function () {
     $scope.Modal.modalIsOpened = false;
-        $scope.PostBox.gulp('Command','Close' ,'SendText');
+        $scope.PostBox.postActionInfo('Command','Close' ,'SendText');
   };
 
   // Because this controller may initialize just once, I watch SelectedText.getSelectedTextLabel() to update scope variable
@@ -33,7 +33,7 @@ cherryApp.controller('SelectedTextController', ['$scope', '$filter','SelectedTex
     window.open(HelperService.urlSMSTo($scope.textToSend), '_blank');
         var textId = SelectedText.getTextId();
 
-        $scope.PostBox.gulp('Command',textId ,'SendText','sendSMS');
+        $scope.PostBox.postActionInfo('Command',textId ,'SendText','sendSMS');
     };
 
   $scope.texteCourantCanTweet = HelperService.canTweet ($scope.textToSend);
@@ -42,17 +42,17 @@ cherryApp.controller('SelectedTextController', ['$scope', '$filter','SelectedTex
 
         var textId = SelectedText.getTextId();
 
-        $scope.PostBox.gulp('Command',textId ,'SendText','sendTweet');
+        $scope.PostBox.postActionInfo('Command',textId ,'SendText','sendTweet');
   };
 
    $scope.mail = function () {
        var textId = SelectedText.getTextId();
-       $scope.PostBox.gulp('Command',textId ,'SendText','sendMail');
+       $scope.PostBox.postActionInfo('Command',textId ,'SendText','sendMail');
    };
 
     $scope.copy = function () {
         var textId = SelectedText.getTextId();
-        $scope.PostBox.gulp('Command',textId ,'SendText','sendCopy');
+        $scope.PostBox.postActionInfo('Command',textId ,'SendText','sendCopy');
     };
 
   $scope.isIPhone = function () {

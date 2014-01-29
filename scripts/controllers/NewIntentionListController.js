@@ -67,7 +67,7 @@ cherryApp.controller('NewIntentionListController',
   $scope.SelectIntention = function (intention) {
     SelectedIntention.setSelectedIntention(intention);
 
-    $scope.PostBox.gulp('Intention',intention.IntentionId,'IntentionList');
+    $scope.PostBox.postActionInfo('Intention',intention.IntentionId,'IntentionList');
   };
 
 }]);

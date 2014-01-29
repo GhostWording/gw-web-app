@@ -52,7 +52,7 @@ cherryApp.controller('CherryControler', ['$scope', '$cookies','NormalTextFilters
      $scope.nomPersoUtilisateur = "";
      $scope.nomProUtilisateur = "";
 
-       PostActionSvc.gulp('Init','Init','App','Init');
+       PostActionSvc.postActionInfo('Init','Init','App','Init');
 
 
          //Activate the Bootstrap popover option
