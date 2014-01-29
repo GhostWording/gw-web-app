@@ -4,9 +4,6 @@ cherryApp.controller('TextListController',
 function ($scope, $filter, $routeParams,$location,  TextFilters,SendText,SelectedIntention, TheTexts, AppUrlSvc, HelperSvc,SingleIntentionQuerySvc,PostActionSvc,SelectedArea,TextFilterHelperSvc,FilterVisibilityHelperSvc) {
     $scope.PostBox = PostActionSvc;
 
-    // When in this view, we want to see the navigation tags
-    $scope.Tabs.showTabs = true;
-
     $scope.areaId = $routeParams.areaId;
     $scope.intentionId = $routeParams.intentionId;
 
@@ -41,7 +38,8 @@ function ($scope, $filter, $routeParams,$location,  TextFilters,SendText,Selecte
     SelectedIntention.setSelectedIntentionId($scope.intentionId);
     SelectedArea.setSelectedAreaName($scope.areaId);
 
-    $scope.Tabs.tabNumber = SelectedArea.getTabNumberForArea($scope.areaId);
+    // HMM - I think that SelectedArea should be stored in $routeParams
+    //$scope.Tabs.tabNumber = SelectedArea.getTabNumberForArea($scope.areaId);
 
     var intention = SelectedIntention.getSelectedIntention();
     if (intention !== undefined)
