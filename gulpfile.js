@@ -138,26 +138,15 @@ gulp.task('inject-scripts-dev', ['js'],function() {
 define('test','run karma unit tests (as defined in karma.conf)');
 /*************************************************************/
 gulp.task('test', function(cb) {
+  var shelljs = require('shelljs');
   var karma = path.resolve('node_modules', '.bin', 'karma');
   var configFile = path.resolve('karma.conf.js');
 
-    //on windows, use that command instead
-  if(process.env.comspec)   {
-    child = childProcess.spawn(process.env.comspec, ['/c', 'karma', 'start', configFile]);
-  }     else
-  {
-      var child = childProcess.spawn(karma, ['start', configFile]);
+  var result = shelljs.exec(karma + ' start ' + configFile);
+  if ( result.code ) {
+    gUtil.beep();
+    gUtil.log(gUtil.colors.red("Karma tests failed"));
   }
-
-  child.stdout.pipe(process.stdout);
-  child.stderr.pipe(process.stderr);
-  child.on('exit', function(exitCode) {
-    if ( exitCode ) {
-      gUtil.log('Karma tests failed');
-      gUtil.beep();
-    }
-    cb();
-  });
 });
 
 /*************************************************************/

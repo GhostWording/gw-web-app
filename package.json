@@ -29,14 +29,15 @@
     "gulp-footer": "~1.0.3",
     "tiny-lr": "0.0.5",
     "bower": "1.2.8",
-    "gulp-replace": "~0.2.0" ,
-      "gulp-inject": "~0.2.2" ,
-      "gulp-rename": "~0.2.2"
+    "gulp-replace": "~0.2.0",
+    "gulp-inject": "~0.2.2",
+    "gulp-rename": "~0.2.2",
+    "shelljs": "~0.2.6"
   },
   "dependencies": {
     "phantomjs": "~1.9.2-6",
-      "bower": "1.2.8",
-      "gulp-rename": "~0.2.2"
+    "bower": "1.2.8",
+    "gulp-rename": "~0.2.2"
   },
   "scripts": {
     "test": "karma karma.conf.js",
