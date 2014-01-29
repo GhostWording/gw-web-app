@@ -1,4 +1,4 @@
-// Returns labels for the current country : might want to read the culture from a current culture service
+// Returns tag labels for the current country : might want to read the culture from a current culture service
 
 cherryApp.factory('AppLabels', [function ()     {
     var country = 'fr';

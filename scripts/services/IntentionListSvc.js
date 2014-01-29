@@ -1,4 +1,4 @@
-// Gets a list of Intentions for a given area
+// Get a list of Intentions for a given area
 cherryApp.factory('Intentions',  ['$http','FakeIntentions','AppUrlSvc', function ($http,FakeIntentions,AppUrlSvc)     {
 	var o = {};
 
@@ -8,12 +8,9 @@ cherryApp.factory('Intentions',  ['$http','FakeIntentions','AppUrlSvc', function
 	o.intentionArrays = {};
 
 	// Query from the server : returns cached data if available !
-//	o.query = function (thendo, areaId, nbIntentions ) {
     o.query = function (thendo, areaName ) {
 		var queryCompleteList = false;
 
-//		if (nbIntentions === undefined ) {
-//			nbIntentions = 1000;
             queryCompleteList = true;
 			// Return cached intentions for this area if available
 			if (o.intentionArrays[areaName] !== undefined) {
@@ -21,9 +18,6 @@ cherryApp.factory('Intentions',  ['$http','FakeIntentions','AppUrlSvc', function
 				console.log("Intentions for AREA" + areaName + " read from cache");
 				return;
 			}
-//		}
-
-//		var url = AppUrlSvc.getApiRoot() +  "intentions.json?n=" + nbIntentions ;
 
         var url = AppUrlSvc.urlIntentions(areaName);
         $http({method: 'GET',cache:false,url: url,
@@ -32,7 +26,6 @@ cherryApp.factory('Intentions',  ['$http','FakeIntentions','AppUrlSvc', function
             .success(function (data, status) {
 				console.log(status + "*");
 				// Memorize value
-				//o.intentions = filterIntentions(data,areaId);
                 o.intentions = reorderWithSortBy(data);
 
                 // New : cache the intentions in case we cannot retrieve it next time
