@@ -6,15 +6,10 @@ cherryApp.factory('Tabs', ['$rootScope', function($rootScope) {
   };
 
   $rootScope.$on('$routeChangeSuccess', function(evt, current, previous) {
-
-    if ( angular.isDefined(current.showTabs) ) {
-      svc.showTabs = current.showTabs;
-    }
-
-    if ( angular.isDefined(current.tabName) ) {
-      svc.currentTabName = current.tabName;
-    }
+    svc.showTabs = current.showTabs;
+    svc.currentTabName = current.tabName;
   });
+ 
   return svc;
 
 }]);
