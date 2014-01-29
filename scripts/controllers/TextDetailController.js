@@ -68,10 +68,10 @@ cherryApp.controller('TextDetailController', ['$scope','$routeParams', 'HelperSe
 
       $scope.Modal.modalIsOpened = true;
       $('#modalEnvoiTexte').modal('show');
-      $scope.PostBox.gulp('Command',textId,'TextDetail','send');
+      $scope.PostBox.postActionInfo('Command',textId,'TextDetail','send');
     };
     $scope.edit = function() {
       $scope.editText = true;
-      $scope.PostBox.gulp('Command',textId ,'TextDetail','edit');
+      $scope.PostBox.postActionInfo('Command',textId ,'TextDetail','edit');
     };
   }]);

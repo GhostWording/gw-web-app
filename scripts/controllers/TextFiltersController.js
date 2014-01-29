@@ -163,13 +163,13 @@ cherryApp.controller('TextFiltersController', ['$scope', '$filter','TheTexts','N
 		// TODO : call modifySpellingAccordingToGender by watching an event
 		$scope.modifySpellingAccordingToGender(genre);
 		TextFilters.setSenderGender(genre);
-        $scope.PostBox.gulp('Command','UserGender' + ' : ' + genre ,'TextList');
+        $scope.PostBox.postActionInfo('Command','UserGender' + ' : ' + genre ,'TextList');
 	};
 	$scope.definirGenreDestinataire = function (genre) {
 //		TextFilters.genreDestinataire = genre;
 		TextFilters.setRecipientGender(genre);
 
-        $scope.PostBox.gulp('Command','RecipientGender' + ' : ' + genre ,'TextList');
+        $scope.PostBox.postActionInfo('Command','RecipientGender' + ' : ' + genre ,'TextList');
 
         if ( genre == 'P' )
             TextFilters.setTuOuVous('V');
@@ -177,7 +177,7 @@ cherryApp.controller('TextFiltersController', ['$scope', '$filter','TheTexts','N
 	$scope.definirTuOuVous = function (input) {
 //		TextFilters.tuOuVous = input;
 		TextFilters.setTuOuVous(input);
-        $scope.PostBox.gulp('Command','TuOuVous' + ' : ' + input ,'TextList');
+        $scope.PostBox.postActionInfo('Command','TuOuVous' + ' : ' + input ,'TextList');
 
     };
     $scope.definirProximite = function(input) {
@@ -185,7 +185,7 @@ cherryApp.controller('TextFiltersController', ['$scope', '$filter','TheTexts','N
         // Proche mais pas Plusieurs : Close to recipient and not several of them => Tu looks like a good choice
         if ( input == 'P' && TextFilters.getRecipientGender() != 'P')
             TextFilters.setTuOuVous('T');
-        $scope.PostBox.gulp('Command','RecipientCloseness' + ' : ' + input ,'TextList');
+        $scope.PostBox.postActionInfo('Command','RecipientCloseness' + ' : ' + input ,'TextList');
     };
 	$scope.definirCaractere = function (caractere) {
 //		TextFilters.caractereUtilisateur = caractere;
@@ -250,7 +250,7 @@ cherryApp.controller('TextFiltersController', ['$scope', '$filter','TheTexts','N
 //    $scope.choseFiltersToDisplay = function() {
 //        console.log('choseFiltersToDisplay');
 //        TheTexts.setContextFiltersVisibility();
-//        $scope.PostBox.gulp('Command','ChoseFilters','TextList');
+//        $scope.PostBox.postActionInfo('Command','ChoseFilters','TextList');
 //    };
 }]);
 

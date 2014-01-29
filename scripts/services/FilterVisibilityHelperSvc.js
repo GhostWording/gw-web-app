@@ -1,3 +1,5 @@
+// Users can only see filtering options that make sense for the texts they are considering
+// This service dertermines which filters make sense for the current text list
 cherryApp.factory('FilterVisibilityHelperSvc', ['HelperService','TextFilterHelperSvc',function (HelperService,TextFilterHelperSvc) {
     var o = {};
 
@@ -52,7 +54,6 @@ cherryApp.factory('FilterVisibilityHelperSvc', ['HelperService','TextFilterHelpe
     o.shouldDisplayContextFilters = function() {
         return showContextTags;
     };
-
     o.shouldDisplayThisContextFilter = function(filterName) {
         var valret = false;
         var tagId = TextFilterHelperSvc.convertStyleNameToGuid(filterName);

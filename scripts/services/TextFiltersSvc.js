@@ -2,7 +2,6 @@
 cherryApp.factory('NormalTextFilters', ['$location','UserProfileSvc',function ($location,UserProfileSvc) {
 
     // We may want to use a list of properties instead of static variables
-//	var senderGender = "I";
 	var hideSenderGender= true;
 	var recipientGender= "I";
 	var tuOuVous= "I";
@@ -34,9 +33,6 @@ cherryApp.factory('NormalTextFilters', ['$location','UserProfileSvc',function ($
         closeness = "I";
 
 		hideSenderGender = o.getSenderGender() != "I";
-//		hideRecipientGender = false;
-//		hideTuVous = false;
-//      hideCloseness = false;
         hideStylesToExcludeOrToPrefer = false;
 
         stylesToExclude = {};

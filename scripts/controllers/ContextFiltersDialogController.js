@@ -1,4 +1,4 @@
-// Asks user about filters to be applied to the next query
+// Asks user about filters to be applied to the next query : moved to another dialog for the time being
 cherryApp.controller('ContextFiltersDialogController', ['$scope', 'HelperService', 'NormalTextFilters',
   function ($scope, HelperService, TextFilters) {
       //console.log('ContextFiltersDialogController');

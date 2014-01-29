@@ -4,7 +4,6 @@ cherryApp.factory('SingleIntentionQuerySvc', ['$http','AppUrlSvc', function ($ht
     var o = {};
 
     o.query = function (id, areaId,doIfIntentionRead) {
-        // Read intention from cache or server then call doIfIntentionReadSuccessfullyFromServerOrCache;
 //        var url = AppUrlSvc.getApiIntentionRoot(id);
         var url = AppUrlSvc.urlIntentionFromId(id,areaId);
         $http.get(url);

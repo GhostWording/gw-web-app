@@ -24,11 +24,11 @@ cherryApp.controller('FilterDialogController', ['$scope', 'HelperService','Norma
 
 
             $scope.humorousPrefered = TextFilters.getStyleToPrefer('humorous');
-            $scope.humorousPrefered = TextFilters.getStyleToPrefer('imaginative');
-            $scope.humorousPrefered = TextFilters.getStyleToPrefer('eccentric');
-            $scope.humorousPrefered = TextFilters.getStyleToPrefer('simple');
-            $scope.humorousPrefered = TextFilters.getStyleToPrefer('poetic');
-            $scope.humorousPrefered = TextFilters.getStyleToPrefer('citation');
+            $scope.imaginativePrefered = TextFilters.getStyleToPrefer('imaginative');
+            $scope.eccentricPrefered = TextFilters.getStyleToPrefer('eccentric');
+            $scope.simplePrefered = TextFilters.getStyleToPrefer('simple');
+            $scope.poeticPrefered = TextFilters.getStyleToPrefer('poetic');
+            $scope.citationPrefered = TextFilters.getStyleToPrefer('citation');
 
 //            $scope.humorousPrefered = TextFilters.getSylesToPrefer()['humorous'];
 //            $scope.imaginativePrefered = TextFilters.getSylesToPrefer()['imaginative'];
@@ -60,7 +60,7 @@ cherryApp.controller('FilterDialogController', ['$scope', 'HelperService','Norma
         $scope.TogglePreferedStyle = function(key,scopeVariable) {
             var newValue = ! $scope[scopeVariable];
             TextFilters.setStyleToPrefer(key,newValue);
-            $scope.PostBox.gulp('Command',key + ' - ' + newValue ,'FilterDialog');
+            $scope.PostBox.postActionInfo('Command',key + ' - ' + newValue ,'FilterDialog');
         };
 
         $scope.displayNbFilteredTexts = TheTexts.hasfilteredTexts;
@@ -80,7 +80,7 @@ cherryApp.controller('FilterDialogController', ['$scope', 'HelperService','Norma
             var newValue = ! $scope.ContextFilters[scopeVariable];
 //            TextFilters.setContextToInclude(key,$scope.ContextFilters[scopeVariable]);
             TextFilters.setContextToInclude(key,newValue);
-            $scope.PostBox.gulp('Command',key + ' - ' +  scopeVariable,'FilterDialog');
+            $scope.PostBox.postActionInfo('Command',key + ' - ' +  scopeVariable,'FilterDialog');
 
         };
 
