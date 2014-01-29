@@ -16,7 +16,7 @@ cherryApp.directive('actionLocation', function() {
 		controller: function($scope, $attrs, PostActionSvc) {
 			this.postAction = function(targetType, targetId, actionType, targetParameters) {
 				// Post the given action using the action extracted from this directive
-				PostActionSvc.postActionInfo(targetType, targetId, $attrs['actionLocation'], actionType, targetParameters);
+				PostActionSvc.postActionInfo(targetType, targetId, $attrs.actionLocation, actionType, targetParameters);
 			};
 		}
 	};
@@ -32,11 +32,11 @@ cherryApp.directive('a', function() {
 				element.on('click', function(ev) {
 					// If not provided explicitly by attributes on the <a> we guess the params from the href:
 					// :targetType/:targetId/:targetParameters...
-					var pathParts = attrs['href'].split('/');
-					var targetType = attrs['targetType'] || pathParts.shift();
-					var targetId = attrs['targetId'] || pathParts.shift();
-					var actionType = attrs['actionType'] || 'click';
-					var targetParameters = attrs['targetParameters'] || pathParts.join('/');
+					var pathParts = attrs.href.split('/');
+					var targetType = attrs.targetType || pathParts.shift();
+					var targetId = attrs.targetId || pathParts.shift();
+					var actionType = attrs.actionType || 'click';
+					var targetParameters = attrs.targetParameters || pathParts.join('/');
 
 					actionLocation.postAction(targetType, targetId, actionType, targetParameters);
 				});
@@ -55,11 +55,11 @@ cherryApp.directive('button', function() {
 				element.on('click', function(ev) {
 					// If not provided explicitly by attributes on the <a> we guess the params from the href:
 					// :targetType/:targetId/:targetParameters...
-					var actionParts = /([^.]+)\.([^(]+)\(([^)]*)\)/.exec(attrs['ngClick']);
-					var targetType = attrs['targetType'] || actionParts[1];
-					var targetId = attrs['targetId'] || actionParts[2];
-					var actionType = attrs['actionType'] || 'click';
-					var targetParameters = attrs['targetParameters'] || actionParts[3];
+					var actionParts = /([^.]+)\.([^(]+)\(([^)]*)\)/.exec(attrs.ngClick);
+					var targetType = attrs.targetType || actionParts[1];
+					var targetId = attrs.targetId || actionParts[2];
+					var actionType = attrs.actionType || 'click';
+					var targetParameters = attrs.targetParameters || actionParts[3];
 
 					actionLocation.postAction(targetType, targetId, actionType, targetParameters);
 				});
