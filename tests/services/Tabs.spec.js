@@ -1,17 +1,18 @@
 describe("Tabs service", function() {
   beforeEach(module('cherryApp'));
-  it("should listen to $routeChangeSuccessEvents", inject(function(Tabs, $rootScope) {
+  it("should listen to $routeChangeSuccessEvents", inject(function(Tabs,SelectedArea, $rootScope) {
     expect(Tabs.showTabs).toEqual(true);
     expect(Tabs.currentTabName).toEqual('');
 
     var newRoute = {
-      showTabs: false,
-      tabName: 'newRouteName'
+      showTabs: false
     };
 
     $rootScope.$broadcast('$routeChangeSuccess', newRoute, null);
 
     expect(Tabs.showTabs).toEqual(false);
-    expect(Tabs.currentTabName).toEqual('newRouteName');
+
+    SelectedArea.setSelectedAreaName('DaytoDay');
+    expect(Tabs.currentTabName).toEqual('DaytoDay');
   }));
 });

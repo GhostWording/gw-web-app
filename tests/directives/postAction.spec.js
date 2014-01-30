@@ -19,7 +19,7 @@ describe("<a> (postAction) directive", function() {
 
     var element = angular.element(
       '<div action-location="someLocation">' +
-        '<a href="area/action/data1/data2">Some Link</a>' +
+        '<a href="area/action">Some Link</a>' +
       '</div>');
     var anchorElement = element.find('a');
     
@@ -27,7 +27,7 @@ describe("<a> (postAction) directive", function() {
 
     anchorElement.triggerHandler('click');
     
-    expect(PostActionSvc.postActionInfo).toHaveBeenCalledWith('area', 'action', 'someLocation', 'click', 'data1/data2');
+    expect(PostActionSvc.postActionInfo).toHaveBeenCalledWith('area', 'action','someLocation','click',undefined);
   }));
 
   it("should override the defaults if attributes are provided", inject(function($compile, $rootScope, PostActionSvc) {
@@ -35,7 +35,7 @@ describe("<a> (postAction) directive", function() {
 
     var element = angular.element(
       '<div action-location="someLocation">' +
-        '<a href="area/action/data1/data2" action-type="otherAction" target-type="otherTarget" target-id="otherId">Some Link</a>' +
+        '<a href="area/action/data1/data2" actionType="otherAction" targetType="otherTarget" targetId="otherId" targetParameters="otherParam">Some Link</a>' +
       '</div>');
     var anchorElement = element.find('a');
     
@@ -43,10 +43,25 @@ describe("<a> (postAction) directive", function() {
 
     anchorElement.triggerHandler('click');
     
-    expect(PostActionSvc.postActionInfo).toHaveBeenCalledWith('otherTarget', 'otherId', 'someLocation', 'otherAction', 'area/action/data1/data2');
+    expect(PostActionSvc.postActionInfo).toHaveBeenCalledWith('otherTarget', 'otherId', 'someLocation', 'otherAction', 'otherParam');
   }));
-});
 
+it("should not be called if href is undefined", inject(function ($compile, $rootScope, PostActionSvc) {
+    spyOn(PostActionSvc, 'postActionInfo');
+
+    var element = angular.element(
+        '<div action-location="someLocation">' +
+            '<a>Some Link</a>' +
+            '</div>');
+    var anchorElement = element.find('a');
+
+    $compile(element)($rootScope);
+    anchorElement.triggerHandler('click');
+
+    // How to say I expect the opposite ?????
+    //expect(PostActionSvc.postActionInfo).toHaveBeenCalled();  //
+    }));
+});
 
 describe("<button> (postAction) directive", function() {
   beforeEach(module('cherryApp'));
@@ -55,7 +70,8 @@ describe("<button> (postAction) directive", function() {
 
     var element = angular.element(
       '<div action-location="someLocation">' +
-        '<button ng-click="area.action(data1,data2)">Some Button</a>' +
+//        '<button ng-click="area.action(data1,data2)">Some Button</a>' +
+          '<button ng-click="Navigation.action(data1,data2)">Some Button</a>' +
       '</div>');
     var anchorElement = element.find('button');
     
@@ -63,6 +79,6 @@ describe("<button> (postAction) directive", function() {
 
     anchorElement.triggerHandler('click');
     
-    expect(PostActionSvc.postActionInfo).toHaveBeenCalledWith('area', 'action', 'someLocation', 'click', 'data1,data2');
+    expect(PostActionSvc.postActionInfo).toHaveBeenCalledWith('Navigation', 'action', 'someLocation', 'click', 'data1,data2');
   }));
 });

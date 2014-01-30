@@ -32,6 +32,10 @@ cherryApp.directive('a', function() {
 				element.on('click', function(ev) {
 					// If not provided explicitly by attributes on the <a> we guess the params from the href:
 					// :targetType/:targetId/:targetParameters...
+                    if (attrs.href == undefined ) {
+                        //console.log('postAction not called when href if undefined');
+                        return;
+                    }
 					var pathParts = attrs.href.split('/');
                     var targetType;
                     var targetId;
@@ -70,7 +74,7 @@ cherryApp.directive('button', function() {
 					// If not provided explicitly by attributes on the <a> we guess the params from the href:
 					// :targetType/:targetId/:targetParameters...
 					var actionParts = /([^.]+)\.([^(]+)\(([^)]*)\)/.exec(attrs.ngClick);
-					var targetType = attrs.targetType || actionParts[1];
+					var targetType = attrs.targetType || "Navigation";
 					var targetId = attrs.targetId || actionParts[2];
 					var actionType = attrs.actionType || 'click';
 //					var targetParameters = attrs.targetParameters || actionParts[3];

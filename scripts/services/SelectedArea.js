@@ -1,13 +1,15 @@
 // Keeps track of the currently selected area
 // !! Area names are now used as Ids as well !!
-cherryApp.factory('SelectedArea',['Tabs', function (Tabs) {
+cherryApp.factory('SelectedArea',['$rootScope', function ($rootScope) {
     var selectedArea;
     var selectedAreaName;
     var o = {};
 
     o.setSelectedAreaName = function (areaName) {
         selectedAreaName = areaName;
-        Tabs.setTab(areaName);
+        // Change Tabs display
+        //Tabs.setTab(areaName);
+        $rootScope.$broadcast('areaChange',areaName);
     };
     o.getSelectedAreaName = function () {
         return selectedAreaName;
