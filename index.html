@@ -60,7 +60,7 @@
 <body ng-app='cherryApp' id="leCorps">
 
 <!-- Menu bar -->
-<nav class="navbar navbar-inverse navbar-static-top" role="navigation" data-ng-controller="NavBarController" >
+<nav class="navbar navbar-inverse navbar-static-top" role="navigation" data-ng-controller="NavBarController" action-location="NavBar" >
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
@@ -69,14 +69,17 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="#" ng-click = "PostBox.gulp('Navigation','SplashScreen','NavBar')">CommentVousDire</a>
+        <!--<a class="navbar-brand" href="#" ng-click = "PostBox.gulp('Navigation','SplashScreen','NavBar')">CommentVousDire</a>-->
+        <a class="navbar-brand" href="#" TargetId="welcome">CommentVousDire</a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-            <li class="active"><a href="#/userprofile"  ng-click = "PostBox.gulp('Navigation','ProfileScreen','NavBar')" >Votre profil</a></li>
-            <li class="active"><a href="#/about" ng-click = "PostBox.gulp('Navigation','AboutScreen','NavBar')">A propos</a></li>
+            <!--<li class="active"><a href="userprofile"  ng-click = "PostBox.gulp('Navigation','ProfileScreen','NavBar')" >Votre profil</a></li>-->
+            <li class="active"><a href="userprofile"  >Votre profil</a></li>
+            <!--<li class="active"><a href="about" ng-click = "PostBox.gulp('Navigation','AboutScreen','NavBar')">A propos</a></li>-->
+            <li class="active"><a href="about" >A propos</a></li>
         </ul>
         <!--<ul class="nav navbar-nav navbar-right">-->
             <!--<li><a href="#">Link</a></li>-->
@@ -88,7 +91,7 @@
  <div data-ng-controller="CherryControler" class="container">
 
     <!--TABS -->
-     <div class = "tabBar"  ng-show="Tabs.showTabs">
+     <div class = "tabBar"  ng-show="Tabs.showTabs" action-location="Tabs">
          <!--<ul id="myTab" class="nav nav-tabs "> -->
          <ul id="myTab" class="nav nav-pills ">
          <li ng-class ='{active: Tabs.tabNumber == 0}'>

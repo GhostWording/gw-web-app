@@ -66,8 +66,7 @@ cherryApp.controller('NewIntentionListController',
   // Memorize selected intention, not completly usefull if intention car be reread from cache using intention id in url
   $scope.SelectIntention = function (intention) {
     SelectedIntention.setSelectedIntention(intention);
-
-    $scope.PostBox.postActionInfo('Intention',intention.IntentionId,'IntentionList');
+    //$scope.PostBox.postActionInfo('Intention',intention.IntentionId,'IntentionList');
   };
 
 }]);

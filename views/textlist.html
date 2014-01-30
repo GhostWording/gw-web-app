@@ -1,4 +1,4 @@
-﻿<div ng-show="true" class="panneauTexte">
+﻿<div ng-show="true" class="panneauTexte" action-location="TextList">
 
      <!-- Progress bar (hidden after loading) : move with the texts -->
      <!--<div class="progress progress-striped active" ng-show = "TextListPanel.showProgressBar">-->
@@ -78,7 +78,9 @@
          <ul class="pager bmwQuestionButton" ng-show = "!BasicFilters.getHideRecipientGender()">
          Destinataire
              <li ng-class= '{selectionne: RecipientGender()=="H"}'>
-                <a ng-click = "definirGenreDestinataire('H')">     <img ng-src="./assets/maleuser32.png" class="breadcrumbpicto">  </a></li>
+             <!-- PostAction is better left in ng-click -->
+             <!--<a href="" targetType="Command" targetId="RecipientGender" targetParameters="H"  ng-click = "definirGenreDestinataire('H')">     <img ng-src="./assets/maleuser32.png" class="breadcrumbpicto">  </a></li>-->
+             <a ng-click = "definirGenreDestinataire('H')">     <img ng-src="./assets/maleuser32.png" class="breadcrumbpicto">  </a></li>
              <li ng-class= '{selectionne: RecipientGender()=="F"}' >
                 <a ng-click = "definirGenreDestinataire('F')">     <img ng-src="./assets/femaleuser32.png" class="breadcrumbpicto">  </a></li>
              <li ng-class= '{selectionne: RecipientGender()=="P"}' >
@@ -177,9 +179,8 @@
                 <div>
                     <!--<i class="icon-envelope pull-right" ng-click="allowPopUp()"></i>-->
                     <img src="./assets/e-mail64.png" class = "pull-right envoyer"  ng-click="selectAndPopUp(txt,'send')" >
-                    <!--<a href="#/text/{{txt.TextId}}" >-->
-                    <!--<a href="#/area/{{ areaId }}/text/{{txt.TextId}}"  ng-click="selectThisText(txt,'open')" >-->
-                    <a href="#/area/{{ areaId }}/intention/{{ intentionId }}/text/{{txt.TextId}}"  ng-click="selectThisText(txt,'open')" >
+                    <!--<a href="#/area/{{ areaId }}/intention/{{ intentionId }}/text/{{txt.TextId}}"  ng-click="selectThisText(txt,'open')" >-->
+                    <a href="#/area/{{ areaId }}/intention/{{ intentionId }}/text/{{txt.TextId}}" targetType = "Text"  targetId = "{{txt.TextId}}"  ng-click="selectThisText(txt,'open')" >
 
                         <div ng-switch on="whatToDisplay(txt)" ng-class= "{active: txt.TextId == getSelectedTextId(txt,txt.textId)}">
                             <div ng-switch-when="0" class ="well well-small bmw-texte" ng-bind-html="txt.Abstract | replaceBrackets | convertEndOfLineToBR"></div>

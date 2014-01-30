@@ -33,10 +33,24 @@ cherryApp.directive('a', function() {
 					// If not provided explicitly by attributes on the <a> we guess the params from the href:
 					// :targetType/:targetId/:targetParameters...
 					var pathParts = attrs.href.split('/');
-					var targetType = attrs.targetType || pathParts.shift();
-					var targetId = attrs.targetId || pathParts.shift();
-					var actionType = attrs.actionType || 'click';
-					var targetParameters = attrs.targetParameters || pathParts.join('/');
+                    var targetType;
+                    var targetId;
+                    // With short urls such as area/Sentimental, target type and id can be guessed
+                    var pathLength = pathParts.length;
+                    if ( pathLength == 1 ) {
+                        targetId =  pathParts[0];
+                    } else
+                    if ( pathLength > 1 && pathLength <= 3) {
+                        targetType = pathParts.shift();
+                        targetId =  pathParts.shift();
+                    }
+                    // Explicit attributes override default choices
+					targetType = attrs.targettype || targetType || "Navigation"; // attrs.targetType with capital T does not seem to work
+                    targetId = attrs.targetid || targetId;
+                    // Action type will be click in the vast majority of times (can also be Init or Load)
+					var actionType = attrs.actiontype || 'click';
+                    // targetparameters will rarely be read from the url + attrs.targetParameters with a capital P does not seem to work
+                    var targetParameters = attrs.targetparameters ;
 
 					actionLocation.postAction(targetType, targetId, actionType, targetParameters);
 				});
@@ -59,7 +73,8 @@ cherryApp.directive('button', function() {
 					var targetType = attrs.targetType || actionParts[1];
 					var targetId = attrs.targetId || actionParts[2];
 					var actionType = attrs.actionType || 'click';
-					var targetParameters = attrs.targetParameters || actionParts[3];
+//					var targetParameters = attrs.targetParameters || actionParts[3];
+                    var targetParameters = attrs.targetparameters || actionParts[3];
 
 					actionLocation.postAction(targetType, targetId, actionType, targetParameters);
 				});
