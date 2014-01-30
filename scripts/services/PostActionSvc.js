@@ -23,11 +23,14 @@ cherryApp.factory('PostActionSvc', ['$http','AppUrlSvc','SelectedArea', function
 
         switch (targetType) {
             case 'Area':
+            case 'area':
             case 'Intention':
+            case 'intention':
             case 'Text':
             case 'Navigation':
             case 'Command':
             case 'Init':
+            case 'userprofile':
                 break;
             default:
                 console.log("!!!! objectType " + targetType + " unknown !!!!!!!!!!!");

@@ -169,7 +169,8 @@ cherryApp.controller('TextFiltersController', ['$scope', '$filter','TheTexts','N
 //		TextFilters.genreDestinataire = genre;
 		TextFilters.setRecipientGender(genre);
 
-        $scope.PostBox.postActionInfo('Command','RecipientGender' + ' : ' + genre ,'TextList');
+        //$scope.PostBox.postActionInfo('Command','RecipientGender' + ' : ' + genre ,'TextList');
+        $scope.PostBox.postActionInfo('Command','RecipientGender','TextList','click',genre);
 
         if ( genre == 'P' )
             TextFilters.setTuOuVous('V');
@@ -177,7 +178,8 @@ cherryApp.controller('TextFiltersController', ['$scope', '$filter','TheTexts','N
 	$scope.definirTuOuVous = function (input) {
 //		TextFilters.tuOuVous = input;
 		TextFilters.setTuOuVous(input);
-        $scope.PostBox.postActionInfo('Command','TuOuVous' + ' : ' + input ,'TextList');
+//        $scope.PostBox.postActionInfo('Command','TuOuVous' + ' : ' + input ,'TextList');
+        $scope.PostBox.postActionInfo('Command','TuOuVous', 'TextList', 'click',input);
 
     };
     $scope.definirProximite = function(input) {
@@ -185,7 +187,8 @@ cherryApp.controller('TextFiltersController', ['$scope', '$filter','TheTexts','N
         // Proche mais pas Plusieurs : Close to recipient and not several of them => Tu looks like a good choice
         if ( input == 'P' && TextFilters.getRecipientGender() != 'P')
             TextFilters.setTuOuVous('T');
-        $scope.PostBox.postActionInfo('Command','RecipientCloseness' + ' : ' + input ,'TextList');
+//        $scope.PostBox.postActionInfo('Command','RecipientCloseness' + ' : ' + input ,'TextList');
+        $scope.PostBox.postActionInfo('Command','RecipientCloseness','TextList','click',input);
     };
 	$scope.definirCaractere = function (caractere) {
 //		TextFilters.caractereUtilisateur = caractere;

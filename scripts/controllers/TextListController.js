@@ -200,7 +200,7 @@ function ($scope, $filter, $routeParams,$location,  TextFilters,SendText,Selecte
 //            var actionToSend = action == 'send' ? action : 'click';
       var actionToSend = action == 'send' ? action : 'open';
 
-      $scope.PostBox.postActionInfo('Text',id ,'TextList', actionToSend);
+//      $scope.PostBox.postActionInfo('Text',id ,'TextList', actionToSend);
     };
 
     $scope.getSelectedTextId = function(txt,id) {
