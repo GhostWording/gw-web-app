@@ -87,19 +87,20 @@
     </div><!-- /.navbar-collapse -->
 </nav>
 
-
  <div data-ng-controller="CherryControler" class="container">
 
     <!--TABS -->
      <div class = "tabBar"  ng-show="Tabs.showTabs" action-location="Tabs">
+     <!--<div class = "tabBar"  ng-show="true" action-location="Tabs">-->
          <!--<ul id="myTab" class="nav nav-tabs "> -->
          <ul id="myTab" class="nav nav-pills ">
-         <li ng-class ='{active: Tabs.tabNumber == 0}'>
-                 <a href="area/DayToDay/intention" ng-click = "PostBox.gulp('Area','DayToDay','Tabs')" >Quotidien</a></li>
-             <li ng-class ='{active: Tabs.tabNumber == 1}'>
-                 <a href="area/Sentimental/intention" ng-click = "PostBox.gulp('Area','Sentimental','Tabs')"> Sentimental </a></li>
-             <li ng-class ='{active: Tabs.tabNumber == 2}'>
-                 <a href="area/Important/intention" ng-click = "PostBox.gulp('Area','Important','Tabs')"> Spécial</a></li>
+         <li ng-class ="{active: Tabs.currentTabName == 'DayToDay'}">
+                 <a href="area/DayToDay/intention" > Quotidien </a></li>
+             <li ng-class ="{active: Tabs.currentTabName == 'Sentimental'}">
+                 <!--<a href="area/Sentimental/intention" ng-click="Tabs.currentTabName='Sentimental'" > Sentimental </a></li>-->
+                 <a href="area/Sentimental/intention" > Sentimental </a></li>
+             <li ng-class ="{active: Tabs.currentTabName == 'Important'}">
+                 <a href="area/Important/intention" > Spécial</a></li>
          </ul>
      </div> <!-- TABS -->
 
@@ -368,6 +369,7 @@
 <script src="scripts/services/SelectedArea.js"></script>
 <script src="scripts/services/TextFilterHelperSvc.js"></script>
 <script src="scripts/services/FilterVisibilityHelperSvc.js"></script>
+<script src="scripts/services/Tabs.js"></script>
 
 <script src="scripts/controllers/TextFiltersController.js"></script>
 <script src="scripts/controllers/SelectedTextController.js"></script>
@@ -381,6 +383,7 @@
 <script src="scripts/controllers/UserProfileController.js"></script>
 <script src="scripts/controllers/FilterDialogController.js"></script>
 <script src="scripts/controllers/ContextFiltersDialogController.js"></script>
+<script src="scripts/controllers/SimplePageController.js"></script>
 
 <script src="scripts/controllers/NavBarController.js"></script>
 

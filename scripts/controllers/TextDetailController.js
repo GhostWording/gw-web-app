@@ -5,8 +5,6 @@ cherryApp.controller('TextDetailController', ['$scope','$routeParams', 'HelperSe
 
     $scope.PostBox = PostActionSvc;
 
-    //console.log('TextDetailController');
-    $scope.Tabs.showTabs = false;
 
     $scope.editText = false;
 

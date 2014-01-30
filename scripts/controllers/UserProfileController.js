@@ -4,11 +4,6 @@ cherryApp.controller('UserProfileController', ['$scope', 'HelperService', 'UserP
 
         $scope.PostBox = PostActionSvc;
 
-		//console.log('UserProfileController');
-
-        $scope.Tabs.showTabs = false;
-
-
         $scope.UserProfile = UserProfileSvc;
 
 //		console.log('$cookies.UserGender ' + $cookies.UserGender);

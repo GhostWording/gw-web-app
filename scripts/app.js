@@ -26,18 +26,14 @@ cherryApp.controller('NavBarController',  ['$scope', 'PostActionSvc',
 ]);
 
 
-cherryApp.controller('CherryControler', ['$scope', '$cookies','NormalTextFilters','PostActionSvc',
-   function ($scope, $cookies,TextFilters,PostActionSvc) {
+cherryApp.controller('CherryControler', ['$scope', '$cookies','NormalTextFilters','PostActionSvc','Tabs',
+   function ($scope, $cookies,TextFilters,PostActionSvc,Tabs) {
          $scope.PostBox = PostActionSvc;
 
        // Could send this to the server for statistics
       console.log(navigator.userAgent);
     //console.log($cookies.uid);
-
-
-         $scope.Tabs = {};
-    $scope.Tabs.tabNumber = 0;
-        $scope.Tabs.showTabs = true;
+    $scope.Tabs = Tabs;
 
     $scope.Modal = {};
     $scope.Modal.modalIsOpened = false;

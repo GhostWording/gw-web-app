@@ -6,10 +6,6 @@ cherryApp.controller('NewIntentionListController',
     TextFilters.initializeFiltersToUndefined(); // New instead of in TextListController to keep user filters when returning from detailed view
 
 
-    // When in this view, display navigation tabs
-    $scope.Tabs.showTabs = true;
-    $scope.Tabs.tabNumber = 0;
-
     // Read areaId from the url or use default areaId if nothing is found
     $scope.areaId = $routeParams.areaId;
     $scope.areaName = $routeParams.areaName;
@@ -42,7 +38,7 @@ cherryApp.controller('NewIntentionListController',
          break;
     }
 
-   $scope.Tabs.tabNumber = SelectedArea.getTabNumberForArea($scope.areaName);
+   //$scope.Tabs.tabNumber = SelectedArea.getTabNumberForArea($scope.areaName);
 
 
   // Read intentions from server
