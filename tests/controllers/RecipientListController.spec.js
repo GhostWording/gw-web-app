@@ -1,37 +1,16 @@
 describe("RecipientListController", function() {
-  var $scope, recipientSvc, recipients;
 
   beforeEach(module('cherryApp'));
 
-  beforeEach(inject(function($controller) {
-    
-    $scope = {
-      Tabs: {}
-    };
-    
+  it("should query for the recipients", inject(function($controller, TypesDestinatairesStatiques, $rootScope) {
+
     recipients = [];
+    spyOn(TypesDestinatairesStatiques, 'query').andReturn(recipients);
 
-    recipientSvc = {
-      query: jasmine.createSpy('recipient query').andReturn(recipients)
-    };
+    $controller('RecipientListController', { $scope: $rootScope });
   
-    $controller('RecipientListController', { $scope: $scope, TypesDestinatairesStatiques: recipientSvc });
-  
+    expect(TypesDestinatairesStatiques.query).toHaveBeenCalled();
+    expect($rootScope.lesQui).toBe(recipients);
   }));
-  
-
-  it("should set up the tabs", function() {
-
-    expect($scope.Tabs).toEqual({
-      showTabs: true,
-      tabNumber: 2
-    });
-
-  });
-
-  it("should query for the recipients", function() {
-    expect(recipientSvc.query).toHaveBeenCalled();
-    expect($scope.lesQui).toBe(recipients);
-  });
 
 });

@@ -35,10 +35,6 @@ cherryApp.controller('CherryControler', ['$scope', '$cookies','NormalTextFilters
     //console.log($cookies.uid);
 
 
-         $scope.Tabs = {};
-    $scope.Tabs.tabNumber = 0;
-        $scope.Tabs.showTabs = true;
-
     $scope.Modal = {};
     $scope.Modal.modalIsOpened = false;
 
