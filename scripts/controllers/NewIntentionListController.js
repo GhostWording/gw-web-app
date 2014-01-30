@@ -38,7 +38,7 @@ cherryApp.controller('NewIntentionListController',
          break;
     }
 
-   $scope.Tabs.tabNumber = SelectedArea.getTabNumberForArea($scope.areaName);
+   //$scope.Tabs.tabNumber = SelectedArea.getTabNumberForArea($scope.areaName);
 
 
   // Read intentions from server

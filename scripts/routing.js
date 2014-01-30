@@ -4,14 +4,12 @@ cherryApp.config(['$routeProvider', function ($routeProvider) { $routeProvider
     .when('/area/:areaName/intention', {
         templateUrl: 'views/intentionList.html',
         controller: 'NewIntentionListController',
-        showTabs: true,
-        tabName: 'quotidien'
+        showTabs: true
     })
     .when('/area/:areaId/intention/:intentionId/text', {
         templateUrl: 'views/textList.html',
         controller: 'TextListController',
-        showTabs: true,
-        tabName: 'quotidien'
+        showTabs: true
     })
 
     // New : use longer url tracing intentionId for single text
