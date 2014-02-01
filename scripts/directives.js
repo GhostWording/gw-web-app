@@ -13,12 +13,14 @@ cherryApp.directive('historyback', function () {
 
 cherryApp.directive('actionLocation', function() {
 	return {
-		controller: function($scope, $attrs, PostActionSvc) {
-			this.postAction = function(targetType, targetId, actionType, targetParameters) {
+//		controller: function($scope, $attrs, PostActionSvc) {
+        controller:['$attrs','PostActionSvc', function($attrs, PostActionSvc) {
+
+                this.postAction = function(targetType, targetId, actionType, targetParameters) {
 				// Post the given action using the action extracted from this directive
 				PostActionSvc.postActionInfo(targetType, targetId, $attrs.actionLocation, actionType, targetParameters);
 			};
-		}
+		}]
 	};
 });
 
