@@ -27,7 +27,6 @@ function ($scope, $filter, $routeParams,$location,  TextFilters,SendText,Selecte
         $location.url('/');
         return;
     }
-
     // Initialize list of texts to be displayed
     $scope.TextListPanel = {};
     $scope.TextListPanel.lesTextes = [];
@@ -38,9 +37,6 @@ function ($scope, $filter, $routeParams,$location,  TextFilters,SendText,Selecte
     SelectedIntention.setSelectedIntentionId($scope.intentionId);
     SelectedArea.setSelectedAreaName($scope.areaId);
 
-    // HMM - I think that SelectedArea should be stored in $routeParams
-    //$scope.Tabs.tabNumber = SelectedArea.getTabNumberForArea($scope.areaId);
-
     var intention = SelectedIntention.getSelectedIntention();
     if (intention !== undefined)
         $scope.TextListPanel.intentionLabel = intention.Label;
@@ -48,7 +44,6 @@ function ($scope, $filter, $routeParams,$location,  TextFilters,SendText,Selecte
     //Previously moved after text loadeding query : not necessary, bug found
     if (intention === undefined)
         ReadAndDisplayIntention($scope.intentionId);
-
     // Initialize display
     doBeforeReadingTexts();
 
@@ -77,12 +72,6 @@ function ($scope, $filter, $routeParams,$location,  TextFilters,SendText,Selecte
 
     function filterAndReorder(TheTexts, TextFilters) {
       // Exclude texts not matching tags and properties
-//      var texts = TheTexts.filterCurrentTextList(TextFilters);
-//      // Randomize order except for top texts
-//      texts = HelperSvc.shuffleTextIfSortOrderNotLessThan(texts, TheTexts.getMinSortOrderToGetShuffled());
-//      // Reorder using favorite tags
-//      TheTexts.reorderUsingPreferedFilters(texts, TextFilters);
-      // Display
       $scope.TextListPanel.lesTextes = TheTexts.filterAndReorder(TextFilters);
       return $scope.TextListPanel.lesTextes;
     }
@@ -108,22 +97,13 @@ function ($scope, $filter, $routeParams,$location,  TextFilters,SendText,Selecte
       // Show a progress bar trying to grow
       $scope.TextListPanel.showProgressBar = true;
       $scope.TextListPanel.progressBarWidth = 60;
-      // Dont show the number of texts yet
-      // $scope.TextListPanel.showNbTexts = false; // 22 nov 2013 : moved progress bar, show nb text always
     }
     // What do we do after the first few texts have been preloaded
     function doIfFirstTextsRead(data) {
       // Show some progress on the progress bar
       $scope.TextListPanel.progressBarWidth = 70;
-
-//          25 septembre : commented 3 line so that displayed info look more stable
-//          $scope.TextListPanel.showNbTexts = true;
-//          $scope.TextListPanel.labelNbTexts = "...";
-//          $scope.TextListPanel.showProgressBar = false;
-
       // Populate list of texts.
       $scope.TextListPanel.lesTextes = TextFilterHelperSvc.filterOnBasicFilters(data,TextFilters );
-
       // Fetch complete list from the server
       TheTexts.queryTexts($scope.intentionId, $scope.areaId,  doIfAllTextsRead,doIfErrorReadingTexts, true);
     }
@@ -138,11 +118,6 @@ function ($scope, $filter, $routeParams,$location,  TextFilters,SendText,Selecte
 
       var txtList = TextFilterHelperSvc.filterOnBasicFilters(data,TextFilters );
       $scope.TextListPanel.lesTextes = txtList;
-
-//      if (intention === undefined ) {
-//        $scope.TextListPanel.intentionLabel = "...";
-//        ReadAndDisplayIntention($scope.intentionId);
-//      }
     }
 
     function doIfErrorReadingTexts  ()  {
@@ -154,60 +129,29 @@ function ($scope, $filter, $routeParams,$location,  TextFilters,SendText,Selecte
     }
 
     $scope.allowModalToPopNextTime = true;
-
     $scope.selectAndPopUp = function(txt,action) {
       $scope.allowModalToPopNextTime = true;
       $('#modalEnvoiTexte').modal('show');
-
-//            $('#myModal').modal();
-//            {   keyboard: false   }
-
       $scope.selectThisText(txt,action);
       return false; // true
     };
 
-//        $('#testId').popover({content:"hello"});
-
-//        $('#testId').popover('show');
-    $('#testId').tooltip('show');
-
-
-
     $scope.selectThisText = function (txt,action) {
-//            var id = txt.Id;
       var id = txt.TextId;
 
       SendText.setSelectedTextLabel(txt.Content);
       SendText.setSelectedTextObject(txt);
       $scope.currentText.txt = SendText.getSelectedTextLabel();
-//          $('#currentText').focus();
-//          $('#currentText').select();
 
-      var act = 'view';
-//            // This hack is trigered when the doNothing is called first, it will prevent the pop up to pop when the inner edit icon is clicked
-//            if ( $scope.allowModalToPopNextTime == false  ) {
-//                $scope.allowModalToPopNextTime = true;
-//                //act = 'edit'; // we could a different verw when the detailed view is called
-//            }
-//            else {
-//                $scope.Modal.modalIsOpened = true;
-//                $('#modalEnvoiTexte').modal('show');
-//            }
-      PostActionSvc.postActionForText($scope.intentionId,id,action); // Old
-
-//            var actionToSend = action == 'send' ? action : 'click';
-      var actionToSend = action == 'send' ? action : 'open';
-
-//      $scope.PostBox.postActionInfo('Text',id ,'TextList', actionToSend);
+      PostActionSvc.postActionInfo.postActionForText($scope.intentionId,id,'view'); // Old
     };
 
     $scope.getSelectedTextId = function(txt,id) {
-      var retval = SendText.getTextId();
-      return retval;
+      return SendText.getTextId();
     };
 
+    // Hack : Because doNothing is called before selectThisText, we can prevent popup from showing
     $scope.doNothing = function () {
-      // Hack : Because doNothing is called before selectThisText, we can prevent popup from showing
       $scope.allowModalToPopNextTime = false;
       return false;
     };
@@ -218,57 +162,57 @@ function ($scope, $filter, $routeParams,$location,  TextFilters,SendText,Selecte
 
     // Only show texts when filters are fully set up
     $scope.hideTexts = function () {
-//            return !TextFilters.getHideRecipientGender() && !TextFilters.getHideCloseness() && !TextFilters.getHideTuOuVous() ;
       var recipientDefined = TextFilters.getHideRecipientGender();
-      var closenessDefined = TextFilters.getHideCloseness();
       var tuOuVousDefined = TextFilters.getHideTuOuVous();
-//            return  !(recipientDefined && closenessDefined && tuOuVousDefined) ;
+//      var closenessDefined = TextFilters.getHideCloseness();
       return  !(recipientDefined && tuOuVousDefined) ;
     };
 
-
-    function doIfIntentionRead(data) {
-      $scope.TextListPanel.intentionLabel = data.Label;
-      SelectedIntention.setSelectedIntention(data);
-    }
     function ReadAndDisplayIntention(id) {
+        function doIfIntentionRead(data) {
+            $scope.TextListPanel.intentionLabel = data.Label;
+            SelectedIntention.setSelectedIntention(data);
+        }
       SingleIntentionQuerySvc.query(id,$scope.areaId,doIfIntentionRead);
     }
-    // For texts of the formalities area, only display the titles of the texts
-    $scope.displayTitle = function () {
-      return $scope.areaId == 'A4FAEF70-5A7D-4ECF-A2E6-C19375991E1A';
-    };
 
-    // Should we display the text or an abstract
-    $scope.whatToDisplay = function(txt) {
-      // For formalities, display abstracts instead of full texts
-      if ( $scope.areaId == 'A4FAEF70-5A7D-4ECF-A2E6-C19375991E1A' )
-        return HelperSvc.TxtDisplayModeEnum.Abstract;
-      else
-        return $scope.shouldDisplayAsCitation(txt);
-    };
-
-    // Is it a quote ?
-    $scope.shouldDisplayAsCitation = function(txt) {
-      return HelperSvc.shouldDisplayAsCitation(txt);
+    // We may want to display the title, the text, or the text as a quote
+    $scope.whatToDisplay = function (txt) {
+        if (SelectedArea.wantsToDisplayTextTitles())
+            return HelperSvc.TxtDisplayModeEnum.Abstract;
+        else
+            return HelperSvc.shouldDisplayAsCitation(txt);
     };
 
     // Only display filters for texts of the standard intention area
     $scope.displayTextFilters = function () {
-//          return areaId == 'D4A6129A-E51E-4B4E-9BAE-66ABC2FDD7AF';
-      return $scope.areaId !=  'A4FAEF70-5A7D-4ECF-A2E6-C19375991E1A';
-    };
-    $scope.displayTextCount = function () {
-//            return $scope.displayTextFilters();
-      return $scope.TextListPanel.showNbTexts;
+        return SelectedArea.wantsToDisplayTextFilters();
     };
 
     $scope.choseFiltersToDisplay = function() {
-      console.log('choseFiltersToDisplay');
-//      TheTexts.setContextFiltersVisibility();
         FilterVisibilityHelperSvc.setContextFiltersVisibility(TheTexts.getAllTexts());
       $('#modalFiltres').modal('show');
     };
 
   }
 ]);
+
+// OLD CODE
+//    $('#myModal').modal(); {   keyboard: false   }
+//    $('#testId').popover({content:"hello"});
+//    $('#testId').popover('show');
+//    $('#testId').tooltip('show');
+
+//    // This hack is trigered when the doNothing is called first, it will prevent the pop up to pop when the inner edit icon is clicked
+//    if ( $scope.allowModalToPopNextTime == false  ) {
+//        $scope.allowModalToPopNextTime = true;
+//        //act = 'edit'; // we could a different verw when the detailed view is called
+//    }
+//    else {
+//        $scope.Modal.modalIsOpened = true;
+//        $('#modalEnvoiTexte').modal('show');
+//    }
+
+// When selecting current text
+//          $('#currentText').focus();
+//          $('#currentText').select();
