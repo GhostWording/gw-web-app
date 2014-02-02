@@ -46,7 +46,8 @@ cherryApp.config(['$routeProvider', function ($routeProvider) { $routeProvider
         controller: 'UserProfileController'
     })
     
-    .when('/splashscreen', {
+//    .when('/splashscreen', {
+    .when('/', {
         templateUrl: 'views/splashscreen.html',
         controller: 'SplashScreenController'
     })
@@ -63,7 +64,8 @@ cherryApp.config(['$routeProvider', function ($routeProvider) { $routeProvider
     })
 
     .otherwise({
-        redirectTo: '/splashscreen'
+//        redirectTo: '/splashscreen'
+        redirectTo: '/'
     });
 }]);
 
