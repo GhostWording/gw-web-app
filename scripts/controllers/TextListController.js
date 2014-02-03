@@ -33,7 +33,6 @@ function ($scope, $filter, $routeParams,$location,  TextFilters,SendText,Selecte
     $scope.TextListPanel.showNbTexts = false; // 23 nov
 
     // Read area and intention id from url
-    console.log('TextListController for intention ' + $scope.intentionId);
     SelectedIntention.setSelectedIntentionId($scope.intentionId);
     SelectedArea.setSelectedAreaName($scope.areaId);
 

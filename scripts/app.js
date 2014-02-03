@@ -28,6 +28,7 @@ cherryApp.controller('CherryControler', ['$scope', '$cookies', 'NormalTextFilter
     function ($scope, $cookies, TextFilters, PostActionSvc, Tabs) {
         console.log(navigator.userAgent);
 
+        $scope.Tabs = Tabs;
         $scope.Modal = {};
         $scope.Modal.modalIsOpened = false;
 

@@ -8,11 +8,13 @@ cherryApp.factory('Tabs', ['$rootScope', function($rootScope) {
         }
     };
 
+
     $rootScope.$on('$routeChangeSuccess', function (evt, current, previous) {
         svc.showTabs = current.showTabs;
         //svc.currentTabName = SelectedArea.getSelectedAreaName(); // not set yet :-(
     });
 
+    // Each area will signal if it wants a tab
     $rootScope.$on('areaChange', function(evt, current) {
       svc.currentTabName = current;
     });

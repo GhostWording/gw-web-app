@@ -19,6 +19,15 @@ cherryApp.controller('NewIntentionListController',
 
     // Choose title according to areaId : TODO : move to localisation service
     switch($scope.areaName) {
+      case "Friends" :
+            $scope.pageTitle = "Dites-le aux amis";
+            break;
+      case "LoveLife" :
+            $scope.pageTitle = "Dites-lui !";
+            break;
+      case "Family" :
+            $scope.pageTitle = "Dites-leur !";
+            break;
       case "DayToDay" :
          $scope.pageTitle = "Vie quotidienne";
          break;

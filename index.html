@@ -57,6 +57,8 @@
 
         <meta name="description" content="Les mots sur le bout de la langue. L'inspiration au bout des doigts.">
 
+        <meta name="google-site-verification" content="Yancq9d1odgL9tS_cPdZuci56Rmh5J30ASqLN4Mk3Wk" />
+
         <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
         <!--[if lt IE 9]>
             <script src="./scripts/lib/html5shiv.js"></script>
@@ -101,19 +103,28 @@
  <div data-ng-controller="CherryControler" class="container">
 
     <!--TABS -->
-     <div class = "tabBar"  ng-show="Tabs.showTabs" action-location="Tabs">
-     <!--<div class = "tabBar"  ng-show="true" action-location="Tabs">-->
-         <!--<ul id="myTab" class="nav nav-tabs "> -->
+     <div class="tabBar" ng-show="Tabs.showTabs" action-location="Tabs">
+
          <ul id="myTab" class="nav nav-pills ">
-         <li ng-class ="{active: Tabs.currentTabName == 'DayToDay'}">
-                 <a href="area/DayToDay/intention" > Quotidien </a></li>
-             <li ng-class ="{active: Tabs.currentTabName == 'Sentimental'}">
-                 <!--<a href="area/Sentimental/intention" ng-click="Tabs.currentTabName='Sentimental'" > Sentimental </a></li>-->
-                 <a href="area/Sentimental/intention" > Sentimental </a></li>
-             <li ng-class ="{active: Tabs.currentTabName == 'Important'}">
-                 <a href="area/Important/intention" > Spécial</a></li>
+             <li ng-class="{active: Tabs.currentTabName == 'Friends'}">
+                 <a href="area/Friends/intention"> Amis </a></li>
+             <li ng-class="{active: Tabs.currentTabName == 'LoveLife'}">
+                 <a href="area/LoveLife/intention"> Amours </a></li>
+             <li ng-class="{active: Tabs.currentTabName == 'Family'}">
+                 <a href="area/Family/intention"> Famille </a></li>
          </ul>
-     </div> <!-- TABS -->
+
+         <!--<ul id="myTab" class="nav nav-pills ">-->
+             <!--<li ng-class="{active: Tabs.currentTabName == 'DayToDay'}">-->
+                 <!--<a href="area/DayToDay/intention"> Quotidien </a></li>-->
+             <!--<li ng-class="{active: Tabs.currentTabName == 'Sentimental'}">-->
+                 <!--&lt;!&ndash;<a href="area/Sentimental/intention" ng-click="Tabs.currentTabName='Sentimental'" > Sentimental </a></li>&ndash;&gt;-->
+                 <!--<a href="area/Sentimental/intention"> Sentimental </a></li>-->
+             <!--<li ng-class="{active: Tabs.currentTabName == 'Important'}">-->
+                 <!--<a href="area/Important/intention"> Spécial</a></li>-->
+         <!--</ul>-->
+     </div>
+     <!-- TABS -->
 
      <div class = "tabBarReplacement" ng-show="!Tabs.showTabs">
      </div>
