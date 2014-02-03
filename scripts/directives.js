@@ -34,6 +34,7 @@ cherryApp.directive('a', function() {
 				element.on('click', function(ev) {
 					// If not provided explicitly by attributes on the <a> we guess the params from the href:
 					// :targetType/:targetId/:targetParameters...
+
                     if (attrs.href == undefined ) {
                         //console.log('postAction not called when href if undefined');
                         return;
@@ -43,7 +44,7 @@ cherryApp.directive('a', function() {
                     var targetId;
                     // With short urls such as area/Sentimental, target type and id can be guessed
                     var pathLength = pathParts.length;
-                    if ( pathLength == 1 ) {
+                    if ( pathLength == 1 && pathParts[0].length < 30 ) {
                         targetId =  pathParts[0];
                     } else
                     if ( pathLength > 1 && pathLength <= 3) {
@@ -75,12 +76,13 @@ cherryApp.directive('button', function() {
 				element.on('click', function(ev) {
 					// If not provided explicitly by attributes on the <a> we guess the params from the href:
 					// :targetType/:targetId/:targetParameters...
-					var actionParts = /([^.]+)\.([^(]+)\(([^)]*)\)/.exec(attrs.ngClick);
-					var targetType = attrs.targetType || "Navigation";
-					var targetId = attrs.targetId || actionParts[2];
-					var actionType = attrs.actionType || 'click';
-//					var targetParameters = attrs.targetParameters || actionParts[3];
-                    var targetParameters = attrs.targetparameters || actionParts[3];
+					//var actionParts = /([^.]+)\.([^(]+)\(([^)]*)\)/.exec(attrs.ngClick);
+
+					var targetType = attrs.targettype || "Navigation";
+					var targetId = attrs.targetid;// || actionParts[2];
+					var actionType = attrs.actiontype || 'click';
+//                    var targetParameters = attrs.targetparameters || actionParts[3]; // won't work most of the time and might be null
+                    var targetParameters = attrs.targetparameters;
 
 					actionLocation.postAction(targetType, targetId, actionType, targetParameters);
 				});

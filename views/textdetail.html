@@ -30,8 +30,8 @@
 
             </li>
         <span class="pull-right">
-            <button class="btn " ng-click="edit()" ng-hide ="editText">Editer</button>
-            <button class="btn btn-primary " ng-click="send()">Envoyer</button>
+            <button class="btn"             targetId = "{{ Id }}" targetType="Text" actionType="edit"   ng-click="edit()" ng-hide ="editText">Editer</button>
+            <button class="btn btn-primary" targetId = "{{ Id }}" targetType="Text" actionType="send"   ng-click="send()">Envoyer</button>
         </span>
         </ul>
     </div>

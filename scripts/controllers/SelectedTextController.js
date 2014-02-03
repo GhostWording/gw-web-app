@@ -1,61 +1,49 @@
 // Displays a text and allows to send it
-cherryApp.controller('SelectedTextController', ['$scope', '$filter','SelectedText','SelectedIntention','HelperService', 'PostActionSvc',function ($scope, $filter,SelectedText,SelectedIntention,HelperService, PostActionSvc) {
-
+cherryApp.controller('SelectedTextController', ['$scope', '$filter','SelectedText','SelectedIntention','HelperService', 'PostActionSvc',
+function ($scope, $filter,SelectedText,SelectedIntention,HelperService, PostActionSvc) {
     $scope.PostBox = PostActionSvc;
 
-
     $scope.initializeModal = function () {
-    console.log('initializeModal');
-    $scope.Modal.modalIsOpened = true;
-  };
-
-  $scope.fermer = function () {
-    $scope.Modal.modalIsOpened = false;
-        $scope.PostBox.postActionInfo('Command','Close' ,'SendText');
-  };
-
-  // Because this controller may initialize just once, I watch SelectedText.getSelectedTextLabel() to update scope variable
-  // There may be a better solution
-  $scope.callMeForCurrentTxt = SelectedText.getSelectedTextLabel;
-  var writeChange = function (){
-    $scope.textToSend  = SelectedText.getSelectedTextLabel(); // may look in the cache or call the server
-    //console.log('textToSend ' +$scope.textToSend);
-  };
-  $scope.$watch('callMeForCurrentTxt()',writeChange,true);
-
-
-  // TODO : not good, we want the edited text, not the original one
-  $scope.urlMailTo = function () {
-    return HelperService.urlMailTo($scope.textToSend, SelectedIntention.getSelectedIntentionLabel());
-  };
-
-  $scope.sms = function () {
-    window.open(HelperService.urlSMSTo($scope.textToSend), '_blank');
-        var textId = SelectedText.getTextId();
-
-        $scope.PostBox.postActionInfo('Command',textId ,'SendText','sendSMS');
+        console.log('initializeModal');
+        $scope.Modal.modalIsOpened = true;
     };
 
-  $scope.texteCourantCanTweet = HelperService.canTweet ($scope.textToSend);
-  $scope.tweet = function () {
-    window.open(HelperService.urlTweetTo($scope.textToSend), '_blank');
+    $scope.fermer = function () {
+        $scope.Modal.modalIsOpened = false;
+    };
 
+    // Because this controller may initialize just once, we watch SelectedText.getSelectedTextLabel() to update scope variable
+    // There may be a better solution
+    $scope.callMeForCurrentTxt = SelectedText.getSelectedTextLabel;
+    var writeChange = function () {
+        $scope.textToSend = SelectedText.getSelectedTextLabel(); // may look in the cache or call the server
+    };
+    $scope.$watch('callMeForCurrentTxt()', writeChange, true);
+
+    // TODO : not good, we want the edited text, not the original one
+    $scope.urlMailTo = function () {
+        return HelperService.urlMailTo($scope.textToSend, SelectedIntention.getSelectedIntentionLabel());
+    };
+
+    $scope.sms = function () {
+        window.open(HelperService.urlSMSTo($scope.textToSend), '_blank');
+    };
+
+    $scope.texteCourantCanTweet = HelperService.canTweet($scope.textToSend);
+    $scope.tweet = function () {
+        window.open(HelperService.urlTweetTo($scope.textToSend), '_blank');
         var textId = SelectedText.getTextId();
+    };
 
-        $scope.PostBox.postActionInfo('Command',textId ,'SendText','sendTweet');
-  };
-
-   $scope.mail = function () {
-       var textId = SelectedText.getTextId();
-       $scope.PostBox.postActionInfo('Command',textId ,'SendText','sendMail');
-   };
+    $scope.mail = function () {
+        var id = SelectedText.getTextId();
+        $scope.PostBox.postActionInfo('Text',id, 'SendTextModal','sendMailBis');
+    };
 
     $scope.copy = function () {
-        var textId = SelectedText.getTextId();
-        $scope.PostBox.postActionInfo('Command',textId ,'SendText','sendCopy');
     };
 
-  $scope.isIPhone = function () {
+    $scope.isIPhone = function () {
     var retval = false;
     if (navigator.userAgent.indexOf('iPhone') != -1)
       retval = true;
@@ -68,7 +56,11 @@ cherryApp.controller('SelectedTextController', ['$scope', '$filter','SelectedTex
     SelectedText.setSelectedTextLabel(newTxt);
   };
 
-  $scope.ajouterFormuleApres = function (formule) {
+}]);
+
+// OLD CODE
+
+//$scope.ajouterFormuleApres = function (formule) {
 //    var txt = $scope.textToSend;
 //    /* var appliAvaitSignature =false;
 //     if ( txt.indexOf($scope.signatureAppli) > 0)
@@ -81,12 +73,7 @@ cherryApp.controller('SelectedTextController', ['$scope', '$filter','SelectedTex
 //     txt = $scope.ajouterSignatureAppli(txt);*/
 //
 //    $scope.textToSend = txt;
-  };
-
-
-}]);
-
-// OLD CODE
+//  };
 
 //  $scope.urlMailTo = function () {
 //    var t = SendText.addSignatureAppli(SendText.getSelectedTextLabel());

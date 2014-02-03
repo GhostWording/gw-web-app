@@ -17,6 +17,9 @@ cherryApp.factory('PostActionSvc', ['$http','AppUrlSvc','SelectedArea', function
         if ( actionLocation === undefined ) actionLocation = '';
         if ( targetParameter === undefined ) targetParameter = '';
 
+        if ( targetId === undefined )
+                targetId = 'undefined';
+
         var area = SelectedArea.getSelectedAreaName();
         if ( area === undefined )
             area = '';
@@ -36,11 +39,8 @@ cherryApp.factory('PostActionSvc', ['$http','AppUrlSvc','SelectedArea', function
                 console.log("!!!! objectType " + targetType + " unknown !!!!!!!!!!!");
                 break;
         }
-    // Todo : inject areaId, appId and device type
-//        console.log("actionType,objectType, objectLocation => objectTarget " + actionType + " , " + objectType + " : " +   objectLocation  + " => "  + objectTarget  );
+    // Todo : inject user info
         console.log("--- " + targetType + " : " +   actionLocation  + " => "  + targetId + "  :  " + actionType + ' for ' + area);
-
-        // + client datetime + target parameter
 
         var url = AppUrlSvc.urlUserEvent();
 

@@ -133,6 +133,7 @@ function ($scope, $filter, $routeParams,$location,  TextFilters,SendText,Selecte
       $scope.allowModalToPopNextTime = true;
       $('#modalEnvoiTexte').modal('show');
       $scope.selectThisText(txt,action);
+      PostActionSvc.postActionInfo("Text",txt.TextId,"TextList", "send" );
       return false; // true
     };
 
@@ -142,7 +143,7 @@ function ($scope, $filter, $routeParams,$location,  TextFilters,SendText,Selecte
       SendText.setSelectedTextLabel(txt.Content);
       SendText.setSelectedTextObject(txt);
       $scope.currentText.txt = SendText.getSelectedTextLabel();
-
+      $scope.currentText.id = id;
       PostActionSvc.postActionInfo.postActionForText($scope.intentionId,id,'view'); // Old
     };
 

@@ -79,6 +79,6 @@ describe("<button> (postAction) directive", function() {
 
     anchorElement.triggerHandler('click');
     
-    expect(PostActionSvc.postActionInfo).toHaveBeenCalledWith('Navigation', 'action', 'someLocation', 'click', 'data1,data2');
+    expect(PostActionSvc.postActionInfo).toHaveBeenCalledWith('Navigation', undefined, 'someLocation', 'click', undefined);
   }));
 });

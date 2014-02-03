@@ -24,13 +24,9 @@ cherryApp.controller('NavBarController',  ['$scope', 'PostActionSvc',
     }
 ]);
 
-
 cherryApp.controller('CherryControler', ['$scope', '$cookies', 'NormalTextFilters', 'PostActionSvc', 'Tabs',
     function ($scope, $cookies, TextFilters, PostActionSvc, Tabs) {
-        $scope.PostBox = PostActionSvc;
-
         console.log(navigator.userAgent);
-        $scope.Tabs = Tabs;
 
         $scope.Modal = {};
         $scope.Modal.modalIsOpened = false;
