@@ -82,16 +82,13 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <!--<a class="navbar-brand" href="#" ng-click = "PostBox.gulp('Navigation','SplashScreen','NavBar')">CommentVousDire</a>-->
         <a class="navbar-brand" href="#" TargetId="welcome">CommentVousDire</a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-            <!--<li class="active"><a href="userprofile"  ng-click = "PostBox.gulp('Navigation','ProfileScreen','NavBar')" >Votre profil</a></li>-->
             <li class="active"><a href="userprofile"  >Votre profil</a></li>
-            <!--<li class="active"><a href="about" ng-click = "PostBox.gulp('Navigation','AboutScreen','NavBar')">A propos</a></li>-->
             <li class="active"><a href="about" >A propos</a></li>
         </ul>
         <!--<ul class="nav navbar-nav navbar-right">-->
@@ -216,7 +213,7 @@
              <!-- advanced filters dialog footer -->
              <div class="modal-footer">
                  <span class="pull-left" ng-show="displayNbFilteredTexts()">{{ nbFilteredTexts() }} {{ nbTextLabel() }}</span>
-               <button class="btn btn-small btn-primary" data-dismiss="modal" ng-click = "PostBox.gulp('Command','Close','FilterDialog')"  >Fermer</button>
+               <button class="btn btn-small btn-primary" data-dismiss="modal" >Fermer</button>
              </div><!-- advanced filters dialog footer  -->
 
          </div>
@@ -398,9 +395,9 @@
 <script src="scripts/controllers/FilterDialogController.js"></script>
 <script src="scripts/controllers/ContextFiltersDialogController.js"></script>
 <script src="scripts/controllers/SimplePageController.js"></script>
+<script src="scripts/controllers/IntentionLabelController.js"></script>
 
 <script src="scripts/controllers/NavBarController.js"></script>
-
 
 <!--<fb:login-button show-faces="true" width="200" max-rows="1"></fb:login-button>-->
 

@@ -13,16 +13,16 @@
     </div>
 
      <!-- Selected intention  -->
-     <h4 id="testId" class = "intentionCourante">{{TextListPanel.intentionLabel }} </h4>
-
+    <div ng-controller="IntentionLabelController">
+     <!--<h4 id="testId" class = "intentionCourante">{{TextListPanel.intentionLabel }} </h4>-->
+        <h4 id="testId" class = "intentionCourante">{{intentionLabel }} </h4>
+    </div>
      <!-- BasicFilters  filtering buttons -->
      <div ng-controller="TextFiltersController" ng-show="displayTextFilters()">
 
          <!-- Breadcrumbs -->
          <ul class="breadcrumb"  ng-show = "showBreadcrumbs()">
-             <li><a href="#/userprofile" ng-click="PostBox.gulp('Navigation','UserProfile','TextList')" >
-                 Moi
-                  </a>
+             <li><a href="/userprofile"  >Moi </a>
                  &nbsp <img ng-src="./assets/arrow-right.png" class="breadcrumbpicto"> &nbsp
                  <a href="" ng-show="BasicFilters.getHideRecipientGender()" ng-click = "definirGenreDestinataire('I')">
                      <img id="breadcrumbCrossRecipientGender" ng-src="./assets/cross.png" class="breadcrumbpicto" >

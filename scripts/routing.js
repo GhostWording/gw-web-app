@@ -1,5 +1,3 @@
-
-
 cherryApp.config(['$routeProvider', function ($routeProvider) { $routeProvider
     .when('/area/:areaName/intention', {
         templateUrl: 'views/intentionList.html',

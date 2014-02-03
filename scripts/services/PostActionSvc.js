@@ -58,17 +58,16 @@ cherryApp.factory('PostActionSvc', ['$http','AppUrlSvc','SelectedArea', function
     };
 
     // Old
-//    o.postActionForText = function(intentionId,textId,action) {
-     o.postActionInfo.postActionForText = function(intentionId,textId,action) {
-        var urlPostViewAction = AppUrlSvc.getApiIntentionAndTextRoot(intentionId,textId) + action;
-        $http.post(urlPostViewAction)
-            .success(function (data, status) {
-                console.log(urlPostViewAction + " " + status + "*");
-            })
-            .error(function (data, status) {
-                console.log(urlPostViewAction + " " + status + "*");
-            });
-    };
+//    o.postActionInfo.postActionForText = function (intentionId, textId, action) {
+//        var urlPostViewAction = AppUrlSvc.getApiIntentionAndTextRoot(intentionId, textId) + action;
+//        $http.post(urlPostViewAction)
+//            .success(function (data, status) {
+//                console.log(urlPostViewAction + " " + status + "*");
+//            })
+//            .error(function (data, status) {
+//                console.log(urlPostViewAction + " " + status + "*");
+//            });
+//    };
 
 
     return o;

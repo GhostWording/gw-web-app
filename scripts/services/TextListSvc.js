@@ -58,6 +58,7 @@ cherryApp.factory('TheTexts', ["$http","$filter","AppUrlSvc","HelperService","Te
             return;
         }
 
+        o.resetTexts();
         var url = AppUrlSvc.urlTextsForIntention(intentionId, areaId);
         console.log(url);
         $http({

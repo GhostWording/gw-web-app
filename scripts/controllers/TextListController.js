@@ -1,15 +1,15 @@
 // Displays a list of texts
 cherryApp.controller('TextListController',
- ['$scope', '$filter','$routeParams','$location', 'NormalTextFilters', 'SelectedText', 'SelectedIntention', 'TheTexts', 'AppUrlSvc', 'HelperService','SingleIntentionQuerySvc','PostActionSvc','SelectedArea','TextFilterHelperSvc','FilterVisibilityHelperSvc',
-function ($scope, $filter, $routeParams,$location,  TextFilters,SendText,SelectedIntention, TheTexts, AppUrlSvc, HelperSvc,SingleIntentionQuerySvc,PostActionSvc,SelectedArea,TextFilterHelperSvc,FilterVisibilityHelperSvc) {
-    $scope.PostBox = PostActionSvc;
+ ['$scope', '$filter','$routeParams','$location', 'NormalTextFilters', 'SelectedText', 'SelectedIntention', 'TheTexts', 'AppUrlSvc', 'HelperService','PostActionSvc','SelectedArea','TextFilterHelperSvc','FilterVisibilityHelperSvc',
+function ($scope, $filter, $routeParams,$location,  TextFilters,SendText,SelectedIntention, TheTexts, AppUrlSvc, HelperSvc,PostActionSvc,SelectedArea,TextFilterHelperSvc,FilterVisibilityHelperSvc) {
 
+    // Read area and intention id from url
     $scope.areaId = $routeParams.areaId;
     $scope.intentionId = $routeParams.intentionId;
 
+    // All this should go in a routing module
     // if only one parameter, it's a slug shortcut that implies both area and intention
     var intentionSlug = $routeParams.intentionSlug;
-    var badRoute = false;
     if (intentionSlug !== undefined) {
         switch (intentionSlug) {
             case 'BonneAnnee':
@@ -18,44 +18,46 @@ function ($scope, $filter, $routeParams,$location,  TextFilters,SendText,Selecte
                 break;
             default:
                 console.log('Unknown intentionSlug ' + intentionSlug);
-                badRoute = true;
+                $location.url('/');
+                return;
                 break;
         }
     }
-    // Change to root if shortcup slug unknown
-    if ( badRoute ) {
-        $location.url('/');
-        return;
-    }
+    // Set current area and intention
+    SelectedArea.setSelectedAreaName($scope.areaId);
+    SelectedIntention.setSelectedIntentionId($scope.intentionId);
+
     // Initialize list of texts to be displayed
     $scope.TextListPanel = {};
     $scope.TextListPanel.lesTextes = [];
     $scope.TextListPanel.showNbTexts = false; // 23 nov
 
-    // Read area and intention id from url
-    SelectedIntention.setSelectedIntentionId($scope.intentionId);
-    SelectedArea.setSelectedAreaName($scope.areaId);
+    // Show a progress bar trying to grow
+    $scope.TextListPanel.showProgressBar = true;
+    $scope.TextListPanel.progressBarWidth = 60;
 
-    var intention = SelectedIntention.getSelectedIntention();
-    if (intention !== undefined)
-        $scope.TextListPanel.intentionLabel = intention.Label;
+    // Query texts
+    TheTexts.queryTexts($scope.intentionId, $scope.areaId, doIfAllTextsRead, doIfErrorReadingTexts, true);
 
-    //Previously moved after text loadeding query : not necessary, bug found
-    if (intention === undefined)
-        ReadAndDisplayIntention($scope.intentionId);
-    // Initialize display
-    doBeforeReadingTexts();
+    function doIfAllTextsRead(data) {
+        // Briefly show a full progress bar then hide ti
+        $scope.TextListPanel.progressBarWidth = 100;
+        $scope.TextListPanel.showNbTexts = true;
+        $scope.TextListPanel.labelNbTexts = "façons de dire";
+        $scope.TextListPanel.showProgressBar = false;
 
-    // Unless the texts are already cached, read the first few texts from the server to display something quickly
-    if (!TheTexts.textsAlreadyCachedForIntention($scope.intentionId)) {
-        TheTexts.resetTexts();
-        // If there are many texts, we could load the 7 first texts so the user sees something quickly, complete list query could then be lanched from doIfFirstTextsRead
-//      TheTexts.queryTexts(intentionId, $scope.areaId,  doIfFirstTextsRead,doIfErrorReadingTexts, false, 7);
-        TheTexts.queryTexts($scope.intentionId, $scope.areaId, doIfAllTextsRead, doIfErrorReadingTexts, true);
+        var txtList = TextFilterHelperSvc.filterOnBasicFilters(data,TextFilters );
+        $scope.TextListPanel.lesTextes = txtList;
     }
-    // if texts are cached they won't be fetched from the server
-    else
-        TheTexts.queryTexts($scope.intentionId, $scope.areaId, doIfAllTextsRead, doIfErrorReadingTexts, true);
+
+    function doIfErrorReadingTexts  ()  {
+        // switch message to failure
+        $scope.TextListPanel.labelNbTexts = "Aucun texte pour dire";
+        // hide other controls
+        $scope.TextListPanel.showNbTexts = true;
+        $scope.TextListPanel.progressBarWidth = 100;
+    }
+
 
     // Change filtered text list (and TextCount) each time TextFilters change
     $scope.filters = TextFilters.filterValuesToWatch;
@@ -69,8 +71,8 @@ function ($scope, $filter, $routeParams,$location,  TextFilters,SendText,Selecte
     };
     $scope.$watch('filters()',writeChange,true);
 
+    // Exclude texts not matching tags and properties
     function filterAndReorder(TheTexts, TextFilters) {
-      // Exclude texts not matching tags and properties
       $scope.TextListPanel.lesTextes = TheTexts.filterAndReorder(TextFilters);
       return $scope.TextListPanel.lesTextes;
     }
@@ -91,42 +93,6 @@ function ($scope, $filter, $routeParams,$location,  TextFilters,SendText,Selecte
     //$scope.$watch('preferedTags()',reorderTexts,true);
     $scope.$watch(TextFilters.preferedValuesToWatch,reorderTexts,true);
 
-    // Initialize display while we fetch the texts
-    function doBeforeReadingTexts ()  {
-      // Show a progress bar trying to grow
-      $scope.TextListPanel.showProgressBar = true;
-      $scope.TextListPanel.progressBarWidth = 60;
-    }
-    // What do we do after the first few texts have been preloaded
-    function doIfFirstTextsRead(data) {
-      // Show some progress on the progress bar
-      $scope.TextListPanel.progressBarWidth = 70;
-      // Populate list of texts.
-      $scope.TextListPanel.lesTextes = TextFilterHelperSvc.filterOnBasicFilters(data,TextFilters );
-      // Fetch complete list from the server
-      TheTexts.queryTexts($scope.intentionId, $scope.areaId,  doIfAllTextsRead,doIfErrorReadingTexts, true);
-    }
-
-    // Whate do we do when complete text list is read
-    function doIfAllTextsRead(data) {
-      // Briefly show a full progress bar then hide ti
-      $scope.TextListPanel.progressBarWidth = 100;
-      $scope.TextListPanel.showNbTexts = true;
-      $scope.TextListPanel.labelNbTexts = "façons de dire";
-      $scope.TextListPanel.showProgressBar = false;
-
-      var txtList = TextFilterHelperSvc.filterOnBasicFilters(data,TextFilters );
-      $scope.TextListPanel.lesTextes = txtList;
-    }
-
-    function doIfErrorReadingTexts  ()  {
-      // switch message to failure
-      $scope.TextListPanel.labelNbTexts = "Aucun texte pour dire";
-      // hide other controls
-      $scope.TextListPanel.showNbTexts = true;
-      $scope.TextListPanel.progressBarWidth = 100;
-    }
-
     $scope.allowModalToPopNextTime = true;
     $scope.selectAndPopUp = function(txt,action) {
       $scope.allowModalToPopNextTime = true;
@@ -136,45 +102,24 @@ function ($scope, $filter, $routeParams,$location,  TextFilters,SendText,Selecte
       return false; // true
     };
 
+    // Can be called directly from view or as a second part of selectAndPopUp
     $scope.selectThisText = function (txt,action) {
-      var id = txt.TextId;
-
       SendText.setSelectedTextLabel(txt.Content);
       SendText.setSelectedTextObject(txt);
       $scope.currentText.txt = SendText.getSelectedTextLabel();
-      $scope.currentText.id = id;
-      PostActionSvc.postActionInfo.postActionForText($scope.intentionId,id,'view'); // Old
+      $scope.currentText.id = txt.TextId;
     };
 
     $scope.getSelectedTextId = function(txt,id) {
       return SendText.getTextId();
     };
 
-    // Hack : Because doNothing is called before selectThisText, we can prevent popup from showing
-    $scope.doNothing = function () {
-      $scope.allowModalToPopNextTime = false;
-      return false;
-    };
-
-    $scope.calculateFilterContextTargets = function () {
-      TextFilters.setDialogIsDisplayed(true);
-    };
-
     // Only show texts when filters are fully set up
     $scope.hideTexts = function () {
       var recipientDefined = TextFilters.getHideRecipientGender();
       var tuOuVousDefined = TextFilters.getHideTuOuVous();
-//      var closenessDefined = TextFilters.getHideCloseness();
       return  !(recipientDefined && tuOuVousDefined) ;
     };
-
-    function ReadAndDisplayIntention(id) {
-        function doIfIntentionRead(data) {
-            $scope.TextListPanel.intentionLabel = data.Label;
-            SelectedIntention.setSelectedIntention(data);
-        }
-      SingleIntentionQuerySvc.query(id,$scope.areaId,doIfIntentionRead);
-    }
 
     // We may want to display the title, the text, or the text as a quote
     $scope.whatToDisplay = function (txt) {
@@ -184,11 +129,11 @@ function ($scope, $filter, $routeParams,$location,  TextFilters,SendText,Selecte
             return HelperSvc.shouldDisplayAsCitation(txt);
     };
 
-    // Only display filters for texts of the standard intention area
+    // In certain areas, filtering options will not be available tu users
     $scope.displayTextFilters = function () {
         return SelectedArea.wantsToDisplayTextFilters();
     };
-
+    // Filtering options only be offered to users if they are revelant for the text list
     $scope.choseFiltersToDisplay = function() {
         FilterVisibilityHelperSvc.setContextFiltersVisibility(TheTexts.getAllTexts());
       $('#modalFiltres').modal('show');
@@ -198,6 +143,35 @@ function ($scope, $filter, $routeParams,$location,  TextFilters,SendText,Selecte
 ]);
 
 // OLD CODE
+
+// Unless the texts are already cached, read the first few texts from the server to display something quickly
+//if (!TheTexts.textsAlreadyCachedForIntention($scope.intentionId)) {
+//    TheTexts.resetTexts();
+//    // If there are many texts, we could load the 7 first texts so the user sees something quickly, complete list query could then be lanched from doIfFirstTextsRead
+////      TheTexts.queryTexts(intentionId, $scope.areaId,  doIfFirstTextsRead,doIfErrorReadingTexts, false, 7);
+//    TheTexts.queryTexts($scope.intentionId, $scope.areaId, doIfAllTextsRead, doIfErrorReadingTexts, true);
+//}
+//else
+//    TheTexts.queryTexts($scope.intentionId, $scope.areaId, doIfAllTextsRead, doIfErrorReadingTexts, true);
+
+
+// Hack : When doNothing is called before selectThisText, we can prevent popup from showing
+//    $scope.doNothing = function () {
+//      $scope.allowModalToPopNextTime = false;
+//      return false;
+//    };
+
+
+// If we preload a few text, we want to load the rest after
+//function doIfFirstTextsRead(data) {
+//    // Show some progress on the progress bar
+//    $scope.TextListPanel.progressBarWidth = 70;
+//    // Populate list of texts.
+//    $scope.TextListPanel.lesTextes = TextFilterHelperSvc.filterOnBasicFilters(data,TextFilters );
+//    // Fetch complete list from the server
+//    TheTexts.queryTexts($scope.intentionId, $scope.areaId,  doIfAllTextsRead,doIfErrorReadingTexts, true);
+//}
+
 //    $('#myModal').modal(); {   keyboard: false   }
 //    $('#testId').popover({content:"hello"});
 //    $('#testId').popover('show');
