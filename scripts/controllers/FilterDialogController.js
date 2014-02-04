@@ -1,27 +1,11 @@
 // Asks user about filters to be applied to the next query
 cherryApp.controller('FilterDialogController', ['$scope', 'HelperService','NormalTextFilters','TheTexts','PostActionSvc','FilterVisibilityHelperSvc',
 	function ($scope, HelperService, TextFilters,TheTexts,PostActionSvc,FilterVisibilityHelperSvc) {
-        $scope.PostBox = PostActionSvc;
         $scope.BasicFilters = TextFilters;
 
         var initializeFilterModal = function () {
-//            console.log('initializeFilterModal');
 //            $scope.romantic = TextFilters.getSylesToExclude()['romantic'];
-//            $scope.effusive = TextFilters.getSylesToExclude()['effusive'];
-//            $scope.colloquial = TextFilters.getSylesToExclude()['colloquial'];
-//            $scope.racy = TextFilters.getSylesToExclude()['racy'];
-//            $scope.caustic = TextFilters.getSylesToExclude()['caustic'];
-//            $scope.humorous = TextFilters.getSylesToExclude()['humorous'];
-//            $scope.eccentric = TextFilters.getSylesToExclude()['eccentric'];
-//            $scope.simple = TextFilters.getSylesToExclude()['simple'];
-
 //            $scope.citationPrefered = TextFilters.setStyleToPrefer('humorous',false);
-//            $scope.citationPrefered = TextFilters.setStyleToPrefer('imaginative',false);
-//            $scope.citationPrefered = TextFilters.setStyleToPrefer('eccentric',false);
-//            $scope.citationPrefered = TextFilters.setStyleToPrefer('simple',false);
-//            $scope.citationPrefered = TextFilters.setStyleToPrefer('poetic',false);
-//            $scope.citationPrefered = TextFilters.setStyleToPrefer('citation',false);
-
 
             $scope.humorousPrefered = TextFilters.getStyleToPrefer('humorous');
             $scope.imaginativePrefered = TextFilters.getStyleToPrefer('imaginative');
@@ -29,13 +13,6 @@ cherryApp.controller('FilterDialogController', ['$scope', 'HelperService','Norma
             $scope.simplePrefered = TextFilters.getStyleToPrefer('simple');
             $scope.poeticPrefered = TextFilters.getStyleToPrefer('poetic');
             $scope.citationPrefered = TextFilters.getStyleToPrefer('citation');
-
-//            $scope.humorousPrefered = TextFilters.getSylesToPrefer()['humorous'];
-//            $scope.imaginativePrefered = TextFilters.getSylesToPrefer()['imaginative'];
-//            $scope.eccentricPrefered = TextFilters.getSylesToPrefer()['eccentric'];
-//            $scope.simplePrefered = TextFilters.getSylesToPrefer()['simple'];
-//            $scope.poeticPrefered = TextFilters.getSylesToPrefer()['poetic'];
-//            $scope.citationPrefered = TextFilters.getSylesToPrefer()['citation'];
         };
 
         var initializeContextFiltersModal = function () {
@@ -60,7 +37,9 @@ cherryApp.controller('FilterDialogController', ['$scope', 'HelperService','Norma
         $scope.TogglePreferedStyle = function(key,scopeVariable) {
             var newValue = ! $scope[scopeVariable];
             TextFilters.setStyleToPrefer(key,newValue);
-            $scope.PostBox.postActionInfo('Command',key + ' - ' + newValue ,'FilterDialog');
+            PostActionSvc.postActionInfo('Command',scopeVariable,'StyleDialog','click',newValue);
+//            PostActionSvc('Command',scopeVariable,'StyleDialog','click',newValue);
+
         };
 
         $scope.displayNbFilteredTexts = TheTexts.hasfilteredTexts;
@@ -78,9 +57,8 @@ cherryApp.controller('FilterDialogController', ['$scope', 'HelperService','Norma
 
         $scope.ToggleIncludeContext = function(key,scopeVariable) {
             var newValue = ! $scope.ContextFilters[scopeVariable];
-//            TextFilters.setContextToInclude(key,$scope.ContextFilters[scopeVariable]);
             TextFilters.setContextToInclude(key,newValue);
-            $scope.PostBox.postActionInfo('Command',key + ' - ' +  scopeVariable,'FilterDialog');
+            PostActionSvc.postActionInfo('Command',key,'StyleDialog','click',newValue);
 
         };
 

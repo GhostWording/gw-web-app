@@ -18,9 +18,8 @@ cherryApp.config(['$sceDelegateProvider', function ($sceDelegateProvider) {
 }]);
 
 
-cherryApp.controller('NavBarController',  ['$scope', 'PostActionSvc',
-    function ($scope, PostActionSvc) {
-        $scope.PostBox = PostActionSvc;
+cherryApp.controller('NavBarController',  ['$scope',
+    function ($scope) {
     }
 ]);
 
@@ -39,6 +38,7 @@ cherryApp.controller('CherryControler', ['$scope', '$cookies', 'NormalTextFilter
         $scope.currentText = {txt: ""};
 
         PostActionSvc.postActionInfo('Init', 'Init', 'App', 'Init');
+//        PostActionSvc('Init', 'Init', 'App', 'Init');
 
         //Activate Bootstrap popover option
         $('#popoverCopier').popover({

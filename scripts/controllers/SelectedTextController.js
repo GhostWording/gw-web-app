@@ -1,8 +1,6 @@
 // Displays a text and allows to send it
 cherryApp.controller('SelectedTextController', ['$scope', '$filter','SelectedText','SelectedIntention','HelperService', 'PostActionSvc',
 function ($scope, $filter,SelectedText,SelectedIntention,HelperService, PostActionSvc) {
-    $scope.PostBox = PostActionSvc;
-
     $scope.initializeModal = function () {
         console.log('initializeModal');
         $scope.Modal.modalIsOpened = true;
@@ -37,7 +35,9 @@ function ($scope, $filter,SelectedText,SelectedIntention,HelperService, PostActi
 
     $scope.mail = function () {
         var id = SelectedText.getTextId();
-        $scope.PostBox.postActionInfo('Text',id, 'SendTextModal','sendMailBis');
+        // Hack : Event will be posted twice to go around vanishing http request bug
+        PostActionSvc.postActionInfo('Text',id, 'SendTextModal','sendMailBis');
+//        PostActionSvc('Text',id, 'SendTextModal','sendMailBis');
     };
 
     $scope.copy = function () {

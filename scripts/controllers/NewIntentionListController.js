@@ -1,8 +1,6 @@
 cherryApp.controller('NewIntentionListController',
-  ['$scope', '$filter','$routeParams','FakeIntentions','Intentions','TheTexts', 'NormalTextFilters','SelectedIntention','HelperService' ,'PostActionSvc','SelectedArea',
-  function ($scope, $filter,$routeParams, FakeIntentions, theIntentions,TheTexts,TextFilters,SelectedIntention,HelperService,PostActionSvc,SelectedArea) {
-    $scope.PostBox = PostActionSvc;
-
+  ['$scope', '$filter','$routeParams','FakeIntentions','Intentions','TheTexts', 'NormalTextFilters','SelectedIntention','HelperService' ,'SelectedArea',
+  function ($scope, $filter,$routeParams, FakeIntentions, theIntentions,TheTexts,TextFilters,SelectedIntention,HelperService,SelectedArea) {
     TextFilters.initializeFiltersToUndefined(); // New instead of in TextListController to keep user filters when returning from detailed view
 
 
@@ -68,7 +66,6 @@ cherryApp.controller('NewIntentionListController',
   // Memorize selected intention, not completly usefull if intention car be reread from cache using intention id in url
   $scope.SelectIntention = function (intention) {
     SelectedIntention.setSelectedIntention(intention);
-    //$scope.PostBox.postActionInfo('Intention',intention.IntentionId,'IntentionList');
   };
 
 }]);

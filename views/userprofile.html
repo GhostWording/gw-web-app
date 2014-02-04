@@ -5,32 +5,32 @@
     <ul class="pager bmwQuestionButton" ng-show = "true">
         Vous êtes
         <li ng-class = '{selectionne: UserProfile.getUserGender()=="H"}'>
-            <a ng-click = "UserProfile.setUserGender('H')">Un homme</a></li>
+            <a  targetType="Command" targetId="SenderGender"   ng-click = 'UserProfile.setUserGender("H")'>Un homme</a></li>
         <li ng-class = '{selectionne: UserProfile.getUserGender()=="F"}'>
-            <a ng-click = "UserProfile.setUserGender('F')">Une femme</a></li>
+            <a  targetType="Command" targetId="SenderGender"  ng-click = "UserProfile.setUserGender('F')">Une femme</a></li>
     </ul>
     <ul class="pager bmwQuestionButton" ng-show = "true">
         Vous lisez
         <li ng-class = '{selectionne: UserProfile.getUserReadsALot()=="T"}'>
-            <a ng-click = "UserProfile.setUserReadsALot('T')">Beaucoup</a></li>
+            <a targetType="Command" targetId="UserReadsALot"  ng-click = "UserProfile.setUserReadsALot('T')">Beaucoup</a></li>
         <li ng-class = '{selectionne: UserProfile.getUserReadsALot()=="F"}'>
-            <a ng-click = "UserProfile.setUserReadsALot('F')">Modérément</a></li>
+            <a targetType="Command" targetId="UserReadsALot"  ng-click = "UserProfile.setUserReadsALot('F')">Modérément</a></li>
     </ul>
     <ul class="pager bmwQuestionButton" ng-show = "true">
             Age
         <li ng-class = '{selectionne: UserProfile.getUserAge()=="under25"}'>
-            <a ng-click = "UserProfile.setUserAge('under25')">- de 25</a></li>
+            <a targetType="Command" targetId="UserAge" ng-click = "UserProfile.setUserAge('under25')">- de 25</a></li>
         <li ng-class = '{selectionne: UserProfile.getUserAge()=="25to45"}'>
-            <a ng-click = "UserProfile.setUserAge('25to45')">25 à 45</a></li>
+            <a targetType="Command" targetId="UserAge" ng-click = "UserProfile.setUserAge('25to45')">25 à 45</a></li>
         <li ng-class = '{selectionne: UserProfile.getUserAge()=="over45"}'>
-            <a ng-click = "UserProfile.setUserAge('over45')">+ de 45</a></li>
+            <a targetType="Command" targetId="UserAge"  ng-click = "UserProfile.setUserAge('over45')">+ de 45</a></li>
     </ul>
     <ul class="pager bmwQuestionButton" ng-show = "true">
         Caractère
         <li ng-class = '{selectionne: UserProfile.getUserIsDemonstrative()=="T"}'>
-            <a ng-click = "UserProfile.setUserIsDemonstrative('T')">Démonstratif</a></li>
+            <a targetType="Command" targetId="UserIsDemonstrative" ng-click = "UserProfile.setUserIsDemonstrative('T')">Démonstratif</a></li>
         <li ng-class = '{selectionne: UserProfile.getUserIsDemonstrative()=="F"}'>
-            <a ng-click = "UserProfile.setUserIsDemonstrative('F')">Réservé</a></li>
+            <a targetType="Command" targetId="UserIsDemonstrative" ng-click = "UserProfile.setUserIsDemonstrative('F')">Réservé</a></li>
     </ul>
     <ul class="pager bmwQuestionButton" ng-show = 'true' >
         <li ng-class= '{selectionne: false}' >

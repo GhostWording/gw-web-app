@@ -50,14 +50,18 @@ cherryApp.factory('PostActionSvc', ['$http','AppUrlSvc','SelectedArea', function
             headers: {"Content-Type":"application/json"}
         })
             .success(function (data, status) {
-                console.log(status + "*");
+//                console.log(status + "*");
             })
             .error(function (data, status) {
                 console.log("-- bad request -- status " + status + " for "  + url);
             });
     };
 
-    // Old
+    // If we return o.postActionInfo it's hard to find the jasmin syntax for testing and difficult to search all uses of the function
+    return o;
+}]);
+
+// Old
 //    o.postActionInfo.postActionForText = function (intentionId, textId, action) {
 //        var urlPostViewAction = AppUrlSvc.getApiIntentionAndTextRoot(intentionId, textId) + action;
 //        $http.post(urlPostViewAction)
@@ -68,7 +72,3 @@ cherryApp.factory('PostActionSvc', ['$http','AppUrlSvc','SelectedArea', function
 //                console.log(urlPostViewAction + " " + status + "*");
 //            });
 //    };
-
-
-    return o;
-}]);

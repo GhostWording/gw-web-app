@@ -98,7 +98,8 @@ function ($scope, $filter, $routeParams,$location,  TextFilters,SendText,Selecte
       $scope.allowModalToPopNextTime = true;
       $('#modalEnvoiTexte').modal('show');
       $scope.selectThisText(txt,action);
-      PostActionSvc.postActionInfo("Text",txt.TextId,"TextList", "send" );
+      PostActionSvc.postActionInfo("Text",txt.TextId,"TextList", action );
+//        PostActionSvc("Text",txt.TextId,"TextList", action );
       return false; // true
     };
 
