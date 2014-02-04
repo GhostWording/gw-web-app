@@ -1,28 +1,12 @@
 // Displays a list of texts
 cherryApp.controller('TextListController',
- ['$scope', '$filter','$routeParams','$location', 'NormalTextFilters', 'SelectedText', 'SelectedIntention', 'TheTexts', 'AppUrlSvc', 'HelperService','PostActionSvc','SelectedArea','TextFilterHelperSvc','FilterVisibilityHelperSvc',
-function ($scope, $filter, $routeParams,$location,  TextFilters,SendText,SelectedIntention, TheTexts, AppUrlSvc, HelperSvc,PostActionSvc,SelectedArea,TextFilterHelperSvc,FilterVisibilityHelperSvc) {
+ ['$scope', '$filter','$routeParams','$location', 'NormalTextFilters', 'SelectedText', 'SelectedIntention', 'TheTexts', 'AppUrlSvc', 'HelperService','PostActionSvc','SelectedArea','TextFilterHelperSvc',
+function ($scope, $filter, $routeParams,$location,  TextFilters,SendText,SelectedIntention, TheTexts, AppUrlSvc, HelperSvc,PostActionSvc,SelectedArea,TextFilterHelperSvc) {
 
     // Read area and intention id from url
     $scope.areaId = $routeParams.areaId;
     $scope.intentionId = $routeParams.intentionId;
 
-    // All this should go in a routing module
-    // if only one parameter, it's a slug shortcut that implies both area and intention
-    var intentionSlug = $routeParams.intentionSlug;
-    if (intentionSlug !== undefined) {
-        switch (intentionSlug) {
-            case 'BonneAnnee':
-                $scope.areaId = 'Important';
-                $scope.intentionId = '938493';
-                break;
-            default:
-                console.log('Unknown intentionSlug ' + intentionSlug);
-                $location.url('/');
-                return;
-                break;
-        }
-    }
     // Set current area and intention
     SelectedArea.setSelectedAreaName($scope.areaId);
     SelectedIntention.setSelectedIntentionId($scope.intentionId);
@@ -31,8 +15,6 @@ function ($scope, $filter, $routeParams,$location,  TextFilters,SendText,Selecte
     $scope.TextListPanel = {};
     $scope.TextListPanel.lesTextes = [];
     $scope.TextListPanel.showNbTexts = false; // 23 nov
-
-    // Show a progress bar trying to grow
     $scope.TextListPanel.showProgressBar = true;
     $scope.TextListPanel.progressBarWidth = 60;
 
@@ -130,20 +112,28 @@ function ($scope, $filter, $routeParams,$location,  TextFilters,SendText,Selecte
             return HelperSvc.shouldDisplayAsCitation(txt);
     };
 
-    // In certain areas, filtering options will not be available tu users
-    $scope.displayTextFilters = function () {
-        return SelectedArea.wantsToDisplayTextFilters();
-    };
-    // Filtering options only be offered to users if they are revelant for the text list
-    $scope.choseFiltersToDisplay = function() {
-        FilterVisibilityHelperSvc.setContextFiltersVisibility(TheTexts.getAllTexts());
-      $('#modalFiltres').modal('show');
-    };
 
   }
 ]);
 
 // OLD CODE
+
+// All this should go in a routing module
+// if only one parameter, it's a slug shortcut that implies both area and intention
+//var intentionSlug = $routeParams.intentionSlug;
+//if (intentionSlug !== undefined) {
+//    switch (intentionSlug) {
+//        case 'BonneAnnee':
+//            $scope.areaId = 'Important';
+//            $scope.intentionId = '938493';
+//            break;
+//        default:
+//            console.log('Unknown intentionSlug ' + intentionSlug);
+//            $location.url('/');
+//            return;
+//            break;
+//    }
+//}
 
 // Unless the texts are already cached, read the first few texts from the server to display something quickly
 //if (!TheTexts.textsAlreadyCachedForIntention($scope.intentionId)) {

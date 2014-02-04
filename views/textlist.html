@@ -6,15 +6,13 @@
         <span ng-show="TextListPanel.showNbTexts" class="labelTextes">{{TextListPanel.labelNbTexts}}</span>
 
          <!-- Shows the advanced filters dialog box : disabled -->
-         <a href="#modalContextFilters" role="button" ng-show="false"
-            class="btn btn-primary btn-small pull-right filtreTextes" data-toggle="modal" >Contexte</a>
+         <!--<a href="#modalContextFilters" role="button" ng-show="false" class="btn btn-primary btn-small pull-right filtreTextes" data-toggle="modal" >Contexte</a>-->
          <!-- Back button -->
         <button historyback targetId="Back" class="btn  btn-small  pull-right retourIntentions" ng-click="Navigation.Back()" >&larr; </button><span> </span>
     </div>
 
      <!-- Selected intention  -->
     <div ng-controller="IntentionLabelController">
-     <!--<h4 id="testId" class = "intentionCourante">{{TextListPanel.intentionLabel }} </h4>-->
         <h4 id="testId" class = "intentionCourante">{{intentionLabel }} </h4>
     </div>
      <!-- BasicFilters  filtering buttons -->
@@ -75,18 +73,18 @@
             </div>
         </div>
 
-        <div action-location="StyleBar">
+        <div action-location="StyleBar" ng-controller="StyleBarController">
             <ul class="pager bmwQuestionButton " ng-show = 'true' >
                 <li >
                     <a historyback href="" class="pull-left" role="button"  targetId="Back" > <img ng-src="./assets/arrow-left.png" class="stylepicto"> </a>
                 </li>
 
                 <li class="nombreTextesB labelTextesB">
-                    <a href="" targetId="StyleDialog"  ng-click="choseFiltersToDisplay()"> {{TextListPanel.lesTextes.length}} &nbsp <img ng-src="./assets/e-mail64.png" class="stylepicto"> </a>
+                    <a href="" targetId="StyleDialog"  ng-click="choseStyleFiltersToDisplay()"> {{TextListPanel.lesTextes.length}} &nbsp <img ng-src="./assets/e-mail64.png" class="stylepicto"> </a>
                 </li>
 
                 <li ng-class= '{selectionne: AtLeastOneStyleToExclude() || AtLeastOneStyleToPrefer() }' class = "pull-right" >
-                    <a href="" targetId="StyleDialog" ng-click="choseFiltersToDisplay()"> <img ng-src="./assets/choice.png" class="stylepicto">  Styles</a>
+                    <a href="" targetId="StyleDialog" ng-click="choseStyleFiltersToDisplay()"> <img ng-src="./assets/choice.png" class="stylepicto">  Styles</a>
                 </li>
             </ul>
         </div>

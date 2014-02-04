@@ -229,11 +229,11 @@ cherryApp.controller('TextFiltersController', ['$scope', '$filter','NormalTextFi
 
 //    setBestFilterDefaultValues(areaName,intentionId)
 
-    // Now in text list controller
-//    $scope.choseFiltersToDisplay = function() {
-//        console.log('choseFiltersToDisplay');
-//        TheTexts.setContextFiltersVisibility();
-//    };
+    // In certain areas, filtering options will not be available tu users
+    $scope.displayTextFilters = function () {
+        return SelectedArea.wantsToDisplayTextFilters();
+    };
+
 }]);
 
 // unused simulation function

@@ -104,8 +104,6 @@ cherryApp.factory('NormalTextFilters', ['$location','UserProfileSvc',function ($
 	o.getRecipientGender        = function ()  { return recipientGender; };
 	o.setRecipientGender        = function (v) { recipientGender = v; };
 	o.getHideRecipientGender    = function ()
-//                                                { return hideRecipientGender; };
-//                                                { return hideRecipientGender || recipientGender != "I"; };
                                             { return recipientGender != "I"; };
 
 
@@ -139,6 +137,12 @@ cherryApp.factory('NormalTextFilters', ['$location','UserProfileSvc',function ($
 
     o.setContextToInclude       = function(key,value)
         { contextsToInclude[key]= value; };
+
+    o.recipientFiltersFullyDefined = function() {
+        o.getHideRecipientGender();
+        var tuOuVousDefined = TextFilters.getHideTuOuVous();
+        return  !(recipientDefined && tuOuVousDefined) ;
+    };
 
 	return o;
 }]);

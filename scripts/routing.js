@@ -54,8 +54,11 @@ cherryApp.config(['$routeProvider', function ($routeProvider) { $routeProvider
         templateUrl: 'views/about.html',
         controller: 'SimplePageController'
     })
+    .when('/BonneAnnee', {
+        redirectTo: '/area/Friends/intention/938493/text'
+    })
 
-    // Shortcut for human readable link : must be places after other single parameter urls
+    // Shortcut for human readable link : must be placed after other single piece parameter urls
     .when('/:intentionSlug', {
         templateUrl: 'views/textList.html',
         controller: 'TextListController'
