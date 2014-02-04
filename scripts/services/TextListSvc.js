@@ -15,7 +15,7 @@ function ($http,$filter,AppUrlSvc,HelperService,TextFilterHelperSvc,FilterVisibi
     o.resetTexts = function () {
         console.log('resetTexts');
         o.texts = [];
-        o.filteredTexts = [];
+        //o.filteredTexts = [];
     };
 
     o.hasFilteredTexts = function() {
@@ -38,12 +38,12 @@ function ($http,$filter,AppUrlSvc,HelperService,TextFilterHelperSvc,FilterVisibi
     // Most popular texts are sorted by SortOrder. Other are shuffled
     o.minSortOrderToGetShuffled = 25;
 
-
     // If a text array is fully loaded for an intention, it's stored as a property of this object
     o.cachedTextArraysForIntention = {};
     o.textsAlreadyCachedForIntention = function (intentionId) {
         return  ( o.cachedTextArraysForIntention[intentionId] !== undefined );
     };
+    // This is a hack : will memorize texts with filtering and ordering options last used !
     o.cacheReorderedTexts = function (t, intentionId) {
         o.cachedTextArraysForIntention[intentionId] = t;
     };
@@ -51,6 +51,7 @@ function ($http,$filter,AppUrlSvc,HelperService,TextFilterHelperSvc,FilterVisibi
         // This is it : queries the texts (or return a cached copy if available)
     // We should deal with the language of the request
     o.queryTexts = function (intentionId, areaId, doIfSuccess, doIfError, queryCompleteList, nbTexts) {
+//        return;
         if (queryCompleteList || nbTexts === undefined)
             nbTexts = 10000;
         // If cached, return texts
@@ -58,7 +59,7 @@ function ($http,$filter,AppUrlSvc,HelperService,TextFilterHelperSvc,FilterVisibi
             console.log("textArraysForAreas for intention" + intentionId + " read from cache");
             o.texts = o.cachedTextArraysForIntention[intentionId];
             o.filteredTexts = o.texts;
-            doIfSuccess(o.filteredTexts);
+            doIfSuccess(o.texts);
             return;
         }
         // else reset them and query
@@ -79,8 +80,8 @@ function ($http,$filter,AppUrlSvc,HelperService,TextFilterHelperSvc,FilterVisibi
                 console.log(texts.length + " texts pour l'intention " + intentionId);
                 // Texts will be stored sorted so that we dont have to resort them all the time
                 $filter('OrderBySortOrderExceptFor0')(texts);
-//                var sortedAndShuffled = HelperService.shuffleTextIfSortOrderNotLessThan(texts, o.minSortOrderToGetShuffled);
-                var sortedTexts = texts;
+                var sortedAndShuffled = HelperService.shuffleTextIfSortOrderNotLessThan(texts, o.minSortOrderToGetShuffled);
+                var sortedTexts = sortedAndShuffled;
 
                 // If all the texts were read for this intention, cache them for further use
                 if (queryCompleteList)

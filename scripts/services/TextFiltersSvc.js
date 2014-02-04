@@ -57,7 +57,7 @@ cherryApp.factory('NormalTextFilters', ['$location','UserProfileSvc',function ($
 
         return valret;
     };
-    o.preferedValuesToWatch = function() {
+    o.preferedStylesToWatch = function() {
         var valret = "";
         for (var propertyname in stylesToPrefer)
             valret += stylesToPrefer[propertyname];

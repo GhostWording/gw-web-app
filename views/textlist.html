@@ -66,9 +66,12 @@
 
     <div class = "listeTextes" ng-hide="hideTexts()">
         <!-- Progress bar  -->
-        <div class="progress progress-striped active" ng-show = "TextListPanel.showProgressBar">
-            <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: {{TextListPanel.progressBarWidth}}%">
-                <span class="sr-only">{{TextListPanel.progressBarWidth}}% Complete</span>
+        <!--<div class="progress progress-striped active" ng-show = "TextListPanel.showProgressBar"  ng-controller="ProgressBarController">-->
+        <div class="progress progress-striped active" ng-show = "showProgressBar()"  ng-controller="ProgressBarController">
+            <!--<div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: {{TextListPanel.progressBarWidth}}%">-->
+            <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: {{progressBarWidth()}}%">
+                <!--<span class="sr-only">{{TextListPanel.progressBarWidth}}% Complete</span>-->
+                <span class="sr-only">{{progressBarWidth()}}% Complete</span>
             </div>
         </div>
 
@@ -91,7 +94,7 @@
         <div ng-repeat="txt in TextListPanel.lesTextes" >
                 <div>
                     <!--<i class="icon-envelope pull-right" ng-click="allowPopUp()"></i>-->
-                    <img src="./assets/e-mail64.png" class = "pull-right envoyer"  ng-click="selectAndPopUp(txt,'send')" >
+                    <img src="./assets/e-mail64.png" class = "pull-right envoyer"  ng-click="popUpandSelect(txt,'send')" >
                     <a href="#/area/{{ areaId }}/intention/{{ intentionId }}/text/{{txt.TextId}}" targetType = "Text" actionType="open"  targetId = "{{txt.TextId}}"  ng-click="selectThisText(txt,'open')" >
 
                         <div ng-switch on="whatToDisplay(txt)" ng-class= "{active: txt.TextId == getSelectedTextId(txt,txt.textId)}">

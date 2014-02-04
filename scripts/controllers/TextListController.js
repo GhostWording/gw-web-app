@@ -15,21 +15,27 @@ function ($scope, $filter, $routeParams,$location,  TextFilters,SendText,Selecte
     $scope.TextListPanel = {};
     $scope.TextListPanel.lesTextes = [];
 //    $scope.TextListPanel.showNbTexts = false; // 23 nov
-    $scope.TextListPanel.showProgressBar = true;
-    $scope.TextListPanel.progressBarWidth = 60;
+//    $scope.TextListPanel.showProgressBar = true;
+//    $scope.TextListPanel.progressBarWidth = 60;
+    //$scope.TextListPanel.lesTextes = TheTexts.filteredTexts;
+
 
     // Query texts
     TheTexts.queryTexts($scope.intentionId, $scope.areaId, doIfAllTextsRead, doIfErrorReadingTexts, true);
 
     function doIfAllTextsRead(data) {
-        // Briefly show a full progress bar then hide ti
-        $scope.TextListPanel.progressBarWidth = 100;
+        // Briefly show a full progress bar then hide it => won't be able to do that in order in the new version
+//        $scope.TextListPanel.progressBarWidth = 100;
+//        $scope.TextListPanel.showProgressBar = false;
 //        $scope.TextListPanel.showNbTexts = true;
 //        $scope.TextListPanel.labelNbTexts = "façons de dire";
-        $scope.TextListPanel.showProgressBar = false;
 
         var txtList = TextFilterHelperSvc.filterOnBasicFilters(data,TextFilters );
         $scope.TextListPanel.lesTextes = txtList;
+
+        //$scope.TextListPanel.lesTextes = data;
+
+        //$scope.TextListPanel.lesTextes = TheTexts.filteredTexts;
     }
 
     function doIfErrorReadingTexts  ()  {
@@ -37,54 +43,54 @@ function ($scope, $filter, $routeParams,$location,  TextFilters,SendText,Selecte
         //$scope.TextListPanel.labelNbTexts = "Aucun texte pour dire";
         // hide other controls
         //$scope.TextListPanel.showNbTexts = true;
-        $scope.TextListPanel.progressBarWidth = 100;
+//        $scope.TextListPanel.progressBarWidth = 100;
     }
 
 
     // Change filtered text list (and TextCount) each time TextFilters change
     $scope.filters = TextFilters.filterValuesToWatch;
 
+
+    // Exclude texts not matching tags and properties
+    function filterAndReorder(TheTexts, TextFilters) {
+        $scope.TextListPanel.lesTextes = TheTexts.filterAndReorder(TextFilters);
+        return $scope.TextListPanel.lesTextes;
+    }
+
+    // Filter and reorder texts after user changes filters such as recipient gender
     var isFirstWriteChangeCall = true;
-    var writeChange = function (){
+    var reorderAfterFiltering = function (){
       if ( isFirstWriteChangeCall )
         isFirstWriteChangeCall = false;
       else
         filterAndReorder(TheTexts, TextFilters);
     };
-    $scope.$watch('filters()',writeChange,true);
+    $scope.$watch('filters()',reorderAfterFiltering,true);
 
-    // Exclude texts not matching tags and properties
-    function filterAndReorder(TheTexts, TextFilters) {
-      $scope.TextListPanel.lesTextes = TheTexts.filterAndReorder(TextFilters);
-      return $scope.TextListPanel.lesTextes;
-    }
-
-    // Reordering the texts can be long, don't do it the first time, it will have been done while reading the texts
+    // Filter and reorder texts after user changes prefered styles
     var isFirstReorderTextsCall = true;
     var reorderTexts = function () {
-        // Filters should be reaplied
+        // First call is fake
         if (isFirstReorderTextsCall)
             isFirstReorderTextsCall = false;
         else {
             var t = filterAndReorder(TheTexts, TextFilters);
-            TheTexts.cacheReorderedTexts(t, $scope.intentionId);
+            // This is an ugly hack so that when we go TextList => TextDetail => TextList again, we get back the good texts
+//            TheTexts.cacheReorderedTexts(t, $scope.intentionId);
         }
     };
+    $scope.$watch(TextFilters.preferedStylesToWatch,reorderTexts,true);
 
-    //$scope.preferedTags = TextFilters.preferedValuesToWatch;
-    //$scope.$watch('preferedTags()',reorderTexts,true);
-    $scope.$watch(TextFilters.preferedValuesToWatch,reorderTexts,true);
-
-    $scope.allowModalToPopNextTime = true;
-    $scope.selectAndPopUp = function(txt,action) {
-      $scope.allowModalToPopNextTime = true;
+    //$scope.allowModalToPopNextTime = true;
+    $scope.popUpandSelect = function(txt,action) {
+    //$scope.allowModalToPopNextTime = true;
       $('#modalEnvoiTexte').modal('show');
       $scope.selectThisText(txt,action);
       PostActionSvc.postActionInfo("Text",txt.TextId,"TextList", action );
       return false; // true
     };
 
-    // Can be called directly from view or as a second part of selectAndPopUp
+    // Can be called directly from the view or as a second stage of selectAndPopUp
     $scope.selectThisText = function (txt,action) {
       SendText.setSelectedTextLabel(txt.Content);
       SendText.setSelectedTextObject(txt);
@@ -109,7 +115,6 @@ function ($scope, $filter, $routeParams,$location,  TextFilters,SendText,Selecte
         else
             return HelperSvc.shouldDisplayAsCitation(txt);
     };
-
 
   }
 ]);
