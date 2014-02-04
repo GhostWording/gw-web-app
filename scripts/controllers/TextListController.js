@@ -14,7 +14,7 @@ function ($scope, $filter, $routeParams,$location,  TextFilters,SendText,Selecte
     // Initialize list of texts to be displayed
     $scope.TextListPanel = {};
     $scope.TextListPanel.lesTextes = [];
-    $scope.TextListPanel.showNbTexts = false; // 23 nov
+//    $scope.TextListPanel.showNbTexts = false; // 23 nov
     $scope.TextListPanel.showProgressBar = true;
     $scope.TextListPanel.progressBarWidth = 60;
 
@@ -24,8 +24,8 @@ function ($scope, $filter, $routeParams,$location,  TextFilters,SendText,Selecte
     function doIfAllTextsRead(data) {
         // Briefly show a full progress bar then hide ti
         $scope.TextListPanel.progressBarWidth = 100;
-        $scope.TextListPanel.showNbTexts = true;
-        $scope.TextListPanel.labelNbTexts = "façons de dire";
+//        $scope.TextListPanel.showNbTexts = true;
+//        $scope.TextListPanel.labelNbTexts = "façons de dire";
         $scope.TextListPanel.showProgressBar = false;
 
         var txtList = TextFilterHelperSvc.filterOnBasicFilters(data,TextFilters );
@@ -34,9 +34,9 @@ function ($scope, $filter, $routeParams,$location,  TextFilters,SendText,Selecte
 
     function doIfErrorReadingTexts  ()  {
         // switch message to failure
-        $scope.TextListPanel.labelNbTexts = "Aucun texte pour dire";
+        //$scope.TextListPanel.labelNbTexts = "Aucun texte pour dire";
         // hide other controls
-        $scope.TextListPanel.showNbTexts = true;
+        //$scope.TextListPanel.showNbTexts = true;
         $scope.TextListPanel.progressBarWidth = 100;
     }
 
@@ -61,16 +61,16 @@ function ($scope, $filter, $routeParams,$location,  TextFilters,SendText,Selecte
 
     // Reordering the texts can be long, don't do it the first time, it will have been done while reading the texts
     var isFirstReorderTextsCall = true;
-    var reorderTexts = function() {
-      // Filters should be reaplied
-      if ( isFirstReorderTextsCall )
-        isFirstReorderTextsCall = false;
-      else {
-          var t = filterAndReorder(TheTexts, TextFilters);
-          TheTexts.cacheReorderedTexts(t, $scope.intentionId);
-      }
-
+    var reorderTexts = function () {
+        // Filters should be reaplied
+        if (isFirstReorderTextsCall)
+            isFirstReorderTextsCall = false;
+        else {
+            var t = filterAndReorder(TheTexts, TextFilters);
+            TheTexts.cacheReorderedTexts(t, $scope.intentionId);
+        }
     };
+
     //$scope.preferedTags = TextFilters.preferedValuesToWatch;
     //$scope.$watch('preferedTags()',reorderTexts,true);
     $scope.$watch(TextFilters.preferedValuesToWatch,reorderTexts,true);
@@ -81,7 +81,6 @@ function ($scope, $filter, $routeParams,$location,  TextFilters,SendText,Selecte
       $('#modalEnvoiTexte').modal('show');
       $scope.selectThisText(txt,action);
       PostActionSvc.postActionInfo("Text",txt.TextId,"TextList", action );
-//        PostActionSvc("Text",txt.TextId,"TextList", action );
       return false; // true
     };
 
@@ -99,9 +98,8 @@ function ($scope, $filter, $routeParams,$location,  TextFilters,SendText,Selecte
 
     // Only show texts when filters are fully set up
     $scope.hideTexts = function () {
-      var recipientDefined = TextFilters.getHideRecipientGender();
-      var tuOuVousDefined = TextFilters.getHideTuOuVous();
-      return  !(recipientDefined && tuOuVousDefined) ;
+       var v = !TextFilters.recipientFiltersFullyDefined();
+        return v;
     };
 
     // We may want to display the title, the text, or the text as a quote

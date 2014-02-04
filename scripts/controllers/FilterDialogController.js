@@ -42,7 +42,7 @@ cherryApp.controller('FilterDialogController', ['$scope', 'HelperService','Norma
 
         };
 
-        $scope.displayNbFilteredTexts = TheTexts.hasfilteredTexts;
+        $scope.displayNbFilteredTexts = TheTexts.hasFilteredTexts;
         $scope.nbFilteredTexts = TheTexts.nbfilteredTexts;
         $scope.nbTextLabel = function () {
             var retval = "texte";

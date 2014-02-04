@@ -225,7 +225,7 @@ cherryApp.controller('TextFiltersController', ['$scope', '$filter','NormalTextFi
     }
 
     $scope.RecipientGender = TextFilters.getRecipientGender;
-    $scope.RecipientTuOuVous = TextFilters.getTuOuVous();
+//    $scope.RecipientTuOuVous = TextFilters.getTuOuVous();
 
 //    setBestFilterDefaultValues(areaName,intentionId)
 

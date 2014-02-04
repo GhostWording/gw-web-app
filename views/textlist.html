@@ -1,12 +1,11 @@
 ﻿<div ng-show="true" class="panneauTexte" action-location="TextList">
 
      <!-- Number of texts and control buttons -->
-    <div  ng-show="hideTexts()" >
-        <span ng-show="TextListPanel.showNbTexts" class="nombreTextes">{{TextListPanel.lesTextes.length}}&nbsp</span>
-        <span ng-show="TextListPanel.showNbTexts" class="labelTextes">{{TextListPanel.labelNbTexts}}</span>
-
-         <!-- Shows the advanced filters dialog box : disabled -->
-         <!--<a href="#modalContextFilters" role="button" ng-show="false" class="btn btn-primary btn-small pull-right filtreTextes" data-toggle="modal" >Contexte</a>-->
+    <div  ng-show="showHeader()"ng-controller="TextListHeaderController" >
+        <!--<span ng-show="TextListPanel.showNbTexts" class="nombreTextes">{{TextListPanel.lesTextes.length}}&nbsp</span>-->
+        <!--<span ng-show="TextListPanel.showNbTexts" class="labelTextes">{{TextListPanel.labelNbTexts}}</span>-->
+        <span ng-show="showNbTexts()" class="nombreTextes">{{nbTexts()}}&nbsp</span>
+        <span ng-show="showNbTexts()" class="labelTextes">{{nbTextsLabel()}}</span>
          <!-- Back button -->
         <button historyback targetId="Back" class="btn  btn-small  pull-right retourIntentions" ng-click="Navigation.Back()" >&larr; </button><span> </span>
     </div>
