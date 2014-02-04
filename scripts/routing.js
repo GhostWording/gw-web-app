@@ -1,5 +1,3 @@
-
-
 cherryApp.config(['$routeProvider', function ($routeProvider) { $routeProvider
     .when('/area/:areaName/intention', {
         templateUrl: 'views/intentionList.html',
@@ -46,7 +44,8 @@ cherryApp.config(['$routeProvider', function ($routeProvider) { $routeProvider
         controller: 'UserProfileController'
     })
     
-    .when('/splashscreen', {
+//    .when('/splashscreen', {
+    .when('/', {
         templateUrl: 'views/splashscreen.html',
         controller: 'SplashScreenController'
     })
@@ -55,15 +54,19 @@ cherryApp.config(['$routeProvider', function ($routeProvider) { $routeProvider
         templateUrl: 'views/about.html',
         controller: 'SimplePageController'
     })
+    .when('/BonneAnnee', {
+        redirectTo: '/area/Friends/intention/938493/text'
+    })
 
-    // Shortcut for human readable link : must be places after other single parameter urls
+    // Shortcut for human readable link : must be placed after other single piece parameter urls
     .when('/:intentionSlug', {
         templateUrl: 'views/textList.html',
         controller: 'TextListController'
     })
 
     .otherwise({
-        redirectTo: '/splashscreen'
+//        redirectTo: '/splashscreen'
+        redirectTo: '/'
     });
 }]);
 

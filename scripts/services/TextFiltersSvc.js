@@ -57,7 +57,7 @@ cherryApp.factory('NormalTextFilters', ['$location','UserProfileSvc',function ($
 
         return valret;
     };
-    o.preferedValuesToWatch = function() {
+    o.preferedStylesToWatch = function() {
         var valret = "";
         for (var propertyname in stylesToPrefer)
             valret += stylesToPrefer[propertyname];
@@ -103,17 +103,15 @@ cherryApp.factory('NormalTextFilters', ['$location','UserProfileSvc',function ($
     // The other filters will typically  be changed each time the user choses from a list of texts
 	o.getRecipientGender        = function ()  { return recipientGender; };
 	o.setRecipientGender        = function (v) { recipientGender = v; };
-	o.getHideRecipientGender    = function ()
-//                                                { return hideRecipientGender; };
-//                                                { return hideRecipientGender || recipientGender != "I"; };
-                                            { return recipientGender != "I"; };
-
+	o.getHideRecipientGender    = function () { return o.getRecipientGenderIsDefined() };
+    o.getRecipientGenderIsDefined  = function () { return recipientGender != "I"; };
 
     o.getTuOuVous               = function ()  { return tuOuVous; };
 	o.setTuOuVous               = function (v) { tuOuVous = v; };
-	o.getHideTuOuVous           = function ()
-//                                            { return hideTuVous || tuOuVous != "I";};
-                                                { return tuOuVous != "I";};
+	o.getHideTuOuVous           = function () {
+                                                return o.getTuOuVousIsDefined()
+    };
+    o.getTuOuVousIsDefined      = function () { return tuOuVous != "I";};
 
 
     o.getCloseness              = function ()  { return closeness; };
@@ -139,6 +137,10 @@ cherryApp.factory('NormalTextFilters', ['$location','UserProfileSvc',function ($
 
     o.setContextToInclude       = function(key,value)
         { contextsToInclude[key]= value; };
+
+    o.recipientFiltersFullyDefined = function() {
+        return o.getRecipientGenderIsDefined() && o.getTuOuVousIsDefined();
+    };
 
 	return o;
 }]);

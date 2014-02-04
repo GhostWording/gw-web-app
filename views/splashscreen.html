@@ -15,16 +15,32 @@
 
     <ul class="pager bmwQuestionButton" >
         <li ng-class = '{selectionne: false}'>
-            <!--<a href="area/DayToDay/intention"  ng-click = "PostBox.gulp('Area','DayToDay','SplashScreen')">Votre vie quotidienne</a>-->
-            <a href="area/DayToDay/intention" >Votre vie quotidienne</a>
+            <a href="area/Friends/intention" >Vos amis</a>
         </li>
     </ul>
     <ul class="pager bmwQuestionButton" >
         <li ng-class = '{selectionne: false}'>
-            <a href="area/Sentimental/intention" >Votre vie sentimentale</a>
+            <a href="area/LoveLife/intention" >Vos amours</a>
         </li>
     </ul>
     <ul class="pager bmwQuestionButton" >
+        <li ng-class = '{selectionne: false}'>
+            <a href="area/Family/intention" >La famille</a>
+        </li>
+    </ul>
+
+
+    <ul class="pager bmwQuestionButton" ng-show = 'false'>
+        <li ng-class = '{selectionne: false}'>
+            <a href="area/DayToDay/intention" >Votre vie quotidienne</a>
+        </li>
+    </ul>
+    <ul class="pager bmwQuestionButton" ng-show = 'false'>
+        <li ng-class = '{selectionne: false}'>
+            <a href="area/Sentimental/intention" >Votre vie sentimentale</a>
+        </li>
+    </ul>
+    <ul class="pager bmwQuestionButton" ng-show = 'false'>
         <li ng-class = '{selectionne: false}'>
             <a href="area/Important/intention" >Les occasions spéciales</a>
         </li>

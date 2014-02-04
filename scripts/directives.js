@@ -18,7 +18,8 @@ cherryApp.directive('actionLocation', function() {
 
                 this.postAction = function(targetType, targetId, actionType, targetParameters) {
 				// Post the given action using the action extracted from this directive
-				PostActionSvc.postActionInfo(targetType, targetId, $attrs.actionLocation, actionType, targetParameters);
+                    PostActionSvc.postActionInfo(targetType, targetId, $attrs.actionLocation, actionType, targetParameters);
+//				PostActionSvc(targetType, targetId, $attrs.actionLocation, actionType, targetParameters);
 			};
 		}]
 	};
@@ -32,18 +33,34 @@ cherryApp.directive('a', function() {
 
 			if ( actionLocation ) {
 				element.on('click', function(ev) {
-					// If not provided explicitly by attributes on the <a> we guess the params from the href:
-					// :targetType/:targetId/:targetParameters...
-                    if (attrs.href == undefined ) {
-                        //console.log('postAction not called when href if undefined');
+					if ( attrs.actiontype == "noTracking" )
                         return;
+                    // If its a command, we might be interessed by the parameter betwenn brackets
+                    var guessedParameters;
+                    if ( attrs.targettype == "Command" && attrs.ngClick != undefined ) {
+                        var actionParts = /([^.]+)\.([^(]+)\(([^)]*)\)/.exec(attrs.ngClick);
+                        if ( actionParts != undefined && actionParts[3] != undefined )
+                            guessedParameters = actionParts[3].replace(/["']/g, "");
+                        else {
+                            actionParts = /\(([^)]+)/.exec(attrs.ngClick);
+                            if (actionParts[1]) {
+                                guessedParameters = actionParts[1].replace(/["']/g, "");
+                            }
+                        }
+
                     }
-					var pathParts = attrs.href.split('/');
+
+                    // If not provided explicitly by attributes on the <a> we guess the params from the href:
+					// :targetType/:targetId/:targetParameters...
+                    var href = attrs.href;
+                    if (href  == undefined )
+                        href = "/";
+					var pathParts = href .split('/');
                     var targetType;
                     var targetId;
                     // With short urls such as area/Sentimental, target type and id can be guessed
                     var pathLength = pathParts.length;
-                    if ( pathLength == 1 ) {
+                    if ( pathLength == 1 && pathParts[0].length < 30 ) {
                         targetId =  pathParts[0];
                     } else
                     if ( pathLength > 1 && pathLength <= 3) {
@@ -56,7 +73,7 @@ cherryApp.directive('a', function() {
                     // Action type will be click in the vast majority of times (can also be Init or Load)
 					var actionType = attrs.actiontype || 'click';
                     // targetparameters will rarely be read from the url + attrs.targetParameters with a capital P does not seem to work
-                    var targetParameters = attrs.targetparameters ;
+                    var targetParameters = guessedParameters || attrs.targetparameters ;
 
 					actionLocation.postAction(targetType, targetId, actionType, targetParameters);
 				});
@@ -75,12 +92,13 @@ cherryApp.directive('button', function() {
 				element.on('click', function(ev) {
 					// If not provided explicitly by attributes on the <a> we guess the params from the href:
 					// :targetType/:targetId/:targetParameters...
-					var actionParts = /([^.]+)\.([^(]+)\(([^)]*)\)/.exec(attrs.ngClick);
-					var targetType = attrs.targetType || "Navigation";
-					var targetId = attrs.targetId || actionParts[2];
-					var actionType = attrs.actionType || 'click';
-//					var targetParameters = attrs.targetParameters || actionParts[3];
-                    var targetParameters = attrs.targetparameters || actionParts[3];
+					//var actionParts = /([^.]+)\.([^(]+)\(([^)]*)\)/.exec(attrs.ngClick);
+
+					var targetType = attrs.targettype || "Navigation";
+					var targetId = attrs.targetid;// || actionParts[2];
+					var actionType = attrs.actiontype || 'click';
+//                    var targetParameters = attrs.targetparameters || actionParts[3]; // won't work most of the time and might be null
+                    var targetParameters = attrs.targetparameters;
 
 					actionLocation.postAction(targetType, targetId, actionType, targetParameters);
 				});

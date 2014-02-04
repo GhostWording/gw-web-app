@@ -1,5 +1,6 @@
 describe("actionLocation directive", function() {
   beforeEach(module('cherryApp'));
+
   it("should provide a controller function for posting an action", inject(function($compile, $rootScope, PostActionSvc) {
     spyOn(PostActionSvc, 'postActionInfo');
 
@@ -14,6 +15,7 @@ describe("actionLocation directive", function() {
 
 describe("<a> (postAction) directive", function() {
   beforeEach(module('cherryApp'));
+
   it("should hook into the nearest actionLocation and call its postAction function when clicked", inject(function($compile, $rootScope, PostActionSvc) {
     spyOn(PostActionSvc, 'postActionInfo');
 
@@ -22,11 +24,11 @@ describe("<a> (postAction) directive", function() {
         '<a href="area/action">Some Link</a>' +
       '</div>');
     var anchorElement = element.find('a');
-    
+
     $compile(element)($rootScope);
 
     anchorElement.triggerHandler('click');
-    
+
     expect(PostActionSvc.postActionInfo).toHaveBeenCalledWith('area', 'action','someLocation','click',undefined);
   }));
 
@@ -38,28 +40,43 @@ describe("<a> (postAction) directive", function() {
         '<a href="area/action/data1/data2" actionType="otherAction" targetType="otherTarget" targetId="otherId" targetParameters="otherParam">Some Link</a>' +
       '</div>');
     var anchorElement = element.find('a');
-    
+
     $compile(element)($rootScope);
 
     anchorElement.triggerHandler('click');
-    
+
     expect(PostActionSvc.postActionInfo).toHaveBeenCalledWith('otherTarget', 'otherId', 'someLocation', 'otherAction', 'otherParam');
   }));
 
-it("should not be called if href is undefined", inject(function ($compile, $rootScope, PostActionSvc) {
-    spyOn(PostActionSvc, 'postActionInfo');
+    it("should return if actionType is noTracking", inject(function($compile, $rootScope, PostActionSvc) {
+        spyOn(PostActionSvc, 'postActionInfo');
 
-    var element = angular.element(
-        '<div action-location="someLocation">' +
-            '<a>Some Link</a>' +
-            '</div>');
-    var anchorElement = element.find('a');
+        var element = angular.element(
+            '<div action-location="someLocation">' +
+                '<a href="area/action/data1/data2" actionType="noTracking" targetType="otherTarget" targetId="otherId" targetParameters="otherParam">Some Link</a>' +
+                '</div>');
+        var anchorElement = element.find('a');
 
-    $compile(element)($rootScope);
-    anchorElement.triggerHandler('click');
+        $compile(element)($rootScope);
 
-    // How to say I expect the opposite ?????
-    //expect(PostActionSvc.postActionInfo).toHaveBeenCalled();  //
+        anchorElement.triggerHandler('click');
+
+        expect(PostActionSvc.postActionInfo).not.toHaveBeenCalled();
+    }));
+
+    it("should read ngClick parameter if targetType is Command", inject(function($compile, $rootScope, PostActionSvc) {
+        spyOn(PostActionSvc, 'postActionInfo');
+
+        // What if I want to test ng-click="Module.Function('otherParam')" syntax, with '' around otherParam ?
+        var element = angular.element(
+            '<div action-location="someLocation">' +
+                '<a actionType="otherAction" targetType="Command" targetId="otherId" ng-click="Module.Function(otherParam)" >Some Link</a>' +
+                '</div>');
+        var anchorElement = element.find('a');
+        $compile(element)($rootScope);
+        anchorElement.triggerHandler('click');
+
+        expect(PostActionSvc.postActionInfo).toHaveBeenCalledWith('Command', 'otherId', 'someLocation', 'otherAction', 'otherParam');
     }));
 });
 
@@ -74,11 +91,11 @@ describe("<button> (postAction) directive", function() {
           '<button ng-click="Navigation.action(data1,data2)">Some Button</a>' +
       '</div>');
     var anchorElement = element.find('button');
-    
+
     $compile(element)($rootScope);
 
     anchorElement.triggerHandler('click');
-    
-    expect(PostActionSvc.postActionInfo).toHaveBeenCalledWith('Navigation', 'action', 'someLocation', 'click', 'data1,data2');
+
+    expect(PostActionSvc.postActionInfo).toHaveBeenCalledWith('Navigation', undefined, 'someLocation', 'click', undefined);
   }));
 });

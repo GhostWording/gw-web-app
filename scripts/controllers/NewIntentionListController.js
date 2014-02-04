@@ -1,10 +1,7 @@
 cherryApp.controller('NewIntentionListController',
-  ['$scope', '$filter','$routeParams','FakeIntentions','Intentions','TheTexts', 'NormalTextFilters','SelectedIntention','HelperService' ,'PostActionSvc','SelectedArea',
-  function ($scope, $filter,$routeParams, FakeIntentions, theIntentions,TheTexts,TextFilters,SelectedIntention,HelperService,PostActionSvc,SelectedArea) {
-    $scope.PostBox = PostActionSvc;
-
+  ['$scope', '$filter','$routeParams','FakeIntentions','Intentions','TheTexts', 'NormalTextFilters','SelectedIntention','HelperService' ,'SelectedArea',
+  function ($scope, $filter,$routeParams, FakeIntentions, theIntentions,TheTexts,TextFilters,SelectedIntention,HelperService,SelectedArea) {
     TextFilters.initializeFiltersToUndefined(); // New instead of in TextListController to keep user filters when returning from detailed view
-
 
     // Read areaId from the url or use default areaId if nothing is found
     $scope.areaId = $routeParams.areaId;
@@ -19,6 +16,15 @@ cherryApp.controller('NewIntentionListController',
 
     // Choose title according to areaId : TODO : move to localisation service
     switch($scope.areaName) {
+      case "Friends" :
+            $scope.pageTitle = "Dites-le aux amis";
+            break;
+      case "LoveLife" :
+            $scope.pageTitle = "Dites-lui !";
+            break;
+      case "Family" :
+            $scope.pageTitle = "Dites-leur !";
+            break;
       case "DayToDay" :
          $scope.pageTitle = "Vie quotidienne";
          break;
@@ -37,9 +43,6 @@ cherryApp.controller('NewIntentionListController',
          console.log("Unknown area : " + $scope.areaName);
          break;
     }
-
-   //$scope.Tabs.tabNumber = SelectedArea.getTabNumberForArea($scope.areaName);
-
 
   // Read intentions from server
   var intentions = [];
@@ -62,7 +65,6 @@ cherryApp.controller('NewIntentionListController',
   // Memorize selected intention, not completly usefull if intention car be reread from cache using intention id in url
   $scope.SelectIntention = function (intention) {
     SelectedIntention.setSelectedIntention(intention);
-    //$scope.PostBox.postActionInfo('Intention',intention.IntentionId,'IntentionList');
   };
 
 }]);

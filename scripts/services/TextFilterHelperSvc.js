@@ -15,7 +15,9 @@ cherryApp.factory('TextFilterHelperSvc', ['HelperService',function (HelperServic
             retval = true;
         if (textSender == "N" && requiredSender != "P")
             retval = true;
-
+        // New, sender can always speak as a member of a group
+        if ( textSender == "P")
+            retval = true;
 //        if ( retval == false )
 //            console.log ("requiredSender,textSender : " + requiredSender + "," + textSender);
         return retval;

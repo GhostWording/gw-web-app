@@ -1,15 +1,7 @@
 
-cherryApp.controller('TextFiltersController', ['$scope', '$filter','TheTexts','NormalTextFilters','PostActionSvc','SelectedIntention','SelectedArea',function ($scope, $filter,TheTexts,TextFilters,PostActionSvc,SelectedIntention,SelectedArea) {
-
-   $scope.PostBox = PostActionSvc;
-
-    // Reset text filters : this duplicates initialisation in TextListController to try and  display initialisation bug
-//    TextFilters.initializeFiltersToUndefined();
-
+cherryApp.controller('TextFiltersController', ['$scope', '$filter','NormalTextFilters','SelectedIntention','SelectedArea',function ($scope, $filter,TextFilters,SelectedIntention,SelectedArea) {
     $scope.BasicFilters = TextFilters;
 
-
-    //console.log('TextFiltersController');
 	$scope.fake = function () {
 		console.log('fake');
 	};
@@ -159,36 +151,24 @@ cherryApp.controller('TextFiltersController', ['$scope', '$filter','TheTexts','N
 		}
 	};
 
-	$scope.definirGenreExpediteur = function (genre) {
-		// TODO : call modifySpellingAccordingToGender by watching an event
-		$scope.modifySpellingAccordingToGender(genre);
-		TextFilters.setSenderGender(genre);
-        $scope.PostBox.postActionInfo('Command','UserGender' + ' : ' + genre ,'TextList');
-	};
-	$scope.definirGenreDestinataire = function (genre) {
-//		TextFilters.genreDestinataire = genre;
-		TextFilters.setRecipientGender(genre);
-
-        //$scope.PostBox.postActionInfo('Command','RecipientGender' + ' : ' + genre ,'TextList');
-        $scope.PostBox.postActionInfo('Command','RecipientGender','TextList','click',genre);
-
-        if ( genre == 'P' )
-            TextFilters.setTuOuVous('V');
-	};
-	$scope.definirTuOuVous = function (input) {
-//		TextFilters.tuOuVous = input;
-		TextFilters.setTuOuVous(input);
-//        $scope.PostBox.postActionInfo('Command','TuOuVous' + ' : ' + input ,'TextList');
-        $scope.PostBox.postActionInfo('Command','TuOuVous', 'TextList', 'click',input);
-
+    $scope.definirGenreExpediteur = function (genre) {
+        // TODO : call modifySpellingAccordingToGender by watching an event
+        $scope.modifySpellingAccordingToGender(genre);
+        TextFilters.setSenderGender(genre);
     };
-    $scope.definirProximite = function(input) {
+    $scope.definirGenreDestinataire = function (genre) {
+        TextFilters.setRecipientGender(genre);
+        if (genre == 'P')
+            TextFilters.setTuOuVous('V');
+    };
+    $scope.definirTuOuVous = function (input) {
+        TextFilters.setTuOuVous(input);
+    };
+    $scope.definirProximite = function (input) {
         TextFilters.setCloseness(input);
         // Proche mais pas Plusieurs : Close to recipient and not several of them => Tu looks like a good choice
-        if ( input == 'P' && TextFilters.getRecipientGender() != 'P')
+        if (input == 'P' && TextFilters.getRecipientGender() != 'P')
             TextFilters.setTuOuVous('T');
-//        $scope.PostBox.postActionInfo('Command','RecipientCloseness' + ' : ' + input ,'TextList');
-        $scope.PostBox.postActionInfo('Command','RecipientCloseness','TextList','click',input);
     };
 	$scope.definirCaractere = function (caractere) {
 //		TextFilters.caractereUtilisateur = caractere;
@@ -245,16 +225,15 @@ cherryApp.controller('TextFiltersController', ['$scope', '$filter','TheTexts','N
     }
 
     $scope.RecipientGender = TextFilters.getRecipientGender;
-    $scope.RecipientTuOuVous = TextFilters.getTuOuVous();
+//    $scope.RecipientTuOuVous = TextFilters.getTuOuVous();
 
 //    setBestFilterDefaultValues(areaName,intentionId)
 
-    // Now in text list controller
-//    $scope.choseFiltersToDisplay = function() {
-//        console.log('choseFiltersToDisplay');
-//        TheTexts.setContextFiltersVisibility();
-//        $scope.PostBox.postActionInfo('Command','ChoseFilters','TextList');
-//    };
+    // In certain areas, filtering options will not be available tu users
+    $scope.displayTextFilters = function () {
+        return SelectedArea.wantsToDisplayTextFilters();
+    };
+
 }]);
 
 // unused simulation function

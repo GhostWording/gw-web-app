@@ -18,55 +18,35 @@ cherryApp.config(['$sceDelegateProvider', function ($sceDelegateProvider) {
 }]);
 
 
-cherryApp.controller('NavBarController',  ['$scope', 'PostActionSvc',
-    function ($scope, PostActionSvc) {
-        $scope.PostBox = PostActionSvc;
-
+cherryApp.controller('NavBarController',  ['$scope',
+    function ($scope) {
     }
 ]);
 
+cherryApp.controller('CherryControler', ['$scope', '$cookies', 'NormalTextFilters', 'PostActionSvc', 'Tabs',
+    function ($scope, $cookies, TextFilters, PostActionSvc, Tabs) {
+        console.log(navigator.userAgent);
 
-cherryApp.controller('CherryControler', ['$scope', '$cookies','NormalTextFilters','PostActionSvc','Tabs',
-   function ($scope, $cookies,TextFilters,PostActionSvc,Tabs) {
-         $scope.PostBox = PostActionSvc;
-
-       // Could send this to the server for statistics
-      console.log(navigator.userAgent);
-    //console.log($cookies.uid);
-    $scope.Tabs = Tabs;
-
-    $scope.Modal = {};
-    $scope.Modal.modalIsOpened = false;
+        $scope.Tabs = Tabs;
+        $scope.Modal = {};
+        $scope.Modal.modalIsOpened = false;
 
         $scope.ContextFilters = {};
 
         TextFilters.initializeFiltersToUndefined();
 
-        $scope.currentText = {txt : ""};
+        $scope.currentText = {txt: ""};
 
-       // Will go in a user profile form and a user info service
-     $scope.nomPersoUtilisateur = "";
-     $scope.nomProUtilisateur = "";
+        PostActionSvc.postActionInfo('Init', 'Init', 'App', 'Init');
+//        PostActionSvc('Init', 'Init', 'App', 'Init');
 
-       PostActionSvc.postActionInfo('Init','Init','App','Init');
-
-
-         //Activate the Bootstrap popover option
-       $('#popoverCopier').popover({
-           html: true,
-           content: "Androïd : appuyer trois secondes sur le texte + icône sélection (T) + icône copier (feuilles)<br>iPhone : appuyer trois secondes sur le texte + relâcher + appuyer encore trois secondes + 'sélectionner tout' + 'copier'"
-       });
-
-    // Temporary compatibility with old controllers
-    function OldInitializationCode() {
-       $scope.MenuPanel = {};
-         $scope.MenuPanel.showIntentions = true; // !!!!!!!
-       $scope.MenuPanel.showQui = false;
-       $scope.MenuPanel.page = "home";
-       $scope.IntentionPanel = {};
-     }
-   }
-   ]);
+        //Activate Bootstrap popover option
+        $('#popoverCopier').popover({
+            html: true,
+            content: "Androïd : appuyer trois secondes sur le texte + icône sélection (T) + icône copier (feuilles)<br>iPhone : appuyer trois secondes sur le texte + relâcher + appuyer encore trois secondes + 'sélectionner tout' + 'copier'"
+        });
+    }
+]);
 
 //      OLD CODE
 

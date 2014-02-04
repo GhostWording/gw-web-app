@@ -1,14 +1,11 @@
 // Display text with author, link to the source, usage recommandations or comments
 
-cherryApp.controller('TextDetailController', ['$scope','$routeParams', 'HelperService','SelectedText','SelectedIntention','SingleIntentionQuerySvc','AppLabels','PostActionSvc','SelectedArea',
-  function ($scope,$routeParams, HelperService,SelectedText,SelectedIntention,SingleIntentionQuerySvc,AppLabels,PostActionSvc,SelectedArea) {
-
-    $scope.PostBox = PostActionSvc;
-
-
+cherryApp.controller('TextDetailController', ['$scope','$routeParams', 'HelperService','SelectedText','SelectedIntention','SingleIntentionQuerySvc','AppLabels','SelectedArea',
+  function ($scope,$routeParams, HelperService,SelectedText,SelectedIntention,SingleIntentionQuerySvc,AppLabels,SelectedArea) {
     $scope.editText = false;
 
     var textId = $routeParams.textId;
+    $scope.Id = textId;
     var areaId = $routeParams.areaId;
 
     SelectedArea.setSelectedAreaName(areaId);
@@ -41,8 +38,6 @@ cherryApp.controller('TextDetailController', ['$scope','$routeParams', 'HelperSe
       $scope.isQuote = HelperService.isQuote(text);
 //            $scope.tags = filterTags(text.Tags,'style');
       $scope.tagLabels = AppLabels.labelsFormTagIds(text.TagIds);
-
-
       setTextDetailPageTitle(text);
     }
 
@@ -63,13 +58,12 @@ cherryApp.controller('TextDetailController', ['$scope','$routeParams', 'HelperSe
     $scope.send = function() {
       SelectedText.setSelectedTextLabel($scope.textToDetail);
       $scope.currentText.txt = SelectedText.getSelectedTextLabel();
-
       $scope.Modal.modalIsOpened = true;
       $('#modalEnvoiTexte').modal('show');
-      $scope.PostBox.postActionInfo('Command',textId,'TextDetail','send');
     };
     $scope.edit = function() {
       $scope.editText = true;
-      $scope.PostBox.postActionInfo('Command',textId ,'TextDetail','edit');
     };
+
+
   }]);

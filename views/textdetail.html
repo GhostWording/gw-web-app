@@ -25,14 +25,13 @@
 
     <div>
         <ul class="pager bmwQuestionButton" >
-        <!--<button historyback class="btn pull-right" ng-click = "PostBox.postActionInfo('Command','Close','TextDetail')">Fermer</button>-->
             <li ng-class= '{selectionne: false}' >
                 <a historyback href="" class="pull-left" role="button" targetId="Back"  > <img ng-src="./assets/arrow-left.png" class="stylepicto"> </a>
 
             </li>
         <span class="pull-right">
-            <button class="btn " ng-click="edit()" ng-hide ="editText">Editer</button>
-            <button class="btn btn-primary " ng-click="send()">Envoyer</button>
+            <button class="btn"             targetId = "{{ Id }}" targetType="Text" actionType="edit"   ng-click="edit()" ng-hide ="editText">Editer</button>
+            <button class="btn btn-primary" targetId = "{{ Id }}" targetType="Text" actionType="send"   ng-click="send()">Envoyer</button>
         </span>
         </ul>
     </div>
@@ -43,4 +42,5 @@
     <div ng-hide="source == undefined">
         Source : <a ng-bind-html= "source"  ng-href = "{{source}}" ></a>
     </div>
+
 </div>

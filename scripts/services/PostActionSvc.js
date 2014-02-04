@@ -17,6 +17,9 @@ cherryApp.factory('PostActionSvc', ['$http','AppUrlSvc','SelectedArea', function
         if ( actionLocation === undefined ) actionLocation = '';
         if ( targetParameter === undefined ) targetParameter = '';
 
+        if ( targetId === undefined )
+                targetId = 'undefined';
+
         var area = SelectedArea.getSelectedAreaName();
         if ( area === undefined )
             area = '';
@@ -36,11 +39,8 @@ cherryApp.factory('PostActionSvc', ['$http','AppUrlSvc','SelectedArea', function
                 console.log("!!!! objectType " + targetType + " unknown !!!!!!!!!!!");
                 break;
         }
-    // Todo : inject areaId, appId and device type
-//        console.log("actionType,objectType, objectLocation => objectTarget " + actionType + " , " + objectType + " : " +   objectLocation  + " => "  + objectTarget  );
+    // Todo : inject user info
         console.log("--- " + targetType + " : " +   actionLocation  + " => "  + targetId + "  :  " + actionType + ' for ' + area);
-
-        // + client datetime + target parameter
 
         var url = AppUrlSvc.urlUserEvent();
 
@@ -50,25 +50,25 @@ cherryApp.factory('PostActionSvc', ['$http','AppUrlSvc','SelectedArea', function
             headers: {"Content-Type":"application/json"}
         })
             .success(function (data, status) {
-                console.log(status + "*");
+//                console.log(status + "*");
             })
             .error(function (data, status) {
                 console.log("-- bad request -- status " + status + " for "  + url);
             });
     };
 
-    // Old
-    o.postActionForText = function(intentionId,textId,action) {
-        var urlPostViewAction = AppUrlSvc.getApiIntentionAndTextRoot(intentionId,textId) + action;
-        $http.post(urlPostViewAction)
-            .success(function (data, status) {
-                console.log(urlPostViewAction + " " + status + "*");
-            })
-            .error(function (data, status) {
-                console.log(urlPostViewAction + " " + status + "*");
-            });
-    };
-
-
+    // If we return o.postActionInfo it's hard to find the jasmin syntax for testing and difficult to search all uses of the function
     return o;
 }]);
+
+// Old
+//    o.postActionInfo.postActionForText = function (intentionId, textId, action) {
+//        var urlPostViewAction = AppUrlSvc.getApiIntentionAndTextRoot(intentionId, textId) + action;
+//        $http.post(urlPostViewAction)
+//            .success(function (data, status) {
+//                console.log(urlPostViewAction + " " + status + "*");
+//            })
+//            .error(function (data, status) {
+//                console.log(urlPostViewAction + " " + status + "*");
+//            });
+//    };

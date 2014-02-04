@@ -1,37 +1,24 @@
 ﻿<div ng-show="true" class="panneauTexte" action-location="TextList">
 
-     <!-- Progress bar (hidden after loading) : move with the texts -->
-     <!--<div class="progress progress-striped active" ng-show = "TextListPanel.showProgressBar">-->
-         <!--<div class="bar" style="width: {{TextListPanel.progressBarWidth}}%;"> </div>-->
-         <!--&lt;!&ndash;style="width: {{TextPanel.progressBarWidth}}%;"&ndash;&gt;-->
-     <!--</div>-->
-
      <!-- Number of texts and control buttons -->
-     <!--<div ng-show = "TextListPanel.showNbTexts" >-->
-    <div  ng-show="hideTexts()" >
-         <span ng-show="displayTextCount()" class="nombreTextes">{{TextListPanel.lesTextes.length}}&nbsp</span>
-         <span ng-show="displayTextCount()" class="labelTextes">{{TextListPanel.labelNbTexts}}</span>
-         <!-- Shows the advanced filters dialog box -->
-         <a href="#modalContextFilters" role="button" ng-show="false"
-            class="btn btn-primary btn-small pull-right filtreTextes" data-toggle="modal" >Contexte</a>
+    <div  ng-show="showHeader()"ng-controller="TextListHeaderController" >
+        <!--<span ng-show="TextListPanel.showNbTexts" class="nombreTextes">{{TextListPanel.lesTextes.length}}&nbsp</span>-->
+        <!--<span ng-show="TextListPanel.showNbTexts" class="labelTextes">{{TextListPanel.labelNbTexts}}</span>-->
+        <span ng-show="showNbTexts()" class="nombreTextes">{{nbTexts()}}&nbsp</span>
+        <span ng-show="showNbTexts()" class="labelTextes">{{nbTextsLabel()}}</span>
          <!-- Back button -->
-         <!--<button historyback class="btn  btn-small pull-right retourIntentions">&larr; Retour</button>-->
-         <!--<button historyback  class="btn  btn-small  pull-right retourIntentions" ng-click="PostBox.gulp('Navigation','IntentionList','TextList')" >&larr; </button><span> </span>-->
-        <button historyback  class="btn  btn-small  pull-right retourIntentions" ng-click="Navigation.Back()" >&larr; </button><span> </span>
-
-    </div> <!--/ Nombre de texte et boutons -->
+        <button historyback targetId="Back" class="btn  btn-small  pull-right retourIntentions" ng-click="Navigation.Back()" >&larr; </button><span> </span>
+    </div>
 
      <!-- Selected intention  -->
-     <h4 id="testId" class = "intentionCourante">{{TextListPanel.intentionLabel }} </h4>
-
+    <div ng-controller="IntentionLabelController">
+        <h4 id="testId" class = "intentionCourante">{{intentionLabel }} </h4>
+    </div>
      <!-- BasicFilters  filtering buttons -->
      <div ng-controller="TextFiltersController" ng-show="displayTextFilters()">
-
          <!-- Breadcrumbs -->
          <ul class="breadcrumb"  ng-show = "showBreadcrumbs()">
-             <li><a href="#/userprofile" ng-click="PostBox.gulp('Navigation','UserProfile','TextList')" >
-                 Moi
-                  </a>
+             <li><a href="/userprofile"  >Moi </a>
                  &nbsp <img ng-src="./assets/arrow-right.png" class="breadcrumbpicto"> &nbsp
                  <a href="" ng-show="BasicFilters.getHideRecipientGender()" ng-click = "definirGenreDestinataire('I')">
                      <img id="breadcrumbCrossRecipientGender" ng-src="./assets/cross.png" class="breadcrumbpicto" >
@@ -42,38 +29,16 @@
                      <img id="breadcrumbCrossTuOuVous" ng-src="./assets/cross.png" class="breadcrumbpicto" >
                      {{ getTuOuVousLabel() }}
                  </a>
-
              </li>
-             <!--<li ng-show="BasicFilters.getHideRecipientGender()">-->
-                 <!--<a href="" ng-click = "definirGenreDestinataire('I')">-->
-                    <!--&lt;!&ndash;{{ getRecipientGenderLabel()}}&ndash;&gt;-->
-                     <!--&lt;!&ndash;x&ndash;&gt;-->
-                     <!--<img ng-src="./assets/cross.png" class="breadcrumbpicto" >-->
-                     <!--<img ng-src="./assets/{{ getRecipientGenderIconName() }}" class="breadcrumbpicto"></a>-->
-                 <!--</a>-->
-
-                 <!--&lt;!&ndash;<span class="divider">,</span></li>&ndash;&gt;-->
-                 <!--&lt;!&ndash;<span class="divider">&nbsp</span>&ndash;&gt;-->
-             <!--</li>-->
-             <!--<li ng-show="BasicFilters.getHideCloseness()"><a href="" ng-click = "BasicFilters.setCloseness('I')">{{ getClosenessLabel()}}</a>-->
-                 <!--<span class="divider">,</span></li>-->
-             <!--<li ng-show="BasicFilters.getHideTuOuVous()">-->
-                 <!--<a href="" ng-click = "definirTuOuVous('I')">-->
-                 <!--&nbsp-->
-                 <!--<img ng-src="./assets/cross.png" class="breadcrumbpicto" >-->
-                 <!--{{ getTuOuVousLabel() }}-->
-                 <!--</a>-->
-             <!--</li>-->
-             <!--<li class="active">Data</li>-->
          </ul>
 
          <!-- User Gender -->
          <ul class="pager bmwQuestionButton" ng-show = "!BasicFilters.getHideSenderGender()">
              Vous êtes
              <li ng-class = '{selectionne: BasicFilters.getSenderGender()=="H"}'>
-                 <a ng-click = "definirGenreExpediteur('H')">Un homme</a></li>
+                 <a targetType="Command" targetId="UserGender" ng-click = "definirGenreExpediteur('H')">Un homme</a></li>
              <li ng-class = '{selectionne: BasicFilters.getSenderGender()=="F"}'>
-                 <a ng-click = "definirGenreExpediteur('F')">Une femme</a></li>
+                 <a targetType="Command" targetId="UserGender" ng-click = "definirGenreExpediteur('F')">Une femme</a></li>
          </ul>
 
          <!-- Recipient Gender -->
@@ -82,107 +47,55 @@
              <li ng-class= '{selectionne: RecipientGender()=="H"}'>
              <!-- PostAction is better left in ng-click -->
              <!--<a href="" targetType="Command" targetId="RecipientGender" targetParameters="H"  ng-click = "definirGenreDestinataire('H')">     <img ng-src="./assets/maleuser32.png" class="breadcrumbpicto">  </a></li>-->
-             <a ng-click = "definirGenreDestinataire('H')">     <img ng-src="./assets/maleuser32.png" class="breadcrumbpicto">  </a></li>
+                <a targetType="Command" targetId="RecipientGender"  ng-click = "definirGenreDestinataire('H')">     <img ng-src="./assets/maleuser32.png" class="breadcrumbpicto">  </a></li>
              <li ng-class= '{selectionne: RecipientGender()=="F"}' >
-                <a ng-click = "definirGenreDestinataire('F')">     <img ng-src="./assets/femaleuser32.png" class="breadcrumbpicto">  </a></li>
+                <a targetType="Command" targetId="RecipientGender" ng-click = "definirGenreDestinataire('F')">     <img ng-src="./assets/femaleuser32.png" class="breadcrumbpicto">  </a></li>
              <li ng-class= '{selectionne: RecipientGender()=="P"}' >
-                 <a ng-click = "definirGenreDestinataire('P')">    <img ng-src="./assets/several32.png" class="breadcrumbpicto"> </a></li>
+                 <a targetType="Command" targetId="RecipientGender" ng-click = "definirGenreDestinataire('P')">    <img ng-src="./assets/several32.png" class="breadcrumbpicto"> </a></li>
          </ul>
-
-         <!-- Are you close to the recipient -->
-         <!--<ul class="pager bmwQuestionButton" ng-show = "!BasicFilters.getHideCloseness()">-->
-             <!--&lt;!&ndash;Vous êtes proches&ndash;&gt;-->
-             <!--Vous êtes très proches-->
-             <!--<li ng-class= '{selectionne: BasicFilters.getCloseness()=="P"}'>-->
-                 <!--<a ng-click = "definirProximite('P')">Oui</a></li>-->
-             <!--<li ng-class= '{selectionne: BasicFilters.getCloseness()=="D"}' >-->
-                 <!--<a ng-click = "definirProximite('D')">Non</a></li>-->
-         <!--</ul>-->
 
          <!-- In French, would you say Tu or Vous -->
          <ul class="pager bmwQuestionButton" ng-show = "!BasicFilters.getHideTuOuVous()">
          Lui dire
              <li ng-class= '{selectionne: BasicFilters.getTuOuVous()=="T"}'>
-                 <a ng-click = "definirTuOuVous('T')">Tu</a></li>
+                 <a targetType="Command" targetId="TuOuVous" ng-click = "definirTuOuVous('T')">Tu</a></li>
              <li ng-class= '{selectionne: BasicFilters.getTuOuVous()=="V"}' >
-                 <a ng-click = "definirTuOuVous('V')">Vous</a></li>
+                 <a targetType="Command" targetId="TuOuVous" ng-click = "definirTuOuVous('V')">Vous</a></li>
          </ul>
-
-         <!--<ul class="pager bmwQuestionButton" ng-show = 'true' >-->
-             <!--<li ng-class= '{selectionne: AtLeastOneStyleToExclude() || AtLeastOneStyleToPrefer() }' >-->
-                 <!--<a href="#modalFiltres" role="button" data-toggle="modal" ng-click="choseFiltersToDisplay()">Styles</a>-->
-             <!--</li>-->
-         <!--</ul>-->
-
      </div>
 
     <div class = "listeTextes" ng-hide="hideTexts()">
-        <!-- Progress bar (hidden after loading) : move with the texts -->
-        <!--<div class="progress progress-striped active" ng-show = "TextListPanel.showProgressBar">-->
-
-            <!--<div class="bar" style="width: {{TextListPanel.progressBarWidth}}%;"> </div>-->
-        <!--</div>-->
-
-        <div class="progress progress-striped active" ng-show = "TextListPanel.showProgressBar">
-            <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: {{TextListPanel.progressBarWidth}}%">
-                <span class="sr-only">{{TextListPanel.progressBarWidth}}% Complete</span>
+        <!-- Progress bar  -->
+        <!--<div class="progress progress-striped active" ng-show = "TextListPanel.showProgressBar"  ng-controller="ProgressBarController">-->
+        <div class="progress progress-striped active" ng-show = "showProgressBar()"  ng-controller="ProgressBarController">
+            <!--<div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: {{TextListPanel.progressBarWidth}}%">-->
+            <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: {{progressBarWidth()}}%">
+                <!--<span class="sr-only">{{TextListPanel.progressBarWidth}}% Complete</span>-->
+                <span class="sr-only">{{progressBarWidth()}}% Complete</span>
             </div>
         </div>
-        <!-- Chose prefered styles -->
 
-        <!--<div>-->
-            <!--<span ng-show="displayTextCount()" class="nombreTextesB labelTextesB pull-left">{{TextListPanel.lesTextes.length}}</span>-->
-            <!--<span ng-show="displayTextCount()" class="labelTextesB pull-left">&nbsptextes</span>-->
-            <!--<ul class="pager bmwQuestionButton" ng-show = 'true' >-->
-                <!--<li ng-class= '{selectionne: AtLeastOneStyleToExclude() || AtLeastOneStyleToPrefer() }' >-->
-                    <!--<a href="#modalFiltres" role="button" data-toggle="modal" ng-click="choseFiltersToDisplay()"> <img ng-src="./assets/choice.png" class="stylepicto">  Styles</a>-->
-                    <!--<span historyback role="button" class="pull-right" ng-click="PostBox.postActionInfo('Navigation','IntentionList','TextList')"> <img ng-src="./assets/arrow-left.png" class="stylepicto"> </span>-->
-                <!--</li>-->
-            <!--</ul>-->
-        <!--</div>-->
-
-        <div>
+        <div action-location="StyleBar" ng-controller="StyleBarController">
             <ul class="pager bmwQuestionButton " ng-show = 'true' >
-
-                <!--<li>-->
-                <!--<span ng-show="displayTextCount()" class="nombreTextesB labelTextesB ">{{TextListPanel.lesTextes.length}}</span>-->
-                <!--<span ng-show="displayTextCount()" class="labelTextesB ">&nbspmessages</span>-->
-                <!--</li>-->
-
                 <li >
                     <a historyback href="" class="pull-left" role="button"  targetId="Back" > <img ng-src="./assets/arrow-left.png" class="stylepicto"> </a>
                 </li>
 
                 <li class="nombreTextesB labelTextesB">
-                    <!--<a href="#modalFiltres"  role="button"  data-toggle="modal" ng-click="choseFiltersToDisplay()"> {{TextListPanel.lesTextes.length}} &nbsp <img ng-src="./assets/e-mail64.png" class="stylepicto"> </a>-->
-                    <a href="" ng-click="choseFiltersToDisplay()"> {{TextListPanel.lesTextes.length}} &nbsp <img ng-src="./assets/e-mail64.png" class="stylepicto"> </a>
+                    <a href="" targetId="StyleDialog"  ng-click="choseStyleFiltersToDisplay()"> {{TextListPanel.lesTextes.length}} &nbsp <img ng-src="./assets/e-mail64.png" class="stylepicto"> </a>
                 </li>
 
                 <li ng-class= '{selectionne: AtLeastOneStyleToExclude() || AtLeastOneStyleToPrefer() }' class = "pull-right" >
-                    <!--<a href="#modalFiltres"  role="button"  data-toggle="modal" ng-click="choseFiltersToDisplay()"> <img ng-src="./assets/choice.png" class="stylepicto">  Styles</a>-->
-                    <a href="" ng-click="choseFiltersToDisplay()"> <img ng-src="./assets/choice.png" class="stylepicto">  Styles</a>
+                    <a href="" targetId="StyleDialog" ng-click="choseStyleFiltersToDisplay()"> <img ng-src="./assets/choice.png" class="stylepicto">  Styles</a>
                 </li>
-
             </ul>
         </div>
 
-        <!--class='list-group-item active'-->
-        <!--<div class="list-group"  >-->
-            <!--<a href="#/area/{{ areaId }}/text/{{txt.TextId}}" ng-repeat="txt in TextListPanel.lesTextes"-->
-               <!--ng-click="selectThisText(txt,'open')"-->
-               <!--class = 'list-group-item'   ng-class= "{active: txt.TextId == getSelectedTextId(txt,txt.textId)}"-->
-               <!--ng-bind-html="txt.Content | replaceBrackets | convertEndOfLineToBR" >-->
-               <!---->
-            <!--</a>-->
-        <!--</div>-->
-
-        <!--<div ng-repeat="txt in TextListPanel.lesTextes"  ng-click="selectThisText(txt,'open')">-->
         <div ng-repeat="txt in TextListPanel.lesTextes" >
                 <div>
                     <!--<i class="icon-envelope pull-right" ng-click="allowPopUp()"></i>-->
-                    <img src="./assets/e-mail64.png" class = "pull-right envoyer"  ng-click="selectAndPopUp(txt,'send')" >
-                    <!--<a href="#/area/{{ areaId }}/intention/{{ intentionId }}/text/{{txt.TextId}}"  ng-click="selectThisText(txt,'open')" >-->
-                    <a href="#/area/{{ areaId }}/intention/{{ intentionId }}/text/{{txt.TextId}}" targetType = "Text"  targetId = "{{txt.TextId}}"  ng-click="selectThisText(txt,'open')" >
+                    <img src="./assets/e-mail64.png" class = "pull-right envoyer"  ng-click="popUpandSelect(txt,'send')" >
+                    <a href="#/area/{{ areaId }}/intention/{{ intentionId }}/text/{{txt.TextId}}" targetType = "Text" actionType="open"  targetId = "{{txt.TextId}}"  ng-click="selectThisText(txt,'open')" >
 
                         <div ng-switch on="whatToDisplay(txt)" ng-class= "{active: txt.TextId == getSelectedTextId(txt,txt.textId)}">
                             <div ng-switch-when="0" class ="well well-small bmw-texte" ng-bind-html="txt.Abstract | replaceBrackets | convertEndOfLineToBR"></div>
