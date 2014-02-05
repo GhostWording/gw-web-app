@@ -1,21 +1,28 @@
 
 
 cherryApp.factory('CurrentTextList', [
-    '$rootScope', 'AppUrlSvc', 'OrderBySortOrderExceptFor0Filter', 'HelperService', 'cacheSvc', 'TextFilterHelperSvc',
-    function($rootScope, AppUrlSvc, OrderBySortOrderExceptFor0Filter, HelperService, cacheSvc, TextFilterHelperSvc) {
+    '$http', '$rootScope', '$routeParams', 'AppUrlSvc', 'OrderBySortOrderExceptFor0Filter', 'HelperService', 'cacheSvc', 'TextFilterHelperSvc',
+    function($http, $rootScope, $routeParams, AppUrlSvc, OrderBySortOrderExceptFor0Filter, HelperService, cacheSvc, TextFilterHelperSvc) {
 
     var areaId, intentionId, currentTextList;
 
-    $rootScope.$on('$routeChangeSuccess', function(event, route) {
-        areaId = $route.params.areaId;
-        intentionId = $route.params.intentionId;
+    var o = {
+        getCurrentTextList: function() {
+            return currentTextList;
+        },
+        minSortOrderToGetShuffled: 25
+    };
+
+    $rootScope.$watch(function() { return $routeParams; }, function(event, route) {
+        areaId = $routeParams.areaId;
+        intentionId = $routeParams.intentionId;
 
         if( areaId && intentionId ) {
             getTextList(intentionId, areaId).then(function(textList) {
                 currentTextList = textList;
             });
         }
-    });
+    }, true);
 
     function loadTextList(intentionId, areaId, limit) {
 
@@ -43,7 +50,8 @@ cherryApp.factory('CurrentTextList', [
 
         .then(function(texts) {
 
-            return OrderBySortOrderExceptFor0Filter(texts);
+            OrderBySortOrderExceptFor0Filter(texts);
+            return texts;
         })
         
         .then(function(texts) {
@@ -61,8 +69,12 @@ cherryApp.factory('CurrentTextList', [
 
     // Call this to get a promise to a list of texts for the given intention and area
     function getTextList(intentionId, areaId) {
+
+        // TODO: get this dynamically from somewhere!
+        var lastChange = 1000;
+
         // Here we ask for a text list from the cache
-        return cacheSvc.get(cacheKey(intentionId, areaId), function() {
+        return cacheSvc.get(cacheKey(intentionId, areaId), lastChange, function() {
             // The cache didn't have it so load it up
             return loadTextList(intentionId, areaId);
         });
@@ -86,10 +98,5 @@ cherryApp.factory('CurrentTextList', [
         return t;
     }
 
-    return {
-        getCurrentTextList: function() {
-            return currentTextList;
-        }
-    };
-
+    return o;
 }]);

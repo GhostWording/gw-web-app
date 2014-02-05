@@ -2,11 +2,11 @@
 cherryApp.factory('localStorage', ['$window', function($window) {
   return {
     get: function(key) {
-      return $window.localStorage.getItem(key);
+      return angular.fromJson($window.localStorage.getItem(key));
     },
     set: function(key, value) {
       if ( value ) {
-        return $window.localStorage.setItem(key, value);
+        return $window.localStorage.setItem(key, angular.toJson(value));
       } else {
         $window.localStorage.removeItem(key);
       }
@@ -19,10 +19,11 @@ cherryApp.factory('cacheSvc', ['localStorage', '$q', function(localStorage, $q) 
   var cache = {};
   var cacheSvc = {
     _cache: cache,
-    register: function(name, getFn) {
-      cache[name] = {
+    register: function(name, lastChange, getFn) {
+      return cache[name] = {
         name: name,
-        getFn: getFn
+        getFn: getFn,
+        lastChange: lastChange
       };
     },
 
@@ -35,8 +36,8 @@ cherryApp.factory('cacheSvc', ['localStorage', '$q', function(localStorage, $q) 
       }
     },
 
-    get: function(name, getFn) {
-      var cacheEntry = cache[name] || cacheSvc.register(name, getFn);
+    get: function(name, lastChange, getFn) {
+      var cacheEntry = cache[name] || cacheSvc.register(name, lastChange, getFn);
       if ( !cacheEntry.promise ) {
         // We don't have a promise for the data
         
