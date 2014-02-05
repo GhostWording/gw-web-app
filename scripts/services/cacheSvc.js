@@ -8,7 +8,7 @@ cherryApp.factory('localStorage', function($window) {
       if ( value ) {
         return $window.localStorage.setItem(key, value);
       } else {
-        removeItem(key);
+        $window.localStorage.removeItem(key);
       }
     }
   };
@@ -27,10 +27,11 @@ cherryApp.factory('cacheSvc', function(localStorage, $q) {
     },
 
     update: function(name, lastChange) {
-      if ( !cache.lastChange || cache.lastChange < lastChange ) {
-        delete cache.promise;
-        localStorage.set(cache.key, null);
-        cache.lastChange = lastChange;
+      var cacheEntry = cache[name];
+      if ( !cacheEntry.lastChange || cacheEntry.lastChange < lastChange ) {
+        delete cacheEntry.promise;
+        localStorage.set(cacheEntry.key, null);
+        cacheEntry.lastChange = lastChange;
       }
     },
 
