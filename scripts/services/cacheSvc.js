@@ -1,5 +1,5 @@
 // A simple wrapper around window.localStorage
-cherryApp.factory('localStorage', function($window) {
+cherryApp.factory('localStorage', ['$window', function($window) {
   return {
     get: function(key) {
       return $window.localStorage.getItem(key);
@@ -12,12 +12,12 @@ cherryApp.factory('localStorage', function($window) {
       }
     }
   };
-});
+}]);
 
 // A cache that stores in-memory, then localStorage then calls externally
-cherryApp.factory('cacheSvc', function(localStorage, $q) {
+cherryApp.factory('cacheSvc', ['localStorage', '$q', function(localStorage, $q) {
   var cache = {};
-  return {
+  var cacheSvc = {
     _cache: cache,
     register: function(name, getFn) {
       cache[name] = {
@@ -35,8 +35,8 @@ cherryApp.factory('cacheSvc', function(localStorage, $q) {
       }
     },
 
-    get: function(name) {
-      var cacheEntry = cache[name];
+    get: function(name, getFn) {
+      var cacheEntry = cache[name] || cacheSvc.register(name, getFn);
       if ( !cacheEntry.promise ) {
         // We don't have a promise for the data
         
@@ -59,4 +59,5 @@ cherryApp.factory('cacheSvc', function(localStorage, $q) {
       return cacheEntry.promise;
     }
   };
-});
+  return cacheSvc;
+}]);

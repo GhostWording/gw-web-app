@@ -1,7 +1,7 @@
 // Displays a list of texts
 cherryApp.controller('TextListController',
- ['$scope', '$filter','$routeParams','$location', 'NormalTextFilters', 'SelectedText', 'SelectedIntention', 'TheTexts', 'AppUrlSvc', 'HelperService','PostActionSvc','SelectedArea','TextFilterHelperSvc',
-function ($scope, $filter, $routeParams,$location,  TextFilters,SendText,SelectedIntention, TheTexts, AppUrlSvc, HelperSvc,PostActionSvc,SelectedArea,TextFilterHelperSvc) {
+ ['$scope', '$filter','$routeParams','$location', 'NormalTextFilters', 'SelectedText', 'SelectedIntention', 'TheTexts', 'AppUrlSvc', 'HelperService','PostActionSvc','SelectedArea','TextFilterHelperSvc', 'CurrentTextList',
+function ($scope, $filter, $routeParams, $location, TextFilters,SendText,SelectedIntention, TheTexts, AppUrlSvc, HelperSvc,PostActionSvc,SelectedArea,TextFilterHelperSvc, CurrentTextList) {
 
     // Read area and intention id from url
     $scope.areaId = $routeParams.areaId;
@@ -19,33 +19,10 @@ function ($scope, $filter, $routeParams,$location,  TextFilters,SendText,Selecte
 //    $scope.TextListPanel.progressBarWidth = 60;
     //$scope.TextListPanel.lesTextes = TheTexts.filteredTexts;
 
-
-    // Query texts
-    TheTexts.queryTexts($scope.intentionId, $scope.areaId, doIfAllTextsRead, doIfErrorReadingTexts, true);
-
-    function doIfAllTextsRead(data) {
-        // Briefly show a full progress bar then hide it => won't be able to do that in order in the new version
-//        $scope.TextListPanel.progressBarWidth = 100;
-//        $scope.TextListPanel.showProgressBar = false;
-//        $scope.TextListPanel.showNbTexts = true;
-//        $scope.TextListPanel.labelNbTexts = "façons de dire";
-
-        var txtList = TextFilterHelperSvc.filterOnBasicFilters(data,TextFilters );
-        $scope.TextListPanel.lesTextes = txtList;
-
-        //$scope.TextListPanel.lesTextes = data;
-
-        //$scope.TextListPanel.lesTextes = TheTexts.filteredTexts;
-    }
-
-    function doIfErrorReadingTexts  ()  {
-        // switch message to failure
-        //$scope.TextListPanel.labelNbTexts = "Aucun texte pour dire";
-        // hide other controls
-        //$scope.TextListPanel.showNbTexts = true;
-//        $scope.TextListPanel.progressBarWidth = 100;
-    }
-
+    // Watch the current text list and update the scope when it changes
+    $scope.$watch(CurrentTextList.getCurrentTextList, function(textList) {
+        $scope.TextListPanel.lesTextes = textList;
+    });
 
     // Change filtered text list (and TextCount) each time TextFilters change
     $scope.filters = TextFilters.filterValuesToWatch;
