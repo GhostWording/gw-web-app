@@ -1,8 +1,8 @@
 
 
 cherryApp.factory('CurrentTextList', [
-    '$http', '$rootScope', '$routeParams', 'AppUrlSvc', 'OrderBySortOrderExceptFor0Filter', 'HelperService', 'cacheSvc', 'TextFilterHelperSvc',
-    function($http, $rootScope, $routeParams, AppUrlSvc, OrderBySortOrderExceptFor0Filter, HelperService, cacheSvc, TextFilterHelperSvc) {
+    '$http', '$rootScope', '$routeParams', 'AppUrlSvc',  'HelperService', 'cacheSvc', 'TextFilterHelperSvc','NormalTextFilters',
+    function($http, $rootScope, $routeParams, AppUrlSvc,  HelperService, cacheSvc, TextFilterHelperSvc,TextFilters) {
 
     var areaId, intentionId, currentTextList;
 
@@ -47,15 +47,9 @@ cherryApp.factory('CurrentTextList', [
             console.log(texts.length + " texts pour l'intention " + intentionId);
             return texts;
         })
-
         .then(function(texts) {
-
-            OrderBySortOrderExceptFor0Filter(texts);
-            return texts;
-        })
-        
-        .then(function(texts) {
-            return HelperService.shuffleTextIfSortOrderNotLessThan(texts, o.minSortOrderToGetShuffled);
+                //return filterAndReorder(texts, TextFilters);
+                return texts;
         }, function (response) {
             console.log(response.status + "*");
             throw response;
@@ -63,8 +57,8 @@ cherryApp.factory('CurrentTextList', [
     }
 
     // This function is just used to identify the text list in the cache
-    function cacheKey(intentionId, areaId) {
-        return 'text-list:' + intentionId + ':' + areaId;
+    function cacheKey(intentionId, areaId, sortAndFilterOptions) {
+        return 'text-list:' + intentionId + ':' + areaId + ':' + sortAndFilterOptions;
     }
 
     // Call this to get a promise to a list of texts for the given intention and area
@@ -72,11 +66,18 @@ cherryApp.factory('CurrentTextList', [
 
         // TODO: get this dynamically from somewhere!
         var lastChange = 1000;
+        // TODO: get them from TextFilters
+        var sortAndFilterOptions = TextFilters.valuesToWatch();
 
         // Here we ask for a text list from the cache
-        return cacheSvc.get(cacheKey(intentionId, areaId), lastChange, function() {
+        return cacheSvc.get(cacheKey(intentionId, areaId, sortAndFilterOptions), lastChange, function() {
             // The cache didn't have it so load it up
-            return loadTextList(intentionId, areaId);
+            return loadTextList(intentionId, areaId)
+                .then(function(texts) {
+                    var filteredTexts = filterAndReorder(texts, TextFilters);
+                    return filteredTexts;
+                }
+            );
         });
     }
 

@@ -14,11 +14,6 @@ function ($scope, $filter, $routeParams, $location, TextFilters,SendText,Selecte
     // Initialize list of texts to be displayed
     $scope.TextListPanel = {};
     $scope.TextListPanel.lesTextes = [];
-//    $scope.TextListPanel.showNbTexts = false; // 23 nov
-//    $scope.TextListPanel.showProgressBar = true;
-//    $scope.TextListPanel.progressBarWidth = 60;
-    //$scope.TextListPanel.lesTextes = TheTexts.filteredTexts;
-
     // Watch the current text list and update the scope when it changes
     $scope.$watch(CurrentTextList.getCurrentTextList, function(textList) {
         $scope.TextListPanel.lesTextes = textList;
@@ -30,7 +25,7 @@ function ($scope, $filter, $routeParams, $location, TextFilters,SendText,Selecte
 
     // Exclude texts not matching tags and properties
     function filterAndReorder(TheTexts, TextFilters) {
-        $scope.TextListPanel.lesTextes = TheTexts.filterAndReorder(TextFilters);
+//        $scope.TextListPanel.lesTextes = TheTexts.filterAndReorder(TextFilters);
         return $scope.TextListPanel.lesTextes;
     }
 

@@ -7,7 +7,7 @@ describe("cacheSvc", function() {
   beforeEach(inject(function(_cacheSvc_) {
     cacheSvc = _cacheSvc_;
       getMyData = jasmine.createSpy('getMyData').andReturn({ some: 'data'});
-      cacheSvc.register('myData', getMyData);
+      cacheSvc.register('myData', 10, getMyData);
   }));
 
   describe("register", function() {

@@ -1,8 +1,10 @@
 // Shows total number of filtered texts plus localized label
-cherryApp.controller('ProgressBarController', ['$scope','TheTexts', function ($scope,TheTexts) {
+cherryApp.controller('ProgressBarController', ['$scope','TheTexts','CurrentTextList', function ($scope,TheTexts,CurrentTextList) {
 
     $scope.showProgressBar = function() {
-        return TheTexts.texts.length == 0;
+        //return TheTexts.texts.length == 0;
+        var showBar = CurrentTextList.getCurrentTextList() === undefined;
+        return showBar;
     };
 
     $scope.progressBarWidth = function() {
