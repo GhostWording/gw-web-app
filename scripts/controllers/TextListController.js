@@ -19,39 +19,42 @@ function ($scope, $filter, $routeParams, $location, TextFilters,SendText,Selecte
         $scope.TextListPanel.lesTextes = textList;
     });
 
-    // Change filtered text list (and TextCount) each time TextFilters change
-    $scope.filters = TextFilters.filterValuesToWatch;
 
 
-    // Exclude texts not matching tags and properties
-    function filterAndReorder(TheTexts, TextFilters) {
-//        $scope.TextListPanel.lesTextes = TheTexts.filterAndReorder(TextFilters);
-        return $scope.TextListPanel.lesTextes;
-    }
 
-    // Filter and reorder texts after user changes filters such as recipient gender
-    var isFirstWriteChangeCall = true;
-    var reorderAfterFiltering = function (){
-      if ( isFirstWriteChangeCall )
-        isFirstWriteChangeCall = false;
-      else
-        filterAndReorder(TheTexts, TextFilters);
-    };
-    $scope.$watch('filters()',reorderAfterFiltering,true);
-
-    // Filter and reorder texts after user changes prefered styles
-    var isFirstReorderTextsCall = true;
-    var reorderTexts = function () {
-        // First call is fake
-        if (isFirstReorderTextsCall)
-            isFirstReorderTextsCall = false;
-        else {
-            var t = filterAndReorder(TheTexts, TextFilters);
-            // This is an ugly hack so that when we go TextList => TextDetail => TextList again, we get back the good texts
-//            TheTexts.cacheReorderedTexts(t, $scope.intentionId);
-        }
-    };
-    $scope.$watch(TextFilters.preferedStylesToWatch,reorderTexts,true);
+//    // Change filtered text list (and TextCount) each time TextFilters change
+//    $scope.filters = TextFilters.filterValuesToWatch;
+//
+//
+//    // Exclude texts not matching tags and properties
+//    function filterAndReorder(TheTexts, TextFilters) {
+////        $scope.TextListPanel.lesTextes = TheTexts.filterAndReorder(TextFilters);
+//        return $scope.TextListPanel.lesTextes;
+//    }
+//
+//    // Filter and reorder texts after user changes filters such as recipient gender
+//    var isFirstWriteChangeCall = true;
+//    var reorderAfterFiltering = function (){
+//      if ( isFirstWriteChangeCall )
+//        isFirstWriteChangeCall = false;
+//      else
+//        filterAndReorder(TheTexts, TextFilters);
+//    };
+//    $scope.$watch('filters()',reorderAfterFiltering,true);
+//
+//    // Filter and reorder texts after user changes prefered styles
+//    var isFirstReorderTextsCall = true;
+//    var reorderTexts = function () {
+//        // First call is fake
+//        if (isFirstReorderTextsCall)
+//            isFirstReorderTextsCall = false;
+//        else {
+//            var t = filterAndReorder(TheTexts, TextFilters);
+//            // This is an ugly hack so that when we go TextList => TextDetail => TextList again, we get back the good texts
+////            TheTexts.cacheReorderedTexts(t, $scope.intentionId);
+//        }
+//    };
+//    $scope.$watch(TextFilters.preferedStylesToWatch,reorderTexts,true);
 
     //$scope.allowModalToPopNextTime = true;
     $scope.popUpandSelect = function(txt,action) {

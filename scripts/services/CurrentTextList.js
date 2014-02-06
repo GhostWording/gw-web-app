@@ -1,8 +1,8 @@
 
 
 cherryApp.factory('CurrentTextList', [
-    '$http', '$rootScope', '$routeParams', 'AppUrlSvc',  'HelperService', 'cacheSvc', 'TextFilterHelperSvc','NormalTextFilters',
-    function($http, $rootScope, $routeParams, AppUrlSvc,  HelperService, cacheSvc, TextFilterHelperSvc,TextFilters) {
+    '$http', '$rootScope', '$routeParams', 'AppUrlSvc',  'HelperService', 'cacheSvc', 'TextFilterHelperSvc','NormalTextFilters','SelectedArea','SelectedIntention',
+    function($http, $rootScope, $routeParams, AppUrlSvc,  HelperService, cacheSvc, TextFilterHelperSvc,TextFilters,SelectedArea,SelectedIntention) {
 
     var areaId, intentionId, currentTextList;
 
@@ -23,6 +23,19 @@ cherryApp.factory('CurrentTextList', [
             });
         }
     }, true);
+
+    $rootScope.$watch(TextFilters.valuesToWatch,
+        function() {
+            var areaId = SelectedArea.getSelectedAreaName();
+            var intentionId = SelectedIntention.getSelectedIntentionId();
+
+            if( areaId && intentionId ) {
+                getTextList(intentionId, areaId).then(function(textList) {
+                    currentTextList = textList;
+                });
+            }
+        });
+
 
     function loadTextList(intentionId, areaId, limit) {
 
