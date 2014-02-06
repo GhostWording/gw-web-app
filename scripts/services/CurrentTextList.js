@@ -69,16 +69,46 @@ cherryApp.factory('CurrentTextList', [
         // TODO: get them from TextFilters
         var sortAndFilterOptions = TextFilters.valuesToWatch();
 
-        // Here we ask for a text list from the cache
-        return cacheSvc.get(cacheKey(intentionId, areaId, sortAndFilterOptions), lastChange, function() {
+        var retval;
+
+
+        // Here we ask for a text list from the cache with no filtering
+        retval =  cacheSvc.get(cacheKey(intentionId, areaId, ""), lastChange, function() {
             // The cache didn't have it so load it up
             return loadTextList(intentionId, areaId)
                 .then(function(texts) {
-                    var filteredTexts = filterAndReorder(texts, TextFilters);
-                    return filteredTexts;
+                    //var filteredTexts = filterAndReorder(texts, TextFilters);
+                    //return filteredTexts;
+                    return texts;
                 }
             );
-        });
+        })
+            // Then we look for them with filtering options
+            .then(function(texts) {
+              //console.log("hello");
+                return cacheSvc.get(cacheKey(intentionId, areaId, sortAndFilterOptions   ), lastChange, function() {
+                    // And feed the cache with the filtered result if not allready there
+                    return filterAndReorder(texts, TextFilters);
+                });
+            })
+
+
+        ;
+
+//        if ( sortAndFilterOptions && sortAndFilterOptions != "") {
+//            cacheSvc.get(cacheKey(intentionId, areaId, sortAndFilterOptions), lastChange, function() {
+//                // The cache didn't have it so convert it for the option without cache
+//                return loadTextList(intentionId, areaId)
+//                    .then(function(texts) {
+//                        var filteredTexts = filterAndReorder(texts, TextFilters);
+//                        return filteredTexts;
+//                    }
+//                );
+//            });
+//        }
+
+
+        return retval;
     }
 
     // Call this when you receive information that the text list has been updated on the server
