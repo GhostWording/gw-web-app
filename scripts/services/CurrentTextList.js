@@ -1,8 +1,8 @@
 
 
 cherryApp.factory('CurrentTextList', [
-    '$http', '$rootScope', '$routeParams', 'AppUrlSvc',  'HelperService', 'cacheSvc', 'TextFilterHelperSvc','NormalTextFilters','SelectedArea','SelectedIntention',
-    function($http, $rootScope, $routeParams, AppUrlSvc,  HelperService, cacheSvc, TextFilterHelperSvc,TextFilters,SelectedArea,SelectedIntention) {
+    '$http', '$rootScope', '$routeParams','$filter', 'AppUrlSvc',  'HelperService', 'cacheSvc', 'TextFilterHelperSvc','NormalTextFilters','SelectedArea','SelectedIntention',
+    function($http, $rootScope, $routeParams, $filter, AppUrlSvc,  HelperService, cacheSvc, TextFilterHelperSvc,TextFilters,SelectedArea,SelectedIntention) {
 
     var areaId, intentionId, currentTextList;
 
@@ -82,11 +82,12 @@ cherryApp.factory('CurrentTextList', [
         // How should we process the text list for options such as recipient gender, prefered styles, etc.
         var sortAndFilterOptions = TextFilters.valuesToWatch();
 
-        // We first look ask for a text list from the cache with no filtering
+        // We first look in the cache for the raw text , with blank sortAndFilterOptions
         return  cacheSvc.get(cacheKey(intentionId, areaId, ""), lastChange, function () {
             // The cache didn't have it so load it up
             return loadTextList(intentionId, areaId)
                 .then(function (texts) {
+                    var textsWithHtmlContent = $filter('GenerateHtmlFields')(texts);
                     //var filteredTexts = filterAndReorder(texts, TextFilters);
                     //return filteredTexts;
                     return texts;
