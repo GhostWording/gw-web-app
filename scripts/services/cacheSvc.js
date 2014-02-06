@@ -29,18 +29,20 @@ cherryApp.factory('cacheSvc', ['localStorage', '$q', function(localStorage, $q) 
 
     update: function(name, lastChange) {
       var cacheEntry = cache[name];
-      if ( !cacheEntry.lastChange || cacheEntry.lastChange < lastChange ) {
+      if ( cacheEntry && ( cacheEntry.lastChange < 0 || cacheEntry.lastChange < lastChange || lastChange < 0)   ) {
         delete cacheEntry.promise;
-        localStorage.set(cacheEntry.key, null);
-        cacheEntry.lastChange = lastChange;
+        //localStorage.set(cacheEntry.key, null);
+        localStorage.set(name, null);
+         console.log("lastChange :" + lastChange + " for intention" + name + " DELETING cacheEntry.promise");
+          cacheEntry.lastChange = lastChange;
       }
     },
 
     get: function(name, lastChange, getFn, skipLocalStorage) {
       var cacheEntry = cache[name] || cacheSvc.register(name, lastChange, getFn);
+        // We don't have a promise for the data
         if (!cacheEntry.promise) {
-            // We don't have a promise for the data
-
+            // If caller does not want to use local storage, use the getFn
             if (skipLocalStorage == true) {
                 cacheEntry.promise = $q.when(cacheEntry.getFn());
             } else {

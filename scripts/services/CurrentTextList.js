@@ -13,6 +13,17 @@ cherryApp.factory('CurrentTextList', [
         minSortOrderToGetShuffled: 25
     };
 
+    // Update cache when current intention changes (using MostRecentTextUpdateEpoch intention property)
+//   $rootScope.$watch( SelectedIntention.getSelectedIntention,
+//        function(intention) {
+//            console.log("changed");
+//            var areaId = SelectedArea.getSelectedAreaName();
+//            var intentionId = SelectedIntention.getSelectedIntentionId();
+//            //...
+//        }
+//   );
+
+    // Ask the cache for a new list when route changes + area and intention can be read from route
     $rootScope.$watch(function() { return $routeParams; }, function(event, route) {
         areaId = $routeParams.areaId;
         intentionId = $routeParams.intentionId;
@@ -24,6 +35,7 @@ cherryApp.factory('CurrentTextList', [
         }
     }, true);
 
+    // Ask the cache for a new list when filtering option change
     $rootScope.$watch(TextFilters.valuesToWatch,
         function() {
             var areaId = SelectedArea.getSelectedAreaName();
@@ -77,29 +89,43 @@ cherryApp.factory('CurrentTextList', [
     // Call this to get a promise to a list of texts for the given intention and area
     function getTextList(intentionId, areaId) {
 
+        // This key concerns the raw text list for an areaId + intentionId
+        var rawTextListkey =cacheKey(intentionId, areaId, "");
+        // Text list considering sorting and filtering options such as recipient gender, prefered styles, etc.
+        var textListWithOptionsKey =cacheKey(intentionId, areaId, TextFilters.valuesToWatch());
+
         // TODO: we should get this from the current intention service
-        var lastChange = 1000;
-        // How should we process the text list for options such as recipient gender, prefered styles, etc.
-        var sortAndFilterOptions = TextFilters.valuesToWatch();
+        var lastChange = 0;
+        var intention = SelectedIntention.getSelectedIntention();
+        if (intention ) {
+            lastChange = intention.MostRecentTextUpdateEpoch;
+            console.log("lastChange :" + lastChange + " for " + intention.Label );
+            // Delete cache entries that are not up to date with lastChange number
+            cacheSvc.update(rawTextListkey,lastChange);
+            cacheSvc.update(textListWithOptionsKey,lastChange);
+        }
+
 
         // We first look in the cache for the raw text , with blank sortAndFilterOptions
-        return  cacheSvc.get(cacheKey(intentionId, areaId, ""), lastChange, function () {
+        return  cacheSvc.get(rawTextListkey, lastChange, function () {
             // The cache didn't have it so load it up
             return loadTextList(intentionId, areaId)
                 .then(function (texts) {
-                    var textsWithHtmlContent = $filter('GenerateHtmlFields')(texts);
-                    //var filteredTexts = filterAndReorder(texts, TextFilters);
-                    //return filteredTexts;
-                    return texts;
+                    return  $filter('GenerateHtmlFields')(texts);
                 }
             );
         })
             // Then we look for a cached version of the filtered list : if it does not exist in the cache allready we just filter what we got from the previous step
             .then(function (texts) {
-                return cacheSvc.get(cacheKey(intentionId, areaId, sortAndFilterOptions), lastChange, function () {
+                return cacheSvc.get(textListWithOptionsKey, lastChange, function () {
                     // And feed the cache with the filtered result if not allready there
                     return filterAndReorder(texts, TextFilters);
                 },true); // Skip local storage for the filtered list : only cache it in memory
+            })
+            .then(function (texts) {
+                // TODO : quality control on the texts here, to look for properties that may be outdated
+                // If anything wrong, delete them from cache and local storage with cacheSvc.update(rawTextListkey,-1);
+                return texts;
             })
             ;
     }
