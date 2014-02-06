@@ -36,27 +36,29 @@ cherryApp.factory('cacheSvc', ['localStorage', '$q', function(localStorage, $q) 
       }
     },
 
-    get: function(name, lastChange, getFn) {
+    get: function(name, lastChange, getFn, skipLocalStorage) {
       var cacheEntry = cache[name] || cacheSvc.register(name, lastChange, getFn);
-      if ( !cacheEntry.promise ) {
-        // We don't have a promise for the data
-        
-        // First try local storage
-        var localValue = localStorage.get(name);
-        if ( localValue ) {
-          cacheEntry.promise = $q.when(localValue);
-        }
+        if (!cacheEntry.promise) {
+            // We don't have a promise for the data
 
-        // Not in local storage so use the registered function to get it
-        else {
-          cacheEntry.promise = $q.when(cacheEntry.getFn());
-
-          // Then when the data arrives add it to localStorage
-          cacheEntry.promise.then(function(value) {
-            localStorage.set(name, value);
-          });
+            if (skipLocalStorage == true) {
+                cacheEntry.promise = $q.when(cacheEntry.getFn());
+            } else {
+                // First try local storage
+                var localValue = localStorage.get(name);
+                if (localValue) {
+                    cacheEntry.promise = $q.when(localValue);
+                }
+                // Not in local storage so use the registered function to get it
+                else {
+                    cacheEntry.promise = $q.when(cacheEntry.getFn());
+                    // Then when the data arrives add it to localStorage
+                    cacheEntry.promise.then(function (value) {
+                        localStorage.set(name, value);
+                    });
+                }
+            }
         }
-      }
       return cacheEntry.promise;
     }
   };

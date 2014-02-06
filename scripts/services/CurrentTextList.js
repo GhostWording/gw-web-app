@@ -98,7 +98,7 @@ cherryApp.factory('CurrentTextList', [
                 return cacheSvc.get(cacheKey(intentionId, areaId, sortAndFilterOptions), lastChange, function () {
                     // And feed the cache with the filtered result if not allready there
                     return filterAndReorder(texts, TextFilters);
-                });
+                },true); // Skip local storage for the filtered list : only cache it in memory
             })
             ;
     }
