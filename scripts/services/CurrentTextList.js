@@ -64,51 +64,30 @@ cherryApp.factory('CurrentTextList', [
     // Call this to get a promise to a list of texts for the given intention and area
     function getTextList(intentionId, areaId) {
 
-        // TODO: get this dynamically from somewhere!
+        // TODO: we should get this from the current intention service
         var lastChange = 1000;
-        // TODO: get them from TextFilters
+        // How should we process the text list for options such as recipient gender, prefered styles, etc.
         var sortAndFilterOptions = TextFilters.valuesToWatch();
 
-        var retval;
-
-
-        // Here we ask for a text list from the cache with no filtering
-        retval =  cacheSvc.get(cacheKey(intentionId, areaId, ""), lastChange, function() {
+        // We first look ask for a text list from the cache with no filtering
+        return  cacheSvc.get(cacheKey(intentionId, areaId, ""), lastChange, function () {
             // The cache didn't have it so load it up
             return loadTextList(intentionId, areaId)
-                .then(function(texts) {
+                .then(function (texts) {
                     //var filteredTexts = filterAndReorder(texts, TextFilters);
                     //return filteredTexts;
                     return texts;
                 }
             );
         })
-            // Then we look for them with filtering options
-            .then(function(texts) {
-              //console.log("hello");
-                return cacheSvc.get(cacheKey(intentionId, areaId, sortAndFilterOptions   ), lastChange, function() {
+            // Then we look for a cached version of the filtered list : if it does not exist in the cache allready we just filter what we got from the previous step
+            .then(function (texts) {
+                return cacheSvc.get(cacheKey(intentionId, areaId, sortAndFilterOptions), lastChange, function () {
                     // And feed the cache with the filtered result if not allready there
                     return filterAndReorder(texts, TextFilters);
                 });
             })
-
-
-        ;
-
-//        if ( sortAndFilterOptions && sortAndFilterOptions != "") {
-//            cacheSvc.get(cacheKey(intentionId, areaId, sortAndFilterOptions), lastChange, function() {
-//                // The cache didn't have it so convert it for the option without cache
-//                return loadTextList(intentionId, areaId)
-//                    .then(function(texts) {
-//                        var filteredTexts = filterAndReorder(texts, TextFilters);
-//                        return filteredTexts;
-//                    }
-//                );
-//            });
-//        }
-
-
-        return retval;
+            ;
     }
 
     // Call this when you receive information that the text list has been updated on the server
