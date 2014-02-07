@@ -9,7 +9,8 @@ cherryApp.factory('intentionApi', function($http, apiUrl, currentLanguage) {
       });
     },
     one: function(areaName, intentionId) {
-      return $http.get(apiUrl + areaName + '/intention/' + { headers: { 'Accept-Language': currentLanguage.code } }).then(function(response) {
+      return $http.get(apiUrl + areaName + '/intention/' + intentionId,
+        { headers: { 'Accept-Language': currentLanguage.code } }).then(function(response) {
         console.log('Request intension "' + intentionId + '" for area "' + areaName + '"; responded with ' + response.status);
         return response.data;
       });
