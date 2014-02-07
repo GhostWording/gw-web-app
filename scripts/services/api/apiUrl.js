@@ -1,0 +1,1 @@
+cherryApp.value('apiUrl', 'http://api.cvd.io/');
