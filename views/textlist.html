@@ -92,28 +92,38 @@
         </div>
 
         <div ng-repeat="txt in TextListPanel.lesTextes" >
-                <div>
-                    <!--<i class="icon-envelope pull-right" ng-click="allowPopUp()"></i>-->
-                    <img src="./assets/e-mail64.png" class = "pull-right envoyer"  ng-click="popUpandSelect(txt,'send')" >
-                    <a href="#/area/{{ areaId }}/intention/{{ intentionId }}/text/{{txt.TextId}}" targetType = "Text" actionType="open"  targetId = "{{txt.TextId}}"  ng-click="selectThisText(txt,'open')" >
+            <!-- Raw version to test rendering speed -->
+            <!--<div>-->
+                <!--<a href="#/area/{{ areaId }}/intention/{{ intentionId }}/text/{{txt.TextId}}" targetType = "Text" actionType="open"  targetId = "{{txt.TextId}}"  ng-click="selectThisText(txt,'open')" >-->
+                    <!--<div class ="well well-small bmw-texte" ng-bind-html="txt.htmlContent "></div>-->
+                <!--</a>-->
+            <!--</div>-->
 
-                        <div ng-switch on="whatToDisplay(txt)" ng-class= "{active: txt.TextId == getSelectedTextId(txt,txt.textId)}">
-                            <div ng-switch-when="0" class ="well well-small bmw-texte" ng-bind-html="txt.Abstract | replaceBrackets | convertEndOfLineToBR"></div>
+            <div>
+                <!--<i class="icon-envelope pull-right" ng-click="allowPopUp()"></i>-->
+                <img src="./assets/e-mail64.png" class = "pull-right envoyer"  ng-click="popUpandSelect(txt,'send')" >
+                <a href="#/area/{{ areaId }}/intention/{{ intentionId }}/text/{{txt.TextId}}" targetType = "Text" actionType="open"  targetId = "{{txt.TextId}}"  ng-click="selectThisText(txt,'open')" >
 
-                            <div ng-switch-when="1" class ="well well-small bmw-texte"
-                                 ng-bind-html="txt.Content | replaceBrackets | convertEndOfLineToBR"></div>
+                    <div ng-switch on="whatToDisplay(txt)" ng-class= "{active: txt.TextId == getSelectedTextId(txt,txt.textId)}">
+                        <!--<div ng-switch-when="0" class ="well well-small bmw-texte" ng-bind-html="txt.Abstract | replaceBrackets | convertEndOfLineToBR"></div>-->
+                        <div ng-switch-when="0" class ="well well-small bmw-texte" ng-bind-html="txt.htmlAbstract"></div>
 
-                            <div ng-switch-when="2">
-                                <blockquote>
-                                    <span ng-bind-html="txt.Content | replaceBrackets | convertEndOfLineToBR" class = "citation"></span>
-                                    <small ng-hide="isAuthorOfCitationIsUnknown(txt.Author)" title="txt.Author">{{txt.Author}}</small>
-                                </blockquote>
-                            </div>
+                        <!--ng-bind-html="txt.Content | replaceBrackets | convertEndOfLineToBR">-->
+                        <div ng-switch-when="1" class ="well well-small bmw-texte" ng-bind-html="txt.htmlContent "></div>
 
-                            <div ng-switch-default>Default text : should not happen</div>
+                        <div ng-switch-when="2">
+                            <blockquote>
+                                <!--<span ng-bind-html="txt.Content | replaceBrackets | convertEndOfLineToBR" class = "citation"></span>-->
+                                <span ng-bind-html="txt.htmlContent" class = "citation"></span>
+                                <small ng-hide="isAuthorOfCitationIsUnknown(txt.Author)" title="txt.Author">{{txt.Author}}</small>
+                            </blockquote>
                         </div>
-                    </a>
-                </div>
+
+                        <div ng-switch-default>Default text : should not happen</div>
+                    </div>
+                </a>
+            </div>
+
         </div>
 
     </div> <!--/ Text list -->

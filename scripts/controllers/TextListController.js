@@ -1,7 +1,7 @@
 // Displays a list of texts
 cherryApp.controller('TextListController',
- ['$scope', '$filter','$routeParams','$location', 'NormalTextFilters', 'SelectedText', 'SelectedIntention', 'TheTexts', 'AppUrlSvc', 'HelperService','PostActionSvc','SelectedArea','TextFilterHelperSvc',
-function ($scope, $filter, $routeParams,$location,  TextFilters,SendText,SelectedIntention, TheTexts, AppUrlSvc, HelperSvc,PostActionSvc,SelectedArea,TextFilterHelperSvc) {
+ ['$scope', '$filter','$routeParams','$location', 'NormalTextFilters', 'SelectedText', 'SelectedIntention', 'TheTexts', 'AppUrlSvc', 'HelperService','PostActionSvc','SelectedArea','TextFilterHelperSvc', 'CurrentTextList',
+function ($scope, $filter, $routeParams, $location, TextFilters,SendText,SelectedIntention, TheTexts, AppUrlSvc, HelperSvc,PostActionSvc,SelectedArea,TextFilterHelperSvc, CurrentTextList) {
 
     // Read area and intention id from url
     $scope.areaId = $routeParams.areaId;
@@ -14,72 +14,11 @@ function ($scope, $filter, $routeParams,$location,  TextFilters,SendText,Selecte
     // Initialize list of texts to be displayed
     $scope.TextListPanel = {};
     $scope.TextListPanel.lesTextes = [];
-//    $scope.TextListPanel.showNbTexts = false; // 23 nov
-//    $scope.TextListPanel.showProgressBar = true;
-//    $scope.TextListPanel.progressBarWidth = 60;
-    //$scope.TextListPanel.lesTextes = TheTexts.filteredTexts;
+    // Watch the current text list and update the scope when it changes
+    $scope.$watch(CurrentTextList.getCurrentTextList, function(textList) {
+        $scope.TextListPanel.lesTextes = textList;
+    });
 
-
-    // Query texts
-    TheTexts.queryTexts($scope.intentionId, $scope.areaId, doIfAllTextsRead, doIfErrorReadingTexts, true);
-
-    function doIfAllTextsRead(data) {
-        // Briefly show a full progress bar then hide it => won't be able to do that in order in the new version
-//        $scope.TextListPanel.progressBarWidth = 100;
-//        $scope.TextListPanel.showProgressBar = false;
-//        $scope.TextListPanel.showNbTexts = true;
-//        $scope.TextListPanel.labelNbTexts = "façons de dire";
-
-        var txtList = TextFilterHelperSvc.filterOnBasicFilters(data,TextFilters );
-        $scope.TextListPanel.lesTextes = txtList;
-
-        //$scope.TextListPanel.lesTextes = data;
-
-        //$scope.TextListPanel.lesTextes = TheTexts.filteredTexts;
-    }
-
-    function doIfErrorReadingTexts  ()  {
-        // switch message to failure
-        //$scope.TextListPanel.labelNbTexts = "Aucun texte pour dire";
-        // hide other controls
-        //$scope.TextListPanel.showNbTexts = true;
-//        $scope.TextListPanel.progressBarWidth = 100;
-    }
-
-
-    // Change filtered text list (and TextCount) each time TextFilters change
-    $scope.filters = TextFilters.filterValuesToWatch;
-
-
-    // Exclude texts not matching tags and properties
-    function filterAndReorder(TheTexts, TextFilters) {
-        $scope.TextListPanel.lesTextes = TheTexts.filterAndReorder(TextFilters);
-        return $scope.TextListPanel.lesTextes;
-    }
-
-    // Filter and reorder texts after user changes filters such as recipient gender
-    var isFirstWriteChangeCall = true;
-    var reorderAfterFiltering = function (){
-      if ( isFirstWriteChangeCall )
-        isFirstWriteChangeCall = false;
-      else
-        filterAndReorder(TheTexts, TextFilters);
-    };
-    $scope.$watch('filters()',reorderAfterFiltering,true);
-
-    // Filter and reorder texts after user changes prefered styles
-    var isFirstReorderTextsCall = true;
-    var reorderTexts = function () {
-        // First call is fake
-        if (isFirstReorderTextsCall)
-            isFirstReorderTextsCall = false;
-        else {
-            var t = filterAndReorder(TheTexts, TextFilters);
-            // This is an ugly hack so that when we go TextList => TextDetail => TextList again, we get back the good texts
-//            TheTexts.cacheReorderedTexts(t, $scope.intentionId);
-        }
-    };
-    $scope.$watch(TextFilters.preferedStylesToWatch,reorderTexts,true);
 
     //$scope.allowModalToPopNextTime = true;
     $scope.popUpandSelect = function(txt,action) {
@@ -120,6 +59,40 @@ function ($scope, $filter, $routeParams,$location,  TextFilters,SendText,Selecte
 ]);
 
 // OLD CODE
+
+//    // Change filtered text list (and TextCount) each time TextFilters change
+//    $scope.filters = TextFilters.filterValuesToWatch;
+//
+//
+//    // Exclude texts not matching tags and properties
+//    function filterAndReorder(TheTexts, TextFilters) {
+////        $scope.TextListPanel.lesTextes = TheTexts.filterAndReorder(TextFilters);
+//        return $scope.TextListPanel.lesTextes;
+//    }
+//
+//    // Filter and reorder texts after user changes filters such as recipient gender
+//    var isFirstWriteChangeCall = true;
+//    var reorderAfterFiltering = function (){
+//      if ( isFirstWriteChangeCall )
+//        isFirstWriteChangeCall = false;
+//      else
+//        filterAndReorder(TheTexts, TextFilters);
+//    };
+//    $scope.$watch('filters()',reorderAfterFiltering,true);
+//
+//    // Filter and reorder texts after user changes prefered styles
+//    var isFirstReorderTextsCall = true;
+//    var reorderTexts = function () {
+//        // First call is fake
+//        if (isFirstReorderTextsCall)
+//            isFirstReorderTextsCall = false;
+//        else {
+//            var t = filterAndReorder(TheTexts, TextFilters);
+//            // This is an ugly hack so that when we go TextList => TextDetail => TextList again, we get back the good texts
+////            TheTexts.cacheReorderedTexts(t, $scope.intentionId);
+//        }
+//    };
+//    $scope.$watch(TextFilters.preferedStylesToWatch,reorderTexts,true);
 
 // All this should go in a routing module
 // if only one parameter, it's a slug shortcut that implies both area and intention

@@ -7,10 +7,11 @@ var cherryApp = angular.module('cherryApp',  ['ngCookies','ngSanitize','ngRoute'
 
 
 //CORS for angular v < 1.2
-cherryApp.config(['$httpProvider', '$locationProvider', function ($httpProvider, $locationProvider) {
+cherryApp.config(['$httpProvider', '$locationProvider','$sceProvider', function ($httpProvider, $locationProvider,$sceProvider) {
   $locationProvider.html5Mode(true);
     $httpProvider.defaults.useXDomain = true;
     delete $httpProvider.defaults.headers.common['X-Requested-With'];
+    $sceProvider.enabled(false);
 }]);
 //CORS for angular v > 1.2
 cherryApp.config(['$sceDelegateProvider', function ($sceDelegateProvider) {
