@@ -53,6 +53,17 @@ describe("cacheSvc", function() {
       $rootScope.$digest();
     }));
 
+    it("should not store the data in localStorage if skipLocalStorage is true", inject(function(localStorage, $rootScope) {
+      // Mock out the localStorage
+      spyOn(localStorage, 'get').andReturn('some data');
+
+      // This time we should hit the localStorage
+      var promise = cacheSvc.get('myData', 999, getMyData, true);
+      expect(getMyData).toHaveBeenCalled();
+      expect(localStorage.get).not.toHaveBeenCalled();
+      
+    }));
+
   });
 
   describe("update", function() {
