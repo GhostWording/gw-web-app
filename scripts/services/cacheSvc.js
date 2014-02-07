@@ -19,6 +19,7 @@ cherryApp.factory('cacheSvc', ['localStorage', '$q', function(localStorage, $q) 
   var cache = {};
   var cacheSvc = {
     _cache: cache,
+
     register: function(name, lastChange, getFn) {
       return cache[name] = {
         name: name,
@@ -29,12 +30,16 @@ cherryApp.factory('cacheSvc', ['localStorage', '$q', function(localStorage, $q) 
 
     update: function(name, lastChange) {
       var cacheEntry = cache[name];
-      if ( cacheEntry && ( cacheEntry.lastChange < 0 || cacheEntry.lastChange < lastChange || lastChange < 0)   ) {
-        delete cacheEntry.promise;
-        //localStorage.set(cacheEntry.key, null);
-        localStorage.set(name, null);
-         console.log("lastChange :" + lastChange + " for intention" + name + " DELETING cacheEntry.promise");
+      if ( cacheEntry ) {
+        if ( cacheEntry.lastChange === undefined || cacheEntry.lastChange < 0) {
           cacheEntry.lastChange = lastChange;
+        } else if ( cacheEntry.lastChange < lastChange ) {
+          delete cacheEntry.promise;
+          //localStorage.set(cacheEntry.key, null);
+          localStorage.set(name, null);
+           console.log("lastChange :" + lastChange + " for intention" + name + " DELETING cacheEntry.promise");
+            cacheEntry.lastChange = lastChange;
+        }
       }
     },
 
@@ -43,7 +48,7 @@ cherryApp.factory('cacheSvc', ['localStorage', '$q', function(localStorage, $q) 
         // We don't have a promise for the data
         if (!cacheEntry.promise) {
             // If caller does not want to use local storage, use the getFn
-            if (skipLocalStorage == true) {
+            if (skipLocalStorage ) {
                 cacheEntry.promise = $q.when(cacheEntry.getFn());
             } else {
                 // First try local storage
