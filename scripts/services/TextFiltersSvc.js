@@ -103,13 +103,13 @@ cherryApp.factory('NormalTextFilters', ['$location','UserProfileSvc',function ($
     // The other filters will typically  be changed each time the user choses from a list of texts
 	o.getRecipientGender        = function ()  { return recipientGender; };
 	o.setRecipientGender        = function (v) { recipientGender = v; };
-	o.getHideRecipientGender    = function () { return o.getRecipientGenderIsDefined() };
+	o.getHideRecipientGender    = function () { return o.getRecipientGenderIsDefined(); };
     o.getRecipientGenderIsDefined  = function () { return recipientGender != "I"; };
 
     o.getTuOuVous               = function ()  { return tuOuVous; };
 	o.setTuOuVous               = function (v) { tuOuVous = v; };
 	o.getHideTuOuVous           = function () {
-                                                return o.getTuOuVousIsDefined()
+                                                return o.getTuOuVousIsDefined();
     };
     o.getTuOuVousIsDefined      = function () { return tuOuVous != "I";};
 

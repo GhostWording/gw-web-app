@@ -37,9 +37,9 @@ cherryApp.directive('a', function() {
                         return;
                     // If its a command, we might be interessed by the parameter betwenn brackets
                     var guessedParameters;
-                    if ( attrs.targettype == "Command" && attrs.ngClick != undefined ) {
+                    if ( attrs.targettype == "Command" && attrs.ngClick !== undefined ) {
                         var actionParts = /([^.]+)\.([^(]+)\(([^)]*)\)/.exec(attrs.ngClick);
-                        if ( actionParts != undefined && actionParts[3] != undefined )
+                        if ( actionParts !== undefined && actionParts[3] !== undefined )
                             guessedParameters = actionParts[3].replace(/["']/g, "");
                         else {
                             actionParts = /\(([^)]+)/.exec(attrs.ngClick);
@@ -53,7 +53,7 @@ cherryApp.directive('a', function() {
                     // If not provided explicitly by attributes on the <a> we guess the params from the href:
 					// :targetType/:targetId/:targetParameters...
                     var href = attrs.href;
-                    if (href  == undefined )
+                    if (href === undefined )
                         href = "/";
 					var pathParts = href .split('/');
                     var targetType;

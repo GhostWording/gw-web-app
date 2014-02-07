@@ -11,12 +11,12 @@ cherryApp.controller('TextListHeaderController', ['$scope','NormalTextFilters', 
     };
 
     $scope.nbTexts = function() {
-        var nbTexts = TheTexts.filteredTexts.length
+        var nbTexts = TheTexts.filteredTexts.length;
         return nbTexts > 0 ? nbTexts : "" ;
     };
 
     $scope.nbTextsLabel = function() {
-        var nbTexts = TheTexts.filteredTexts.length
+        var nbTexts = TheTexts.filteredTexts.length;
         return nbTexts > 0 ? "façons de dire" : "Aucun texte pour dire" ;
     };
 

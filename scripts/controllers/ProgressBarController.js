@@ -8,7 +8,7 @@ cherryApp.controller('ProgressBarController', ['$scope','TheTexts','CurrentTextL
     };
 
     $scope.progressBarWidth = function() {
-        if ( TheTexts.texts.length == 0 )
+        if ( TheTexts.texts.length === 0 )
             return 60;
         else
             return 100;
