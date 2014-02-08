@@ -1,7 +1,7 @@
 // Displays a list of texts
 cherryApp.controller('TextListController',
- ['$scope', '$filter','$routeParams','$location', 'NormalTextFilters', 'SelectedText', 'SelectedIntention', 'TheTexts', 'AppUrlSvc', 'HelperService','PostActionSvc','SelectedArea','TextFilterHelperSvc', 'CurrentTextList',
-function ($scope, $filter, $routeParams, $location, TextFilters,SendText,SelectedIntention, TheTexts, AppUrlSvc, HelperSvc,PostActionSvc,SelectedArea,TextFilterHelperSvc, CurrentTextList) {
+ ['$scope', '$filter','$routeParams','$location', 'NormalTextFilters', 'SelectedText', 'SelectedIntention', 'AppUrlSvc', 'HelperService','PostActionSvc','SelectedArea','TextFilterHelperSvc', 'CurrentTextList',
+function ($scope, $filter, $routeParams, $location, TextFilters,SendText,SelectedIntention,  AppUrlSvc, HelperSvc,PostActionSvc,SelectedArea,TextFilterHelperSvc, CurrentTextList) {
 
     // Read area and intention id from url
     $scope.areaId = $routeParams.areaId;

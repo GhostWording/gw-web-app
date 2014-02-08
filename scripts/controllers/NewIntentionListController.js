@@ -1,6 +1,6 @@
 cherryApp.controller('NewIntentionListController',
-  ['$scope', '$filter','$routeParams','FakeIntentions','Intentions','TheTexts', 'NormalTextFilters','SelectedIntention','HelperService' ,'SelectedArea',
-  function ($scope, $filter,$routeParams, FakeIntentions, theIntentions,TheTexts,TextFilters,SelectedIntention,HelperService,SelectedArea) {
+  ['$scope', '$filter','$routeParams','FakeIntentions','Intentions', 'NormalTextFilters','SelectedIntention','HelperService' ,'SelectedArea',
+  function ($scope, $filter,$routeParams, FakeIntentions, theIntentions,TextFilters,SelectedIntention,HelperService,SelectedArea) {
     TextFilters.initializeFiltersToUndefined(); // New instead of in TextListController to keep user filters when returning from detailed view
 
     // Read areaId from the url or use default areaId if nothing is found

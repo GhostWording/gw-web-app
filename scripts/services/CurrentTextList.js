@@ -5,6 +5,7 @@ cherryApp.factory('CurrentTextList', [
     function($http, $rootScope, $routeParams, $filter, AppUrlSvc,  HelperService, cacheSvc, TextFilterHelperSvc,TextFilters,SelectedArea,SelectedIntention) {
 
     var areaId, intentionId, currentTextList;
+    var completeTextListForIntention;
 
     var o = {
         getCurrentTextList: function() {
@@ -16,6 +17,10 @@ cherryApp.factory('CurrentTextList', [
         hasTexts : function() {
             return o.getNbTexts() > 0;
         },
+        getCompleteTextListForIntention: function() {
+            return completeTextListForIntention;
+        },
+
         minSortOrderToGetShuffled: 25
     };
 
@@ -35,9 +40,13 @@ cherryApp.factory('CurrentTextList', [
         intentionId = $routeParams.intentionId;
 
         if( areaId && intentionId ) {
-            getTextList(intentionId, areaId).then(function(textList) {
+            getTextList(intentionId, areaId,true).then(function(textList) {
                 currentTextList = textList;
             });
+            getTextList(intentionId, areaId,false).then(function(textList) {
+                completeTextListForIntention = textList;
+            });
+
         }
     }, true);
 
@@ -48,7 +57,7 @@ cherryApp.factory('CurrentTextList', [
             var intentionId = SelectedIntention.getSelectedIntentionId();
 
             if( areaId && intentionId ) {
-                getTextList(intentionId, areaId).then(function(textList) {
+                getTextList(intentionId, areaId,true).then(function(textList) {
                     currentTextList = textList;
                 });
             }
@@ -93,7 +102,7 @@ cherryApp.factory('CurrentTextList', [
     }
 
     // Call this to get a promise to a list of texts for the given intention and area
-    function getTextList(intentionId, areaId) {
+    function getTextList(intentionId, areaId, filteringRequired) {
 
         // This key concerns the raw text list for an areaId + intentionId
         var rawTextListkey =cacheKey(intentionId, areaId, "");
@@ -123,17 +132,19 @@ cherryApp.factory('CurrentTextList', [
         })
             // Then we look for a cached version of the filtered list : if it does not exist in the cache allready we just filter what we got from the previous step
             .then(function (texts) {
-                return cacheSvc.get(textListWithOptionsKey, lastChange, function () {
-                    // And feed the cache with the filtered result if not allready there
-                    return filterAndReorder(texts, TextFilters);
-                },true); // Skip local storage for the filtered list : only cache it in memory
+                if ( filteringRequired )
+                    return cacheSvc.get(textListWithOptionsKey, lastChange, function () {
+                        // And feed the cache with the filtered result if not allready there
+                        return filterAndReorder(texts, TextFilters);
+                    },true); // Skip local storage for the filtered list : only cache it in memory
+                else
+                    return texts;
             })
             .then(function (texts) {
                 // TODO : quality control on the texts here, to look for properties that may be outdated
                 // If anything wrong, delete them from cache and local storage with cacheSvc.update(rawTextListkey,-1);
                 return texts;
-            })
-            ;
+            });
     }
 
     // Call this when you receive information that the text list has been updated on the server
