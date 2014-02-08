@@ -39,7 +39,7 @@ cherryApp.directive('a', function() {
                     var guessedParameters;
                     if ( attrs.targettype == "Command" && attrs.ngClick !== undefined ) {
                         var actionParts = /([^.]+)\.([^(]+)\(([^)]*)\)/.exec(attrs.ngClick);
-                        if ( actionParts !== undefined && actionParts[3] !== undefined )
+                        if ( actionParts && actionParts[3] !== undefined )
                             guessedParameters = actionParts[3].replace(/["']/g, "");
                         else {
                             actionParts = /\(([^)]+)/.exec(attrs.ngClick);
