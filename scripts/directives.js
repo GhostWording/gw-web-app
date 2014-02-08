@@ -13,13 +13,11 @@ cherryApp.directive('historyback', function () {
 
 cherryApp.directive('actionLocation', function() {
 	return {
-//		controller: function($scope, $attrs, PostActionSvc) {
         controller:['$attrs','PostActionSvc', function($attrs, PostActionSvc) {
 
                 this.postAction = function(targetType, targetId, actionType, targetParameters) {
 				// Post the given action using the action extracted from this directive
                     PostActionSvc.postActionInfo(targetType, targetId, $attrs.actionLocation, actionType, targetParameters);
-//				PostActionSvc(targetType, targetId, $attrs.actionLocation, actionType, targetParameters);
 			};
 		}]
 	};
@@ -147,21 +145,6 @@ cherryApp.directive('focusMe', function($timeout) {
 		}
 	};
 });
-
-// This one wokrs...the first time..but no good results on Androïd
-//cherryApp.directive('focusMe', function($timeout) {
-//	return function(scope, element, attrs) {
-//		scope.$watch(attrs.focusMe, function(value) {
-//			console.log('focus', value)
-//			if(value) {
-//				$timeout(function() {
-//					element.focus();
-//				}, 700);
-//			}
-//		});
-//	};
-//});
-
 
 
 cherryApp.directive('focused', function(){

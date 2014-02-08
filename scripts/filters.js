@@ -35,7 +35,17 @@ cherryApp.filter('GenerateHtmlFields',['$filter','$sce', function ($filter,$sce)
             }
             var c1 =  ($filter)('replaceBrackets')(currentText.Content);
             var c2 =  ($filter)('convertEndOfLineToBR')(c1);
+
+            var maxTextLengthForTextListRendering = 400;
+            if ( c2.length > maxTextLengthForTextListRendering ) {
+                c2 = c2.substring(0, maxTextLengthForTextListRendering) + "...<span class='glyphicon glyphicon-hand-right'></span>";
+            }
             currentText.htmlContent = c2;
+
+            // Check this property to decide cached text should be refreshed from the server
+            currentText.cacheFormatVersion = 1;
+
+
             //currentText.htmlContent = $sce.trustAsHtml(c2); // does not seem to improve performance
 
             var a1 =  ($filter)('replaceBrackets')(currentText.Abstract);
