@@ -1,29 +1,17 @@
 // Display label of current intention
-cherryApp.controller('IntentionLabelController', ['$scope','SelectedIntention','intentionApi', function ($scope, SelectedIntention,intentionApi) {
+cherryApp.controller('IntentionLabelController', ['$scope','SelectedIntention', function ($scope, SelectedIntention) {
 
-    var intention = SelectedIntention.getSelectedIntention();
-    if (intention !== undefined)
-        $scope.intentionLabel = intention.Label;
-    else
-        ReadAndDisplayIntention(SelectedIntention.getSelectedIntentionId());
+    // TODO : call from routing
+//    if ( !SelectedIntention.getSelectedIntention() )
+//        SelectedIntention.readIntentionFromId($routeParams.areaName,$routeParams.intentionId);
 
-    function doIfIntentionRead(data) {
-        $scope.intentionLabel = data.Label;
-        SelectedIntention.setSelectedIntention(data);
-    }
 
-    function ReadAndDisplayIntention(id) {
-        if ( id === undefined)
-            console.log("undefined intention label id");
-        else {
-            intentionApi.one($scope.areaId,id)
-                .then(   function (data) {
-                    $scope.intentionLabel = data.Label;
-                    SelectedIntention.setSelectedIntention(data);
-                }  );
+    $scope.$watch(SelectedIntention.getSelectedIntention,
+        function(intention) {
+            if ( intention && intention.Label ) {
+                $scope.intentionLabel = intention.Label;
+            }
         }
-    }
-
-
+    );
 
 }]);

@@ -6,9 +6,8 @@ function ($scope,$routeParams, HelperService,SelectedText,SelectedIntention,AppL
 
     var textId = $routeParams.textId;
     $scope.Id = textId;
-    var areaId = $routeParams.areaId;
-
-    SelectedArea.setSelectedAreaName(areaId);
+    var areaName= $routeParams.areaName;
+    SelectedArea.setSelectedAreaName(areaName);
 
     function displayIntentionLabel(data) {
       $scope.textDetailPageTitle = data.Label;
@@ -16,13 +15,11 @@ function ($scope,$routeParams, HelperService,SelectedText,SelectedIntention,AppL
 
     // TODO : do this on route change
     if ( !SelectedText.getSelectedTextObject() )
-        SelectedText.readTextFromId(textId,areaId);
+        SelectedText.readTextFromId(textId,areaName);
 
     // TODO : do this on route change
-    var intentionId = $routeParams.intentionId;
-    if ( !SelectedIntention.getSelectedIntention() )
-        //SingleIntentionQuerySvc.query(intentionId, areaId);
-        SelectedIntention.readIntentionFromId(areaId,intentionId);
+//    if ( !SelectedIntention.getSelectedIntention() )
+//        SelectedIntention.readIntentionFromId(areaName,$routeParams.intentionId);
 
     $scope.$watch(SelectedText.getSelectedTextObject,
         function(text) {
@@ -47,18 +44,6 @@ function ($scope,$routeParams, HelperService,SelectedText,SelectedIntention,AppL
             }
         }
     );
-
-
-//    function setScopeVariables(text) {
-//      $scope.textToDetail = text.Content;
-//      $scope.source = text.ReferenceUrl;
-//      $scope.author = text.Author;
-//      $scope.isQuote = HelperService.isQuote(text);
-//      $scope.tagLabels = AppLabels.labelsFormTagIds(text.TagIds);
-//      setTextDetailPageTitle(text);
-//    }
-
-
 
     $scope.send = function() {
       SelectedText.setSelectedTextLabel($scope.textToDetail);

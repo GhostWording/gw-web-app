@@ -4,11 +4,11 @@ cherryApp.controller('NewIntentionListController',
     TextFilters.initializeFiltersToUndefined(); // New instead of in TextListController to keep user filters when returning from detailed view
 
     // Read areaId from the url or use default areaId if nothing is found
-    $scope.areaId = $routeParams.areaId;
+    //$scope.areaId = $routeParams.areaId;
     $scope.areaName = $routeParams.areaName;
 
     if ( $scope.areaName === undefined ){
-      console.log('areaId === undefined');
+      console.log('areaName === undefined');
       $scope.areaName = 'DayToDay';
     }
 

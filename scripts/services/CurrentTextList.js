@@ -4,7 +4,7 @@ cherryApp.factory('CurrentTextList', [
     '$http', '$rootScope', '$routeParams','$filter', 'AppUrlSvc',  'HelperService', 'cacheSvc', 'TextFilterHelperSvc','NormalTextFilters','SelectedArea','SelectedIntention',
     function($http, $rootScope, $routeParams, $filter, AppUrlSvc,  HelperService, cacheSvc, TextFilterHelperSvc,TextFilters,SelectedArea,SelectedIntention) {
 
-    var areaId, intentionId, currentTextList;
+    var areaName, intentionId, currentTextList;
     var completeTextListForIntention;
 
     var o = {
@@ -36,14 +36,14 @@ cherryApp.factory('CurrentTextList', [
 
     // Ask the cache for a new list when route changes + area and intention can be read from route
     $rootScope.$watch(function() { return $routeParams; }, function(event, route) {
-        areaId = $routeParams.areaId;
+        areaName = $routeParams.areaName;
         intentionId = $routeParams.intentionId;
 
-        if( areaId && intentionId ) {
-            getTextList(intentionId, areaId,true).then(function(textList) {
+        if( areaName && intentionId ) {
+            getTextList(intentionId, areaName,true).then(function(textList) {
                 currentTextList = textList;
             });
-            getTextList(intentionId, areaId,false).then(function(textList) {
+            getTextList(intentionId, areaName,false).then(function(textList) {
                 completeTextListForIntention = textList;
             });
 
@@ -53,22 +53,22 @@ cherryApp.factory('CurrentTextList', [
     // Ask the cache for a new list when filtering option change
     $rootScope.$watch(TextFilters.valuesToWatch,
         function() {
-            var areaId = SelectedArea.getSelectedAreaName();
+            var areaName = SelectedArea.getSelectedAreaName();
             var intentionId = SelectedIntention.getSelectedIntentionId();
 
-            if( areaId && intentionId ) {
-                getTextList(intentionId, areaId,true).then(function(textList) {
+            if( areaName && intentionId ) {
+                getTextList(intentionId, areaName,true).then(function(textList) {
                     currentTextList = textList;
                 });
             }
         });
 
 
-    function loadTextList(intentionId, areaId, limit) {
+    function loadTextList(intentionId, areaName, limit) {
 
         limit = limit || 10000;
 
-        var url = AppUrlSvc.urlTextsForIntention(intentionId, areaId);
+        var url = AppUrlSvc.urlTextsForIntention(intentionId, areaName);
 
         console.log('getting texts from:', url);
 
@@ -97,17 +97,17 @@ cherryApp.factory('CurrentTextList', [
     }
 
     // This function is just used to identify the text list in the cache
-    function cacheKey(intentionId, areaId, sortAndFilterOptions) {
-        return 'text-list:' + intentionId + ':' + areaId + ':' + sortAndFilterOptions;
+    function cacheKey(intentionId, areaName, sortAndFilterOptions) {
+        return 'text-list:' + intentionId + ':' + areaName + ':' + sortAndFilterOptions;
     }
 
     // Call this to get a promise to a list of texts for the given intention and area
-    function getTextList(intentionId, areaId, filteringRequired) {
+    function getTextList(intentionId, areaName, filteringRequired) {
 
         // This key concerns the raw text list for an areaId + intentionId
-        var rawTextListkey =cacheKey(intentionId, areaId, "");
+        var rawTextListkey =cacheKey(intentionId, areaName, "");
         // Text list considering sorting and filtering options such as recipient gender, prefered styles, etc.
-        var textListWithOptionsKey =cacheKey(intentionId, areaId, TextFilters.valuesToWatch());
+        var textListWithOptionsKey =cacheKey(intentionId, areaName, TextFilters.valuesToWatch());
 
         // TODO: we should only invalidate cache when we get a fresh intention from the server : user might stay stuck with empty list if there is no connectivity
         var lastChange = 0;
@@ -124,7 +124,7 @@ cherryApp.factory('CurrentTextList', [
         // We first look in the cache for the raw text , with blank sortAndFilterOptions
         return  cacheSvc.get(rawTextListkey, lastChange, function () {
             // The cache didn't have it so load it up
-            return loadTextList(intentionId, areaId)
+            return loadTextList(intentionId, areaName)
                 .then(function (texts) {
                     return  $filter('GenerateHtmlFields')(texts);
                 }
@@ -148,8 +148,8 @@ cherryApp.factory('CurrentTextList', [
     }
 
     // Call this when you receive information that the text list has been updated on the server
-    function textListChanged(intentionId, areaId, changeId) {
-        cacheSvc.update(cacheKey(intentionId, areaId), changeId);
+    function textListChanged(intentionId, areaName, changeId) {
+        cacheSvc.update(cacheKey(intentionId, areaName), changeId);
     }
 
     function filterAndReorder(textList, textFilters) {
