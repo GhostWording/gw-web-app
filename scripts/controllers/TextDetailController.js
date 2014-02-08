@@ -6,20 +6,10 @@ function ($scope,$routeParams, HelperService,SelectedText,SelectedIntention,AppL
 
     var textId = $routeParams.textId;
     $scope.Id = textId;
-    var areaName= $routeParams.areaName;
-    SelectedArea.setSelectedAreaName(areaName);
-
-    function displayIntentionLabel(data) {
-      $scope.textDetailPageTitle = data.Label;
-    }
 
     // TODO : do this on route change
     if ( !SelectedText.getSelectedTextObject() )
-        SelectedText.readTextFromId(textId,areaName);
-
-    // TODO : do this on route change
-//    if ( !SelectedIntention.getSelectedIntention() )
-//        SelectedIntention.readIntentionFromId(areaName,$routeParams.intentionId);
+        SelectedText.readTextFromId(textId,$routeParams.areaName);
 
     $scope.$watch(SelectedText.getSelectedTextObject,
         function(text) {

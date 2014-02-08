@@ -8,8 +8,8 @@ function ($scope, $filter, $routeParams, $location, TextFilters,SendText,Selecte
     $scope.intentionId = $routeParams.intentionId;
 
     // Set current area and intention
-    SelectedArea.setSelectedAreaName($scope.areaName);
-    SelectedIntention.setSelectedIntentionId($scope.intentionId);
+    //SelectedArea.setSelectedAreaName($scope.areaName);
+    //SelectedIntention.setSelectedIntentionId($scope.intentionId);
 
     // Initialize list of texts to be displayed
     $scope.TextListPanel = {};
@@ -33,6 +33,7 @@ function ($scope, $filter, $routeParams, $location, TextFilters,SendText,Selecte
     $scope.selectThisText = function (txt,action) {
       SendText.setSelectedTextLabel(txt.Content);
       SendText.setSelectedTextObject(txt);
+      // Should get rid of these variables
       $scope.currentText.txt = SendText.getSelectedTextLabel();
       $scope.currentText.id = txt.TextId;
     };

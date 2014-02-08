@@ -1,6 +1,6 @@
 // Asks user about filters to be applied to the next query
-cherryApp.controller('FilterDialogController', ['$scope', 'HelperService','NormalTextFilters','PostActionSvc','FilterVisibilityHelperSvc','CurrentTextList',
-	function ($scope, HelperService, TextFilters,PostActionSvc,FilterVisibilityHelperSvc,CurrentTextList) {
+cherryApp.controller('FilterDialogController', ['$scope', 'HelperService','NormalTextFilters','PostActionSvc','FilterVisibilityHelperSvc','CurrentTextList','SelectedIntention',
+	function ($scope, HelperService, TextFilters,PostActionSvc,FilterVisibilityHelperSvc,CurrentTextList,SelectedIntention) {
         $scope.BasicFilters = TextFilters;
 
         var initializeFilterModal = function () {
@@ -26,6 +26,8 @@ cherryApp.controller('FilterDialogController', ['$scope', 'HelperService','Norma
             $scope.ContextFilters.inLove = contexts.romanticContext;
             $scope.ContextFilters.dating = contexts.datingContext;
         };
+
+        $scope.$watch(SelectedIntention.getSelectedIntention,initializeFilterModal);
 
         initializeFilterModal();
         initializeContextFiltersModal();
