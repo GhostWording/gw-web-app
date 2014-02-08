@@ -1,6 +1,6 @@
 // Asks user about filters to be applied to the next query
-cherryApp.controller('FilterDialogController', ['$scope', 'HelperService','NormalTextFilters','TheTexts','PostActionSvc','FilterVisibilityHelperSvc',
-	function ($scope, HelperService, TextFilters,TheTexts,PostActionSvc,FilterVisibilityHelperSvc) {
+cherryApp.controller('FilterDialogController', ['$scope', 'HelperService','NormalTextFilters','PostActionSvc','FilterVisibilityHelperSvc','CurrentTextList',
+	function ($scope, HelperService, TextFilters,PostActionSvc,FilterVisibilityHelperSvc,CurrentTextList) {
         $scope.BasicFilters = TextFilters;
 
         var initializeFilterModal = function () {
@@ -38,12 +38,11 @@ cherryApp.controller('FilterDialogController', ['$scope', 'HelperService','Norma
             var newValue = ! $scope[scopeVariable];
             TextFilters.setStyleToPrefer(key,newValue);
             PostActionSvc.postActionInfo('Command',scopeVariable,'StyleDialog','click',newValue);
-//            PostActionSvc('Command',scopeVariable,'StyleDialog','click',newValue);
-
         };
 
-        $scope.displayNbFilteredTexts = TheTexts.hasFilteredTexts;
-        $scope.nbFilteredTexts = TheTexts.nbfilteredTexts;
+        $scope.displayNbFilteredTexts = CurrentTextList.hasTexts ;
+        $scope.nbFilteredTexts = CurrentTextList.getNbTexts;
+
         $scope.nbTextLabel = function () {
             var retval = "texte";
             if ( $scope.nbFilteredTexts() > 1 )

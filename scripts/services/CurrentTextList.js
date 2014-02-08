@@ -10,6 +10,12 @@ cherryApp.factory('CurrentTextList', [
         getCurrentTextList: function() {
             return currentTextList;
         },
+        getNbTexts : function() {
+            return currentTextList !== undefined ? currentTextList.length : 0;
+        },
+        hasTexts : function() {
+            return o.getNbTexts() > 0;
+        },
         minSortOrderToGetShuffled: 25
     };
 
