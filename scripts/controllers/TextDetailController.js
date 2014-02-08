@@ -1,7 +1,7 @@
 // Display text with author, link to the source, usage recommandations or comments
 
-cherryApp.controller('TextDetailController', ['$scope','$routeParams', 'HelperService','SelectedText','SelectedIntention','SingleIntentionQuerySvc','AppLabels','SelectedArea',
-  function ($scope,$routeParams, HelperService,SelectedText,SelectedIntention,SingleIntentionQuerySvc,AppLabels,SelectedArea) {
+cherryApp.controller('TextDetailController', ['$scope','$routeParams', 'HelperService','SelectedText','SelectedIntention','AppLabels','SelectedArea',
+function ($scope,$routeParams, HelperService,SelectedText,SelectedIntention,AppLabels,SelectedArea) {
     $scope.editText = false;
 
     var textId = $routeParams.textId;
@@ -14,47 +14,52 @@ cherryApp.controller('TextDetailController', ['$scope','$routeParams', 'HelperSe
       $scope.textDetailPageTitle = data.Label;
     }
 
-    function setTextDetailPageTitle (text) {
-      var textAbstractOrIntentionLable;
-      var currentIntention = SelectedIntention.getSelectedIntention();
-      if ( text !== undefined && text.Abstract !== undefined )
-        textAbstractOrIntentionLable = text.Abstract;
-      else if ( currentIntention !== undefined )
-        textAbstractOrIntentionLable = currentIntention.Label;
+    // TODO : do this on route change
+    if ( !SelectedText.getSelectedTextObject() )
+        SelectedText.readTextFromId(textId,areaId);
 
-      if ( textAbstractOrIntentionLable !== undefined ) {
-        $scope.textDetailPageTitle = textAbstractOrIntentionLable;
-      }
-      else {
-         SingleIntentionQuerySvc.query(text.IntentionId,areaId,displayIntentionLabel);
-      }
+    // TODO : do this on route change
+    var intentionId = $routeParams.intentionId;
+    if ( !SelectedIntention.getSelectedIntention() )
+        //SingleIntentionQuerySvc.query(intentionId, areaId);
+        SelectedIntention.readIntentionFromId(areaId,intentionId);
 
-    }
+    $scope.$watch(SelectedText.getSelectedTextObject,
+        function(text) {
+            if ( text ) {
+                $scope.textToDetail = text.Content;
+                $scope.source = text.ReferenceUrl;
+                $scope.author = text.Author;
+                $scope.isQuote = HelperService.isQuote(text);
+                $scope.tagLabels = AppLabels.labelsFormTagIds(text.TagIds);
+                if ( text.Abstract ) {
+                    $scope.textDetailPageTitle = text.Abstract;
+                }
+            }
+        }
+    );
 
-    function setScopeVariables(text) {
-      $scope.textToDetail = text.Content;
-      $scope.source = text.ReferenceUrl;
-      $scope.author = text.Author;
-      $scope.isQuote = HelperService.isQuote(text);
-//            $scope.tags = filterTags(text.Tags,'style');
-      $scope.tagLabels = AppLabels.labelsFormTagIds(text.TagIds);
-      setTextDetailPageTitle(text);
-    }
+    $scope.$watch(SelectedIntention.getSelectedIntention,
+        function(intention) {
+            if ( intention && intention.Label ) {
+                if ( $scope.textDetailPageTitle == undefined )
+                    $scope.textDetailPageTitle = intention.Label;
+            }
+        }
+    );
 
-    var txt = SelectedText.getSelectedTextObject();
-    if ( txt !== undefined ) {
-      setScopeVariables(txt);
-    }
-    else
-      txt = SelectedText.readTextFromId(textId,areaId,doIfTextSuccessfullyReadFromId);
 
-    function doIfTextSuccessfullyReadFromId(text) {
-      SelectedText.setSelectedTextLabel(text.Content);
-      SelectedText.setSelectedTextObject(text);
-      setScopeVariables(text);
-    }
+//    function setScopeVariables(text) {
+//      $scope.textToDetail = text.Content;
+//      $scope.source = text.ReferenceUrl;
+//      $scope.author = text.Author;
+//      $scope.isQuote = HelperService.isQuote(text);
+//      $scope.tagLabels = AppLabels.labelsFormTagIds(text.TagIds);
+//      setTextDetailPageTitle(text);
+//    }
 
-    $scope.isQuote = HelperService.isQuote(txt);
+
+
     $scope.send = function() {
       SelectedText.setSelectedTextLabel($scope.textToDetail);
       $scope.currentText.txt = SelectedText.getSelectedTextLabel();

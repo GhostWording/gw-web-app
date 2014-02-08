@@ -22,7 +22,6 @@ cherryApp.factory('SelectedText', ['HelperService','$http','AppUrlSvc' , functio
         return selectedText !== undefined ? selectedText.TextId : '';
     };
 
-//    o.readTextFromId = function (id, doIfSuccess) {
     o.readTextFromId = function (id, areaName, doIfSuccess) {
         // Read intention from cache or server then call doIfIntentionReadSuccessfullyFromServerOrCache;
         var url = AppUrlSvc.urlTextFromId(id, areaName);
@@ -35,7 +34,10 @@ cherryApp.factory('SelectedText', ['HelperService','$http','AppUrlSvc' , functio
         })
             .success(function (data, status) {
                 console.log(status + "*" + " " + url);
-                doIfSuccess(data);
+                o.setSelectedTextLabel(data.Content);
+                o.setSelectedTextObject(data);
+                if (doIfSuccess)
+                    doIfSuccess(data);
             })
             .error(function (data, status) {
                 console.log("-- bad request -- " + url + " " + status);

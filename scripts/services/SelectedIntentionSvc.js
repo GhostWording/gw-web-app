@@ -1,5 +1,5 @@
 // Keeps track of the currently selected intention
-cherryApp.factory('SelectedIntention', [function () {
+cherryApp.factory('SelectedIntention', ['intentionApi',  function (intentionApi) {
     var selectedIntention;
     // In some cases, we know the intentionId, but not yet have the full object if it needs to be reloaded from the server
     var selecteIntentionId;
@@ -25,5 +25,12 @@ cherryApp.factory('SelectedIntention', [function () {
     o.getSelectedIntentionId = function () {
         return selecteIntentionId;
     };
+
+    o.readIntentionFromId = function(areaName,intentionId) {
+        return intentionApi.one(areaName,intentionId)
+            .then(function(data) {
+                o.setSelectedIntention(data);})
+    };
+
     return o;
 }]);

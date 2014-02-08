@@ -109,7 +109,7 @@ cherryApp.factory('CurrentTextList', [
         // Text list considering sorting and filtering options such as recipient gender, prefered styles, etc.
         var textListWithOptionsKey =cacheKey(intentionId, areaId, TextFilters.valuesToWatch());
 
-        // TODO: we should get this from the current intention service
+        // TODO: we should only invalidate cache when we get a fresh intention from the server : user might stay stuck with empty list if there is no connectivity
         var lastChange = 0;
         var intention = SelectedIntention.getSelectedIntention();
         if (intention ) {
