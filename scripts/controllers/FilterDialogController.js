@@ -2,11 +2,9 @@
 cherryApp.controller('FilterDialogController', ['$scope', 'HelperService','NormalTextFilters','PostActionSvc','FilterVisibilityHelperSvc','CurrentTextList','SelectedIntention',
 	function ($scope, HelperService, TextFilters,PostActionSvc,FilterVisibilityHelperSvc,CurrentTextList,SelectedIntention) {
         $scope.BasicFilters = TextFilters;
+        $scope.ContextFilters = {};
 
         var initializeFilterModal = function () {
-//            $scope.romantic = TextFilters.getSylesToExclude()['romantic'];
-//            $scope.citationPrefered = TextFilters.setStyleToPrefer('humorous',false);
-
             $scope.humorousPrefered = TextFilters.getStyleToPrefer('humorous');
             $scope.imaginativePrefered = TextFilters.getStyleToPrefer('imaginative');
             $scope.eccentricPrefered = TextFilters.getStyleToPrefer('eccentric');

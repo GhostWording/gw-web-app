@@ -29,7 +29,7 @@ function ($scope,$routeParams, HelperService,SelectedText,SelectedIntention,AppL
     $scope.$watch(SelectedIntention.getSelectedIntention,
         function(intention) {
             if ( intention && intention.Label ) {
-                if ( $scope.textDetailPageTitle == undefined )
+                if ( $scope.textDetailPageTitle === undefined )
                     $scope.textDetailPageTitle = intention.Label;
             }
         }
@@ -37,8 +37,7 @@ function ($scope,$routeParams, HelperService,SelectedText,SelectedIntention,AppL
 
     $scope.send = function() {
       SelectedText.setSelectedTextLabel($scope.textToDetail);
-      $scope.currentText.txt = SelectedText.getSelectedTextLabel();
-      $scope.Modal.modalIsOpened = true;
+      //$scope.Modal.modalIsOpened = true;
       $('#modalEnvoiTexte').modal('show');
     };
     $scope.edit = function() {

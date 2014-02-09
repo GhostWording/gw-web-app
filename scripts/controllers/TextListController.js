@@ -34,8 +34,8 @@ function ($scope, $filter, $routeParams, $location, TextFilters,SendText,Selecte
       SendText.setSelectedTextLabel(txt.Content);
       SendText.setSelectedTextObject(txt);
       // Should get rid of these variables
-      $scope.currentText.txt = SendText.getSelectedTextLabel();
-      $scope.currentText.id = txt.TextId;
+      //$scope.currentText.txt = SendText.getSelectedTextLabel();
+      //$scope.currentText.id = txt.TextId;
     };
 
     $scope.getSelectedTextId = function(txt,id) {

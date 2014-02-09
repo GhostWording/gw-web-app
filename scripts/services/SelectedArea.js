@@ -3,7 +3,7 @@
 cherryApp.factory('SelectedArea',['$rootScope','$routeParams', function ($rootScope,$routeParams) {
     //var selectedAreaName;
     var o = {};
-    o.name;
+    o.name = "";
 
     o.setSelectedAreaName = function (areaName) {
         //selectedAreaName = areaName; // Can't watch this successfully

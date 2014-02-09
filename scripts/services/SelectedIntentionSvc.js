@@ -40,7 +40,7 @@ cherryApp.factory('SelectedIntention', ['intentionApi', '$rootScope','$routePara
     o.readIntentionFromId = function(areaName,intentionId) {
         return intentionApi.one(areaName,intentionId)
             .then(function(data) {
-                o.setSelectedIntention(data);})
+                o.setSelectedIntention(data);});
     };
 
     return o;

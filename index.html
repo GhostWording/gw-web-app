@@ -128,40 +128,15 @@
 
     <div ng-view>
    </div>
-   <!--<script type="text/ng-template" id="home.html">-->
-   <!--</script>-->
-
-
-    <!-- Modal -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="myModalLabell">Modal title</h4>
-                </div>
-                <div class="modal-body">
-                    ...
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
 
 
    <!-- DIALOG for advanced filter selection -->
-    <!--<div id="modalFiltres" data-ng-controller="FilterDialogController" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">-->
     <div class="modal fade" data-ng-controller="FilterDialogController"  id="modalFiltres" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 
      <!--<div class="modal-header" ng-show ="false">-->
        <!--<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>-->
        <!--<h3 id="myModalLabel">Filtrer</h3>-->
      <!--</div>-->
-     <!-- advanced filters dialog Body -->
-        <!-- New Bootstrap 3.0.3  -->
      <div class="modal-dialog">
          <div class="modal-content">
             <div class="modal-body">
@@ -243,11 +218,12 @@
                 </div>
                 <!-- Share/Send buttons -->
                 <div class="modal-footer" >
-                    <a targetType="Text" targetId="{{currentText.id}}" actionType="sendMail" ng-href="{{urlMailTo()}}" ng-click="mail()"  class="btn btn-primary"  >Mail</a>
-                    <button ng-hide="isIPhone()"        targetType="Text" targetId="{{currentText.id}}" actionType="sendSMS"    class="btn btn-warning " ng-click="sms()">SMS</button>
-                    <button class="btn btn-warning"     targetType="Text" targetId="{{currentText.id}}" actionType="sendTweet"                ng-show="check()" ng-click="tweet()">Tweet</button>
-                    <button class="btn"   targetType="Text" targetId="{{currentText.id}}" actionType="sendCopy" id="popoverCopier" data-toggle="popover" data-placement="top" ng-click="copy()" title="Copier un texte">Copier</button>
-                    <button class="btn" data-dismiss="modal" targetType="Text" targetId="{{currentText.id}}" actionType="close"    ng-click="fermer()">Fermer</button>
+                    <!--<a targetType="Text" targetId="{{currentText.id}}" actionType="sendMail" ng-href="{{urlMailTo()}}" ng-click="mail()"  class="btn btn-primary"  >Mail</a>-->
+                    <a targetType="Text" targetId="{{getSelectedTextId()}}" actionType="sendMail" ng-href="{{urlMailTo()}}" ng-click="mail()"  class="btn btn-primary"  >Mail</a>
+                    <button ng-hide="isIPhone()"        targetType="Text" targetId="{{getSelectedTextId()}}" actionType="sendSMS"    class="btn btn-warning " ng-click="sms()">SMS</button>
+                    <button class="btn btn-warning"     targetType="Text" targetId="{{getSelectedTextId()}}" actionType="sendTweet"                ng-show="check()" ng-click="tweet()">Tweet</button>
+                    <button class="btn"   targetType="Text" targetId="{{getSelectedTextId()}}" actionType="sendCopy" id="popoverCopier" data-toggle="popover" data-placement="top" ng-click="copy()" title="Copier un texte">Copier</button>
+                    <button class="btn" data-dismiss="modal" targetType="Text" targetId="{{getSelectedTextId()}}" actionType="close"    ng-click="fermer()">Fermer</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
@@ -258,16 +234,7 @@
    </div> <!-- /container -->
 
 
-<!-- OLD CODE -->
-
-<!--<button ng-hide="isIPhone()" class="btn btn-warning " ng-click="sms()">SMS</button>-->
-<!--<button class="btn btn-warning "  ng-show="check()" ng-click="tweet()">Tweet</button>-->
-<!--<button id="popoverCopier" class="btn " data-toggle="popover" data-placement="top" ng-click="copy()"-->
-<!--title="Copier un texte">Copier</button>-->
-<!--<button class="btn" data-dismiss="modal" ng-click="fermer()">Fermer</button>-->
-<!--</div> &lt;!&ndash; Fin Modal footer actions  &ndash;&gt;-->
-
-<!--</div> &lt;!&ndash; DIALOG  that displays the text to be sent &ndash;&gt;-->
+<!-- Add message signature -->
 
 <!--&lt;!&ndash; Add sender's name or initials &ndash;&gt;-->
 <!--<div class="modal-footer" ng-hide ="isIPhone() || true">-->
@@ -297,55 +264,54 @@
 
 
 <!-- inject:js -->
-<!--<script src="scripts/build.js"></script>-->
+<script src="scripts/build.js"></script>
 <!-- endinject -->
 
-<script src="scripts/app.js" type="text/javascript"></script>
-<script src="scripts/filters.js" type="text/javascript"></script>
-<script src="scripts/routing.js" type="text/javascript"></script>
-<script src="scripts/directives.js" type="text/javascript"></script>
+<!--<script src="scripts/app.js" type="text/javascript"></script>-->
+<!--<script src="scripts/filters.js" type="text/javascript"></script>-->
+<!--<script src="scripts/routing.js" type="text/javascript"></script>-->
+<!--<script src="scripts/directives.js" type="text/javascript"></script>-->
 
-<script src="scripts/services/RecepientListSvc.js"></script>
-<script src="scripts/services/IntentionListSvc.js"></script>
-<script src="scripts/services/TextListSvc.js"></script>
-<script src="scripts/services/CurrentTextList.js"></script>
-<script src="scripts/services/TextFiltersSvc.js"></script>
-<script src="scripts/services/HelperSvc.js"></script>
-<script src="scripts/services/SelectedTextSvc.js"></script>
-<script src="scripts/services/SelectedIntentionSvc.js"></script>
-<script src="scripts/services/AppUrlSvc.js"></script>
-<script src="scripts/services/UserProfileSvc.js"></script>
-<script src="scripts/services/PostActionSvc.js"></script>
-<script src="scripts/services/AppLabels.js"></script>
-<script src="scripts/services/SelectedArea.js"></script>
-<script src="scripts/services/TextFilterHelperSvc.js"></script>
-<script src="scripts/services/FilterVisibilityHelperSvc.js"></script>
-<script src="scripts/services/Tabs.js"></script>
-<script src="scripts/services/CurrentTextList.js"></script>
-<script src="scripts/services/cacheSvc.js"></script>
-<script src="scripts/services/currentLanguage.js"></script>
-<script src="scripts/services/fakes/intentions.js"></script>
-<script src="scripts/services/api/apiUrl.js"></script>
-<script src="scripts/services/api/areaApi.js"></script>
-<script src="scripts/services/api/intentionApi.js"></script>
+<!--<script src="scripts/services/RecepientListSvc.js"></script>-->
+<!--<script src="scripts/services/IntentionListSvc.js"></script>-->
+<!--<script src="scripts/services/TextListSvc.js"></script>-->
+<!--<script src="scripts/services/CurrentTextList.js"></script>-->
+<!--<script src="scripts/services/TextFiltersSvc.js"></script>-->
+<!--<script src="scripts/services/HelperSvc.js"></script>-->
+<!--<script src="scripts/services/SelectedTextSvc.js"></script>-->
+<!--<script src="scripts/services/SelectedIntentionSvc.js"></script>-->
+<!--<script src="scripts/services/AppUrlSvc.js"></script>-->
+<!--<script src="scripts/services/UserProfileSvc.js"></script>-->
+<!--<script src="scripts/services/PostActionSvc.js"></script>-->
+<!--<script src="scripts/services/AppLabels.js"></script>-->
+<!--<script src="scripts/services/SelectedArea.js"></script>-->
+<!--<script src="scripts/services/TextFilterHelperSvc.js"></script>-->
+<!--<script src="scripts/services/FilterVisibilityHelperSvc.js"></script>-->
+<!--<script src="scripts/services/Tabs.js"></script>-->
+<!--<script src="scripts/services/CurrentTextList.js"></script>-->
+<!--<script src="scripts/services/cacheSvc.js"></script>-->
+<!--<script src="scripts/services/currentLanguage.js"></script>-->
+<!--<script src="scripts/services/fakes/intentions.js"></script>-->
+<!--<script src="scripts/services/api/apiUrl.js"></script>-->
+<!--<script src="scripts/services/api/areaApi.js"></script>-->
+<!--<script src="scripts/services/api/intentionApi.js"></script>-->
 
-
-<script src="scripts/controllers/TextFiltersController.js"></script>
-<script src="scripts/controllers/SelectedTextController.js"></script>
-<script src="scripts/controllers/NewIntentionListController.js"></script>
-<script src="scripts/controllers/TextListController.js"></script>
-<script src="scripts/controllers/RecipientListController.js"></script>
-<script src="scripts/controllers/SplashScreenController.js"></script>
-<script src="scripts/controllers/TextDetailController.js"></script>
-<script src="scripts/controllers/NotImplementedController.js"></script>
-<script src="scripts/controllers/UserProfileController.js"></script>
-<script src="scripts/controllers/FilterDialogController.js"></script>
-<script src="scripts/controllers/ContextFiltersDialogController.js"></script>
-<script src="scripts/controllers/SimplePageController.js"></script>
-<script src="scripts/controllers/IntentionLabelController.js"></script>
-<script src="scripts/controllers/StyleBarController.js"></script>
-<script src="scripts/controllers/TextListHeaderController.js"></script>
-<script src="scripts/controllers/ProgressBarController.js"></script>
+<!--<script src="scripts/controllers/TextFiltersController.js"></script>-->
+<!--<script src="scripts/controllers/SelectedTextController.js"></script>-->
+<!--<script src="scripts/controllers/NewIntentionListController.js"></script>-->
+<!--<script src="scripts/controllers/TextListController.js"></script>-->
+<!--<script src="scripts/controllers/RecipientListController.js"></script>-->
+<!--<script src="scripts/controllers/SplashScreenController.js"></script>-->
+<!--<script src="scripts/controllers/TextDetailController.js"></script>-->
+<!--<script src="scripts/controllers/NotImplementedController.js"></script>-->
+<!--<script src="scripts/controllers/UserProfileController.js"></script>-->
+<!--<script src="scripts/controllers/FilterDialogController.js"></script>-->
+<!--<script src="scripts/controllers/ContextFiltersDialogController.js"></script>-->
+<!--<script src="scripts/controllers/SimplePageController.js"></script>-->
+<!--<script src="scripts/controllers/IntentionLabelController.js"></script>-->
+<!--<script src="scripts/controllers/StyleBarController.js"></script>-->
+<!--<script src="scripts/controllers/TextListHeaderController.js"></script>-->
+<!--<script src="scripts/controllers/ProgressBarController.js"></script>-->
 
 <!--<fb:login-button show-faces="true" width="200" max-rows="1"></fb:login-button>-->
 

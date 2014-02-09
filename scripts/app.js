@@ -26,20 +26,13 @@ cherryApp.controller('NavBarController',  ['$scope',
 
 cherryApp.controller('CherryControler', ['$scope', '$cookies', 'NormalTextFilters', 'PostActionSvc', 'Tabs',
     function ($scope, $cookies, TextFilters, PostActionSvc, Tabs) {
+
         console.log(navigator.userAgent);
-
         $scope.Tabs = Tabs;
-        $scope.Modal = {};
-        $scope.Modal.modalIsOpened = false;
-
-        $scope.ContextFilters = {};
 
         TextFilters.initializeFiltersToUndefined();
 
-        $scope.currentText = {txt: ""};
-
         PostActionSvc.postActionInfo('Init', 'Init', 'App', 'Init');
-//        PostActionSvc('Init', 'Init', 'App', 'Init');
 
         //Activate Bootstrap popover option
         $('#popoverCopier').popover({

@@ -1,6 +1,6 @@
 describe("Tabs service", function() {
   beforeEach(module('cherryApp'));
-  it("should listen to $routeChangeSuccessEvents", inject(function(Tabs,SelectedArea, $rootScope) {
+  it("should listen to $routeChangeSuccessEvents", inject(function(Tabs,SelectedArea, $rootScope,$location) {
     expect(Tabs.showTabs).toEqual(true);
     expect(Tabs.currentTabName).toEqual('');
 
@@ -12,7 +12,11 @@ describe("Tabs service", function() {
 
     expect(Tabs.showTabs).toEqual(false);
 
-    SelectedArea.setSelectedAreaName('DaytoDay');
-    expect(Tabs.currentTabName).toEqual('DaytoDay');
+
+    // Should work ? Does not !
+    SelectedArea.setSelectedAreaName('Family');
+    //$location.path('/area/Family/intention')
+
+    expect(Tabs.currentTabName).toEqual('Family');
   }));
 });

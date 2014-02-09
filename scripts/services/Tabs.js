@@ -9,16 +9,14 @@ cherryApp.factory('Tabs', ['$rootScope','SelectedArea', function($rootScope,Sele
         }
     };
 
-//    Use watch instead now that the name can be watched
-//    $rootScope.$on('areaChange', function(evt, current) {
-//      svc.currentTabName = current;
-//    });
+    $rootScope.$on('$routeChangeSuccess', function (evt, current, previous) {
+        svc.showTabs = current.showTabs;
+    });
 
     $rootScope.$watch(SelectedArea.getSelectedAreaName,function(areaName) {
         if ( areaName )
             svc.currentTabName = areaName;
     });
-
 
   return svc;
 

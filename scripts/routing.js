@@ -57,6 +57,17 @@ cherryApp.config(['$routeProvider', function ($routeProvider) { $routeProvider
     .when('/BonneAnnee', {
         redirectTo: '/area/Friends/intention/938493/text'
     })
+    .when('/Amour', {
+        redirectTo: '/area/LoveLife/intention'
+    })
+    .when('/Amis', {
+        redirectTo: '/area/Friends/intention'
+    })
+    .when('/Famille', {
+        redirectTo: '/area/Family/intention'
+    })
+
+
 
     // Shortcut for human readable link : must be placed after other single piece parameter urls
     .when('/:intentionSlug', {
