@@ -8,8 +8,10 @@ cherryApp.factory('SelectedIntention', ['intentionApi', '$rootScope','$routePara
 
 	// GET AND SET
     o.setSelectedIntention = function (intention) {
-        selectedIntention = intention;
-        selecteIntentionId = intention.IntentionId;
+        if ( !selectedIntention || selectedIntention.IntentionId != intention.IntentionId || selectedIntention.MostRecentTextUpdateEpoch != intention.MostRecentTextUpdateEpoch ) {
+            selectedIntention = intention;
+            selecteIntentionId = intention.IntentionId;
+        }
     };
     o.setSelectedIntentionId = function (id) {
         selecteIntentionId = id;
@@ -31,7 +33,7 @@ cherryApp.factory('SelectedIntention', ['intentionApi', '$rootScope','$routePara
         var intentionId = $routeParams.intentionId;
         if (areaName && intentionId ) {
             // Don't bother to read the intention if the currentIntention is already the correct one
-            if ( !selectedIntention || selectedIntention.Id != intentionId  ) {
+            if ( !selectedIntention || selectedIntention.IntentionId != intentionId  ) {
                 o.readIntentionFromId(areaName,intentionId);
             }
         }

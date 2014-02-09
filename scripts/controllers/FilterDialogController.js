@@ -61,7 +61,10 @@ cherryApp.controller('FilterDialogController', ['$scope', 'HelperService','Norma
 
         };
 
-        $scope.shouldDisplayContextFilters = FilterVisibilityHelperSvc.shouldDisplayContextFilters;
+        // For the current areas, never display the context filters as they have been filtered on the server
+        //$scope.shouldDisplayContextFilters = FilterVisibilityHelperSvc.shouldDisplayContextFilters;
+        $scope.shouldDisplayContextFilters = function () {return false;};
+
         $scope.shouldDisplayThisContextFilter = FilterVisibilityHelperSvc.shouldDisplayThisContextFilter;
 
     }]);

@@ -1,5 +1,4 @@
-cherryApp.factory('intentionApi', function($http, apiUrl, currentLanguage) {
-
+cherryApp.factory('intentionApi',['$http','apiUrl','currentLanguage',function($http, apiUrl, currentLanguage) {
   return {
     forArea: function(areaName) {
       return $http.get(apiUrl +  areaName +  '/intentions',
@@ -16,4 +15,4 @@ cherryApp.factory('intentionApi', function($http, apiUrl, currentLanguage) {
       });
     }
   };
-});
+}]);

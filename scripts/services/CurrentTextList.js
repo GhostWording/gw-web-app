@@ -1,8 +1,8 @@
 
 
 cherryApp.factory('CurrentTextList', [
-    '$http', '$rootScope', '$routeParams','$filter', 'AppUrlSvc',  'HelperService', 'cacheSvc', 'TextFilterHelperSvc','NormalTextFilters','SelectedArea','SelectedIntention',
-    function($http, $rootScope, $routeParams, $filter, AppUrlSvc,  HelperService, cacheSvc, TextFilterHelperSvc,TextFilters,SelectedArea,SelectedIntention) {
+    '$http', '$rootScope', '$routeParams','$filter', 'AppUrlSvc',  'HelperService', 'cacheSvc', 'TextFilterHelperSvc','NormalTextFilters','SelectedArea','SelectedIntention','intentionApi',
+    function($http, $rootScope, $routeParams, $filter, AppUrlSvc,  HelperService, cacheSvc, TextFilterHelperSvc,TextFilters,SelectedArea,SelectedIntention,intentionApi) {
 
     var areaName, intentionId, currentTextList;
     var completeTextListForIntention;
@@ -24,29 +24,33 @@ cherryApp.factory('CurrentTextList', [
         minSortOrderToGetShuffled: 25
     };
 
-    // Update cache when current intention changes (using MostRecentTextUpdateEpoch intention property)
-//   $rootScope.$watch( SelectedIntention.getSelectedIntention,
-//        function(intention) {
-//            console.log("changed");
-//            var areaId = SelectedArea.getSelectedAreaName();
-//            var intentionId = SelectedIntention.getSelectedIntentionId();
-//            //...
-//        }
-//   );
-
     // Ask the cache for a new list when route changes + area and intention can be read from route
     $rootScope.$watch(function() { return $routeParams; }, function(event, route) {
         areaName = $routeParams.areaName;
         intentionId = $routeParams.intentionId;
 
-        if( areaName && intentionId ) {
-            getTextList(intentionId, areaName,true).then(function(textList) {
+        if (areaName && intentionId) {
+            // This is the text list that will be displayed
+            getTextList(intentionId, areaName, true).then(function (textList) {
                 currentTextList = textList;
             });
-            getTextList(intentionId, areaName,false).then(function(textList) {
+            // We also need the full text list
+            getTextList(intentionId, areaName, false).then(function (textList) {
                 completeTextListForIntention = textList;
             });
+            // TODO : Test that it works
+            // if we have a live connection, we should try to read an intention from the server and invalidate the cache if the intention is newer thant the local one
+            intentionApi.one(areaName,intentionId).then(function (intention) {
+                    var lastChange = intention.MostRecentTextUpdateEpoch;
+                    console.log("lastChange :" + lastChange + " for " + intention.Label);
 
+                    // Delete cache entries that are not up to date with lastChange number
+                    var rawTextListkey = cacheKey(intentionId, areaName, ""); // Raw text list for an areaId + intentionId
+                    cacheSvc.update(rawTextListkey, lastChange);
+                    var textListWithOptionsKey = cacheKey(intentionId, areaName, TextFilters.valuesToWatch()); // Text list with current sorting and filtering options
+                    cacheSvc.update(textListWithOptionsKey, lastChange);
+                }
+            );
         }
     }, true);
 
@@ -67,9 +71,7 @@ cherryApp.factory('CurrentTextList', [
     function loadTextList(intentionId, areaName, limit) {
 
         limit = limit || 10000;
-
         var url = AppUrlSvc.urlTextsForIntention(intentionId, areaName);
-
         console.log('getting texts from:', url);
 
         return $http({
@@ -109,17 +111,8 @@ cherryApp.factory('CurrentTextList', [
         // Text list considering sorting and filtering options such as recipient gender, prefered styles, etc.
         var textListWithOptionsKey =cacheKey(intentionId, areaName, TextFilters.valuesToWatch());
 
-        // TODO: we should only invalidate cache when we get a fresh intention from the server : user might stay stuck with empty list if there is no connectivity
-        var lastChange = 0;
         var intention = SelectedIntention.getSelectedIntention();
-        if (intention ) {
-            lastChange = intention.MostRecentTextUpdateEpoch;
-            console.log("lastChange :" + lastChange + " for " + intention.Label );
-            // Delete cache entries that are not up to date with lastChange number
-            cacheSvc.update(rawTextListkey,lastChange);
-            cacheSvc.update(textListWithOptionsKey,lastChange);
-        }
-
+        var lastChange = intention !== undefined ? intention.MostRecentTextUpdateEpoch : 0;
 
         // We first look in the cache for the raw text , with blank sortAndFilterOptions
         return  cacheSvc.get(rawTextListkey, lastChange, function () {
