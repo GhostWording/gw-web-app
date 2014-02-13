@@ -1,13 +1,15 @@
 // Displays a text and allows to send it
 cherryApp.controller('SelectedTextController', ['$scope', '$filter','SelectedText','SelectedIntention','HelperService', 'PostActionSvc',
 function ($scope, $filter,SelectedText,SelectedIntention,HelperService, PostActionSvc) {
+
+    $scope.getSelectedTextId = SelectedText.getTextId;
+
     $scope.initializeModal = function () {
         console.log('initializeModal');
-        $scope.Modal.modalIsOpened = true;
+        //$scope.Modal.modalIsOpened = true;
     };
-
     $scope.fermer = function () {
-        $scope.Modal.modalIsOpened = false;
+        //$scope.Modal.modalIsOpened = false;
     };
 
     // Because this controller may initialize just once, we watch SelectedText.getSelectedTextLabel() to update scope variable
@@ -37,7 +39,6 @@ function ($scope, $filter,SelectedText,SelectedIntention,HelperService, PostActi
         var id = SelectedText.getTextId();
         // Hack : Event will be posted twice to go around vanishing http request bug
         PostActionSvc.postActionInfo('Text',id, 'SendTextModal','sendMailBis');
-//        PostActionSvc('Text',id, 'SendTextModal','sendMailBis');
     };
 
     $scope.copy = function () {
@@ -50,7 +51,7 @@ function ($scope, $filter,SelectedText,SelectedIntention,HelperService, PostActi
     return retval;
   };
 
-  // Not used
+  // Not used yet
   $scope.ajouterFormuleAvant = function (formule) {
     var newTxt  = formule +',\n\n'+ $scope.textToSend;
     SelectedText.setSelectedTextLabel(newTxt);
@@ -58,7 +59,7 @@ function ($scope, $filter,SelectedText,SelectedIntention,HelperService, PostActi
 
 }]);
 
-// OLD CODE
+// CODE to add sender signature to message, will be used in the future
 
 //$scope.ajouterFormuleApres = function (formule) {
 //    var txt = $scope.textToSend;
@@ -75,59 +76,12 @@ function ($scope, $filter,SelectedText,SelectedIntention,HelperService, PostActi
 //    $scope.textToSend = txt;
 //  };
 
-//  $scope.urlMailTo = function () {
-//    var t = SendText.addSignatureAppli(SendText.getSelectedTextLabel());
-//    var rootUrl = "mailto:?subject=" + $scope.TextPanel.intentionLabel + "&body=" + t;
-//    rootUrl = SendText.replaceEndOfLines(rootUrl);
-//    return rootUrl;
-//  };
-
-
-//  $scope.texteCourantCanTweet = function () {
-//    return $scope.libelleTexteCourant.length < 141;
-//  };
-
-//
 //  $scope.signatureAppli = "Ecrit avec CommentVousDire.com";
 //  $scope.ajouterSignatureAppli = function (libelleTexte) {
 //    return libelleTexte + "\n\n" + $scope.signatureAppli;
 //  };
-
-//  $scope.tweet = SendText.tweet($scope.libelleTexteCourant);
-//$scope.tweet = SendText.tweet($scope.currentText.txt);
-
-//  $scope.sms = function () {
-//    var txt = $scope.ajouterSignatureAppli($scope.libelleTexteCourant);
-//    var rootUrl = "sms:?body=" + txt;
-//    rootUrl = replaceEndOfLines(rootUrl);
-//    window.open(rootUrl, '_blank');
-//  };
-
-//  $scope.sms = SendText.sms($scope.libelleTexteCourant);
-//  $scope.sms = SendText.sms($scope.currentText.txt);
-
-
-//  var replaceEndOfLines = function (input) {
-//    return input.replace(/[\r\n]/g, "%0A");
-//  };
-
 //  $scope.mailto = function () {
 //    window.open($scope.urlMailTo(), '_blank');
 //  };
-
 //  Browsers will not open a new window for us
 //  $scope.mailto = SendText.mailTo(SendText.getSelectedTextLabel(),$scope.TextPanel.intentionLabel);
-
-//  $scope.urlMailTo = SendText.urlMailTo($scope.libelleTexteCourant,$scope.TextPanel.intentionLabel);
-//  $scope.urlMailTo = SendText.urlMailTo(SendText.getSelectedTextLabel(),$scope.TextPanel.intentionLabel);
-
-//  $scope.urlAppli = "http://www.commentvousdire.com";
-//
-//
-//  $scope.urlMailTo = function () {
-//    var txt = $scope.ajouterSignatureAppli($scope.libelleTexteCourant);
-//    var rootUrl = "mailto:?subject=" + $scope.TextPanel.intentionLabel +
-//      "&body=" + txt;
-//    rootUrl = replaceEndOfLines(rootUrl);
-//    return rootUrl;
-//  };

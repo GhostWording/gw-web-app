@@ -4,25 +4,25 @@ cherryApp.config(['$routeProvider', function ($routeProvider) { $routeProvider
         controller: 'NewIntentionListController',
         showTabs: true
     })
-    .when('/area/:areaId/intention/:intentionId/text', {
+    .when('/area/:areaName/intention/:intentionId/text', {
         templateUrl: 'views/textList.html',
         controller: 'TextListController',
         showTabs: true
     })
 
     // New : use longer url tracing intentionId for single text
-    .when('/area/:areaId/intention/:intentionId/text/:textId', {
+    .when('/area/:areaName/intention/:intentionId/text/:textId', {
         templateUrl: 'views/textdetail.html',
         controller: 'TextDetailController'
     })
 
-    .when('/area/:areaId/text/:textId', {
+    .when('/area/:areaName/text/:textId', {
         templateUrl: 'views/textdetail.html',
         controller: 'TextDetailController'
     })
 
     // Shortcut for human readable link
-    .when('/:areaId/:intentionId', {
+    .when('/:areaName/:intentionId', {
         templateUrl: 'views/textList.html',
         controller: 'TextListController'
     })
@@ -57,6 +57,17 @@ cherryApp.config(['$routeProvider', function ($routeProvider) { $routeProvider
     .when('/BonneAnnee', {
         redirectTo: '/area/Friends/intention/938493/text'
     })
+    .when('/Amour', {
+        redirectTo: '/area/LoveLife/intention'
+    })
+    .when('/Amis', {
+        redirectTo: '/area/Friends/intention'
+    })
+    .when('/Famille', {
+        redirectTo: '/area/Family/intention'
+    })
+
+
 
     // Shortcut for human readable link : must be placed after other single piece parameter urls
     .when('/:intentionSlug', {

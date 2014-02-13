@@ -1,15 +1,15 @@
 // Displays a list of texts
 cherryApp.controller('TextListController',
- ['$scope', '$filter','$routeParams','$location', 'NormalTextFilters', 'SelectedText', 'SelectedIntention', 'TheTexts', 'AppUrlSvc', 'HelperService','PostActionSvc','SelectedArea','TextFilterHelperSvc', 'CurrentTextList',
-function ($scope, $filter, $routeParams, $location, TextFilters,SendText,SelectedIntention, TheTexts, AppUrlSvc, HelperSvc,PostActionSvc,SelectedArea,TextFilterHelperSvc, CurrentTextList) {
+ ['$scope', '$filter','$routeParams','$location', 'NormalTextFilters', 'SelectedText', 'SelectedIntention', 'AppUrlSvc', 'HelperService','PostActionSvc','SelectedArea','TextFilterHelperSvc', 'CurrentTextList',
+function ($scope, $filter, $routeParams, $location, TextFilters,SendText,SelectedIntention,  AppUrlSvc, HelperSvc,PostActionSvc,SelectedArea,TextFilterHelperSvc, CurrentTextList) {
 
     // Read area and intention id from url
-    $scope.areaId = $routeParams.areaId;
+    $scope.areaName = $routeParams.areaName;
     $scope.intentionId = $routeParams.intentionId;
 
     // Set current area and intention
-    SelectedArea.setSelectedAreaName($scope.areaId);
-    SelectedIntention.setSelectedIntentionId($scope.intentionId);
+    //SelectedArea.setSelectedAreaName($scope.areaName);
+    //SelectedIntention.setSelectedIntentionId($scope.intentionId);
 
     // Initialize list of texts to be displayed
     $scope.TextListPanel = {};
@@ -33,8 +33,9 @@ function ($scope, $filter, $routeParams, $location, TextFilters,SendText,Selecte
     $scope.selectThisText = function (txt,action) {
       SendText.setSelectedTextLabel(txt.Content);
       SendText.setSelectedTextObject(txt);
-      $scope.currentText.txt = SendText.getSelectedTextLabel();
-      $scope.currentText.id = txt.TextId;
+      // Should get rid of these variables
+      //$scope.currentText.txt = SendText.getSelectedTextLabel();
+      //$scope.currentText.id = txt.TextId;
     };
 
     $scope.getSelectedTextId = function(txt,id) {

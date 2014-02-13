@@ -1,5 +1,5 @@
 // Keeps track of the currently selected intention
-cherryApp.factory('SelectedIntention', [function () {
+cherryApp.factory('SelectedIntention', ['intentionApi', '$rootScope','$routeParams',  function (intentionApi, $rootScope,$routeParams) {
     var selectedIntention;
     // In some cases, we know the intentionId, but not yet have the full object if it needs to be reloaded from the server
     var selecteIntentionId;
@@ -8,8 +8,10 @@ cherryApp.factory('SelectedIntention', [function () {
 
 	// GET AND SET
     o.setSelectedIntention = function (intention) {
-        selectedIntention = intention;
-        selecteIntentionId = intention.IntentionId;
+        if ( !selectedIntention || selectedIntention.IntentionId != intention.IntentionId || selectedIntention.MostRecentTextUpdateEpoch != intention.MostRecentTextUpdateEpoch ) {
+            selectedIntention = intention;
+            selecteIntentionId = intention.IntentionId;
+        }
     };
     o.setSelectedIntentionId = function (id) {
         selecteIntentionId = id;
@@ -25,5 +27,23 @@ cherryApp.factory('SelectedIntention', [function () {
     o.getSelectedIntentionId = function () {
         return selecteIntentionId;
     };
+
+    $rootScope.$on('$routeChangeSuccess', function (evt, current, previous) {
+        var areaName = $routeParams.areaName;
+        var intentionId = $routeParams.intentionId;
+        if (areaName && intentionId ) {
+            // Don't bother to read the intention if the currentIntention is already the correct one
+            if ( !selectedIntention || selectedIntention.IntentionId != intentionId  ) {
+                o.readIntentionFromId(areaName,intentionId);
+            }
+        }
+    });
+
+    o.readIntentionFromId = function(areaName,intentionId) {
+        return intentionApi.one(areaName,intentionId)
+            .then(function(data) {
+                o.setSelectedIntention(data);});
+    };
+
     return o;
 }]);

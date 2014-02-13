@@ -21,11 +21,12 @@ cherryApp.factory('cacheSvc', ['localStorage', '$q', function(localStorage, $q) 
     _cache: cache,
 
     register: function(name, lastChange, getFn) {
-      return cache[name] = {
+      cache[name] = {
         name: name,
         getFn: getFn,
         lastChange: lastChange
       };
+      return cache[name];
     },
 
     update: function(name, lastChange) {

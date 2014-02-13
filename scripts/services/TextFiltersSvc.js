@@ -1,5 +1,6 @@
 // This servic keeps track of user choices that impact the filtering of texts
-cherryApp.factory('NormalTextFilters', ['$location','UserProfileSvc',function ($location,UserProfileSvc) {
+cherryApp.factory('NormalTextFilters', ['$location','UserProfileSvc','SelectedIntention','$rootScope',
+function ($location,UserProfileSvc,SelectedIntention,$rootScope) {
 
     // We may want to use a list of properties instead of static variables
 	var hideSenderGender= true;
@@ -39,6 +40,10 @@ cherryApp.factory('NormalTextFilters', ['$location','UserProfileSvc',function ($
         stylesToPrefer  = {};
         contextsToInclude = {};
     };
+
+    $rootScope.$watch(SelectedIntention.getSelectedIntention, function()
+        {stylesToPrefer  = {}; }
+    );
 
 	o.valuesToWatch = function() {
 		var valret = o.getSenderGender() + o.getRecipientGender() + o.getTuOuVous() + o.getCloseness() ;
@@ -103,13 +108,13 @@ cherryApp.factory('NormalTextFilters', ['$location','UserProfileSvc',function ($
     // The other filters will typically  be changed each time the user choses from a list of texts
 	o.getRecipientGender        = function ()  { return recipientGender; };
 	o.setRecipientGender        = function (v) { recipientGender = v; };
-	o.getHideRecipientGender    = function () { return o.getRecipientGenderIsDefined() };
+	o.getHideRecipientGender    = function () { return o.getRecipientGenderIsDefined(); };
     o.getRecipientGenderIsDefined  = function () { return recipientGender != "I"; };
 
     o.getTuOuVous               = function ()  { return tuOuVous; };
 	o.setTuOuVous               = function (v) { tuOuVous = v; };
 	o.getHideTuOuVous           = function () {
-                                                return o.getTuOuVousIsDefined()
+                                                return o.getTuOuVousIsDefined();
     };
     o.getTuOuVousIsDefined      = function () { return tuOuVous != "I";};
 

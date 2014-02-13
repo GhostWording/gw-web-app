@@ -195,14 +195,14 @@ cherryApp.controller('TextFiltersController', ['$scope', '$filter','NormalTextFi
     function setBestFilterDefaultValues(areaName,intentionId, userGender) {
         console.log (areaName + " - " + intentionId + ' - ' + userGender);
 
-        if ( areaName == 'Sentimental' ) {
+        if ( areaName == 'LoveLife' ) {
             if ( userGender == 'H' || userGender == 'F')
                 TextFilters.setRecipientGender(invertGender(userGender));
             // Unless intention is 'I would like to see you again' or new relationship, presume 'Tu' will be adequate
             if ( intentionId != 'BD7387' &&  intentionId != '7445BC')
                 TextFilters.setTuOuVous('T');
         }
-        if ( areaName == 'Important' ) {
+        if ( areaName == 'Friends' ) {
             if ( intentionId !=  'B47AE0' && intentionId !=  '938493' )
                 TextFilters.setTuOuVous('T');
         }
@@ -225,9 +225,6 @@ cherryApp.controller('TextFiltersController', ['$scope', '$filter','NormalTextFi
     }
 
     $scope.RecipientGender = TextFilters.getRecipientGender;
-//    $scope.RecipientTuOuVous = TextFilters.getTuOuVous();
-
-//    setBestFilterDefaultValues(areaName,intentionId)
 
     // In certain areas, filtering options will not be available tu users
     $scope.displayTextFilters = function () {

@@ -1,12 +1,10 @@
 // Asks user about filters to be applied to the next query
-cherryApp.controller('FilterDialogController', ['$scope', 'HelperService','NormalTextFilters','TheTexts','PostActionSvc','FilterVisibilityHelperSvc',
-	function ($scope, HelperService, TextFilters,TheTexts,PostActionSvc,FilterVisibilityHelperSvc) {
+cherryApp.controller('FilterDialogController', ['$scope', 'HelperService','NormalTextFilters','PostActionSvc','FilterVisibilityHelperSvc','CurrentTextList','SelectedIntention',
+	function ($scope, HelperService, TextFilters,PostActionSvc,FilterVisibilityHelperSvc,CurrentTextList,SelectedIntention) {
         $scope.BasicFilters = TextFilters;
+        $scope.ContextFilters = {};
 
         var initializeFilterModal = function () {
-//            $scope.romantic = TextFilters.getSylesToExclude()['romantic'];
-//            $scope.citationPrefered = TextFilters.setStyleToPrefer('humorous',false);
-
             $scope.humorousPrefered = TextFilters.getStyleToPrefer('humorous');
             $scope.imaginativePrefered = TextFilters.getStyleToPrefer('imaginative');
             $scope.eccentricPrefered = TextFilters.getStyleToPrefer('eccentric');
@@ -27,6 +25,8 @@ cherryApp.controller('FilterDialogController', ['$scope', 'HelperService','Norma
             $scope.ContextFilters.dating = contexts.datingContext;
         };
 
+        $scope.$watch(SelectedIntention.getSelectedIntention,initializeFilterModal);
+
         initializeFilterModal();
         initializeContextFiltersModal();
 
@@ -38,12 +38,11 @@ cherryApp.controller('FilterDialogController', ['$scope', 'HelperService','Norma
             var newValue = ! $scope[scopeVariable];
             TextFilters.setStyleToPrefer(key,newValue);
             PostActionSvc.postActionInfo('Command',scopeVariable,'StyleDialog','click',newValue);
-//            PostActionSvc('Command',scopeVariable,'StyleDialog','click',newValue);
-
         };
 
-        $scope.displayNbFilteredTexts = TheTexts.hasFilteredTexts;
-        $scope.nbFilteredTexts = TheTexts.nbfilteredTexts;
+        $scope.displayNbFilteredTexts = CurrentTextList.hasTexts ;
+        $scope.nbFilteredTexts = CurrentTextList.getNbTexts;
+
         $scope.nbTextLabel = function () {
             var retval = "texte";
             if ( $scope.nbFilteredTexts() > 1 )
@@ -62,7 +61,10 @@ cherryApp.controller('FilterDialogController', ['$scope', 'HelperService','Norma
 
         };
 
-        $scope.shouldDisplayContextFilters = FilterVisibilityHelperSvc.shouldDisplayContextFilters;
+        // For the current areas, never display the context filters as they have been filtered on the server
+        //$scope.shouldDisplayContextFilters = FilterVisibilityHelperSvc.shouldDisplayContextFilters;
+        $scope.shouldDisplayContextFilters = function () {return false;};
+
         $scope.shouldDisplayThisContextFilter = FilterVisibilityHelperSvc.shouldDisplayThisContextFilter;
 
     }]);

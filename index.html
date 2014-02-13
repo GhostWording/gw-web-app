@@ -1,8 +1,8 @@
-﻿﻿<!DOCTYPE html>
-<html lang="en">
+﻿<html lang="en">
     <head>
 
-        <script src="http://api.cvd.io/userevent?ActionType=Load&ActionLocation=Header"></script>
+        <!--<script src="http://api.cvd.io/userevent?ActionType=Load&ActionLocation=Header"></script>-->
+        <!--<script src="http://api.cvd.io/userevent?ActionLocation=Header&ActionType=Load&AreaId=na&ClientTime=&TargetId=na"></script>-->
 
         <base href="/">
         <!--To display correctly  on Windows Phone 8. Must precede other scripts -->
@@ -128,40 +128,15 @@
 
     <div ng-view>
    </div>
-   <!--<script type="text/ng-template" id="home.html">-->
-   <!--</script>-->
-
-
-    <!-- Modal -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="myModalLabell">Modal title</h4>
-                </div>
-                <div class="modal-body">
-                    ...
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
 
 
    <!-- DIALOG for advanced filter selection -->
-    <!--<div id="modalFiltres" data-ng-controller="FilterDialogController" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">-->
     <div class="modal fade" data-ng-controller="FilterDialogController"  id="modalFiltres" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 
      <!--<div class="modal-header" ng-show ="false">-->
        <!--<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>-->
        <!--<h3 id="myModalLabel">Filtrer</h3>-->
      <!--</div>-->
-     <!-- advanced filters dialog Body -->
-        <!-- New Bootstrap 3.0.3  -->
      <div class="modal-dialog">
          <div class="modal-content">
             <div class="modal-body">
@@ -212,6 +187,7 @@
 
              <!-- advanced filters dialog footer -->
              <div class="modal-footer">
+                 <!--<span class="pull-left" ng-show="displayNbFilteredTexts()">{{ nbFilteredTexts() }} {{ nbTextLabel() }}</span>-->
                  <span class="pull-left" ng-show="displayNbFilteredTexts()">{{ nbFilteredTexts() }} {{ nbTextLabel() }}</span>
                <button class="btn btn-small btn-primary" data-dismiss="modal" >Fermer</button>
              </div><!-- advanced filters dialog footer  -->
@@ -242,11 +218,12 @@
                 </div>
                 <!-- Share/Send buttons -->
                 <div class="modal-footer" >
-                    <a targetType="Text" targetId="{{currentText.id}}" actionType="sendMail" ng-href="{{urlMailTo()}}" ng-click="mail()"  class="btn btn-primary"  >Mail</a>
-                    <button ng-hide="isIPhone()"        targetType="Text" targetId="{{currentText.id}}" actionType="sendSMS"    class="btn btn-warning " ng-click="sms()">SMS</button>
-                    <button class="btn btn-warning"     targetType="Text" targetId="{{currentText.id}}" actionType="sendTweet"                ng-show="check()" ng-click="tweet()">Tweet</button>
-                    <button class="btn"   targetType="Text" targetId="{{currentText.id}}" actionType="sendCopy" id="popoverCopier" data-toggle="popover" data-placement="top" ng-click="copy()" title="Copier un texte">Copier</button>
-                    <button class="btn" data-dismiss="modal" targetType="Text" targetId="{{currentText.id}}" actionType="close"    ng-click="fermer()">Fermer</button>
+                    <!--<a targetType="Text" targetId="{{currentText.id}}" actionType="sendMail" ng-href="{{urlMailTo()}}" ng-click="mail()"  class="btn btn-primary"  >Mail</a>-->
+                    <a targetType="Text" targetId="{{getSelectedTextId()}}" actionType="sendMail" ng-href="{{urlMailTo()}}" ng-click="mail()"  class="btn btn-primary"  >Mail</a>
+                    <button ng-hide="isIPhone()"        targetType="Text" targetId="{{getSelectedTextId()}}" actionType="sendSMS"    class="btn btn-warning " ng-click="sms()">SMS</button>
+                    <button class="btn btn-warning"     targetType="Text" targetId="{{getSelectedTextId()}}" actionType="sendTweet"                ng-show="check()" ng-click="tweet()">Tweet</button>
+                    <button class="btn"   targetType="Text" targetId="{{getSelectedTextId()}}" actionType="sendCopy" id="popoverCopier" data-toggle="popover" data-placement="top" ng-click="copy()" title="Copier un texte">Copier</button>
+                    <button class="btn" data-dismiss="modal" targetType="Text" targetId="{{getSelectedTextId()}}" actionType="close"    ng-click="fermer()">Fermer</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
@@ -257,79 +234,7 @@
    </div> <!-- /container -->
 
 
-<!-- OLD CODE -->
-
-<!-- OLD DIALOG for context filters -->
-<!--<div id="modalContextFilters" data-ng-controller="ContextFiltersDialogController" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">-->
-
-    <!--<div class="modal-header" ng-show ="true">-->
-        <!--<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>-->
-        <!--<h4 id="myContextModalLabel">Se limiter au contexte</h4>-->
-    <!--</div>-->
-    <!--<div class="modal-body">-->
-        <!--&lt;!&ndash;<h4>Eviter les textes</h4>&ndash;&gt;-->
-        <!--<label class="checkbox inline">-->
-            <!--<input type="checkbox" ng-model="ContextFilters.inLove" ng-click="ToggleIncludeContext('romanticContext','inLove')" > Sentimental-->
-        <!--</label>-->
-        <!--<label class="checkbox inline">-->
-            <!--<input type="checkbox" ng-model="ContextFilters.friendly" ng-click="ToggleIncludeContext('friendlyContext','friendly')" > Amical-->
-        <!--</label>-->
-        <!--<label class="checkbox inline">-->
-            <!--<input type="checkbox" ng-model="ContextFilters.familial"  ng-click="ToggleIncludeContext('familialContext','familial')"  > Familial-->
-        <!--</label>-->
-        <!--<label class="checkbox inline">-->
-            <!--<input type="checkbox" ng-model="ContextFilters.professional" ng-click="ToggleIncludeContext('professionalContext','professional')"   > Professionnel-->
-        <!--</label>-->
-        <!--<label class="checkbox inline">-->
-            <!--<input type="checkbox" ng-model="ContextFilters.administrative" ng-click="ToggleIncludeContext('administrativeContext','administrative')" > Administratif-->
-        <!--</label>-->
-        <!--&lt;!&ndash;<label class="checkbox inline">&ndash;&gt;-->
-        <!--&lt;!&ndash;<input type="checkbox" ng-model="ContextFilters.couple"  ng-click="ToggleIncludeContext('coupleContext','couple')" > Vie de couple&ndash;&gt;-->
-        <!--&lt;!&ndash;</label>&ndash;&gt;-->
-        <!--&lt;!&ndash;<label class="checkbox inline">&ndash;&gt;-->
-        <!--&lt;!&ndash;<input type="checkbox" ng-model="ContextFilters.dating" ng-click="ToggleIncludeContext('datingContext','dating')" > Rencontre&ndash;&gt;-->
-        <!--&lt;!&ndash;</label>&ndash;&gt;-->
-    <!--</div>  &lt;!&ndash; context filters dialog body &ndash;&gt;-->
-
-    <!--&lt;!&ndash; context filters dialog footer &ndash;&gt;-->
-    <!--<div class="modal-footer">-->
-        <!--<button class="btn btn-small btn-primary" data-dismiss="modal">Fermer</button>-->
-    <!--</div>&lt;!&ndash; context filters dialog footer  &ndash;&gt;-->
-
-<!--</div>  &lt;!&ndash; OLD DIALOG for context filters &ndash;&gt;-->
-
-<!--<div class="modal fade" id="modalEnvoiTexteB" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">-->
-
-<!--&lt;!&ndash; Header &ndash;&gt;-->
-<!--<div class="modal-header">-->
-<!--&lt;!&ndash;<button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="fermer()"  >×</button>&ndash;&gt;-->
-<!--&lt;!&ndash;<h3 id="H1">Envoyer</h3>&ndash;&gt;-->
-<!--Envoyer-->
-<!--</div>-->
-
-<!--&lt;!&ndash; TextArea &ndash;&gt;-->
-<!--<div class="modal-body canBeClipboarded">-->
-<!--&lt;!&ndash;focus-me="Modal.modalIsOpened"&ndash;&gt;-->
-<!--<textarea-->
-<!--ng-model= "textToSend"-->
-<!--id="currentText" style="width:95%;" rows="9">-->
-<!--</textarea>-->
-<!--</div>-->
-<!--&lt;!&ndash; Facebook add tracking &ndash;&gt;-->
-<!--<div class="fb_pixel_send"></div>-->
-<!--&lt;!&ndash; Share/Send buttons &ndash;&gt;-->
-<!--<div class="modal-footer">-->
-<!--<a class="btn btn-primary " ng-href="{{urlMailTo()}}"  ng-click = "mail()"  >Mail</a>-->
-<!--&lt;!&ndash;<a class="btn btn-primary " ng-href="{{urlMailToVar}}">Mail</a>&ndash;&gt;-->
-
-<!--<button ng-hide="isIPhone()" class="btn btn-warning " ng-click="sms()">SMS</button>-->
-<!--<button class="btn btn-warning "  ng-show="check()" ng-click="tweet()">Tweet</button>-->
-<!--<button id="popoverCopier" class="btn " data-toggle="popover" data-placement="top" ng-click="copy()"-->
-<!--title="Copier un texte">Copier</button>-->
-<!--<button class="btn" data-dismiss="modal" ng-click="fermer()">Fermer</button>-->
-<!--</div> &lt;!&ndash; Fin Modal footer actions  &ndash;&gt;-->
-
-<!--</div> &lt;!&ndash; DIALOG  that displays the text to be sent &ndash;&gt;-->
+<!-- Add message signature -->
 
 <!--&lt;!&ndash; Add sender's name or initials &ndash;&gt;-->
 <!--<div class="modal-footer" ng-hide ="isIPhone() || true">-->
@@ -377,7 +282,6 @@
 <!--<script src="scripts/services/SelectedIntentionSvc.js"></script>-->
 <!--<script src="scripts/services/AppUrlSvc.js"></script>-->
 <!--<script src="scripts/services/UserProfileSvc.js"></script>-->
-<!--<script src="scripts/services/SingleIntentionQuerySvc.js"></script>-->
 <!--<script src="scripts/services/PostActionSvc.js"></script>-->
 <!--<script src="scripts/services/AppLabels.js"></script>-->
 <!--<script src="scripts/services/SelectedArea.js"></script>-->
@@ -386,7 +290,11 @@
 <!--<script src="scripts/services/Tabs.js"></script>-->
 <!--<script src="scripts/services/CurrentTextList.js"></script>-->
 <!--<script src="scripts/services/cacheSvc.js"></script>-->
-
+<!--<script src="scripts/services/currentLanguage.js"></script>-->
+<!--<script src="scripts/services/fakes/intentions.js"></script>-->
+<!--<script src="scripts/services/api/apiUrl.js"></script>-->
+<!--<script src="scripts/services/api/areaApi.js"></script>-->
+<!--<script src="scripts/services/api/intentionApi.js"></script>-->
 
 <!--<script src="scripts/controllers/TextFiltersController.js"></script>-->
 <!--<script src="scripts/controllers/SelectedTextController.js"></script>-->

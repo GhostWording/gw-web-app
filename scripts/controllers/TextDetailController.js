@@ -1,64 +1,43 @@
 // Display text with author, link to the source, usage recommandations or comments
 
-cherryApp.controller('TextDetailController', ['$scope','$routeParams', 'HelperService','SelectedText','SelectedIntention','SingleIntentionQuerySvc','AppLabels','SelectedArea',
-  function ($scope,$routeParams, HelperService,SelectedText,SelectedIntention,SingleIntentionQuerySvc,AppLabels,SelectedArea) {
+cherryApp.controller('TextDetailController', ['$scope','$routeParams', 'HelperService','SelectedText','SelectedIntention','AppLabels','SelectedArea',
+function ($scope,$routeParams, HelperService,SelectedText,SelectedIntention,AppLabels,SelectedArea) {
     $scope.editText = false;
 
     var textId = $routeParams.textId;
     $scope.Id = textId;
-    var areaId = $routeParams.areaId;
 
-    SelectedArea.setSelectedAreaName(areaId);
+    // TODO : do this on route change
+    if ( !SelectedText.getSelectedTextObject() )
+        SelectedText.readTextFromId(textId,$routeParams.areaName);
 
-    function displayIntentionLabel(data) {
-      $scope.textDetailPageTitle = data.Label;
-    }
+    $scope.$watch(SelectedText.getSelectedTextObject,
+        function(text) {
+            if ( text ) {
+                $scope.textToDetail = text.Content;
+                $scope.source = text.ReferenceUrl;
+                $scope.author = text.Author;
+                $scope.isQuote = HelperService.isQuote(text);
+                $scope.tagLabels = AppLabels.labelsFormTagIds(text.TagIds);
+                if ( text.Abstract ) {
+                    $scope.textDetailPageTitle = text.Abstract;
+                }
+            }
+        }
+    );
 
-    function setTextDetailPageTitle (text) {
-      var textAbstractOrIntentionLable;
-      var currentIntention = SelectedIntention.getSelectedIntention();
-      if ( text !== undefined && text.Abstract !== undefined )
-        textAbstractOrIntentionLable = text.Abstract;
-      else if ( currentIntention !== undefined )
-        textAbstractOrIntentionLable = currentIntention.Label;
+    $scope.$watch(SelectedIntention.getSelectedIntention,
+        function(intention) {
+            if ( intention && intention.Label ) {
+                if ( $scope.textDetailPageTitle === undefined )
+                    $scope.textDetailPageTitle = intention.Label;
+            }
+        }
+    );
 
-      if ( textAbstractOrIntentionLable !== undefined ) {
-        $scope.textDetailPageTitle = textAbstractOrIntentionLable;
-      }
-      else {
-         SingleIntentionQuerySvc.query(text.IntentionId,areaId,displayIntentionLabel);
-      }
-
-    }
-
-    function setScopeVariables(text) {
-      $scope.textToDetail = text.Content;
-      $scope.source = text.ReferenceUrl;
-      $scope.author = text.Author;
-      $scope.isQuote = HelperService.isQuote(text);
-//            $scope.tags = filterTags(text.Tags,'style');
-      $scope.tagLabels = AppLabels.labelsFormTagIds(text.TagIds);
-      setTextDetailPageTitle(text);
-    }
-
-    var txt = SelectedText.getSelectedTextObject();
-    if ( txt !== undefined ) {
-      setScopeVariables(txt);
-    }
-    else
-      txt = SelectedText.readTextFromId(textId,areaId,doIfTextSuccessfullyReadFromId);
-
-    function doIfTextSuccessfullyReadFromId(text) {
-      SelectedText.setSelectedTextLabel(text.Content);
-      SelectedText.setSelectedTextObject(text);
-      setScopeVariables(text);
-    }
-
-    $scope.isQuote = HelperService.isQuote(txt);
     $scope.send = function() {
       SelectedText.setSelectedTextLabel($scope.textToDetail);
-      $scope.currentText.txt = SelectedText.getSelectedTextLabel();
-      $scope.Modal.modalIsOpened = true;
+      //$scope.Modal.modalIsOpened = true;
       $('#modalEnvoiTexte').modal('show');
     };
     $scope.edit = function() {

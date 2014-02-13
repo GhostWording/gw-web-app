@@ -50,7 +50,7 @@ function ($http,$filter,AppUrlSvc,HelperService,TextFilterHelperSvc,FilterVisibi
 
         // This is it : queries the texts (or return a cached copy if available)
     // We should deal with the language of the request
-    o.queryTexts = function (intentionId, areaId, doIfSuccess, doIfError, queryCompleteList, nbTexts) {
+    o.queryTexts = function (intentionId, areaName, doIfSuccess, doIfError, queryCompleteList, nbTexts) {
 //        return;
         if (queryCompleteList || nbTexts === undefined)
             nbTexts = 10000;
@@ -64,7 +64,7 @@ function ($http,$filter,AppUrlSvc,HelperService,TextFilterHelperSvc,FilterVisibi
         }
         // else reset them and query
         o.resetTexts();
-        var url = AppUrlSvc.urlTextsForIntention(intentionId, areaId);
+        var url = AppUrlSvc.urlTextsForIntention(intentionId, areaName);
         console.log(url);
         $http({
             method: 'GET',

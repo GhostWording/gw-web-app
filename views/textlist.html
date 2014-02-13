@@ -94,7 +94,7 @@
         <div ng-repeat="txt in TextListPanel.lesTextes" >
             <!-- Raw version to test rendering speed -->
             <!--<div>-->
-                <!--<a href="#/area/{{ areaId }}/intention/{{ intentionId }}/text/{{txt.TextId}}" targetType = "Text" actionType="open"  targetId = "{{txt.TextId}}"  ng-click="selectThisText(txt,'open')" >-->
+                <!--<a href="#/area/{{ areaName }}/intention/{{ intentionId }}/text/{{txt.TextId}}" targetType = "Text" actionType="open"  targetId = "{{txt.TextId}}"  ng-click="selectThisText(txt,'open')" >-->
                     <!--<div class ="well well-small bmw-texte" ng-bind-html="txt.htmlContent "></div>-->
                 <!--</a>-->
             <!--</div>-->
@@ -102,7 +102,7 @@
             <div>
                 <!--<i class="icon-envelope pull-right" ng-click="allowPopUp()"></i>-->
                 <img src="./assets/e-mail64.png" class = "pull-right envoyer"  ng-click="popUpandSelect(txt,'send')" >
-                <a href="#/area/{{ areaId }}/intention/{{ intentionId }}/text/{{txt.TextId}}" targetType = "Text" actionType="open"  targetId = "{{txt.TextId}}"  ng-click="selectThisText(txt,'open')" >
+                <a href="#/area/{{ areaName }}/intention/{{ intentionId }}/text/{{txt.TextId}}" targetType = "Text" actionType="open"  targetId = "{{txt.TextId}}"  ng-click="selectThisText(txt,'open')" >
 
                     <div ng-switch on="whatToDisplay(txt)" ng-class= "{active: txt.TextId == getSelectedTextId(txt,txt.textId)}">
                         <!--<div ng-switch-when="0" class ="well well-small bmw-texte" ng-bind-html="txt.Abstract | replaceBrackets | convertEndOfLineToBR"></div>-->
