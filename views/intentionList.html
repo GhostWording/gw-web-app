@@ -7,14 +7,13 @@
     <!-- Intentions list as rows and columns -->
     <!--<div class="row-fluid" ng-repeat="lineNumber in getLineNumbers(3)">-->
         <!--<div ng-repeat="intentionObject in getLineElementsForLineNumber($index,3)" class="span4">-->
-    <div class="row" ng-repeat="lineNumber in getLineNumbers(3)">
-        <div ng-repeat="intentionObject in getLineElementsForLineNumber($index,3)" class="col-md-4">
+    <div class="row" ng-repeat="row in groupedIntentions">
+        <div ng-repeat="intention in row" class="col-md-4">
             <!--<a  href="#/area/{{areaName}}/intention/{{intentionObject.IntentionId }}/text" >-->
-            <a  href="area/{{areaName}}/intention/{{intentionObject.IntentionId }}/text" targettype = "intention" targetId = "{{intentionObject.IntentionId}}" >
-                <div ng-click="SelectIntention(intentionObject)"  class ="well well-small bmw-intention">
-                    <!--<div  class ="well well-small bmw-intention">-->
-                    <span  ng-bind="intentionObject.Label"></span>
-                </div>
+            <a href="area/{{currentArea.Name}}/intention/{{intention.IntentionId}}/text"
+               targettype = "intention"
+               targetId = "{{intention.IntentionId}}" >
+                <div class="well well-small bmw-intention">{{intention.Label}}</div>
             </a>
         </div> <!-- Fin colonne-->
     </div> <!-- Fin ligne-->

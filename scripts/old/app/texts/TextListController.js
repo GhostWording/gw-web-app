@@ -50,7 +50,7 @@ function ($scope, $filter, $routeParams, $location, TextFilters,SendText,Selecte
 
     // We may want to display the title, the text, or the text as a quote
     $scope.whatToDisplay = function (txt) {
-        if (SelectedArea.wantsToDisplayTextTitles())
+        if (currentArea.name === "Formalities")
             return HelperSvc.TxtDisplayModeEnum.Abstract;
         else
             return HelperSvc.shouldDisplayAsCitation(txt);

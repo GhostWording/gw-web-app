@@ -16,12 +16,20 @@ module.exports = function(config) {
     files: [
       'bower_components/angular/angular.js',
       'bower_components/angular-mocks/angular-mocks.js',
-      'bower_components/angular-sanitize/angular-sanitize.js',
-      'bower_components/angular-route/angular-route.js',
-      'bower_components/angular-cookies/angular-cookies.js',
-      'scripts/**/*.js',
-      'scripts/*.js',
-      'tests/**/*.spec.js'
+      // 'bower_components/angular-sanitize/angular-sanitize.js',
+      // 'bower_components/angular-route/angular-route.js',
+      // 'bower_components/angular-cookies/angular-cookies.js',
+      'scripts/app/areas/areas.js',
+      'scripts/app/recipients/recipients.js',
+      'scripts/app/users/users.js',
+      'scripts/app/intentions/intentions.js',
+      'scripts/common/cache.js',
+      'scripts/common/languages.js',
+      'scripts/common/server.js',
+      'scripts/common/cacheSvc.js',
+      'tests/app/**/*.spec.js',
+      'tests/common/**/*.spec.js'
+//      'tests/**/*.spec.js'
     ],
 
 
@@ -50,7 +58,7 @@ module.exports = function(config) {
 
 
     // enable / disable watching file and executing tests whenever any file changes
-    autoWatch: false,
+    autoWatch: true,
 
 
     // Start these browsers, currently available:
@@ -70,6 +78,6 @@ module.exports = function(config) {
 
     // Continuous Integration mode
     // if true, it capture browsers, run tests and exit
-    singleRun: true
+    singleRun: false
   });
 };

@@ -1,7 +1,7 @@
 // Display text with author, link to the source, usage recommandations or comments
 
-cherryApp.controller('TextDetailController', ['$scope','$routeParams', 'HelperService','SelectedText','SelectedIntention','AppLabels','SelectedArea',
-function ($scope,$routeParams, HelperService,SelectedText,SelectedIntention,AppLabels,SelectedArea) {
+cherryApp.controller('TextDetailController', ['$scope','$routeParams', 'HelperService','SelectedText','SelectedIntention','AppLabels',
+function ($scope,$routeParams, HelperService,SelectedText,SelectedIntention,AppLabels) {
     $scope.editText = false;
 
     var textId = $routeParams.textId;

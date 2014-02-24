@@ -1,54 +1,36 @@
-cherryApp.factory('areas', [
-    '$rootScope', '$routeParams', 'cacheSvc', 'areaApi',
-    function($rootScope, $routeParams, cacheSvc, areaApi) {
+angular.module('app/areas', ['common/services/cache', 'common/services/server'])
 
-    var areasPromise = getAreas();
 
-    var areas = {
-        currentName: null,
-        current: null,
-        all: [],
-        updateAreas: updateAreas
-    };
+// This service provides promises to areas for the application.
+// It uses the cache or requests from the server
+.factory('areasSvc', ['$q', '$route', 'cacheSvc', 'serverSvc', function($q, $route, cacheSvc, serverSvc) {
+  var service = {
 
-    function getAreas() {
-        return cacheSvc.get('areas', -1, areaApi.allAreas).then(function(areaList) {
-            areas.all = areaList;
-            updateCurrentArea();
-        });
+    getCurrentName: function() {
+      return $route.current && ($route.current.params.areaName || $route.current.params.areaId);
+    },
+
+    getCurrent: function() {
+      var currentAreaName = service.getCurrentName();
+      if ( currentAreaName ) {
+        return service.getArea(currentAreaName);
+      } else {
+        return $q.when(null);
+      }
+    },
+
+
+    getAll: function() {
+      return cacheSvc.get('areas._all', -1, function() {
+        return serverSvc.get('areas');
+      });
+    },
+
+
+    getArea: function(areaName) {
+      return cacheSvc.get('areas.' + areaName, -1, function() { return serverSvc.get(areaName); });
     }
+  };
 
-    function updateAreas(lastChange) {
-        cacheSvc.update('areas', lastChange);
-        // Automatically retrieve the area list if things have changed
-        areasPromise = getAreas();
-    }
-
-    function updateCurrentArea() {
-        areas.current = null;
-        if ( areas.currentName ) {
-
-            // We have an area name but we have to wait for the areas list to arrive
-            areasPromise.then(function() {
-                for (var i = areas.all.length - 1; i >= 0; i--) {
-                    var area = areas.all[i];
-                    if ( area.Name === areas.currentName ) {
-                        areas.current = area;
-                        break;
-                    }
-                }
-            });
-        }
-    }
-
-
-    // TODO : remove one of these two watches when routeParams is consistent
-    // Watch the routeParams to see if the current area has changed
-    $rootScope.$watch(function() { return $routeParams.areaName + $routeParams.areaId; }, function() {
-        areas.currentName = $routeParams.areaName || $routeParams.areaId;
-        updateCurrentArea();
-    }, true);
-
-    return areas;
-    
+  return service;
 }]);

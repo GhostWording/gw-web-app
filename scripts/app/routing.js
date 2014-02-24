@@ -1,7 +1,12 @@
-cherryApp.config(['$routeProvider', function ($routeProvider) { $routeProvider
+angular.module('app/routing', [])
+
+.config(['$routeProvider', function ($routeProvider) { $routeProvider
     .when('/area/:areaName/intention', {
         templateUrl: 'views/intentionList.html',
         controller: 'NewIntentionListController',
+        resolve: {
+            currentArea: ['areasSvc', function(areasSvc) { return areasSvc.getCurrent(); }]
+        },
         showTabs: true
     })
     .when('/area/:areaName/intention/:intentionId/text', {
@@ -80,4 +85,3 @@ cherryApp.config(['$routeProvider', function ($routeProvider) { $routeProvider
         redirectTo: '/'
     });
 }]);
-

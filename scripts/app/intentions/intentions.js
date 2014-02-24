@@ -1,48 +1,74 @@
-cherryApp.factory('intentions', [ '$rootScope', '$routeParams', 'areas', 'intentionApi', function($rootScope, $routeParams, areas, intentionApi) {
+angular.module('app/intentions', ['app/areas', 'common/services/cache', 'common/services/server'])
 
-    var intentionsPromise;
-    var intentions = {
-        current: null,
-        list: []
-    };
+// This service provides promises to intentions for the application.
+// It uses the cache or requests from the server
+.factory('intentionsSvc', ['$q', '$route', 'areasSvc', 'cacheSvc', 'serverSvc', function($q, $route, areasSvc, cacheSvc, serverSvc) {
+  var service = {
 
-    function updateList(area) {
-        intentions.list = [];
-        if ( area ) {
-            return intentionApi.forArea(area.name).then(function(intentionList) {
-               intentions.list = intentionList;
+    getCurrent: function() {
+      var currentIntentionId = $route.current.params.intentionId;
+      return areasSvc.getCurrent().then(function(currentArea) {
+        if ( currentArea ) {
+          return service.getIntention(currentArea.name, currentIntentionId);
+        }
+      });
+    },
+
+    getForArea: function(areaName) {
+      return cacheSvc.get('intentions.' + areaName, -1, function() {
+        return serverSvc.get(areaName + '/intentions').then(function(intentions) {
+            // Sort the intentions by the SortOrder property
+            intentions.sort(function (a, b) {
+                return (a.SortOrder - b.SortOrder);
             });
-        }
+            return intentions;
+        });
+      });
+    },
+
+    getIntention: function(areaName, intentionId) {
+      return cacheSvc.get('intentions.' + areaName + '.' + intentionId, -1, function() {
+        return serverSvc.get(areaName + '/intention/' + intentionId);
+      });
     }
+  };
 
-    function updateCurrent(intentionId) {
-        if ( !intentionId ) {
-            intentions.current = null;
-        } else {
-            // The current intention has changed but we might have to wait for the list of intentions to arrive
-            if ( intentionsPromise ) {
-                intentionsPromise.then(function() {
-                    for (var i = intentions.list.length - 1; i >= 0; i--) {
-                        var intention = intentions.list[i];
-                        if ( intention.IntentionId === intentionId ) {
-                            intentions.current = intention;
-                            console.log('Current Intention has changed to "' + intentionId + '"');
-                            return;
-                        }
-                    }
-                });
-            }
-        }
+  return service;
+}])
+
+.controller('NewIntentionListController', ['$scope', 'currentArea', 'intentionsSvc', function($scope, currentArea, intentionsSvc) {
+
+  var groupItems = function(items, columns) {
+    var rows = [];
+    while(items.length>0) {
+      rows.push(items.splice(0,columns));
     }
+    return rows;
+  };
 
-    $rootScope.$watch(function() { return areas.currentArea; }, function(currentArea) {
-        intentionsPromise = updateList(currentArea);
-    });
+  // Choose title according to areaId : TODO : move to localisation service
+  var AREA_PAGE_TITLE = {
+    "Friends" : "Dites-le aux amis",
+    "LoveLife" : "Dites-lui !",
+    "Family" : "Dites-leur !",
+    "DayToDay" : "Vie quotidienne",
+    "Sentimental" : "Vie sentimentale",
+    "Important" : "Occasions spéciales", // événements notables, saillants, singulier
+    "Formalities" : "Expédiez les formalités !",
+  };
+  $scope.pageTitle = AREA_PAGE_TITLE[currentArea.Name];
+  if ( !$scope.pageTitle ) {
+    $scope.pageTitle = "Dites le !";
+    console.log("Unknown area : ", currentArea);
+  }
 
-    $rootScope.$watch(function() { return $routeParams.intentionId; }, function(intentionId) {
-        updateCurrent(intentionId);
-    });
 
-    return intentions;
-    
+  $scope.currentArea = currentArea;
+
+  // Get the intentions - it may be possible to move this to the resolve section of the route
+  intentionsSvc.getForArea(currentArea.Name).then(function(intentions) {
+    var ITEMS_PER_ROW = 3;
+    $scope.groupedIntentions = groupItems(intentions, ITEMS_PER_ROW);
+  });
+
 }]);

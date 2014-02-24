@@ -1,8 +1,8 @@
 
 
 cherryApp.factory('CurrentTextList', [
-    '$http', '$rootScope', '$routeParams','$filter', 'AppUrlSvc',  'HelperService', 'cacheSvc', 'TextFilterHelperSvc','NormalTextFilters','SelectedArea','SelectedIntention','intentionApi',
-    function($http, $rootScope, $routeParams, $filter, AppUrlSvc,  HelperService, cacheSvc, TextFilterHelperSvc,TextFilters,SelectedArea,SelectedIntention,intentionApi) {
+    '$http', '$rootScope', '$routeParams','$filter', 'AppUrlSvc',  'HelperService', 'cacheSvc', 'TextFilterHelperSvc','NormalTextFilters','currentArea','SelectedIntention','intentionApi',
+    function($http, $rootScope, $routeParams, $filter, AppUrlSvc,  HelperService, cacheSvc, TextFilterHelperSvc,TextFilters,currentArea,SelectedIntention,intentionApi) {
 
     var areaName, intentionId, currentTextList;
     var completeTextListForIntention;

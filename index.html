@@ -13,10 +13,10 @@
         <!--<script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>-->
         <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
 
-        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.1/angular.min.js"></script>
-        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.1/angular-cookies.min.js"></script>
-        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.1/angular-sanitize.min.js"></script>
-        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.1/angular-route.min.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.1/angular.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.1/angular-cookies.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.1/angular-sanitize.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.1/angular-route.js"></script>
 
         <!--Reminder : include Respond.js for IE8 support with bootstrap 3.0 -->
 
@@ -97,37 +97,24 @@
     </div><!-- /.navbar-collapse -->
 </nav>
 
- <div data-ng-controller="CherryControler" class="container">
+  <div data-ng-controller="CherryController" class="container">
 
     <!--TABS -->
-     <div class="tabBar" ng-show="Tabs.showTabs" action-location="Tabs">
-
-         <ul id="myTab" class="nav nav-pills ">
-             <li ng-class="{active: Tabs.currentTabName == 'Friends'}">
-                 <a href="area/Friends/intention"> Amis </a></li>
-             <li ng-class="{active: Tabs.currentTabName == 'LoveLife'}">
-                 <a href="area/LoveLife/intention"> Amours </a></li>
-             <li ng-class="{active: Tabs.currentTabName == 'Family'}">
-                 <a href="area/Family/intention"> Famille </a></li>
-         </ul>
-
-         <!--<ul id="myTab" class="nav nav-pills ">-->
-             <!--<li ng-class="{active: Tabs.currentTabName == 'DayToDay'}">-->
-                 <!--<a href="area/DayToDay/intention"> Quotidien </a></li>-->
-             <!--<li ng-class="{active: Tabs.currentTabName == 'Sentimental'}">-->
-                 <!--&lt;!&ndash;<a href="area/Sentimental/intention" ng-click="Tabs.currentTabName='Sentimental'" > Sentimental </a></li>&ndash;&gt;-->
-                 <!--<a href="area/Sentimental/intention"> Sentimental </a></li>-->
-             <!--<li ng-class="{active: Tabs.currentTabName == 'Important'}">-->
-                 <!--<a href="area/Important/intention"> Spécial</a></li>-->
-         <!--</ul>-->
-     </div>
-     <!-- TABS -->
-
-     <div class = "tabBarReplacement" ng-show="!Tabs.showTabs">
-     </div>
+    <div ng-controller="TabController">
+         <div class="tabBar" ng-show="showTabs" action-location="Tabs">
+             <ul id="myTab" class="nav nav-pills ">
+                <li ng-class="{active: currentAreaName() == tab.name}" ng-repeat="tab in tabs">
+                    <a href="area/{{tab.name}}/intention"> {{tab.label}} </a>
+                </li>
+             </ul>
+        </div>
+        <div class = "tabBarReplacement" ng-show="!showTabs">&nbsp;</div>
+    </div>
+    <!-- TABS -->
 
     <div ng-view>
-   </div>
+
+  </div>
 
 
    <!-- DIALOG for advanced filter selection -->
@@ -234,86 +221,9 @@
    </div> <!-- /container -->
 
 
-<!-- Add message signature -->
-
-<!--&lt;!&ndash; Add sender's name or initials &ndash;&gt;-->
-<!--<div class="modal-footer" ng-hide ="isIPhone() || true">-->
-<!--<button class="btn btn-mini btn-inverse"    -->
-<!--ng-click="libelleTexteCourant = libelleTexteCourant+'\r'+nomPersoUtilisateur ">+signature</button>                        -->
-<!--<input type="text" placeholder="votre prénom..." ng-model="nomPersoUtilisateur" -->
-<!--id = "prenomDansFooterMessage" class = "nomDansFooterMessage">-->
-<!--<button class="btn btn-mini btn-inverse ng-show=false"    -->
-<!--ng-click="libelleTexteCourant = libelleTexteCourant+'\r'+nomProUtilisateur ">+nom</button>                        -->
-<!--<input type="text" placeholder="nom complet..." ng-model="nomProUtilisateur" -->
-<!--id = "nomCompletDansFooterMessage" class = "nomDansFooterMessage" ng-show=false>-->
-<!--</div>  &lt;!&ndash; Modal footer signature  &ndash;&gt;-->
-
-<!-- Add salutations : OLD -->
-<!--<div class="modal-footer" ng-show="false">-->
-<!--<i class="icon-arrow-up  pull-left"></i>-->
-<!--<button class="btn btn-mini btn-inverse pull-left"-->
-<!--ng-click="ajouterFormuleAvant('Bonjour')">Bonjour</button>-->
-<!--<i class="icon-arrow-down"></i>-->
-<!--<button class="btn btn-mini btn-inverse "-->
-<!--ng-click="ajouterFormuleApres('');ajouterFormuleApres('Cordialement,')">Cordia...</button>-->
-<!--<button class="btn btn-mini btn-inverse pull"-->
-<!--ng-click="ajouterFormuleApres('');ajouterFormuleApres('A bientôt,')">A bient</button>-->
-<!--<button class="btn btn-mini btn-inverse"-->
-<!--ng-click="ajouterFormuleApres('');ajouterFormuleApres('Bises,')">Bises</button>-->
-<!--</div>  &lt;!&ndash; Fin Modal footer formule avant-après  &ndash;&gt;-->
-
-
 <!-- inject:js -->
 <script src="scripts/build.js"></script>
 <!-- endinject -->
-
-<!--<script src="scripts/app.js" type="text/javascript"></script>-->
-<!--<script src="scripts/filters.js" type="text/javascript"></script>-->
-<!--<script src="scripts/routing.js" type="text/javascript"></script>-->
-<!--<script src="scripts/directives.js" type="text/javascript"></script>-->
-
-<!--<script src="scripts/services/RecepientListSvc.js"></script>-->
-<!--<script src="scripts/services/IntentionListSvc.js"></script>-->
-<!--<script src="scripts/services/TextListSvc.js"></script>-->
-<!--<script src="scripts/services/CurrentTextList.js"></script>-->
-<!--<script src="scripts/services/TextFiltersSvc.js"></script>-->
-<!--<script src="scripts/services/HelperSvc.js"></script>-->
-<!--<script src="scripts/services/SelectedTextSvc.js"></script>-->
-<!--<script src="scripts/services/SelectedIntentionSvc.js"></script>-->
-<!--<script src="scripts/services/AppUrlSvc.js"></script>-->
-<!--<script src="scripts/services/UserProfileSvc.js"></script>-->
-<!--<script src="scripts/services/PostActionSvc.js"></script>-->
-<!--<script src="scripts/services/AppLabels.js"></script>-->
-<!--<script src="scripts/services/SelectedArea.js"></script>-->
-<!--<script src="scripts/services/TextFilterHelperSvc.js"></script>-->
-<!--<script src="scripts/services/FilterVisibilityHelperSvc.js"></script>-->
-<!--<script src="scripts/services/Tabs.js"></script>-->
-<!--<script src="scripts/services/CurrentTextList.js"></script>-->
-<!--<script src="scripts/services/cacheSvc.js"></script>-->
-<!--<script src="scripts/services/currentLanguage.js"></script>-->
-<!--<script src="scripts/services/fakes/intentions.js"></script>-->
-<!--<script src="scripts/services/api/apiUrl.js"></script>-->
-<!--<script src="scripts/services/api/areaApi.js"></script>-->
-<!--<script src="scripts/services/api/intentionApi.js"></script>-->
-
-<!--<script src="scripts/controllers/TextFiltersController.js"></script>-->
-<!--<script src="scripts/controllers/SelectedTextController.js"></script>-->
-<!--<script src="scripts/controllers/NewIntentionListController.js"></script>-->
-<!--<script src="scripts/controllers/TextListController.js"></script>-->
-<!--<script src="scripts/controllers/RecipientListController.js"></script>-->
-<!--<script src="scripts/controllers/SplashScreenController.js"></script>-->
-<!--<script src="scripts/controllers/TextDetailController.js"></script>-->
-<!--<script src="scripts/controllers/NotImplementedController.js"></script>-->
-<!--<script src="scripts/controllers/UserProfileController.js"></script>-->
-<!--<script src="scripts/controllers/FilterDialogController.js"></script>-->
-<!--<script src="scripts/controllers/ContextFiltersDialogController.js"></script>-->
-<!--<script src="scripts/controllers/SimplePageController.js"></script>-->
-<!--<script src="scripts/controllers/IntentionLabelController.js"></script>-->
-<!--<script src="scripts/controllers/StyleBarController.js"></script>-->
-<!--<script src="scripts/controllers/TextListHeaderController.js"></script>-->
-<!--<script src="scripts/controllers/ProgressBarController.js"></script>-->
-
-<!--<fb:login-button show-faces="true" width="200" max-rows="1"></fb:login-button>-->
 
 </body>
 </html>

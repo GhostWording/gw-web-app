@@ -27,7 +27,11 @@ function srcFiles() {
     // Rather than using gulp-ignore we can just provide multiple
     // glob patterns, where the ! indicates that we should exclude
     // the matching files
-    return ['scripts/**/*.js', '!scripts/lib/**/*.js'];
+    return [
+      'scripts/**/*.js',
+      '!scripts/old/**/*.js',
+      '!scripts/lib/**/*.js'
+    ];
 }
 
 
