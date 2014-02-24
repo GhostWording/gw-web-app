@@ -35,30 +35,6 @@ cherryApp.factory('HelperService',[function(){
 				retval = true;
 			return retval;
 		},
-		// Returns 0, 1, 2 ......one line number per line
-		getLineNumbers: function (items, nbColumnsPerLine) {
-			var i = 0;
-			var li = [];
-			angular.forEach(items,
-				function (item) {
-					if (i % nbColumnsPerLine === 0)
-						li.push(item);
-					i++;
-				});
-			return li;
-		} ,
-		// Returns items for the given line
-		getLineElementsForLineNumber: function (items, lineNumber, nbColumnsPerLine)  {
-			var i = 0;
-			var col = [];
-			angular.forEach(items, function (item) {
-				// Les éléments de la ligne courante
-				if (Math.floor(i / nbColumnsPerLine) == lineNumber)
-					col.push(item);
-				i++;
-			});
-			return col;
-		},
         // Creates an array indexed on one of the properties of the source
 		buildIndex: function(source, property) {
 			var tempArray = [];

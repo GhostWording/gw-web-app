@@ -1,0 +1,15 @@
+<div action-location="StyleBar" ng-controller="StyleBarController">
+    <ul class="pager bmwQuestionButton " ng-show = 'true' >
+        <li >
+            <a historyback href="" class="pull-left" role="button"  targetId="Back" > <img ng-src="./assets/arrow-left.png" class="stylepicto"> </a>
+        </li>
+
+        <li class="nombreTextesB labelTextesB">
+            <a href="" targetId="StyleDialog"  ng-click="choseStyleFiltersToDisplay()"> {{TextListPanel.lesTextes.length}} &nbsp <img ng-src="./assets/e-mail64.png" class="stylepicto"> </a>
+        </li>
+
+        <li ng-class= '{selectionne: AtLeastOneStyleToExclude() || AtLeastOneStyleToPrefer() }' class = "pull-right" >
+            <a href="" targetId="StyleDialog" ng-click="choseStyleFiltersToDisplay()"> <img ng-src="./assets/choice.png" class="stylepicto">  Styles</a>
+        </li>
+    </ul>
+</div>

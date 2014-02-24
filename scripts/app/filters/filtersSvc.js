@@ -1,8 +1,8 @@
-angular.module('app/filters', [])
+angular.module('app/filters/filtersSvc', [])
 
 
 // This service keeps track of user choices that impact the filtering of texts
-.factory('filtersSvc', ['$rootScope', function($rootScope, StyleCollection) {
+.factory('filtersSvc', ['$rootScope', 'StyleCollection', function($rootScope, StyleCollection) {
 
   var service = {
     filters: {
@@ -21,8 +21,17 @@ angular.module('app/filters', [])
       service.filters.excludedStyles.clear();
       service.filters.preferredStyles.clear();
       service.filters.contexts.clear();
-    }
+    },
 
+    wellDefined: function() {
+      var filters = service.filters;
+      return filters.recipientGender && filters.tuOuVous;
+    },
+
+    filterList: function(textList) {
+      // TODO: actually filter the list!!
+      return textList;
+    }
   };
 
   // Compute additional filter values

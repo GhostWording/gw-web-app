@@ -12,29 +12,48 @@ angular.module('app/routing', [])
     .when('/area/:areaName/intention/:intentionId/text', {
         templateUrl: 'views/textList.html',
         controller: 'TextListController',
+        resolve: {
+            currentArea: ['areasSvc', function(areasSvc) { return areasSvc.getCurrent(); }],
+            currentIntention: ['intentionsSvc', function(intentionsSvc) { return intentionsSvc.getCurrent(); }]
+        },
         showTabs: true
     })
 
     // New : use longer url tracing intentionId for single text
     .when('/area/:areaName/intention/:intentionId/text/:textId', {
         templateUrl: 'views/textdetail.html',
-        controller: 'TextDetailController'
+        controller: 'TextDetailController',
+        resolve: {
+            currentArea: ['areasSvc', function(areasSvc) { return areasSvc.getCurrent(); }],
+            currentIntention: ['intentionsSvc', function(intentionsSvc) { return intentionsSvc.getCurrent(); }]
+        }
     })
 
     .when('/area/:areaName/text/:textId', {
         templateUrl: 'views/textdetail.html',
-        controller: 'TextDetailController'
+        controller: 'TextDetailController',
+        resolve: {
+            currentArea: ['areasSvc', function(areasSvc) { return areasSvc.getCurrent(); }]
+        }
     })
 
     // Shortcut for human readable link
+    // TODO: Move this to a redirect on the server??
     .when('/:areaName/:intentionId', {
         templateUrl: 'views/textList.html',
-        controller: 'TextListController'
+        controller: 'TextListController',
+        resolve: {
+            currentArea: ['areasSvc', function(areasSvc) { return areasSvc.getCurrent(); }],
+            currentIntention: ['intentionsSvc', function(intentionsSvc) { return intentionsSvc.getCurrent(); }]
+        }
     })
 
     .when('/recipients', {
         templateUrl: 'views/recipients.html',
         controller: 'RecipientListController',
+        resolve: {
+            recipients: ['recipientsSvc', function(recipientsSvc) { return recipientsSvc.getAll(); }]
+        },
         showTabs: true,
         tabName: 'special'
     })
