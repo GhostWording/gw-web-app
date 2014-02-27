@@ -14,7 +14,8 @@ angular.module('app/routing', [])
         controller: 'TextListController',
         resolve: {
             currentArea: ['areasSvc', function(areasSvc) { return areasSvc.getCurrent(); }],
-            currentIntention: ['intentionsSvc', function(intentionsSvc) { return intentionsSvc.getCurrent(); }]
+            currentIntention: ['intentionsSvc', function(intentionsSvc) { return intentionsSvc.getCurrent(); }],
+            currentTextList: ['textsSvc', function(textsSvc) { return textsSvc.getCurrentList(); }]
         },
         showTabs: true
     })
@@ -25,7 +26,8 @@ angular.module('app/routing', [])
         controller: 'TextDetailController',
         resolve: {
             currentArea: ['areasSvc', function(areasSvc) { return areasSvc.getCurrent(); }],
-            currentIntention: ['intentionsSvc', function(intentionsSvc) { return intentionsSvc.getCurrent(); }]
+            currentIntention: ['intentionsSvc', function(intentionsSvc) { return intentionsSvc.getCurrent(); }],
+            currentText: ['textsSvc', function(textsSvc) { return textsSvc.getCurrent(); }]
         }
     })
 

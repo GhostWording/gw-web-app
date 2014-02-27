@@ -5,8 +5,12 @@ angular.module('app/intentions', ['app/areas', 'common/services/cache', 'common/
 .factory('intentionsSvc', ['$q', '$route', 'areasSvc', 'cacheSvc', 'serverSvc', function($q, $route, areasSvc, cacheSvc, serverSvc) {
   var service = {
 
+    getCurrentId: function() {
+      return $route.current.params.intentionId;
+    },
+
     getCurrent: function() {
-      var currentIntentionId = $route.current.params.intentionId;
+      var currentIntentionId = service.getCurrentId();
       return areasSvc.getCurrent().then(function(currentArea) {
         if ( currentArea ) {
           return service.getIntention(currentArea.name, currentIntentionId);

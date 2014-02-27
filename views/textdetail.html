@@ -1,46 +1,49 @@
 ﻿<div action-location="TextDetail">
     <div>
         <!--<button historyback class="btn  btn-small pull-right retourIntentions">&larr;</button>-->
-            <h3 ng-bind-html = "textDetailPageTitle" ></h3>
+            <h3 ng-bind-html = "currentText.Abstract || currentIntention.Label" ></h3>
     </div>
-    <div  ng-hide ="true">
-        <br/>
-    </div>
-      <!--<span ng-repeat = "tag in tags" >-->
-      <span ng-repeat = "tagLabel in tagLabels" >
-            <span class = "label label-primary">
-            {{tagLabel}}
-            </span>&nbsp
-         </span>
+
+    <span ng-repeat = "tagLabel in currentText.TagLabels" >
+        <span class = "label label-primary">{{tagLabel}}</span>&nbsp
+    </span>
+
     <div class = "well well-lg"  ng-hide ="editText">
-        <span ng-bind-html = "textToDetail | replaceBrackets | convertEndOfLineToBR"></span>
+        <span ng-bind-html = "currentText.Content"></span>
     </div>
+
     <div ng-show ="editText" >
         <textarea
-                ng-model= "textToDetail"
+                ng-model= "editableText"
                 id="currentText" style="width:100%;" rows="10">
         </textarea>
+        <br>
     </div>
-    <div ng-show = "editText"><br></div>
 
     <div>
         <ul class="pager bmwQuestionButton" >
             <li ng-class= '{selectionne: false}' >
                 <a historyback href="" class="pull-left" role="button" targetId="Back"  > <img ng-src="./assets/arrow-left.png" class="stylepicto"> </a>
 
+                <span class="pull-right">
+                    <button class="btn"
+                            targetId = "{{ Id }}" targetType="Text" actionType="edit"
+                            ng-click="edit()" ng-hide ="editText">Editer</button>
+                    <button class="btn btn-primary"
+                            targetId = "{{ Id }}" targetType="Text" actionType="send"
+                            ng-click="send()">Envoyer</button>
+                </span>
             </li>
-        <span class="pull-right">
-            <button class="btn"             targetId = "{{ Id }}" targetType="Text" actionType="edit"   ng-click="edit()" ng-hide ="editText">Editer</button>
-            <button class="btn btn-primary" targetId = "{{ Id }}" targetType="Text" actionType="send"   ng-click="send()">Envoyer</button>
-        </span>
         </ul>
     </div>
+
     <br/>
-    <div class ="auteur" ng-show="isQuote">
-        Auteur : {{author}}
+    <div class ="auteur" ng-show="currentText.IsQuote">
+        Auteur : {{currentText.Author}}
     </div>
-    <div ng-hide="source == undefined">
-        Source : <a ng-bind-html= "source"  ng-href = "{{source}}" ></a>
+
+    <div ng-show="currentText.ReferenceUrl">
+        Source : <a ng-href = "{{currentText.ReferenceUrl}}" >{{currentText.ReferenceUrl}}</a>
     </div>
 
 </div>
