@@ -1,5 +1,5 @@
 describe("serverSvc", function() {
-  beforeEach(module('common/server'));
+  beforeEach(module('common/services/server'));
 
 
   describe("get", function() {

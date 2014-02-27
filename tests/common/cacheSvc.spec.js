@@ -4,7 +4,7 @@ describe("cacheSvc", function() {
   var localStorage;
   var $rootScope;
 
-  beforeEach(module('common/cache'));
+  beforeEach(module('common/services/cache'));
 
   beforeEach(inject(function(_cacheSvc_, _localStorage_, _$rootScope_) {
    

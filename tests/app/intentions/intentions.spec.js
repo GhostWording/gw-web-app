@@ -1,8 +1,12 @@
 describe("intentionsSvc", function() {
 
-  // Mock out the $routeParams to save us from having to load up the whole ngRoute
+  // Mock out the $route to save us from having to load up the whole ngRoute
   beforeEach(module(function($provide) {
-    $provide.value('$routeParams', {});
+    $provide.value('$route', {
+      current: {
+        params: {}
+      }
+    });
   }));
 
   beforeEach(module('app/intentions'));

@@ -19,14 +19,7 @@ module.exports = function(config) {
       // 'bower_components/angular-sanitize/angular-sanitize.js',
       // 'bower_components/angular-route/angular-route.js',
       // 'bower_components/angular-cookies/angular-cookies.js',
-      'scripts/app/areas/areas.js',
-      'scripts/app/recipients/recipients.js',
-      'scripts/app/users/users.js',
-      'scripts/app/intentions/intentions.js',
-      'scripts/common/cache.js',
-      'scripts/common/languages.js',
-      'scripts/common/server.js',
-      'scripts/common/cacheSvc.js',
+      'scripts/**/*.js',
       'tests/app/**/*.spec.js',
       'tests/common/**/*.spec.js'
 //      'tests/**/*.spec.js'
@@ -35,6 +28,7 @@ module.exports = function(config) {
 
     // list of files to exclude
     exclude: [
+      'scripts/old/**/*',
       'scripts/wp8viewport.js'
     ],
 

@@ -1,8 +1,12 @@
 describe("areasSvc", function() {
 
-  // Mock out the $routeParams to save us from having to load up the whole ngRoute
+  // Mock out the $route to save us from having to load up the whole ngRoute
   beforeEach(module(function($provide) {
-    $provide.value('$routeParams', {});
+    $provide.value('$route', {
+      current: {
+        params: {}
+      }
+    });
   }));
 
   // TODO: create a generic mock cacheSvc that simplifies these and other tests that use cacheSvc
@@ -12,9 +16,9 @@ describe("areasSvc", function() {
 
   describe("getCurrent", function() {
     
-    it("should lookup the current area in the $routeParams", inject(function(areasSvc, $routeParams) {
+    it("should lookup the current area in the current route", inject(function(areasSvc, $route) {
       spyOn(areasSvc, 'getArea');
-      $routeParams.areaName = 'dummy';
+      $route.current.params.areaName = 'dummy';
       areasSvc.getCurrent();
       expect(areasSvc.getArea).toHaveBeenCalledWith('dummy');
     }));
