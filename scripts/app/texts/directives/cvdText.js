@@ -8,26 +8,27 @@ angular.module('app/texts/cvdText', [])
 
       var txt = scope.$eval(attrs.cvdText);
 
-      if ( !txt.isQuote ) {
+      if ( !txt.IsQuote ) {
 
         element.html(txt.Content);
+        element.addClass("well well-small bmw-texte");
 
       } else {
 
-        var blockquote = element('<blockquote>');
+        var blockquote = angular.element('<blockquote>');
 
         var citation = angular.element('<span class="citation">');
         citation.html(txt.Content);
-        blockquote.appendChild(citation);
+        blockquote.append(citation);
 
         if ( txt.Author ) {
           var author = angular.element('<small>');
           author.attr('title', txt.Author);
           author.text(txt.Author);
-          blockquote.appendChild(author);
+          blockquote.append(author);
         }
 
-        element.appendChild(blockquote);
+        element.append(blockquote);
 
       }
     }
