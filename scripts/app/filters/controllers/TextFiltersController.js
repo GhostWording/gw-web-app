@@ -1,6 +1,6 @@
 angular.module('app/filters/TextFiltersController', [])
 
-.controller('TextFiltersController', ['$scope','filtersSvc','currentUser','currentArea','currentIntention', function ($scope,filtersSvc,currentUser,currentArea,currentIntention) {
+.controller('TextFiltersController', ['$scope','filtersSvc','currentUser', function ($scope,filtersSvc,currentUser) {
   var GENDER_LABEL = {
     'H': 'Homme',
     'F': 'Femme',
@@ -94,7 +94,7 @@ angular.module('app/filters/TextFiltersController', [])
   }
 
   // TODO: This really should be data driven - i.e. the best filter set should be a field on the intention
-  setBestFilterDefaultValues(currentArea.name , currentIntention.Id, currentUser.gender);
+  setBestFilterDefaultValues($scope.currentArea.name , $scope.currentIntention.IntentionId, currentUser.gender);
 
   function setBestFilterDefaultValues(areaName,intentionId, userGender) {
     console.log (areaName + " - " + intentionId + ' - ' + userGender);

@@ -2,17 +2,18 @@
  <div ng-controller="TextFiltersController">
      <!-- Breadcrumbs -->
      <ul class="breadcrumb"  ng-show = "showBreadcrumbs()">
-         <li><a href="/userprofile"  >Moi </a>
-             &nbsp <img ng-src="./assets/arrow-right.png" class="breadcrumbpicto"> &nbsp
-             <a href="" ng-show="BasicFilters.getHideRecipientGender()" ng-click = "definirGenreDestinataire('I')">
+         <li>
+            <a href="/userprofile"  >Moi </a> &nbsp
+            <img ng-src="./assets/arrow-right.png" class="breadcrumbpicto"> &nbsp
+            <a href="" ng-show="BasicFilters.getHideRecipientGender()" ng-click = "definirGenreDestinataire('I')">
                  <img id="breadcrumbCrossRecipientGender" ng-src="./assets/cross.png" class="breadcrumbpicto" >
                  <img ng-src="./assets/{{ getRecipientGenderIconName() }}" class="breadcrumbpicto"></a>
-             </a>
-             <a href="" ng-show="BasicFilters.getHideTuOuVous()" ng-click = "definirTuOuVous('I')" >
+            </a>
+            <a href="" ng-show="BasicFilters.getHideTuOuVous()" ng-click = "definirTuOuVous('I')" >
                  &nbsp
                  <img id="breadcrumbCrossTuOuVous" ng-src="./assets/cross.png" class="breadcrumbpicto" >
                  {{ getTuOuVousLabel() }}
-             </a>
+            </a>
          </li>
      </ul>
 
