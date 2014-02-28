@@ -23,10 +23,31 @@ angular.module('app/texts/textList', [])
       });
     },
     getText: function(areaName, intentionId, textId) {
+
+      function getTextById() {
+        return service.getCurrentList()
+
+          .then(function(textList) {
+            for (var i = textList.length - 1; i >= 0; i--) {
+              var text = textList[i];
+              if ( text.TextId === textId ) {
+                return text;
+              }
+            }
+          })
+
+          .then(function(text) {
+            if ( text ) {
+              return text;
+            } else {
+              return serverSvc.get(path);
+            }
+          });
+      }
+
       var path = areaName + '/text/' + textId;
-      return cacheSvc.get(path, -1, function() {
-        return serverSvc.get(path);
-      });
+
+      return cacheSvc.get(path, -1, getTextById, true);
     }
   };
   return service;
