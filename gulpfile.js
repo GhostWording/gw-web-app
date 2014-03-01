@@ -90,7 +90,7 @@ gulp.task('minify', function() {
 define('assets','Copy all the static assets to the build folder');
 /*************************************************************/
 gulp.task('assets', function() {
-  gulp.src(['assets/**/*'])
+  gulp.src(['assets/**/*', 'bower_components/**/*'])
   .pipe(gulp.dest('build/assets'));
 
   gulp.src(['scripts/lib/**/*.js'])
@@ -190,10 +190,10 @@ gulp.task('release', ['clean'], function() {
 define('watch','activate watch mode to run tests and serve on file changes');
 /*************************************************************/
 gulp.task('watch', function() {
-    gulp.run('default','test','serve');
+    //gulp.run('default','test','serve');
 
       gulp.watch(['scripts/**', 'assets/**', 'views/**', 'index.html', 'tests/**'], function() {
-        gulp.run('default', 'test');
+        gulp.run('default');
       });
 });
 
