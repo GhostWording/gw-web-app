@@ -9,21 +9,11 @@
         <div class="col-sm-2"></div>
         <div class="col-sm-8" >
             <div style="font-size:120%">{{ recipient.LocalLabel }}</div>
-            <!--<table class = "table" style="font-size:100%">-->
-                <!--<tbody>-->
-                <!--<tr ng-repeat="alert in recipient.alerts">-->
-                    <!--<td>{{ alert.IntentionLabel}}</td>-->
-                    <!--<td>{{ alert.FreqNumerator }} fois</td>-->
-                    <!--<td>par {{ alert.FreqPeriod }}</td>-->
-                <!--</tr>-->
-                <!--</tbody>-->
-            <!--</table>-->
                 <div ng-repeat="alert in recipient.alerts">
                     <div class ="col-xs-5" >{{ alert.IntentionLabel}}</div>
                     <div class ="col-xs-3">{{ alert.FreqNumerator }} fois</div>
                     <div class ="col-xs-4">/ {{ alert.FreqPeriod }}</div>
                 </div>
-
         </div>
         <div class="col-sm-2"></div>
     </div>
@@ -42,22 +32,5 @@
         <div style="padding-top: 0px; padding-bottom: 5px;">(de toute façon, vous pourrez modifier plus tard)</div>
 
     </div>
-
-
-    <!--<div class="row" style="margin-top: 25px; margin-bottom: 0px; text-align: center" >-->
-        <!--<div class="span4"></div>-->
-        <!--<div class="span4 splashTitle">-->
-            <!--(de toute façon, vous pourrez modifier plus tard)-->
-        <!--</div>-->
-        <!--<div class="span4">-->
-            <!--<ul class="pager bmwQuestionButton" >-->
-                <!--<li ng-class= '{selectionne: false}' >-->
-                    <!--<a href="" role="button" class="pull-right" targetId="Next"> <img ng-src="./assets/arrow-right.png" class="stylepicto"> </a>-->
-                <!--</li>-->
-            <!--</ul>-->
-        <!--</div>-->
-    <!--</div>-->
-
-
 
 </div>
