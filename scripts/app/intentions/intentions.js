@@ -34,7 +34,8 @@ angular.module('app/intentions', ['app/areas', 'common/services/cache', 'common/
       return cacheSvc.get('intentions.' + areaName + '.' + intentionId, -1, function() {
         return serverSvc.get(areaName + '/intention/' + intentionId);
       });
-    }
+    },
+
   };
 
   return service;
