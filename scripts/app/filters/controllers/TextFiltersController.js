@@ -1,69 +1,73 @@
 angular.module('app/filters/TextFiltersController', [])
 
-.controller('TextFiltersController', ['$scope','filtersSvc','currentUser', function ($scope,filtersSvc,currentUser) {
-  var GENDER_LABEL = {
-    'H': 'Homme',
-    'F': 'Femme',
-    null: '...'
-  };
-  var GENDER_ICON = {
-    'H': 'maleuser32.png',
-    'F': 'femaleuser32.png',
-    'P': 'several32.png',
-    null: 'maleuser32.png'
+.factory('FILTER_LABELS', function() {
+
+  return {
+    GENDER_LABEL: {
+      'H': 'Homme',
+      'F': 'Femme',
+      null: '...'
+    },
+
+    GENDER_ICON: {
+      'H': 'maleuser32.png',
+      'F': 'femaleuser32.png',
+      'P': 'several32.png',
+      null: 'maleuser32.png'
+    },
+
+    RECIPIENT_GENDER_LABEL: {
+      'H' : 'Un',
+      'F' : 'Une',
+      'P' : 'Plusieurs',
+      null : '...'
+    },
+
+    CLOSENESS_LABEL: {
+      'P': { 'P': 'proches', 'M': 'proche', 'F': 'proche', null: 'proche' },
+      'D': { 'P': 'pas proches', 'M': 'pas proche', 'F': 'pas proche', null: 'pas proche' },
+      null: { 'P': '...', 'M': '...', 'F': '...', null: '...' }
+    },
+
+    TUOUVOUS_LABEL: {
+      'T': 'Dire tu',
+      'V': 'Dire vous'
+    }
+
   };
 
-  var RECIPIENT_GENDER_LABEL = {
-    'H' : 'Un',
-    'F' : 'Une',
-    'P' : 'Plusieurs',
-    null : '...'
-  };
+})
 
-  var CLOSENESS_LABEL = {
-    'P': { 'P': 'proches', 'M': 'proche', 'F': 'proche', null: 'proche' },
-    'D': { 'P': 'pas proches', 'M': 'pas proche', 'F': 'pas proche', null: 'pas proche' },
-    null: { 'P': '...', 'M': '...', 'F': '...', null: '...' }
-  };
-
-  var TUOUVOUS_LABEL = {
-    'T': 'Dire tu',
-    'V': 'Dire vous'
-  };
-
-  var INVERT_GENDER_MAP = {
-    'H': 'F',
-    'F': 'H'
-  };
-
+.controller('TextFiltersController', ['$scope','filtersSvc','currentUser', 'FILTER_LABELS', function ($scope,filtersSvc,currentUser, FILTER_LABELS) {
   var filters = $scope.filters = filtersSvc.filters;
+  $scope.currentUser = currentUser;
 
   $scope.showBreadcrumbs = function () {
     return !filters.recipientGender || !filters.closeness || !filters.tuOuVous;
   };
 
   $scope.getSenderGenderLabel = function () {
-    return GENDER_LABEL[currentUser.gender] || 'Oups';
+    return FILTER_LABELS.GENDER_LABEL[currentUser.gender] || 'Oups';
   };
 
   $scope.getSenderGenderIconName = function() {
-    return GENDER_ICON[currentUser.gender] || 'Oups';
+    return FILTER_LABELS.GENDER_ICON[currentUser.gender] || 'Oups';
   };
 
   $scope.getRecipientGenderLabel = function () {
-    return RECIPIENT_GENDER_LABEL[filters.recipientGender] || 'Oups';
+    return FILTER_LABELS.RECIPIENT_GENDER_LABEL[filters.recipientGender] || 'Oups';
   };
 
   $scope.getRecipientGenderIconName = function () {
-    return GENDER_ICON[currentUser.gender] || 'Oups';
+    return FILTER_LABELS.GENDER_ICON[filters.recipientGender] || 'Oups';
   };
 
   $scope.getClosenessLabel = function () {
-    return CLOSENESS_LABEL[filters.closeness][filters.recipientGender] || 'Oups';
+    return FILTER_LABELS.CLOSENESS_LABEL[filters.closeness][filters.recipientGender] || 'Oups';
   };
 
   $scope.getTuOuVousLabel = function () {
-    return TUOUVOUS_LABEL[filters.tuOuVous] || 'Oups';
+    return FILTER_LABELS.TUOUVOUS_LABEL[filters.tuOuVous] || 'Oups';
   };
 
   // TODO: Work this into the data
@@ -89,6 +93,11 @@ angular.module('app/filters/TextFiltersController', [])
   //     TextFilters.setTuOuVous('V');
   // };
   
+  var INVERT_GENDER_MAP = {
+    'H': 'F',
+    'F': 'H'
+  };
+
   function invertGender(gender) {
     return INVERT_GENDER_MAP[gender] || gender;
   }
@@ -99,38 +108,35 @@ angular.module('app/filters/TextFiltersController', [])
   function setBestFilterDefaultValues(areaName,intentionId, userGender) {
     console.log (areaName + " - " + intentionId + ' - ' + userGender);
 
+    var filters = filtersSvc.filters;
+
     if ( areaName == 'LoveLife' ) {
       if ( userGender == 'H' || userGender == 'F')
-        TextFilters.setRecipientGender(invertGender(userGender));
+        filters.recipientGender = invertGender(userGender);
       // Unless intention is 'I would like to see you again' or new relationship, presume 'Tu' will be adequate
       if ( intentionId != 'BD7387' &&  intentionId != '7445BC')
-        TextFilters.setTuOuVous('T');
+        filters.tuOuVous = 'T';
     }
     if ( areaName == 'Friends' ) {
       if ( intentionId !=  'B47AE0' && intentionId !=  '938493' )
-        TextFilters.setTuOuVous('T');
+        filters.tuOuVous = 'T';
     }
     switch (intentionId ) {
       case '0ECC82' : // Exutoire
       case '0B1EA1' : // Jokes
       case 'D19840' : // Venez diner à la maison
       case '451563' : // Stop the world, I want to get off
-        TextFilters.setRecipientGender('P');
-        TextFilters.setTuOuVous('V');
+        filters.recipientGender = 'P';
+        filters.tuOuVous = 'V';
         break;
       case '016E91' : // Je pense à toi
       case 'D392C1' : // Sleep well
         if ( userGender == 'H' || userGender == 'F')
-          TextFilters.setRecipientGender(invertGender(userGender));
-        TextFilters.setTuOuVous('T');
+          filters.recipientGender = invertGender(userGender);
+        filters.tuOuVous = 'T';
         break;
     }
 
   }
-
-  // In certain areas, filtering options will not be available tu users
-  $scope.displayTextFilters = function () {
-    return currentArea.name === "Formalities";
-  };
 
 }]);
