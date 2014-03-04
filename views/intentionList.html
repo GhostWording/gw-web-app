@@ -1,15 +1,10 @@
 ﻿<!--TEMPLATE to display a list of Intentions -->
 <div ng-show="true" action-location="IntentionList">
     <!-- Page title -->
-    <!--<h3 id="titrePage">{{ pageTitle }}</h3>-->
-    <!--<h4 class="intentionTitle">{{ pageTitle }}</h4>-->
     <h3 class="intentionTitle">{{ pageTitle }}</h3>
     <!-- Intentions list as rows and columns -->
-    <!--<div class="row-fluid" ng-repeat="lineNumber in getLineNumbers(3)">-->
-        <!--<div ng-repeat="intentionObject in getLineElementsForLineNumber($index,3)" class="span4">-->
     <div class="row" ng-repeat="row in groupedIntentions">
         <div ng-repeat="intention in row" class="col-md-4">
-            <!--<a  href="#/area/{{areaName}}/intention/{{intentionObject.IntentionId }}/text" >-->
             <a href="area/{{currentArea.Name}}/intention/{{intention.IntentionId}}/text"
                targettype = "intention"
                targetId = "{{intention.IntentionId}}" >
