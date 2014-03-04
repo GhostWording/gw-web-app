@@ -6,6 +6,8 @@ angular.module('cherryApp',  [
   'ngCookies',
   'ngSanitize',
   'ngRoute',
+  'ui.bootstrap.modal',
+  "ui.bootstrap.tpls",
   'common',
   'app'
 ])

@@ -2,8 +2,8 @@ angular.module('app/texts/TextDetailController', ['common/i18n'])
 
 // Display text with author, link to the source, usage recommandations or comments
 
-.controller('TextDetailController', ['$scope','currentText', 'currentIntention', 'currentArea', 'tagLabelsSvc',
-function ($scope, currentText, currentIntention, currentArea, tagLabelsSvc) {
+.controller('TextDetailController', ['$scope','currentText', 'currentIntention', 'currentArea', 'tagLabelsSvc', '$modal',
+function ($scope, currentText, currentIntention, currentArea, tagLabelsSvc, $modal) {
 
   currentText.TagLabels = tagLabelsSvc.labelsFromTagIds(currentText.TagIds);
 
@@ -17,7 +17,11 @@ function ($scope, currentText, currentIntention, currentArea, tagLabelsSvc) {
   // $scope.source = text.ReferenceUrl;
 
   $scope.send = function() {
-    /// TODO: show a modal for sending the text
+    $scope.sendDialog = $modal.open({
+      templateUrl: 'views/partials/sendTextForm.html',
+      scope: $scope,
+      controller: 'SendTextFormController'
+    });
   };
 
 

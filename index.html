@@ -15,6 +15,8 @@
         <script src="assets/angular-sanitize/angular-sanitize.js"></script>
         <script src="assets/angular-route/angular-route.js"></script>
 
+        <script src="scripts/lib/bootstrap-custom/ui-bootstrap-custom-tpls-0.10.0.js"></script>
+
         <!--Reminder : include Respond.js for IE8 support with bootstrap 3.0 -->
 
         <!--Prevent 300 ms delay on Android, does not seem to make a difference, verify initialisation -->
@@ -175,41 +177,6 @@
          </div>
      </div>
     </div>  <!-- DIALOG for advanced filter selection -->
-
-   <!-- DIALOG that displays the text to be sent -->
-    <div class="modal fade" ng-controller="SelectedTextController" id="modalEnvoiTexte" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" action-location="SendTextModal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <!--<button type="button" class="close" targetType="Text" targetId="{{ currentText.id }}" actionType="close" ng-click="" data-dismiss="modal" aria-hidden="true">&times;</button>-->
-                    <h4 class="modal-title" id="modalLabelTitle">Envoyer</h4>
-                </div>
-                <div id="modalMessageBody" class="modal-body">
-                    <!-- Facebook add tracking -->
-                    <div class="fb_pixel_send"></div>
-                    <!-- TextArea -->
-                    <div class="modal-body canBeClipboarded">
-                        <!--focus-me="Modal.modalIsOpened"-->
-                        <textarea
-                                ng-model= "textToSend"
-                                id="currentText" style="width:100%;" rows="8">
-                        </textarea>
-                    </div>
-                </div>
-                <!-- Share/Send buttons -->
-                <div class="modal-footer" >
-                    <!--<a targetType="Text" targetId="{{currentText.id}}" actionType="sendMail" ng-href="{{urlMailTo()}}" ng-click="mail()"  class="btn btn-primary"  >Mail</a>-->
-                    <a targetType="Text" targetId="{{getSelectedTextId()}}" actionType="sendMail" ng-href="{{urlMailTo()}}" ng-click="mail()"  class="btn btn-primary"  >Mail</a>
-                    <button ng-hide="isIPhone()"        targetType="Text" targetId="{{getSelectedTextId()}}" actionType="sendSMS"    class="btn btn-warning " ng-click="sms()">SMS</button>
-                    <button class="btn btn-warning"     targetType="Text" targetId="{{getSelectedTextId()}}" actionType="sendTweet"                ng-show="check()" ng-click="tweet()">Tweet</button>
-                    <button class="btn"   targetType="Text" targetId="{{getSelectedTextId()}}" actionType="sendCopy" id="popoverCopier" data-toggle="popover" data-placement="top" ng-click="copy()" title="Copier un texte">Copier</button>
-                    <button class="btn" data-dismiss="modal" targetType="Text" targetId="{{getSelectedTextId()}}" actionType="close"    ng-click="fermer()">Fermer</button>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-
-
 
    </div> <!-- /container -->
 
