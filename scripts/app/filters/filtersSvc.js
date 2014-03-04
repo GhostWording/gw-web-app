@@ -1,8 +1,9 @@
-angular.module('app/filters/filtersSvc', [])
+angular.module('app/filters/filtersSvc', ['app/filters/styles'])
 
 
 // This service keeps track of user choices that impact the filtering of texts
 .factory('filtersSvc', ['$rootScope', 'StyleCollection', function($rootScope, StyleCollection) {
+
 
   var service = {
     filters: {
@@ -23,14 +24,92 @@ angular.module('app/filters/filtersSvc', [])
       service.filters.contexts.clear();
     },
 
+    compatible: function(textValue, filterValue) {
+      return !textValue || textValue == 'I' || !filterValue ||
+              textValue == filterValue;
+    },
+
+    genderCompatible: function(textValue, filterValue) {
+      return service.compatible(textValue, filterValue) ||
+              (textValue != 'P' && filterValue == 'N') ||
+              (textValue == 'N' && filterValue != 'P');
+    },
+
+    senderCompatible: function(textValue, filterValue) {
+      // sender can always speak as a member of a group
+      return textValue == 'P' || service.genderCompatible(textValue, filterValue);
+    },
+
+    tuOuVousCompatible: function(textValue, filterValue) {
+      return service.compatible(textValue, filterValue) ||
+              (textValue == 'P' && filterValue == 'V');
+    },
+
+    textCompatible: function(text, sender) {
+        return service.senderCompatible(text.Sender, sender.gender) &&
+               service.genderCompatible(text.Target, service.filters.recipientGender) &&
+               service.tuOuVousCompatible(text.TuOuVous, service.filters.tuOuVous);
+    },
+
+
     wellDefined: function() {
       var filters = service.filters;
       return filters.recipientGender && filters.tuOuVous;
     },
 
-    filterList: function(textList) {
-      // TODO: actually filter the list!!
-      return textList;
+    displayFilters: function(area, intention) {
+      return area.name === "Formalities";
+    },
+
+    setBestFilterDefaultValues: function(area, intention, user) {
+      var filters = service.filters;
+
+      console.log ('defaultFilter for : ' + area.name + " - " + intention.IntentionId + ' - ' + user.gender);
+
+      if ( area.name == 'LoveLife' ) {
+
+        if ( user.gender == 'H' ) {
+          filters.recipientGender = 'F';
+        }
+
+        if ( user.gender == 'F') {
+          filters.recipientGender = 'H';
+        }
+
+        // Unless intention is 'I would like to see you again' or new relationship, presume 'Tu' will be adequate
+        if ( !user.gender && intentionId != 'BD7387' &&  intentionId != '7445BC' ) {
+          filters.tuOuVous = 'T';
+        }
+      }
+
+      if ( area.name == 'Friends' ) {
+        if ( intentionId !=  'B47AE0' && intentionId !=  '938493' )
+          filters.tuOuVous = 'T';
+      }
+
+      switch (intentionId ) {
+        case '0ECC82' : // Exutoire
+        case '0B1EA1' : // Jokes
+        case 'D19840' : // Venez diner à la maison
+        case '451563' : // Stop the world, I want to get off
+          filters.recipientGender = 'P';
+          filters.tuOuVous = 'V';
+          break;
+        case '016E91' : // Je pense à toi
+        case 'D392C1' : // Sleep well
+          if ( user.gender == 'H' ) {
+            filters.recipientGender = 'F';
+          }
+
+          if ( user.gender == 'F') {
+            filters.recipientGender = 'H';
+          }
+
+          if ( user.gender !== null ) {
+            filters.tuOuVous = 'T';
+          }
+          break;
+      }
     }
   };
 
