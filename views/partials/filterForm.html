@@ -5,11 +5,11 @@
          <li>
             <a href="/userprofile"  >Moi </a> &nbsp
             <img ng-src="./assets/arrow-right.png" class="breadcrumbpicto"> &nbsp
-            <a href="" ng-show="BasicFilters.getHideRecipientGender()" ng-click = "definirGenreDestinataire('I')">
+            <a href="" ng-show="filters.recipientGender != null" ng-click = "filters.recipientGender = null">
                  <img id="breadcrumbCrossRecipientGender" ng-src="./assets/cross.png" class="breadcrumbpicto" >
                  <img ng-src="./assets/{{ getRecipientGenderIconName() }}" class="breadcrumbpicto"></a>
             </a>
-            <a href="" ng-show="BasicFilters.getHideTuOuVous()" ng-click = "definirTuOuVous('I')" >
+            <a href="" ng-show="filters.tuOuVous" ng-click = "filters.tuOuVous = null" >
                  &nbsp
                  <img id="breadcrumbCrossTuOuVous" ng-src="./assets/cross.png" class="breadcrumbpicto" >
                  {{ getTuOuVousLabel() }}
@@ -18,33 +18,46 @@
      </ul>
 
      <!-- User Gender -->
-     <ul class="pager bmwQuestionButton" ng-show = "!BasicFilters.getHideSenderGender()">
-         Vous êtes
-         <li ng-class = '{selectionne: BasicFilters.getSenderGender()=="H"}'>
-             <a targetType="Command" targetId="UserGender" ng-click = "definirGenreExpediteur('H')">Un homme</a></li>
-         <li ng-class = '{selectionne: BasicFilters.getSenderGender()=="F"}'>
-             <a targetType="Command" targetId="UserGender" ng-click = "definirGenreExpediteur('F')">Une femme</a></li>
-     </ul>
+     <div ng-show = "currentUser.gender == null">
+         <ul class="pager bmwQuestionButton">
+             Vous êtes
+             <li ng-class = '{selectionne: currentUser.gender=="H"}'>
+                 <a targetType="Command" targetId="UserGender" ng-click = "currentUser.gender = 'H'">Un homme</a></li>
+             <li ng-class = '{selectionne: currentUser.gender=="F"}'>
+                 <a targetType="Command" targetId="UserGender" ng-click = "currentUser.gender = 'F'">Une femme</a></li>
+         </ul>
+     </div>
 
      <!-- Recipient Gender -->
-     <ul class="pager bmwQuestionButton" ng-show = "!BasicFilters.getHideRecipientGender()">
-     Destinataire
-         <li ng-class= '{selectionne: RecipientGender()=="H"}'>
-         <!-- PostAction is better left in ng-click -->
-         <!--<a href="" targetType="Command" targetId="RecipientGender" targetParameters="H"  ng-click = "definirGenreDestinataire('H')">     <img ng-src="./assets/maleuser32.png" class="breadcrumbpicto">  </a></li>-->
-            <a targetType="Command" targetId="RecipientGender"  ng-click = "definirGenreDestinataire('H')">     <img ng-src="./assets/maleuser32.png" class="breadcrumbpicto">  </a></li>
-         <li ng-class= '{selectionne: RecipientGender()=="F"}' >
-            <a targetType="Command" targetId="RecipientGender" ng-click = "definirGenreDestinataire('F')">     <img ng-src="./assets/femaleuser32.png" class="breadcrumbpicto">  </a></li>
-         <li ng-class= '{selectionne: RecipientGender()=="P"}' >
-             <a targetType="Command" targetId="RecipientGender" ng-click = "definirGenreDestinataire('P')">    <img ng-src="./assets/several32.png" class="breadcrumbpicto"> </a></li>
-     </ul>
+     <div ng-show = "filters.recipientGender == null">
+         <ul class="pager bmwQuestionButton">
+             Destinataire
+             <li ng-class= '{selectionne: filters.recipientGender == "F"}' >
+                <a targetType="Command" targetId="RecipientGender" ng-click = "filters.recipientGender = 'F'"> 
+                    <img ng-src="./assets/femaleuser32.png" class="breadcrumbpicto">
+                </a>
+            </li>
+             <li ng-class= '{selectionne: filters.recipientGender=="H"}'>
+                <a targetType="Command" targetId="RecipientGender"  ng-click = "filters.recipientGender = 'H'"> 
+                    <img ng-src="./assets/maleuser32.png" class="breadcrumbpicto">
+                </a>
+            </li>
+             <li ng-class= '{selectionne: filters.recipientGender == "P"}' >
+                 <a targetType="Command" targetId="RecipientGender" ng-click = "filters.recipientGender = 'P'">
+                    <img ng-src="./assets/several32.png" class="breadcrumbpicto">
+                </a>
+            </li>
+         </ul>
+     </div>
 
      <!-- In French, would you say Tu or Vous -->
-     <ul class="pager bmwQuestionButton" ng-show = "!BasicFilters.getHideTuOuVous()">
-     Lui dire
-         <li ng-class= '{selectionne: BasicFilters.getTuOuVous()=="T"}'>
-             <a targetType="Command" targetId="TuOuVous" ng-click = "definirTuOuVous('T')">Tu</a></li>
-         <li ng-class= '{selectionne: BasicFilters.getTuOuVous()=="V"}' >
-             <a targetType="Command" targetId="TuOuVous" ng-click = "definirTuOuVous('V')">Vous</a></li>
-     </ul>
+     <div ng-show = "filters.tuOuVous == null">
+         <ul class="pager bmwQuestionButton">
+             Lui dire
+             <li ng-class= '{selectionne: filters.tuOuVous=="T"}'>
+                 <a targetType="Command" targetId="TuOuVous" ng-click = "filters.tuOuVous = 'T'">Tu</a></li>
+             <li ng-class= '{selectionne: BasicFilters.getTuOuVous()=="V"}' >
+                 <a targetType="Command" targetId="TuOuVous" ng-click = "filters.tuOuVous = 'V'">Vous</a></li>
+         </ul>
+     </div>
  </div>
