@@ -1,19 +1,31 @@
-﻿<div ng-show="true">
-    <!--<h3 >Dites un mot à...</h3>-->
-    <h3 >Envoyez une pensée à...</h3>
+﻿<div ng-show="true" style="text-align: center;">
+    <div class="row" style="margin-top: 5px; margin-bottom: 30px; font-size: 16px;" >
+        <div class="span4"></div>
+        <div class="span4 splashTitle">
+            Faire surgir des messages pour
+        </div>
+        <div class="span4"></div>
+    </div>
+
     <div class = "listeTypeDestinataire" >
-         <!--<div class ="well well-small bmw-intention" ng-repeat="qui in lesQui">-->
         <div ng-repeat="qui in lesQui" >
-             <!--<a href = "#/notimplemented">-->
-                 <!--<div class ="well well-small bmw-intention ">-->
-                    <!--<span ng-bind="qui.Label"></span>-->
-                 <!--</div>-->
-             <!--</a>-->
             <ul class="pager bmwQuestionButton" >
-                <li ng-class = '{disabled: true}'>
-                    <a href="#/notimplemented" ng-click = "">{{ qui.Label }}</a>
+                <li ng-class = '{selectionne: getState(qui.Id)}'>
+                    <a href="" ng-click = "switchState(qui.Id)">{{ qui.LocalLabel }}</a>
                 </li>
             </ul>
          </div>
      </div>
+
+    <ul class="pager bmwQuestionButton pull-left" >
+        <li ng-class= '{selectionne: false}' >
+            <a href="/" role="button"  targetId="Next"> <img ng-src="./assets/arrow-left.png" class="stylepicto"> </a>
+        </li>
+    </ul>
+    <ul class="pager bmwQuestionButton" >
+        <li ng-class= '{selectionne: false}' >
+            <a href="/recipientAlerts" role="button" class="pull-right" targetId="Next"> <img ng-src="./assets/arrow-right.png" class="stylepicto"> </a>
+        </li>
+    </ul>
+
 </div>

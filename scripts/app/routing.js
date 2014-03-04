@@ -56,8 +56,15 @@ angular.module('app/routing', [])
         resolve: {
             recipients: ['recipientsSvc', function(recipientsSvc) { return recipientsSvc.getAll(); }]
         },
-        showTabs: true,
-        tabName: 'special'
+        showTabs: false
+    })
+    .when('/recipientAlerts', {
+        templateUrl: 'views/recipientAlerts.html',
+        controller: 'RecipientAlertsController',
+        resolve: {
+            recipients: ['recipientsSvc', function(recipientsSvc) { return recipientsSvc.getAll(); }]
+        },
+        showTabs: false
     })
 
     .when('/notimplemented', {
