@@ -1,14 +1,14 @@
 angular.module('app/filters/StyleBarController', [])
 
 // Display buttons to access text style options
-.controller('StyleBarController', ['$scope',function ($scope) {
+.controller('StyleBarController', ['$scope', '$modal', function ($scope, $modal) {
 
-    // Filtering options only be offered to users if they are revelant for the current text list
     $scope.showStyleFilters = function() {
-
-        // //FilterVisibilityHelperSvc.setContextFiltersVisibility(TheTexts.getAllTexts());
-        // FilterVisibilityHelperSvc.setContextFiltersVisibility(CurrentTextList.getCompleteTextListForIntention());
-        // $('#modalFiltres').modal('show');
+      $scope.styleFilterDialog = $modal.open({
+        templateUrl: 'views/partials/styleDialog.html',
+        scope: $scope,
+        controller: 'StyleDialogController'
+      });
     };
 
 }]);

@@ -1,7 +1,7 @@
 angular.module('app/filters/styles', [])
 
 
-
+// A collection of styles, which can be accessed by index, id or name
 .factory('StyleCollection', function() {
   function StyleCollection() {
     this.stylesList = [];
@@ -26,13 +26,26 @@ angular.module('app/filters/styles', [])
     this.stylesById = {};
     this.stylesByName = {};
   };
+
+  StyleCollection.prototype.filterStyles = function(idCollection) {
+    var that = this;
+    var filteredStyles = new StyleCollection();
+    angular.forEach(idCollection, function(id) {
+      var style = that.stylesById[id];
+      if ( style ) {
+        filteredStyles.addStyle(style);
+      }
+    });
+    return filteredStyles;
+  };
+
   return StyleCollection;
 })
 
 
 
-
-.factory('contextsStyles', ['StyleCollection', function(StyleCollection) {
+// The standard set of "context" styles to match against
+.factory('contextStyles', ['StyleCollection', function(StyleCollection) {
   var styles = new StyleCollection();
 
   styles.addStyle({ name: 'administrativeContext', id : '4A53D1', visible: true});
@@ -49,22 +62,24 @@ angular.module('app/filters/styles', [])
 }])
 
 
-
+// The standard set of general styles that can go in the preferred or excluded filters
 .factory('generalStyles', ['StyleCollection', function(StyleCollection) {
   var styles = new StyleCollection();
 
-  styles.addStyle({name:'romantic', id:'CB38B9'});
-  styles.addStyle({name:'effusive', id:'C91BCD'});
-  styles.addStyle({name:'colloquial', id:'3337EE'});
-  styles.addStyle({name:'racy', id:'1A2DD5'});
-  styles.addStyle({name:'caustic', id:'2968CB'});
-  styles.addStyle({name:'humorous', id:'43AC3B'});
-  styles.addStyle({name:'eccentric', id:'57B018'});
-  styles.addStyle({name:'simple', id:'FBC055'});
-//styles.addStyle({name:'formal', id:'75190C'});
-  styles.addStyle({name:'citation', id:'citationCode'});
-  styles.addStyle({name:'imaginative', id:'8CC4E5'});
-  styles.addStyle({name:'friendly', id:'5EDC19'});
-  styles.addStyle({name:'poetic', id:'801BD9'});
-  styles.addStyle({name:'melancholic', id:'13F241'});
+  styles.addStyle({name:'romantic', id:'CB38B9', visible: false});
+  styles.addStyle({name:'effusive', id:'C91BCD', visible: false});
+  styles.addStyle({name:'colloquial', id:'3337EE', visible: false});
+  styles.addStyle({name:'racy', id:'1A2DD5', visible: false});
+  styles.addStyle({name:'caustic', id:'2968CB', visible: false});
+  styles.addStyle({name:'humorous', id:'43AC3B', visible: true});
+  styles.addStyle({name:'eccentric', id:'57B018', visible: true});
+  styles.addStyle({name:'simple', id:'FBC055', visible: true});
+//styles.addStyle({name:'formal', id:'75190C', visible: false});
+  styles.addStyle({name:'citation', id:'citationCode', visible: true});
+  styles.addStyle({name:'imaginative', id:'8CC4E5', visible: true});
+  styles.addStyle({name:'friendly', id:'5EDC19', visible: false});
+  styles.addStyle({name:'poetic', id:'801BD9', visible: true});
+  styles.addStyle({name:'melancholic', id:'13F241', visible: false});
+
+  return styles;
 }]);

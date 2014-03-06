@@ -1,0 +1,40 @@
+<div class="modal-content">
+<div class="modal-body">
+
+   <h4>Styles à privilégier</h4>
+    <div >
+        <label class="checkbox-inline"
+               ng-repeat="style in generalStyles.stylesList"
+               ng-if="style.visible">
+            <input type="checkbox"
+                   ng-model="isSelected"
+                   ng-change="updateStyle(filters.preferredStyles, style, isSelected)"
+                   ng-init="isSelected = !!filters.preferredStyles.stylesById[style.id]"
+            > {{ styleLabels[style.name] || style.name }}
+        </label>
+    </div>
+
+    <br/>
+
+    <div>
+        <label class="checkbox-inline"
+               ng-repeat="style in contextStyles.stylesList"
+               ng-if="style.visible">
+            <input type="checkbox"
+                   ng-model="isSelected"
+                   ng-change="updateStyle(filters.contexts, style, isSelected)"
+                   ng-init="isSelected = !!filters.contexts.stylesById[style.id]"
+            > {{ styleLabels[style.name] || style.name }}
+        </label>
+    </div>
+
+ </div>  <!-- advanced filters dialog body -->
+
+ <!-- advanced filters dialog footer -->
+ <div class="modal-footer">
+     <!--<span class="pull-left" ng-show="displayNbFilteredTexts()">{{ nbFilteredTexts() }} {{ nbTextLabel() }}</span>-->
+     <span class="pull-left" ng-show="displayNbFilteredTexts()">{{ nbFilteredTexts() }} {{ nbTextLabel() }}</span>
+   <button class="btn btn-small btn-primary" data-dismiss="modal" ng-click="$close()">Fermer</button>
+ </div><!-- advanced filters dialog footer  -->
+
+</div>

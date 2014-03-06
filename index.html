@@ -112,74 +112,7 @@
 
   </div>
 
-
-   <!-- DIALOG for advanced filter selection -->
-    <div class="modal fade" data-ng-controller="FilterDialogController"  id="modalFiltres" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-
-     <!--<div class="modal-header" ng-show ="false">-->
-       <!--<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>-->
-       <!--<h3 id="myModalLabel">Filtrer</h3>-->
-     <!--</div>-->
-     <div class="modal-dialog">
-         <div class="modal-content">
-            <div class="modal-body">
-
-               <h4>Styles à privilégier</h4>
-                <div >
-                     <label class="checkbox-inline">
-                         <input type="checkbox"  ng-model="humorousPrefered" ng-click="TogglePreferedStyle('humorous','humorousPrefered')"  > Humoristique
-                     </label>
-                     <label class="checkbox-inline">
-                         <input type="checkbox"  ng-model="imaginativePrefered"  ng-click="TogglePreferedStyle('imaginative','imaginativePrefered')"> Imaginatif
-                     </label>
-                     <label class="checkbox-inline">
-                         <input type="checkbox"  ng-model="eccentricPrefered" ng-click="TogglePreferedStyle('eccentric','eccentricPrefered')" > Décalé
-                     </label>
-                     <label class="checkbox-inline">
-                         <input type="checkbox"  ng-model="poeticPrefered" ng-click="TogglePreferedStyle('poetic','poeticPrefered')"> Poétique
-                     </label>
-                     <label class="checkbox-inline">
-                         <input type="checkbox"  ng-model="citationPrefered" ng-click="TogglePreferedStyle('citation','citationPrefered')" > Avec citation
-                     </label>
-                     <!--<label class="checkbox inline">-->
-                         <!--<input type="checkbox"  ng-model="simplePrefered" ng-click="TogglePreferedStyle('simple','simplePrefered')"> Tout simples-->
-                     <!--</label>-->
-                </div>
-
-                 <div ng-show="shouldDisplayContextFilters()">
-                     <br>
-                     <h4 ng-show="shouldDisplayContextFilters()">Contextes applicables</h4>
-                     <label class="checkbox-inline" ng-show="shouldDisplayContextFilters() && shouldDisplayThisContextFilter('friendlyContext')">
-                        <input type="checkbox" ng-model="ContextFilters.friendly" ng-click="ToggleIncludeContext('friendlyContext','friendly')" > Amical
-                     </label>
-                     <label class="checkbox-inline" ng-show="shouldDisplayContextFilters() && shouldDisplayThisContextFilter('romanticContext')">
-                         <input type="checkbox" ng-model="ContextFilters.inLove" ng-click="ToggleIncludeContext('romanticContext','inLove')" > Amoureux
-                     </label>
-                     <label class="checkbox-inline" ng-show="shouldDisplayContextFilters() && shouldDisplayThisContextFilter('familialContext')">
-                         <input type="checkbox" ng-model="ContextFilters.familial"  ng-click="ToggleIncludeContext('familialContext','familial')"  > Familial
-                     </label>
-                     <label class="checkbox-inline" ng-show="shouldDisplayContextFilters() && shouldDisplayThisContextFilter('professionalContext')">
-                         <input type="checkbox" ng-model="ContextFilters.professional" ng-click="ToggleIncludeContext('professionalContext','professional')"   > Professionnel
-                     </label>
-                     <label class="checkbox-inline" ng-show="shouldDisplayContextFilters() && shouldDisplayThisContextFilter('administrativeContext')">
-                         <input type="checkbox" ng-model="ContextFilters.administrative" ng-click="ToggleIncludeContext('administrativeContext','administrative')" > Administratif
-                     </label>
-                 </div>
-
-             </div>  <!-- advanced filters dialog body -->
-
-             <!-- advanced filters dialog footer -->
-             <div class="modal-footer">
-                 <!--<span class="pull-left" ng-show="displayNbFilteredTexts()">{{ nbFilteredTexts() }} {{ nbTextLabel() }}</span>-->
-                 <span class="pull-left" ng-show="displayNbFilteredTexts()">{{ nbFilteredTexts() }} {{ nbTextLabel() }}</span>
-               <button class="btn btn-small btn-primary" data-dismiss="modal" >Fermer</button>
-             </div><!-- advanced filters dialog footer  -->
-
-         </div>
-     </div>
-    </div>  <!-- DIALOG for advanced filter selection -->
-
-   </div> <!-- /container -->
+</div> <!-- /container -->
 
 
 <!-- inject:js -->
