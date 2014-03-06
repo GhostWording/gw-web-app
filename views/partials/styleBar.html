@@ -5,13 +5,13 @@
         </li>
 
         <li class="nombreTextesB labelTextesB">
-            <a href="" targetId="StyleDialog"  ng-click="showFilters()">
+            <a href="" targetId="StyleDialog"  ng-click="showStyleFilters()">
                 {{filteredList.length}} &nbsp <img src="./assets/e-mail64.png" class="stylepicto">
             </a>
         </li>
 
         <li ng-class= '{selectionne: AtLeastOneStyleToExclude() || AtLeastOneStyleToPrefer() }' class = "pull-right" >
-            <a href="" targetId="StyleDialog" ng-click="showFilters()">
+            <a href="" targetId="StyleDialog" ng-click="showStyleFilters()">
                 <img ng-src="./assets/choice.png" class="stylepicto">  Styles
             </a>
         </li>

@@ -45,10 +45,39 @@ angular.module('app/filters/filtersSvc', ['app/filters/styles'])
               (textValue == 'P' && filterValue == 'V');
     },
 
+    matchesAllStyles: function(text, styleCollection) {
+      var i, tagId;
+
+      // Optimization - if the text has too few tags then it obviously fails
+      if ( text.TagIds.length < styleCollection.stylesList.length ) {
+        return false;
+      }
+
+      for (i = 0; i < styleCollection.stylesList.length; i++) {
+        if ( text.TagIds.indexOf(styleCollection.stylesList[i]) === -1 ) {
+          return false;
+        }
+      }
+      return true;
+    },
+
+    matchesNoStyles: function(text, styleCollection) {
+      var i, tagId;
+      for (i = 0; i < text.TagIds.length; i++) {
+        if ( styleCollection.stylesById[text.TagIds[i]] ) {
+          return false;
+        }
+      }
+      return true;
+    },
+
+    // This is the main filtering function for each text
     textCompatible: function(text, sender) {
         return service.senderCompatible(text.Sender, sender.gender) &&
                service.genderCompatible(text.Target, service.filters.recipientGender) &&
-               service.tuOuVousCompatible(text.TuOuVous, service.filters.tuOuVous);
+               service.tuOuVousCompatible(text.TuOuVous, service.filters.tuOuVous) &&
+               service.matchesNoStyles(text, service.filters.excludedStyles) &&
+               service.matchesAllStyles(text, service.filters.contexts);
     },
 
 
@@ -61,7 +90,7 @@ angular.module('app/filters/filtersSvc', ['app/filters/styles'])
       return area.name === "Formalities";
     },
 
-    setBestFilterDefaultValues: function(area, intention, user) {
+    setDefaultFilters: function(area, intention, user) {
       var filters = service.filters;
 
       console.log ('defaultFilter for : ' + area.name + " - " + intention.IntentionId + ' - ' + user.gender);
@@ -110,8 +139,38 @@ angular.module('app/filters/filtersSvc', ['app/filters/styles'])
           }
           break;
       }
+    },
+
+    setDefaultStyles: function(area, intention, user) {
+
+      //TODO - this was copied from the old code - it needs reworking in here
+      // and calling when the area or intention change
+         var initializeFilterModal = function () {
+            $scope.humorousPrefered = TextFilters.getStyleToPrefer('humorous');
+            $scope.imaginativePrefered = TextFilters.getStyleToPrefer('imaginative');
+            $scope.eccentricPrefered = TextFilters.getStyleToPrefer('eccentric');
+            $scope.simplePrefered = TextFilters.getStyleToPrefer('simple');
+            $scope.poeticPrefered = TextFilters.getStyleToPrefer('poetic');
+            $scope.citationPrefered = TextFilters.getStyleToPrefer('citation');
+        };
+
+        var initializeContextFiltersModal = function () {
+            //console.log('initializeContextFilterModal');
+            var contexts = TextFilters.getContextsToInclude();
+            $scope.ContextFilters.friendly = contexts.friendlyContext;
+            $scope.ContextFilters.familial = contexts.familialContext;
+            $scope.ContextFilters.professional = contexts.professionalContext;
+            $scope.ContextFilters.administrative = contexts.administrativeContext;
+            $scope.ContextFilters.couple = contexts.coupleContext;
+            $scope.ContextFilters.inLove = contexts.romanticContext;
+            $scope.ContextFilters.dating = contexts.datingContext;
+        };
     }
   };
+
+
+
+
 
   // Compute additional filter values
   var updateFilters = function() {
