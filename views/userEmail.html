@@ -1,0 +1,36 @@
+<div ng-show="true" style="text-align: center;">
+    <div class="row" style="margin-top: 5px; margin-bottom: 60px; font-size: 16px;" >
+        <div class="col-xs-2"></div>
+        <div class="col-xs-8">
+            Sur quelle boite mail vont arriver les propositions de message ?
+        </div>
+        <div class="col-xs-2"></div>
+    </div>
+
+    <div class="row" style="margin-top: 5px; margin-bottom: 60px; font-size: 16px; text-align: center; " >
+        <div class="col-xs-2"></div>
+        <div class="col-xs-8">
+            <form role="form">
+                <div class="form-group" >
+                    <label for="exampleInputEmail1">Celle-ci&nbsp</label>
+                    <input type="email" id="exampleInputEmail1" style="vertical-align:middle;" placeholder="adresse mail">
+                    <button type="button" class="btn btn-default" style="vertical-align:middle;">Valider</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-xs-2"></div>
+    </div>
+
+
+    <ul class="pager bmwQuestionButton pull-left" >
+        <li ng-class= '{selectionne: false}' >
+            <a href="" historyBack role="button"  targetId="Next"> <img ng-src="./assets/arrow-left.png" class="stylepicto"> </a>
+        </li>
+    </ul>
+    <ul class="pager bmwQuestionButton" >
+        <li ng-class= '{selectionne: false}' >
+            <a href="/notimplemented" role="button" class="pull-right" targetId="Next">OK<img ng-src="./assets/arrow-right.png" class="stylepicto"> </a>
+        </li>
+    </ul>
+
+</div>

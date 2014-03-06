@@ -66,6 +66,10 @@ angular.module('app/routing', [])
         },
         showTabs: false
     })
+    .when('/userEMail', {
+        templateUrl: 'views/userEMail.html',
+        controller: 'UserEMailController'
+    })
 
     .when('/notimplemented', {
         templateUrl: 'views/notimplemented.html',
