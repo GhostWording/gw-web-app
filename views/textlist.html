@@ -10,7 +10,8 @@
             <span class="labelTextes">Aucun texte pour dire</span>
         </span>
          <!-- Back button -->
-        <button historyback targetId="Back" class="btn  btn-small  pull-right retourIntentions" ng-click="Navigation.Back()" >&larr; </button><span> </span>
+        <!--<button historyback targetId="Back" class="btn  btn-small  pull-right retourIntentions" ng-click="Navigation.Back()" >&larr; </button><span> </span>-->
+                <a href="/area/{{ currentArea.Name }}/intention" class="pull-right" role="button"  targetId="Back" > <img ng-src="./assets/arrow-left.png" class="stylepicto"> </a>
     </div>
 
      <!-- Selected intention  -->
@@ -34,7 +35,7 @@
                     class = "pull-right envoyer"
                     ng-click="popUpandSelect(txt,'send')" >
                 
-                <a  href="#/area/{{ currentArea.Name }}/intention/{{ currentIntention.IntentionId }}/text/{{txt.TextId}}"
+                <a  href="/area/{{ currentArea.Name }}/intention/{{ currentIntention.IntentionId }}/text/{{txt.TextId}}"
                     targetType = "Text"
                     actionType="open"
                     targetId = "{{txt.TextId}}"
