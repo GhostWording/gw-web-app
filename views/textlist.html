@@ -2,11 +2,11 @@
 
      <!-- Number of texts and control buttons -->
     <div ng-hide="filtersWellDefined()" >
-        <span ng-show="currentTextList.length">
-            <span class="nombreTextes">{{ currentTextList.length }}</span>&nbsp
+        <span ng-show="textList.length">
+            <span class="nombreTextes">{{ textList.length }}</span>&nbsp
             <span class="labelTextes">façons de dire</span>
         </span>
-        <span ng-hide="currentTextList.length">
+        <span ng-hide="textList.length">
             <span class="labelTextes">Aucun texte pour dire</span>
         </span>
          <!-- Back button -->
@@ -20,14 +20,14 @@
     </div>
 
 
-    <div ng-include="'views/partials/filterForm.html'"></div>
-    <div ng-include="'views/partials/styleBar.html'"></div>
+    <div ng-include="'views/partials/filterForm.html'" style="margin-bottom: 20px;" ></div>
+    <div ng-include="'views/partials/styleBar.html'" ng-show="filtersWellDefined()"></div>
 
-    <div class = "listeTextes">
+    <div class = "listeTextes" ng-show="filtersWellDefined()">
         <!-- <div ng-include="'partials/progressBar.html'"></div> -->
         
         <!-- Text list -->
-        <div ng-repeat="txt in filteredList" >
+        <div ng-repeat="txt in filteredList">
 
             <div id="{{txt.TextId}}">
                 <img
