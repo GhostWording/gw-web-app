@@ -26,7 +26,11 @@ function ($scope, currentTextList, currentIntention, currentArea, currentUser, f
       angular.forEach($scope.textList, function(text) {
         if ( filtersSvc.textCompatible(text, currentUser) ) {
           $scope.filteredList.push(text);
-          matchingStylesMap[text.TextId] = $scope.filters.preferredStyles.filterStyles(text.TagIds);
+          // This is a hack, when text is a quotation, we don't have a proper style tag for it so we add it on the fly
+					var tagIds = angular.copy(text.TagIds); // We may need to copy that in case it modifies the original tag list ????
+					if ( text.IsQuote )
+						tagIds.push('citationCode');
+					matchingStylesMap[text.TextId] = $scope.filters.preferredStyles.filterStyles(tagIds);
         }
       });
 

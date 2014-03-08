@@ -8,15 +8,17 @@
         <span class = "label label-primary">{{tagLabel}}</span>&nbsp
     </span>
 
-    <div class = "well well-lg"  ng-hide ="editText">
+    <div class = "well well-lg"  ng-hide ="editText" style="border-color: #428bca">
         <span ng-bind-html = "currentText.Content"></span>
     </div>
 
     <div ng-show ="editText" >
         <textarea
                 ng-model= "txt.editableText"
-                id="currentText" style="width:100%;" rows="10">
+                id="currentText"
+                style="width:100%;" rows="10">
         </textarea>
+        <br>
         <br>
     </div>
 
@@ -26,7 +28,6 @@
                 <a href="/area/{{ currentArea.Name }}/intention/{{ currentIntention.IntentionId }}/text" class="pull-left" role="button" targetId="Back"  >
                     <img ng-src="./assets/arrow-left.png" class="stylepicto">
                 </a>
-
                 <span class="pull-right">
                     <button class="btn"
                             targetId = "{{ Id }}" targetType="Text" actionType="edit"

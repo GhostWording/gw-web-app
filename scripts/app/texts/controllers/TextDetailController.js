@@ -5,7 +5,7 @@ angular.module('app/texts/TextDetailController', ['common/i18n'])
 .controller('TextDetailController', ['$scope','currentText', 'currentIntention', 'currentArea', 'tagLabelsSvc', '$modal',
 function ($scope, currentText, currentIntention, currentArea, tagLabelsSvc, $modal) {
 
-  currentText.TagLabels = tagLabelsSvc.labelsFromTagIds(currentText.TagIds);
+  currentText.TagLabels = tagLabelsSvc.labelsFromStyleTagIds(currentText.TagIds);
 
   $scope.currentArea = currentArea;
   $scope.currentIntention = currentIntention;
