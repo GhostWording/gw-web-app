@@ -17,10 +17,9 @@ angular.module('app/filters/StyleDialogController', [])
         $scope.styleLabels = {
             'humorous':  'Humoristique',
             'imaginative': 'Imaginatif',
-            'eccentric': 'Décalé',
             'poetic': 'Poétique',
             'citation': 'Avec citation',
-            'simple': 'Tout simples',
+            'simple': 'Tout simple',
         };
 
         $scope.TogglePreferedStyle = function(key,scopeVariable) {
