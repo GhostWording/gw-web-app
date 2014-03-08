@@ -1,24 +1,24 @@
 angular.module('app/texts/SendTextFormController', [])
 
-.controller('SendTextFormController', ['$scope', '$modalInstance', '$window', function($scope, $modalInstance, $window) {
+.controller('SendTextFormController', ['$scope', '$modalInstance', '$window','HelperSvc',
+function($scope, $modalInstance, $window,HelperSvc) {
 
-  function urlTweetTo(text) {
-  }
-
-  function urlSMSTo(text) {
-  }
+	$scope.urlMailTo = function () {
+//  Probably some case of prototypal bizarrerie : modification to the text from the dialog are discarded if we dont use a proper object to carry the property
+//	return HelperSvc.urlMailTo($scope.editableText, $scope.currentIntention.Label);
+		return HelperSvc.urlMailTo($scope.txt.editableText, $scope.currentIntention.Label);
+	};
 
   $scope.sms = function () {
-      $window.open(urlSMSTo($scope.editableText), '_blank');
+      $window.open(HelperSvc.urlSMSTo($scope.txt.editableText), '_blank');
   };
 
-  $scope.canTweet = function() {
-    return $scope.editableText && $scope.editableText.length < 141;
-  };
+	$scope.canTweet = function () {
+		return $scope.editableText && $scope.editableText.length < 141;
+	};
 
-
-  $scope.tweet = function () {
-      window.open(urlTweetTo($scope.editableText), '_blank');
+	$scope.tweet = function () {
+      window.open(HelperSvc.urlTweetTo($scope.editableText), '_blank');
   };
 
   $scope.mail = function () {
