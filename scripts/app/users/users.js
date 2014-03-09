@@ -32,5 +32,6 @@ angular.module('app/users', [])
   $scope.userAges = userAges;
 }])
 
-.controller('UserEMailController', ['$scope', 'currentUser',  function ($scope, currentUser) {
+.controller('UserEMailController', ['$scope', 'serverSvc',  function ($scope, serverSvc) {
+		serverSvc.postInStore('testStore','testKey','testValue');
 }]);
