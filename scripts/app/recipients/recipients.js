@@ -2,23 +2,28 @@
 // This is a static set for now
 angular.module('app/recipients', ['common/services/cache'])
 
-.factory('recipientsSvc', ['$q','localStorage', function ($q, localStorage) {
-    var service = {
+.factory('possibleRecipientsSvc', ['$q', function ($q) {
+	var service = {
+		getAll: function() {
+			return $q.when([
+				{ "Id": "SweetheartF", "RecipientTypeId": "9E2D23", "Gender": "F", "LocalLabel": "Ma chérie"},
+				{ "Id": "SweetheartM", "RecipientTypeId": "9E2D23", "Gender": "M", "LocalLabel": "Mon chéri"},
+				{ "Id": "CloseFriends", "RecipientTypeId": "3B9BF2", "Gender": "I", "LocalLabel": "Les copains et les copines"},
+				{ "Id": "LongLostFriends", "RecipientTypeId": "2B4F14", "Gender": "I", "LocalLabel": "Les amis perdus de vue"},
+				{ "Id": "SiblingsF", "RecipientTypeId": "87F524", "Gender": "F", "LocalLabel": "Ma soeur"},
+				{ "Id": "SiblingsM", "RecipientTypeId": "87F524", "Gender": "M", "LocalLabel": "Mon frère"},
+				{ "Id": "ParentsF", "RecipientTypeId": "64C63D", "Gender": "F", "LocalLabel": "Maman"},
+				{ "Id": "ParentsM", "RecipientTypeId": "64C63D", "Gender": "M", "LocalLabel": "Papa"},
+				{ "Id": "DistantRelatives", "RecipientTypeId": "BCA601", "Gender": "I", "LocalLabel": "La famille éloignée"},
+				{ "Id": "ProfessionalNetwork", "RecipientTypeId": "35AE93", "Gender": "I", "LocalLabel": "Mon réseau pro"}
+			]);
+		}
+	};
+	return service;
+}])
 
-        getAll: function() {
-            return $q.when([
-                { "Id": "SweetheartF", "RecipientTypeId": "9E2D23", "Gender": "F", "LocalLabel": "Ma chérie"},
-                { "Id": "SweetheartM", "RecipientTypeId": "9E2D23", "Gender": "M", "LocalLabel": "Mon chéri"},
-                { "Id": "CloseFriends", "RecipientTypeId": "3B9BF2", "Gender": "I", "LocalLabel": "Les copains et les copines"},
-                { "Id": "LongLostFriends", "RecipientTypeId": "2B4F14", "Gender": "I", "LocalLabel": "Les amis perdus de vue"},
-                { "Id": "SiblingsF", "RecipientTypeId": "87F524", "Gender": "F", "LocalLabel": "Ma soeur"},
-                { "Id": "SiblingsM", "RecipientTypeId": "87F524", "Gender": "M", "LocalLabel": "Mon frère"},
-                { "Id": "ParentsF", "RecipientTypeId": "64C63D", "Gender": "F", "LocalLabel": "Maman"},
-                { "Id": "ParentsM", "RecipientTypeId": "64C63D", "Gender": "M", "LocalLabel": "Papa"},
-                { "Id": "DistantRelatives", "RecipientTypeId": "BCA601", "Gender": "I", "LocalLabel": "La famille éloignée"},
-                { "Id": "ProfessionalNetwork", "RecipientTypeId": "35AE93", "Gender": "I", "LocalLabel": "Mon réseau pro"}
-            ]);
-        },
+.factory('recipientsSvc', ['$q','localStorage','possibleRecipientsSvc', function ($q, localStorage,possibleRecipientsSvc) {
+    var service = {
         makeCacheKey : function(recipientId) {
             return 'recipientAlertState.' + recipientId;
         },
@@ -29,7 +34,7 @@ angular.module('app/recipients', ['common/services/cache'])
             return retval;
         },
         getActiveRecipients : function() {
-            return service.getAll().then(function(recipients){
+            return possibleRecipientsSvc.getAll().then(function(recipients){
                     var retval = [];
                     for (var i= 0; i < recipients.length; i++) {
                         var recipient = recipients[i];
@@ -118,10 +123,10 @@ angular.module('app/recipients', ['common/services/cache'])
     return service;
 }])
 
-.controller('RecipientListController', ['$scope', 'recipientsSvc',
-function ($scope, recipientsSvc) {
+.controller('RecipientListController', ['$scope', 'possibleRecipientsSvc','recipientsSvc',
+function ($scope, possibleRecipientsSvc, recipientsSvc) {
 
-    recipientsSvc.getAll().then(function (value) {
+	possibleRecipientsSvc.getAll().then(function (value) {
         $scope.lesQui = value;
     });
     $scope.switchState = recipientsSvc.switchStateForRecipientTypeAlerts;
@@ -131,12 +136,6 @@ function ($scope, recipientsSvc) {
 
 .controller('RecipientAlertsController', ['$scope', 'recipientsSvc','alertSvc',
 function ($scope, recipientsSvc,alertSvc) {
-
-    //recipientsSvc.getAll().then(function (value) {$scope.recipients = value;});
-
-    //$scope.alertsForRecipientType = alertSvc.getPossibleSubscribtionsForRecipientType;
-
-    //$scope.testArray = [{'a':'1'},{'a':'2'},{'a':'3'}];
 
     alertSvc.getAllRecipientsWithSubscriptions().then(function (value) {
         $scope.recipientsWithSubscriptions = value;

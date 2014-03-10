@@ -54,7 +54,7 @@ angular.module('app/routing', [])
         templateUrl: 'views/recipients.html',
         controller: 'RecipientListController',
         resolve: {
-            recipients: ['recipientsSvc', function(recipientsSvc) { return recipientsSvc.getAll(); }]
+            recipients: ['possibleRecipientsSvc', function(recipientsSvc) { return recipientsSvc.getAll(); }]
         },
         showTabs: false
     })

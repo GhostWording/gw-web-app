@@ -1,4 +1,22 @@
-describe("recipientsSvc", function() {
+describe("possibleRecipientsSvc", function() {
+	beforeEach(module('app/recipients'));
+
+	describe("getAll", function() {
+		it("should return a promise to a list of recipients", inject(function($rootScope, possibleRecipientsSvc) {
+			var recipients;
+			possibleRecipientsSvc.getAll().then(function(_recipients_) {
+				recipients = _recipients_;
+			});
+			// Trigger the promise to resolve
+			$rootScope.$digest();
+			expect(recipients).toEqual(jasmine.any(Array));
+		}));
+	});
+
+	});
+
+
+	describe("recipientsSvc", function() {
 
   // TODO: is this required here anymore? (LP)
   // Mock out the $routeParams to save us from having to load up the whole ngRoute
@@ -9,20 +27,6 @@ describe("recipientsSvc", function() {
   // TODO: create a generic mock cacheSvc that simplifies these and other tests that use cacheSvc
   // TODO: this service does not seem to depend on cacheSvc.Is this necessary anymore? (LP)
   beforeEach(module('app/recipients'));
-
-  describe("getAll", function() {
-
-    it("should return a promise to a list of recipients", inject(function($rootScope, recipientsSvc) {
-      var recipients;
-      recipientsSvc.getAll().then(function(_recipients_) {
-        recipients = _recipients_;
-      });
-      // Trigger the promise to resolve
-      $rootScope.$digest();
-      expect(recipients).toEqual(jasmine.any(Array));
-    }));
-
-  });
 
   describe("makeCacheKey", function() {
 
@@ -51,7 +55,7 @@ describe("recipientsSvc", function() {
 
   describe("getActiveRecipients", function () {
 
-    it("should return a promise to a list of active recipients", inject(function(recipientsSvc, $rootScope, $q) {
+    it("should return a promise to a list of active recipients", inject(function(possibleRecipientsSvc, recipientsSvc, $rootScope, $q) {
       // Mock recipients array
       var dummyRecipients = [
             { "Id": "dummyF" },
@@ -64,7 +68,7 @@ describe("recipientsSvc", function() {
             "dummyFriends": true
           },
           // Create required spies
-          getAllSpy = spyOn(recipientsSvc, 'getAll').andReturn($q.when(dummyRecipients)),
+          getAllSpy = spyOn(possibleRecipientsSvc, 'getAll').andReturn($q.when(dummyRecipients)),
           alertStateSpy = spyOn(recipientsSvc, 'getStateForRecipientTypeAlerts').andCallFake(function(id) {
             return dummyStates[id];
           });
@@ -197,7 +201,7 @@ describe("RecipientListController", function() {
     $rootScope = _$rootScope_;
     var dummyRecipients = ['a', 'b'];
 
-    mockRecipientsSvc = {
+    mockPossibleRecipientsSvc = {
       getAll: function (){
         return $q.when(dummyRecipients);
       },
@@ -205,7 +209,12 @@ describe("RecipientListController", function() {
       getStateForRecipientTypeAlerts: function(){}
     };
 
-    $controller('RecipientListController', {$scope: $rootScope, recipientsSvc: mockRecipientsSvc});
+		mockRecipientsSvc = {
+			switchStateForRecipientTypeAlerts: function(){},
+			getStateForRecipientTypeAlerts: function(){}
+		};
+
+    $controller('RecipientListController', {$scope: $rootScope,possibleRecipientsSvc : mockPossibleRecipientsSvc,  recipientsSvc: mockRecipientsSvc});
   }));
 
   it("should attach the provided recipients to the scope", function() {
