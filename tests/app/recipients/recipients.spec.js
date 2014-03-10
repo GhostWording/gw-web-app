@@ -112,8 +112,10 @@ describe("subscribableRecipientsSvc", function() {
 
 });
 
+//beforeEach(module('app/users'));
 describe("subscriptionsSvc", function() {
 
+	//beforeEach(module('app/users'));
   beforeEach(module('app/recipients'));
 
   describe("getAllPossibleSubscriptions", function() {
@@ -131,6 +133,7 @@ describe("subscriptionsSvc", function() {
 
   });
 
+	//beforeEach(module('app/users'));
   describe("addPossibleSubscriptionsToRecipients", function() {
 
     it("should return a promise to an array of alerts for each recipient", inject(function(subscribableIntentionsSvc,subscriptionsSvc, $rootScope, $q) {

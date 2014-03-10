@@ -32,18 +32,18 @@ angular.module('app/users', [])
 
 	var key = 'currentUserLocalData' + '.' + deviceIdSvc.get();
 
-	var currentUserLocalData = localStorage.get(key) || {
+	var currentUser = localStorage.get(key) || {
 		email: null,
 		subcriptions: null
 	};
 
-	$rootScope.$watch(function() { return currentUserLocalData; }, function(value, oldValue) {
+	$rootScope.$watch(function() { return currentUser; }, function(value, oldValue) {
 		if ( value !== oldValue ) {
-			localStorage.set(key, currentUserLocalData);
+			localStorage.set(key, currentUser);
 		}
 	}, true);
 
-	return currentUserLocalData;
+	return currentUser;
 }])
 
 .controller('UserProfileController', ['$scope', 'currentUser', 'userAges', function ($scope, currentUser, userAges) {
