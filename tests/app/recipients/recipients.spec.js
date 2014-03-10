@@ -1,4 +1,22 @@
-describe("recipientsSvc", function() {
+describe("subscribableRecipientsSvc", function() {
+	beforeEach(module('app/recipients'));
+
+	describe("getAll", function() {
+		it("should return a promise to a list of recipients", inject(function($rootScope, subscribableRecipientsSvc) {
+			var recipients;
+			subscribableRecipientsSvc.getAll().then(function(_recipients_) {
+				recipients = _recipients_;
+			});
+			// Trigger the promise to resolve
+			$rootScope.$digest();
+			expect(recipients).toEqual(jasmine.any(Array));
+		}));
+	});
+
+	});
+
+
+	describe("activeRecipientsSvc", function() {
 
   // TODO: is this required here anymore? (LP)
   // Mock out the $routeParams to save us from having to load up the whole ngRoute
@@ -10,48 +28,34 @@ describe("recipientsSvc", function() {
   // TODO: this service does not seem to depend on cacheSvc.Is this necessary anymore? (LP)
   beforeEach(module('app/recipients'));
 
-  describe("getAll", function() {
-
-    it("should return a promise to a list of recipients", inject(function($rootScope, recipientsSvc) {
-      var recipients;
-      recipientsSvc.getAll().then(function(_recipients_) {
-        recipients = _recipients_;
-      });
-      // Trigger the promise to resolve
-      $rootScope.$digest();
-      expect(recipients).toEqual(jasmine.any(Array));
-    }));
-
-  });
-
   describe("makeCacheKey", function() {
 
-    it("should return the recipientAlertState id", inject(function($rootScope, recipientsSvc) {
-      expect(recipientsSvc.makeCacheKey('testId')).toEqual('recipientAlertState.testId');
+    it("should return the recipientAlertState id", inject(function($rootScope, activeRecipientsSvc) {
+      expect(activeRecipientsSvc.makeCacheKey('testId')).toEqual('recipientAlertState.testId');
     }));
 
   });
 
   describe("getStateForRecipientTypeAlerts", function() {
 
-    it("should return the alert state for a recipient from the localstorage", inject(function(recipientsSvc, localStorage) {
+    it("should return the alert state for a recipient from the localstorage", inject(function(activeRecipientsSvc, localStorage) {
       // Create spies for localStorage.get and makeCacheKey and mock what the functions return
       var getSpy = spyOn(localStorage, 'get').andReturn('testState'),
-          makeCacheKeySpy = spyOn(recipientsSvc, 'makeCacheKey').andReturn('cacheTestId');
+          makeCacheKeySpy = spyOn(activeRecipientsSvc, 'makeCacheKey').andReturn('cacheTestId');
 
-      recipientsSvc.getStateForRecipientTypeAlerts('testId');
+      activeRecipientsSvc.getStateForRecipientTypeAlerts('testId');
       // Expect localStorage.get and makeCacheKey to have been called with correct params
       expect(getSpy).toHaveBeenCalledWith('cacheTestId');
       expect(makeCacheKeySpy).toHaveBeenCalledWith('testId');
       // Expect that the function returns the correct value
-      expect(recipientsSvc.getStateForRecipientTypeAlerts('testId')).toEqual('testState');
+      expect(activeRecipientsSvc.getStateForRecipientTypeAlerts('testId')).toEqual('testState');
     }));
 
   });
 
   describe("getActiveRecipients", function () {
 
-    it("should return a promise to a list of active recipients", inject(function(recipientsSvc, $rootScope, $q) {
+    it("should return a promise to a list of active recipients", inject(function(subscribableRecipientsSvc, activeRecipientsSvc, $rootScope, $q) {
       // Mock recipients array
       var dummyRecipients = [
             { "Id": "dummyF" },
@@ -64,14 +68,14 @@ describe("recipientsSvc", function() {
             "dummyFriends": true
           },
           // Create required spies
-          getAllSpy = spyOn(recipientsSvc, 'getAll').andReturn($q.when(dummyRecipients)),
-          alertStateSpy = spyOn(recipientsSvc, 'getStateForRecipientTypeAlerts').andCallFake(function(id) {
+          getAllSpy = spyOn(subscribableRecipientsSvc, 'getAll').andReturn($q.when(dummyRecipients)),
+          alertStateSpy = spyOn(activeRecipientsSvc, 'getStateForRecipientTypeAlerts').andCallFake(function(id) {
             return dummyStates[id];
           });
       // Since we mocked the getStateForRecipientAlerts to return true only for 2 of the recipients
       // we resolve the promise and check that activeRecipients array equals to what we expect
       var activeRecipients;
-      recipientsSvc.getActiveRecipients().then(function(_activeRecipients_) {
+      activeRecipientsSvc.getActiveRecipients().then(function(_activeRecipients_) {
         activeRecipients = _activeRecipients_;
       });
       // Force promise to resolve
@@ -89,18 +93,18 @@ describe("recipientsSvc", function() {
 
   describe("switchStateForRecipientTypeAlerts", function() {
 
-    it("should set the alert type state for a specific recipient", inject(function(recipientsSvc, localStorage) {
+    it("should set the alert type state for a specific recipient", inject(function(activeRecipientsSvc, localStorage) {
       // Create required spies
       var localStorageSetSpy = spyOn(localStorage, 'set'),
-          makeCacheKeySpy = spyOn(recipientsSvc, 'makeCacheKey').andReturn('testId');
+          makeCacheKeySpy = spyOn(activeRecipientsSvc, 'makeCacheKey').andReturn('testId');
           // We force getStateForRecipientTypeAlerts to return false
-          getStateSpy = spyOn(recipientsSvc, 'getStateForRecipientTypeAlerts').andReturn(false);
+          getStateSpy = spyOn(activeRecipientsSvc, 'getStateForRecipientTypeAlerts').andReturn(false);
 
-      recipientsSvc.switchStateForRecipientTypeAlerts('testId');
+      activeRecipientsSvc.switchStateForRecipientTypeAlerts('testId');
       expect(localStorageSetSpy).toHaveBeenCalledWith('testId', true);
       // We force getStateForRecipientTypeAlerts to return true
       getStateSpy.andReturn(true);
-      recipientsSvc.switchStateForRecipientTypeAlerts('testId');
+      activeRecipientsSvc.switchStateForRecipientTypeAlerts('testId');
       expect(localStorageSetSpy).toHaveBeenCalledWith('testId', false);
 
     }));
@@ -108,15 +112,17 @@ describe("recipientsSvc", function() {
 
 });
 
-describe("alertSvc", function() {
+//beforeEach(module('app/users'));
+describe("subscriptionsSvc", function() {
 
+	//beforeEach(module('app/users'));
   beforeEach(module('app/recipients'));
 
   describe("getAllPossibleSubscriptions", function() {
 
-    it("should return a promise to an array of possible subscriptions", inject(function($rootScope, alertSvc){
+    it("should return a promise to an array of possible subscriptions", inject(function($rootScope, subscribableIntentionsSvc){
       var possibleSubscriptions;
-      alertSvc.getAllPossibleSubscriptions().then(function(_possibleSubscriptions_) {
+			subscribableIntentionsSvc.getAllPossibleSubscriptions().then(function(_possibleSubscriptions_) {
         possibleSubscriptions = _possibleSubscriptions_;
       });
       // Force promise to resolve
@@ -127,9 +133,10 @@ describe("alertSvc", function() {
 
   });
 
+	//beforeEach(module('app/users'));
   describe("addPossibleSubscriptionsToRecipients", function() {
 
-    it("should return a promise to an array of alerts for each recipient", inject(function(alertSvc, $rootScope, $q) {
+    it("should return a promise to an array of alerts for each recipient", inject(function(subscribableIntentionsSvc,subscriptionsSvc, $rootScope, $q) {
       var dummySubscriptions = [
             {"RecipientTypeId": "9E2D23"},
             {"RecipientTypeId": "9E2D23"},
@@ -143,10 +150,10 @@ describe("alertSvc", function() {
             {"RecipientTypeId": "64C63D"},
             {"RecipientTypeId": "3B9BF2"}
           ],
-          getAllSubscriptionsSpy = spyOn(alertSvc, 'getAllPossibleSubscriptions').andReturn($q.when(dummySubscriptions));
+          getAllSubscriptionsSpy = spyOn(subscribableIntentionsSvc, 'getAllPossibleSubscriptions').andReturn($q.when(dummySubscriptions));
 
       var resultRecipients;
-      alertSvc.addPossibleSubscriptionsToRecipients(dummyRecipients).then(function(_recipients_) {
+			subscriptionsSvc.addPossibleSubscriptionsToRecipients(dummyRecipients).then(function(_recipients_) {
         resultRecipients = _recipients_;
       });
       // Force promise to resolve
@@ -161,7 +168,7 @@ describe("alertSvc", function() {
 
   describe("getAllRecipientsWithSubscriptions", function() {
 
-    it("should return a promise to subscriptions of active recipients", inject(function(recipientsSvc, alertSvc, $q, $rootScope) {
+    it("should return a promise to subscriptions of active recipients", inject(function(activeRecipientsSvc, subscriptionsSvc, $q, $rootScope) {
       var dummyActiveRecipients = [
            {"RecipientTypeId": "9E2D23"},
            {"RecipientTypeId": "87F524"},
@@ -171,10 +178,10 @@ describe("alertSvc", function() {
             {"RecipientTypeId": "9E2D23", alerts:['a','b','c']},
             {"RecipientTypeId": "87F524", alerts:['a']},
           ],
-          activeRecipientsSpy = spyOn(recipientsSvc, "getActiveRecipients").andReturn($q.when(dummyActiveRecipients)),
-          subscriptionRecipientsSpy = spyOn(alertSvc, "addPossibleSubscriptionsToRecipients").andReturn(dummyRecipientsSubscriptions);
+          activeRecipientsSpy = spyOn(activeRecipientsSvc, "getActiveRecipients").andReturn($q.when(dummyActiveRecipients)),
+          subscriptionRecipientsSpy = spyOn(subscriptionsSvc, "addPossibleSubscriptionsToRecipients").andReturn(dummyRecipientsSubscriptions);
           var resultRecipients;
-          alertSvc.getAllRecipientsWithSubscriptions().then(function(_resultRecipients_) {
+          subscriptionsSvc.getAllRecipientsWithSubscriptions().then(function(_resultRecipients_) {
             resultRecipients = _resultRecipients_;
           });
           $rootScope.$digest();
@@ -197,7 +204,7 @@ describe("RecipientListController", function() {
     $rootScope = _$rootScope_;
     var dummyRecipients = ['a', 'b'];
 
-    mockRecipientsSvc = {
+    mocksubscribableRecipientsSvc = {
       getAll: function (){
         return $q.when(dummyRecipients);
       },
@@ -205,7 +212,12 @@ describe("RecipientListController", function() {
       getStateForRecipientTypeAlerts: function(){}
     };
 
-    $controller('RecipientListController', {$scope: $rootScope, recipientsSvc: mockRecipientsSvc});
+		mockRecipientsSvc = {
+			switchStateForRecipientTypeAlerts: function(){},
+			getStateForRecipientTypeAlerts: function(){}
+		};
+
+    $controller('RecipientListController', {$scope: $rootScope,subscribableRecipientsSvc : mocksubscribableRecipientsSvc,  activeRecipientsSvc: mockRecipientsSvc});
   }));
 
   it("should attach the provided recipients to the scope", function() {
@@ -241,7 +253,7 @@ describe("RecipientAlertsController", function() {
         return $q.when(dummyRecipients);
       }
     };
-    $controller('RecipientAlertsController', {$scope: $rootScope, alertSvc: mockAlertSvc});
+    $controller('RecipientAlertsController', {$scope: $rootScope, subscriptionsSvc: mockAlertSvc});
   }));
 
   it("should attach the provided recipients with subscriptions to the scope", function() {
