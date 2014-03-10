@@ -31,6 +31,6 @@ describe("UserProfileController", function() {
 
   it("should attach the currentUser to the scope", inject(function($rootScope, $controller, currentUser) {
     $controller('UserProfileController', { $scope: $rootScope });
-    expect($rootScope.userProfile).toBe(currentUser);
+    expect($rootScope.currentUser).toBe(currentUser);
   }));
 });
