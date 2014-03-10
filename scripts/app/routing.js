@@ -54,7 +54,7 @@ angular.module('app/routing', [])
         templateUrl: 'views/recipients.html',
         controller: 'RecipientListController',
         resolve: {
-            recipients: ['possibleRecipientsSvc', function(recipientsSvc) { return recipientsSvc.getAll(); }]
+            recipients: ['subscribableRecipientsSvc', function(activeRecipientsSvc) { return activeRecipientsSvc.getAll(); }]
         },
         showTabs: false
     })
@@ -62,7 +62,7 @@ angular.module('app/routing', [])
         templateUrl: 'views/recipientAlerts.html',
         controller: 'RecipientAlertsController',
         resolve: {
-            recipients: ['recipientsSvc', function(recipientsSvc) { return recipientsSvc.getAll(); }]
+            recipients: ['subscribableRecipientsSvc', function(activeRecipientsSvc) { return activeRecipientsSvc.getAll(); }]
         },
         showTabs: false
     })
