@@ -1,35 +1,37 @@
 <div ng-show="true" style="text-align: center;">
-    <div class="row" style="margin-top: 5px; margin-bottom: 60px; font-size: 16px;" >
+    <div class="row" style="margin-top: 5px; margin-bottom: 30px; font-size: 16px;" >
         <div class="col-xs-2"></div>
         <div class="col-xs-8">
-            Sur quelle boite mail recevoir les propositions de message ?
+            Je veux recevoir les propositions de messages à cette adresse
         </div>
         <div class="col-xs-2"></div>
     </div>
 
-    <div class="row" style="margin-top: 5px; margin-bottom: 60px; font-size: 16px; text-align: center; " >
+    <div class="row" style="margin-top: 5px; margin-bottom: 10px; font-size: 16px; text-align: center; " >
         <div class="col-xs-1"></div>
         <div class="col-xs-10">
             <form role="form">
                 <div class="form-group" >
-                    <label for="exampleInputEmail1">Celle-ci&nbsp</label>
-                    <input type="email" id="exampleInputEmail1" style="vertical-align:middle;" placeholder="adresse mail">
-                    <button type="button" class="btn btn-default" style="vertical-align:middle;">Valider</button>
+                    <!--<label >la&nbsp</label>-->
+                    <input ng-model="user.email" style="vertical-align:middle;" ng-change="updateMail()" placeholder="adresse mail" >
+                    <button type="button" class="btn btn-default" style="vertical-align:middle;" ng-click="sendMailToServer()">Envoi</button>
                 </div>
+                <div ng-show="mailSent">C'est parti !</div>
+                <div ng-show="mailSent">Vous recevrez prochainement un message d'activation.</div>
+                <!--<div>(dans les spam s'il se perd)</div>-->
             </form>
         </div>
         <div class="col-xs-1"></div>
     </div>
 
-
     <ul class="pager bmwQuestionButton pull-left" >
         <li ng-class= '{selectionne: false}' >
-            <a href="/recipientAlerts" role="button"  targetId="Next"> <img ng-src="./assets/arrow-left.png" class="stylepicto"> </a>
+            <a href="/recipientAlerts" role="button"  targetId="Next" ng-click="sendMailToServer()"> <img ng-src="./assets/arrow-left.png" class="stylepicto"> </a>
         </li>
     </ul>
     <ul class="pager bmwQuestionButton" >
         <li ng-class= '{selectionne: false}' >
-            <a href="/" role="button" class="pull-right" targetId="Next"><img ng-src="./assets/arrow-right.png" class="stylepicto"> </a>
+            <a href="/" role="button" class="pull-right" targetId="Next" ng-click="sendMailToServer()"><img ng-src="./assets/arrow-right.png" class="stylepicto"> </a>
         </li>
     </ul>
 
