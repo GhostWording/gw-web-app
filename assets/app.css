@@ -12,22 +12,14 @@ a, input, button {
 
 .tabBarReplacement {margin-top: 15px;}
 
-/*.nav-pills>.active>a {background-color: #DF790A; }*/
-/*.nav-pills>.active>a {background-color: rgb(247,133,40); }*/
-
 /*.nav-pills>.active>a {background-color: #6F93A5; }*/
 /*.nav-pills>.active>a, .nav-pills>.active>a:focus:hover , .nav-pills>.active>a:focus {background-color: rgb(232, 94, 38); }*/
 
 
-
 .splashTitle { font-size: 120%;}
-/*.splash { background:url('plumeb.png') no-repeat left top ;}*/
-/*.container { background:url('background.jpg'); background-repeat: repeat-x, repeat-y; background-position:center;  }*/
 
-.intentionTitle {margin-top: 20px;
-    margin-bottom: 20px;
-
-}
+.intentionTitle { margin-top: 20px;
+                  margin-bottom: 20px;}
 
 .block-blanc-carre { background-color:rgb(255, 255, 255);
                     border-radius:7px}
@@ -38,10 +30,8 @@ a, input, button {
 .block-blanc { background-color:rgb(255, 255, 255);
                border-radius:18px}
 
-
 .block-gris { background-color:rgb(250, 250, 255);
                border-radius:15px}
-
 
 .bmw-intention { 
                   background-color:rgb(250, 250, 255); /* cerise:  #E8BECE */
@@ -92,7 +82,7 @@ a:hover .bmw-texte, a:hover .citation, a:hover .bmw-intention { text-decoration:
 
 a:hover { text-decoration: none }
 
-a .citation   { color: black  }
+a .citation   { color: black; font-size: 14px  }
 
 .envoyer {height: 20px; margin-right:8px;margin-top: 7px; margin-left: 7px; }
 
@@ -121,20 +111,8 @@ a .citation   { color: black  }
 .nav, .pagination, .carousel a { cursor: pointer; }
 
 
-/*
-.navbar .navbar-inner {
-  background-color: #2067E3; 
-  background-image: none;
-  background-repeat: no-repeat;
-  filter: none;
-}    
-
-
-*/
 
 .navbar-inverse .brandCerise { color:#D94179;  }
-/*.brand, .navbar-inverse .brand { color: rgb(247,133,40); }*/
-/*.brand, .navbar-inverse .brand { color: rgb(247,133,40); }*/
 .brand { color: rgb(247,133,40); }
 
 
@@ -210,10 +188,11 @@ a .citation   { color: black  }
 
 #nomCompletDansFooterMessage { width : 100px;  }
 
+blockquote footer, blockquote small, blockquote .small {font-size: 70%;  }
+
 toggle-switch {
   display: inline-block;
 }
-
 
 /* Styles for Toggle switch */
 .switch {
@@ -248,3 +227,4 @@ toggle-switch {
 }
 .switchRight .toggleButton {
   left: 20px;
+}
