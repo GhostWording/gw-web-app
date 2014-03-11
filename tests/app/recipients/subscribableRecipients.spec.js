@@ -1,6 +1,6 @@
 describe("subscribableRecipientsSvc", function() {
 	
-	beforeEach(module('app/recipients/subscribableRecipients'));
+	beforeEach(module('app/recipients'));
 
 	describe("getAll", function() {
 		it("should return a promise to a list of recipients", inject(function($rootScope, subscribableRecipientsSvc) {

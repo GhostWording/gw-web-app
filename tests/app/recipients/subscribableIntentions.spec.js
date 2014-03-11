@@ -1,7 +1,7 @@
 describe("subscribableIntentionsSvc", function() {
 
   //beforeEach(module('app/users'));
-  beforeEach(module('app/recipients/subscribableIntentions'));
+  beforeEach(module('app/recipients'));
 
   describe("getAllPossibleSubscriptions", function() {
 

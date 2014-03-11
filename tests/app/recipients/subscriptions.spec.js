@@ -1,6 +1,8 @@
 describe("subscriptionsSvc", function() {
 
-	beforeEach(module('app/recipients/subscriptions'));
+	beforeEach(module('app/recipients'));
+  beforeEach(module('app/users'));
+  beforeEach(module('common/services/deviceIdSvc'));
 
 	describe("getAllPossibleSubscriptions", function() {
 
@@ -47,7 +49,7 @@ describe("subscriptionsSvc", function() {
       expect(resultRecipients[2].alerts.length).toEqual(2);
     }));
 
-});
+  });
 
   describe("getAllRecipientsWithSubscriptions", function() {
 
@@ -81,7 +83,7 @@ describe("RecipientListController", function() {
   var $rootScope,
       mockRecipientsSvc;
 
-  beforeEach(module('app/recipients/subscriptions'));
+  beforeEach(module('app/recipients'));
 
   beforeEach(inject(function (_$rootScope_, $controller, $q) {
     $rootScope = _$rootScope_;
@@ -126,7 +128,10 @@ describe("RecipientListController", function() {
 describe("RecipientAlertsController", function() {
   var $rootScope;
 
-  beforeEach(module('app/recipients/subscriptions'));
+  beforeEach(module('app/recipients'));
+  beforeEach(module('app/users'));
+  beforeEach(module('common/services/deviceIdSvc'));
+  beforeEach(module('common/services/server'));
 
   beforeEach(inject(function (_$rootScope_, $controller, $q) {
     $rootScope = _$rootScope_;

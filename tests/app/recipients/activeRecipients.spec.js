@@ -2,7 +2,7 @@ describe("activeRecipientsSvc", function() {
 
   // TODO: create a generic mock cacheSvc that simplifies these and other tests that use cacheSvc
   // TODO: this service does not seem to depend on cacheSvc.Is this necessary anymore? (LP)
-  beforeEach(module('app/recipients/activeRecipients'));
+  beforeEach(module('app/recipients'));
 
   describe("makeCacheKey", function() {
 

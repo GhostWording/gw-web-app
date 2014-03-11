@@ -2,7 +2,7 @@ angular.module('app', [
   'app/areas',
   'app/intentions',
   'app/filters',
-  'app/recipients/subscriptions',
+  'app/recipients',
   'app/splash',
   'app/texts',
   'app/users',
