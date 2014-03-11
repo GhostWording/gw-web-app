@@ -1,4 +1,4 @@
-angular.module('app/recipients/activeRecipientsSvc', ['common/services/cache'])
+angular.module('app/recipients/activeRecipients', ['common/services/cache', 'app/recipients/subscribableRecipients'])
 
 .factory('activeRecipientsSvc', ['$q','localStorage','subscribableRecipientsSvc', function ($q, localStorage,subscribableRecipientsSvc) {
 	var service = {
@@ -30,4 +30,4 @@ angular.module('app/recipients/activeRecipientsSvc', ['common/services/cache'])
 		}
 	};
 	return service;
-}])
+}]);
