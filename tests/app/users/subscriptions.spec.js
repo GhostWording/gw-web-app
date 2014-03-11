@@ -83,6 +83,7 @@ describe("RecipientListController", function() {
   var $rootScope,
       mockRecipientsSvc;
 
+  beforeEach(module('app/users'));
   beforeEach(module('app/recipients'));
 
   beforeEach(inject(function (_$rootScope_, $controller, $q) {
@@ -125,7 +126,7 @@ describe("RecipientListController", function() {
 });
 
 
-describe("RecipientAlertsController", function() {
+describe("SubscriptionController", function() {
   var $rootScope;
 
   beforeEach(module('app/recipients'));
@@ -141,7 +142,7 @@ describe("RecipientAlertsController", function() {
         return $q.when(dummyRecipients);
       }
     };
-    $controller('RecipientAlertsController', {$scope: $rootScope, subscriptionsSvc: mockAlertSvc});
+    $controller('SubscriptionController', {$scope: $rootScope, subscriptionsSvc: mockAlertSvc});
   }));
 
   it("should attach the provided recipients with subscriptions to the scope", function() {

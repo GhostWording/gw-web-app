@@ -6,8 +6,8 @@ describe("activeRecipientsSvc", function() {
 
   describe("makeCacheKey", function() {
 
-    it("should return the recipientAlertState id", inject(function($rootScope, activeRecipientsSvc) {
-      expect(activeRecipientsSvc.makeCacheKey('testId')).toEqual('recipientAlertState.testId');
+    it("should return the subscriptionState id", inject(function($rootScope, activeRecipientsSvc) {
+      expect(activeRecipientsSvc.makeCacheKey('testId')).toEqual('subscriptionState.testId');
     }));
 
   });

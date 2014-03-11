@@ -1,10 +1,7 @@
-// People we should communicate with more often !
-// This is a static set for now
-// Test using subscriptions will fail if currentUserLocalData from app/users module is referenced !!!!!!
-angular.module('app/recipients/subscriptions', [])
+angular.module('app/users/subscriptions',['app/recipients'])
 
-.factory('subscriptionsSvc', ['$q','activeRecipientsSvc','subscribableIntentionsSvc','currentUserLocalData',
-	function ($q, activeRecipientsSvc,subscribableIntentionsSvc,currentUserLocalData) {
+.factory('subscriptionsSvc', ['$q','activeRecipientsSvc','subscribableIntentionsSvc','$rootScope',
+	function ($q, activeRecipientsSvc,subscribableIntentionsSvc,$rootScope) {
 		var service = {
 			addPossibleSubscriptionsToRecipients : function(recipients) {
 				return subscribableIntentionsSvc.getAllPossibleSubscriptions().then(function(subscriptions) {
@@ -39,7 +36,7 @@ angular.module('app/recipients/subscriptions', [])
 					return service.addPossibleSubscriptionsToRecipients(recipients);
 				})
 				.then(function (subscriptions) {
-					currentUserLocalData.subcriptions = subscriptions;
+          $rootScope.$broadcast('users.subcriptionChange',subscriptions);
 					return subscriptions;
 				});
 			}
@@ -60,7 +57,7 @@ angular.module('app/recipients/subscriptions', [])
 
 	}])
 
-.controller('RecipientAlertsController', ['$scope', 'activeRecipientsSvc', 'subscriptionsSvc','serverSvc','currentUserLocalData','deviceIdSvc',
+.controller('SubscriptionController', ['$scope', 'activeRecipientsSvc', 'subscriptionsSvc','serverSvc','currentUserLocalData','deviceIdSvc',
 	function ($scope, activeRecipientsSvc, subscriptionsSvc,serverSvc,currentUserLocalData,deviceIdSvc) {
 
 		subscriptionsSvc.getAllRecipientsWithSubscriptions().then(function (value) {

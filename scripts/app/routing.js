@@ -58,9 +58,9 @@ angular.module('app/routing', [])
         },
         showTabs: false
     })
-    .when('/recipientAlerts', {
-        templateUrl: 'views/recipientAlerts.html',
-        controller: 'RecipientAlertsController',
+    .when('/subscriptions', {
+        templateUrl: 'views/subscriptions.html',
+        controller: 'SubscriptionController',
         resolve: {
             recipients: ['subscribableRecipientsSvc', function(activeRecipientsSvc) { return activeRecipientsSvc.getAll(); }]
         },

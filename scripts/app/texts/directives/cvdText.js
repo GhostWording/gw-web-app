@@ -21,9 +21,10 @@ angular.module('app/texts/cvdText', [])
         citation.html(txt.Content);
         blockquote.append(citation);
 
-        if ( txt.Author ) {
+        if ( txt.Author && txt.Author != 'Inconnu'  ) {
           var author = angular.element('<small>');
           author.attr('title', txt.Author);
+//          author.attr('class','citationFooter');
           author.text(txt.Author);
           blockquote.append(author);
         }

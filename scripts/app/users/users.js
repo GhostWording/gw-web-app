@@ -1,5 +1,5 @@
 // Keeps track of our user's local profile and preferences
-angular.module('app/users', [])
+angular.module('app/users/users', [])
 
 .value('userAges', {
   under25: 'under25',
@@ -42,6 +42,11 @@ angular.module('app/users', [])
 			localStorage.set(key, currentUser);
 		}
 	}, true);
+
+
+  $rootScope.$on('users.subcriptionChange',function (ev,subscription) {
+    currentUser.subcriptions = subscription;
+  });
 
 	return currentUser;
 }])

@@ -1,20 +1,18 @@
 ﻿<div ng-show="true" style="text-align: center;">
-    <div class="row" style="margin-top: 5px; margin-bottom: 30px; font-size: 16px;" >
-        <div class="span4"></div>
-        <div class="span4 splashTitle">
+    <div class="row" style="margin-top: 5px; margin-bottom: 25px; font-size: 16px;" >
+        <div class="splashTitle">
             Qui mérite mes messages ?
         </div>
-        <div class="span4"></div>
     </div>
 
     <div class = "listeTypeDestinataire" >
-        <div ng-repeat="qui in lesQui" >
-            <ul class="pager bmwQuestionButton" >
-                <li ng-class = '{selectionne: getState(qui.Id)}'>
-                    <label>{{ qui.LocalLabel }}</label>
-                    <toggle-switch state="getState(qui.Id)" switch="switchState(qui.Id)"></toggle-switch>
-                </li>
-            </ul>
+        <div class="row" ng-repeat="qui in lesQui" style="vertical-align: middle; margin-bottom: 20px ">
+            <div class="col-xs-1"></toggle-switch></div>
+            <div class="col-xs-5" style="text-align: right">{{ qui.LocalLabel }}</div>
+            <div class="col-xs-2"><toggle-switch state="getState(qui.Id)" switch="switchState(qui.Id)"></toggle-switch></div>
+            <div class="col-xs-4"></toggle-switch></div>
+            <!--<label style="vertical-align: middle">{{ qui.LocalLabel }}</label>-->
+            <!--<toggle-switch state="getState(qui.Id)" switch="switchState(qui.Id)"></toggle-switch>-->
          </div>
      </div>
 
@@ -25,7 +23,7 @@
     </ul>
     <ul class="pager bmwQuestionButton" >
         <li ng-class= '{selectionne: false}' >
-            <a href="/recipientAlerts" role="button" class="pull-right" targetId="Next"> <img ng-src="./assets/arrow-right.png" class="stylepicto"> </a>
+            <a href="/subscriptions" role="button" class="pull-right" targetId="Next"> <img ng-src="./assets/arrow-right.png" class="stylepicto"> </a>
         </li>
     </ul>
 

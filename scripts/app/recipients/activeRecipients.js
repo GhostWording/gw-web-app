@@ -1,9 +1,9 @@
-angular.module('app/recipients/activeRecipients', ['common/services/cache', 'app/recipients/subscribableRecipients'])
+angular.module('app/recipients/activeRecipients', ['common/services/cache'])
 
 .factory('activeRecipientsSvc', ['$q','localStorage','subscribableRecipientsSvc', function ($q, localStorage,subscribableRecipientsSvc) {
 	var service = {
 		makeCacheKey : function(recipientId) {
-			return 'recipientAlertState.' + recipientId;
+			return 'subscriptionState.' + recipientId;
 		},
 		getStateForRecipientTypeAlerts: function(recipientId) {
 			var retval = localStorage.get(service.makeCacheKey(recipientId));
