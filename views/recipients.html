@@ -11,7 +11,8 @@
         <div ng-repeat="qui in lesQui" >
             <ul class="pager bmwQuestionButton" >
                 <li ng-class = '{selectionne: getState(qui.Id)}'>
-                    <a href="" ng-click = "switchState(qui.Id)">{{ qui.LocalLabel }}</a>
+                    <label>{{ qui.LocalLabel }}</label>
+                    <toggle-switch state="getState(qui.Id)" switch="switchState(qui.Id)"></toggle-switch>
                 </li>
             </ul>
          </div>

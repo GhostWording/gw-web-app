@@ -1,4 +1,4 @@
-angular.module('app/recipients/subscribableIntentionsSvc', [])
+angular.module('app/recipients/subscribableIntentions', [])
 
 .factory('subscribableIntentionsSvc', ['$q', function ($q) {
 	var service = {
@@ -29,4 +29,4 @@ angular.module('app/recipients/subscribableIntentionsSvc', [])
 
 	};
 	return service;
-}])
+}]);
