@@ -1,7 +1,7 @@
-// People we should communicate with more often !
-// This is a static set for now
-// Test using subscriptions will fail if currentUserLocalData from app/users module is referenced !!!!!!
-angular.module('app/recipients/subscriptions', [])
+angular.module('app/users/subscriptions',
+//['app/recipients/activeRecipients','app/recipients/activeRecipients','app/recipients/subscribableRecipients']
+[]
+)
 
 .factory('subscriptionsSvc', ['$q','activeRecipientsSvc','subscribableIntentionsSvc','currentUserLocalData',
 	function ($q, activeRecipientsSvc,subscribableIntentionsSvc,currentUserLocalData) {

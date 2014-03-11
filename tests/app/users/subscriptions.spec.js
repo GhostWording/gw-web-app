@@ -83,6 +83,7 @@ describe("RecipientListController", function() {
   var $rootScope,
       mockRecipientsSvc;
 
+  beforeEach(module('app/users'));
   beforeEach(module('app/recipients'));
 
   beforeEach(inject(function (_$rootScope_, $controller, $q) {
