@@ -43,6 +43,11 @@ angular.module('app/users/users', [])
 		}
 	}, true);
 
+
+  $rootScope.$on('users.subcriptionChange',function (ev,subscription) {
+    currentUser.subcriptions = subscription;
+  });
+
 	return currentUser;
 }])
 

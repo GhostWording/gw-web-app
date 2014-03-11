@@ -1,10 +1,7 @@
-angular.module('app/users/subscriptions',
-//['app/recipients/activeRecipients','app/recipients/activeRecipients','app/recipients/subscribableRecipients']
-[]
-)
+angular.module('app/users/subscriptions',['app/recipients'])
 
-.factory('subscriptionsSvc', ['$q','activeRecipientsSvc','subscribableIntentionsSvc','currentUserLocalData',
-	function ($q, activeRecipientsSvc,subscribableIntentionsSvc,currentUserLocalData) {
+.factory('subscriptionsSvc', ['$q','activeRecipientsSvc','subscribableIntentionsSvc','$rootScope',
+	function ($q, activeRecipientsSvc,subscribableIntentionsSvc,$rootScope) {
 		var service = {
 			addPossibleSubscriptionsToRecipients : function(recipients) {
 				return subscribableIntentionsSvc.getAllPossibleSubscriptions().then(function(subscriptions) {
@@ -39,7 +36,7 @@ angular.module('app/users/subscriptions',
 					return service.addPossibleSubscriptionsToRecipients(recipients);
 				})
 				.then(function (subscriptions) {
-					currentUserLocalData.subcriptions = subscriptions;
+          $rootScope.$broadcast('users.subcriptionChange',subscriptions);
 					return subscriptions;
 				});
 			}
