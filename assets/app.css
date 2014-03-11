@@ -228,7 +228,7 @@ toggle-switch {
 }
 
 .switch.switchRight {
-  background: green;
+  background: #428bca;
 }
 
 .toggleButton {
@@ -236,7 +236,7 @@ toggle-switch {
   top: -1px;
   width: 30px;
   height: 30px;
-  border: 1px solid green;
+  border: 1px solid #428bca;
   background: white;
   border-radius: 50%;
   -webkit-transition: all 0.5s ease;
