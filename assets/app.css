@@ -210,4 +210,41 @@ a .citation   { color: black  }
 
 #nomCompletDansFooterMessage { width : 100px;  }
 
+toggle-switch {
+  display: inline-block;
+}
 
+
+/* Styles for Toggle switch */
+.switch {
+  position: relative;
+  width: 50px;
+  height: 30px;
+  border: 1px solid #CCC;
+  border-radius: 20px;
+  cursor: pointer;
+  -webkit-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+
+.switch.switchRight {
+  background: green;
+}
+
+.toggleButton {
+  position: absolute;
+  top: -1px;
+  width: 30px;
+  height: 30px;
+  border: 1px solid green;
+  background: white;
+  border-radius: 50%;
+  -webkit-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+
+.switchLeft .toggleButton {
+  left: -1;
+}
+.switchRight .toggleButton {
+  left: 20px;
