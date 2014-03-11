@@ -57,7 +57,7 @@ angular.module('app/users/subscriptions',['app/recipients'])
 
 	}])
 
-.controller('RecipientAlertsController', ['$scope', 'activeRecipientsSvc', 'subscriptionsSvc','serverSvc','currentUserLocalData','deviceIdSvc',
+.controller('SubscriptionController', ['$scope', 'activeRecipientsSvc', 'subscriptionsSvc','serverSvc','currentUserLocalData','deviceIdSvc',
 	function ($scope, activeRecipientsSvc, subscriptionsSvc,serverSvc,currentUserLocalData,deviceIdSvc) {
 
 		subscriptionsSvc.getAllRecipientsWithSubscriptions().then(function (value) {

@@ -1,5 +1,5 @@
 <div ng-show="true" >
-    <div style="text-align: center;font-size: 16px; margin-bottom: 30px;">
+    <div style="text-align: center;font-size: 16px; margin-bottom: 25px;">
         <div class="splashTitle">
             La bonne fréquence pour les bonnes ondes
         </div>
@@ -10,9 +10,9 @@
         <div class="col-sm-8" >
             <div style="font-size:120%">{{ recipient.LocalLabel }}</div>
                 <div ng-repeat="alert in recipient.alerts">
-                    <div class ="col-xs-5" >{{ alert.IntentionLabel}}</div>
+                    <div class ="col-xs-6" >{{ alert.IntentionLabel}}</div>
                     <div class ="col-xs-3">{{ alert.FreqNumerator }} fois</div>
-                    <div class ="col-xs-4">/ {{ alert.FreqPeriod }}</div>
+                    <div class ="col-xs-3">/ {{ alert.FreqPeriod }}</div>
                 </div>
         </div>
         <div class="col-sm-2"></div>
@@ -29,7 +29,7 @@
                 <a href="/userEMail" role="button"  targetId="Next" ng-click="sendSubscriptionsToServer()"> <img ng-src="./assets/arrow-right.png" class="stylepicto"> </a>
             </li>
         </ul>
-        <div style="padding-top: 0px; padding-bottom: 5px;">(vous pourrez modifier plus tard)</div>
+        <div style="padding-top: 10px; padding-bottom: 5px;">(vous pourrez modifier plus tard)</div>
 
     </div>
 
