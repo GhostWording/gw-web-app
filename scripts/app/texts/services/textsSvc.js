@@ -19,7 +19,16 @@ angular.module('app/texts/textList', [])
     getTextList: function(areaName, intentionId) {
       var path = areaName + '/intention/' + intentionId + '/texts';
       return cacheSvc.get(path, -1, function() {
-        return serverSvc.get(path);
+        //return serverSvc.get(path);
+        return serverSvc.get(path).then(function(textList) {
+          for (var i = textList.length-1; i >= 0; i-- ) {
+            var txtContent = textList[i].Content;
+            var maxTextLengthForTextListRendering = 400;
+            textList[i].shortContent = txtContent.length <=  maxTextLengthForTextListRendering ? txtContent : txtContent.substring(0, maxTextLengthForTextListRendering) + "...<span class='glyphicon glyphicon-hand-right'></span>";
+          }
+          return textList;
+        });
+
       });
     },
     getText: function(areaName, intentionId, textId) {
