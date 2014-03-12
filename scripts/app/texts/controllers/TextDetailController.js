@@ -23,7 +23,10 @@ function ($scope, currentText, currentIntention, currentArea, tagLabelsSvc, $mod
     $scope.sendDialog = $modal.open({
       templateUrl: 'views/partials/sendTextForm.html',
       scope: $scope,
-      controller: 'SendTextFormController'
+      controller: 'SendTextFormController',
+      resolve: {
+        currentText: function() { return currentText; }
+      }
     });
   };
 
