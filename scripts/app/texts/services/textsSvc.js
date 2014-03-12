@@ -22,8 +22,9 @@ angular.module('app/texts/textList', [])
         //return serverSvc.get(path);
         return serverSvc.get(path).then(function(textList) {
           for (var i = textList.length-1; i >= 0; i-- ) {
-            var txt = textList[i];
-            txt.ShortContent = txt.Content + "hhh";
+            var txtContent = textList[i].Content;
+            var maxTextLengthForTextListRendering = 400;
+            textList[i].shortContent = txtContent.length <=  maxTextLengthForTextListRendering ? txtContent : txtContent.substring(0, maxTextLengthForTextListRendering) + "...<span class='glyphicon glyphicon-hand-right'></span>";
           }
           return textList;
         });

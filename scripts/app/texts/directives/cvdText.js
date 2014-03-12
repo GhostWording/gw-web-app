@@ -10,7 +10,7 @@ angular.module('app/texts/cvdText', [])
 
       if ( !txt.IsQuote ) {
 
-        element.html(txt.ShortContent);
+        element.html(txt.shortContent);
         element.addClass("well well-small bmw-texte");
 
       } else {
@@ -18,7 +18,7 @@ angular.module('app/texts/cvdText', [])
         var blockquote = angular.element('<blockquote>');
 
         var citation = angular.element('<span class="citation">');
-        citation.html(txt.ShortContent);
+        citation.html(txt.shortContent);
         blockquote.append(citation);
 
         if ( txt.Author && txt.Author != 'Inconnu'  ) {
