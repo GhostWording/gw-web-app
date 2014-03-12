@@ -19,7 +19,15 @@ angular.module('app/texts/textList', [])
     getTextList: function(areaName, intentionId) {
       var path = areaName + '/intention/' + intentionId + '/texts';
       return cacheSvc.get(path, -1, function() {
-        return serverSvc.get(path);
+        //return serverSvc.get(path);
+        return serverSvc.get(path).then(function(textList) {
+          for (var i = textList.length-1; i >= 0; i-- ) {
+            var txt = textList[i];
+            txt.ShortContent = txt.Content + "hhh";
+          }
+          return textList;
+        });
+
       });
     },
     getText: function(areaName, intentionId, textId) {
