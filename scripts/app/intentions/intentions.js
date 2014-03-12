@@ -6,7 +6,7 @@ angular.module('app/intentions', ['app/areas', 'common/services/cache', 'common/
   var service = {
 
     getCurrentId: function() {
-      return $route.current.params.intentionId;
+      return $route.current && $route.current.params.intentionId;
     },
 
     getCurrent: function() {

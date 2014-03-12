@@ -59,5 +59,18 @@ angular.module('cherryApp',  [
   }
 ])
 
-.run(['areasSvc', function(areasSvc) {
+.run(['$rootScope', 'intentionsSvc', 'filtersSvc', function($rootScope, intentionsSvc, filtersSvc) {
+  
+  // Watch the current intention.  If it changes to something not null and different to what it
+  // was before then reset the filters.
+  var currentIntentionId = intentionsSvc.getCurrentId();
+  $rootScope.$watch(
+    function() { return intentionsSvc.getCurrentId(); },
+    function(value) {
+      if ( value && currentIntentionId !== value ) {
+        currentIntentionId = value;
+        filtersSvc.reset();
+      }
+    }
+  );
 }]);
