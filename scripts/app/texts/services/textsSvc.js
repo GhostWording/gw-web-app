@@ -1,6 +1,6 @@
 angular.module('app/texts/textList', [])
 
-.factory('textsSvc', ['areasSvc', 'intentionsSvc', '$route', 'cacheSvc', 'serverSvc', function(areasSvc, intentionsSvc, $route, cacheSvc, serverSvc) {
+.factory('textsSvc', ['areasSvc', 'intentionsSvc', '$route', 'cacheSvc', 'serverSvc','HelperSvc', function(areasSvc, intentionsSvc, $route, cacheSvc, serverSvc,HelperSvc) {
   var service = {
     getCurrentList: function() {
       var areaName = areasSvc.getCurrentName();
@@ -21,11 +21,19 @@ angular.module('app/texts/textList', [])
       return cacheSvc.get(path, -1, function() {
         //return serverSvc.get(path);
         return serverSvc.get(path).then(function(textList) {
+          // Make a short version of the content for list display
           for (var i = textList.length-1; i >= 0; i-- ) {
             var txtContent = textList[i].Content;
             var maxTextLengthForTextListRendering = 400;
             textList[i].shortContent = txtContent.length <=  maxTextLengthForTextListRendering ? txtContent : txtContent.substring(0, maxTextLengthForTextListRendering) + "...<span class='glyphicon glyphicon-hand-right'></span>";
           }
+          // Sort the text (probably should be done on the server)
+          textList.sort(function(text1,text2) {
+            return -(text2.SortBy - text1.SortBy); //
+          });
+          // Keep the first texts sorted to display a few good ones but randomize the others to facilitate machine learning
+          var minSortOrderToBeRandomized = 25; // if texts match this condition, we will know they have a fair/equal chance to be picked by users
+          textList = HelperSvc.shuffleTextIfSortOrderNotLessThan(textList,minSortOrderToBeRandomized);
           return textList;
         });
 

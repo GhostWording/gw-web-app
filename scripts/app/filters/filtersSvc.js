@@ -75,7 +75,7 @@ angular.module('app/filters/filtersSvc', ['app/filters/styles'])
     textCompatible: function(text, sender) {
         return service.senderCompatible(text.Sender, sender.gender) &&
                service.genderCompatible(text.Target, service.filters.recipientGender) &&
-               service.tuOuVousCompatible(text.TuOuVous, service.filters.tuOuVous) &&
+               service.tuOuVousCompatible(text.PoliteForm, service.filters.tuOuVous) &&
                service.matchesNoStyles(text, service.filters.excludedStyles) &&
                service.matchesAllStyles(text, service.filters.contexts);
     },
