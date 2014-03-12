@@ -29,7 +29,7 @@
         <!-- Text list -->
         <div ng-repeat="txt in filteredList">
 
-            <div id="{{txt.TextId}}">
+            <div id="{{txt.TextId}}" >
                 <img
                     src="./assets/e-mail64.png"
                     class = "pull-right envoyer"
@@ -41,7 +41,7 @@
                     targetId = "{{txt.TextId}}"
                     ng-click="selectThisText(txt,'open')" >
 
-                    <div cvd-text="txt" ng-class="{active: txt.TextId == selectedTextId}"></div>
+                    <div cvd-text="txt" ng-class="{active: txt.TextId == selectedTextId}" style="white-space: pre-wrap"></div>
                 </a>
             </div>
 
