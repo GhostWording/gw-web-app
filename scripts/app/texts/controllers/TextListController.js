@@ -2,8 +2,8 @@ angular.module('app/texts/TextListController', [])
 
 // Displays a list of texts
 .controller('TextListController',
- ['$scope', 'currentTextList', 'currentIntention', 'currentArea', 'currentUser', 'filtersSvc',
-function ($scope, currentTextList, currentIntention, currentArea, currentUser, filtersSvc) {
+ ['$scope', 'currentTextList', 'currentIntention', 'currentArea', 'currentUser', 'filtersSvc', '$modal',
+function ($scope, currentTextList, currentIntention, currentArea, currentUser, filtersSvc, $modal) {
 
     $scope.currentArea = currentArea;
     $scope.currentIntention = currentIntention;
@@ -41,6 +41,17 @@ function ($scope, currentTextList, currentIntention, currentArea, currentUser, f
         return (count1 != count2) ? count2 - count1 : text2.SortBy - text1.SortBy;
       });
 
+    };
+
+    $scope.send = function(text) {
+      $scope.sendDialog = $modal.open({
+        templateUrl: 'views/partials/sendTextForm.html',
+        scope: $scope,
+        controller: 'SendTextFormController',
+        resolve: {
+          currentText: function() { return text; }
+        }
+      });
     };
 
     // Watch the filters and update the filtered text list if they change

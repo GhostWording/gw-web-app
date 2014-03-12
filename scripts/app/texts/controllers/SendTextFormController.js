@@ -1,7 +1,12 @@
 angular.module('app/texts/SendTextFormController', [])
 
-.controller('SendTextFormController', ['$scope', '$modalInstance', '$window','HelperSvc',
-function($scope, $modalInstance, $window,HelperSvc) {
+.controller('SendTextFormController', ['$scope', '$modalInstance', '$window','HelperSvc', 'currentText',
+function($scope, $modalInstance, $window, HelperSvc, currentText) {
+
+  $scope.currentText = currentText;
+  $scope.txt = {
+    editableText: currentText.Content
+  };
 
 	$scope.urlMailTo = function () {
 //  Probably some case of prototypal bizarrerie : modification to the text from the dialog are discarded if we dont use a proper object to carry the property
