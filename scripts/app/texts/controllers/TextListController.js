@@ -15,7 +15,7 @@ function ($scope, currentTextList, currentIntention, currentArea, currentUser, f
 
 
     $scope.filterList = function() {
-      
+
       // Clear the previous filter list
       $scope.filteredList.length = 0;
 
@@ -34,12 +34,17 @@ function ($scope, currentTextList, currentIntention, currentArea, currentUser, f
         }
       });
 
-      // Sort by number of matching preferred styles first then by sortBy value
-      $scope.filteredList.sort(function(text1,text2) {
+      // If there are no preferred style we don't want to perturbate ordering at all
+      if ( $scope.filters.preferredStyles.stylesList.length > 0 ) {
+        // Sort by number of matching preferred styles first
+        $scope.filteredList.sort(function(text1,text2) {
         var count1 = matchingStylesMap[text1.TextId].stylesList.length;
         var count2 = matchingStylesMap[text2.TextId].stylesList.length;
-        return (count1 != count2) ? count2 - count1 : text2.SortBy - text1.SortBy;
+        //return (count1 != count2) ? count2 - count1 : -(text2.SortBy - text1.SortBy);
+        return count2 - count1; // In case of equality, we keep the existing ordering in case it was randomized
       });
+
+      }
 
     };
 
