@@ -29,7 +29,13 @@ angular.module('cherryApp',  [
 
 
 .controller('NavBarController',  ['$scope',
-  function ($scope) { }
+  function ($scope) {
+    $scope.items = [
+      "The first choice!",
+      "And another choice for you.",
+      "but wait! A third!"
+    ];
+  }
 ])
 
 

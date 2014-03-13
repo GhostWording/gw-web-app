@@ -6,13 +6,16 @@
         </div>
     </div>
 
-    <div class = "row" ng-repeat="recipient in recipientsWithSubscriptions"  >
+    <div class = "row" ng-repeat="recipient in recipientsWithSubscriptions" style="padding-bottom:5px;">
         <div class="col-sm-2"></div>
         <div class="col-sm-8" >
-            <div style="font-size:120%">{{ recipient.LocalLabel }}</div>
-                <div ng-repeat="alert in recipient.alerts">
-                    <div class ="col-xs-7" >{{ alert.IntentionLabel}}</div>
-                    <div class ="col-xs-5">{{ alert.FreqLabel }}</div>
+            <div style="font-size:120%; padding-bottom:5px; text-align: left">{{ recipient.LocalLabel }}</div>
+                <div ng-repeat="intent in recipient.alerts" style="padding-bottom: 35px;">
+                    <div class="col-xs-1"></div>
+                    <div class ="col-xs-8" style="text-align: left">{{ intent.IntentionLabel}}</div>
+                    <!--<div class ="col-xs-5">{{ intent.FreqLabel }}</div>-->
+                    <div class="col-xs-2" style="text-align: left"><toggle-switch state="getState(intent.IntentionId)" switch="switchState(intent.IntentionId)"></toggle-switch></div>
+                    <div class="col-xs-1"></div>
                 </div>
         </div>
         <div class="col-sm-2"></div>
