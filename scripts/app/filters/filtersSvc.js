@@ -86,7 +86,7 @@ angular.module('app/filters/filtersSvc', ['app/filters/styles'])
                service.tuOuVousCompatible(text.PoliteForm, service.filters.tuOuVous) &&
                service.matchesNoStyles(text, service.filters.excludedStyles) &&
                //service.matchesAllStyles(text, service.filters.contexts); //
-        (service.matchesAStyle(text, service.filters.contexts) || service.filters.contexts.stylesList.length == 0);
+        (service.matchesAStyle(text, service.filters.contexts) || service.filters.contexts.stylesList.length === 0);
     },
 
 
