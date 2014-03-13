@@ -13,7 +13,7 @@ angular.module('app/intentions', ['app/areas', 'common/services/cache', 'common/
       var currentIntentionId = service.getCurrentId();
       return areasSvc.getCurrent().then(function(currentArea) {
         if ( currentArea ) {
-          return service.getIntention(currentArea.name, currentIntentionId);
+          return service.getIntention(currentArea.Name, currentIntentionId);
         }
       });
     },
