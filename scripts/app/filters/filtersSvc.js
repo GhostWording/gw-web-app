@@ -46,7 +46,7 @@ angular.module('app/filters/filtersSvc', ['app/filters/styles'])
     },
 
     matchesAllStyles: function(text, styleCollection) {
-      var i, tagId;
+      var i;
 
       // Optimization - if the text has too few tags then it obviously fails
       if ( text.TagIds.length < styleCollection.stylesList.length ) {
@@ -54,11 +54,19 @@ angular.module('app/filters/filtersSvc', ['app/filters/styles'])
       }
 
       for (i = 0; i < styleCollection.stylesList.length; i++) {
-        if ( text.TagIds.indexOf(styleCollection.stylesList[i]) === -1 ) {
+        if ( text.TagIds.indexOf(styleCollection.stylesList[i].id) === -1 ) {
           return false;
         }
       }
       return true;
+    },
+    matchesAStyle: function(text, styleCollection) {
+      for (var i = 0; i < styleCollection.stylesList.length; i++) {
+        if ( text.TagIds.indexOf(styleCollection.stylesList[i].id) != -1 ) {
+          return true;
+        }
+      }
+      return false;
     },
 
     matchesNoStyles: function(text, styleCollection) {
@@ -77,7 +85,8 @@ angular.module('app/filters/filtersSvc', ['app/filters/styles'])
                service.genderCompatible(text.Target, service.filters.recipientGender) &&
                service.tuOuVousCompatible(text.PoliteForm, service.filters.tuOuVous) &&
                service.matchesNoStyles(text, service.filters.excludedStyles) &&
-               service.matchesAllStyles(text, service.filters.contexts);
+               //service.matchesAllStyles(text, service.filters.contexts); //
+        (service.matchesAStyle(text, service.filters.contexts) || service.filters.contexts.stylesList.length == 0);
     },
 
 
