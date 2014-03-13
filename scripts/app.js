@@ -44,18 +44,14 @@ angular.module('cherryApp',  [
 
 .controller('CherryController', ['$scope', //'NormalTextFilters', 'PostActionSvc',
   function ($scope) {//, TextFilters, PostActionSvc, Tabs) {
-
     console.log(navigator.userAgent);
+    PostActionSvc.postActionInfo('Init', 'Init', 'App', 'Init');
 
-//    TextFilters.initializeFiltersToUndefined();
-
-//    PostActionSvc.postActionInfo('Init', 'Init', 'App', 'Init');
-
-    //Activate Bootstrap popover option
-    $('#popoverCopier').popover({
-      html: true,
-      content: "Androïd : appuyer trois secondes sur le texte + icône sélection (T) + icône copier (feuilles)<br>iPhone : appuyer trois secondes sur le texte + relâcher + appuyer encore trois secondes + 'sélectionner tout' + 'copier'"
-    });
+    //Activate Bootstrap popover option : will use ui-bootstrap instead if required
+//    $('#popoverCopier').popover({
+//      html: true,
+//      content: "Androïd : appuyer trois secondes sur le texte + icône sélection (T) + icône copier (feuilles)<br>iPhone : appuyer trois secondes sur le texte + relâcher + appuyer encore trois secondes + 'sélectionner tout' + 'copier'"
+//    });
   }
 ])
 
