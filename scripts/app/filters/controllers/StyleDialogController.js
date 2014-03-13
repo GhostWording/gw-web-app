@@ -21,17 +21,25 @@ angular.module('app/filters/StyleDialogController', [])
             'citation': 'Avec citation',
             'simple': 'Tout simple',
         };
-
-        $scope.TogglePreferedStyle = function(key,scopeVariable) {
-            var newValue = ! $scope[scopeVariable];
-            TextFilters.setStyleToPrefer(key,newValue);
-            PostActionSvc.postActionInfo('Command',scopeVariable,'StyleDialog','click',newValue);
+        $scope.contextStyleLabels = {
+          'administrativeContext':  'Administratif',
+          'familialContext': 'Familial',
+          'romanticContext': 'Amoureux',
+          'friendlyContext': 'Amical',
+          'professionalContext': 'Professionnel',
         };
 
-        $scope.ToggleIncludeContext = function(key,scopeVariable) {
-            var newValue = ! $scope.ContextFilters[scopeVariable];
-            TextFilters.setContextToInclude(key,newValue);
-            PostActionSvc.postActionInfo('Command',key,'StyleDialog','click',newValue);
-        };
+//        Old
+//        $scope.TogglePreferedStyle = function(key,scopeVariable) {
+//            var newValue = ! $scope[scopeVariable];
+//            TextFilters.setStyleToPrefer(key,newValue);
+//            PostActionSvc.postActionInfo('Command',scopeVariable,'StyleDialog','click',newValue);
+//        };
+//
+//        $scope.ToggleIncludeContext = function(key,scopeVariable) {
+//            var newValue = ! $scope.ContextFilters[scopeVariable];
+//            TextFilters.setContextToInclude(key,newValue);
+//            PostActionSvc.postActionInfo('Command',key,'StyleDialog','click',newValue);
+//        };
 
     }]);
