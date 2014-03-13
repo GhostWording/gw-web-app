@@ -1,7 +1,8 @@
 <div ng-show="true" >
     <div style="text-align: center;font-size: 16px; margin-bottom: 15px;">
         <div class="splashTitle">
-            La bonne fréquence pour les bonnes ondes
+            <!--La bonne fréquence pour les bonnes ondes-->
+            Créez du lien !
         </div>
     </div>
 
@@ -10,9 +11,8 @@
         <div class="col-sm-8" >
             <div style="font-size:120%">{{ recipient.LocalLabel }}</div>
                 <div ng-repeat="alert in recipient.alerts">
-                    <div class ="col-xs-6" >{{ alert.IntentionLabel}}</div>
-                    <div class ="col-xs-3">{{ alert.FreqNumerator }} fois</div>
-                    <div class ="col-xs-3">/ {{ alert.FreqPeriod }}</div>
+                    <div class ="col-xs-7" >{{ alert.IntentionLabel}}</div>
+                    <div class ="col-xs-5">{{ alert.FreqLabel }}</div>
                 </div>
         </div>
         <div class="col-sm-2"></div>
@@ -30,7 +30,6 @@
             </li>
         </ul>
         <!--<div style="padding-top: 10px; padding-bottom: 5px;">(vous pourrez modifier <br>plus tard)</div>-->
-
     </div>
 
 </div>

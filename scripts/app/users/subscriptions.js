@@ -46,16 +46,7 @@ angular.module('app/users/subscriptions',['app/recipients'])
 		return service;
 	}])
 
-.controller('RecipientListController', ['$scope', 'subscribableRecipientsSvc', 'activeRecipientsSvc',
-	function ($scope, subscribableRecipientsSvc, activeRecipientsSvc) {
 
-		subscribableRecipientsSvc.getAll().then(function (value) {
-			$scope.lesQui = value;
-		});
-		$scope.switchState = activeRecipientsSvc.switchStateForRecipientTypeAlerts;
-		$scope.getState = activeRecipientsSvc.getStateForRecipientTypeAlerts;
-
-	}])
 
 .controller('SubscriptionController', ['$scope', 'activeRecipientsSvc', 'subscriptionsSvc','serverSvc','currentUserLocalData','deviceIdSvc',
 	function ($scope, activeRecipientsSvc, subscriptionsSvc,serverSvc,currentUserLocalData,deviceIdSvc) {
