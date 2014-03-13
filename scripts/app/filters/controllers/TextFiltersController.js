@@ -103,7 +103,7 @@ angular.module('app/filters/TextFiltersController', [])
   }
 
   // TODO: This really should be data driven - i.e. the best filter set should be a field on the intention
-  setBestFilterDefaultValues($scope.currentArea.name , $scope.currentIntention.IntentionId, currentUser.gender);
+  setBestFilterDefaultValues($scope.currentArea.Name , $scope.currentIntention.IntentionId, currentUser.gender);
 
   function setBestFilterDefaultValues(areaName,intentionId, userGender) {
     console.log (areaName + " - " + intentionId + ' - ' + userGender);
