@@ -42,8 +42,8 @@ angular.module('cherryApp',  [
 }])
 
 
-.controller('CherryController', ['$scope', //'NormalTextFilters', 'PostActionSvc',
-  function ($scope) {//, TextFilters, PostActionSvc, Tabs) {
+.controller('CherryController', ['$scope',  'PostActionSvc',
+  function ($scope,PostActionSvc) {
     console.log(navigator.userAgent);
     PostActionSvc.postActionInfo('Init', 'Init', 'App', 'Init');
 
