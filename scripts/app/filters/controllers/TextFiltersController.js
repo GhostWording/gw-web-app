@@ -70,28 +70,10 @@ angular.module('app/filters/TextFiltersController', [])
     return FILTER_LABELS.TUOUVOUS_LABEL[filters.tuOuVous] || 'Oups';
   };
 
-  // TODO: Work this into the data
-  // $scope.modifySpellingAccordingToGender = function (genre) {
-  //   if (genre == 'F') {
-  //     TextFilters.libelleReservee = "Réservée";
-  //     TextFilters.libelleExpansive = "Expansive";
-  //   }
-  //   else {
-  //     TextFilters.libelleReservee = "Réservé";
-  //     TextFilters.libelleExpansive = "Expansif";
-  //   }
-  // };
-
-  // $scope.definirGenreExpediteur = function (genre) {
-  //   // TODO : call modifySpellingAccordingToGender by watching an event
-  //   $scope.modifySpellingAccordingToGender(genre);
-  //   TextFilters.setSenderGender(genre);
-  // };
-  // $scope.definirGenreDestinataire = function (genre) {
-  //   TextFilters.setRecipientGender(genre);
-  //   if (genre == 'P')
-  //     TextFilters.setTuOuVous('V');
-  // };
+  $scope.$watch(function() {return filters.recipientGender;}, function(value) {
+    if (value == 'P')
+      filters.tuOuVous = 'V';
+    });
   
   var INVERT_GENDER_MAP = {
     'H': 'F',
