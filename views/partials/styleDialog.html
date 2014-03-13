@@ -3,6 +3,7 @@
 
    <h4>Styles à privilégier</h4>
     <div >
+        <br/>
         <label class="checkbox-inline"
                ng-repeat="style in generalStyles.stylesList"
                ng-if="style.visible">
@@ -14,9 +15,8 @@
         </label>
     </div>
 
-    <br/>
-
-    <div>
+    <div ng-show="false">
+        <br/>
         <label class="checkbox-inline"
                ng-repeat="style in contextStyles.stylesList"
                ng-if="style.visible">
