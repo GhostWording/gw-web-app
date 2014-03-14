@@ -1,6 +1,3 @@
-// Notre application
-//var cherryApp = angular.module('cherryApp',  ['ui.bootstrap']);
-//var cherryApp = angular.module('cherryApp',  ['ngCookies','ngSanitize']);
 // Angular 1.2.1
 angular.module('cherryApp',  [
   'ngCookies',
@@ -12,7 +9,6 @@ angular.module('cherryApp',  [
   'app'
 ])
 
-
 //CORS for angular v < 1.2
 .config(['$httpProvider', '$locationProvider','$sceProvider', function ($httpProvider, $locationProvider,$sceProvider) {
   $locationProvider.html5Mode(true);
@@ -20,44 +16,24 @@ angular.module('cherryApp',  [
   delete $httpProvider.defaults.headers.common['X-Requested-With'];
   $sceProvider.enabled(false);
 }])
-
-
 //CORS for angular v > 1.2
 .config(['$sceDelegateProvider', function ($sceDelegateProvider) {
    $sceDelegateProvider.resourceUrlWhitelist(['self', /^https?:\/\/(api\.)?cvd.io/]);
 }])
 
-
-.controller('NavBarController',  ['$scope',
-  function ($scope) {
-    $scope.items = [
-      "The first choice!",
-      "And another choice for you.",
-      "but wait! A third!"
-    ];
-  }
-])
-
+.controller('NavBarController',  ['$scope', function($scope) {
+}])
 
 .controller('FilterDialogController', ['$scope', function($scope) {
-
 }])
 
 .controller('SelectedTextController', ['$scope', function($scope) {
-
 }])
-
 
 .controller('CherryController', ['$scope',  'PostActionSvc',
   function ($scope,PostActionSvc) {
     console.log(navigator.userAgent);
     PostActionSvc.postActionInfo('Init', 'Init', 'App', 'Init');
-
-    //Activate Bootstrap popover option : will use ui-bootstrap instead if required
-//    $('#popoverCopier').popover({
-//      html: true,
-//      content: "Androïd : appuyer trois secondes sur le texte + icône sélection (T) + icône copier (feuilles)<br>iPhone : appuyer trois secondes sur le texte + relâcher + appuyer encore trois secondes + 'sélectionner tout' + 'copier'"
-//    });
   }
 ])
 
