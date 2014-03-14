@@ -19,7 +19,7 @@ describe("subscriptionsSvc", function() {
 
 	});
 
-	describe("addPossibleSubscriptionsToRecipients", function() {
+	describe("mergePossibleRecipientsWithPreviousSubscribedRecipients", function() {
 
 		it("should return a promise to an array of alerts for each recipient", inject(function(subscribableIntentionsSvc,subscriptionsSvc, $rootScope, $q) {
 			var dummySubscriptions = [
@@ -38,7 +38,7 @@ describe("subscriptionsSvc", function() {
 			getAllSubscriptionsSpy = spyOn(subscribableIntentionsSvc, 'getAllPossibleSubscriptions').andReturn($q.when(dummySubscriptions));
 
 			var resultRecipients;
-			subscriptionsSvc.addPossibleSubscriptionsToRecipients(dummyRecipients).then(function(_recipients_) {
+			subscriptionsSvc.mergePossibleRecipientsWithPreviousSubscribedRecipients(dummyRecipients).then(function(_recipients_) {
 				resultRecipients = _recipients_;
 			});
       // Force promise to resolve
@@ -64,9 +64,9 @@ describe("subscriptionsSvc", function() {
             {"RecipientTypeId": "87F524", alerts:['a']},
           ],
           activeRecipientsSpy = spyOn(activeRecipientsSvc, "getActiveRecipients").andReturn($q.when(dummyActiveRecipients)),
-          subscriptionRecipientsSpy = spyOn(subscriptionsSvc, "addPossibleSubscriptionsToRecipients").andReturn(dummyRecipientsSubscriptions);
+          subscriptionRecipientsSpy = spyOn(subscriptionsSvc, "mergePossibleRecipientsWithPreviousSubscribedRecipients").andReturn(dummyRecipientsSubscriptions);
           var resultRecipients;
-          subscriptionsSvc.getAllRecipientsWithSubscriptions().then(function(_resultRecipients_) {
+          subscriptionsSvc.getRecipientsWithSubscriptions().then(function(_resultRecipients_) {
             resultRecipients = _resultRecipients_;
           });
           $rootScope.$digest();
@@ -138,7 +138,7 @@ describe("SubscriptionController", function() {
     $rootScope = _$rootScope_;
     var dummyRecipients = ['a', 'b'];
     var mockAlertSvc = {
-      getAllRecipientsWithSubscriptions: function (){
+      getRecipientsWithSubscriptions: function (){
         return $q.when(dummyRecipients);
       }
     };

@@ -30,4 +30,14 @@ angular.module('app/recipients/activeRecipients', ['common/services/cache'])
 		}
 	};
 	return service;
+}])
+.controller('RecipientListController', ['$scope', 'subscribableRecipientsSvc', 'activeRecipientsSvc',
+function ($scope, subscribableRecipientsSvc, activeRecipientsSvc) {
+
+  subscribableRecipientsSvc.getAll().then(function (value) {
+    $scope.lesQui = value;
+  });
+  $scope.switchState = activeRecipientsSvc.switchStateForRecipientTypeAlerts;
+  $scope.getState = activeRecipientsSvc.getStateForRecipientTypeAlerts;
+
 }]);

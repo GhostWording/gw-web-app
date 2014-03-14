@@ -1,5 +1,4 @@
 <div class="modal-header">
-    <!--<button type="button" class="close" targetType="Text" targetId="{{ currentText.id }}" actionType="close" ng-click="" data-dismiss="modal" aria-hidden="true">&times;</button>-->
     <h4 class="modal-title" id="modalLabelTitle">Envoyer</h4>
 </div>
 <div id="modalMessageBody" class="modal-body">
@@ -39,7 +38,7 @@
         Tweet
     </button>
     
-    <button class="btn"
+    <button class="btn" ng-show="false"
             targetType="Text" targetId="{{getSelectedTextId()}}" actionType="sendCopy"
             id="popoverCopier"
             data-toggle="popover"

@@ -1,66 +1,119 @@
 angular.module('app/users/subscriptions',['app/recipients'])
 
-.factory('subscriptionsSvc', ['$q','activeRecipientsSvc','subscribableIntentionsSvc','$rootScope',
-	function ($q, activeRecipientsSvc,subscribableIntentionsSvc,$rootScope) {
+.factory('subscriptionsSvc', ['$q','activeRecipientsSvc','subscribableIntentionsSvc','$rootScope','localStorage',
+	function ($q, activeRecipientsSvc,subscribableIntentionsSvc,$rootScope,localStorage) {
 		var service = {
-			addPossibleSubscriptionsToRecipients : function(recipients) {
-				return subscribableIntentionsSvc.getAllPossibleSubscriptions().then(function(subscriptions) {
-							// Populate alerts property of each recipient with applicable subscriptions : intention
-							for (var i = recipients.length-1; i >=0 ; i--) {
-								var recipient = recipients[i];
-								var recipientTypeId = recipient.RecipientTypeId;
-								recipient.alerts = [];
-								for ( var j = 0; j < subscriptions.length; j++ ) {
-									var subscription = subscriptions[j];
-									if ( subscription.RecipientTypeId == recipientTypeId ) {
-										var alert = angular.copy(subscription);
-										recipient.alerts.push(alert);
-									}
-								}
-							}
-							return recipients;
-						});
-			},
+      // An array of subscribed recipients to which subscribed intentions are attached
+      subscribedRecipients : [],
 
-			// What we might want to do
-			// 1 - Get a list of possible recipient from the server
-			// 2 - For each possible recipient,
-			//      - look at subscriptions (intentions that can be subscribed to with a given frequency) from the server
-			//      - check in local storage if we allread have values for them
-			//      - use default values from the server if we can't read them from local storage
-			// What we are doing :
-
-			getAllRecipientsWithSubscriptions: function () {
-				return activeRecipientsSvc.getActiveRecipients()
-				.then(function (recipients) {
-					return service.addPossibleSubscriptionsToRecipients(recipients);
-				})
-				.then(function (subscriptions) {
-          $rootScope.$broadcast('users.subcriptionChange',subscriptions);
-					return subscriptions;
-				});
-			}
-
-
+      // We remember if user wants to desactivate subscription to and intention for a given recipient
+      makeSubscriptionKey : function(recipientId, intentionId) {
+        return 'DesactivateSubscription.'+recipientId +'.' + intentionId;
+      },
+      // Storage remembers when user does NOT want to subscribe. If nothing is found, we initialize with true
+      getStateFromStorage : function(recipientId, intentionId) {
+        var disactivationWanted = localStorage.get(service.makeSubscriptionKey(recipientId, intentionId));
+        var retval = disactivationWanted ? false : true;
+        return retval;
+      },
+      setStateFromStorage : function(recipientId, intentionId,subscription) {
+        var key = service.makeSubscriptionKey(recipientId, intentionId);
+        localStorage.set(key,!subscription.IsActive);
+      },
+      // Read state from actual subscriptions
+      getState : function(recipientId, intentionId) {
+        var subscription = service.getSubscription(recipientId, intentionId);
+        return subscription.IsActive;
+      },
+      // Update state of actual subscriptions and memorize in local storage
+      switchState : function(recipientId, intentionId) {
+        var subscription = service.getSubscription(recipientId, intentionId);
+        if (subscription)
+          subscription.IsActive = !subscription.IsActive;
+        service.setStateFromStorage(recipientId, intentionId,subscription);
+      },
+      // TODO : we should add get and set to read and update the required frequency for a recipient/intention subscription
+      // ...........
+      // Extract subscription line for a given recipient/intention
+      getSubscription : function(recipientId, intentionId) {
+        if ( !service.subscribedRecipients )
+          return null;
+        for (var i = service.subscribedRecipients.length - 1; i >= 0; i--) {
+          var recipient = service.subscribedRecipients[i];
+          if ( recipient.Id == recipientId) {
+            for (var j = recipient.alerts.length-1; j >= 0; j--) {
+              var subscription = recipient.alerts[j];
+              if (subscription.IntentionId == intentionId)
+                return subscription;
+            }
+          }
+        }
+        return null;
+      },
+      // Find a subscribed recipient
+      getSubscribedRecipient : function(recipientId) {
+        if ( !service.subscribedRecipients )
+          return null;
+        for (var i = service.subscribedRecipients.length - 1; i >= 0; i--) {
+          var recipient = service.subscribedRecipients[i];
+          if ( recipient.Id == recipientId) {
+            return recipient;
+          }
+        }
+        return null;
+      },
+      //  For each possible recipient ( = server says it can be subscribed and user has selected it)
+      //  - check if we already have data for it in our subscriptions
+      //  - else use default subscriptions for this recipient (typically provided by the server)
+      mergePossibleRecipientsWithPreviousSubscribedRecipients: function (activeRecipients) {
+        return subscribableIntentionsSvc.getAllPossibleSubscriptions().then(function (possibleSubscriptions) {
+          var recipientsWithSubscriptions = [];
+          // For each active recipient, populate alerts with applicable intention subscriptions
+          for (var i = activeRecipients.length - 1; i >= 0; i--) {
+            var recipient = activeRecipients[i];
+            var recipientTypeId = recipient.RecipientTypeId;
+            var recipientId = recipient.Id;
+            // Add what we already have if we have something
+            var subscribedRecipient = service.getSubscribedRecipient(recipientTypeId);
+            if (subscribedRecipient) {
+              recipientsWithSubscriptions.push(subscribedRecipient);
+            } else {
+              // Else add default subscriptions (possibleSubscriptions given by the server)
+              recipientsWithSubscriptions.push(recipient);
+              recipient.alerts = [];
+              for (var j = 0; j < possibleSubscriptions.length; j++) {
+                var possibleSubscription = possibleSubscriptions[j];
+                if (possibleSubscription.RecipientTypeId == recipientTypeId) {
+                  var alert = angular.copy(possibleSubscription);
+                  // Check if user previously said he wants to subscribe to this intention for this recipient
+                  alert.IsActive = service.getStateFromStorage(recipientId, possibleSubscription.IntentionId);
+                  recipient.alerts.push(alert);
+                }
+              }
+            }
+          }
+          service.subscribedRecipients = activeRecipients;
+          return activeRecipients;
+        });
+      },
+      getRecipientsWithSubscriptions: function () {
+        return activeRecipientsSvc.getActiveRecipients()
+        .then(function (activeRecipients) {
+          return service.mergePossibleRecipientsWithPreviousSubscribedRecipients(activeRecipients);
+        })
+        .then(function (subscriptions) {
+          $rootScope.$broadcast('users.subcriptionChange', subscriptions);
+          return subscriptions;
+        });
+      }
 		};
 		return service;
-	}])
-
-.controller('RecipientListController', ['$scope', 'subscribableRecipientsSvc', 'activeRecipientsSvc',
-	function ($scope, subscribableRecipientsSvc, activeRecipientsSvc) {
-
-		subscribableRecipientsSvc.getAll().then(function (value) {
-			$scope.lesQui = value;
-		});
-		$scope.switchState = activeRecipientsSvc.switchStateForRecipientTypeAlerts;
-		$scope.getState = activeRecipientsSvc.getStateForRecipientTypeAlerts;
-
 	}])
 
 .controller('SubscriptionController', ['$scope', 'activeRecipientsSvc', 'subscriptionsSvc','serverSvc','currentUserLocalData','deviceIdSvc',
 	function ($scope, activeRecipientsSvc, subscriptionsSvc,serverSvc,currentUserLocalData,deviceIdSvc) {
 
-		subscriptionsSvc.getAllRecipientsWithSubscriptions().then(function (value) {
+		subscriptionsSvc.getRecipientsWithSubscriptions().then(function (value) {
 			$scope.recipientsWithSubscriptions = value;
 		});
 
@@ -68,4 +121,8 @@ angular.module('app/users/subscriptions',['app/recipients'])
 			serverSvc.postInStore('subscriptionStore', deviceIdSvc.get(), currentUserLocalData.subcriptions);
 		};
 
-	}]);
+    $scope.getSubscriptionState = subscriptionsSvc.getState;
+
+    $scope.switchSubscriptionState = subscriptionsSvc.switchState;
+
+  }]);
