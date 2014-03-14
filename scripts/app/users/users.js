@@ -26,9 +26,9 @@ angular.module('app/users/users', [])
   return currentUser;
 
 }])
-// We may not want to send this data to the server with each request (email might not be a good idea and subscription might be to heavy)
+// We may not want to send email and subscriptions as cookies to the server with each request (email might be somewhat confidential and subscription may be too heavy to carry around)
 // So in the end we might use local storage for all user properties
-.factory('currentUserLocalData',['$rootScope','localStorage','deviceIdSvc',function($rootScope,localStorage,deviceIdSvc) {
+.factory('currentUserLocalData',['$rootScope','localStorage','deviceIdSvc','serverSvc',function($rootScope,localStorage,deviceIdSvc,serverSvc) {
 
 	var key = 'currentUserLocalData' + '.' + deviceIdSvc.get();
 
@@ -37,10 +37,13 @@ angular.module('app/users/users', [])
 		subcriptions: null
 	};
 
+
 	$rootScope.$watch(function() { return currentUser; }, function(value, oldValue) {
 		if ( value !== oldValue ) {
 			localStorage.set(key, currentUser);
-		}
+      console.log("sendingSuscriptionsToServer");
+      serverSvc.postInStore('subscriptionStore', deviceIdSvc.get(), currentUser.subcriptions);
+    }
 	}, true);
 
 
