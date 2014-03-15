@@ -89,6 +89,11 @@ angular.module('app/filters/filtersSvc', ['app/filters/styles'])
         (service.matchesAStyle(text, service.filters.contexts) || service.filters.contexts.stylesList.length === 0);
     },
 
+    // TODO
+    setFiltersForRecipient : function(recipient) {
+      service.filters.recipientGender = recipient.Gender;
+      service.filters.tuOuVous = recipient.TuOuVous;
+    },
 
     wellDefined: function() {
       var filters = service.filters;

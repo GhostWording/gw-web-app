@@ -10,22 +10,22 @@ angular.module('app/recipients/subscribableRecipients', [])
     // Will be read from server in the future
 		getAll: function() {
 			return $q.when([
-				{ "Id": "SweetheartF", "RecipientTypeId": "9E2D23", "Gender": "F", "LocalLabel": "Ma chérie"},
-				{ "Id": "SweetheartM", "RecipientTypeId": "9E2D23", "Gender": "M", "LocalLabel": "Mon chéri"},
-				{ "Id": "CloseFriends", "RecipientTypeId": "3B9BF2", "Gender": "I", "LocalLabel": "Les copains et les copines"},
-				{ "Id": "LongLostFriends", "RecipientTypeId": "2B4F14", "Gender": "I", "LocalLabel": "Les amis perdus de vue"},
-				{ "Id": "Sister", "RecipientTypeId": "87F524", "Gender": "F", "LocalLabel": "Ma soeur"},
-				{ "Id": "Brother", "RecipientTypeId": "87F524", "Gender": "M", "LocalLabel": "Mon frère"},
-				{ "Id": "Father", "RecipientTypeId": "64C63D", "Gender": "M", "LocalLabel": "Papa"},
-				{ "Id": "Mother", "RecipientTypeId": "64C63D", "Gender": "F", "LocalLabel": "Maman"},
-				{ "Id": "DistantRelatives", "RecipientTypeId": "BCA601", "Gender": "I", "LocalLabel": "La famille éloignée"},
-				{ "Id": "ProNetwork", "RecipientTypeId": "35AE93", "Gender": "I", "LocalLabel": "Mon réseau pro"}
+				{ "Id": "SweetheartF", "RecipientTypeId": "9E2D23", "Gender": "F", "LocalLabel": "Ma chérie", "TuOuVous" : "T"},
+				{ "Id": "SweetheartM", "RecipientTypeId": "9E2D23", "Gender": "M", "LocalLabel": "Mon chéri", "TuOuVous" : "T"},
+				{ "Id": "CloseFriends", "RecipientTypeId": "3B9BF2", "Gender": "I", "LocalLabel": "Les copains et les copines", "TuOuVous" : "T"},
+				{ "Id": "LongLostFriends", "RecipientTypeId": "2B4F14", "Gender": "I", "LocalLabel": "Les amis perdus de vue", "TuOuVous" : "T"},
+				{ "Id": "Sister", "RecipientTypeId": "87F524", "Gender": "F", "LocalLabel": "Ma soeur", "TuOuVous" : "T"},
+				{ "Id": "Brother", "RecipientTypeId": "87F524", "Gender": "M", "LocalLabel": "Mon frère", "TuOuVous" : "T"},
+				{ "Id": "Father", "RecipientTypeId": "64C63D", "Gender": "M", "LocalLabel": "Papa", "TuOuVous" : "T"},
+				{ "Id": "Mother", "RecipientTypeId": "64C63D", "Gender": "F", "LocalLabel": "Maman", "TuOuVous" : "T"},
+				{ "Id": "DistantRelatives", "RecipientTypeId": "BCA601", "Gender": "I", "LocalLabel": "La famille éloignée", "TuOuVous" : "T"},
+				{ "Id": "ProNetwork", "RecipientTypeId": "35AE93", "Gender": "I", "LocalLabel": "Mon réseau pro", "TuOuVous" : "I"}
 			]);
 		},
 
-    // Not tested
     getRecipients: function() {
-      return cacheSvc.get('recipients.subscribableRecipients', -1, function() { return service.getAll(); });
+      return cacheSvc.get('recipients.subscribableRecipients', -1, function() { return service.getAll(); },
+        true); // skip local storage until we have a way to invalidate the cache
     },
 
     getFromRecipients: function(recipients, recipientId) {
