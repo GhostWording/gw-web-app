@@ -19,13 +19,15 @@ angular.module('app/routing', [])
         },
         showTabs: true
     })
+    // New : text list for a recipient and an intention
     .when('/area/:areaName/intention/:intentionId/:recipientId', {
       templateUrl: 'views/textList.html',
       controller: 'TextListController',
       resolve: {
         currentArea: ['areasSvc', function(areasSvc) { return areasSvc.getCurrent(); }],
         currentIntention: ['intentionsSvc', function(intentionsSvc) { return intentionsSvc.getCurrent(); }],
-        currentTextList: ['textsSvc', function(textsSvc) { return textsSvc.getCurrentList(); }]
+        currentTextList: ['textsSvc', function(textsSvc) { return textsSvc.getCurrentList(); }],
+        currentRecipient: ['currentRecipientSvc', function(currentRecipient) { return currentRecipient.getCurrentRecipient(); }]
       },
       showTabs: true
     })

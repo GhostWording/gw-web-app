@@ -4,8 +4,10 @@ angular.module('app/recipients/subscribableRecipients', [])
 //Mom and mommy are used in the United States, Canada, South Africa, Philippines, India and parts of the West Midlands including Birmingham in the United Kingdom.
 //Mum and mummy are used in the United Kingdom, Canada, Singapore, Australia, New Zealand, India, Pakistan, Hong Kong and Ireland. Charles, Prince of Wales publicly addressed his mother Queen Elizabeth II as "Mummy" on the occasion of her Diamond Jubilee.[37]
 //Ma, mam, and mammy are used in Netherlands, Ireland, the Northern areas of the United Kingdom, and Wales; it is also used in some areas of the United States.
-.factory('subscribableRecipientsSvc', ['$q', function ($q) {
-	var service = {
+.factory('subscribableRecipientsSvc', ['$q','cacheSvc', function ($q,cacheSvc) {
+
+  var service = {
+    // Will be read from server in the future
 		getAll: function() {
 			return $q.when([
 				{ "Id": "SweetheartF", "RecipientTypeId": "9E2D23", "Gender": "F", "LocalLabel": "Ma chérie"},
@@ -19,7 +21,21 @@ angular.module('app/recipients/subscribableRecipients', [])
 				{ "Id": "DistantRelatives", "RecipientTypeId": "BCA601", "Gender": "I", "LocalLabel": "La famille éloignée"},
 				{ "Id": "ProNetwork", "RecipientTypeId": "35AE93", "Gender": "I", "LocalLabel": "Mon réseau pro"}
 			]);
-		}
+		},
+
+    // Not tested
+    getRecipients: function() {
+      return cacheSvc.get('recipients.subscribableRecipients', -1, function() { return service.getAll(); });
+    },
+
+    getFromRecipients: function(recipients, recipientId) {
+      for (var i = recipients.length-1; i>= 0; i--) {
+        if ( recipients[i].Id ==  recipientId )
+          return recipients[i];
+      }
+      return null;
+    }
 	};
-	return service;
+
+  return service;
 }]);

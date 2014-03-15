@@ -148,37 +148,9 @@ angular.module('app/filters/filtersSvc', ['app/filters/styles'])
           }
           break;
       }
-    },
-
-    setDefaultStyles: function(area, intention, user) {
-
-      //TODO - this was copied from the old code - it needs reworking in here
-      // and calling when the area or intention change
-         var initializeFilterModal = function () {
-            $scope.humorousPrefered = TextFilters.getStyleToPrefer('humorous');
-            $scope.imaginativePrefered = TextFilters.getStyleToPrefer('imaginative');
-            $scope.eccentricPrefered = TextFilters.getStyleToPrefer('eccentric');
-            $scope.simplePrefered = TextFilters.getStyleToPrefer('simple');
-            $scope.poeticPrefered = TextFilters.getStyleToPrefer('poetic');
-            $scope.citationPrefered = TextFilters.getStyleToPrefer('citation');
-        };
-
-        var initializeContextFiltersModal = function () {
-            //console.log('initializeContextFilterModal');
-            var contexts = TextFilters.getContextsToInclude();
-            $scope.ContextFilters.friendly = contexts.friendlyContext;
-            $scope.ContextFilters.familial = contexts.familialContext;
-            $scope.ContextFilters.professional = contexts.professionalContext;
-            $scope.ContextFilters.administrative = contexts.administrativeContext;
-            $scope.ContextFilters.couple = contexts.coupleContext;
-            $scope.ContextFilters.inLove = contexts.romanticContext;
-            $scope.ContextFilters.dating = contexts.datingContext;
-        };
     }
+
   };
-
-
-
 
 
   // Compute additional filter values

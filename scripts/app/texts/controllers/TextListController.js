@@ -2,8 +2,8 @@ angular.module('app/texts/TextListController', [])
 
 // Displays a list of texts
 .controller('TextListController',
- ['$scope', 'currentTextList', 'currentIntention', 'currentArea', 'currentUser', 'filtersSvc', '$modal',
-function ($scope, currentTextList, currentIntention, currentArea, currentUser, filtersSvc, $modal) {
+ ['$scope', 'currentTextList', 'currentIntention', 'currentArea', 'currentUser', 'filtersSvc', '$modal', 'currentRecipient',
+function ($scope, currentTextList, currentIntention, currentArea, currentUser, filtersSvc, $modal,currentRecipient) {
 
     $scope.currentArea = currentArea;
     $scope.currentIntention = currentIntention;
