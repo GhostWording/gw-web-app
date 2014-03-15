@@ -188,7 +188,7 @@ a .citation   { color: black; font-size: 14px  }
 
 #nomCompletDansFooterMessage { width : 100px;  }
 
-blockquote footer, blockquote small, blockquote .small {font-size: 70%;  }
+blockquote footer, blockquote small, blockquote .small {font-size: 70%; padding-top: 2px;  }
 
 toggle-switch {
   display: inline-block;

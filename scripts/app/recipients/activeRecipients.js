@@ -20,8 +20,7 @@ angular.module('app/recipients/activeRecipients', ['common/services/cache'])
 					}
 				}
 				return retval;
-			}
-			);
+			});
 		},
 		switchStateForRecipientTypeAlerts: function(recipientId) {
 			var currentState = service.getStateForRecipientTypeAlerts(recipientId);

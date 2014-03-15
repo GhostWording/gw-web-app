@@ -13,6 +13,7 @@ angular.module('app/filters/filtersSvc', ['app/filters/styles'])
       excludedStyles: new StyleCollection(),   // exclude texts that have these styles
       preferredStyles: new StyleCollection(),  // move texts that have these styles to the top of the list
       contexts: new StyleCollection(),         // If not empty, only show texts that match this context
+      recipientTypeTag : null
     },
 
     reset: function() {
@@ -22,6 +23,7 @@ angular.module('app/filters/filtersSvc', ['app/filters/styles'])
       service.filters.excludedStyles.clear();
       service.filters.preferredStyles.clear();
       service.filters.contexts.clear();
+      service.filters.recipientTypeTag = null;
     },
 
     compatible: function(textValue, filterValue) {
@@ -70,13 +72,24 @@ angular.module('app/filters/filtersSvc', ['app/filters/styles'])
     },
 
     matchesNoStyles: function(text, styleCollection) {
-      var i, tagId;
+      var i;
       for (i = 0; i < text.TagIds.length; i++) {
         if ( styleCollection.stylesById[text.TagIds[i]] ) {
           return false;
         }
       }
       return true;
+    },
+    matchesRecipient: function(text,recipientTypeTag) {
+      if (!recipientTypeTag)
+        return true;
+      var i;
+      for (i = 0; i < text.TagIds.length; i++) {
+        if ( text.TagIds[i] == recipientTypeTag ) {
+          return true;
+        }
+      }
+      return false;
     },
 
     // This is the main filtering function for each text
@@ -86,9 +99,20 @@ angular.module('app/filters/filtersSvc', ['app/filters/styles'])
                service.tuOuVousCompatible(text.PoliteForm, service.filters.tuOuVous) &&
                service.matchesNoStyles(text, service.filters.excludedStyles) &&
                //service.matchesAllStyles(text, service.filters.contexts); //
-        (service.matchesAStyle(text, service.filters.contexts) || service.filters.contexts.stylesList.length === 0);
+              (service.matchesAStyle(text, service.filters.contexts) || service.filters.contexts.stylesList.length === 0) &&
+              service.matchesRecipient(text,service.filters.recipientTypeTag)
     },
 
+    // TODO
+    setFiltersForRecipient : function(recipient) {
+      if ( recipient) {
+        service.filters.recipientGender = recipient.Gender;
+        service.filters.tuOuVous = recipient.TuOuVous;
+      }
+    },
+    setRecipientTypeTag: function(recipientTypeTag) {
+      service.filters.recipientTypeTag = recipientTypeTag;
+    },
 
     wellDefined: function() {
       var filters = service.filters;
@@ -148,37 +172,9 @@ angular.module('app/filters/filtersSvc', ['app/filters/styles'])
           }
           break;
       }
-    },
-
-    setDefaultStyles: function(area, intention, user) {
-
-      //TODO - this was copied from the old code - it needs reworking in here
-      // and calling when the area or intention change
-         var initializeFilterModal = function () {
-            $scope.humorousPrefered = TextFilters.getStyleToPrefer('humorous');
-            $scope.imaginativePrefered = TextFilters.getStyleToPrefer('imaginative');
-            $scope.eccentricPrefered = TextFilters.getStyleToPrefer('eccentric');
-            $scope.simplePrefered = TextFilters.getStyleToPrefer('simple');
-            $scope.poeticPrefered = TextFilters.getStyleToPrefer('poetic');
-            $scope.citationPrefered = TextFilters.getStyleToPrefer('citation');
-        };
-
-        var initializeContextFiltersModal = function () {
-            //console.log('initializeContextFilterModal');
-            var contexts = TextFilters.getContextsToInclude();
-            $scope.ContextFilters.friendly = contexts.friendlyContext;
-            $scope.ContextFilters.familial = contexts.familialContext;
-            $scope.ContextFilters.professional = contexts.professionalContext;
-            $scope.ContextFilters.administrative = contexts.administrativeContext;
-            $scope.ContextFilters.couple = contexts.coupleContext;
-            $scope.ContextFilters.inLove = contexts.romanticContext;
-            $scope.ContextFilters.dating = contexts.datingContext;
-        };
     }
+
   };
-
-
-
 
 
   // Compute additional filter values

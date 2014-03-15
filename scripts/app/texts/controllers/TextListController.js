@@ -2,8 +2,8 @@ angular.module('app/texts/TextListController', [])
 
 // Displays a list of texts
 .controller('TextListController',
- ['$scope', 'currentTextList', 'currentIntention', 'currentArea', 'currentUser', 'filtersSvc', '$modal',
-function ($scope, currentTextList, currentIntention, currentArea, currentUser, filtersSvc, $modal) {
+ ['$scope', 'currentTextList', 'currentIntention', 'currentArea', 'currentUser', 'filtersSvc', '$modal', 'currentRecipient',
+function ($scope, currentTextList, currentIntention, currentArea, currentUser, filtersSvc, $modal,currentRecipient) {
 
     $scope.currentArea = currentArea;
     $scope.currentIntention = currentIntention;
@@ -15,6 +15,15 @@ function ($scope, currentTextList, currentIntention, currentArea, currentUser, f
 
 
     $scope.filterList = function() {
+
+      // TODO
+      // - set recipient gender, tuOuVous and closeness according to recipient settings
+      // - filter using recipientTags
+      // We could also chose to broadcast the information from currentRecipientSvc to filtersSvc
+      if ( currentRecipient ) {
+        filtersSvc.setFiltersForRecipient(currentRecipient);
+        filtersSvc.setRecipientTypeTag(currentRecipient.RecipientTypeId);
+      }
 
       // Clear the previous filter list
       $scope.filteredList.length = 0;

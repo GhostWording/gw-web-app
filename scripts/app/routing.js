@@ -15,12 +15,23 @@ angular.module('app/routing', [])
         resolve: {
             currentArea: ['areasSvc', function(areasSvc) { return areasSvc.getCurrent(); }],
             currentIntention: ['intentionsSvc', function(intentionsSvc) { return intentionsSvc.getCurrent(); }],
-            currentTextList: ['textsSvc', function(textsSvc) { return textsSvc.getCurrentList(); }]
+            currentTextList: ['textsSvc', function(textsSvc) { return textsSvc.getCurrentList(); }],
+            currentRecipient: ['currentRecipientSvc', function(currentRecipient) { return null; }]
         },
         showTabs: true
     })
-
-    // New : use longer url tracing intentionId for single text
+    // New : text list for a recipient and an intention
+    .when('/area/:areaName/intention/:intentionId/:recipientId', {
+      templateUrl: 'views/textList.html',
+      controller: 'TextListController',
+      resolve: {
+        currentArea: ['areasSvc', function(areasSvc) { return areasSvc.getCurrent(); }],
+        currentIntention: ['intentionsSvc', function(intentionsSvc) { return intentionsSvc.getCurrent(); }],
+        currentTextList: ['textsSvc', function(textsSvc) { return textsSvc.getCurrentList(); }],
+        currentRecipient: ['currentRecipientSvc', function(currentRecipient) { return currentRecipient.getCurrentRecipient(); }]
+      },
+      showTabs: true
+    })
     .when('/area/:areaName/intention/:intentionId/text/:textId', {
         templateUrl: 'views/textdetail.html',
         controller: 'TextDetailController',
@@ -103,8 +114,9 @@ angular.module('app/routing', [])
     .when('/Famille', {
         redirectTo: '/area/Family/intention'
     })
-
-
+    .when('/addressee/:recipientId/:intentionId', {
+      redirectTo: '/area/Addressee/intention/:intentionId/:recipientId'
+    })
 
     // Shortcut for human readable link : must be placed after other single piece parameter urls
     .when('/:intentionSlug', {
