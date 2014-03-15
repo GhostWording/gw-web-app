@@ -15,7 +15,8 @@ angular.module('app/routing', [])
         resolve: {
             currentArea: ['areasSvc', function(areasSvc) { return areasSvc.getCurrent(); }],
             currentIntention: ['intentionsSvc', function(intentionsSvc) { return intentionsSvc.getCurrent(); }],
-            currentTextList: ['textsSvc', function(textsSvc) { return textsSvc.getCurrentList(); }]
+            currentTextList: ['textsSvc', function(textsSvc) { return textsSvc.getCurrentList(); }],
+            currentRecipient: ['currentRecipientSvc', function(currentRecipient) { return null; }]
         },
         showTabs: true
     })

@@ -20,7 +20,10 @@ function ($scope, currentTextList, currentIntention, currentArea, currentUser, f
       // - set recipient gender, tuOuVous and closeness according to recipient settings
       // - filter using recipientTags
       // We could also chose to broadcast the information from currentRecipientSvc to filtersSvc
-      filtersSvc.setFiltersForRecipient(currentRecipient);
+      if ( currentRecipient ) {
+        filtersSvc.setFiltersForRecipient(currentRecipient);
+        filtersSvc.setRecipientTypeTag(currentRecipient.RecipientTypeId);
+      }
 
       // Clear the previous filter list
       $scope.filteredList.length = 0;
