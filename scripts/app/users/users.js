@@ -41,11 +41,14 @@ angular.module('app/users/users', [])
 	$rootScope.$watch(function() { return currentUser; }, function(value, oldValue) {
 		if ( value !== oldValue ) {
 			localStorage.set(key, currentUser);
+    }
+	}, true);
+  $rootScope.$watch(function() { return currentUser.subcriptions; }, function(value, oldValue) {
+    if ( value !== oldValue ) {
       console.log("sendingSuscriptionsToServer");
       serverSvc.postInStore('subscriptionStore', deviceIdSvc.get(), currentUser.subcriptions);
     }
-	}, true);
-
+  }, true);
 
   $rootScope.$on('users.subcriptionChange',function (ev,subscription) {
     currentUser.subcriptions = subscription;
@@ -54,29 +57,10 @@ angular.module('app/users/users', [])
 	return currentUser;
 }])
 
-.controller('UserProfileController', ['$scope', 'currentUser', 'userAges', function ($scope, currentUser, userAges) {
-  $scope.currentUser = currentUser;
-  $scope.userAges = userAges;
-}])
+//.controller('UserProfileController', ['$scope', 'currentUser', 'userAges', function ($scope, currentUser, userAges) {
+//  $scope.currentUser = currentUser;
+//  $scope.userAges = userAges;
+//}])
 
-.controller('UserEMailController', ['$scope', 'serverSvc','deviceIdSvc','currentUserLocalData',  function ($scope, serverSvc,deviceIdSvc,currentUserLocalData) {
-	console.log(deviceIdSvc.get());
-	$scope.user = currentUserLocalData;
-	$scope.mailChanged = false;
-	$scope.mailSent = false;
 
-	$scope.updateMail = function() {
-		$scope.mailChanged = true;
-		$scope.mailSent = false;
-	};
-
-	$scope.sendMailToServer = function () {
-		if ($scope.mailChanged) {
-			serverSvc.postInStore('mailStore', deviceIdSvc.get(), $scope.user.email)
-			.then(function (response) {
-				$scope.mailSent = true;
-				$scope.mailChanged = false;
-			});
-		}
-	};
-}]);
+;
