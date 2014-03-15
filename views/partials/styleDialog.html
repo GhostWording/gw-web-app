@@ -1,18 +1,31 @@
 <div class="modal-content">
 <div class="modal-body">
 
-   <h4>Styles à privilégier</h4>
-    <div >
-        <br/>
+   <h4 style="padding-bottom: 20px;">Styles à privilégier</h4>
+    <div>
         <label class="checkbox-inline"
+               ng-show="false"
                ng-repeat="style in generalStyles.stylesList"
                ng-if="style.visible">
             <input type="checkbox"
                    ng-model="isSelected"
                    ng-change="updateStyle(filters.preferredStyles, style, isSelected)"
-                   ng-init="isSelected = !!filters.preferredStyles.stylesById[style.id]"
-            > {{ styleLabels[style.name] || style.name }}
+                   ng-init="isSelected = !!filters.preferredStyles.stylesById[style.id]">
+                   {{ styleLabels[style.name] || style.name }}
         </label>
+
+      <div class="row" ng-repeat="style in generalStyles.stylesList" ng-if="style.visible" style="vertical-align: middle; padding-bottom: 10px ">
+        <div class="col-xs-1"></div>
+        <div class="col-xs-5" style="text-align: right">{{ styleLabels[style.name] || style.name }}</div>
+        <div class="col-xs-2">
+          <toggle-switch
+                     state="filters.preferredStyles.stylesById[style.id]"
+                     switch="updateStyle(filters.preferredStyles, style, !filters.preferredStyles.stylesById[style.id])">
+          </toggle-switch>
+        </div>
+        <div class="col-xs-4"></div>
+      </div>
+
     </div>
 
     <div ng-show="false">
@@ -31,7 +44,7 @@
  </div>  <!-- advanced filters dialog body -->
 
  <!-- advanced filters dialog footer -->
- <div class="modal-footer">
+ <div class="modal-footer" style="margin-top: 0px;">
    <span class="pull-left" ng-show="true">{{filteredList.length}} {{ nbTextLabel }}</span>
    <button class="btn btn-small btn-primary" data-dismiss="modal" ng-click="$close()">Fermer</button>
  </div><!-- advanced filters dialog footer  -->

@@ -37,7 +37,6 @@ angular.module('app/users/users', [])
 		subcriptions: null
 	};
 
-
 	$rootScope.$watch(function() { return currentUser; }, function(value, oldValue) {
 		if ( value !== oldValue ) {
 			localStorage.set(key, currentUser);
@@ -56,11 +55,6 @@ angular.module('app/users/users', [])
 
 	return currentUser;
 }])
-
-//.controller('UserProfileController', ['$scope', 'currentUser', 'userAges', function ($scope, currentUser, userAges) {
-//  $scope.currentUser = currentUser;
-//  $scope.userAges = userAges;
-//}])
 
 
 ;
