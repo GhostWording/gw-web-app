@@ -1,6 +1,7 @@
 angular.module('app/recipients/currentRecipient', [])
 
 .factory('currentRecipientSvc', ['$q', '$route','subscribableRecipientsSvc', function($q, $route,subscribableRecipientsSvc) {
+
   var service = {
 
     getCurrentRecipientId: function() {
@@ -18,8 +19,7 @@ angular.module('app/recipients/currentRecipient', [])
         }
       });
     }
-
   };
 
   return service;
-}])
+}]);

@@ -8,6 +8,7 @@ angular.module('app/recipients/subscribableRecipients', [])
 
   var service = {
     // Will be read from server in the future
+    // TODO : add a property to kwon if they are subscribable
 		getAll: function() {
 			return $q.when([
 				{ "Id": "SweetheartF", "RecipientTypeId": "9E2D23", "Gender": "F", "LocalLabel": "Ma chérie", "TuOuVous" : "T"},

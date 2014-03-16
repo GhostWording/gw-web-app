@@ -61,11 +61,11 @@ angular.module('app/routing', [])
         }
     })
 
-    .when('/recipients', {
-        templateUrl: 'views/recipients.html',
-        controller: 'RecipientListController',
+    .when('/favoriteRecipients', {
+        templateUrl: 'views/favoriteRecipients.html',
+        controller: 'SubscribableRecipientsController',
         resolve: {
-            recipients: ['subscribableRecipientsSvc', function(activeRecipientsSvc) { return activeRecipientsSvc.getAll(); }]
+            recipients: ['subscribableRecipientsSvc', function(subscribedRecipientsSvc) { return subscribedRecipientsSvc.getAll(); }]
         },
         showTabs: false
     })
@@ -73,7 +73,7 @@ angular.module('app/routing', [])
         templateUrl: 'views/subscriptions.html',
         controller: 'SubscriptionController',
         resolve: {
-            recipients: ['subscribableRecipientsSvc', function(activeRecipientsSvc) { return activeRecipientsSvc.getAll(); }]
+            recipients: ['subscribableRecipientsSvc', function(subscribedRecipientsSvc) { return subscribedRecipientsSvc.getAll(); }]
         },
         showTabs: false
     })

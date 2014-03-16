@@ -53,8 +53,8 @@ describe("subscriptionsSvc", function() {
 
   describe("getAllRecipientsWithSubscriptions", function() {
 
-    it("should return a promise to subscriptions of active recipients", inject(function(activeRecipientsSvc, subscriptionsSvc, $q, $rootScope) {
-      var dummyActiveRecipients = [
+    it("should return a promise to subscriptions of active recipients", inject(function(subscribedRecipientsSvc, subscriptionsSvc, $q, $rootScope) {
+      var dummysubscribedRecipients = [
            {"RecipientTypeId": "9E2D23"},
            {"RecipientTypeId": "87F524"},
            {"RecipientTypeId": "64C63D"}
@@ -63,7 +63,7 @@ describe("subscriptionsSvc", function() {
             {"RecipientTypeId": "9E2D23", alerts:['a','b','c']},
             {"RecipientTypeId": "87F524", alerts:['a']},
           ],
-          activeRecipientsSpy = spyOn(activeRecipientsSvc, "getActiveRecipients").andReturn($q.when(dummyActiveRecipients)),
+          subscribedRecipientsSpy = spyOn(subscribedRecipientsSvc, "getsubscribedRecipients").andReturn($q.when(dummysubscribedRecipients)),
           subscriptionRecipientsSpy = spyOn(subscriptionsSvc, "mergePossibleRecipientsWithPreviousSubscribedRecipients").andReturn(dummyRecipientsSubscriptions);
           var resultRecipients;
           subscriptionsSvc.getRecipientsWithSubscriptions().then(function(_resultRecipients_) {
@@ -79,7 +79,7 @@ describe("subscriptionsSvc", function() {
 
 });
 
-describe("RecipientListController", function() {
+describe("SubscribableRecipientsController", function() {
   var $rootScope,
       mockRecipientsSvc;
 
@@ -103,14 +103,14 @@ describe("RecipientListController", function() {
 			getStateForRecipientTypeAlerts: function(){}
 		};
 
-    $controller('RecipientListController', {$scope: $rootScope,subscribableRecipientsSvc : mocksubscribableRecipientsSvc,  activeRecipientsSvc: mockRecipientsSvc});
+    $controller('SubscribableRecipientsController', {$scope: $rootScope,subscribableRecipientsSvc : mocksubscribableRecipientsSvc,  subscribedRecipientsSvc: mockRecipientsSvc});
   }));
 
   it("should attach the provided recipients to the scope", function() {
     $rootScope.$digest();
-    expect($rootScope.lesQui.length).toBe(2);
-    expect($rootScope.lesQui[0]).toEqual('a');
-    expect($rootScope.lesQui[1]).toEqual('b');
+    expect($rootScope.recipients.length).toBe(2);
+    expect($rootScope.recipients[0]).toEqual('a');
+    expect($rootScope.recipients[1]).toEqual('b');
   });
 
   it("should attach the switch state method to the scope", function() {

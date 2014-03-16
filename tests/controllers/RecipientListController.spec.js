@@ -1,4 +1,4 @@
-describe("RecipientListController", function() {
+describe("SubscribableRecipientsController", function() {
 
   beforeEach(module('cherryApp'));
 
@@ -7,10 +7,10 @@ describe("RecipientListController", function() {
     recipients = [];
     spyOn(TypesDestinatairesStatiques, 'query').andReturn(recipients);
 
-    $controller('RecipientListController', { $scope: $rootScope });
+    $controller('SubscribableRecipientsController', { $scope: $rootScope });
   
     expect(TypesDestinatairesStatiques.query).toHaveBeenCalled();
-    expect($rootScope.lesQui).toBe(recipients);
+    expect($rootScope.recipients).toBe(recipients);
   }));
 
 });
