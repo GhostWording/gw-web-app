@@ -11,16 +11,16 @@ angular.module('app/recipients/subscribableRecipients', [])
     // TODO : add a property to kwon if they are subscribable
 		getAll: function() {
 			return $q.when([
-				{ "Id": "SweetheartF", "RecipientTypeId": "9E2D23", "Gender": "F", "LocalLabel": "Ma chérie", "TuOuVous" : "T"},
-				{ "Id": "SweetheartM", "RecipientTypeId": "9E2D23", "Gender": "H", "LocalLabel": "Mon chéri", "TuOuVous" : "T"},
-				{ "Id": "CloseFriends", "RecipientTypeId": "3B9BF2", "Gender": "I", "LocalLabel": "Les copains et les copines", "TuOuVous" : "T"},
-				{ "Id": "LongLostFriends", "RecipientTypeId": "2B4F14", "Gender": "I", "LocalLabel": "Les amis perdus de vue", "TuOuVous" : "T"},
-				{ "Id": "Sister", "RecipientTypeId": "87F524", "Gender": "F", "LocalLabel": "Ma soeur", "TuOuVous" : "T"},
-				{ "Id": "Brother", "RecipientTypeId": "87F524", "Gender": "H", "LocalLabel": "Mon frère", "TuOuVous" : "T"},
-				{ "Id": "Father", "RecipientTypeId": "64C63D", "Gender": "H", "LocalLabel": "Papa", "TuOuVous" : "T"},
-				{ "Id": "Mother", "RecipientTypeId": "64C63D", "Gender": "F", "LocalLabel": "Maman", "TuOuVous" : "T"},
-				{ "Id": "DistantRelatives", "RecipientTypeId": "BCA601", "Gender": "I", "LocalLabel": "La famille éloignée", "TuOuVous" : "T"},
-				{ "Id": "ProNetwork", "RecipientTypeId": "35AE93", "Gender": "I", "LocalLabel": "Mon réseau pro", "TuOuVous" : "I"}
+				{ "Id": "SweetheartF", "RecipientTypeId": "9E2D23", "Gender": "F", "LocalLabel": "Ma chérie", "TuOuVous" : "T", "Importance" : 1},
+				{ "Id": "SweetheartM", "RecipientTypeId": "9E2D23", "Gender": "H", "LocalLabel": "Mon chéri", "TuOuVous" : "T", "Importance" : 2},
+				{ "Id": "CloseFriends", "RecipientTypeId": "3B9BF2", "Gender": "I", "LocalLabel": "Les copains et les copines", "TuOuVous" : "T","Importance" : 3},
+				{ "Id": "LongLostFriends", "RecipientTypeId": "2B4F14", "Gender": "I", "LocalLabel": "Les amis perdus de vue", "TuOuVous" : "T","Importance" : 9},
+				{ "Id": "Sister", "RecipientTypeId": "87F524", "Gender": "F", "LocalLabel": "Ma soeur", "TuOuVous" : "T","Importance" : 5},
+				{ "Id": "Brother", "RecipientTypeId": "87F524", "Gender": "H", "LocalLabel": "Mon frère", "TuOuVous" : "T","Importance" : 6},
+				{ "Id": "Father", "RecipientTypeId": "64C63D", "Gender": "H", "LocalLabel": "Papa", "TuOuVous" : "T","Importance" : 7},
+				{ "Id": "Mother", "RecipientTypeId": "64C63D", "Gender": "F", "LocalLabel": "Maman", "TuOuVous" : "T","Importance" : 8},
+				{ "Id": "DistantRelatives", "RecipientTypeId": "BCA601", "Gender": "I", "LocalLabel": "La famille éloignée", "TuOuVous" : "T","Importance" : 10},
+				{ "Id": "ProNetwork", "RecipientTypeId": "35AE93", "Gender": "I", "LocalLabel": "Mon réseau pro", "TuOuVous" : "I","Importance" : 4}
 			]);
 		},
 

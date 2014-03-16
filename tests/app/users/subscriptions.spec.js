@@ -4,11 +4,11 @@ describe("subscriptionsSvc", function() {
   beforeEach(module('app/users'));
   beforeEach(module('common/services/deviceIdSvc'));
 
-	describe("getAllPossibleSubscriptions", function() {
+	describe("getLikelyIntentionsForRecipients", function() {
 
 		it("should return a promise to an array of possible subscriptions", inject(function($rootScope, subscribableIntentionsSvc){
 			var possibleSubscriptions;
-			subscribableIntentionsSvc.getAllPossibleSubscriptions().then(function(_possibleSubscriptions_) {
+			subscribableIntentionsSvc.getLikelyIntentionsForRecipients().then(function(_possibleSubscriptions_) {
 				possibleSubscriptions = _possibleSubscriptions_;
 			});
       // Force promise to resolve
@@ -35,7 +35,7 @@ describe("subscriptionsSvc", function() {
 				{"RecipientTypeId": "64C63D"},
 				{"RecipientTypeId": "3B9BF2"}
 			],
-			getAllSubscriptionsSpy = spyOn(subscribableIntentionsSvc, 'getAllPossibleSubscriptions').andReturn($q.when(dummySubscriptions));
+			getAllSubscriptionsSpy = spyOn(subscribableIntentionsSvc, 'getLikelyIntentionsForRecipients').andReturn($q.when(dummySubscriptions));
 
 			var resultRecipients;
 			subscriptionsSvc.mergePossibleRecipientsWithPreviousSubscribedRecipients(dummyRecipients).then(function(_recipients_) {

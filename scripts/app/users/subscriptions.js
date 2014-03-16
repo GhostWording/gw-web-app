@@ -66,7 +66,7 @@ angular.module('app/users/subscriptions',['app/recipients'])
       //  - check if we already have data for it in our subscriptions
       //  - else use default subscriptions for this recipient (typically provided by the server)
       mergePossibleRecipientsWithPreviousSubscribedRecipients: function (subscribedRecipients) {
-        return subscribableIntentionsSvc.getAllPossibleSubscriptions().then(function (possibleSubscriptions) {
+        return subscribableIntentionsSvc.getIntentionsThatCanBeSubscribedForRecipients().then(function (possibleSubscriptions) {
           var recipientsWithSubscriptions = [];
           // For each active recipient, populate alerts with applicable intention subscriptions
           for (var i = subscribedRecipients.length - 1; i >= 0; i--) {

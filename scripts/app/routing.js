@@ -69,6 +69,14 @@ angular.module('app/routing', [])
         },
         showTabs: false
     })
+    .when('/recipientList', {
+      templateUrl: 'views/recipientList.html',
+      controller: 'OneTimeRecipientsController',
+      resolve: {
+        recipients: ['subscribableRecipientsSvc', function(subscribedRecipientsSvc) { return subscribedRecipientsSvc.getAll(); }]
+      },
+      showTabs: false
+    })
     .when('/subscriptions', {
         templateUrl: 'views/subscriptions.html',
         controller: 'SubscriptionController',
@@ -123,9 +131,7 @@ angular.module('app/routing', [])
         templateUrl: 'views/textList.html',
         controller: 'TextListController'
     })
-
     .otherwise({
-//        redirectTo: '/splashscreen'
         redirectTo: '/'
     });
 }]);

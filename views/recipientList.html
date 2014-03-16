@@ -1,0 +1,18 @@
+<div ng-show="true" style="text-align: center;">
+  <div class="row" style="margin-top: 5px; margin-bottom: 25px; font-size: 16px;" >
+    <div class="splashTitle">
+      Choisir un destinataire
+    </div>
+  </div>
+
+  <div class = "listeTypeDestinataire" >
+    <div ng-repeat="qui in recipients" >
+      <ul class="pager bmwQuestionButton" >
+        <li>
+          <a href="" ng-click = "switchState(qui.Id)">{{ qui.LocalLabel }}</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+</div>
