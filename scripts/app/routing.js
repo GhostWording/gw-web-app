@@ -12,7 +12,7 @@ angular.module('app/routing', [])
         showTabs: true
     })
     // Intention list for an area and a recipient
-    .when('/area/:areaName/intention/:recipientId', {
+    .when('/area/:areaName/recipient/:recipientId', {
       templateUrl: 'views/intentionList.html',
       controller: 'IntentionListController',
       resolve: {
@@ -22,8 +22,8 @@ angular.module('app/routing', [])
       showTabs: true
     })
     // Text list for an intention
-//    .when('/area/:areaName/intention/:intentionId/text', {
-.when('/area/:areaName/intention/:intentionId/recipient//text', {
+    //.when('/area/:areaName/intention/:intentionId/text', {
+    .when('/area/:areaName/intention/:intentionId/recipient//text', {
         templateUrl: 'views/textList.html',
         controller: 'TextListController',
         resolve: {
@@ -35,8 +35,7 @@ angular.module('app/routing', [])
         showTabs: true
     })
     // New : text list for a recipient and an intention
-//    .when('/area/:areaName/intention/:intentionId/text/:recipientId', {
-.when('/area/:areaName/intention/:intentionId/recipient/:recipientId/text', {
+    .when('/area/:areaName/intention/:intentionId/recipient/:recipientId/text', {
       templateUrl: 'views/textList.html',
       controller: 'TextListController',
       resolve: {
@@ -49,10 +48,9 @@ angular.module('app/routing', [])
     })
     // shortcut : text list for recipient and intention like /addressee/Father/xxxx
     .when('/addressee/:recipientId/:intentionId', {
-      redirectTo: '/area/Addressee/intention/:intentionId/text/:recipientId'
+      redirectTo: '/area/Addressee/intention/:intentionId/recipient/:recipientId/text/'
     })
-    // Text detail : should have a text detail for a recipient as well
-//    .when('/area/:areaName/intention/:intentionId/text/:textId', {
+    //.when('/area/:areaName/intention/:intentionId/text/:textId', {
     .when('/area/:areaName/intention/:intentionId/recipient/:recipientId/text/:textId', {
         templateUrl: 'views/textdetail.html',
         controller: 'TextDetailController',
@@ -63,16 +61,16 @@ angular.module('app/routing', [])
             currentRecipient: ['currentRecipientSvc', function(currentRecipientSvc) { return currentRecipientSvc.getCurrentRecipient(); }]
         }
     })
-  .when('/area/:areaName/intention/:intentionId/recipient//text/:textId', {
-    templateUrl: 'views/textdetail.html',
-    controller: 'TextDetailController',
-    resolve: {
-      currentArea: ['areasSvc', function(areasSvc) { return areasSvc.getCurrent(); }],
-      currentIntention: ['intentionsSvc', function(intentionsSvc) { return intentionsSvc.getCurrent(); }],
-      currentText: ['textsSvc', function(textsSvc) { return textsSvc.getCurrent(); }],
-      currentRecipient: ['currentRecipientSvc', function(currentRecipientSvc) { return null; }]
-    }
-  })
+    .when('/area/:areaName/intention/:intentionId/recipient//text/:textId', {
+      templateUrl: 'views/textdetail.html',
+      controller: 'TextDetailController',
+      resolve: {
+        currentArea: ['areasSvc', function(areasSvc) { return areasSvc.getCurrent(); }],
+        currentIntention: ['intentionsSvc', function(intentionsSvc) { return intentionsSvc.getCurrent(); }],
+        currentText: ['textsSvc', function(textsSvc) { return textsSvc.getCurrent(); }],
+        currentRecipient: ['currentRecipientSvc', function(currentRecipientSvc) { return null; }]
+      }
+    })
     // Not sure to use this one
     .when('/area/:areaName/text/:textId', {
         templateUrl: 'views/textdetail.html',
