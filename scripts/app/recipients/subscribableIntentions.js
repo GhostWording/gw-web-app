@@ -57,10 +57,22 @@ angular.module('app/recipients/subscribableIntentions', [])
         return filterByFrequency(value, true);
       })
     },
-    getLikelyIntentionsforGivenRecipienttype: function (recipientTypeId) {
+    getLikelyIntentionsforGivenRecipientType: function (recipientTypeId) {
       return service.getLikelyIntentionsForRecipients().then(function (value) {
         return filterByRecipientTypeId(value, recipientTypeId);
       })
+    },
+    getFullIntentionObjectsFromLikelyIntentions: function(intentions, likelyIntentions) {
+      var matchedIntentions=[];
+      for (var i = 0; i < intentions.length; i++) {
+        for (var j = 0; j < likelyIntentions.length; j++) {
+          if ( intentions[i].IntentionId == likelyIntentions[j].IntentionId) {
+            matchedIntentions.push(intentions[i]);
+            break;
+          }
+        }
+      }
+      return matchedIntentions;
     }
 
   };

@@ -1,13 +1,25 @@
 angular.module('app/routing', [])
 
 .config(['$routeProvider', function ($routeProvider) { $routeProvider
+    // Intention list for an area
     .when('/area/:areaName/intention', {
         templateUrl: 'views/intentionList.html',
-        controller: 'NewIntentionListController',
+        controller: 'IntentionListController',
         resolve: {
-            currentArea: ['areasSvc', function(areasSvc) { return areasSvc.getCurrent(); }]
+          currentArea: ['areasSvc', function(areasSvc) { return areasSvc.getCurrent(); }],
+          currentRecipient: ['currentRecipientSvc', function(currentRecipient) { return null; }]
         },
         showTabs: true
+    })
+    // Intention list for an area and a recipient
+    .when('/area/:areaName/intention/:recipientId', {
+      templateUrl: 'views/intentionList.html',
+      controller: 'IntentionListController',
+      resolve: {
+        currentArea: ['areasSvc', function(areasSvc) { return areasSvc.getCurrent(); }],
+        currentRecipient: ['currentRecipientSvc', function(currentRecipient) { return currentRecipient.getCurrentRecipient(); }]
+      },
+      showTabs: true
     })
     .when('/area/:areaName/intention/:intentionId/text', {
         templateUrl: 'views/textList.html',
@@ -28,7 +40,6 @@ angular.module('app/routing', [])
         currentArea: ['areasSvc', function(areasSvc) { return areasSvc.getCurrent(); }],
         currentIntention: ['intentionsSvc', function(intentionsSvc) { return intentionsSvc.getCurrent(); }],
         currentTextList: ['textsSvc', function(textsSvc) { return textsSvc.getCurrentList(); }],
-        currentRecipient: ['currentRecipientSvc', function(currentRecipient) { return currentRecipient.getCurrentRecipient(); }]
       },
       showTabs: true
     })
