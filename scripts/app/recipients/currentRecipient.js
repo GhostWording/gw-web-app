@@ -1,10 +1,14 @@
 angular.module('app/recipients/currentRecipient', [])
 
 .factory('currentRecipientSvc', ['$q', '$route','subscribableRecipientsSvc', function($q, $route,subscribableRecipientsSvc) {
+
   var service = {
 
     getCurrentRecipientId: function() {
       return $route.current && $route.current.params.recipientId;
+    },
+    getBlankValue: function() {
+      return '';
     },
 
     getCurrentRecipient: function() {
@@ -13,13 +17,11 @@ angular.module('app/recipients/currentRecipient', [])
         return null;
       return subscribableRecipientsSvc.getRecipients().then(function(subscribableRecipients) {
         if ( subscribableRecipients ) {
-          var currentRecipient = subscribableRecipientsSvc.getFromRecipients(subscribableRecipients,currentRecipientId);
-          return currentRecipient;
+          return  subscribableRecipientsSvc.getFromRecipients(subscribableRecipients,currentRecipientId);
         }
       });
     }
-
   };
 
   return service;
-}])
+}]);

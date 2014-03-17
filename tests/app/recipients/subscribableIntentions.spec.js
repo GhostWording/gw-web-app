@@ -3,11 +3,11 @@ describe("subscribableIntentionsSvc", function() {
   //beforeEach(module('app/users'));
   beforeEach(module('app/recipients'));
 
-  describe("getAllPossibleSubscriptions", function() {
+  describe("getLikelyIntentionsForRecipients", function() {
 
     it("should return a promise to an array of possible subscriptions", inject(function($rootScope, subscribableIntentionsSvc){
       var possibleSubscriptions;
-      subscribableIntentionsSvc.getAllPossibleSubscriptions().then(function(_possibleSubscriptions_) {
+      subscribableIntentionsSvc.getLikelyIntentionsForRecipients().then(function(_possibleSubscriptions_) {
         possibleSubscriptions = _possibleSubscriptions_;
       });
       // Force promise to resolve

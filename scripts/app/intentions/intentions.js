@@ -35,29 +35,27 @@ angular.module('app/intentions', ['app/areas', 'common/services/cache', 'common/
         return serverSvc.get(areaName + '/intention/' + intentionId);
       });
     },
+    groupItems: function(items, columns) {
+      var rows = [];
+      while(items.length>0) {
+        rows.push(items.splice(0,columns));
+      }
+      return rows;
+    }
 
   };
 
   return service;
 }])
 
-.controller('NewIntentionListController', ['$scope', 'currentArea', 'intentionsSvc', function($scope, currentArea, intentionsSvc) {
-
-  var groupItems = function(items, columns) {
-    var rows = [];
-    while(items.length>0) {
-      rows.push(items.splice(0,columns));
-    }
-    return rows;
-  };
+.controller('IntentionListController', ['$scope', 'currentArea', 'intentionsSvc','currentRecipientSvc','subscribableIntentionsSvc',
+function($scope, currentArea, intentionsSvc,currentRecipientSvc,subscribableIntentionsSvc) {
 
   // Choose title according to areaId : TODO : move to localisation service
   var AREA_PAGE_TITLE = {
     "Friends" : "Dites-le aux amis",
     "LoveLife" : "Dites-lui !",
     "Family" : "Dites-leur !",
-    "DayToDay" : "Vie quotidienne",
-    "Sentimental" : "Vie sentimentale",
     "Important" : "Occasions spéciales", // événements notables, saillants, singulier
     "Formalities" : "Expédiez les formalités !",
   };
@@ -67,13 +65,41 @@ angular.module('app/intentions', ['app/areas', 'common/services/cache', 'common/
     console.log("Unknown area : ", currentArea);
   }
 
-
   $scope.currentArea = currentArea;
+  var ITEMS_PER_ROW = 3;
 
-  // Get the intentions - it may be possible to move this to the resolve section of the route
-  intentionsSvc.getForArea(currentArea.Name).then(function(intentions) {
-    var ITEMS_PER_ROW = 3;
-    $scope.groupedIntentions = groupItems(intentions, ITEMS_PER_ROW);
-  });
+  var recipientId = currentRecipientSvc.getCurrentRecipientId();
+  // Get intentions for the current recipient : all this mess will be replaced by a call to server when it's up to date with recipient stull
+  if ( recipientId && recipientId != 'none' && recipientId !== '' ) {
+    $scope.recipientId = recipientId;
+    currentRecipientSvc.getCurrentRecipient()
+      // Get recipientTYPE Id (different from recipient id)
+      .then(function (currentRecipient) {
+        return currentRecipient.RecipientTypeId;
+      })
+      // Get LikelyIntentions for the RecipientType : we should directly get intentions from the server
+      .then(function(recipientTypeId) {
+        return subscribableIntentionsSvc.getLikelyIntentionsforGivenRecipientType(recipientTypeId)
+          .then(function(likelyIntentions) {
+             return likelyIntentions;});
+      })
+      // Using intentionId property in likelyIntentions, get the full intentions from the intention list
+      .then(function (likelyIntentions) {
+        return intentionsSvc.getForArea(currentArea.Name)
+        .then(function (intentions) {
+          return subscribableIntentionsSvc.getFullIntentionObjectsFromLikelyIntentions(intentions, likelyIntentions);});
+      })
+      // Get intentions from the ids of our likely intentions
+      .then (function(intentions) {
+        $scope.groupedIntentions = intentionsSvc.groupItems(intentions, ITEMS_PER_ROW);
+       })
+      ;
+  }
+  else
+    // Get intentions for the current area
+    intentionsSvc.getForArea(currentArea.Name)
+      .then(function(intentions) {
+        $scope.groupedIntentions = intentionsSvc.groupItems(intentions, ITEMS_PER_ROW);
+        });
 
 }]);

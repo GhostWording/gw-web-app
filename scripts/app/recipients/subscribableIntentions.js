@@ -1,9 +1,32 @@
 angular.module('app/recipients/subscribableIntentions', [])
 
 .factory('subscribableIntentionsSvc', ['$q', function ($q) {
-	var service = {
 
-		getAllPossibleSubscriptions: function() {
+  var filterByFrequency = function (intentionsForRecipient,onlySubscribable) {
+    var retval = [];
+    angular.forEach(intentionsForRecipient,
+    function (t) {
+      var isARepeatRecipient = t.Freq && t.Freq != 'once';
+      if ( onlySubscribable == isARepeatRecipient )
+        retval.push(t);
+    });
+    return retval;
+  };
+
+  var filterByRecipientTypeId = function (intentionsForRecipient,recipientTypeId) {
+    var retval = [];
+    angular.forEach(intentionsForRecipient,
+    function (t) {
+      if (t.RecipientTypeId == recipientTypeId )
+        retval.push(t);
+    });
+    return retval;
+  };
+
+
+  var service = {
+
+		getLikelyIntentionsForRecipients: function() {
 			return $q.when([
 				{ "RecipientTypeId": "9E2D23", "IntentionId": "016E91", "IntentionLabel" : "Je pense à toi",    "Freq": "1-day",   "FreqLabel":"1 par jour"}, // Sweetheart => Je pense à toi
 				{ "RecipientTypeId": "9E2D23", "IntentionId": "F4566D", "IntentionLabel" : "J'ai envie de toi", "Freq": "1-week",  "FreqLabel":"1 par semaine" }, // Sweetheart => J'ai envie de toi
@@ -24,9 +47,35 @@ angular.module('app/recipients/subscribableIntentions', [])
 				{ "RecipientTypeId": "BCA601", "IntentionId": "F82B5C", "IntentionLabel" : "Que deviens-tu ?",  "Freq": "1-week", "FreqLabel":"1 par semaine"}, // DistantRelativs
 				{ "RecipientTypeId": "35AE93", "IntentionId": "F82B5C", "IntentionLabel" : "Que deviens-tu ?",  "Freq": "1-week", "FreqLabel":"1 par semaine"}, // ProfessionalNetwork
 				{ "RecipientTypeId": "35AE93", "IntentionId": "916FFC", "IntentionLabel" : "Prenons un verre",  "Freq": "1-week", "FreqLabel":"1 par semaine"}, // ProfessionalNetwork
-			]);
-		}
+        { "RecipientTypeId": "35AE93", "IntentionId": "F18A92", "IntentionLabel" : "Restons en contact"}, // ProfessionalNetwork
 
-	};
+			]);
+		},
+
+    getIntentionsThatCanBeSubscribedForRecipients: function () {
+      return service.getLikelyIntentionsForRecipients().then(function (value) {
+        return filterByFrequency(value, true);
+      });
+    },
+    getLikelyIntentionsforGivenRecipientType: function (recipientTypeId) {
+      return service.getLikelyIntentionsForRecipients().then(function (value) {
+        return filterByRecipientTypeId(value, recipientTypeId);
+      });
+    },
+    getFullIntentionObjectsFromLikelyIntentions: function(intentions, likelyIntentions) {
+      var matchedIntentions=[];
+      for (var i = 0; i < intentions.length; i++) {
+        for (var j = 0; j < likelyIntentions.length; j++) {
+          if ( intentions[i].IntentionId == likelyIntentions[j].IntentionId) {
+            matchedIntentions.push(intentions[i]);
+            break;
+          }
+        }
+      }
+      return matchedIntentions;
+    }
+
+  };
+
 	return service;
 }]);

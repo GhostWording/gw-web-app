@@ -1,7 +1,7 @@
 angular.module('app/users/subscriptions',['app/recipients'])
 
-.factory('subscriptionsSvc', ['$q','activeRecipientsSvc','subscribableIntentionsSvc','$rootScope','localStorage',
-	function ($q, activeRecipientsSvc,subscribableIntentionsSvc,$rootScope,localStorage) {
+.factory('subscriptionsSvc', ['$q','subscribedRecipientsSvc','subscribableIntentionsSvc','$rootScope','localStorage',
+	function ($q, subscribedRecipientsSvc,subscribableIntentionsSvc,$rootScope,localStorage) {
 		var service = {
       // An array of subscribed recipients to which subscribed intentions are attached
       subscribedRecipients : [],
@@ -65,12 +65,12 @@ angular.module('app/users/subscriptions',['app/recipients'])
       //  For each possible recipient ( = server says it can be subscribed and user has selected it)
       //  - check if we already have data for it in our subscriptions
       //  - else use default subscriptions for this recipient (typically provided by the server)
-      mergePossibleRecipientsWithPreviousSubscribedRecipients: function (activeRecipients) {
-        return subscribableIntentionsSvc.getAllPossibleSubscriptions().then(function (possibleSubscriptions) {
+      mergePossibleRecipientsWithPreviousSubscribedRecipients: function (subscribedRecipients) {
+        return subscribableIntentionsSvc.getIntentionsThatCanBeSubscribedForRecipients().then(function (possibleSubscriptions) {
           var recipientsWithSubscriptions = [];
           // For each active recipient, populate alerts with applicable intention subscriptions
-          for (var i = activeRecipients.length - 1; i >= 0; i--) {
-            var recipient = activeRecipients[i];
+          for (var i = subscribedRecipients.length - 1; i >= 0; i--) {
+            var recipient = subscribedRecipients[i];
             var recipientTypeId = recipient.RecipientTypeId;
             var recipientId = recipient.Id;
             // Add what we already have if we have something
@@ -92,14 +92,14 @@ angular.module('app/users/subscriptions',['app/recipients'])
               }
             }
           }
-          service.subscribedRecipients = activeRecipients;
-          return activeRecipients;
+          service.subscribedRecipients = subscribedRecipients;
+          return subscribedRecipients;
         });
       },
       getRecipientsWithSubscriptions: function () {
-        return activeRecipientsSvc.getActiveRecipients()
-        .then(function (activeRecipients) {
-          return service.mergePossibleRecipientsWithPreviousSubscribedRecipients(activeRecipients);
+        return subscribedRecipientsSvc.getsubscribedRecipients()
+        .then(function (subscribedRecipients) {
+          return service.mergePossibleRecipientsWithPreviousSubscribedRecipients(subscribedRecipients);
         })
         .then(function (subscriptions) {
           $rootScope.$broadcast('users.subcriptionChange', subscriptions);
@@ -110,8 +110,8 @@ angular.module('app/users/subscriptions',['app/recipients'])
 		return service;
 	}])
 
-.controller('SubscriptionController', ['$scope', 'activeRecipientsSvc', 'subscriptionsSvc','serverSvc','currentUserLocalData','deviceIdSvc',
-	function ($scope, activeRecipientsSvc, subscriptionsSvc,serverSvc,currentUserLocalData,deviceIdSvc) {
+.controller('SubscriptionController', ['$scope', 'subscribedRecipientsSvc', 'subscriptionsSvc','serverSvc','currentUserLocalData','deviceIdSvc',
+	function ($scope, subscribedRecipientsSvc, subscriptionsSvc,serverSvc,currentUserLocalData,deviceIdSvc) {
 
 		subscriptionsSvc.getRecipientsWithSubscriptions().then(function (value) {
 			$scope.recipientsWithSubscriptions = value;

@@ -1,47 +1,79 @@
 angular.module('app/routing', [])
 
 .config(['$routeProvider', function ($routeProvider) { $routeProvider
+    // Intention list for an area
     .when('/area/:areaName/intention', {
         templateUrl: 'views/intentionList.html',
-        controller: 'NewIntentionListController',
+        controller: 'IntentionListController',
         resolve: {
-            currentArea: ['areasSvc', function(areasSvc) { return areasSvc.getCurrent(); }]
+          currentArea: ['areasSvc', function(areasSvc) { return areasSvc.getCurrent(); }],
+          currentRecipient: ['currentRecipientSvc', function(currentRecipient) { return null; }]
         },
         showTabs: true
     })
-    .when('/area/:areaName/intention/:intentionId/text', {
+    // Intention list for an area and a recipient
+    .when('/area/:areaName/intention/:recipientId', {
+      templateUrl: 'views/intentionList.html',
+      controller: 'IntentionListController',
+      resolve: {
+        currentArea: ['areasSvc', function(areasSvc) { return areasSvc.getCurrent(); }],
+        currentRecipient: ['currentRecipientSvc', function(currentRecipientSvc) { return currentRecipientSvc.getCurrentRecipient(); }]
+      },
+      showTabs: true
+    })
+    // Text list for an intention
+//    .when('/area/:areaName/intention/:intentionId/text', {
+.when('/area/:areaName/intention/:intentionId/recipient//text', {
         templateUrl: 'views/textList.html',
         controller: 'TextListController',
         resolve: {
             currentArea: ['areasSvc', function(areasSvc) { return areasSvc.getCurrent(); }],
             currentIntention: ['intentionsSvc', function(intentionsSvc) { return intentionsSvc.getCurrent(); }],
             currentTextList: ['textsSvc', function(textsSvc) { return textsSvc.getCurrentList(); }],
-            currentRecipient: ['currentRecipientSvc', function(currentRecipient) { return null; }]
+            currentRecipient: ['currentRecipientSvc', function(currentRecipientSvc) { return null; }]
         },
         showTabs: true
     })
     // New : text list for a recipient and an intention
-    .when('/area/:areaName/intention/:intentionId/:recipientId', {
+//    .when('/area/:areaName/intention/:intentionId/text/:recipientId', {
+.when('/area/:areaName/intention/:intentionId/recipient/:recipientId/text', {
       templateUrl: 'views/textList.html',
       controller: 'TextListController',
       resolve: {
         currentArea: ['areasSvc', function(areasSvc) { return areasSvc.getCurrent(); }],
         currentIntention: ['intentionsSvc', function(intentionsSvc) { return intentionsSvc.getCurrent(); }],
         currentTextList: ['textsSvc', function(textsSvc) { return textsSvc.getCurrentList(); }],
-        currentRecipient: ['currentRecipientSvc', function(currentRecipient) { return currentRecipient.getCurrentRecipient(); }]
+        currentRecipient: ['currentRecipientSvc', function(currentRecipientSvc) { return currentRecipientSvc.getCurrentRecipient(); }]
       },
       showTabs: true
     })
-    .when('/area/:areaName/intention/:intentionId/text/:textId', {
+    // shortcut : text list for recipient and intention like /addressee/Father/xxxx
+    .when('/addressee/:recipientId/:intentionId', {
+      redirectTo: '/area/Addressee/intention/:intentionId/text/:recipientId'
+    })
+    // Text detail : should have a text detail for a recipient as well
+//    .when('/area/:areaName/intention/:intentionId/text/:textId', {
+    .when('/area/:areaName/intention/:intentionId/recipient/:recipientId/text/:textId', {
         templateUrl: 'views/textdetail.html',
         controller: 'TextDetailController',
         resolve: {
             currentArea: ['areasSvc', function(areasSvc) { return areasSvc.getCurrent(); }],
             currentIntention: ['intentionsSvc', function(intentionsSvc) { return intentionsSvc.getCurrent(); }],
-            currentText: ['textsSvc', function(textsSvc) { return textsSvc.getCurrent(); }]
+            currentText: ['textsSvc', function(textsSvc) { return textsSvc.getCurrent(); }],
+            currentRecipient: ['currentRecipientSvc', function(currentRecipientSvc) { return currentRecipientSvc.getCurrentRecipient(); }]
         }
     })
-
+  .when('/area/:areaName/intention/:intentionId/recipient//text/:textId', {
+    templateUrl: 'views/textdetail.html',
+    controller: 'TextDetailController',
+    resolve: {
+      currentArea: ['areasSvc', function(areasSvc) { return areasSvc.getCurrent(); }],
+      currentIntention: ['intentionsSvc', function(intentionsSvc) { return intentionsSvc.getCurrent(); }],
+      currentText: ['textsSvc', function(textsSvc) { return textsSvc.getCurrent(); }],
+      currentRecipient: ['currentRecipientSvc', function(currentRecipientSvc) { return null; }]
+    }
+  })
+    // Not sure to use this one
     .when('/area/:areaName/text/:textId', {
         templateUrl: 'views/textdetail.html',
         controller: 'TextDetailController',
@@ -61,19 +93,30 @@ angular.module('app/routing', [])
         }
     })
 
-    .when('/recipients', {
-        templateUrl: 'views/recipients.html',
-        controller: 'RecipientListController',
+    .when('/favoriteRecipients', {
+        templateUrl: 'views/favoriteRecipients.html',
+        controller: 'SubscribableRecipientsController',
         resolve: {
-            recipients: ['subscribableRecipientsSvc', function(activeRecipientsSvc) { return activeRecipientsSvc.getAll(); }]
+            recipients: ['subscribableRecipientsSvc', function(subscribedRecipientsSvc) { return subscribedRecipientsSvc.getAll(); }]
         },
         showTabs: false
+    })
+    .when('/area/:areaName/recipients', {
+      templateUrl: 'views/recipientList.html',
+      controller: 'OneTimeRecipientsController',
+      resolve: {
+        recipients: ['subscribableRecipientsSvc', function(subscribedRecipientsSvc) { return subscribedRecipientsSvc.getAll(); }]
+      },
+      showTabs: false
+    })
+    .when('/recipientList', {
+      redirectTo: '/area/Addressee/recipients'
     })
     .when('/subscriptions', {
         templateUrl: 'views/subscriptions.html',
         controller: 'SubscriptionController',
         resolve: {
-            recipients: ['subscribableRecipientsSvc', function(activeRecipientsSvc) { return activeRecipientsSvc.getAll(); }]
+            recipients: ['subscribableRecipientsSvc', function(subscribedRecipientsSvc) { return subscribedRecipientsSvc.getAll(); }]
         },
         showTabs: false
     })
@@ -114,18 +157,14 @@ angular.module('app/routing', [])
     .when('/Famille', {
         redirectTo: '/area/Family/intention'
     })
-    .when('/addressee/:recipientId/:intentionId', {
-      redirectTo: '/area/Addressee/intention/:intentionId/:recipientId'
-    })
+
 
     // Shortcut for human readable link : must be placed after other single piece parameter urls
     .when('/:intentionSlug', {
         templateUrl: 'views/textList.html',
         controller: 'TextListController'
     })
-
     .otherwise({
-//        redirectTo: '/splashscreen'
         redirectTo: '/'
     });
 }]);

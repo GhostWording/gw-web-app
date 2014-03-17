@@ -1,120 +1,119 @@
 ﻿<html lang="en">
-    <head>
-        <!--<script src="http://api.cvd.io/userevent?ActionLocation=Header&ActionType=Load&AreaId=na&ClientTime=&TargetId=na"></script>-->
+  <head>
+    <!--<script src="http://api.cvd.io/userevent?ActionLocation=Header&ActionType=Load&AreaId=na&ClientTime=&TargetId=na"></script>-->
 
-        <base href="/">
-        <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-        <!--<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+    <base href="/">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
 
-        <!--Angular and Bootstrap -->
-        <!--<script src="assets/jquery/dist/jquery.min.js"></script>-->
-        <!--<script src="assets/bootstrap/dist/js/bootstrap.min.js"></script>-->
+    <!--Angular and Bootstrap -->
+    <script src="assets/angular/angular.js"></script>
+    <script src="assets/angular-cookies/angular-cookies.js"></script>
+    <script src="assets/angular-sanitize/angular-sanitize.js"></script>
+    <script src="assets/angular-route/angular-route.js"></script>
+    <script src="scripts/lib/bootstrap-custom/ui-bootstrap-custom-tpls-0.10.0.js"></script>
 
-        <script src="assets/angular/angular.js"></script>
-        <script src="assets/angular-cookies/angular-cookies.js"></script>
-        <script src="assets/angular-sanitize/angular-sanitize.js"></script>
-        <script src="assets/angular-route/angular-route.js"></script>
+    <!--Reminder : include Respond.js for IE8 support with bootstrap 3.0 -->
 
-        <script src="scripts/lib/bootstrap-custom/ui-bootstrap-custom-tpls-0.10.0.js"></script>
+    <!--Prevent 300 ms delay on Android, does not seem to make a difference, verify initialisation -->
+    <script src="scripts/lib/fastclick.js"></script>
+    <script type="application/javascript">
+    window.addEventListener('load', function () {
+    FastClick.attach(document.body);
+    }, false);
+    </script>
 
-        <!--Reminder : include Respond.js for IE8 support with bootstrap 3.0 -->
+    <!--Google scripts-->
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-        <!--Prevent 300 ms delay on Android, does not seem to make a difference, verify initialisation -->
-        <script src="scripts/lib/fastclick.js"></script>
-        <script type="application/javascript">
-        window.addEventListener('load', function () {
-        FastClick.attach(document.body);
-        }, false);
-        </script>
+        ga('create', 'UA-47718196-1', 'commentvousdire.com');
+        ga('require', 'linkid', 'linkid.js');
+        ga('send', 'pageview');
+    </script>
 
-        <script>
-            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-                    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-47718196-1']);
+        _gaq.push(['_trackPageview']);
+        (function () {
+            var ga = document.createElement('script');
+            ga.type = 'text/javascript';
+            ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
 
-            ga('create', 'UA-47718196-1', 'commentvousdire.com');
-            ga('send', 'pageview');
-        </script>
+    <!--CSS -->
+    <link href="assets/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/app.css">
+    <meta charset="utf-8">
+    <title>Comment vous dire</title>
+    <meta name="description" content="Les mots sur le bout de la langue. L'inspiration au bout des doigts.">
+    <meta name="google-site-verification" content="Yancq9d1odgL9tS_cPdZuci56Rmh5J30ASqLN4Mk3Wk" />
 
-        <script type="text/javascript">
-            var _gaq = _gaq || [];
-            _gaq.push(['_setAccount', 'UA-47718196-1']);
-            _gaq.push(['_trackPageview']);
-            (function () {
-                var ga = document.createElement('script');
-                ga.type = 'text/javascript';
-                ga.async = true;
-                ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
-                var s = document.getElementsByTagName('script')[0];
-                s.parentNode.insertBefore(ga, s);
-            })();
-        </script>
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+        <script src="./scripts/lib/html5shiv.js"></script>
+    <![endif]-->
 
-        <!--CSS -->
-        <link href="assets/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-        <link rel="stylesheet" href="assets/app.css">
-        <meta charset="utf-8">
-        <title>Comment vous dire</title>
-        <meta name="description" content="Les mots sur le bout de la langue. L'inspiration au bout des doigts.">
-        <meta name="google-site-verification" content="Yancq9d1odgL9tS_cPdZuci56Rmh5J30ASqLN4Mk3Wk" />
+    <!-- Fav and touch icons -->
+    <!--<link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">-->
+    <link rel="icon"   type="image/jpg"   href="assets/favicon-bmw-32.jpg">
+    <link rel="shortcut icon"  href="assets/favicon-bmw-32.jpg">
+  </head>
 
-        <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
-        <!--[if lt IE 9]>
-            <script src="./scripts/lib/html5shiv.js"></script>
-        <![endif]-->
-  
-        <!-- Fav and touch icons -->
-        <!--<link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">-->
-        <link rel="icon"   type="image/jpg"   href="assets/favicon-bmw-32.jpg">
-        <link rel="shortcut icon"  href="assets/favicon-bmw-32.jpg">
-    </head>
+  <body ng-app='cherryApp' id="leCorps">
 
-<body ng-app='cherryApp' id="leCorps">
-
-<!-- Menu bar -->
-  <nav class="navbar navbar-inverse navbar-static-top" role="navigation" ng-init="navCollapsed = true" data-ng-controller="NavBarController" action-location="NavBar" >
+    <!-- Menu bar -->
+    <nav class="navbar navbar-inverse navbar-static-top" role="navigation" ng-init="navCollapsed = true"
+         data-ng-controller="NavBarController" action-location="NavBar">
       <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" ng-click="navCollapsed = !navCollapsed" data-target="#bs-example-navbar-collapse-1">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#" TargetId="welcome">CommentVousDire</a>
+        <button type="button" class="navbar-toggle" data-toggle="collapse" ng-click="navCollapsed = !navCollapsed"
+                data-target="#bs-example-navbar-collapse-1">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/" TargetId="welcome">CommentVousDire</a>
       </div>
       <div class="collapse navbar-collapse" ng-class="!navCollapsed && 'in'" ng-click="navCollapsed=true">
-          <ul class="nav navbar-nav pull-right">
-              <li class="active"><a href="userprofile"  >Votre profil</a></li>
-              <li class="active"><a href="recipients"  >Vos destinataires</a></li>
-              <li class="active"><a href="about" >A propos</a></li>
-          </ul>
+        <ul class="nav navbar-nav pull-right">
+          <li class="active"><a href="userprofile">Votre profil</a></li>
+          <li class="active"><a href="favoriteRecipients">Destinataires favoris</a></li>
+          <li class="active"><a href="recipientList">Quelques mots pour</a></li>
+          <li class="active"><a href="about">A propos</a></li>
+        </ul>
       </div>
-  </nav>
+    </nav>
 
-  <div data-ng-controller="CherryController" class="container">
-    <div ng-controller="TabController">
-         <div class="tabBar" ng-show="showTabs" action-location="Tabs">
-             <ul id="myTab" class="nav nav-pills ">
-                <li ng-class="{active: currentAreaName() == tab.name}" ng-repeat="tab in tabs">
-                    <a href="area/{{tab.name}}/intention"> {{tab.label}} </a>
-                </li>
-             </ul>
+    <!-- Container -->
+    <div data-ng-controller="CherryController" class="container">
+      <!-- Tabs -->
+      <div ng-controller="TabController">
+        <div class="tabBar" ng-show="showTabs" action-location="Tabs">
+          <ul id="myTab" class="nav nav-pills ">
+            <li ng-class="{active: currentAreaName() == tab.name}" ng-repeat="tab in tabs">
+              <a href="area/{{tab.name}}/intention"> {{tab.label}} </a>
+            </li>
+          </ul>
         </div>
-        <!--<div class = "tabBarReplacement" ng-show="!showTabs">&nbsp;</div>-->
+      </div>
+      <!-- Views -->
+      <div ng-view></div>
     </div>
 
-    <div ng-view>
-  </div>
+    <!-- inject:js -->
+    <script src="scripts/build.js"></script>
+    <!-- endinject -->
 
-</div> <!-- /container -->
-
-
-<!-- inject:js -->
-<script src="scripts/build.js"></script>
-<!-- endinject -->
-
-</body>
+  </body>
 </html>
 
 

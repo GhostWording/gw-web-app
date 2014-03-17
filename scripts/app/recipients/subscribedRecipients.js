@@ -1,6 +1,6 @@
-angular.module('app/recipients/activeRecipients', ['common/services/cache'])
+angular.module('app/recipients/subscribedRecipients', ['common/services/cache'])
 
-.factory('activeRecipientsSvc', ['$q','localStorage','subscribableRecipientsSvc', function ($q, localStorage,subscribableRecipientsSvc) {
+.factory('subscribedRecipientsSvc', ['$q','localStorage','subscribableRecipientsSvc', function ($q, localStorage,subscribableRecipientsSvc) {
 	var service = {
 		makeCacheKey : function(recipientId) {
 			return 'subscriptionState.' + recipientId;
@@ -9,7 +9,7 @@ angular.module('app/recipients/activeRecipients', ['common/services/cache'])
 			var retval = localStorage.get(service.makeCacheKey(recipientId));
 			return retval;
 		},
-		getActiveRecipients : function() {
+		getsubscribedRecipients : function() {
 			return subscribableRecipientsSvc.getAll().then(function(recipients){
 				var retval = [];
 				for (var i= 0; i < recipients.length; i++) {
@@ -30,13 +30,13 @@ angular.module('app/recipients/activeRecipients', ['common/services/cache'])
 	};
 	return service;
 }])
-.controller('RecipientListController', ['$scope', 'subscribableRecipientsSvc', 'activeRecipientsSvc',
-function ($scope, subscribableRecipientsSvc, activeRecipientsSvc) {
+.controller('SubscribableRecipientsController', ['$scope', 'subscribableRecipientsSvc', 'subscribedRecipientsSvc',
+function ($scope, subscribableRecipientsSvc, subscribedRecipientsSvc) {
 
   subscribableRecipientsSvc.getAll().then(function (value) {
-    $scope.lesQui = value;
+    $scope.recipients = value;
   });
-  $scope.switchState = activeRecipientsSvc.switchStateForRecipientTypeAlerts;
-  $scope.getState = activeRecipientsSvc.getStateForRecipientTypeAlerts;
+  $scope.switchState = subscribedRecipientsSvc.switchStateForRecipientTypeAlerts;
+  $scope.getState = subscribedRecipientsSvc.getStateForRecipientTypeAlerts;
 
 }]);

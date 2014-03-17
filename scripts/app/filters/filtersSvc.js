@@ -100,7 +100,7 @@ angular.module('app/filters/filtersSvc', ['app/filters/styles'])
                service.matchesNoStyles(text, service.filters.excludedStyles) &&
                //service.matchesAllStyles(text, service.filters.contexts); //
               (service.matchesAStyle(text, service.filters.contexts) || service.filters.contexts.stylesList.length === 0) &&
-              service.matchesRecipient(text,service.filters.recipientTypeTag)
+              service.matchesRecipient(text,service.filters.recipientTypeTag);
     },
 
     // TODO
