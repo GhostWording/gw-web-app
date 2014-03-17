@@ -6,9 +6,9 @@ describe("subscriptionsSvc", function() {
 
 	describe("getLikelyIntentionsForRecipients", function() {
 
-		it("should return a promise to an array of possible subscriptions", inject(function($rootScope, subscribableIntentionsSvc){
+		it("should return a promise to an array of possible subscriptions", inject(function($rootScope, likelyIntentionsSvc){
 			var possibleSubscriptions;
-			subscribableIntentionsSvc.getLikelyIntentionsForRecipients().then(function(_possibleSubscriptions_) {
+			likelyIntentionsSvc.getLikelyIntentionsForRecipients().then(function(_possibleSubscriptions_) {
 				possibleSubscriptions = _possibleSubscriptions_;
 			});
       // Force promise to resolve
@@ -21,7 +21,7 @@ describe("subscriptionsSvc", function() {
 
 	describe("mergePossibleRecipientsWithPreviousSubscribedRecipients", function() {
 
-		it("should return a promise to an array of alerts for each recipient", inject(function(subscribableIntentionsSvc,subscriptionsSvc, $rootScope, $q) {
+		it("should return a promise to an array of alerts for each recipient", inject(function(likelyIntentionsSvc,subscriptionsSvc, $rootScope, $q) {
 			var dummySubscriptions = [
 				{"RecipientTypeId": "9E2D23"},
 				{"RecipientTypeId": "9E2D23"},
@@ -35,7 +35,7 @@ describe("subscriptionsSvc", function() {
 				{"RecipientTypeId": "64C63D"},
 				{"RecipientTypeId": "3B9BF2"}
 			],
-			getAllSubscriptionsSpy = spyOn(subscribableIntentionsSvc, 'getIntentionsThatCanBeSubscribedForRecipients').andReturn($q.when(dummySubscriptions));
+			getAllSubscriptionsSpy = spyOn(likelyIntentionsSvc, 'getIntentionsThatCanBeSubscribedForRecipients').andReturn($q.when(dummySubscriptions));
 
 			var resultRecipients;
 			subscriptionsSvc.mergePossibleRecipientsWithPreviousSubscribedRecipients(dummyRecipients).then(function(_recipients_) {

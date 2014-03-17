@@ -6,7 +6,8 @@ angular.module('cherryApp',  [
   'ui.bootstrap.modal',
   "ui.bootstrap.tpls",
   'common',
-  'app'
+  'app',
+  'angularSpinkit'
 ])
 
 //CORS for angular v < 1.2
@@ -30,10 +31,18 @@ angular.module('cherryApp',  [
 .controller('SelectedTextController', ['$scope', function($scope) {
 }])
 
-.controller('CherryController', ['$scope',  'PostActionSvc',
-  function ($scope,PostActionSvc) {
+.controller('CherryController', ['$scope',  'PostActionSvc','$rootScope',
+  function ($scope,PostActionSvc,$rootScope) {
     console.log(navigator.userAgent);
     PostActionSvc.postActionInfo('Init', 'Init', 'App', 'Init');
+    $scope.showSpinner = true;
+
+    $rootScope.$on("$routeChangeStart",function (event, current, previous, rejection) {
+      $scope.showSpinner = true;
+    });
+    $rootScope.$on("$routeChangeSuccess",function (event, current, previous, rejection) {
+      $scope.showSpinner = false;
+    });
   }
 ])
 

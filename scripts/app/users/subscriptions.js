@@ -1,7 +1,7 @@
 angular.module('app/users/subscriptions',['app/recipients'])
 
-.factory('subscriptionsSvc', ['$q','subscribedRecipientsSvc','subscribableIntentionsSvc','$rootScope','localStorage',
-	function ($q, subscribedRecipientsSvc,subscribableIntentionsSvc,$rootScope,localStorage) {
+.factory('subscriptionsSvc', ['$q','subscribedRecipientsSvc','likelyIntentionsSvc','$rootScope','localStorage',
+	function ($q, subscribedRecipientsSvc,likelyIntentionsSvc,$rootScope,localStorage) {
 		var service = {
       // An array of subscribed recipients to which subscribed intentions are attached
       subscribedRecipients : [],
@@ -66,7 +66,7 @@ angular.module('app/users/subscriptions',['app/recipients'])
       //  - check if we already have data for it in our subscriptions
       //  - else use default subscriptions for this recipient (typically provided by the server)
       mergePossibleRecipientsWithPreviousSubscribedRecipients: function (subscribedRecipients) {
-        return subscribableIntentionsSvc.getIntentionsThatCanBeSubscribedForRecipients().then(function (possibleSubscriptions) {
+        return likelyIntentionsSvc.getIntentionsThatCanBeSubscribedForRecipients().then(function (possibleSubscriptions) {
           var recipientsWithSubscriptions = [];
           // For each active recipient, populate alerts with applicable intention subscriptions
           for (var i = subscribedRecipients.length - 1; i >= 0; i--) {
