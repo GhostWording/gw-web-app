@@ -25,8 +25,9 @@
     <div>
         <ul class="pager bmwQuestionButton">
             <li ng-class= '{selectionne: false}' >
-                <a href="/area/{{ currentArea.Name }}/intention/{{ currentIntention.IntentionId }}/text" class="pull-left" role="button" targetId="Back"  >
-                    <img ng-src="./assets/arrow-left.png" class="stylepicto">
+                <!--<a href="/area/{{ currentArea.Name }}/intention/{{ currentIntention.IntentionId }}/text" class="pull-left" role="button" targetId="Back"  >-->
+                <a href="/area/{{ currentArea.Name }}/intention/{{ currentIntention.IntentionId }}/recipient/{{ recipientId }}/text" class="pull-left" role="button" targetId="Back"  >
+                <img ng-src="./assets/arrow-left.png" class="stylepicto">
                 </a>
                 <span class="pull-right">
                     <button class="btn"

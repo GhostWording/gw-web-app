@@ -55,12 +55,12 @@ angular.module('app/recipients/subscribableIntentions', [])
     getIntentionsThatCanBeSubscribedForRecipients: function () {
       return service.getLikelyIntentionsForRecipients().then(function (value) {
         return filterByFrequency(value, true);
-      })
+      });
     },
     getLikelyIntentionsforGivenRecipientType: function (recipientTypeId) {
       return service.getLikelyIntentionsForRecipients().then(function (value) {
         return filterByRecipientTypeId(value, recipientTypeId);
-      })
+      });
     },
     getFullIntentionObjectsFromLikelyIntentions: function(intentions, likelyIntentions) {
       var matchedIntentions=[];

@@ -35,7 +35,7 @@ describe("subscriptionsSvc", function() {
 				{"RecipientTypeId": "64C63D"},
 				{"RecipientTypeId": "3B9BF2"}
 			],
-			getAllSubscriptionsSpy = spyOn(subscribableIntentionsSvc, 'getLikelyIntentionsForRecipients').andReturn($q.when(dummySubscriptions));
+			getAllSubscriptionsSpy = spyOn(subscribableIntentionsSvc, 'getIntentionsThatCanBeSubscribedForRecipients').andReturn($q.when(dummySubscriptions));
 
 			var resultRecipients;
 			subscriptionsSvc.mergePossibleRecipientsWithPreviousSubscribedRecipients(dummyRecipients).then(function(_recipients_) {

@@ -23,7 +23,10 @@ function ($scope, currentTextList, currentIntention, currentArea, currentUser, f
       if ( currentRecipient ) {
         filtersSvc.setFiltersForRecipient(currentRecipient);
         filtersSvc.setRecipientTypeTag(currentRecipient.RecipientTypeId);
+        $scope.recipientId  = currentRecipient.Id;
       }
+      else
+        $scope.recipientId = '';
 
       // Clear the previous filter list
       $scope.filteredList.length = 0;

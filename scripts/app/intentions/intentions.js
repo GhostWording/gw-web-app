@@ -70,8 +70,8 @@ function($scope, currentArea, intentionsSvc,currentRecipientSvc,subscribableInte
 
   var recipientId = currentRecipientSvc.getCurrentRecipientId();
   // Get intentions for the current recipient : all this mess will be replaced by a call to server when it's up to date with recipient stull
-  if ( recipientId ) {
-
+  if ( recipientId && recipientId != 'none' && recipientId !== '' ) {
+    $scope.recipientId = recipientId;
     currentRecipientSvc.getCurrentRecipient()
       // Get recipientTYPE Id (different from recipient id)
       .then(function (currentRecipient) {

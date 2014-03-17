@@ -7,6 +7,9 @@ angular.module('app/recipients/currentRecipient', [])
     getCurrentRecipientId: function() {
       return $route.current && $route.current.params.recipientId;
     },
+    getBlankValue: function() {
+      return '';
+    },
 
     getCurrentRecipient: function() {
       var currentRecipientId = service.getCurrentRecipientId();
