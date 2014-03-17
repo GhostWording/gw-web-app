@@ -1,6 +1,6 @@
-angular.module('app/recipients/subscribableIntentions', [])
+angular.module('app/recipients/likelyIntentions', [])
 
-.factory('subscribableIntentionsSvc', ['$q', function ($q) {
+.factory('likelyIntentionsSvc', ['$q', function ($q) {
 
   var filterByFrequency = function (intentionsForRecipient,onlySubscribable) {
     var retval = [];

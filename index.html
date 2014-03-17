@@ -11,6 +11,9 @@
     <script src="assets/angular-cookies/angular-cookies.js"></script>
     <script src="assets/angular-sanitize/angular-sanitize.js"></script>
     <script src="assets/angular-route/angular-route.js"></script>
+    <script src="assets/angular-spinkit/build/angular-spinkit.min.js"></script>
+
+
     <script src="scripts/lib/bootstrap-custom/ui-bootstrap-custom-tpls-0.10.0.js"></script>
 
     <!--Reminder : include Respond.js for IE8 support with bootstrap 3.0 -->
@@ -105,8 +108,14 @@
           </ul>
         </div>
       </div>
+      <div ng-show="showSpinner" style="position:fixed;top:-20px;left:300px; z-index:3;"><circle-spinner></circle-spinner></div>
       <!-- Views -->
-      <div ng-view></div>
+      <div ng-view>
+      </div>
+
+
+
+
     </div>
 
     <!-- inject:js -->

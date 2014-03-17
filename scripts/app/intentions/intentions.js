@@ -48,8 +48,8 @@ angular.module('app/intentions', ['app/areas', 'common/services/cache', 'common/
   return service;
 }])
 
-.controller('IntentionListController', ['$scope', 'currentArea', 'intentionsSvc','currentRecipientSvc','subscribableIntentionsSvc',
-function($scope, currentArea, intentionsSvc,currentRecipientSvc,subscribableIntentionsSvc) {
+.controller('IntentionListController', ['$scope', 'currentArea', 'intentionsSvc','currentRecipientSvc','likelyIntentionsSvc',
+function($scope, currentArea, intentionsSvc,currentRecipientSvc,likelyIntentionsSvc) {
 
   // Choose title according to areaId : TODO : move to localisation service
   var AREA_PAGE_TITLE = {
@@ -79,7 +79,7 @@ function($scope, currentArea, intentionsSvc,currentRecipientSvc,subscribableInte
       })
       // Get LikelyIntentions for the RecipientType : we should directly get intentions from the server
       .then(function(recipientTypeId) {
-        return subscribableIntentionsSvc.getLikelyIntentionsforGivenRecipientType(recipientTypeId)
+        return likelyIntentionsSvc.getLikelyIntentionsforGivenRecipientType(recipientTypeId)
           .then(function(likelyIntentions) {
              return likelyIntentions;});
       })
@@ -87,7 +87,7 @@ function($scope, currentArea, intentionsSvc,currentRecipientSvc,subscribableInte
       .then(function (likelyIntentions) {
         return intentionsSvc.getForArea(currentArea.Name)
         .then(function (intentions) {
-          return subscribableIntentionsSvc.getFullIntentionObjectsFromLikelyIntentions(intentions, likelyIntentions);});
+          return likelyIntentionsSvc.getFullIntentionObjectsFromLikelyIntentions(intentions, likelyIntentions);});
       })
       // Get intentions from the ids of our likely intentions
       .then (function(intentions) {

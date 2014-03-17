@@ -1,6 +1,6 @@
 angular.module('app/recipients', [
 	'app/recipients/subscribableRecipients',
-	'app/recipients/subscribableIntentions',
+	'app/recipients/likelyIntentions',
 	'app/recipients/subscribedRecipients',
   'app/recipients/currentRecipient',
   'app/recipients/oneTimeRecipients'
