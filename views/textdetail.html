@@ -36,12 +36,20 @@
                     <button class="btn btn-primary"
                             targetId = "{{ Id }}" targetType="Text" actionType="send"
                             ng-click="send()">Envoyer</button>
+                    <button class="btn btn-primary"
+                            targetId = "{{ Id }}" targetType="Text" actionType="favourite"
+                            ng-click="favourite()">Favourite</button>
                 </span>
             </li>
         </ul>
     </div>
 
     <br/>
+    <ul>
+        <li ng-repeat="lef in lefos">
+            {{lef}}
+        </li>
+    </ul>
     <div class ="auteur" ng-show="currentText.IsQuote">
         Auteur : {{currentText.Author}}
     </div>

@@ -2,11 +2,10 @@ angular.module('app/texts/TextDetailController', ['common/i18n'])
 
 // Display text with author, link to the source, usage recommandations or comments
 
-.controller('TextDetailController', ['$scope','currentText', 'currentIntention', 'currentArea', 'tagLabelsSvc', '$modal','currentRecipient',
-function ($scope, currentText, currentIntention, currentArea, tagLabelsSvc, $modal,currentRecipient) {
+.controller('TextDetailController', ['$scope','currentText', 'currentIntention', 'currentArea', 'tagLabelsSvc', '$modal','currentRecipient', 'favouritesSvc',
+function ($scope, currentText, currentIntention, currentArea, tagLabelsSvc, $modal,currentRecipient, favouritesSvc) {
 
   currentText.TagLabels = tagLabelsSvc.labelsFromStyleTagIds(currentText.TagIds);
-
   $scope.currentArea = currentArea;
   $scope.currentIntention = currentIntention;
   $scope.currentText = currentText;
@@ -35,6 +34,17 @@ function ($scope, currentText, currentIntention, currentArea, tagLabelsSvc, $mod
   $scope.edit = function() {
     $scope.editText = true;
   };
+
+  $scope.favourite = function() {
+    var favourite = {
+      favouriteText: currentText.TextId,
+      favouriteIntention: currentText.IntentionId,
+      favouriteArea: currentArea.AreaId,
+      favouriteDate: new Date()
+    };
+    favouritesSvc.addFavourite(favourite);
+  };
+  $scope.lefos = favouritesSvc.favourites;
 
 
 }]);
