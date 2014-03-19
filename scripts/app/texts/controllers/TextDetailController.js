@@ -37,14 +37,15 @@ function ($scope, currentText, currentIntention, currentArea, tagLabelsSvc, $mod
 
   $scope.favourite = function() {
     var favourite = {
-      favouriteText: currentText.TextId,
-      favouriteIntention: currentText.IntentionId,
-      favouriteArea: currentArea.AreaId,
+      textId: currentText.TextId,
+      intentionId: currentIntention.IntentionId,
+      areaId: currentArea.AreaId,
+      favouriteText: currentText.Content,
+      favouriteIntention: currentIntention.Label,
+      favouriteArea: currentArea.Name,
       favouriteDate: new Date()
     };
     favouritesSvc.addFavourite(favourite);
   };
-  $scope.lefos = favouritesSvc.favourites;
-
 
 }]);

@@ -1,4 +1,4 @@
-angular.module('app/favourites', ['common/services/cache'])
+angular.module('app/favourites/favouritesSvc', ['common/services/cache'])
 
 .factory('favouritesSvc', ['localStorage', function (localStorage) {	
 	
@@ -9,7 +9,7 @@ angular.module('app/favourites', ['common/services/cache'])
 		addFavourite: function(favItem) {
 			
 			if(service.favourites) {
-				if(!service.isExistingFavourite(service.favourites, 'favouriteText', favItem.favouriteText)) {
+				if(!service.isExistingFavourite(service.favourites, 'textId', favItem.textId)) {
 					service.favourites.push(favItem);	
 				}
 			}

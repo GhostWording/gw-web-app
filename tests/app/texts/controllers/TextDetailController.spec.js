@@ -7,12 +7,15 @@ beforeEach(module('app/texts/TextDetailController'));
 	beforeEach(inject(function (_$rootScope_, $controller, $q) {
 		mocks = {
 			currentArea: {
-				AreaId: '9876'
+				AreaId: '123',
+				Name: 'mockCurrentArea'
 			},
-			currentIntention: 'mockCurrentIntention',
+			currentIntention: {
+				IntentionId: '456',
+				Label: 'mockCurrentIntention'
+			},
 			currentText: {
-				TextId: '1234',
-				IntentionId: '5678',
+				TextId: '789',
 				Content: 'mockCurrentText'
 			},
 			favouritesSvc: {
@@ -38,13 +41,9 @@ beforeEach(module('app/texts/TextDetailController'));
 	}));
 
 	it('should have the correct text details attached to the scope', function() {
-		expect($rootScope.currentArea).toEqual({AreaId: '9876'});
-		expect($rootScope.currentIntention).toEqual('mockCurrentIntention');
-		expect($rootScope.currentText).toEqual({
-			TextId: '1234',
-			IntentionId: '5678',
-			Content: 'mockCurrentText'
-		});
+		expect($rootScope.currentArea).toEqual({AreaId: '123', Name: 'mockCurrentArea'});
+		expect($rootScope.currentIntention).toEqual({IntentionId: '456',Label: 'mockCurrentIntention'});
+		expect($rootScope.currentText).toEqual({TextId: '789', Content: 'mockCurrentText'});
 		expect($rootScope.txt.editableText).toEqual('mockCurrentText');
 	});
 
@@ -75,10 +74,13 @@ beforeEach(module('app/texts/TextDetailController'));
 		it('should call the add favourite method of the favourite service with the correct arguments', function() {
 			$rootScope.favourite();
 			expect(mocks.favouritesSvc.addFavourite).toHaveBeenCalledWith({
-				favouriteText: '1234',
-      	favouriteIntention: '5678',
-      	favouriteArea: '9876',
-      	favouriteDate: new Date()
+				textId: '789',
+	      intentionId: '456',
+	      areaId: '123',
+	      favouriteText: 'mockCurrentText',
+	      favouriteIntention: 'mockCurrentIntention',
+	      favouriteArea: 'mockCurrentArea',
+	      favouriteDate: new Date()
 			});
 
 		});

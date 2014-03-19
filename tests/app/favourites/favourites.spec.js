@@ -35,40 +35,40 @@ describe('favouritesSvc', function() {
 		it('should set favourites with current item if there are no other favourites', inject(function(favouritesSvc) {
 			favouritesSvc.favourites = null;
 			var currentFavourite = {
-				favouriteText: 'a'
+				textId: 'a'
 			};
 			expect(favouritesSvc.favourites).toBe(null);
 			favouritesSvc.addFavourite(currentFavourite);
 			expect(favouritesSvc.favourites.length).toBe(1);
-			expect(favouritesSvc.favourites).toEqual([{favouriteText: 'a'}]);
+			expect(favouritesSvc.favourites).toEqual([{textId: 'a'}]);
 		}));
 
 		it('should add an additional favourite to the favourites array', inject(function(favouritesSvc) {
 			favouritesSvc.favourites = [
-				{favouriteText: 'a'},
-				{favouriteText: 'b'}
+				{textId: 'a'},
+				{textId: 'b'}
 			];
 			var currentFavourite = {
-				favouriteText: 'c'
+				textId: 'c'
 			};
 			expect(favouritesSvc.favourites.length).toBe(2);
 			favouritesSvc.addFavourite(currentFavourite);
 			expect(favouritesSvc.favourites.length).toBe(3);
-			expect(favouritesSvc.favourites[2]).toEqual({favouriteText: 'c'});
+			expect(favouritesSvc.favourites[2]).toEqual({textId: 'c'});
 		}));
 
 		it('should not add an additional favourite to the favourites array if it already exists', inject(function(favouritesSvc) {
 			favouritesSvc.favourites = [
-				{favouriteText: 'a'},
-				{favouriteText: 'b'}
+				{textId: 'a'},
+				{textId: 'b'}
 			];
 			var currentFavourite = {
-				favouriteText: 'a'
+				textId: 'a'
 			};
 			expect(favouritesSvc.favourites.length).toBe(2);
 			favouritesSvc.addFavourite(currentFavourite);
 			expect(favouritesSvc.favourites.length).toBe(2);
-			expect(favouritesSvc.favourites[1]).toEqual({favouriteText: 'b'});
+			expect(favouritesSvc.favourites[1]).toEqual({textId: 'b'});
 		}));
 
 	});
