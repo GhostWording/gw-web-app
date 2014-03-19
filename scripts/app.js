@@ -38,7 +38,7 @@ angular.module('cherryApp',  [
     PostActionSvc.postActionInfo('Init', 'Init', 'App', 'Init');
     $scope.showSpinner = false;
 
-    $scope.trackerIsActive = function () { return $rootScope.loadingTracker.active();}
+    $scope.trackerIsActive = function () { return $rootScope.loadingTracker.active();};
 
     // We may want to user a tracker linked to route change instead of directly setting
     $rootScope.$on("$routeChangeStart",function (event, current, previous, rejection) {

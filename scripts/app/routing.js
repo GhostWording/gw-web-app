@@ -1,7 +1,11 @@
 angular.module('app/routing', [])
 
 .config(['$routeProvider', function ($routeProvider) { $routeProvider
-    // Intention list for an area
+  // Special case : if the area is Addressee, we first need to ask for the recipient
+    .when('/area/Addressee/intention', {
+      redirectTo: '/area/Addressee/recipient'
+    })
+  // Intention list for an area
     .when('/area/:areaName/intention', {
         templateUrl: 'views/intentionList.html',
         controller: 'IntentionListController',
@@ -99,16 +103,16 @@ angular.module('app/routing', [])
         },
         showTabs: false
     })
-    .when('/area/:areaName/recipients', {
+    .when('/area/:areaName/recipient', {
       templateUrl: 'views/recipientList.html',
       controller: 'OneTimeRecipientsController',
       resolve: {
         recipients: ['subscribableRecipientsSvc', function(subscribedRecipientsSvc) { return subscribedRecipientsSvc.getAll(); }]
       },
-      showTabs: false
+      showTabs: true
     })
     .when('/recipientList', {
-      redirectTo: '/area/Addressee/recipients'
+      redirectTo: '/area/Addressee/recipient'
     })
     .when('/subscriptions', {
         templateUrl: 'views/subscriptions.html',
