@@ -1,16 +1,16 @@
 ﻿<div action-location="currentUser">
     <!-- Titre -->
-    <h4>Options</h4>
+    <h4>Mon profil</h4>
     <br/>
     <ul class="pager bmwQuestionButton">
-        Vous êtes
+        Je suis
         <li ng-class = '{selectionne: currentUser.gender=="H"}'>
             <a  targetType="Command" targetId="SenderGender"   ng-click = 'currentUser.gender = "H"'>Un homme</a></li>
         <li ng-class = '{selectionne: currentUser.gender=="F"}'>
             <a  targetType="Command" targetId="SenderGender"  ng-click = "currentUser.gender = 'F'">Une femme</a></li>
     </ul>
     <ul class="pager bmwQuestionButton">
-        Vous lisez
+        Je lis
         <li ng-class = '{selectionne: currentUser.readsAlot=="T"}'>
             <a targetType="Command" targetId="UserReadsALot"  ng-click = "currentUser.readsAlot = 'T'">Beaucoup</a></li>
         <li ng-class = '{selectionne: currentUser.readsAlot=="F"}'>

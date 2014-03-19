@@ -38,7 +38,7 @@ angular.module('cherryApp',  [
     PostActionSvc.postActionInfo('Init', 'Init', 'App', 'Init');
     $scope.showSpinner = false;
 
-    $scope.trackerIsActive = function () { return $rootScope.loadingTracker.active();}
+    $scope.trackerIsActive = function () { return $rootScope.loadingTracker.active();};
 
     // We may want to user a tracker linked to route change instead of directly setting
     $rootScope.$on("$routeChangeStart",function (event, current, previous, rejection) {
@@ -54,7 +54,7 @@ angular.module('cherryApp',  [
   
   // Watch the current intention.  If it changes to something not null and different to what it
   // was before then reset the filters.
-  $rootScope.loadingTracker = promiseTracker({ activationDelay: 200, minDuration: 300 });
+  $rootScope.loadingTracker = promiseTracker({ activationDelay: 300, minDuration: 500 });
 
   var currentIntentionId = intentionsSvc.getCurrentId();
   $rootScope.$watch(

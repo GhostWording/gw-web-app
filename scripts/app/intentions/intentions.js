@@ -60,16 +60,23 @@ function($scope, currentArea, intentionsSvc,currentRecipientSvc,likelyIntentions
     "Formalities" : "Expédiez les formalités !",
   };
   $scope.pageTitle = AREA_PAGE_TITLE[currentArea.Name];
+
   if ( !$scope.pageTitle ) {
     $scope.pageTitle = "Dites le !";
     console.log("Unknown area : ", currentArea);
   }
+  $scope.isForRecipient = false;
+  if ( currentArea.Name == 'Addressee') {
+    $scope.isForRecipient = true;
+    currentRecipientSvc.getCurrentRecipient().then(function(recipient) {
+      $scope.pageTitle = recipient.LocalLabel;
+    });
+  }
 
   $scope.currentArea = currentArea;
   var ITEMS_PER_ROW = 3;
-
   var recipientId = currentRecipientSvc.getCurrentRecipientId();
-  // Get intentions for the current recipient : all this mess will be replaced by a call to server when it's up to date with recipient stull
+  // Get intentions for the current recipient : all this mess will be replaced by a call to server when  the APIs serve recipients
   if ( recipientId && recipientId != 'none' && recipientId !== '' ) {
     $scope.recipientId = recipientId;
     currentRecipientSvc.getCurrentRecipient()

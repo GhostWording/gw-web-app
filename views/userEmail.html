@@ -2,9 +2,8 @@
     <div class="row" style="margin-top: 5px; margin-bottom: 30px; font-size: 16px;" >
         <div class="col-xs-1"></div>
         <div class="col-xs-10">
-            <!--Envoyez-moi les propositions de messages à cette adresse-->
           <!--Je recevrai les idées de messages à cette adresse-->
-          Où recevrai-je les idées de messages
+          Où pousseront mes idées de messages ?
         </div>
         <div class="col-xs-1"></div>
     </div>
@@ -16,14 +15,13 @@
                 <div class="form-group" >
                     <!--<label >la&nbsp</label>-->
                     <div>
-                      <input ng-model="user.email" style="vertical-align:middle; width: 250px;" ng-change="updateMail()" placeholder="adresse mail" >
+                      <input ng-model="user.email" style="vertical-align:middle; width: 250px;" ng-change="updateMail()" placeholder="mon adresse mail" >
                     </div>
                   <br>
                     <button type="button" class="btn btn-default" style="vertical-align:middle;" ng-click="sendMailToServer()">Envoi</button>
                 </div>
                 <div ng-show="mailSent">C'est parti !</div>
                 <div ng-show="mailSent">Vous recevrez prochainement un message d'activation.</div>
-                <!--<div>(dans les spam s'il se perd)</div>-->
             </form>
         </div>
         <div class="col-sm-1"></div>
