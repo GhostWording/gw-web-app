@@ -5,6 +5,9 @@ angular.module('app/routing', [])
     .when('/area/Addressee/intention', {
       redirectTo: '/area/Addressee/recipient'
     })
+    .when('/area/Addressee/intention/:recipientId', {
+      redirectTo: '/area/Addressee/recipient/:recipientId'
+    })
   // Intention list for an area
     .when('/area/:areaName/intention', {
         templateUrl: 'views/intentionList.html',
