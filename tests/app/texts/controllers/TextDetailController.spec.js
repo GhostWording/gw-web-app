@@ -53,7 +53,7 @@ beforeEach(module('app/texts/TextDetailController'));
 		expect(mocks.tagLabelsSvc.labelsFromStyleTagIds).toHaveBeenCalled();
 	});
 
-	it('should attach the correct value for recipient id', function() {
+	it('should attach the correct recipient id to the scope', function() {
 		expect($rootScope.recipientId).toEqual('333');
 		delete mocks.currentRecipient;
 		$controller('TextDetailController', {
