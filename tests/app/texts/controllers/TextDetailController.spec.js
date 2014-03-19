@@ -28,6 +28,7 @@ beforeEach(module('app/texts/TextDetailController'));
 				open: jasmine.createSpy()
 			}
 		};
+		$controller = _$controller_;
 		$rootScope = _$rootScope_;
 		$controller('TextDetailController', {
 			$scope: $rootScope,
@@ -36,7 +37,8 @@ beforeEach(module('app/texts/TextDetailController'));
 			currentIntention: mocks.currentIntention,
 			favouritesSvc: mocks.favouritesSvc,
 			tagLabelsSvc: mocks.tagLabelsSvc,
-			$modal: mocks.modal
+			$modal: mocks.modal,
+			currentRecipient: mocks.currentRecipient
 		});
 	}));
 
@@ -50,6 +52,23 @@ beforeEach(module('app/texts/TextDetailController'));
 	it('should call the method to attach tags based on labels', function() {
 		expect(mocks.tagLabelsSvc.labelsFromStyleTagIds).toHaveBeenCalled();
 	});
+
+	it('should attach the correct recipient id to the scope', function() {
+		expect($rootScope.recipientId).toEqual('333');
+		delete mocks.currentRecipient;
+		$controller('TextDetailController', {
+			$scope: $rootScope,
+			currentText: mocks.currentText,
+			currentArea: mocks.currentArea,
+			currentIntention: mocks.currentIntention,
+			favouritesSvc: mocks.favouritesSvc,
+			tagLabelsSvc: mocks.tagLabelsSvc,
+			$modal: mocks.modal,
+			currentRecipient: mocks.currentRecipient
+		});
+		expect($rootScope.recipientId).toEqual('');
+	});
+
 	describe('edit', function() {
 		
 		it('should change edit text flag to true', function() {
