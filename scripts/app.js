@@ -7,7 +7,8 @@ angular.module('cherryApp',  [
   "ui.bootstrap.tpls",
   'common',
   'app',
-  'angularSpinkit'
+  'angularSpinkit',
+  'ajoslin.promise-tracker'
 ])
 
 //CORS for angular v < 1.2
@@ -35,8 +36,11 @@ angular.module('cherryApp',  [
   function ($scope,PostActionSvc,$rootScope) {
     console.log(navigator.userAgent);
     PostActionSvc.postActionInfo('Init', 'Init', 'App', 'Init');
-    $scope.showSpinner = true;
+    $scope.showSpinner = false;
 
+    $scope.trackerIsActive = function () { return $rootScope.loadingTracker.active();}
+
+    // We may want to user a tracker linked to route change instead of directly setting
     $rootScope.$on("$routeChangeStart",function (event, current, previous, rejection) {
       $scope.showSpinner = true;
     });
@@ -46,10 +50,12 @@ angular.module('cherryApp',  [
   }
 ])
 
-.run(['$rootScope', 'intentionsSvc', 'filtersSvc', function($rootScope, intentionsSvc, filtersSvc) {
+.run(['$rootScope', 'intentionsSvc', 'filtersSvc','promiseTracker', function($rootScope, intentionsSvc, filtersSvc,promiseTracker) {
   
   // Watch the current intention.  If it changes to something not null and different to what it
   // was before then reset the filters.
+  $rootScope.loadingTracker = promiseTracker({ activationDelay: 200, minDuration: 300 });
+
   var currentIntentionId = intentionsSvc.getCurrentId();
   $rootScope.$watch(
     function() { return intentionsSvc.getCurrentId(); },

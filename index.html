@@ -12,7 +12,8 @@
     <script src="assets/angular-sanitize/angular-sanitize.js"></script>
     <script src="assets/angular-route/angular-route.js"></script>
     <script src="assets/angular-spinkit/build/angular-spinkit.min.js"></script>
-
+    <script src="assets/angular-promise-tracker/promise-tracker.js"></script>
+    <script src="assets/angular-promise-tracker/promise-tracker-http-interceptor.js"></script>
 
     <script src="scripts/lib/bootstrap-custom/ui-bootstrap-custom-tpls-0.10.0.js"></script>
 
@@ -98,6 +99,7 @@
 
     <!-- Container -->
     <div data-ng-controller="CherryController" class="container">
+
       <!-- Tabs -->
       <div ng-controller="TabController">
         <div class="tabBar" ng-show="showTabs" action-location="Tabs">
@@ -108,13 +110,12 @@
           </ul>
         </div>
       </div>
-      <div ng-show="showSpinner" style="position:fixed;top:-20px;left:300px; z-index:3;"><circle-spinner></circle-spinner></div>
+      <!-- Spinner -->
+      <div ng-show="showSpinner || trackerIsActive()" style="position:fixed;top:-20px;left:300px; z-index:3;"><circle-spinner></circle-spinner></div>
+
       <!-- Views -->
       <div ng-view>
       </div>
-
-
-
 
     </div>
 
