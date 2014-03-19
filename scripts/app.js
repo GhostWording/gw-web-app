@@ -54,7 +54,7 @@ angular.module('cherryApp',  [
   
   // Watch the current intention.  If it changes to something not null and different to what it
   // was before then reset the filters.
-  $rootScope.loadingTracker = promiseTracker({ activationDelay: 200, minDuration: 300 });
+  $rootScope.loadingTracker = promiseTracker({ activationDelay: 300, minDuration: 500 });
 
   var currentIntentionId = intentionsSvc.getCurrentId();
   $rootScope.$watch(
