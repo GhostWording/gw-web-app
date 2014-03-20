@@ -54,10 +54,10 @@ angular.module('app/recipients/likelyIntentions', [])
         { "RecipientTypeId": "87F524", "IntentionId": "016E91", "IntentionLabel" : "Je pense à toi"},
         { "RecipientTypeId": "87F524", "IntentionId": "03B6E4", "IntentionLabel" : "Je suis là pour toi"},
         { "RecipientTypeId": "87F524", "IntentionId": "D19840", "IntentionLabel" : "Venez dîner !"},
-        { "RecipientTypeId": "87F524", "IntentionId": "EB020F", "IntentionLabel" : "Bonne fête"},
+//        { "RecipientTypeId": "87F524", "IntentionId": "EB020F", "IntentionLabel" : "Bonne fête"},
         { "RecipientTypeId": "87F524", "IntentionId": "2D4079", "IntentionLabel" : "J'ai besoin d'un service"},
         { "RecipientTypeId": "87F524", "IntentionId": "F57DBD", "IntentionLabel" : "Pourquoi ce silence"},
-        { "RecipientTypeId": "87F524", "IntentionId": "451563", "IntentionLabel" : "Arrêtez le monde"},
+//        { "RecipientTypeId": "87F524", "IntentionId": "451563", "IntentionLabel" : "Arrêtez le monde"},
         // Parents
 				{ "RecipientTypeId": "64C63D", "IntentionId": "016E91", "IntentionLabel" : "Je pense à toi",    "Freq": "2-week", "FreqLabel":"3 par semaine"},
 				{ "RecipientTypeId": "64C63D", "IntentionId": "D19840", "IntentionLabel" : "Venez dîner",       "Freq": "1-month", "FreqLabel":"1 par mois"},
