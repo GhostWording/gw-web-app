@@ -13,35 +13,19 @@ function ($scope, currentTextList, currentIntention, currentArea, currentUser, f
     $scope.filters = filtersSvc.filters;
     $scope.filtersWellDefined = filtersSvc.wellDefined;
 
-    //TODO: Need to add this in the textSvc but it does not seem to work
-    // cause the list is already set in localStorage
-    // Check if each of the texts in the list exists in the favourites array in localstorage
-    // and set isFavourite to true.
-    angular.forEach($scope.textList, function(text) {
-      if(favouritesSvc.isExistingFavourite(favouritesSvc.favourites, 'textId', text.TextId)) {
-        text.isFavourite = true;
-      }
-    });
 
-    $scope.removeFavourite = function(txt) {
-      favouritesSvc.removeFavourite(favouritesSvc.favourites, 'textId', txt.TextId);
-      txt.isFavourite = false;
-    };
-    
+  if ( currentRecipient ) {
+    $scope.recipientId  = currentRecipient.Id;
+  }
+  else
+    $scope.recipientId = '';
+
+  if ( currentRecipient ) {
+    filtersSvc.setFiltersForRecipient(currentRecipient);
+    filtersSvc.setRecipientTypeTag(currentRecipient.RecipientTypeId);
+  }
+
     $scope.filterList = function() {
-
-      // TODO
-      // - set recipient gender, tuOuVous and closeness according to recipient settings
-      // - filter using recipientTags
-      // We could also chose to broadcast the information from currentRecipientSvc to filtersSvc
-      if ( currentRecipient ) {
-        filtersSvc.setFiltersForRecipient(currentRecipient);
-        filtersSvc.setRecipientTypeTag(currentRecipient.RecipientTypeId);
-        $scope.recipientId  = currentRecipient.Id;
-      }
-      else
-        $scope.recipientId = '';
-
       // Clear the previous filter list
       $scope.filteredList.length = 0;
 

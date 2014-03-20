@@ -3,12 +3,15 @@
      <!-- Breadcrumbs -->
      <ul class="breadcrumb"  ng-show = "showBreadcrumbs()">
          <li>
+           <!--User -->
             <a href="/userprofile"  >Moi </a> &nbsp
             <img ng-src="./assets/arrow-right.png" class="breadcrumbpicto"> &nbsp
-            <a href="" ng-show="filters.recipientGender != null" ng-click = "filters.recipientGender = null">
+           <!-- Recipient gender -->
+            <a href="" ng-show="recipientGenderIsDefined()" ng-click = "resetRecipientGender()">
                  <img id="breadcrumbCrossRecipientGender" ng-src="./assets/cross.png" class="breadcrumbpicto" >
                  <img ng-src="./assets/{{ getRecipientGenderIconName() }}" class="breadcrumbpicto"></a>
             </a>
+           <!-- Recipient Tu ou Vous -->
             <a href="" ng-show="filters.tuOuVous" ng-click = "filters.tuOuVous = null" >
                  &nbsp
                  <img id="breadcrumbCrossTuOuVous" ng-src="./assets/cross.png" class="breadcrumbpicto" >

@@ -38,12 +38,37 @@ angular.module('app/filters/TextFiltersController', [])
 
 })
 
-.controller('TextFiltersController', ['$scope','filtersSvc','currentUser', 'FILTER_LABELS', function ($scope,filtersSvc,currentUser, FILTER_LABELS) {
+.controller('TextFiltersController', ['$scope','filtersSvc','currentUser', 'FILTER_LABELS','currentRecipientSvc', function ($scope,filtersSvc,currentUser, FILTER_LABELS,currentRecipientSvc) {
   var filters = $scope.filters = filtersSvc.filters;
   $scope.currentUser = currentUser;
 
+  var INVERT_GENDER_MAP = {
+    'H': 'F',
+    'F': 'H'
+  };
+
+  // TODO: This really should be data driven - i.e. the best filter set should be a field on the intention
+  // Start by setting default filter values for the area and intention
+  setBestFilterDefaultValues($scope.currentArea.Name , $scope.currentIntention.IntentionId, currentUser.gender);
+
+  // Then override with current recipient properties if available
+  currentRecipientSvc.getCurrentRecipient().then(function(currentRecipient) {
+    if (currentRecipient ) {
+      filtersSvc.setFiltersForRecipient(currentRecipient);
+      filtersSvc.setRecipientTypeTag(currentRecipient.RecipientTypeId);
+    }
+  });
+
+  $scope.resetRecipientGender = function() {
+    filters.recipientGender = null;
+  };
+
+  $scope.recipientGenderIsDefined = function() {
+    return filters.recipientGender !== null;
+  };
+
   $scope.showBreadcrumbs = function () {
-    return !filters.recipientGender || !filters.closeness || !filters.tuOuVous;
+    return  !!filters.recipientGender || !!filters.tuOuVous; // When recipientGender is 'F' it will be interpreted as false !
   };
 
   $scope.getSenderGenderLabel = function () {
@@ -75,17 +100,12 @@ angular.module('app/filters/TextFiltersController', [])
       filters.tuOuVous = 'V';
     });
   
-  var INVERT_GENDER_MAP = {
-    'H': 'F',
-    'F': 'H'
-  };
+
 
   function invertGender(gender) {
     return INVERT_GENDER_MAP[gender] || gender;
   }
 
-  // TODO: This really should be data driven - i.e. the best filter set should be a field on the intention
-  setBestFilterDefaultValues($scope.currentArea.Name , $scope.currentIntention.IntentionId, currentUser.gender);
 
   function setBestFilterDefaultValues(areaName,intentionId, userGender) {
     console.log (areaName + " - " + intentionId + ' - ' + userGender);
