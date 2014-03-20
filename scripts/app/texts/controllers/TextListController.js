@@ -2,8 +2,8 @@ angular.module('app/texts/TextListController', [])
 
 // Displays a list of texts
 .controller('TextListController',
- ['$scope', 'currentTextList', 'currentIntention', 'currentArea', 'currentUser', 'filtersSvc', '$modal', 'currentRecipient',
-function ($scope, currentTextList, currentIntention, currentArea, currentUser, filtersSvc, $modal,currentRecipient) {
+ ['$scope', 'currentTextList', 'currentIntention', 'currentArea', 'currentUser', 'filtersSvc', '$modal', 'currentRecipient', 'favouritesSvc',
+function ($scope, currentTextList, currentIntention, currentArea, currentUser, filtersSvc, $modal,currentRecipient, favouritesSvc) {
 
     $scope.currentArea = currentArea;
     $scope.currentIntention = currentIntention;
@@ -13,7 +13,21 @@ function ($scope, currentTextList, currentIntention, currentArea, currentUser, f
     $scope.filters = filtersSvc.filters;
     $scope.filtersWellDefined = filtersSvc.wellDefined;
 
+    //TODO: Need to add this in the textSvc but it does not seem to work
+    // cause the list is already set in localStorage
+    // Check if each of the texts in the list exists in the favourites array in localstorage
+    // and set isFavourite to true.
+    angular.forEach($scope.textList, function(text) {
+      if(favouritesSvc.isExistingFavourite(favouritesSvc.favourites, 'textId', text.TextId)) {
+        text.isFavourite = true;
+      }
+    });
 
+    $scope.removeFavourite = function(txt) {
+      favouritesSvc.removeFavourite(favouritesSvc.favourites, 'textId', txt.TextId);
+      txt.isFavourite = false;
+    };
+    
     $scope.filterList = function() {
 
       // TODO

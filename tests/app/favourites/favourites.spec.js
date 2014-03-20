@@ -73,4 +73,41 @@ describe('favouritesSvc', function() {
 
 	});
 
+	describe('removeFavourite', function() {
+
+		var mockFavourites, currentFavourite;
+		beforeEach(function() {
+			mockFavourites = [
+				{textId: 'a'},
+				{textId: 'b'},
+				{textId: 'c'}
+			];
+			currentFavourite = {
+				textId: 'b'
+			};
+		});
+
+		it('should remove a favourite from the favourites array', inject(function(favouritesSvc) {	
+			favouritesSvc.removeFavourite(mockFavourites, 'textId', currentFavourite.textId);
+			expect(mockFavourites.length).toEqual(2);
+			expect(mockFavourites[1].textId).toEqual('c');
+		}));
+
+		it('should not remove a favourite from the favourites array if the item does not exist', inject(function(favouritesSvc) {	
+			currentFavourite = {
+				textId: 'd'
+			};
+			favouritesSvc.removeFavourite(mockFavourites, 'textId', currentFavourite.textId);
+			expect(mockFavourites.length).toEqual(3);
+			expect(mockFavourites[2].textId).toEqual('c');
+		}));
+
+		it('should call the set localstorage method', inject(function(favouritesSvc) {
+			spyOn(favouritesSvc, 'setFavourites');
+			favouritesSvc.removeFavourite(mockFavourites, 'textId', currentFavourite.textId);
+			expect(favouritesSvc.setFavourites).toHaveBeenCalledWith(mockFavourites);
+		}));
+
+	});
+
 });

@@ -28,13 +28,16 @@
         
         <!-- Text list -->
         <div ng-repeat="txt in filteredList">
-
             <div id="{{txt.TextId}}" >
                 <img
                     src="./assets/e-mail64.png"
                     class = "pull-right envoyer"
                     ng-click="send(txt)" >
-                
+                <img
+                    src="./assets/star.jpeg"
+                    class = "pull-right favourite"
+                    ng-if="txt.isFavourite"
+                    ng-click="removeFavourite(txt)" >
                 <!--<a  href="/area/{{ currentArea.Name }}/intention/{{ currentIntention.IntentionId }}/text/{{txt.TextId}}"-->
                 <a  href="/area/{{ currentArea.Name }}/intention/{{ currentIntention.IntentionId }}/recipient/{{ recipientId }}/text/{{txt.TextId}}"
                     targetType = "Text"
