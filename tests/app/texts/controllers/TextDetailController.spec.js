@@ -90,5 +90,4 @@ beforeEach(module('app/texts/TextDetailController'));
 
 	});
 	
-
 });
