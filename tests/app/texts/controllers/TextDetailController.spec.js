@@ -4,7 +4,7 @@ beforeEach(module('app/texts/TextDetailController'));
 
 	var $rootScope, mocks;
 
-	beforeEach(inject(function (_$rootScope_, $controller, $q) {
+	beforeEach(inject(function (_$rootScope_, _$controller_, $q) {
 		mocks = {
 			currentArea: {
 				AreaId: '123',
@@ -54,7 +54,7 @@ beforeEach(module('app/texts/TextDetailController'));
 	});
 
 	describe('edit', function() {
-		
+
 		it('should change edit text flag to true', function() {
 			expect($rootScope.editText).toBe(false);
 			$rootScope.edit();
@@ -89,5 +89,5 @@ beforeEach(module('app/texts/TextDetailController'));
 		});
 
 	});
-	
+
 });
