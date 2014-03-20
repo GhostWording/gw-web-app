@@ -13,12 +13,13 @@ angular.module('app/recipients/currentRecipient', [])
 
     getCurrentRecipient: function() {
       var currentRecipientId = service.getCurrentRecipientId();
-      if ( !currentRecipientId )
-        return null;
       return subscribableRecipientsSvc.getRecipients().then(function(subscribableRecipients) {
+        if ( !currentRecipientId )
+          return null;
         if ( subscribableRecipients ) {
           return  subscribableRecipientsSvc.getFromRecipients(subscribableRecipients,currentRecipientId);
-        }
+        } else
+          return null;
       });
     }
   };
