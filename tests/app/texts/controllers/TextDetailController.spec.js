@@ -53,6 +53,22 @@ beforeEach(module('app/texts/TextDetailController'));
 		expect(mocks.tagLabelsSvc.labelsFromStyleTagIds).toHaveBeenCalled();
 	});
 
+	it('should attach the correct value for recipient id', function() {
+		expect($rootScope.recipientId).toEqual('333');
+		delete mocks.currentRecipient;
+		$controller('TextDetailController', {
+			$scope: $rootScope,
+			currentText: mocks.currentText,
+			currentArea: mocks.currentArea,
+			currentIntention: mocks.currentIntention,
+			favouritesSvc: mocks.favouritesSvc,
+			tagLabelsSvc: mocks.tagLabelsSvc,
+			$modal: mocks.modal,
+			currentRecipient: mocks.currentRecipient
+		});
+		expect($rootScope.recipientId).toEqual('');
+	});
+
 	describe('edit', function() {
 		
 		it('should change edit text flag to true', function() {
