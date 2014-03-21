@@ -112,6 +112,11 @@ angular.module('app/filters/TextFiltersController', [])
 
     var filters = filtersSvc.filters;
 
+    if (areaName == 'General') {
+      console.log(areaName + ' area => disable all default filtering');
+      return;
+    }
+
     if ( areaName == 'LoveLife' ) {
       if ( userGender == 'H' || userGender == 'F')
         filters.recipientGender = invertGender(userGender);
@@ -123,6 +128,7 @@ angular.module('app/filters/TextFiltersController', [])
       if ( intentionId !=  'B47AE0' && intentionId !=  '938493' )
         filters.tuOuVous = 'T';
     }
+    // TODO : all this should be data driven, set by the server
     switch (intentionId ) {
       case '0ECC82' : // Exutoire
       case '0B1EA1' : // Jokes
@@ -133,6 +139,12 @@ angular.module('app/filters/TextFiltersController', [])
         break;
       case '016E91' : // Je pense à toi
       case 'D392C1' : // Sleep well
+      case '8ED62C' : // Tu me manques
+      case '1395B6' : // Surprends-moi
+      case '5CDCF2' : // Je t'aime
+      case 'BD7387' : // J'aimerais vous revoir
+      case 'D78AFB' : // Je te quitte
+      case 'F4566D' : // J'ai envie de toi
         if ( userGender == 'H' || userGender == 'F')
           filters.recipientGender = invertGender(userGender);
         filters.tuOuVous = 'T';
