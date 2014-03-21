@@ -13,10 +13,12 @@ function ($scope, currentTextList, currentIntention, currentArea, currentUser, f
     $scope.filters = filtersSvc.filters;
     $scope.filtersWellDefined = filtersSvc.wellDefined;
 
+  $scope.showTextsAnyway = function() {
+    return currentArea.Name == 'General';
+  };
 
-  if ( currentRecipient ) {
+  if ( currentRecipient )
     $scope.recipientId  = currentRecipient.Id;
-  }
   else
     $scope.recipientId = '';
 
