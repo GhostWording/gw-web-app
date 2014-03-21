@@ -13,14 +13,14 @@ angular.module('app/recipients/subscribableRecipients', [])
 			return $q.when([
 				{ "Id": "SweetheartF", "RecipientTypeId": "9E2D23", "Gender": "F", "LocalLabel": "Ma chérie", "TuOuVous" : "T", "Importance" : 1},
 				{ "Id": "SweetheartM", "RecipientTypeId": "9E2D23", "Gender": "H", "LocalLabel": "Mon chéri", "TuOuVous" : "T", "Importance" : 2},
+        { "Id": "ProNetwork", "RecipientTypeId": "35AE93", "Gender": null, "LocalLabel": "Mon réseau pro", "TuOuVous" : null,"Importance" : 4},
 				{ "Id": "CloseFriends", "RecipientTypeId": "3B9BF2", "Gender": null, "LocalLabel": "Les copains et les copines", "TuOuVous" : null,"Importance" : 3},
 				{ "Id": "LongLostFriends", "RecipientTypeId": "2B4F14", "Gender": null, "LocalLabel": "Les amis perdus de vue", "TuOuVous" : "T","Importance" : 9},
-				{ "Id": "Sister", "RecipientTypeId": "87F524", "Gender": "F", "LocalLabel": "Ma soeur", "TuOuVous" : "T","Importance" : 5},
-				{ "Id": "Brother", "RecipientTypeId": "87F524", "Gender": "H", "LocalLabel": "Mon frère", "TuOuVous" : "T","Importance" : 6},
-				{ "Id": "Father", "RecipientTypeId": "64C63D", "Gender": "H", "LocalLabel": "Papa", "TuOuVous" : "T","Importance" : 7},
-				{ "Id": "Mother", "RecipientTypeId": "64C63D", "Gender": "F", "LocalLabel": "Maman", "TuOuVous" : "T","Importance" : 8},
+        { "Id": "Mother", "RecipientTypeId": "64C63D", "Gender": "F", "LocalLabel": "Maman", "TuOuVous" : "T","Importance" : 5},
+        { "Id": "Father", "RecipientTypeId": "64C63D", "Gender": "H", "LocalLabel": "Papa", "TuOuVous" : "T","Importance" : 6},
+				{ "Id": "Sister", "RecipientTypeId": "87F524", "Gender": "F", "LocalLabel": "Ma soeur", "TuOuVous" : "T","Importance" : 7},
+				{ "Id": "Brother", "RecipientTypeId": "87F524", "Gender": "H", "LocalLabel": "Mon frère", "TuOuVous" : "T","Importance" : 8},
 				{ "Id": "DistantRelatives", "RecipientTypeId": "BCA601", "Gender": null, "LocalLabel": "La famille éloignée", "TuOuVous" : "T","Importance" : 10},
-				{ "Id": "ProNetwork", "RecipientTypeId": "35AE93", "Gender": null, "LocalLabel": "Mon réseau pro", "TuOuVous" : null,"Importance" : 4}
 			]);
 		},
 

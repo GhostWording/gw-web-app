@@ -29,15 +29,15 @@ angular.module('app/recipients/likelyIntentions', [])
 		getLikelyIntentionsForRecipients: function() {
 			return $q.when([
         // Sweetheart
-        { "RecipientTypeId": "9E2D23", "IntentionId": "1778B7", "IntentionLabel" : "Merci",             "Freq": "3-week", "FreqLabel":"3 par semaine"},
-        { "RecipientTypeId": "9E2D23", "IntentionId": "F4566D", "IntentionLabel" : "J'ai envie de toi", "Freq": "1-week",  "FreqLabel":"1 par semaine" },
-				{ "RecipientTypeId": "9E2D23", "IntentionId": "016E91", "IntentionLabel" : "Je pense à toi",    "Freq": "1-day",   "FreqLabel":"1 par jour"},
+        { "RecipientTypeId": "9E2D23", "IntentionId": "016E91", "IntentionLabel" : "Je pense à toi",    "Freq": "1-day",   "FreqLabel":"1 par jour"},
+        { "RecipientTypeId": "9E2D23", "IntentionId": "8ED62C", "IntentionLabel" : "Tu me manques",     "Freq": "1-week",  "FreqLabel":"1 par semaine"},
         { "RecipientTypeId": "9E2D23", "IntentionId": "5CDCF2", "IntentionLabel" : "Je t'aime",         "Freq": "1-week",  "FreqLabel":"1 par semaine" },
-        { "RecipientTypeId": "9E2D23", "IntentionId": "D392C1", "IntentionLabel" : "Bonne nuit"},
-        { "RecipientTypeId": "9E2D23", "IntentionId": "8ED62C", "IntentionLabel" : "Tu me manques"},
+        { "RecipientTypeId": "9E2D23", "IntentionId": "1778B7", "IntentionLabel" : "Merci",             "Freq": "3-week", "FreqLabel":"3 par semaine"},
+        { "RecipientTypeId": "9E2D23", "IntentionId": "F4566D", "IntentionLabel" : "J'ai envie de toi" },
         { "RecipientTypeId": "9E2D23", "IntentionId": "DF7A10", "IntentionLabel" : "Je suis jaloux/jalouse"},
         { "RecipientTypeId": "9E2D23", "IntentionId": "9B2C8B", "IntentionLabel" : "Je suis en retard"},
         { "RecipientTypeId": "9E2D23", "IntentionId": "1395B6", "IntentionLabel" : "Surprends-moi"},
+        { "RecipientTypeId": "9E2D23", "IntentionId": "D392C1", "IntentionLabel" : "Bonne nuit"},
         { "RecipientTypeId": "9E2D23", "IntentionId": "A730B4", "IntentionLabel" : "Bon anniversaire"},
         { "RecipientTypeId": "9E2D23", "IntentionId": "D78AFB", "IntentionLabel" : "Je te quitte"},
         { "RecipientTypeId": "9E2D23", "IntentionId": "70D12F", "IntentionLabel" : "Pardon"},

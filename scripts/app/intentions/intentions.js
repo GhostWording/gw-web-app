@@ -59,6 +59,7 @@ function($scope, currentArea, intentionsSvc,currentRecipientSvc,likelyIntentions
     "Family" : "Dites-leur !",
     "Important" : "Occasions spéciales", // événements notables, saillants, singulier
     "Formalities" : "Expédiez les formalités !",
+    "General" : "Rubriques",
   };
   $scope.pageTitle = AREA_PAGE_TITLE[currentArea.Name];
 
