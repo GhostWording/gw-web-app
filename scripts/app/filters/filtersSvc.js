@@ -123,33 +123,36 @@ angular.module('app/filters/filtersSvc', ['app/filters/styles'])
       return area.name === "Formalities";
     },
 
-    setDefaultFilters: function(area, intention, user) {
+    // Not currently used : work is done in textFilterController instead
+    setDefaultFilters: function (area, intention, user) {
       var filters = service.filters;
 
-      console.log ('defaultFilter for : ' + area.name + " - " + intention.IntentionId + ' - ' + user.gender);
+      console.log('defaultFilter for : ' + area.name + " - " + intention.IntentionId + ' - ' + user.gender);
 
-      if ( area.name == 'LoveLife' ) {
+      if (area.name == 'General') {
+        console.log(area.name + ' area => disable all default filtering');
+        return;
+      }
 
-        if ( user.gender == 'H' ) {
+      if (area.name == 'LoveLife') {
+        if (user.gender == 'H') {
           filters.recipientGender = 'F';
         }
-
-        if ( user.gender == 'F') {
+        if (user.gender == 'F') {
           filters.recipientGender = 'H';
         }
-
         // Unless intention is 'I would like to see you again' or new relationship, presume 'Tu' will be adequate
-        if ( !user.gender && intentionId != 'BD7387' &&  intentionId != '7445BC' ) {
+        if (!user.gender && intentionId != 'BD7387' && intentionId != '7445BC') {
           filters.tuOuVous = 'T';
         }
       }
 
-      if ( area.name == 'Friends' ) {
-        if ( intentionId !=  'B47AE0' && intentionId !=  '938493' )
+      if (area.name == 'Friends') {
+        if (intentionId != 'B47AE0' && intentionId != '938493')
           filters.tuOuVous = 'T';
       }
 
-      switch (intentionId ) {
+      switch (intentionId) {
         case '0ECC82' : // Exutoire
         case '0B1EA1' : // Jokes
         case 'D19840' : // Venez diner à la maison
@@ -159,40 +162,33 @@ angular.module('app/filters/filtersSvc', ['app/filters/styles'])
           break;
         case '016E91' : // Je pense à toi
         case 'D392C1' : // Sleep well
-          if ( user.gender == 'H' ) {
+          if (user.gender == 'H') {
             filters.recipientGender = 'F';
           }
-
-          if ( user.gender == 'F') {
+          if (user.gender == 'F') {
             filters.recipientGender = 'H';
           }
-
-          if ( user.gender !== null ) {
+          if (user.gender !== null) {
             filters.tuOuVous = 'T';
           }
           break;
       }
+
     }
 
   };
 
-
   // Compute additional filter values
   var updateFilters = function() {
     var filters = service.filters;
-
     // Proche mais pas Plusieurs : Close to recipient and not several of them => Tu looks like a good choice
     if ( !filters.tuOuVous && filters.closeness === 'P' && filters.recipientGender !== 'P') {
       filters.tuOuVous = 'T';
     }
-
   };
 
   // Set up various connections between filters, using $watches
   $rootScope.$watch(function() { return service.filters; }, updateFilters, true);
 
   return service;
-
-  // TODO: We want to clear the preferred styles if the intention changes - this should be done in a controller
-
 }]);
