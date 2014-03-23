@@ -1,8 +1,8 @@
 <h4>My Favourites</h4>
-<button ng-click="predicate='favouriteDate'; reverse = !reverse">Sort by date</button>
-<button ng-click="predicate=['favouriteIntention', 'favouriteDate']; reverse = !reverse">Sort by intention</button>
-<ul>
-	<li ng-repeat="favourite in favourites | orderBy:predicate:reverse">
+<button ng-click="predicate='favouriteDate'; reverse = !reverse" class="btn btn-primary">Sort by date</button>
+<button ng-click="predicate=['favouriteIntention', 'favouriteDate']; reverse = !reverse" class="btn btn-primary">Sort by intention</button>
+<ul class="list-unstyled" style="margin-top: 20px;">
+	<li ng-repeat="favourite in favourites | orderBy:predicate:reverse" class="well well-small bmw-texte">
 		<a href="/area/{{favourite.favouriteArea}}/intention/{{favourite.intentionId}}/recipient//text/{{favourite.textId}}">{{favourite.favouriteText}}</a>
 	</li>
 </ul>
