@@ -1,51 +1,41 @@
 angular.module('app/favourites/favouritesSvc', ['common/services/cache'])
 
-.factory('favouritesSvc', ['localStorage', function (localStorage) {	
-	
-	var service = {
-		
-		favourites: localStorage.get('favourites'),
+.factory('favouritesSvc', ['localStorage', function (localStorage) {  
+  
+  var service = {
+    
+    favourites: localStorage.get('favourites'),
 
-		addFavourite: function(favItem) {
-			
-			if(service.favourites) {
-				if(!service.isExistingFavourite(service.favourites, 'textId', favItem.textId)) {
-					service.favourites.push(favItem);	
-				}
-			}
-			else {
-				service.favourites = [favItem];
-			}
+    addFavourite: function(favItem) {
+      
+      if(service.favourites) {
+        if(!service.isExisting(favItem.textId)) {
+          service.favourites[favItem.textId] = favItem;
+        }
+      }
+      else {
+        service.favourites = {};
+        service.favourites[favItem.textId] = favItem;
+      }
 
-			service.setFavourites(service.favourites);
-		},
+      service.saveFavourites();
+    },
 
-		removeFavourite: function(favourites, key, currentItem) {
-			angular.forEach(favourites, function(fav) {
-				if(currentItem === fav[key]) {
-					favourites.splice(favourites.indexOf(fav), 1);
-					service.setFavourites(favourites);
-				}
-			});
-		},
+    removeFavourite: function(textId) {
+      delete service.favourites[textId];
+      service.saveFavourites();
+    },
 
-		isExistingFavourite: function(favourites, key, currentItem) {
-			var found = false;
-			angular.forEach(favourites, function(fav) {
-				if(currentItem === fav[key]) {
-					found = true;
-					return;
-				}
-			});
-			return found;
-		},
+    isExisting: function(textId) {
+      return !!service.favourites[textId];
+    },
 
-		setFavourites: function (favourites) {
-			localStorage.set('favourites', favourites);
-		}
+    saveFavourites: function () {
+      localStorage.set('favourites', service.favourites);
+    }
 
-	};
+  };
 
-	return service;
+  return service;
 
 }]);

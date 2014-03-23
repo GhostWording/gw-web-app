@@ -1,113 +1,127 @@
 describe('favouritesSvc', function() {
 
-	beforeEach(module('app/favourites'));
+  beforeEach(module('app/favourites'));
 
-	describe('isExistingFavourite', function() {
-		var mockFavourites = [
-			{favouriteText: 'a'},
-			{favouriteText: 'b'},
-			{favouriteText: 'c'}
-		];
+  //Helper function to find how many favourites we have
+  //so we can test if new ones are added.
+  function objLength(obj) {
+    var length = 0;
+    for(var key in obj) {
+      if(obj.hasOwnProperty(key)) {
+        length ++;
+      }
+    }
+    return length;
+  }
 
-		it('should return false if current favourite does not exist in the favourites array', inject(function(favouritesSvc) {
-			expect(favouritesSvc.isExistingFavourite(mockFavourites, 'favouriteText', 'd')).toEqual(false);
-		}));
+  describe('isExistingFavourite', function() {
+    beforeEach(inject(function(favouritesSvc) {
+      favouritesSvc.favourites = {
+        a: {textId: 'a'},
+        b: {textId: 'b'},
+        c: {textId: 'c'}
+      };
+    }));
 
-		it('should return true if current favourite exists in the favourites array', inject(function(favouritesSvc) {
-			expect(favouritesSvc.isExistingFavourite(mockFavourites, 'favouriteText', 'a')).toEqual(true);
-		}));
+    it('should return false if current favourite does not exist in the favourites array', inject(function(favouritesSvc) {
+      expect(favouritesSvc.isExisting('d')).toEqual(false);
+    }));
 
-	});
+    it('should return true if current favourite exists in the favourites array', inject(function(favouritesSvc) {
+      expect(favouritesSvc.isExisting('a')).toEqual(true);
+    }));
 
-	describe('setFavourites', function() {
+  });
 
-		it('should set the favourites entry of localStorage with the correct argument', inject(function(favouritesSvc, localStorage) {
-			var mockFavourites = [];
-			spyOn(localStorage, 'set');
-			favouritesSvc.setFavourites(mockFavourites);
-			expect(localStorage.set).toHaveBeenCalledWith('favourites', []);
-		}));
+  describe('saveFavourites', function() {
 
-	});
+    it('should set the favourites entry of localStorage with the correct argument', inject(function(favouritesSvc, localStorage) {
+      favouritesSvc.favourites = [];
+      spyOn(localStorage, 'set');
+      favouritesSvc.saveFavourites();
+      expect(localStorage.set).toHaveBeenCalledWith('favourites', []);
+    }));
 
-	describe('addFavourite', function() {
+  });
 
-		it('should set favourites with current item if there are no other favourites', inject(function(favouritesSvc) {
-			favouritesSvc.favourites = null;
-			var currentFavourite = {
-				textId: 'a'
-			};
-			expect(favouritesSvc.favourites).toBe(null);
-			favouritesSvc.addFavourite(currentFavourite);
-			expect(favouritesSvc.favourites.length).toBe(1);
-			expect(favouritesSvc.favourites).toEqual([{textId: 'a'}]);
-		}));
+  describe('addFavourite', function() {
 
-		it('should add an additional favourite to the favourites array', inject(function(favouritesSvc) {
-			favouritesSvc.favourites = [
-				{textId: 'a'},
-				{textId: 'b'}
-			];
-			var currentFavourite = {
-				textId: 'c'
-			};
-			expect(favouritesSvc.favourites.length).toBe(2);
-			favouritesSvc.addFavourite(currentFavourite);
-			expect(favouritesSvc.favourites.length).toBe(3);
-			expect(favouritesSvc.favourites[2]).toEqual({textId: 'c'});
-		}));
+    it('should set favourites with current item if there are no other favourites', inject(function(favouritesSvc) {
+      favouritesSvc.favourites = null;
+      var currentFavourite = {
+        textId: 'a'
+      };
+      expect(favouritesSvc.favourites).toBe(null);
+      favouritesSvc.addFavourite(currentFavourite);
+      expect(favouritesSvc.favourites).toEqual({a: {textId: 'a'}});
+    }));
 
-		it('should not add an additional favourite to the favourites array if it already exists', inject(function(favouritesSvc) {
-			favouritesSvc.favourites = [
-				{textId: 'a'},
-				{textId: 'b'}
-			];
-			var currentFavourite = {
-				textId: 'a'
-			};
-			expect(favouritesSvc.favourites.length).toBe(2);
-			favouritesSvc.addFavourite(currentFavourite);
-			expect(favouritesSvc.favourites.length).toBe(2);
-			expect(favouritesSvc.favourites[1]).toEqual({textId: 'b'});
-		}));
+    it('should add an additional favourite to the favourites object', inject(function(favouritesSvc) {
+      favouritesSvc.favourites = {
+        a: {textId: 'a'},
+        b: {textId: 'b'}
+      };
+      var currentFavourite = {
+        textId: 'c'
+      };
+      expect(objLength(favouritesSvc.favourites)).toEqual(2);
+      expect(favouritesSvc.favourites['c']).toBe(undefined);
+      favouritesSvc.addFavourite(currentFavourite);
+      expect(favouritesSvc.favourites['c']).toEqual({textId: 'c'});
+      expect(objLength(favouritesSvc.favourites)).toEqual(3);
+    }));
 
-	});
+    it('should not add an additional favourite to the favourites object if it already exists', inject(function(favouritesSvc) {
+      favouritesSvc.favourites = {
+        a: {textId: 'a'},
+        b: {textId: 'b'}
+      };
+      var currentFavourite = {
+        textId: 'a'
+      };
+      expect(objLength(favouritesSvc.favourites)).toEqual(2);
+      favouritesSvc.addFavourite(currentFavourite);
+      expect(objLength(favouritesSvc.favourites)).toEqual(2);
+    }));
 
-	describe('removeFavourite', function() {
+  });
 
-		var mockFavourites, currentFavourite;
-		beforeEach(function() {
-			mockFavourites = [
-				{textId: 'a'},
-				{textId: 'b'},
-				{textId: 'c'}
-			];
-			currentFavourite = {
-				textId: 'b'
-			};
-		});
+  describe('removeFavourite', function() {
 
-		it('should remove a favourite from the favourites array', inject(function(favouritesSvc) {	
-			favouritesSvc.removeFavourite(mockFavourites, 'textId', currentFavourite.textId);
-			expect(mockFavourites.length).toEqual(2);
-			expect(mockFavourites[1].textId).toEqual('c');
-		}));
+    beforeEach(inject(function(favouritesSvc) {
+      favouritesSvc.favourites = {
+        a: {textId: 'a'},
+        b: {textId: 'b'},
+        c: {textId: 'c'}
+      };
+    }));
 
-		it('should not remove a favourite from the favourites array if the item does not exist', inject(function(favouritesSvc) {	
-			currentFavourite = {
-				textId: 'd'
-			};
-			favouritesSvc.removeFavourite(mockFavourites, 'textId', currentFavourite.textId);
-			expect(mockFavourites.length).toEqual(3);
-			expect(mockFavourites[2].textId).toEqual('c');
-		}));
+    it('should remove a favourite from the favourites object', inject(function(favouritesSvc) {
+      var currentFavourite = {
+        textId: 'b'
+      };
+      favouritesSvc.removeFavourite('b');
+      expect(objLength(favouritesSvc.favourites)).toEqual(2);
+      expect(favouritesSvc.favourites['b']).toBe(undefined);
+    }));
 
-		it('should call the set localstorage method', inject(function(favouritesSvc) {
-			spyOn(favouritesSvc, 'setFavourites');
-			favouritesSvc.removeFavourite(mockFavourites, 'textId', currentFavourite.textId);
-			expect(favouritesSvc.setFavourites).toHaveBeenCalledWith(mockFavourites);
-		}));
+    it('should not remove a favourite from the favourites object if the item does not exist', inject(function(favouritesSvc) { 
+      var currentFavourite = {
+       textId: 'd'
+      };
+      favouritesSvc.removeFavourite('d');
+      expect(objLength(favouritesSvc.favourites)).toEqual(3);
+    }));
 
-	});
+    it('should call the save favourites method', inject(function(favouritesSvc) {
+      var currentFavourite = {
+        textId: 'b'
+      };
+      spyOn(favouritesSvc, 'saveFavourites');
+      favouritesSvc.removeFavourite('b');
+      expect(favouritesSvc.saveFavourites).toHaveBeenCalled();
+    }));
+
+  });
 
 });

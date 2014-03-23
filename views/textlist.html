@@ -2,40 +2,45 @@
 
   <div ng-hide="filtersWellDefined()">
     <!-- Number of texts -->
-        <span ng-show="textList.length">
-            <span class="nombreTextes">{{ textList.length }}</span>&nbsp
-            <span class="labelTextes">façons de dire</span>
-        </span>
-        <span ng-hide="textList.length">
-            <span class="labelTextes">Aucun texte pour dire</span>
-        </span>
+    <span ng-show="textList.length">
+      <span class="nombreTextes">{{ textList.length }}</span>&nbsp
+      <span class="labelTextes">façons de dire</span>
+    </span>
+    <span ng-hide="textList.length">
+      <span class="labelTextes">Aucun texte pour dire</span>
+    </span>
     <!-- Back button -->
     <a href="/area/{{ currentArea.Name }}/intention/{{ recipientId }}" class="pull-right" role="button" targetId="Back">
       <img ng-src="./assets/arrow-left.png" class="stylepicto"> </a>
-  </div>
+    </div>
 
-  <!-- Selected intention  -->
-  <div><h4 id="testId" class="intentionCourante">{{ currentIntention.Label }} </h4></div>
+    <!-- Selected intention  -->
+    <div><h4 id="testId" class="intentionCourante">{{ currentIntention.Label }} </h4></div>
 
-  <!-- Filtering options  -->
-  <div ng-include="'views/partials/filterForm.html'" style="margin-bottom: 20px;"></div>
-  <div ng-include="'views/partials/styleBar.html'" ng-show="filtersWellDefined()"></div>
+    <!-- Filtering options  -->
+    <div ng-include="'views/partials/filterForm.html'" style="margin-bottom: 20px;"></div>
+    <div ng-include="'views/partials/styleBar.html'" ng-show="filtersWellDefined()"></div>
 
-  <!-- Text list  -->
-  <div class="listeTextes" ng-show="filtersWellDefined() || showTextsAnyway()">
-    <div ng-repeat="txt in filteredList">
-      <div id="{{txt.TextId}}">
-        <img
-            src="./assets/e-mail64.png"
-            class="pull-right envoyer"
-            ng-click="send(txt)">
+    <!-- Text list  -->
+    <div class="listeTextes" ng-show="filtersWellDefined() || showTextsAnyway()">
+      <div ng-repeat="txt in filteredList">
+        <div id="{{txt.TextId}}">
+          <img
+          src="./assets/e-mail64.png"
+          class="pull-right envoyer"
+          ng-click="send(txt)">
+          <img
+          src="./assets/star.jpeg"
+          class = "pull-right favourite"
+          ng-if="isFavourite(txt.TextId)"
+          ng-click="removeFavourite(txt.TextId)" >
 
-        <!--<a  href="/area/{{ currentArea.Name }}/intention/{{ currentIntention.IntentionId }}/text/{{txt.TextId}}"-->
-        <a href="/area/{{ currentArea.Name }}/intention/{{ currentIntention.IntentionId }}/recipient/{{ recipientId }}/text/{{txt.TextId}}"
-           targetType="Text"
-           actionType="open"
-           targetId="{{txt.TextId}}"
-           ng-click="selectThisText(txt,'open')">
+          <!--<a  href="/area/{{ currentArea.Name }}/intention/{{ currentIntention.IntentionId }}/text/{{txt.TextId}}"-->
+          <a href="/area/{{ currentArea.Name }}/intention/{{ currentIntention.IntentionId }}/recipient/{{ recipientId }}/text/{{txt.TextId}}"
+          targetType="Text"
+          actionType="open"
+          targetId="{{txt.TextId}}"
+          ng-click="selectThisText(txt,'open')">
 
           <div cvd-text="txt" ng-class="{active: txt.TextId == selectedTextId}" style="white-space: pre-wrap"></div>
         </a>
