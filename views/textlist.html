@@ -2,6 +2,7 @@
 
   <div ng-hide="filtersWellDefined()">
     <!-- Number of texts -->
+
     <span ng-show="textList.length">
       <span class="nombreTextes">{{ textList.length }}</span>&nbsp
       <span class="labelTextes">façons de dire</span>
@@ -42,9 +43,11 @@
           targetId="{{txt.TextId}}"
           ng-click="selectThisText(txt,'open')">
 
+
           <div cvd-text="txt" ng-class="{active: txt.TextId == selectedTextId}" style="white-space: pre-wrap"></div>
         </a>
       </div>
     </div>
   </div>
+
 </div>

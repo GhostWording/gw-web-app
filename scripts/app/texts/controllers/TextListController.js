@@ -18,6 +18,7 @@ angular.module('app/texts/TextListController', [])
     return currentArea.Name == 'General';
   };
 
+//<<<<<<< HEAD
   $scope.isFavourite = function(txt) {
     return favouritesSvc.isExisting(txt);
   };
@@ -26,6 +27,7 @@ angular.module('app/texts/TextListController', [])
     favouritesSvc.removeFavourite(txt);
   };
 
+//=======
   if ( currentRecipient )
     $scope.recipientId  = currentRecipient.Id;
   else
@@ -35,6 +37,7 @@ angular.module('app/texts/TextListController', [])
     filtersSvc.setFiltersForRecipient(currentRecipient);
     filtersSvc.setRecipientTypeTag(currentRecipient.RecipientTypeId);
   }
+
 
   $scope.filterList = function() {
     // Clear the previous filter list
