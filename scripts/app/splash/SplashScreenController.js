@@ -1,5 +1,6 @@
 // Display general information about our App
-angular.module('app/splash', [])
+angular.module('app/splash', ['common/services'])
 
-.controller('SplashScreenController', ['$scope', function ($scope) {
+.controller('SplashScreenController', ['$scope', 'appUrlSvc', function ($scope,appUrlSvc) {
+  $scope.appUrlSvc = appUrlSvc;
 }]);

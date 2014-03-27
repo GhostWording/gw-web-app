@@ -36,7 +36,7 @@
           ng-click="removeFavourite(txt.TextId)" >
 
           <!--<a  href="/area/{{ currentArea.Name }}/intention/{{ currentIntention.IntentionId }}/text/{{txt.TextId}}"-->
-          <a href="/area/{{ currentArea.Name }}/intention/{{ currentIntention.IntentionId }}/recipient/{{ recipientId }}/text/{{txt.TextId}}"
+          <a href="{{appUrlSvc.getRootPath()}}area/{{ currentArea.Name }}/intention/{{ currentIntention.IntentionId }}/recipient/{{ recipientId }}/text/{{txt.TextId}}"
           targetType="Text"
           actionType="open"
           targetId="{{txt.TextId}}"
