@@ -6,5 +6,6 @@ angular.module('app', [
   'app/splash',
   'app/texts',
   'app/users',
-  'app/routing'
+  'app/routing',
+  'app/favourites'
 ]);

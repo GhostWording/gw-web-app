@@ -4,6 +4,10 @@
 
     <base href="/">
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+
+    <!--http://www.yearofmoo.com/2012/11/angularjs-and-seo.html-->
+    <!--<meta name="fragment" content="!" />-->
+
     <!--<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
 
     <!--Angular and Bootstrap -->
@@ -89,11 +93,11 @@
       </div>
       <div class="collapse navbar-collapse" ng-class="!navCollapsed && 'in'" ng-click="navCollapsed=true">
         <ul class="nav navbar-nav pull-right">
-          <li class="active"><a href="userprofile">Mon profil</a></li>
-          <li class="active"><a href="recipientList">Envoyer à</a></li>
-          <li class="active"><a href="favoriteRecipients">Ne plus oublier</a></li>
-          <li class="active"><a href="area/General/intention">Tous les textes</a></li>
-          <li class="active"><a href="about">A propos</a></li>
+          <li class="active"><a href="{{appUrlSvc.getRootPath()}}userprofile">Mon profil</a></li>
+          <li class="active"><a href="{{appUrlSvc.getRootPath()}}recipientList">Envoyer à</a></li>
+          <li class="active"><a href="{{appUrlSvc.getRootPath()}}favoriteRecipients">Ne plus oublier</a></li>
+          <li class="active"><a href="{{appUrlSvc.getRootPath()}}area/General/intention">Tous les textes</a></li>
+          <li class="active"><a href="{{appUrlSvc.getRootPath()}}about">A propos</a></li>
         </ul>
       </div>
     </nav>
@@ -106,7 +110,7 @@
         <div class="tabBar" ng-show="showTabs" action-location="Tabs">
           <ul id="myTab" class="nav nav-pills ">
             <li ng-class="{active: currentAreaName() == tab.name}" ng-repeat="tab in tabs">
-              <a href="area/{{tab.name}}/intention"> {{tab.label}} </a>
+              <a ng-href="{{appUrlSvc.getRootPath()}}area/{{tab.name}}/intention"> {{tab.label}} </a>
             </li>
           </ul>
         </div>

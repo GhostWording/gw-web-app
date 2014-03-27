@@ -48,8 +48,9 @@ angular.module('app/intentions', ['app/areas', 'common/services/cache', 'common/
   return service;
 }])
 
-.controller('IntentionListController', ['$scope', 'currentArea', 'intentionsSvc','currentRecipientSvc','likelyIntentionsSvc',
-function($scope, currentArea, intentionsSvc,currentRecipientSvc,likelyIntentionsSvc) {
+.controller('IntentionListController', ['$scope', 'currentArea', 'intentionsSvc','currentRecipientSvc','likelyIntentionsSvc','appUrlSvc',
+function($scope, currentArea, intentionsSvc,currentRecipientSvc,likelyIntentionsSvc,appUrlSvc) {
+  $scope.appUrlSvc = appUrlSvc;
 
   // Choose title according to areaId : TODO : move to localisation service
   var AREA_PAGE_TITLE = {

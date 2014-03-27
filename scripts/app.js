@@ -14,6 +14,7 @@ angular.module('cherryApp',  [
 //CORS for angular v < 1.2
 .config(['$httpProvider', '$locationProvider','$sceProvider', function ($httpProvider, $locationProvider,$sceProvider) {
   $locationProvider.html5Mode(true);
+  //$locationProvider.hashPrefix('!');
   $httpProvider.defaults.useXDomain = true;
   delete $httpProvider.defaults.headers.common['X-Requested-With'];
   $sceProvider.enabled(false);
@@ -22,8 +23,8 @@ angular.module('cherryApp',  [
 .config(['$sceDelegateProvider', function ($sceDelegateProvider) {
    $sceDelegateProvider.resourceUrlWhitelist(['self', /^https?:\/\/(api\.)?cvd.io/]);
 }])
-
-.controller('NavBarController',  ['$scope', function($scope) {
+.controller('NavBarController',  ['$scope','appUrlSvc', function($scope,appUrlSvc) {
+  $scope.appUrlSvc = appUrlSvc;
 }])
 
 .controller('FilterDialogController', ['$scope', function($scope) {

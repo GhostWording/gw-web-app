@@ -98,6 +98,14 @@ angular.module('app/routing', [])
         }
     })
 
+    .when('/favouriteTexts', {
+        templateUrl: 'views/favouriteText.html',
+        controller: 'FavouritesListController',
+        resolve: {
+            favourites: ['favouritesSvc', function(favouritesSvc) { return favouritesSvc.favourites; }]
+        }
+    })
+
     .when('/favoriteRecipients', {
         templateUrl: 'views/favoriteRecipients.html',
         controller: 'SubscribableRecipientsController',

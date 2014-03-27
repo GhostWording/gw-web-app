@@ -15,25 +15,24 @@
 
     <ul class="pager bmwQuestionButton" >
         <li ng-class = '{selectionne: false}'>
-            <a href="area/Friends/intention" >Mes amis</a>
+            <a ng-href="{{ appUrlSvc.getFullPath('area/Friends/intention') }} " >Mes amis</a>
         </li>
     </ul>
     <ul class="pager bmwQuestionButton" >
         <li ng-class = '{selectionne: false}'>
-            <a href="area/LoveLife/intention" >Mes amours</a>
+            <a ng-href="{{  appUrlSvc.getFullPath('area/LoveLife/intention') }}" >Mes amours</a>
         </li>
     </ul>
     <ul class="pager bmwQuestionButton" >
         <li ng-class = '{selectionne: false}'>
-            <a href="area/Family/intention" >La famille</a>
+            <a ng-href="{{ appUrlSvc.getFullPath('area/Family/intention') }}" >La famille</a>
         </li>
     </ul>
     <ul class="pager bmwQuestionButton" >
       <li ng-class = '{selectionne: false}'>
         <!--<a href="favoriteRecipients" >Créer du lien</a>-->
-        <!--<a href="favoriteRecipients" >Jardiner mon univers</a>-->
         <!--<a href="favoriteRecipients" >Enchanter mon univers</a>-->
-        <a href="favoriteRecipients">Une vie meilleure</a>
+        <a ng-href="{{ appUrlSvc.getFullPath('favoriteRecipients')}}">Entretenir ma bulle</a>
       </li>
     </ul>
 
