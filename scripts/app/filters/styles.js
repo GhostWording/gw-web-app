@@ -80,7 +80,8 @@ angular.module('app/filters/styles', [])
   styles.addStyle({name:'friendly', id:'5EDC19', visible: false});
   styles.addStyle({name:'melancholic', id:'13F241', visible: false});
 	styles.addStyle({name:'warm', id:'5EDC19', visible: false});
-  styles.addStyle({name:'citation', id:'citationCode', visible: true});
+//  styles.addStyle({name:'citation', id:'citationCode', visible: true}); // BA46D4
+  styles.addStyle({name:'citation', id:'BA46D4', visible: true});
 
   return styles;
 }]);

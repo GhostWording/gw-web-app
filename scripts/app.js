@@ -14,6 +14,7 @@ angular.module('cherryApp',  [
 //CORS for angular v < 1.2
 .config(['$httpProvider', '$locationProvider','$sceProvider', function ($httpProvider, $locationProvider,$sceProvider) {
   $locationProvider.html5Mode(true);
+  //$locationProvider.hashPrefix('!');
   $httpProvider.defaults.useXDomain = true;
   delete $httpProvider.defaults.headers.common['X-Requested-With'];
   $sceProvider.enabled(false);
@@ -21,10 +22,6 @@ angular.module('cherryApp',  [
 //CORS for angular v > 1.2
 .config(['$sceDelegateProvider', function ($sceDelegateProvider) {
    $sceDelegateProvider.resourceUrlWhitelist(['self', /^https?:\/\/(api\.)?cvd.io/]);
-}])
-// http://www.yearofmoo.com/2012/11/angularjs-and-seo.html
-.config(['$routeProvider', function($route) {
-  $route.html5Mode(true);
 }])
 .controller('NavBarController',  ['$scope','appUrlSvc', function($scope,appUrlSvc) {
   $scope.appUrlSvc = appUrlSvc;
