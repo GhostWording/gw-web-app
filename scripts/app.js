@@ -23,7 +23,8 @@ angular.module('cherryApp',  [
    $sceDelegateProvider.resourceUrlWhitelist(['self', /^https?:\/\/(api\.)?cvd.io/]);
 }])
 
-.controller('NavBarController',  ['$scope', function($scope) {
+.controller('NavBarController',  ['$scope','appUrlSvc', function($scope,appUrlSvc) {
+  $scope.appUrlSvc = appUrlSvc;
 }])
 
 .controller('FilterDialogController', ['$scope', function($scope) {
