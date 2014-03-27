@@ -22,7 +22,10 @@ angular.module('cherryApp',  [
 .config(['$sceDelegateProvider', function ($sceDelegateProvider) {
    $sceDelegateProvider.resourceUrlWhitelist(['self', /^https?:\/\/(api\.)?cvd.io/]);
 }])
-
+// http://www.yearofmoo.com/2012/11/angularjs-and-seo.html
+.config(['$routeProvider', function($route) {
+  $route.html5Mode(true);
+}])
 .controller('NavBarController',  ['$scope','appUrlSvc', function($scope,appUrlSvc) {
   $scope.appUrlSvc = appUrlSvc;
 }])
