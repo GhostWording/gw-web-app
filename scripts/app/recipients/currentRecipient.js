@@ -4,17 +4,24 @@ angular.module('app/recipients/currentRecipient', [])
 
   var service = {
 
+    nullRecipientId: 'none',
+
     getCurrentRecipientId: function() {
-      return $route.current && $route.current.params.recipientId;
+      var retval = $route.current && $route.current.params.recipientId;
+      if ( !retval )
+        retval = service.nullRecipientId;
+      return retval;
     },
-    getBlankValue: function() {
-      return '';
+
+    getIdOfRecipient: function(recipient) {
+      var valret = recipient ? recipient.Id :  service.nullRecipientId;
+      return valret;
     },
 
     getCurrentRecipient: function() {
       var currentRecipientId = service.getCurrentRecipientId();
       return subscribableRecipientsSvc.getRecipients().then(function(subscribableRecipients) {
-        if ( !currentRecipientId )
+        if ( !currentRecipientId || currentRecipientId == service.nullRecipientId)
           return null;
         if ( subscribableRecipients ) {
           return  subscribableRecipientsSvc.getFromRecipients(subscribableRecipients,currentRecipientId);

@@ -77,10 +77,12 @@ function($scope, currentArea, intentionsSvc,currentRecipientSvc,likelyIntentions
 
   $scope.currentArea = currentArea;
   var ITEMS_PER_ROW = 3;
+
   var recipientId = currentRecipientSvc.getCurrentRecipientId();
+  $scope.recipientId = recipientId;
   // Get intentions for the current recipient : all this mess will be replaced by a call to server when  the APIs serve recipients
-  if ( recipientId && recipientId != 'none' && recipientId !== '' ) {
-    $scope.recipientId = recipientId;
+  if ( recipientId && recipientId != currentRecipientSvc.nullRecipientId && recipientId !== '' ) {
+//    $scope.recipientId = recipientId;
     currentRecipientSvc.getCurrentRecipient()
       // Get recipientTYPE Id (different from recipient id)
       .then(function (currentRecipient) {
