@@ -110,7 +110,7 @@
         <div class="tabBar" ng-show="showTabs" action-location="Tabs">
           <ul id="myTab" class="nav nav-pills ">
             <li ng-class="{active: currentAreaName() == tab.name}" ng-repeat="tab in tabs">
-              <a ng-href="{{appUrlSvc.getRootPath()}}area/{{tab.name}}/intention"> {{tab.label}} </a>
+              <a href="{{appUrlSvc.getRootPath()}}area/{{tab.name}}/intention"> {{tab.label}} </a>
             </li>
           </ul>
         </div>
