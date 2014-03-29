@@ -74,7 +74,7 @@ angular.module('app/recipients/likelyIntentions', [])
         { "RecipientTypeId": "2B4F14", "IntentionId": "916FFC", "IntentionLabel" : "Prenons un verre",  "Freq": "1-month", "FreqLabel":"1 par mois"},
         { "RecipientTypeId": "2B4F14", "IntentionId": "A730B4", "IntentionLabel" : "Bon anniversaire"},
         // CloseFriends
-				{ "RecipientTypeId": "3B9BF2", "IntentionId": "1778B7", "IntentionLabel" : "Merci",             "Freq": "2-month", "FreqLabel":"2 par mois"},
+				{ "RecipientTypeId": "3B9BF2", "IntentionId": "1778B7", "IntentionLabel" : "Merci"},
 				{ "RecipientTypeId": "3B9BF2", "IntentionId": "916FFC", "IntentionLabel" : "Trinquons !",       "Freq": "2-month", "FreqLabel":"2 par mois"},
 				{ "RecipientTypeId": "3B9BF2", "IntentionId": "F82B5C", "IntentionLabel" : "Que deviens-tu ?",  "Freq": "2-month", "FreqLabel":"2 par mois"},
         { "RecipientTypeId": "3B9BF2", "IntentionId": "D19840", "IntentionLabel" : "Venez dîner",       "Freq": "2-month", "FreqLabel":"2 par mois"},
