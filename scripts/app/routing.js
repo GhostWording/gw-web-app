@@ -165,10 +165,10 @@ angular.module('app/routing', [])
 
 
     // Shortcut for human readable link : must be placed after other single piece parameter urls
-    .when('/:intentionSlug', {
-        templateUrl: 'views/textList.html',
-        controller: 'TextListController'
-    })
+//    .when('/:intentionSlug', {
+//        templateUrl: 'views/textList.html',
+//        controller: 'TextListController'
+//    })
     .otherwise({
         redirectTo: '/'
     });
