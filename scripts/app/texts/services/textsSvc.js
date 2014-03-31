@@ -29,10 +29,10 @@ angular.module('app/texts/textList', [])
               textList.push(textListtoDebug[i]);
           }
           // Make a short version of the content for list display
-          for (var i = textList.length-1; i >= 0; i-- ) {
-            var txtContent = textList[i].Content;
+          for (var j = textList.length-1; j >= 0; j-- ) {
+            var txtContent = textList[j].Content;
             var maxTextLengthForTextListRendering = 400;
-            textList[i].shortContent = txtContent.length <=  maxTextLengthForTextListRendering ? txtContent : txtContent.substring(0, maxTextLengthForTextListRendering) + "...<span class='glyphicon glyphicon-hand-right'></span>";
+            textList[j].shortContent = txtContent.length <=  maxTextLengthForTextListRendering ? txtContent : txtContent.substring(0, maxTextLengthForTextListRendering) + "...<span class='glyphicon glyphicon-hand-right'></span>";
           }
           // Sort the text (probably should be done on the server)
           textList.sort(function(text1,text2) {
