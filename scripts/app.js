@@ -8,7 +8,8 @@ angular.module('cherryApp',  [
   'common',
   'app',
   'angularSpinkit',
-  'ajoslin.promise-tracker'
+  'ajoslin.promise-tracker',
+  'pascalprecht.translate'
 ])
 
 //CORS for angular v < 1.2
