@@ -20,7 +20,14 @@ angular.module('app/texts/textList', [])
       var path = areaName + '/intention/' + intentionId + '/texts';
       return cacheSvc.get(path, -1, function() {
         //return serverSvc.get(path);
-        return serverSvc.get(path).then(function(textList) {
+        return serverSvc.get(path).then(function(textListtoDebug) {
+          var textList = [];
+          for (var i = textListtoDebug.length-1; i >= 0; i-- ) {
+            if (  !textListtoDebug[i] )
+              console.log(intentionId + ' ' + i + ' ' + textListtoDebug[i]);
+            else
+              textList.push(textListtoDebug[i]);
+          }
           // Make a short version of the content for list display
           for (var i = textList.length-1; i >= 0; i-- ) {
             var txtContent = textList[i].Content;
