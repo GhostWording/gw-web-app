@@ -2,15 +2,16 @@ angular.module('app/texts/TextDetailController', ['common/i18n'])
 
 // Display text with author, link to the source, usage recommandations or comments
 
-.controller('TextDetailController', ['$scope','currentText', 'currentIntention', 'currentArea', 'tagLabelsSvc', '$modal','currentRecipient', 'favouritesSvc',
-function ($scope, currentText, currentIntention, currentArea, tagLabelsSvc, $modal,currentRecipient, favouritesSvc) {
+.controller('TextDetailController', ['$scope','currentText', 'currentIntention', 'currentArea', 'tagLabelsSvc', '$modal','currentRecipient', 'favouritesSvc','currentRecipientSvc',
+function ($scope, currentText, currentIntention, currentArea, tagLabelsSvc, $modal,currentRecipient, favouritesSvc,currentRecipientSvc) {
 
   currentText.TagLabels = tagLabelsSvc.labelsFromStyleTagIds(currentText.TagIds);
   $scope.currentArea = currentArea;
   $scope.currentIntention = currentIntention;
   $scope.currentText = currentText;
 
-  $scope.recipientId = currentRecipient ? currentRecipient.Id :  '';
+//  $scope.recipientId = currentRecipient ? currentRecipient.Id :  '';
+  $scope.recipientId = currentRecipientSvc.getIdOfRecipient(currentRecipient);
 
   // Copy the text Content so that if we edit it we are not editing the original "text".
 	// Probably some case of prototypal bizarrerie : modification to the text from the dialog are discarded if we dont use a proper object to carry the editableText property

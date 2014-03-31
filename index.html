@@ -6,7 +6,7 @@
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
 
     <!--http://www.yearofmoo.com/2012/11/angularjs-and-seo.html-->
-    <!--<meta name="fragment" content="!" />-->
+    <meta name="fragment" content="!" />
 
     <!--<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
 
@@ -110,7 +110,7 @@
         <div class="tabBar" ng-show="showTabs" action-location="Tabs">
           <ul id="myTab" class="nav nav-pills ">
             <li ng-class="{active: currentAreaName() == tab.name}" ng-repeat="tab in tabs">
-              <a ng-href="{{appUrlSvc.getRootPath()}}area/{{tab.name}}/intention"> {{tab.label}} </a>
+              <a href="{{appUrlSvc.getRootPath()}}area/{{tab.name}}/intention"> {{tab.label}} </a>
             </li>
           </ul>
         </div>

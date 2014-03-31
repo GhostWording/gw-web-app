@@ -2,8 +2,8 @@ angular.module('app/texts/TextListController', [])
 
 // Displays a list of texts
 .controller('TextListController',
- ['$scope', 'currentTextList', 'currentIntention', 'currentArea', 'currentUser', 'filtersSvc', '$modal', 'currentRecipient', 'favouritesSvc','appUrlSvc',
- function ($scope, currentTextList, currentIntention, currentArea, currentUser, filtersSvc, $modal,currentRecipient, favouritesSvc,appUrlSvc) {
+ ['$scope', 'currentTextList', 'currentIntention', 'currentArea', 'currentUser', 'filtersSvc', '$modal', 'currentRecipient', 'favouritesSvc','appUrlSvc','currentRecipientSvc',
+ function ($scope, currentTextList, currentIntention, currentArea, currentUser, filtersSvc, $modal,currentRecipient, favouritesSvc,appUrlSvc,currentRecipientSvc) {
    $scope.appUrlSvc = appUrlSvc;
 
   $scope.currentArea = currentArea;
@@ -18,7 +18,6 @@ angular.module('app/texts/TextListController', [])
     return currentArea.Name == 'General';
   };
 
-//<<<<<<< HEAD
   $scope.isFavourite = function(txt) {
     return favouritesSvc.isExisting(txt);
   };
@@ -27,11 +26,8 @@ angular.module('app/texts/TextListController', [])
     favouritesSvc.removeFavourite(txt);
   };
 
-//=======
-  if ( currentRecipient )
-    $scope.recipientId  = currentRecipient.Id;
-  else
-    $scope.recipientId = '';
+  $scope.recipientId = currentRecipientSvc.getIdOfRecipient(currentRecipient);
+
 
   if ( currentRecipient ) {
     filtersSvc.setFiltersForRecipient(currentRecipient);

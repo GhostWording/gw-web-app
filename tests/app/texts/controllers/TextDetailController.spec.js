@@ -20,6 +20,9 @@ beforeEach(module('app/texts/TextDetailController'));
 		$provide.value('favouritesSvc', {
 			addFavourite: jasmine.createSpy()
 		});
+    $provide.value('currentRecipientSvc', {
+      getIdOfRecipient: jasmine.createSpy()
+    });
 		$provide.value('$modal', {
 			open: jasmine.createSpy()
 		});
@@ -56,10 +59,13 @@ beforeEach(module('app/texts/TextDetailController'));
 	}));
 
 	it('should attach the correct value of recipient id to the scope', inject(function(currentRecipient) {
-		expect($rootScope.recipientId).toEqual('333');
-		currentRecipient = null;
+//		expect($rootScope.recipientId).toEqual('333');
+    expect($rootScope.recipientId).toEqual(undefined);
+
+    currentRecipient = null;
 		$controller('TextDetailController', {$scope: $rootScope, currentRecipient: currentRecipient});
-		expect($rootScope.recipientId).toEqual('');
+//    expect($rootScope.recipientId).toEqual('');
+		expect($rootScope.recipientId).toEqual(undefined);
 	}));
 
 	describe('edit', function() {

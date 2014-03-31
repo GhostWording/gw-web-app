@@ -1,14 +1,19 @@
 angular.module('app/routing', [])
 
 .config(['$routeProvider', function ($routeProvider) { $routeProvider
-  // Special case : if the area is Addressee, we first need to ask for the recipient
+     // Special case : if the area is Addressee, we first need to ask for the recipient
     .when('/area/Addressee/intention', {
       redirectTo: '/area/Addressee/recipient'
+    })
+  // if there is no recipient, just go to the intention list
+    .when('/area/:areaName/intention/none', {
+      redirectTo: '/area/:areaName/intention'
     })
     .when('/area/Addressee/intention/:recipientId', {
       redirectTo: '/area/Addressee/recipient/:recipientId'
     })
-  // Intention list for an area
+    //
+    // Intention list for an area
     .when('/area/:areaName/intention', {
         templateUrl: 'views/intentionList.html',
         controller: 'IntentionListController',
@@ -28,20 +33,7 @@ angular.module('app/routing', [])
       },
       showTabs: true
     })
-    // Text list for an intention
-    //.when('/area/:areaName/intention/:intentionId/text', {
-    .when('/area/:areaName/intention/:intentionId/recipient//text', {
-        templateUrl: 'views/textList.html',
-        controller: 'TextListController',
-        resolve: {
-            currentArea: ['areasSvc', function(areasSvc) { return areasSvc.getCurrent(); }],
-            currentIntention: ['intentionsSvc', function(intentionsSvc) { return intentionsSvc.getCurrent(); }],
-            currentTextList: ['textsSvc', function(textsSvc) { return textsSvc.getCurrentList(); }],
-            currentRecipient: ['currentRecipientSvc', function(currentRecipientSvc) { return null; }]
-        },
-        showTabs: true
-    })
-    // New : text list for a recipient and an intention
+  // Text list for an intention, and a recipient. Recipient can be 'none'
     .when('/area/:areaName/intention/:intentionId/recipient/:recipientId/text', {
       templateUrl: 'views/textList.html',
       controller: 'TextListController',
@@ -173,10 +165,10 @@ angular.module('app/routing', [])
 
 
     // Shortcut for human readable link : must be placed after other single piece parameter urls
-    .when('/:intentionSlug', {
-        templateUrl: 'views/textList.html',
-        controller: 'TextListController'
-    })
+//    .when('/:intentionSlug', {
+//        templateUrl: 'views/textList.html',
+//        controller: 'TextListController'
+//    })
     .otherwise({
         redirectTo: '/'
     });
