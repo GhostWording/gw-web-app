@@ -1,7 +1,7 @@
 ﻿<div action-location="TextDetail">
     <div>
-        <!--<button historyback class="btn  btn-small pull-right retourIntentions">&larr;</button>-->
-            <h3 ng-bind-html = "currentText.Abstract || currentIntention.Label" ></h3>
+            <!--<h3   ng-bind-html = "currentText.Abstract || currentIntention.Label" ></h3>-->
+          <h3 translate>{{ currentIntention.Label }}</h3>
     </div>
 
     <span ng-repeat = "tagLabel in currentText.TagLabels" >

@@ -5,7 +5,7 @@
 
     <span ng-show="textList.length">
       <span class="nombreTextes">{{ textList.length }}</span>&nbsp
-      <span class="labelTextes">façons de dire</span>
+      <span class="labelTextes" translate="">façons de dire</span>
     </span>
     <span ng-hide="textList.length">
       <span class="labelTextes">Aucun texte pour dire</span>
@@ -16,7 +16,7 @@
     </div>
 
     <!-- Selected intention  -->
-    <div><h4 id="testId" class="intentionCourante">{{ currentIntention.Label }} </h4></div>
+    <div><h4 id="testId" class="intentionCourante" translate>{{ currentIntention.Label }} </h4></div>
 
     <!-- Filtering options  -->
     <div ng-include="'views/partials/filterForm.html'" style="margin-bottom: 20px;"></div>

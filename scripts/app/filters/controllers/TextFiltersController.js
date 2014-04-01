@@ -92,7 +92,8 @@ angular.module('app/filters/TextFiltersController', [])
   };
 
   $scope.getTuOuVousLabel = function () {
-    return FILTER_LABELS.TUOUVOUS_LABEL[filters.tuOuVous] || 'Oups';
+    var retval = FILTER_LABELS.TUOUVOUS_LABEL[filters.tuOuVous] || 'Oups';
+    return retval;
   };
 
   $scope.$watch(function() {return filters.recipientGender;}, function(value) {
