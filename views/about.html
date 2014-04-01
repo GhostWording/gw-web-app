@@ -1,12 +1,13 @@
-﻿<div ng-show="true" action-location="About">
+﻿<div action-location="About">
     <h4>
-        A propos
+        <!--A propos-->
+      {{ 'A propos' | translate }}
     </h4>
     <br/>
     <blockquote>
         <div>On a tous des choses que l’on veut dire et que l’on ne dit pas.</div>
         <div>Il nous manque souvent le temps ou les mots pour le dire.</div>
-        <div><span class="brandColoured">CommentVousDire</span> suggère en un clin d'oeil les mots qui  manquent à votre vie .</div>
+        <div><span class="brandColoured">CommentVousDire</span> suggère en un clin d'oeil les mots qui manquent à votre vie.</div>
         <br/>
         <div>Vous voulez dire merci, bravo, pardon, quelque chose me manque, j'aimerais vous revoir… ?</div>
         <div>Faites émerger en quelques clics des textes subtils, drôles ou formels adaptés au contexte !</div>
@@ -21,4 +22,6 @@
             <a href="" role="button" historyback class="pull-left" targetId="Back"> <img ng-src="./assets/arrow-left.png" class="stylepicto"> </a>
         </li>
     </ul>
+  <button ng-click="changeLanguage('fr')" translate="BUTTON_TEXT_FR"></button>
+  <button ng-click="changeLanguage('en')" translate="BUTTON_TEXT_EN"></button>
 </div>
