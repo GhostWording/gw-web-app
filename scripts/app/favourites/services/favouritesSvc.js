@@ -6,32 +6,50 @@ angular.module('app/favourites/favouritesSvc', ['common/services/cache'])
     
     favourites: localStorage.get('favourites'),
 
-    addFavourite: function(favItem) {
+    addFavourite: function(fav) {
       
       if(service.favourites) {
-        if(!service.isExisting(favItem.textId)) {
-          service.favourites[favItem.textId] = favItem;
+        if(!service.isExisting(fav)) {
+          service.favourites[fav.TextId] = fav;
         }
       }
       else {
         service.favourites = {};
-        service.favourites[favItem.textId] = favItem;
+        service.favourites[fav.TextId] = fav;
       }
 
       service.saveFavourites();
     },
 
-    removeFavourite: function(textId) {
-      delete service.favourites[textId];
+    removeFavourite: function(txt) {
+      delete service.favourites[txt.TextId];
       service.saveFavourites();
     },
 
-    isExisting: function(textId) {
-      return !!service.favourites[textId];
+    isExisting: function(txt) {
+      return !!service.favourites[txt.TextId];
     },
 
     saveFavourites: function () {
       localStorage.set('favourites', service.favourites);
+    },
+
+    setFavourite: function (txt, area, intention, isFav) {
+      if(isFav) {
+        service.removeFavourite(txt);
+      }
+      else {
+        var fav = {
+          TextId: txt.TextId,
+          IntentionId: intention.IntentionId,
+          AreaId: area.AreaId,
+          favouriteText: txt.Content,
+          favouriteIntention: intention.Label,
+          favouriteArea: area.Name,
+          favouriteDate: new Date()
+        };
+        service.addFavourite(fav); 
+      }
     }
 
   };
