@@ -30,20 +30,12 @@
           src="./assets/e-mail64.png"
           class="pull-right envoyer"
           ng-click="send(txt)">
-          <img
-          src="./assets/star.jpeg"
-          class = "pull-right favourite"
-          ng-if="isFavourite(txt.TextId)"
-          ng-click="removeFavourite(txt.TextId)" >
-
-          <!--<a  href="/area/{{ currentArea.Name }}/intention/{{ currentIntention.IntentionId }}/text/{{txt.TextId}}"-->
+          <favourite-toggle is-favourite="isFavourite(txt)" on-change="setFavourite(txt, isFavourite(txt))"></favourite-toggle>
           <a href="{{appUrlSvc.getRootPath()}}area/{{ currentArea.Name }}/intention/{{ currentIntention.IntentionId }}/recipient/{{ recipientId }}/text/{{txt.TextId}}"
           targetType="Text"
           actionType="open"
           targetId="{{txt.TextId}}"
           ng-click="selectThisText(txt,'open')">
-
-
           <div cvd-text="txt" ng-class="{active: txt.TextId == selectedTextId}" style="white-space: pre-wrap"></div>
         </a>
       </div>

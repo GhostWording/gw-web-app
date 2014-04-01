@@ -1,5 +1,4 @@
 angular.module('app/texts/TextListController', [])
-
 // Displays a list of texts
 .controller('TextListController',
  ['$scope', 'currentTextList', 'currentIntention', 'currentArea', 'currentUser', 'filtersSvc', '$modal', 'currentRecipient', 'favouritesSvc','appUrlSvc','currentRecipientSvc',
@@ -22,8 +21,8 @@ angular.module('app/texts/TextListController', [])
     return favouritesSvc.isExisting(txt);
   };
 
-  $scope.removeFavourite = function(txt) {
-    favouritesSvc.removeFavourite(txt);
+  $scope.setFavourite = function(txt, isFav) {
+    favouritesSvc.setFavourite(txt, currentArea, currentIntention, isFav);
   };
 
   $scope.recipientId = currentRecipientSvc.getIdOfRecipient(currentRecipient);
