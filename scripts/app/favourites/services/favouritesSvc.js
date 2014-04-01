@@ -27,7 +27,15 @@ angular.module('app/favourites/favouritesSvc', ['common/services/cache'])
     },
 
     isExisting: function(txt) {
-      return !!service.favourites[txt.TextId];
+      // This check is necessary in case favourites are empty
+      // where favourites[txt.TextId] would throw an error
+      // since it would try to find a key of a null object
+      if(service.favourites) {
+        return !!service.favourites[txt.TextId];
+      }
+      else {
+        return false;
+      }
     },
 
     saveFavourites: function () {

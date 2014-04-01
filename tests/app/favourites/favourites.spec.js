@@ -37,6 +37,11 @@ describe('favouritesSvc', function() {
       expect(favouritesSvc.isExisting(currentFavourite)).toEqual(true);
     }));
 
+    it('should return false if favourites object is not set', inject(function(favouritesSvc) {
+      delete favouritesSvc.favourites;
+      expect(favouritesSvc.isExisting()).toBe(false);
+    }));
+
   });
 
   describe('saveFavourites', function() {
