@@ -239,3 +239,11 @@ toggle-switch {
 .switchRight .toggleButton {
   left: 20px;
 }
+
+.removeItem {
+  cursor: pointer;
+  color: #CCC;
+}
+.removeItem:hover {
+  color: #428bca;
+}
