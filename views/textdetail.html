@@ -10,6 +10,7 @@
 
     <div class = "well well-lg"  ng-hide ="editText" style="border-color: #428bca">
         <span ng-bind-html = "currentText.Content"></span>
+        <favourite-toggle is-favourite="isFavourite()" on-change="setFavourite()"></favourite-toggle>
     </div>
 
     <div ng-show ="editText" >
@@ -36,9 +37,6 @@
                     <button class="btn btn-primary"
                             targetId = "{{ Id }}" targetType="Text" actionType="send"
                             ng-click="send()">Envoyer</button>
-                    <button class="btn btn-primary" ng-show = "false"
-                            targetId = "{{ Id }}" targetType="Text" actionType="favourite"
-                            ng-click="favourite()">Favourite</button>
                 </span>
             </li>
         </ul>
