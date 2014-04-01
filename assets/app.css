@@ -86,7 +86,16 @@ a .citation   { color: black; font-size: 14px  }
 
 .envoyer {height: 20px; margin-right:8px;margin-top: 7px; margin-left: 7px; }
 
-.favourite {height: 20px; margin-right:8px;margin-top: 7px; margin-left: 7px; }
+.favourite {
+  /*height: 20px; margin-right:8px;margin-top: 7px; margin-left: 7px; */
+  color: #428bca;
+  font-size: 1.5em;
+  cursor: pointer;
+  margin-top: 10px;
+}
+.favourite:hover {
+  font-size: 1.6em;
+}
 
 .breadcrumbpicto {height: 25px; }
 .stylepicto {height: 25px; }
