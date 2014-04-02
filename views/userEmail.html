@@ -1,10 +1,10 @@
 <div ng-show="true" style="text-align: center;">
     <div class="row" style="margin-top: 5px; margin-bottom: 30px; font-size: 16px;" >
         <div class="col-xs-1"></div>
-        <div class="col-xs-10">
-          <!--Je recevrai les idées de messages à cette adresse-->
-          <!--Où pousseront mes idées de messages ?-->
-          <!--Où se déposeront les idées de messages ?-->
+      <!--Je recevrai les idées de messages à cette adresse-->
+      <!--Où pousseront mes idées de messages ?-->
+      <!--Où se déposeront les idées de messages ?-->
+        <div class="col-xs-10" translate>
           Où seront déposées vos suggestions de messages ?
         </div>
         <div class="col-xs-1"></div>
@@ -17,13 +17,13 @@
                 <div class="form-group" >
                     <!--<label >la&nbsp</label>-->
                     <div>
-                      <input ng-model="user.email" style="vertical-align:middle; width: 250px;" ng-change="updateMail()" placeholder="votre adresse mail" >
+                      <input ng-model="user.email" style="vertical-align:middle; width: 250px;" ng-change="updateMail()" placeholder="{{'votre adresse mail' | translate}}" >
                     </div>
                   <br>
-                    <button type="button" class="btn btn-default" style="vertical-align:middle;" ng-click="sendMailToServer()">Envoi</button>
+                    <button type="button" class="btn btn-default" style="vertical-align:middle;" ng-click="sendMailToServer()" translate>Envoi</button>
                 </div>
-                <div ng-show="mailSent">C'est parti !</div>
-                <div ng-show="mailSent">Vous recevrez prochainement un message d'activation.</div>
+                <div ng-show="mailSent" translate>C'est parti !</div>
+                <div ng-show="mailSent" translate>Vous recevrez prochainement un message d'activation.</div>
             </form>
         </div>
         <div class="col-sm-1"></div>
