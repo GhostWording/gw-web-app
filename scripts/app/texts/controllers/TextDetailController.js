@@ -35,17 +35,12 @@ function ($scope, currentText, currentIntention, currentArea, tagLabelsSvc, $mod
     $scope.editText = true;
   };
 
-  $scope.favourite = function() {
-    var favourite = {
-      textId: currentText.TextId,
-      intentionId: currentIntention.IntentionId,
-      areaId: currentArea.AreaId,
-      favouriteText: currentText.Content,
-      favouriteIntention: currentIntention.Label,
-      favouriteArea: currentArea.Name,
-      favouriteDate: new Date()
-    };
-    favouritesSvc.addFavourite(favourite);
+  $scope.isFavourite = function() {
+    return favouritesSvc.isExisting(currentText);
+  };
+
+  $scope.setFavourite = function() {
+    favouritesSvc.setFavourite(currentText, currentArea, currentIntention, $scope.isFavourite());
   };
 
 }]);

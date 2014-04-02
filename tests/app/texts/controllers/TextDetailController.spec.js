@@ -18,7 +18,9 @@ beforeEach(module('app/texts/TextDetailController'));
 			Content: 'mockCurrentText'
 		});
 		$provide.value('favouritesSvc', {
-			addFavourite: jasmine.createSpy()
+			addFavourite: jasmine.createSpy(),
+			setFavourite: jasmine.createSpy(),
+			isExisting: jasmine.createSpy()
 		});
     $provide.value('currentRecipientSvc', {
       getIdOfRecipient: jasmine.createSpy()
@@ -87,20 +89,29 @@ beforeEach(module('app/texts/TextDetailController'));
 
 	});
 
-	describe('favourite', function() {
+	describe('setFavourite', function() {
 
-		it('should call the add favourite method of the favourite service with the correct arguments', inject(function(favouritesSvc) {
-			$rootScope.favourite();
-			expect(favouritesSvc.addFavourite).toHaveBeenCalledWith({
-				textId: '789',
-	      intentionId: '456',
-	      areaId: '123',
-	      favouriteText: 'mockCurrentText',
-	      favouriteIntention: 'mockCurrentIntention',
-	      favouriteArea: 'mockCurrentArea',
-	      favouriteDate: new Date()
-			});
+		it('should call the set favourite method of the favourite service with the correct arguments',
+			inject(function(currentText, currentArea, currentIntention, favouritesSvc) {
+			$rootScope.setFavourite();
+			$rootScope.isFavourite = jasmine.createSpy();
+			expect(favouritesSvc.setFavourite).toHaveBeenCalledWith(currentText, currentArea, currentIntention, $rootScope.isFavourite());
+		}));
 
+	});
+
+	describe('isFavourite', function() {
+
+		it('should call the isExisting method of the favourite service with the correct arguments', inject(function(currentText, favouritesSvc) {
+			$rootScope.isFavourite();
+			expect(favouritesSvc.isExisting).toHaveBeenCalledWith(currentText);
+		}));
+
+		it('should equal to the value that the isExisting method returns', inject(function(favouritesSvc) {
+			favouritesSvc.isExisting.andReturn(false);
+			expect($rootScope.isFavourite()).toEqual(false);
+			favouritesSvc.isExisting.andReturn(true);
+			expect($rootScope.isFavourite()).toEqual(true);
 		}));
 
 	});
