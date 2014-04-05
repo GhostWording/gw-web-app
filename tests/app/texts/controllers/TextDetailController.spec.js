@@ -93,9 +93,11 @@ beforeEach(module('app/texts/TextDetailController'));
 
 		it('should call the set favourite method of the favourite service with the correct arguments',
 			inject(function(currentText, currentArea, currentIntention, favouritesSvc) {
+
+			favouritesSvc.isExisting.andReturn(true);
+			$rootScope.recipientId = '123';
 			$rootScope.setFavourite();
-			$rootScope.isFavourite = jasmine.createSpy();
-			expect(favouritesSvc.setFavourite).toHaveBeenCalledWith(currentText, currentArea, currentIntention, $rootScope.isFavourite());
+			expect(favouritesSvc.setFavourite).toHaveBeenCalledWith(currentText, currentArea, currentIntention, '123', true);
 		}));
 
 	});

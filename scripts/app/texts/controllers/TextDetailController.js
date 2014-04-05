@@ -40,7 +40,7 @@ function ($scope, currentText, currentIntention, currentArea, tagLabelsSvc, $mod
   };
 
   $scope.setFavourite = function() {
-    favouritesSvc.setFavourite(currentText, currentArea, currentIntention, $scope.isFavourite());
+    favouritesSvc.setFavourite(currentText, currentArea, currentIntention, $scope.recipientId, $scope.isFavourite());
   };
 
 }]);

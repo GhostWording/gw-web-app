@@ -9,6 +9,6 @@ angular.module('app/favourites/FavouritesListController', [])
 
   $scope.removeFavourite = function(txt) {
     favouritesSvc.removeFavourite(txt);
-    $scope.favourites = favouritesSvc.favourites;
+    $scope.favourites.splice($scope.favourites.indexOf(txt), 1);
   };
 }]);

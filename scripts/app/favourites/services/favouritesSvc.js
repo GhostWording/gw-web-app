@@ -42,7 +42,7 @@ angular.module('app/favourites/favouritesSvc', ['common/services/cache'])
       localStorage.set('favourites', service.favourites);
     },
 
-    setFavourite: function (txt, area, intention, isFav) {
+    setFavourite: function (txt, area, intention, recipient, isFav) {
       if(isFav) {
         service.removeFavourite(txt);
       }
@@ -51,6 +51,7 @@ angular.module('app/favourites/favouritesSvc', ['common/services/cache'])
           TextId: txt.TextId,
           IntentionId: intention.IntentionId,
           AreaId: area.AreaId,
+          RecipientId: recipient,
           favouriteText: txt.Content,
           favouriteIntention: intention.Label,
           favouriteArea: area.Name,
