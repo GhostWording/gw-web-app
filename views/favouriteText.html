@@ -3,7 +3,7 @@
 <button ng-click="predicate=['favouriteIntention', 'favouriteDate']; reverse = !reverse" class="btn btn-primary">Sort by intention</button>
 <ul class="list-unstyled" style="margin-top: 20px;">
 	<li ng-repeat="favourite in favourites | orderBy:predicate:reverse" class="well well-small bmw-texte" ng-if="!!favourite.favouriteText">
-		<a href="/area/{{favourite.favouriteArea}}/intention/{{favourite.intentionId}}/recipient//text/{{favourite.textId}}">{{favourite.favouriteText}}</a>
+		<a href="/area/{{favourite.favouriteArea}}/intention/{{favourite.IntentionId}}/recipient/{{RecipientId}}/text/{{favourite.TextId}}">{{favourite.favouriteText}}</a>
     <remove-item on-remove="removeFavourite(favourite)"></remove-item>
 	</li>
 </ul>
