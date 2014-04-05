@@ -4,7 +4,7 @@
      <ul class="breadcrumb"  ng-show = "showBreadcrumbs()">
          <li>
            <!--User -->
-            <a href="/userprofile"  >Moi </a> &nbsp
+            <a href="/userprofile" translate >Moi </a> &nbsp
             <img ng-src="./assets/arrow-right.png" class="breadcrumbpicto"> &nbsp
            <!-- Recipient gender -->
             <a href="" ng-show="recipientGenderIsDefined()" ng-click = "resetRecipientGender()">
@@ -14,8 +14,8 @@
            <!-- Recipient Tu ou Vous -->
             <a href="" ng-show="filters.tuOuVous" ng-click = "filters.tuOuVous = null" >
                  &nbsp
-                 <img id="breadcrumbCrossTuOuVous" ng-src="./assets/cross.png" class="breadcrumbpicto" >
-                 {{ getTuOuVousLabel() }}
+                 <img id="breadcrumbCrossTuOuVous" ng-src="./assets/cross.png" class="breadcrumbpicto">
+                 {{ getTuOuVousLabel() | translate }}
             </a>
          </li>
      </ul>

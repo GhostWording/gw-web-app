@@ -21,13 +21,14 @@ angular.module('app/texts/textList', [])
       return cacheSvc.get(path, -1, function() {
         //return serverSvc.get(path);
         return serverSvc.get(path).then(function(textListtoDebug) {
-          var textList = [];
-          for (var i = textListtoDebug.length-1; i >= 0; i-- ) {
-            if (  !textListtoDebug[i] )
-              console.log(intentionId + ' ' + i + ' ' + textListtoDebug[i]);
-            else
-              textList.push(textListtoDebug[i]);
-          }
+            var textList = textListtoDebug;
+//          var textList = [];
+//          for (var j = textListtoDebug.length-1; j >= 0; j-- ) {
+//            if (  !textListtoDebug[j] )
+//              console.log(intentionId + ' ' + i + ' ' + textListtoDebug[j]);
+//            else
+//              textList.push(textListtoDebug[j]);
+//          }
           // Make a short version of the content for list display
           for (var j = textList.length-1; j >= 0; j-- ) {
             var txtContent = textList[j].Content;

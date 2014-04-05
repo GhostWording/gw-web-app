@@ -8,7 +8,8 @@ angular.module('cherryApp',  [
   'common',
   'app',
   'angularSpinkit',
-  'ajoslin.promise-tracker'
+  'ajoslin.promise-tracker',
+  'pascalprecht.translate'
 ])
 
 //CORS for angular v < 1.2
@@ -23,6 +24,20 @@ angular.module('cherryApp',  [
 .config(['$sceDelegateProvider', function ($sceDelegateProvider) {
    $sceDelegateProvider.resourceUrlWhitelist(['self', /^https?:\/\/(api\.)?cvd.io/]);
 }])
+
+//.config(function($translateProvider) {
+//  $translateProvider
+//  .translations('fr', {
+//    HEADLINE: 'Ma super App!',
+//    'A propos': 'A propos'
+//  })
+//  .translations('en', {
+//    HEADLINE: 'Hello there, This is my awesome app!',
+//    'A propos': 'About'
+//  });
+//  $translateProvider.preferredLanguage('en');
+//})
+
 .controller('NavBarController',  ['$scope','appUrlSvc', function($scope,appUrlSvc) {
   $scope.appUrlSvc = appUrlSvc;
 }])

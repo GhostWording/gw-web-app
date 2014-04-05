@@ -16,6 +16,10 @@ angular.module('app/users/users', [])
     isDemonstrative: null
   };
 
+  currentUser.clear = function() {
+    $cookieStore.remove('users.currentUser');
+  };
+
   $rootScope.$watch(function() { return currentUser; }, function(value, oldValue) {
 
     if ( value !== oldValue ) {

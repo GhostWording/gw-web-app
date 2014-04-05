@@ -1,24 +1,28 @@
-﻿<div ng-show="true" action-location="About">
-    <h4>
-        A propos
-    </h4>
+﻿<div action-location="About">
+  <!--<h4>{{ 'A propos' | translate }}</h4>-->
+  <h4 translate>A propos</h4>
+
+  <br/>
+  <blockquote>
+    <div translate>Vous voulez dire</div>
     <br/>
-    <blockquote>
-        <div>On a tous des choses que l’on veut dire et que l’on ne dit pas.</div>
-        <div>Il nous manque souvent le temps ou les mots pour le dire.</div>
-        <div><span class="brandColoured">CommentVousDire</span> suggère en un clin d'oeil les mots qui  manquent à votre vie .</div>
-        <br/>
-        <div>Vous voulez dire merci, bravo, pardon, quelque chose me manque, j'aimerais vous revoir… ?</div>
-        <div>Faites émerger en quelques clics des textes subtils, drôles ou formels adaptés au contexte !</div>
-        <br/>
-        <div>Bientôt disponible : vos messages pourront être envoyés en anglais, en espagnol ou chinois.</div>
-        <div>Avec <span class="brandColoured">CommentVousDire</span> communiquer deviendra le jeu le plus important de votre smartphone.</div>
-        <br/>
-        <small>Suggestions et questions bienvenues :  <cite title="Envoyez aussi vos propositions de textes">idees@commentvousdire.com</cite></small>
-    </blockquote>
-    <ul class="pager bmwQuestionButton" >
-        <li ng-class= '{selectionne: false}' >
-            <a href="" role="button" historyback class="pull-left" targetId="Back"> <img ng-src="./assets/arrow-left.png" class="stylepicto"> </a>
-        </li>
+    <div translate>Il nous manque souvent</div>
+    <br/>
+    <div><span translate>Avec</span>&nbsp<span class="brandColoured" translate>CommentVousDire</span>,&nbsp<span translate>faites émerger</span>.</div>
+    <br/>
+    <small><span translate>Suggestions et questions</span>&nbsp: <cite title="Envoyez aussi vos propositions de textes" translate>idees@commentvousdire.com</cite>
+    </small>
+  </blockquote>
+  <div>
+    <ul class="pager bmwQuestionButton pull-left" style="padding-top: 10px;">
+      <li ng-class='{selectionne: false}'>
+        <a href="" role="button" historyback class="pull-left" targetId="Back"> <img ng-src="./assets/arrow-left.png" class="stylepicto"> </a>
+      </li>
     </ul>
+    <div class="btn-group pull-right" style="margin-right: 20px">
+      <button type="button" class="btn btn-default" ng-class='{"btn-primary": getLanguage()=="fr"}' ng-click="changeLanguage('fr')"><img src="/assets/FlagFrance.png"></button>
+      <button type="button" class="btn btn-default" ng-class='{"btn-primary": getLanguage()=="en"}' ng-click="changeLanguage('en')"><img src="/assets/FlagUK.png"></button>
+      <!--<button type="button" class="btn btn-default" ng-class='{"btn-primary": getLanguage()=="es"}' ng-click="changeLanguage('es')"><img src="/assets/FlagSpain.png"></button>-->
+    </div>
+  </div>
 </div>

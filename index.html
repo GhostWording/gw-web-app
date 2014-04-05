@@ -4,11 +4,10 @@
 
     <base href="/">
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
 
     <!--http://www.yearofmoo.com/2012/11/angularjs-and-seo.html-->
     <meta name="fragment" content="!" />
-
-    <!--<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
 
     <!--Angular and Bootstrap -->
     <script src="assets/angular/angular.min.js"></script>
@@ -18,12 +17,13 @@
     <script src="assets/angular-spinkit/build/angular-spinkit.min.js"></script>
     <script src="assets/angular-promise-tracker/promise-tracker.js"></script>
     <script src="assets/angular-promise-tracker/promise-tracker-http-interceptor.js"></script>
+    <script src="assets/angular-translate/angular-translate.min.js"></script>
 
     <script src="scripts/lib/bootstrap-custom/ui-bootstrap-custom-tpls-0.10.0.js"></script>
 
     <!--Reminder : include Respond.js for IE8 support with bootstrap 3.0 -->
 
-    <!--Prevent 300 ms delay on Android, does not seem to make a difference, verify initialisation -->
+    <!--Prevent 300 ms delay on Android-->
     <script src="scripts/lib/fastclick.js"></script>
     <script type="application/javascript">
     window.addEventListener('load', function () {
@@ -58,6 +58,7 @@
     </script>
 
     <!--CSS -->
+    <!-- We could load all css before js ? -->
     <link href="assets/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="assets/fonts/font-awesome-4.0.3/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="assets/app.css">
@@ -90,15 +91,16 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="/" TargetId="welcome">CommentVousDire</a>
+        <a class="navbar-brand" href="/" TargetId="welcome" translate>CommentVousDire</a>
       </div>
       <div class="collapse navbar-collapse" ng-class="!navCollapsed && 'in'" ng-click="navCollapsed=true">
         <ul class="nav navbar-nav pull-right">
-          <li class="active"><a href="{{appUrlSvc.getRootPath()}}userprofile">Mon profil</a></li>
-          <li class="active"><a href="{{appUrlSvc.getRootPath()}}recipientList">Envoyer à</a></li>
-          <li class="active"><a href="{{appUrlSvc.getRootPath()}}favoriteRecipients">Ne plus oublier</a></li>
-          <li class="active"><a href="{{appUrlSvc.getRootPath()}}area/General/intention">Tous les textes</a></li>
-          <li class="active"><a href="{{appUrlSvc.getRootPath()}}about">A propos</a></li>
+          <li class="active"><a href="/#!/userprofile" translate>           Mon profil</a></li>
+          <li class="active"><a href="/#!/recipientList" translate>         Envoyer à</a></li>
+          <li class="active"><a href="/#!/favoriteRecipients" translate>    Ne plus oublier</a></li>
+          <li class="active"><a href="/#!/area/General/intention" translate>Tous les textes</a></li>
+          <li class="active"><a href="/#!/favouriteTexts" translate>        Favoris</a></li>
+          <li class="active"><a href="/#!/about" translate>                 A propos</a></li>
         </ul>
       </div>
     </nav>
@@ -111,7 +113,7 @@
         <div class="tabBar" ng-show="showTabs" action-location="Tabs">
           <ul id="myTab" class="nav nav-pills ">
             <li ng-class="{active: currentAreaName() == tab.name}" ng-repeat="tab in tabs">
-              <a href="{{appUrlSvc.getRootPath()}}area/{{tab.name}}/intention"> {{tab.label}} </a>
+              <a href="/#!/area/{{tab.name}}/intention" translate> {{tab.label}} </a>
             </li>
           </ul>
         </div>
