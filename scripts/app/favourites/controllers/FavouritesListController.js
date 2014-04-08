@@ -1,14 +1,19 @@
 angular.module('app/favourites/FavouritesListController', [])
 
-.controller('FavouritesListController', ['$scope', 'favouritesSvc', function($scope, favouritesSvc) {
-	$scope.favourites = [];
+.controller('FavouritesListController', ['$scope', '$filter', 'favouritesSvc', function($scope, $filter, favouritesSvc) {
+	var favourites = [];
 	// convert favourites object into array so we can use orderBy
 	angular.forEach(favouritesSvc.favourites, function(fav) {
-		$scope.favourites.push(fav);
+		favourites.push(fav);
 	});
-
+  $scope.favourites = $filter('headerCategories')(favourites,
+    function (fav1, fav2) {
+      return (fav1.favouriteIntention === fav2.favouriteIntention);
+    }, function (fav) {
+      return fav.favouriteIntention;
+    });
   $scope.removeFavourite = function(txt) {
     favouritesSvc.removeFavourite(txt);
-    $scope.favourites.splice($scope.favourites.indexOf(txt), 1);
+    $scope.favourites[txt.parentIndex].items.splice($scope.favourites[txt.parentIndex].items.indexOf(txt), 1);
   };
 }]);
