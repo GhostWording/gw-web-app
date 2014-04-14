@@ -12,6 +12,7 @@ angular.module('app/texts/TextListController', [])
 
   $scope.filters = filtersSvc.filters;
   $scope.filtersWellDefined = filtersSvc.wellDefined;
+  $scope.recipientId = currentRecipientSvc.getIdOfRecipient(currentRecipient);
 
   $scope.showTextsAnyway = function() {
     return currentArea.Name == 'General';
@@ -22,11 +23,8 @@ angular.module('app/texts/TextListController', [])
   };
 
   $scope.setFavourite = function(txt, isFav) {
-    favouritesSvc.setFavourite(txt, currentArea, currentIntention, isFav);
+    favouritesSvc.setFavourite(txt, currentArea, currentIntention, $scope.recipientId, isFav);
   };
-
-  $scope.recipientId = currentRecipientSvc.getIdOfRecipient(currentRecipient);
-
 
   if ( currentRecipient ) {
     filtersSvc.setFiltersForRecipient(currentRecipient);

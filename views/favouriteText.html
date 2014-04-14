@@ -1,9 +1,14 @@
-<h4>My Favourites</h4>
+<h3>My Favourites</h3>
 <button ng-click="predicate='favouriteDate'; reverse = !reverse" class="btn btn-primary">Sort by date</button>
-<button ng-click="predicate=['favouriteIntention', 'favouriteDate']; reverse = !reverse" class="btn btn-primary">Sort by intention</button>
+<button ng-click="predicate='favouriteIntention'; reverse = !reverse" class="btn btn-primary">Sort by intention</button>
 <ul class="list-unstyled" style="margin-top: 20px;">
-	<li ng-repeat="favourite in favourites | orderBy:predicate:reverse" class="well well-small bmw-texte" ng-if="!!favourite.favouriteText">
-		<a href="/area/{{favourite.favouriteArea}}/intention/{{favourite.intentionId}}/recipient//text/{{favourite.textId}}">{{favourite.favouriteText}}</a>
-    <remove-item on-remove="removeFavourite(favourite)"></remove-item>
-	</li>
+  <li ng-repeat="intention in favourites">
+    <h4 ng-if="intention.items.length > 0 && predicate === 'favouriteIntention'">{{intention.id}}</h4>
+    <ul class="list-unstyled" style="margin-top: 20px;">
+      <li ng-repeat="item in intention.items | orderBy:predicate:reverse" class="well well-small bmw-texte" ng-if="!!item.favouriteText">
+        <a href="/area/{{item.favouriteArea}}/intention/{{item.IntentionId}}/recipient/{{item.RecipientId}}/text/{{item.TextId}}">{{item.favouriteText}}</a>
+        <remove-item on-remove="removeFavourite(item)"></remove-item>
+      </li>
+    </ul>
+  </li>
 </ul>

@@ -144,13 +144,15 @@ describe('favouritesSvc', function() {
       AreaId: '123',
       Name: 'areaName'
     };
+    var recipientId = '123';
+
     it('should unfavourite a text if it is currently a favourite', inject(function(favouritesSvc) {
       var removeFavSpy = spyOn(favouritesSvc, 'removeFavourite');
       var txt = {
         TextId: 'd',
         Content: 'this is text d'
       };
-      favouritesSvc.setFavourite(txt, area, intention, true);
+      favouritesSvc.setFavourite(txt, area, intention, recipientId, true);
       expect(removeFavSpy).toHaveBeenCalledWith(txt);
     }));
 
@@ -160,11 +162,12 @@ describe('favouritesSvc', function() {
         TextId: 'd',
         Content: 'this is text d'
       };
-      favouritesSvc.setFavourite(txt, area, intention, false);
+      favouritesSvc.setFavourite(txt, area, intention, recipientId, false);
       var fav = {
         TextId: txt.TextId,
         IntentionId: intention.IntentionId,
         AreaId: area.AreaId,
+        RecipientId: recipientId,
         favouriteText: txt.Content,
         favouriteIntention: intention.Label,
         favouriteArea: area.Name,
