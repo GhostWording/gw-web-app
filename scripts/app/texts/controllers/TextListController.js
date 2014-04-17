@@ -45,9 +45,9 @@ angular.module('app/texts/TextListController', [])
         $scope.filteredList.push(text);
         // This is a hack, when text is a quotation, we don't have a proper style tag for it so we add it on the fly
 				var tagIds = angular.copy(text.TagIds); // We may need to copy that in case it modifies the original tag list ????
-				if ( text.IsQuote )
+//				if ( text.IsQuote )
 //					tagIds.push('citationCode');;;;
-					tagIds.push('BA46D4');
+//					tagIds.push('BA46D4');
 				matchingStylesMap[text.TextId] = $scope.filters.preferredStyles.filterStyles(tagIds);
       }
     });
