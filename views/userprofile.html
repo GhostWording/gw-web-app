@@ -1,41 +1,41 @@
 ﻿<div action-location="currentUser">
     <!-- Titre -->
-    <h4>Mon profil</h4>
+    <h4 translate>Mon profil</h4>
     <br/>
-    <ul class="pager bmwQuestionButton">
-        Je suis
+    <ul class="pager bmwQuestionButton" >
+        <span translate>Je suis</span>
         <li ng-class = '{selectionne: currentUser.gender=="H"}'>
-            <a  targetType="Command" targetId="SenderGender"   ng-click = 'currentUser.gender = "H"'>Un homme</a></li>
+            <a  targetType="Command" targetId="SenderGender" translate  ng-click = 'currentUser.gender = "H"'>Un homme</a></li>
         <li ng-class = '{selectionne: currentUser.gender=="F"}'>
-            <a  targetType="Command" targetId="SenderGender"  ng-click = "currentUser.gender = 'F'">Une femme</a></li>
+            <a  targetType="Command" targetId="SenderGender" translate ng-click = "currentUser.gender = 'F'">Une femme</a></li>
     </ul>
     <ul class="pager bmwQuestionButton">
-        Je lis
+        <span translate>Je lis</span>
         <li ng-class = '{selectionne: currentUser.readsAlot=="T"}'>
-            <a targetType="Command" targetId="UserReadsALot"  ng-click = "currentUser.readsAlot = 'T'">Beaucoup</a></li>
+            <a targetType="Command" targetId="UserReadsALot" translate ng-click = "currentUser.readsAlot = 'T'">Beaucoup</a></li>
         <li ng-class = '{selectionne: currentUser.readsAlot=="F"}'>
-            <a targetType="Command" targetId="UserReadsALot"  ng-click = "currentUser.readsAlot = 'F'">Modérément</a></li>
+            <a targetType="Command" targetId="UserReadsALot" translate ng-click = "currentUser.readsAlot = 'F'">Modérément</a></li>
     </ul>
     <ul class="pager bmwQuestionButton">
-            Age 
+        <span translate> Age</span>
         <li ng-class = '{selectionne: currentUser.userAge==userAges.under25}'>
-            <a targetType="Command" targetId="UserAge" ng-click = "currentUser.userAge = userAges.under25">- de 25</a></li>
+            <a targetType="Command" targetId="UserAge" translate ng-click = "currentUser.userAge = userAges.under25">- de 25</a></li>
         <li ng-class = '{selectionne: currentUser.userAge==userAges.between25and45}'>
-            <a targetType="Command" targetId="UserAge" ng-click = "currentUser.userAge = userAges.between25and45">25 à 45</a></li>
+            <a targetType="Command" targetId="UserAge" translate ng-click = "currentUser.userAge = userAges.between25and45">25 à 45</a></li>
         <li ng-class = '{selectionne: currentUser.userAge==userAges.over45}'>
-            <a targetType="Command" targetId="UserAge"  ng-click = "currentUser.userAge = userAges.over45">+ de 45</a></li>
+            <a targetType="Command" targetId="UserAge" translate ng-click = "currentUser.userAge = userAges.over45">+ de 45</a></li>
     </ul>
     <ul class="pager bmwQuestionButton">
-        Caractère
+        <span translate>Caractère</span>
         <li ng-class = '{selectionne: currentUser.isDemonstrative=="T"}'>
-            <a targetType="Command" targetId="UserIsDemonstrative" ng-click = "currentUser.isDemonstrative = 'T'">Démonstratif</a></li>
+            <a targetType="Command" targetId="UserIsDemonstrative" translate ng-click = "currentUser.isDemonstrative = 'T'">Démonstratif</a></li>
         <li ng-class = '{selectionne: currentUser.isDemonstrative=="F"}'>
-            <a targetType="Command" targetId="UserIsDemonstrative" ng-click = "currentUser.isDemonstrative = 'F'">Réservé</a></li>
+            <a targetType="Command" targetId="UserIsDemonstrative" translate ng-click = "currentUser.isDemonstrative = 'F'">Réservé</a></li>
     </ul>
     <ul class="pager bmwQuestionButton">
         <li ng-class= '{selectionne: false}' >
             <a href="" role="button" historyback class="pull-left" targetId="Back"  > <img ng-src="./assets/arrow-left.png" class="stylepicto"> </a>
         </li>
-      <div class="btn btn-default pull-right" ng-click="clearAll()">Tout supprimer</div>
+      <div class="btn btn-default pull-right" translate ng-click="clearAll()">Tout supprimer</div>
     </ul>
 </div> <!-- currentUser VIEW -->
