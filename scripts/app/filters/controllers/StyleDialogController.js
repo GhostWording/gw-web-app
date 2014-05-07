@@ -18,14 +18,14 @@ function ($scope, contextStyles, generalStyles) {
     'imaginative': 'Imaginatif',
     'poetic': 'Poétique',
     'citation': 'Avec citation',
-    'simple': 'Tout simple',
+    'simple': 'Tout simple'
   };
   $scope.contextStyleLabels = {
     'administrativeContext': 'Administratif',
     'familialContext': 'Familial',
     'romanticContext': 'Amoureux',
     'friendlyContext': 'Amical',
-    'professionalContext': 'Professionnel',
+    'professionalContext': 'Professionnel'
   };
 
   $scope.nbTextLabel = $scope.filteredList.length > 1 ? "textes" : "texte";

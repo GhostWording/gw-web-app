@@ -6,27 +6,27 @@ angular.module('app/filters/TextFiltersController', [])
     GENDER_LABEL: {
       'H': 'Homme',
       'F': 'Femme',
-      null: '...'
+      '' : '...'     // null: '...' : does not work with IE9
     },
 
     GENDER_ICON: {
       'H': 'maleuser32.png',
       'F': 'femaleuser32.png',
       'P': 'several32.png',
-      null: 'maleuser32.png'
+      '':  'maleuser32.png'
     },
 
     RECIPIENT_GENDER_LABEL: {
       'H' : 'Un',
       'F' : 'Une',
       'P' : 'Plusieurs',
-      null : '...'
+      '' : '...'
     },
 
     CLOSENESS_LABEL: {
-      'P': { 'P': 'proches', 'M': 'proche', 'F': 'proche', null: 'proche' },
-      'D': { 'P': 'pas proches', 'M': 'pas proche', 'F': 'pas proche', null: 'pas proche' },
-      null: { 'P': '...', 'M': '...', 'F': '...', null: '...' }
+      'P': { 'P': 'proches', 'M': 'proche', 'F': 'proche', '': 'proche' },
+      'D': { 'P': 'pas proches', 'M': 'pas proche', 'F': 'pas proche', '': 'pas proche' },
+      '': { 'P': '...', 'M': '...', 'F': '...', '': '...' }
     },
 
     TUOUVOUS_LABEL: {
