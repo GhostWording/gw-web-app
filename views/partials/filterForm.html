@@ -23,7 +23,7 @@
      <!-- User Gender -->
      <div ng-show = "currentUser.gender == null">
          <ul class="pager bmwQuestionButton">
-             Vous êtes
+             <span>Vous êtes</span>
              <li ng-class = '{selectionne: currentUser.gender=="H"}'>
                  <a targetType="Command" targetId="UserGender" ng-click = "currentUser.gender = 'H'">Un homme</a></li>
              <li ng-class = '{selectionne: currentUser.gender=="F"}'>

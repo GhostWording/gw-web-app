@@ -1,6 +1,7 @@
 angular.module('app/texts/textList', [])
 
-.factory('textsSvc', ['areasSvc', 'intentionsSvc', '$route', 'cacheSvc', 'serverSvc','HelperSvc', function(areasSvc, intentionsSvc, $route, cacheSvc, serverSvc,HelperSvc) {
+.factory('textsSvc', ['areasSvc', 'intentionsSvc', '$route', 'cacheSvc', 'serverSvc','HelperSvc','currentLanguage',
+function(areasSvc, intentionsSvc, $route, cacheSvc, serverSvc,HelperSvc,currentLanguage) {
   var service = {
     getCurrentList: function() {
       var areaName = areasSvc.getCurrentName();
@@ -18,7 +19,8 @@ angular.module('app/texts/textList', [])
     },
     getTextList: function(areaName, intentionId) {
       var path = areaName + '/intention/' + intentionId + '/texts';
-      return cacheSvc.get(path, -1, function() {
+      var culture = currentLanguage.currentCulture();
+      return cacheSvc.get(path + culture, -1, function() {
         //return serverSvc.get(path);
         return serverSvc.get(path).then(function(textListtoDebug) {
             var textList = textListtoDebug;

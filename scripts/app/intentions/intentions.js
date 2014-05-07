@@ -19,8 +19,10 @@ angular.module('app/intentions', ['app/areas', 'common/services/cache', 'common/
     },
 
     getForArea: function(areaName) {
+      // TODO : should be cached per culture
       return cacheSvc.get('intentions.' + areaName, -1, function() {
-        return serverSvc.get(areaName + '/intentions').then(function(intentions) {
+        // TODO : for the time being translation of the intentions happen on the client : the french version is requested to the server
+        return serverSvc.get(areaName + '/intentions',undefined,undefined,'fr-FR').then(function(intentions) {
             // Sort the intentions by the SortOrder property
             intentions.sort(function (a, b) {
                 return (a.SortOrder - b.SortOrder);
@@ -32,7 +34,8 @@ angular.module('app/intentions', ['app/areas', 'common/services/cache', 'common/
 
     getIntention: function(areaName, intentionId) {
       return cacheSvc.get('intentions.' + areaName + '.' + intentionId, -1, function() {
-        return serverSvc.get(areaName + '/intention/' + intentionId);
+        // TODO : for the time being translation of the intentions happen on the client : the french version is requested to the server
+        return serverSvc.get(areaName + '/intention/' + intentionId,undefined,undefined,'fr-FR');
       });
     },
     groupItems: function(items, columns) {
