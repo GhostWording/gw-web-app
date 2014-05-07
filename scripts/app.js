@@ -48,9 +48,12 @@ angular.module('cherryApp',  [
 .controller('SelectedTextController', ['$scope', function($scope) {
 }])
 
-.controller('CherryController', ['$scope',  'PostActionSvc','$rootScope',
-  function ($scope,PostActionSvc,$rootScope) {
+.controller('CherryController', ['$scope',  'PostActionSvc','$rootScope','$location','currentLanguage',
+  function ($scope,PostActionSvc,$rootScope,$location,currentLanguage) {
     console.log(navigator.userAgent);
+    //console.log($location.$$host);
+    currentLanguage.setLanguageForHostName($location.$$host);
+
     PostActionSvc.postActionInfo('Init', 'Init', 'App', 'Init');
     $scope.showSpinner = false;
 
