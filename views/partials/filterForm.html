@@ -23,18 +23,18 @@
      <!-- User Gender -->
      <div ng-show = "currentUser.gender == null">
          <ul class="pager bmwQuestionButton">
-             <span>Vous êtes</span>
+             <span translate>Vous êtes</span>
              <li ng-class = '{selectionne: currentUser.gender=="H"}'>
-                 <a targetType="Command" targetId="UserGender" ng-click = "currentUser.gender = 'H'">Un homme</a></li>
+                 <a translate targetType="Command" targetId="UserGender" ng-click = "currentUser.gender = 'H'">Un homme</a></li>
              <li ng-class = '{selectionne: currentUser.gender=="F"}'>
-                 <a targetType="Command" targetId="UserGender" ng-click = "currentUser.gender = 'F'">Une femme</a></li>
+                 <a translate targetType="Command" targetId="UserGender" ng-click = "currentUser.gender = 'F'">Une femme</a></li>
          </ul>
      </div>
 
      <!-- Recipient Gender -->
      <div ng-show = "filters.recipientGender == null">
          <ul class="pager bmwQuestionButton">
-             Destinataire
+             <span translate>Destinataire</span>
              <li ng-class= '{selectionne: filters.recipientGender == "F"}' >
                 <a targetType="Command" targetId="RecipientGender" ng-click = "filters.recipientGender = 'F'"> 
                     <img ng-src="./assets/femaleuser32.png" class="breadcrumbpicto">
@@ -56,7 +56,7 @@
      <!-- In French, would you say Tu or Vous -->
      <div ng-show = "filters.tuOuVous == null">
          <ul class="pager bmwQuestionButton">
-             Lui dire
+             <span translate>Lui dire</span>
              <li ng-class= '{selectionne: filters.tuOuVous=="T"}'>
                  <a targetType="Command" targetId="TuOuVous" ng-click = "filters.tuOuVous = 'T'">Tu</a></li>
              <li ng-class= '{selectionne: BasicFilters.getTuOuVous()=="V"}' >

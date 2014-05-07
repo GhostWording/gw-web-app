@@ -23,14 +23,7 @@ function(areasSvc, intentionsSvc, $route, cacheSvc, serverSvc,HelperSvc,currentL
       return cacheSvc.get(path + culture, -1, function() {
         //return serverSvc.get(path);
         return serverSvc.get(path).then(function(textListtoDebug) {
-            var textList = textListtoDebug;
-//          var textList = [];
-//          for (var j = textListtoDebug.length-1; j >= 0; j-- ) {
-//            if (  !textListtoDebug[j] )
-//              console.log(intentionId + ' ' + i + ' ' + textListtoDebug[j]);
-//            else
-//              textList.push(textListtoDebug[j]);
-//          }
+          var textList = textListtoDebug;
           // Make a short version of the content for list display
           for (var j = textList.length-1; j >= 0; j-- ) {
             var txtContent = textList[j].Content;
