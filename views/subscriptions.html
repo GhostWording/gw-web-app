@@ -13,7 +13,7 @@
             <div translate style="font-size:120%; padding-bottom:0px; text-align: left">{{ recipient.LocalLabel }}</div>
             <div ng-repeat="intent in recipient.alerts" style="padding-bottom: 30px; padding-top: 10px;  font-size:100%;">
                 <div class ="col-xs-9" translate style="text-align: left">{{ intent.IntentionLabel}}</div>
-                <div class="col-xs-3" style="text-align: left"><toggle-switch state="getSubscriptionState(recipient.Id,intent.IntentionId)" switch="switchSubscriptionState(recipient.Id,intent.IntentionId)"></toggle-switch></div>
+                <div class="col-xs-3" style="text-align: left"><toggle-switch state="getSubscriptionState(recipient.Id,intent.IntentionId)" switchh="switchSubscriptionState(recipient.Id,intent.IntentionId)"></toggle-switch></div>
             </div>
         </div>
         <div class="col-sm-2"></div>
