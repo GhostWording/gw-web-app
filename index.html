@@ -92,14 +92,19 @@
           <span class="icon-bar"></span>
         </button>
         <a class="navbar-brand" href="/" TargetId="welcome" translate>CommentVousDire</a>
+
       </div>
       <div class="collapse navbar-collapse" ng-class="!navCollapsed && 'in'" ng-click="navCollapsed=true">
+
         <ul class="nav navbar-nav pull-right">
+          <li style="margin-right: 10px;" ng-class='{active: getLanguage()=="fr"}' ng-click="changeLanguage('fr')"><a href="" class="flag flag-icon flag-icon-fr flag-icon-squared"></a></li>
+          <li style="margin-right: 10px;" ng-class='{active: getLanguage()=="en"}' ng-click="changeLanguage('en')"><a href="" class="flag flag-icon flag-icon-uk flag-icon-squared"></a></li>
+          <li style="margin-right: 10px;" ng-class='{active: getLanguage()=="es"}' ng-click="changeLanguage('es')"><a href="" class="flag flag-icon flag-icon-es flag-icon-squared"></a></li>
           <li class="active"><a href="/#!/userprofile" translate>           Mon profil</a></li>
           <li class="active"><a href="/#!/recipientList" translate>         Envoyer à</a></li>
           <li class="active"><a href="/#!/favoriteRecipients" translate>    Ne plus oublier</a></li>
           <li class="active"><a href="/#!/area/General/intention" translate>Tous les textes</a></li>
-          <li class="active"><a href="/#!/favouriteTexts" translate>        Favoris</a></li>
+          <li class="active" ng-show = "hasFavourite()"><a href="/#!/favouriteTexts" translate>        Favoris</a></li>
           <li class="active"><a href="/#!/about" translate>                 A propos</a></li>
         </ul>
       </div>

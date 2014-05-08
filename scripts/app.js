@@ -38,8 +38,22 @@ angular.module('cherryApp',  [
 //  $translateProvider.preferredLanguage('en');
 //})
 
-.controller('NavBarController',  ['$scope','appUrlSvc', function($scope,appUrlSvc) {
+.controller('NavBarController',  ['$scope','appUrlSvc','currentLanguage','favouritesSvc', function($scope,appUrlSvc,currentLanguage,favouritesSvc) {
   $scope.appUrlSvc = appUrlSvc;
+
+  $scope.changeLanguage = function (langKey) {
+    currentLanguage.setLanguageCode(langKey);
+  };
+
+  $scope.getLanguage = function() {
+    var l =currentLanguage.getLanguageCode();
+    console.log(l);
+    return currentLanguage.getLanguageCode();
+  };
+
+  $scope.hasFavourite = function()  {
+    return favouritesSvc.hasFavourite();
+  };
 }])
 
 .controller('FilterDialogController', ['$scope', function($scope) {
@@ -66,6 +80,7 @@ angular.module('cherryApp',  [
     $rootScope.$on("$routeChangeSuccess",function (event, current, previous, rejection) {
       $scope.showSpinner = false;
     });
+
   }
 ])
 
