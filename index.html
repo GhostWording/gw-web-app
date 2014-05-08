@@ -92,7 +92,6 @@
           <span class="icon-bar"></span>
         </button>
         <a class="navbar-brand" href="/" TargetId="welcome" translate>CommentVousDire</a>
-
       </div>
       <div class="collapse navbar-collapse" ng-class="!navCollapsed && 'in'" ng-click="navCollapsed=true">
 
@@ -103,13 +102,18 @@
           <li style="margin-right: 12px;" ng-class='{active: getLanguage()=="fr"}' ng-click="changeLanguage('fr')" ><a href="" >fr</a></li>
           <li style="margin-right: 12px;" ng-class='{active: getLanguage()=="en"}' ng-click="changeLanguage('en')"><a href="" >en</a></li>
           <li style="margin-right: 12px;" ng-class='{active: getLanguage()=="es"}' ng-click="changeLanguage('es')"><a href="" >es</a></li>
-          <li class="active"><a href="/#!/userprofile" translate>           Mon profil</a></li>
-          <li class="active"><a href="/#!/recipientList" translate>         Envoyer à</a></li>
-          <li class="active"><a href="/#!/favoriteRecipients" translate>    Ne plus oublier</a></li>
-          <li class="active"><a href="/#!/area/General/intention" translate>Tous les textes</a></li>
-          <!--<li class="active" ng-show = "hasFavourite()"><a href="/#!/favouriteTexts" translate>        Favoris</a></li>-->
+
+          <!-- Envoyer à  -->
+          <li class="active"><a href="/#!/recipientList" class = "glyphicon glyphicon-user" translate></a></li>
+          <!-- Penser à  -->
+          <li class="active"><a href="/#!/favoriteRecipients" class = "glyphicon glyphicon-bell" translate></a></li>
+          <!-- Tous les textes  -->
+          <li class="active"><a href="/#!/area/General/intention" class ="glyphicon glyphicon-search" translate></a></li>
+          <!-- Favoris  -->
           <li class="active" ng-show = "hasFavourite()"><a href="/#!/favouriteTexts" class="glyphicon glyphicon-star"></a></li>
-          <li class="active"><a href="/#!/about" translate>                 A propos</a></li>
+          <!-- Mon profil  -->
+          <li class="active"><a href="/#!/userprofile" class ="glyphicon glyphicon-cog" translate></a></li>
+          <li class="active"><a href="/#!/about" translate>A propos</a></li>
         </ul>
       </div>
     </nav>
