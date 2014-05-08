@@ -27,7 +27,7 @@ angular.module('app/favourites/favouritesSvc', ['common/services/cache'])
     },
 
     hasFavourite: function() {
-      var v = Object.keys(service.favourites).length > 0;
+      var v = service.favourites && Object.keys(service.favourites).length > 0;
       return v;
     },
 
