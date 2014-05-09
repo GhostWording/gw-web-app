@@ -73,10 +73,11 @@ a, input, button {
 /*.nav-pills>.active>a, .nav-pills>.active>a:focus:hover , .nav-pills>.active>a:focus {background-color: rgb(232, 94, 38); }*/
 
 
-.splashTitle { font-size: 120%;}
+.splashTitle { font-size: 140%;}
 
 .intentionTitle { margin-top: 20px;
-                  margin-bottom: 20px;}
+                  margin-bottom: 20px;
+    font-size: 140%;  }
 
 .block-blanc-carre { background-color:rgb(255, 255, 255);
                     border-radius:7px}
