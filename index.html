@@ -83,6 +83,7 @@
     <!-- Menu bar -->
     <nav class="navbar navbar-inverse navbar-static-top" role="navigation" ng-init="navCollapsed = true"
          data-ng-controller="NavBarController" action-location="NavBar">
+     <div class="container-fluid">
       <div class="navbar-header">
         <button type="button" class="navbar-toggle" data-toggle="collapse" ng-click="navCollapsed = !navCollapsed"
                 data-target="#bs-example-navbar-collapse-1">
@@ -91,9 +92,19 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="/" TargetId="welcome" translate>CommentVousDire</a>
+        <a class="navbar-brand hidden-xs" href="/" TargetId="welcome" translate>CommentVousDire</a>
+        <a class="navbar-brand glyphicon glyphicon-home visible-xs" href="/" ></a>
+
+
+        <!--<ul>-->
+          <!--<li style="margin-right: 12px;" ng-class='{active: getLanguage()=="fr"}' ng-click="changeLanguage('fr')" ><a href="" >fr</a></li>-->
+          <!--<li style="margin-right: 12px;" ng-class='{active: getLanguage()=="en"}' ng-click="changeLanguage('en')"><a href="" >en</a></li>-->
+          <!--<li style="margin-right: 12px;" ng-class='{active: getLanguage()=="es"}' ng-click="changeLanguage('es')"><a href="" >es</a></li>-->
+        <!--</ul>-->
       </div>
+
       <div class="collapse navbar-collapse" ng-class="!navCollapsed && 'in'" ng-click="navCollapsed=true">
+      <!--<div >-->
 
         <ul class="nav navbar-nav pull-right">
           <li style="margin-right: 12px;" ng-class='{active: getLanguage()=="fr"}' ng-click="changeLanguage('fr')"><a href="" class="flag flag-icon flag-icon-fr flag-icon-squared"></a></li>
@@ -116,6 +127,7 @@
           <li class="active"><a href="/#!/about" translate>A propos</a></li>
         </ul>
       </div>
+     </div>  <!--container-fluid-->
     </nav>
 
     <!-- Container -->
