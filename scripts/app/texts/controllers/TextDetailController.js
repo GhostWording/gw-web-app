@@ -2,8 +2,8 @@ angular.module('app/texts/TextDetailController', ['common/i18n'])
 
 // Display text with author, link to the source, usage recommandations or comments
 
-.controller('TextDetailController', ['$scope','currentText', 'currentIntention', 'currentArea', 'tagLabelsSvc', '$modal','currentRecipient', 'favouritesSvc','currentRecipientSvc',
-function ($scope, currentText, currentIntention, currentArea, tagLabelsSvc, $modal,currentRecipient, favouritesSvc,currentRecipientSvc) {
+.controller('TextDetailController', ['$scope','currentText', 'currentIntention', 'currentArea', 'tagLabelsSvc', '$modal','currentRecipient', 'favouritesSvc','currentRecipientSvc','alternativeTextsSvc',
+function ($scope, currentText, currentIntention, currentArea, tagLabelsSvc, $modal,currentRecipient, favouritesSvc,currentRecipientSvc,alternativeTextsSvc) {
 
   currentText.TagLabels = tagLabelsSvc.labelsFromStyleTagIds(currentText.TagIds);
   $scope.currentArea = currentArea;
@@ -42,5 +42,12 @@ function ($scope, currentText, currentIntention, currentArea, tagLabelsSvc, $mod
   $scope.setFavourite = function() {
     favouritesSvc.setFavourite(currentText, currentArea, currentIntention, $scope.recipientId, $scope.isFavourite());
   };
+
+  alternativeTextsSvc.getRealizationList(currentArea.AreaId,currentText.TextId).then(function(textList) {
+    console.log("Nb alternative realizations : " + textList.length);
+    if ( textList != "null") {
+      var availableCultures = alternativeTextsSvc.getCultures(textList);
+    }
+  });
 
 }]);
