@@ -84,27 +84,37 @@
     <nav class="navbar navbar-inverse navbar-static-top" role="navigation" ng-init="navCollapsed = true"
          data-ng-controller="NavBarController" action-location="NavBar">
      <div class="container-fluid">
+
       <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" ng-click="navCollapsed = !navCollapsed"
-                data-target="#bs-example-navbar-collapse-1">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
+        <!--<button type="button" class="navbar-toggle" data-toggle="collapse" ng-click="navCollapsed = !navCollapsed"-->
+                <!--data-target="#bs-example-navbar-collapse-1">-->
+          <!--<span class="sr-only">Toggle navigation</span>-->
+          <!--<span class="icon-bar"></span>-->
+          <!--<span class="icon-bar"></span>-->
+          <!--<span class="icon-bar"></span>-->
+        <!--</button>-->
         <a class="navbar-brand hidden-xs" href="/" TargetId="welcome" translate>CommentVousDire</a>
         <a class="navbar-brand glyphicon glyphicon-home visible-xs" href="/" ></a>
-
-
-        <!--<ul>-->
-          <!--<li style="margin-right: 12px;" ng-class='{active: getLanguage()=="fr"}' ng-click="changeLanguage('fr')" ><a href="" >fr</a></li>-->
-          <!--<li style="margin-right: 12px;" ng-class='{active: getLanguage()=="en"}' ng-click="changeLanguage('en')"><a href="" >en</a></li>-->
-          <!--<li style="margin-right: 12px;" ng-class='{active: getLanguage()=="es"}' ng-click="changeLanguage('es')"><a href="" >es</a></li>-->
-        <!--</ul>-->
+        <div class="pull-right visible-xs">
+          <a href="" style="margin-right: 4px;" ng-class='{active: getLanguage()=="fr"}' ng-click="changeLanguage('fr')" class="navbar-brand flag flag-icon flag-icon-fr flag-icon-squared"></a>
+          <a href="" style="margin-right: 4px;" ng-class='{active: getLanguage()=="en"}' ng-click="changeLanguage('en')" class="navbar-brand flag flag-icon flag-icon-uk flag-icon-squared"></a>
+          <a style="margin-right: 4px;" ng-click="changeLanguage('es')" class="navbar-brand flag flag-icon flag-icon-es flag-icon-squared"></a>
+          <!-- Envoyer à  -->
+          <a  href="/#!/recipientList" class="navbar-brand glyphicon glyphicon-user" translate></a>
+          <!-- Penser à  -->
+          <a href="/#!/favoriteRecipients" class = "navbar-brand glyphicon glyphicon-bell" translate></a>
+          <!-- Tous les textes  -->
+          <a href="/#!/area/General/intention" ng-show="false" class ="navbar-brand glyphicon glyphicon-search" translate></a>
+          <!-- Favoris  -->
+          <a ng-show = "hasFavourite()" href="/#!/favouriteTexts" class="navbar-brand glyphicon glyphicon-star"></a>
+          <!-- Mon profil  -->
+          <a href="/#!/userprofile" class ="navbar-brand glyphicon glyphicon-cog" translate></a>
+          <a  class="navbar-brand" href="/#!/about" translate>?</a>
+        </div>
       </div>
 
-      <div class="collapse navbar-collapse" ng-class="!navCollapsed && 'in'" ng-click="navCollapsed=true">
-      <!--<div >-->
+      <div class="collapse navbar-collapse hidden-xs"  ng-class="!navCollapsed && 'in'" ng-click="navCollapsed=true">
+      <!--<div data-no-collapse="true" >-->
 
         <ul class="nav navbar-nav pull-right">
           <li style="margin-right: 12px;" ng-class='{active: getLanguage()=="fr"}' ng-click="changeLanguage('fr')"><a href="" class="flag flag-icon flag-icon-fr flag-icon-squared"></a></li>

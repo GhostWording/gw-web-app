@@ -1,4 +1,8 @@
-﻿.fb_pixel_send{
+﻿.navbar-brand {
+     padding-left:8px;
+}
+
+.fb_pixel_send{
     background-image: url('https://www.facebook.com/offsite_event.php?id=6009586863594&amp;value=0&amp;currency=EUR');
     display:none;
 }
