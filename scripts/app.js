@@ -47,7 +47,7 @@ angular.module('cherryApp',  [
 
   $scope.getLanguage = function() {
     var l =currentLanguage.getLanguageCode();
-    console.log(l);
+//    console.log(l);
     return currentLanguage.getLanguageCode();
   };
 
@@ -79,6 +79,11 @@ angular.module('cherryApp',  [
     });
     $rootScope.$on("$routeChangeSuccess",function (event, current, previous, rejection) {
       $scope.showSpinner = false;
+      var languageCode = current.params.languageCode
+      if ( languageCode &&  languageCode!== undefined) {
+//        console.log(languageCode);
+        currentLanguage.setLanguageCode(languageCode);
+      }
     });
 
   }

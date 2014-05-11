@@ -49,7 +49,6 @@ angular.module('app/routing', [])
     .when('/addressee/:recipientId/:intentionId', {
       redirectTo: '/area/Addressee/intention/:intentionId/recipient/:recipientId/text/'
     })
-    //.when('/area/:areaName/intention/:intentionId/text/:textId', {
     .when('/area/:areaName/intention/:intentionId/recipient/:recipientId/text/:textId', {
         templateUrl: 'views/textdetail.html',
         controller: 'TextDetailController',
@@ -60,16 +59,27 @@ angular.module('app/routing', [])
             currentRecipient: ['currentRecipientSvc', function(currentRecipientSvc) { return currentRecipientSvc.getCurrentRecipient(); }]
         }
     })
-    .when('/area/:areaName/intention/:intentionId/recipient//text/:textId', {
+    .when('/:languageCode/area/:areaName/intention/:intentionId/recipient/:recipientId/text/:textId', {
       templateUrl: 'views/textdetail.html',
       controller: 'TextDetailController',
       resolve: {
         currentArea: ['areasSvc', function(areasSvc) { return areasSvc.getCurrent(); }],
         currentIntention: ['intentionsSvc', function(intentionsSvc) { return intentionsSvc.getCurrent(); }],
         currentText: ['textsSvc', function(textsSvc) { return textsSvc.getCurrent(); }],
-        currentRecipient: ['currentRecipientSvc', function(currentRecipientSvc) { return null; }]
+        currentRecipient: ['currentRecipientSvc', function(currentRecipientSvc) { return currentRecipientSvc.getCurrentRecipient(); }]
       }
     })
+
+//    .when('/area/:areaName/intention/:intentionId/recipient//text/:textId', {
+//      templateUrl: 'views/textdetail.html',
+//      controller: 'TextDetailController',
+//      resolve: {
+//        currentArea: ['areasSvc', function(areasSvc) { return areasSvc.getCurrent(); }],
+//        currentIntention: ['intentionsSvc', function(intentionsSvc) { return intentionsSvc.getCurrent(); }],
+//        currentText: ['textsSvc', function(textsSvc) { return textsSvc.getCurrent(); }],
+//        currentRecipient: ['currentRecipientSvc', function(currentRecipientSvc) { return null; }]
+//      }
+//    })
     // Not sure to use this one
     .when('/area/:areaName/text/:textId', {
         templateUrl: 'views/textdetail.html',
@@ -81,14 +91,15 @@ angular.module('app/routing', [])
 
     // Shortcut for human readable link
     // TODO: Move this to a redirect on the server??
-    .when('/:areaName/:intentionId', {
-        templateUrl: 'views/textList.html',
-        controller: 'TextListController',
-        resolve: {
-            currentArea: ['areasSvc', function(areasSvc) { return areasSvc.getCurrent(); }],
-            currentIntention: ['intentionsSvc', function(intentionsSvc) { return intentionsSvc.getCurrent(); }]
-        }
-    })
+  // Introduced ambiguity if we want to use url sur as /:language/pageName
+//    .when('/:areaName/:intentionId', {
+//        templateUrl: 'views/textList.html',
+//        controller: 'TextListController',
+//        resolve: {
+//            currentArea: ['areasSvc', function(areasSvc) { return areasSvc.getCurrent(); }],
+//            currentIntention: ['intentionsSvc', function(intentionsSvc) { return intentionsSvc.getCurrent(); }]
+//        }
+//    })
 
     .when('/favouriteTexts', {
         templateUrl: 'views/favouriteText.html',
@@ -140,16 +151,16 @@ angular.module('app/routing', [])
         controller: 'UserProfileController'
     })
     
-//    .when('/splashscreen', {
-    .when('/', {
-        templateUrl: 'views/splashscreen.html',
-        controller: 'SplashScreenController'
-    })
 
     .when('/about', {
         templateUrl: 'views/about.html',
         controller: 'SimplePageController'
     })
+    .when('/:languageCode/about', {
+      templateUrl: 'views/about.html',
+      controller: 'SimplePageController'
+    })
+
     .when('/BonneAnnee', {
         redirectTo: '/area/Friends/intention/938493/text'
     })
@@ -161,6 +172,15 @@ angular.module('app/routing', [])
     })
     .when('/Famille', {
         redirectTo: '/area/Family/intention'
+    })
+    //    .when('/splashscreen', {
+    .when('/', {
+      templateUrl: 'views/splashscreen.html',
+      controller: 'SplashScreenController'
+    })
+    .when('/:languageCode', {
+      templateUrl: 'views/splashscreen.html',
+      controller: 'SplashScreenController'
     })
 
 

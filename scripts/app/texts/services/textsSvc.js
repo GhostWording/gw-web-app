@@ -39,7 +39,6 @@ function(areasSvc, intentionsSvc, $route, cacheSvc, serverSvc,HelperSvc,currentL
           textList = HelperSvc.shuffleTextIfSortOrderNotLessThan(textList,minSortOrderToBeRandomized);
           return textList;
         });
-
       });
     },
     getText: function(areaName, intentionId, textId) {
@@ -69,6 +68,7 @@ function(areasSvc, intentionsSvc, $route, cacheSvc, serverSvc,HelperSvc,currentL
 
       return cacheSvc.get(path, -1, getTextById, true);
     }
+
   };
   return service;
 }]);
