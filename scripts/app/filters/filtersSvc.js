@@ -16,6 +16,9 @@ angular.module('app/filters/filtersSvc', ['app/filters/styles'])
       recipientTypeTag : null
     },
 
+    getFilters: function() {
+      return service.filters;
+    },
     reset: function() {
       service.filters.recipientGender = null;
       service.filters.tuOuVous = null;

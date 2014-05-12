@@ -47,9 +47,8 @@ function ($scope, currentText, currentIntention, currentArea, tagLabelsSvc, $mod
 //  alternativeTextsSvc.getRealizationList(currentArea.AreaId,currentText.TextId).then(function(textList) {
   alternativeTextsSvc.getRealizationList(currentArea.AreaId,currentText.PrototypeId).then(function(textList) {
     if ( textList != "null") {
-      var textGroups = alternativeTextsSvc.getAlternativeTexts(currentText,textList);
-
-//      // TODO : for each orderedPresentationLanguages, prepare an array of available texts for the language, then chose the best one according to sender, recipient and polite form
+      // For each orderedPresentationLanguages, prepare an array of available texts for the language, then chose the best ones according to sender, recipient and polite form
+      $scope.textGroups = alternativeTextsSvc.getAlternativeTexts(currentText,textList);
     }
     else
       console.log("No alternative realization for " + currentText.TextId);
