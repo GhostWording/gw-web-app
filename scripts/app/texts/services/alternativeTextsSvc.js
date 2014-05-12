@@ -130,6 +130,7 @@ angular.module('app/texts/alternativeTextList', [])
         var bestScoreSoFar = -100;
         for (var i = 0; i < textList.length; i++) {
           var text = textList[i];
+          text.shortContent = text.Content; // hack for cvd-text
           nbPropertyMatched[i] = service.countSimilarityPoints(nativeText,text);
           console.log(nbPropertyMatched[i] + " points for " + text.Content);
           if ( nbPropertyMatched[i] > bestScoreSoFar ) {

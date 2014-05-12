@@ -19,6 +19,7 @@
 
   <div class="well well-lg" ng-hide="editText" style="border-color: #428bca; margin-bottom: 5px; " >
     <span ng-bind-html="currentText.Content"></span>
+    <!--<span cvd-text="currentText"></span>-->
     <favourite-toggle is-favourite="isFavourite()" on-change="setFavourite()"></favourite-toggle>
   </div>
 
@@ -76,6 +77,7 @@
     <div ng-repeat="text in languageTextGroup.texts">
       <div class="well well-lg" style="border-color: #428bca; margin-bottom: 5px; margin-top: 25px;">
         <span ng-bind-html="text.Content"></span>
+        <!--<div cvd-text="text"></div>-->
         <!--<favourite-toggle is-favourite="isFavourite()" on-change="setFavourite()"></favourite-toggle>-->
       </div>
       <div>
