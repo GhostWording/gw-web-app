@@ -74,16 +74,17 @@
     <h5 style="font-size: 120%;" translate>{{ languageTextGroup.code }}</h5>
 
     <div ng-repeat="text in languageTextGroup.texts">
-      <div class="well well-lg" style="border-color: #428bca; margin-bottom: 5px;">
+      <div class="well well-lg" style="border-color: #428bca; margin-bottom: 5px; margin-top: 25px;">
         <span ng-bind-html="text.Content"></span>
         <!--<favourite-toggle is-favourite="isFavourite()" on-change="setFavourite()"></favourite-toggle>-->
       </div>
-      <span class="pull-right">
-        <button class="btn btn-primary" translate
+      <div>
+        <button class="btn btn-primary pull-right" translate
                 targetId="{{ Id }}" targetType="Text" actionType="send"
                 ng-click="txt.Content = text.Content; send();">Envoyer
         </button>
-      </span>
+      </div>
+      <div>&nbsp</div>
     </div>
   </div>
 
