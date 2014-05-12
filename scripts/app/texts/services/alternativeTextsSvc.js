@@ -169,9 +169,10 @@ angular.module('app/texts/alternativeTextList', [])
           if ( textsForThisLanguage.length > 0) {
             // If several texts exist for a language, choose the best ones
             var filteredList = service.findBestMatches(text,textsForThisLanguage);
-            textArraysForLanguages.push( { "code": languageCode, "texts" : textsForThisLanguage    } );
+            textArraysForLanguages.push( { "code": languageCode, "texts" : filteredList    } );
           }
         }
+        return textArraysForLanguages;
       }
 
     };

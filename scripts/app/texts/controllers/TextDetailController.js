@@ -18,7 +18,7 @@ function ($scope, currentText, currentIntention, currentArea, tagLabelsSvc, $mod
 	// Probably some case of prototypal bizarrerie : modification to the text from the dialog are discarded if we dont use a proper object to carry the editableText property
   // $scope.editableText = currentText.Content;
   $scope.txt = {};
-  $scope.txt.editableText = currentText.Content;
+  $scope.txt.Content = currentText.Content;
 
   $scope.send = function() {
     $scope.sendDialog = $modal.open({
@@ -26,7 +26,8 @@ function ($scope, currentText, currentIntention, currentArea, tagLabelsSvc, $mod
       scope: $scope,
       controller: 'SendTextFormController',
       resolve: {
-        currentText: function() { return currentText; }
+//        currentText: function() { return $scope.currentText; }
+        currentText: function() { return $scope.txt; }
       }
     });
   };
@@ -48,7 +49,7 @@ function ($scope, currentText, currentIntention, currentArea, tagLabelsSvc, $mod
   alternativeTextsSvc.getRealizationList(currentArea.AreaId,currentText.PrototypeId).then(function(textList) {
     if ( textList != "null") {
       // For each orderedPresentationLanguages, prepare an array of available texts for the language, then chose the best ones according to sender, recipient and polite form
-      $scope.textGroups = alternativeTextsSvc.getAlternativeTexts(currentText,textList);
+      $scope.languageTextGroups = alternativeTextsSvc.getAlternativeTexts(currentText,textList);
     }
     else
       console.log("No alternative realization for " + currentText.TextId);
