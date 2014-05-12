@@ -3,8 +3,8 @@ angular.module('app/texts/TextDetailController', ['common/i18n'])
 // Display text with author, link to the source, usage recommandations or comments
 
 .controller('TextDetailController',
-['$scope','currentText', 'currentIntention', 'currentArea', 'tagLabelsSvc', '$modal','currentRecipient', 'favouritesSvc','currentRecipientSvc','alternativeTextsSvc','availableLanguages',
-function ($scope, currentText, currentIntention, currentArea, tagLabelsSvc, $modal,currentRecipient, favouritesSvc,currentRecipientSvc,alternativeTextsSvc,availableLanguages) {
+['$scope','currentText', 'currentIntention', 'currentArea', 'tagLabelsSvc', '$modal','currentRecipient', 'favouritesSvc','currentRecipientSvc','alternativeTextsSvc','availableLanguages','currentLanguage',
+function ($scope, currentText, currentIntention, currentArea, tagLabelsSvc, $modal,currentRecipient, favouritesSvc,currentRecipientSvc,alternativeTextsSvc,availableLanguages,currentLanguage) {
 
   currentText.TagLabels = tagLabelsSvc.labelsFromStyleTagIds(currentText.TagIds);
   $scope.currentArea = currentArea;
@@ -44,17 +44,16 @@ function ($scope, currentText, currentIntention, currentArea, tagLabelsSvc, $mod
     favouritesSvc.setFavourite(currentText, currentArea, currentIntention, $scope.recipientId, $scope.isFavourite());
   };
 
-  alternativeTextsSvc.getRealizationList(currentArea.AreaId,currentText.TextId).then(function(textList) {
-    console.log("Nb alternative realizations : " + textList.length);
+//  alternativeTextsSvc.getRealizationList(currentArea.AreaId,currentText.TextId).then(function(textList) {
+  alternativeTextsSvc.getRealizationList(currentArea.AreaId,currentText.PrototypeId).then(function(textList) {
     if ( textList != "null") {
-      var availableCultures = alternativeTextsSvc.getCultures(textList);
-      var orderedPresentationLanguages =  availableLanguages.orderedAppLanguages();
-      console.log(availableCultures);
-      console.log(orderedPresentationLanguages);
-      var tt = alternativeTextsSvc.getTextsForLanguage(textList,'en');
-      console.log(tt);
-      // TODO : for each orderedPresentationLanguages, prepare an array of available texts for the language, then chose the best one according to sender, recipient and polite form
+      var textGroups = alternativeTextsSvc.getAlternativeTexts(currentText,textList);
+
+//      // TODO : for each orderedPresentationLanguages, prepare an array of available texts for the language, then chose the best one according to sender, recipient and polite form
     }
+    else
+      console.log("No alternative realization for " + currentText.TextId);
+
   });
 
 }]);
