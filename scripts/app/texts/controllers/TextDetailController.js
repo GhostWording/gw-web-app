@@ -2,8 +2,9 @@ angular.module('app/texts/TextDetailController', ['common/i18n'])
 
 // Display text with author, link to the source, usage recommandations or comments
 
-.controller('TextDetailController', ['$scope','currentText', 'currentIntention', 'currentArea', 'tagLabelsSvc', '$modal','currentRecipient', 'favouritesSvc','currentRecipientSvc','alternativeTextsSvc',
-function ($scope, currentText, currentIntention, currentArea, tagLabelsSvc, $modal,currentRecipient, favouritesSvc,currentRecipientSvc,alternativeTextsSvc) {
+.controller('TextDetailController',
+['$scope','currentText', 'currentIntention', 'currentArea', 'tagLabelsSvc', '$modal','currentRecipient', 'favouritesSvc','currentRecipientSvc','alternativeTextsSvc','availableLanguages',
+function ($scope, currentText, currentIntention, currentArea, tagLabelsSvc, $modal,currentRecipient, favouritesSvc,currentRecipientSvc,alternativeTextsSvc,availableLanguages) {
 
   currentText.TagLabels = tagLabelsSvc.labelsFromStyleTagIds(currentText.TagIds);
   $scope.currentArea = currentArea;
@@ -47,6 +48,12 @@ function ($scope, currentText, currentIntention, currentArea, tagLabelsSvc, $mod
     console.log("Nb alternative realizations : " + textList.length);
     if ( textList != "null") {
       var availableCultures = alternativeTextsSvc.getCultures(textList);
+      var orderedPresentationLanguages =  availableLanguages.orderedAppLanguages();
+      console.log(availableCultures);
+      console.log(orderedPresentationLanguages);
+      var tt = alternativeTextsSvc.getTextsForLanguage(textList,'en');
+      console.log(tt);
+      // TODO : for each orderedPresentationLanguages, prepare an array of available texts for the language, then chose the best one according to sender, recipient and polite form
     }
   });
 
