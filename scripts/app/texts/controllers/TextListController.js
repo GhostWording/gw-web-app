@@ -1,8 +1,8 @@
 angular.module('app/texts/TextListController', [])
 // Displays a list of texts
 .controller('TextListController',
- ['$scope', 'currentTextList', 'currentIntention', 'currentArea', 'currentUser', 'filtersSvc', '$modal', 'currentRecipient', 'favouritesSvc','appUrlSvc','currentRecipientSvc',
- function ($scope, currentTextList, currentIntention, currentArea, currentUser, filtersSvc, $modal,currentRecipient, favouritesSvc,appUrlSvc,currentRecipientSvc) {
+ ['$scope', 'currentTextList', 'currentIntention', 'currentArea', 'currentUser', 'filtersSvc', '$modal', 'currentRecipient', 'favouritesSvc','appUrlSvc','currentRecipientSvc','currentLanguage','textsSvc',
+ function ($scope, currentTextList, currentIntention, currentArea, currentUser, filtersSvc, $modal,currentRecipient, favouritesSvc,appUrlSvc,currentRecipientSvc,currentLanguage,textsSvc) {
    $scope.appUrlSvc = appUrlSvc;
 
   $scope.currentArea = currentArea;
@@ -14,7 +14,14 @@ angular.module('app/texts/TextListController', [])
   $scope.filtersWellDefined = filtersSvc.wellDefined;
   $scope.recipientId = currentRecipientSvc.getIdOfRecipient(currentRecipient);
 
-  $scope.showTextsAnyway = function() {
+
+  $scope.$watch(function() { return currentLanguage.getLanguageCode(); },
+                function() { textsSvc.getCurrentList().then(function(textList) {
+                                    $scope.textList =textList; $scope.filterList();})}
+                );
+
+
+   $scope.showTextsAnyway = function() {
     return currentArea.Name == 'General';
   };
 
@@ -78,4 +85,6 @@ angular.module('app/texts/TextListController', [])
   // Watch the filters and update the filtered text list if they change
   $scope.$watch(function() { return filtersSvc.filters; }, $scope.filterList, true);
 
-}]);
+
+
+ }]);

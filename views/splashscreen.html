@@ -46,7 +46,7 @@
         <!--Changez-vous la vie&nbsp!-->
     </div>
 
-    <div class="row"  >
+    <div class="row" style="margin-bottom: 20px;" >
         <div class="span4"></div>
         <div class="span4 brand">
             <!--<img src="./assets/plumecenteredsmall.png">-->
@@ -54,5 +54,11 @@
         </div>
         <div class="span4"></div>
     </div>
+
+  <!--<div class="btn-group">-->
+    <button type="button" style="border: none" class="btn btn-default" ng-class='{"btn-primary": getLanguage()=="fr"}' ng-click="changeLanguage('fr')"><img src="/assets/FlagFrance.png"></button>
+    <button type="button" style="border: none" class="btn btn-default" ng-class='{"btn-primary": getLanguage()=="en"}' ng-click="changeLanguage('en')"><img src="/assets/FlagUK.png"></button>
+    <button type="button" style="border: none" class="btn btn-default" ng-class='{"btn-primary": getLanguage()=="es"}' ng-click="changeLanguage('es')"><img src="/assets/FlagSpain.png"></button>
+  <!--</div>-->
 
 </div>

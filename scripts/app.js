@@ -68,6 +68,14 @@ angular.module('cherryApp',  [
     //console.log($location.$$host);
     currentLanguage.setLanguageForHostName($location.$$host);
 
+    $scope.changeLanguage = function (langKey) {
+      currentLanguage.setLanguageCode(langKey);
+    };
+
+    $scope.getLanguage = function() {
+      return currentLanguage.getLanguageCode();
+    };
+
     PostActionSvc.postActionInfo('Init', 'Init', 'App', 'Init');
     $scope.showSpinner = false;
 
