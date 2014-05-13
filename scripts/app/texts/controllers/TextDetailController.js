@@ -65,6 +65,15 @@ function ($scope, currentText, currentIntention, currentArea, tagLabelsSvc, $mod
     favouritesSvc.setFavourite(currentText, currentArea, currentIntention, $scope.recipientId, $scope.isFavourite());
   };
 
+  // Compare text wi
+  $scope.getTVDistinction = function(text) {
+    return alternativeTextsSvc.getTVDistinction(currentText.Content,text);
+  };
+
+  $scope.getSenderGenderVariationFromCurrentUser = function (text) {
+    return alternativeTextsSvc.getSenderGenderVariationFromCurrentUser(text);
+  };
+
 //  alternativeTextsSvc.getRealizationList(currentArea.AreaId,currentText.TextId).then(function(textList) {
   alternativeTextsSvc.getRealizationList(currentArea.AreaId,currentText.PrototypeId).then(function(textList) {
 

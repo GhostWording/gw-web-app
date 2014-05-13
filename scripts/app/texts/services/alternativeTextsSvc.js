@@ -174,6 +174,28 @@ angular.module('app/texts/alternativeTextList', [])
           }
         }
         return textArraysForLanguages;
+      },
+      // Give warning if PoliteForm of variation is more precise than original
+      getTVDistinction: function (original, variation) {
+        var retval="";
+        if (variation.PoliteForm != original.PoliteForm && variation.PoliteForm != 'I') {
+          switch(variation.PoliteForm) {
+            case 'T':
+              retval = 'Tu';
+              break;
+            case 'V':
+              retval = 'Vous';
+              break;
+          }
+        }
+        return retval;
+      },
+      getSenderGenderVariationFromCurrentUser: function (variation) {
+        var retval="";
+        if (variation.Sender != currentUser.gender && variation.Sender != 'I' && variation.Sender != 'N' ) {
+          retval = variation.Sender;
+        }
+        return retval;
       }
 
     };
