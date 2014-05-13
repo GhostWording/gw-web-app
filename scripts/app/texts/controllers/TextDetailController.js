@@ -17,6 +17,8 @@ function ($scope, currentText, currentIntention, currentArea, tagLabelsSvc, $mod
 
   $scope.recipientId = currentRecipientSvc.getIdOfRecipient(currentRecipient);
 
+  $scope.authorButton = "active";
+
 
   $scope.send = function() {
     $scope.sendDialog = $modal.open({
@@ -36,11 +38,13 @@ function ($scope, currentText, currentIntention, currentArea, tagLabelsSvc, $mod
   };
 
   function insertAuthorInText(text,author) {
-    var toBeAdded = " (" + author + ")";
-
     var pos = text.indexOf("»");
-    var retval =  (pos > 0) ? text.substring(0, pos+1) + toBeAdded + text.substring(pos+1, text.length) : text +  toBeAdded;
-
+    var spacing = (pos == text.length - 1 || pos < 0)
+                            ? "\n"
+                            : ' ';
+    var toBeAdded = spacing  + "(" + author + ")";
+    var retval =  (pos > 0) ? text.substring(0, pos+1) + toBeAdded + text.substring(pos+1, text.length)
+                            : text + toBeAdded;
     return retval;
   }
 
@@ -49,6 +53,7 @@ function ($scope, currentText, currentIntention, currentArea, tagLabelsSvc, $mod
 //    $scope.txt.Content += toBeAdded;
 //    $scope.currentText.Content += toBeAdded;
     $scope.txt.Content = insertAuthorInText($scope.txt.Content, currentText.Author);
+    $scope.authorButton = "disabled";
     //$scope.currentText.Content = insertAuthorInText($scope.currentText.Content, currentText.Author);
   };
 

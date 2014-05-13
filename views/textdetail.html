@@ -32,8 +32,6 @@
         id="currentText"
         style="width:100%;" rows="10">
     </textarea>
-    <!--<br>-->
-    <!--<br>-->
   </div>
 
   <div>
@@ -51,11 +49,10 @@
 
     <!--<br/>-->
   <div ng-show="currentText.IsQuote">
-    <span class ="auteur" >
-        Auteur : {{currentText.Author}}
-    </span>
+    <span class ="auteur" translate>Auteur</span>
+    <span class ="auteur">: {{currentText.Author}}</span>
     &nbsp
-    <button class="btn btn-default glyphicon glyphicon-plus"
+    <button class="btn btn-default glyphicon glyphicon-plus" ng-class = '{disabled: authorButton=="disabled"}'
             targetId="{{ Id }}" targetType="Text" actionType="edit"
             ng-click="addAuthor()">
     </button>
@@ -76,9 +73,7 @@
       </div>
       <div>
         <a href="{{appUrlSvc.getRootPath()}}area/{{ currentArea.Name }}/intention/{{ currentIntention.IntentionId }}/recipient/{{ recipientId }}/text/{{text.TextId}}"
-           targetType="Text"
-           actionType="open"
-           targetId="{{txt.TextId}}">
+           targetType="Text"  actionType="open"  targetId="{{txt.TextId}}">
           <button class="btn btn-primary pull-right glyphicon glyphicon-ok" translate
                   targetId="{{ Id }}" targetType="Text"></button>
          </a>

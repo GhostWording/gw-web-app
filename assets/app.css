@@ -1,5 +1,8 @@
 ﻿.navbar-brand {
-     padding-left:8px;
+     padding-left:5px;}
+.navbar-brand.active {
+     color:#ffffff;
+
 }
 
 .fb_pixel_send{
@@ -142,7 +145,7 @@ a:hover .bmw-texte, a:hover .citation, a:hover .bmw-intention { text-decoration:
 
 /*.bmw-text.active  { text-decoration: none ; color: #428bca;  }*/
 
-.well.well-lg  { text-decoration: lightcoral  }
+
 
 
 a:hover { text-decoration: none }
