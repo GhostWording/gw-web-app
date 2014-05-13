@@ -109,8 +109,10 @@ angular.module('app/filters/filtersSvc', ['app/filters/styles'])
     // TODO
     setFiltersForRecipient : function(recipient) {
       if ( recipient) {
-        service.filters.recipientGender = recipient.Gender;
-        service.filters.tuOuVous = recipient.TuOuVous;
+        if ( recipient.Gender )
+          service.filters.recipientGender = recipient.Gender;
+        if ( recipient.TuOuVous )
+          service.filters.tuOuVous = recipient.TuOuVous;
       }
     },
     setRecipientTypeTag: function(recipientTypeTag) {
