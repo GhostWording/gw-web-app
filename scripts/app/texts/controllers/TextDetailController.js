@@ -11,17 +11,12 @@ function ($scope, currentText, currentIntention, currentArea, tagLabelsSvc, $mod
   $scope.currentIntention = currentIntention;
   $scope.currentText = currentText;
 
-  var currentTextLanguageCode =   currentLanguage.getLanguageFromCulture(currentText.Culture);
+  // Copy the text Content so that if we edit it we are not editing the original "text".
+  $scope.txt = {};
+  $scope.txt.Content = currentText.Content; // has to be property of a full object to avoid prototypal inheritance problems
 
-
-//  $scope.recipientId = currentRecipient ? currentRecipient.Id :  '';
   $scope.recipientId = currentRecipientSvc.getIdOfRecipient(currentRecipient);
 
-  // Copy the text Content so that if we edit it we are not editing the original "text".
-	// Probably some case of prototypal bizarrerie : modification to the text from the dialog are discarded if we dont use a proper object to carry the editableText property
-  // $scope.editableText = currentText.Content;
-  $scope.txt = {};
-  $scope.txt.Content = currentText.Content;
 
   $scope.send = function() {
     $scope.sendDialog = $modal.open({
@@ -40,6 +35,23 @@ function ($scope, currentText, currentIntention, currentArea, tagLabelsSvc, $mod
     $scope.editText = true;
   };
 
+  function insertAuthorInText(text,author) {
+    var toBeAdded = " (" + author + ")";
+
+    var pos = text.indexOf("»");
+    var retval =  (pos > 0) ? text.substring(0, pos+1) + toBeAdded + text.substring(pos+1, text.length) : text +  toBeAdded;
+
+    return retval;
+  }
+
+  $scope.addAuthor = function() {
+//    var toBeAdded = " (" + currentText.Author + ")";
+//    $scope.txt.Content += toBeAdded;
+//    $scope.currentText.Content += toBeAdded;
+    $scope.txt.Content = insertAuthorInText($scope.txt.Content, currentText.Author);
+    //$scope.currentText.Content = insertAuthorInText($scope.currentText.Content, currentText.Author);
+  };
+
   $scope.isFavourite = function() {
     return favouritesSvc.isExisting(currentText);
   };
@@ -50,8 +62,10 @@ function ($scope, currentText, currentIntention, currentArea, tagLabelsSvc, $mod
 
 //  alternativeTextsSvc.getRealizationList(currentArea.AreaId,currentText.TextId).then(function(textList) {
   alternativeTextsSvc.getRealizationList(currentArea.AreaId,currentText.PrototypeId).then(function(textList) {
+
     if ( textList != "null") {
       // For each orderedPresentationLanguages, prepare an array of available texts for the language, then chose the best ones according to sender, recipient and polite form
+      var currentTextLanguageCode =   currentLanguage.getLanguageFromCulture(currentText.Culture);
       $scope.languageTextGroups = alternativeTextsSvc.getAlternativeTexts(currentText,textList,currentTextLanguageCode);
     }
     else

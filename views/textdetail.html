@@ -1,7 +1,7 @@
 ﻿<div action-location="TextDetail">
   <div>
     <!--<h3   ng-bind-html = "currentText.Abstract || currentIntention.Label" ></h3>-->
-    <ul class="pager bmwQuestionButton" style="margin-bottom: 15px;">
+    <ul class="pager bmwQuestionButton" style="margin-top: 5px;  margin-bottom: 25px;">
       <li ng-class='{selectionne: false}'>
         <a href="/area/{{ currentArea.Name }}/intention/{{ currentIntention.IntentionId }}/recipient/{{ recipientId }}/text"
            class="pull-left" role="button" targetId="Back">
@@ -12,13 +12,16 @@
     </ul>
   </div>
 
+  <!--glyphicon glyphicon-plus-->
+
 
   <span ng-repeat="tagLabel in currentText.TagLabels" >
       <span class="label label-primary" translate>{{tagLabel}}</span>&nbsp
   </span>
 
-  <div class="well well-lg" ng-hide="editText" style="border-color: #428bca; margin-bottom: 5px; " >
-    <span ng-bind-html="currentText.Content"></span>
+  <div class="well well-lg" ng-hide="editText" style="border-color: #428bca; margin-bottom: 5px; background-color: #FFFFFF;" >
+    <!--<span ng-bind-html="currentText.Content"></span>-->
+    <span ng-bind-html="txt.Content" style="white-space: pre-wrap"></span>
     <!--<span cvd-text="currentText"></span>-->
     <favourite-toggle is-favourite="isFavourite()" on-change="setFavourite()"></favourite-toggle>
   </div>
@@ -35,9 +38,9 @@
 
   <div>
     <span class="pull-right">
-        <button class="btn" translate
+        <button class="btn btn-default  glyphicon glyphicon-pencil" translate
                 targetId="{{ Id }}" targetType="Text" actionType="edit"
-                ng-click="edit()" ng-hide="editText">Editer
+                ng-click="edit()" ng-hide="editText">
         </button>
         <button class="btn btn-primary" translate
                 targetId="{{ Id }}" targetType="Text" actionType="send"
@@ -47,10 +50,16 @@
   </div>
 
     <!--<br/>-->
-    <div class ="auteur" ng-show="currentText.IsQuote">
+  <div ng-show="currentText.IsQuote">
+    <span class ="auteur" >
         Auteur : {{currentText.Author}}
-    </div>
-
+    </span>
+    &nbsp
+    <button class="btn btn-default glyphicon glyphicon-plus"
+            targetId="{{ Id }}" targetType="Text" actionType="edit"
+            ng-click="addAuthor()">
+    </button>
+  </div>
     <div ng-show="currentText.ReferenceUrl">
         Source : <a ng-href = "{{currentText.ReferenceUrl}}" >{{currentText.ReferenceUrl}}</a>
     </div>

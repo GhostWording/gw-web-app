@@ -41,6 +41,9 @@ function(areasSvc, intentionsSvc, $route, cacheSvc, serverSvc,HelperSvc,currentL
         });
       });
     },
+    // TODO : add another version of getText that will be used from TextDetail page, to cache text and translations
+
+
     getText: function(areaName, intentionId, textId) {
 
       function getTextById() {
