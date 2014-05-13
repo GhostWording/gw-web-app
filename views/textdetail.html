@@ -34,22 +34,6 @@
   </div>
 
   <div>
-        <!--<ul class="pager bmwQuestionButton" style="margin-bottom: 5px;">-->
-            <!--<li ng-class= '{selectionne: false}' >-->
-                <!--&lt;!&ndash;<a href="/area/{{ currentArea.Name }}/intention/{{ currentIntention.IntentionId }}/text" class="pull-left" role="button" targetId="Back"  >&ndash;&gt;-->
-                <!--<a href="/area/{{ currentArea.Name }}/intention/{{ currentIntention.IntentionId }}/recipient/{{ recipientId }}/text" class="pull-left" role="button" targetId="Back"  >-->
-                  <!--<img ng-src="./assets/arrow-left.png" class="stylepicto">-->
-                <!--</a>-->
-                <!--<span class="pull-right">-->
-                    <!--<button class="btn" translate-->
-                            <!--targetId = "{{ Id }}" targetType="Text" actionType="edit"-->
-                            <!--ng-click="edit()" ng-hide ="editText">Editer</button>-->
-                    <!--<button class="btn btn-primary" translate-->
-                            <!--targetId = "{{ Id }}" targetType="Text" actionType="send"-->
-                            <!--ng-click="send()">Envoyer</button>-->
-                <!--</span>-->
-            <!--</li>-->
-        <!--</ul>-->
     <span class="pull-right">
         <button class="btn" translate
                 targetId="{{ Id }}" targetType="Text" actionType="edit"
@@ -82,10 +66,13 @@
         <!--<favourite-toggle is-favourite="isFavourite()" on-change="setFavourite()"></favourite-toggle>-->
       </div>
       <div>
-        <button class="btn btn-primary pull-right" translate
-                targetId="{{ Id }}" targetType="Text" actionType="send"
-                ng-click="txt.Content = text.Content; send();">Envoyer
-        </button>
+        <a href="{{appUrlSvc.getRootPath()}}area/{{ currentArea.Name }}/intention/{{ currentIntention.IntentionId }}/recipient/{{ recipientId }}/text/{{text.TextId}}"
+           targetType="Text"
+           actionType="open"
+           targetId="{{txt.TextId}}">
+          <button class="btn btn-primary pull-right glyphicon glyphicon-ok" translate
+                  targetId="{{ Id }}" targetType="Text"></button>
+         </a>
       </div>
       <div>&nbsp</div>
     </div>
