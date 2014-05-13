@@ -175,25 +175,74 @@ angular.module('app/texts/alternativeTextList', [])
         }
         return textArraysForLanguages;
       },
-      // Give warning if PoliteForm of variation is more precise than original
-      getTVDistinction: function (original, variation) {
+      isTVMorePreciseInVariation: function (original, variation) {
+        return variation.PoliteForm != original.PoliteForm && variation.PoliteForm != 'I';
+      },
+      isSenderMorePreciseInVariation: function (original, variation) {
+        return variation.Sender != original.Sender && variation.Sender != 'I' && variation.Sender != 'N';
+      },
+      isRecipientMorePreciseInVariation: function (original, variation) {
+        return variation.Target != original.Target && variation.Target != 'I' && variation.Target != 'N';
+      },
+
+      isVariationFormMorePrecise: function (original, variation) {
+        return service.isTVMorePreciseInVariation(original, variation) || service.isSenderMorePreciseInVariation(original, variation) || service.isRecipientMorePreciseInVariation(original, variation);
+      },
+
+        // Give warning if PoliteForm of variation is more precise than original
+//      getTVDistinction: function (original, variation) {
+//        var retval="";
+//        if (variation.PoliteForm != original.PoliteForm && variation.PoliteForm != 'I') {
+//          switch(variation.PoliteForm) {
+//            case 'T':
+//              retval = 'Tu';
+//              break;
+//            case 'V':
+//              retval = 'Vous';
+//              break;
+//          }
+//        }
+//        return retval;
+//      },
+      getSenderGenderVariationFromCurrentUser: function (variation) {
         var retval="";
-        if (variation.PoliteForm != original.PoliteForm && variation.PoliteForm != 'I') {
-          switch(variation.PoliteForm) {
-            case 'T':
-              retval = 'Tu';
+//        if (variation.Sender != currentUser.gender && variation.Sender != 'I' && variation.Sender != 'N' ) {
+          if (variation.Sender != 'I' && variation.Sender != 'N' ) {
+          retval = variation.Sender;
+        }
+        return retval;
+      },
+      getRecipientGenderVariationFromOriginal: function (original,variation) {
+        var retval="";
+//        if (variation.Sender != currentUser.gender && variation.Sender != 'I' && variation.Sender != 'N' ) {
+        if (variation.Target != original.Target && variation.Target != 'I' && variation.Target != 'N') {
+          switch(variation.Target) {
+            case "H" :
+              retval = "à un homme";
               break;
-            case 'V':
-              retval = 'Vous';
+            case "F" :
+              retval = "à une femme";
+              break;
+            case "P" :
+              retval = "à plusieurs personnes";
               break;
           }
         }
         return retval;
       },
-      getSenderGenderVariationFromCurrentUser: function (variation) {
-        var retval="";
-        if (variation.Sender != currentUser.gender && variation.Sender != 'I' && variation.Sender != 'N' ) {
-          retval = variation.Sender;
+
+      getGenderString: function(gender) {
+        var retval;
+        switch(gender) {
+          case "H" :
+            retval = "un homme";
+            break;
+          case "F" :
+            retval = "une femme";
+            break;
+          case "I" :
+            retval = "une personne";
+            break;
         }
         return retval;
       }

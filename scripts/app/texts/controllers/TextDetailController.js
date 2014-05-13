@@ -66,13 +66,36 @@ function ($scope, currentText, currentIntention, currentArea, tagLabelsSvc, $mod
   };
 
   // Compare text wi
-  $scope.getTVDistinction = function(text) {
-    return alternativeTextsSvc.getTVDistinction(currentText.Content,text);
-  };
+//  $scope.getTVDistinction = function(text) {
+//    return alternativeTextsSvc.getTVDistinction(currentText.Content,text);
+//  };
 
   $scope.getSenderGenderVariationFromCurrentUser = function (text) {
     return alternativeTextsSvc.getSenderGenderVariationFromCurrentUser(text);
   };
+  $scope.getVariationWarning = function (text) {
+    var recipientWarning =  alternativeTextsSvc.getRecipientGenderVariationFromOriginal(currentText.Content,text);
+
+    var valret = "Ecrit par " + alternativeTextsSvc.getGenderString(text.Sender);
+    if ( recipientWarning != "" )
+      valret += " " + recipientWarning;
+    return valret;
+  };
+  $scope.getSenderGender = function(text) {
+    return "par " + text.Sender;
+  }
+  $scope.getRecipientGender = function(text) {
+    return "à " + text.Target;
+  }
+  $scope.getTV = function(text) {
+    return "en disant " + text.PoliteForm;
+  }
+
+  $scope.isVariationFormMorePrecise = function(text) {
+    return alternativeTextsSvc.isVariationFormMorePrecise(currentText,text);
+  }
+//
+//  Ecrit (par un homme) (à une femme) (en disant Tu)
 
 //  alternativeTextsSvc.getRealizationList(currentArea.AreaId,currentText.TextId).then(function(textList) {
   alternativeTextsSvc.getRealizationList(currentArea.AreaId,currentText.PrototypeId).then(function(textList) {
@@ -84,7 +107,6 @@ function ($scope, currentText, currentIntention, currentArea, tagLabelsSvc, $mod
     }
     else
       console.log("No alternative realization for " + currentText.TextId);
-
   });
 
 }]);
