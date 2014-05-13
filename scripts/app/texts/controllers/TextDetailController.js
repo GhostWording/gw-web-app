@@ -11,6 +11,9 @@ function ($scope, currentText, currentIntention, currentArea, tagLabelsSvc, $mod
   $scope.currentIntention = currentIntention;
   $scope.currentText = currentText;
 
+  var currentTextLanguageCode =   currentLanguage.getLanguageFromCulture(currentText.Culture);
+
+
 //  $scope.recipientId = currentRecipient ? currentRecipient.Id :  '';
   $scope.recipientId = currentRecipientSvc.getIdOfRecipient(currentRecipient);
 
@@ -49,7 +52,7 @@ function ($scope, currentText, currentIntention, currentArea, tagLabelsSvc, $mod
   alternativeTextsSvc.getRealizationList(currentArea.AreaId,currentText.PrototypeId).then(function(textList) {
     if ( textList != "null") {
       // For each orderedPresentationLanguages, prepare an array of available texts for the language, then chose the best ones according to sender, recipient and polite form
-      $scope.languageTextGroups = alternativeTextsSvc.getAlternativeTexts(currentText,textList);
+      $scope.languageTextGroups = alternativeTextsSvc.getAlternativeTexts(currentText,textList,currentTextLanguageCode);
     }
     else
       console.log("No alternative realization for " + currentText.TextId);

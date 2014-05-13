@@ -96,9 +96,13 @@
         <a class="navbar-brand hidden-xs" href="/" TargetId="welcome" translate>CommentVousDire</a>
         <a class="navbar-brand glyphicon glyphicon-home visible-xs" href="/" ></a>
         <div class="pull-right visible-xs">
-          <a href="" style="margin-right: 4px;" ng-class='{active: getLanguage()=="fr"}' ng-click="changeLanguage('fr')" class="navbar-brand flag flag-icon flag-icon-fr flag-icon-squared"></a>
-          <a href="" style="margin-right: 4px;" ng-class='{active: getLanguage()=="en"}' ng-click="changeLanguage('en')" class="navbar-brand flag flag-icon flag-icon-uk flag-icon-squared"></a>
-          <a style="margin-right: 4px;" ng-click="changeLanguage('es')" class="navbar-brand flag flag-icon flag-icon-es flag-icon-squared"></a>
+          <!--<a href="" style="margin-right: 4px;" ng-class='{active: getLanguage()=="fr"}' ng-click="changeLanguage('fr')" class="navbar-brand flag flag-icon flag-icon-fr flag-icon-squared"></a>-->
+          <!--<a href="" style="margin-right: 4px;" ng-class='{active: getLanguage()=="en"}' ng-click="changeLanguage('en')" class="navbar-brand flag flag-icon flag-icon-uk flag-icon-squared"></a>-->
+          <!--<a href="" style="margin-right: 4px;" ng-class='{active: getLanguage()=="es"}'  ng-click="changeLanguage('es')" class="navbar-brand flag flag-icon flag-icon-es flag-icon-squared"></a>-->
+          <a href="" style="margin-right: 0px;" ng-class='{active: getLanguage()=="fr"}' ng-click="changeLanguage('fr')" class="navbar-brand ">fr</a>
+          <a href="" style="margin-right: 0px;" ng-class='{active: getLanguage()=="en"}' ng-click="changeLanguage('en')" class="navbar-brand ">en</a>
+          <a href="" style="margin-right: 0px;" ng-class='{active: getLanguage()=="es"}'  ng-click="changeLanguage('es')" class="navbar-brand">es</a>
+
           <!-- Envoyer à  -->
           <a  href="/#!/recipientList" class="navbar-brand glyphicon glyphicon-user" translate></a>
           <!-- Penser à  -->
@@ -117,12 +121,12 @@
       <!--<div data-no-collapse="true" >-->
 
         <ul class="nav navbar-nav pull-right">
-          <li style="margin-right: 12px;" ng-class='{active: getLanguage()=="fr"}' ng-click="changeLanguage('fr')"><a href="" class="flag flag-icon flag-icon-fr flag-icon-squared"></a></li>
-          <li style="margin-right: 12px;" ng-class='{active: getLanguage()=="en"}' ng-click="changeLanguage('en')"><a href="" class="flag flag-icon flag-icon-uk flag-icon-squared"></a></li>
-          <li style="margin-right: 12px;" ng-class='{active: getLanguage()=="es"}' ng-click="changeLanguage('es')"><a href="" class="flag flag-icon flag-icon-es flag-icon-squared"></a></li>
-          <!--<li style="margin-right: 12px;" ng-class='{active: getLanguage()=="fr"}' ng-click="changeLanguage('fr')" ><a href="" >fr</a></li>-->
-          <!--<li style="margin-right: 12px;" ng-class='{active: getLanguage()=="en"}' ng-click="changeLanguage('en')"><a href="" >en</a></li>-->
-          <!--<li style="margin-right: 12px;" ng-class='{active: getLanguage()=="es"}' ng-click="changeLanguage('es')"><a href="" >es</a></li>-->
+          <!--<li style="margin-right: 12px;" ng-class='{active: getLanguage()=="fr"}' ng-click="changeLanguage('fr')"><a href="" class="flag flag-icon flag-icon-fr flag-icon-squared"></a></li>-->
+          <!--<li style="margin-right: 12px;" ng-class='{active: getLanguage()=="en"}' ng-click="changeLanguage('en')"><a href="" class="flag flag-icon flag-icon-uk flag-icon-squared"></a></li>-->
+          <!--<li style="margin-right: 12px;" ng-class='{active: getLanguage()=="es"}' ng-click="changeLanguage('es')"><a href="" class="flag flag-icon flag-icon-es flag-icon-squared"></a></li>-->
+          <li style="margin-right: 12px;" ng-class='{active: getLanguage()=="fr"}' ng-click="changeLanguage('fr')" ><a href="" >fr</a></li>
+          <li style="margin-right: 12px;" ng-class='{active: getLanguage()=="en"}' ng-click="changeLanguage('en')"><a href="" >en</a></li>
+          <li style="margin-right: 12px;" ng-class='{active: getLanguage()=="es"}' ng-click="changeLanguage('es')"><a href="" >es</a></li>
 
           <!-- Envoyer à  -->
           <li class="active"><a href="/#!/recipientList" class = "glyphicon glyphicon-user" translate></a></li>

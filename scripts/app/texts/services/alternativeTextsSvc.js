@@ -140,7 +140,7 @@ angular.module('app/texts/alternativeTextList', [])
         }
         // TODO : select all texts that match the best score
         var retval = [];
-        for (var i = 0; i < textsWithScore.length; i++ ) {
+        for ( i = 0; i < textsWithScore.length; i++ ) {
           if (textsWithScore[i].score == bestScoreSoFar ) {
             // If some text content are exactly the same, only keep one
             if ( !service.textListHasTextWithSameContent(retval,textsWithScore[i].text) )
@@ -151,11 +151,11 @@ angular.module('app/texts/alternativeTextList', [])
         return retval;
       },
       // creates an array where each entry points to a text list in a language
-      getAlternativeTexts: function(text, textList) {
+      getAlternativeTexts: function(text, textList,originalLanguageCode) {
         console.log("Nb alternative realizations : " + textList.length);
         //var availableCultures = service.getCultures(textList);
-        var currentLanguageCode = currentLanguage.getLanguageCode();
-        var applicationLanguages =  availableLanguages.orderedAppLanguages(currentLanguageCode);
+        //var currentLanguageCode = currentLanguage.getLanguageCode();
+        var applicationLanguages =  availableLanguages.orderedAppLanguages(originalLanguageCode);
         //console.log(availableCultures);
         //console.log(applicationLanguages);
         // For each alternative language, get gather texts related to the same prototype
@@ -164,8 +164,8 @@ angular.module('app/texts/alternativeTextList', [])
         for (var i = 0; i < applicationLanguages.length; i++ ) {
           var languageCode = applicationLanguages[i];
           var textsForThisLanguage =  service.getTextsForLanguage(textList,languageCode);
-          console.log(textsForThisLanguage.length + " texts for " + languageCode);
-          if ( excludeCurrentLanguage && languageCode == currentLanguageCode )
+          console.log(textsForThisLanguage.length + " texts for " + languageCode + " vs original " + originalLanguageCode);
+          if ( excludeCurrentLanguage && languageCode == originalLanguageCode )
             continue;
           if ( textsForThisLanguage.length > 0) {
             // If several texts exist for a language, choose the best ones
