@@ -3,8 +3,8 @@ angular.module('app/texts/TextDetailController', ['common/i18n'])
 // Display text with author, link to the source, usage recommandations or comments
 
 .controller('TextDetailController',
-['$scope','currentText', 'currentIntention', 'currentArea', 'tagLabelsSvc', '$modal','currentRecipient', 'favouritesSvc','currentRecipientSvc','alternativeTextsSvc','availableLanguages','currentLanguage',
-function ($scope, currentText, currentIntention, currentArea, tagLabelsSvc, $modal,currentRecipient, favouritesSvc,currentRecipientSvc,alternativeTextsSvc,availableLanguages,currentLanguage) {
+['$scope','currentText', 'currentIntention', 'currentArea', 'tagLabelsSvc', '$modal','currentRecipient', 'favouritesSvc','currentRecipientSvc','alternativeTextsSvc','availableLanguages','currentLanguage','HelperSvc',
+function ($scope, currentText, currentIntention, currentArea, tagLabelsSvc, $modal,currentRecipient, favouritesSvc,currentRecipientSvc,alternativeTextsSvc,availableLanguages,currentLanguage,HelperSvc) {
 
   currentText.TagLabels = tagLabelsSvc.labelsFromStyleTagIds(currentText.TagIds);
   $scope.currentArea = currentArea;
@@ -19,6 +19,9 @@ function ($scope, currentText, currentIntention, currentArea, tagLabelsSvc, $mod
 
   $scope.authorButton = "active";
 
+  $scope.isQuote = function(txt) {
+    return HelperSvc.isQuote(txt);
+  };
 
   $scope.send = function() {
     $scope.sendDialog = $modal.open({
