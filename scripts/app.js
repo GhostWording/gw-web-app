@@ -103,14 +103,16 @@ angular.module('cherryApp',  [
   // was before then reset the filters.
   $rootScope.loadingTracker = promiseTracker({ activationDelay: 300, minDuration: 500 });
 
-  var currentIntentionId = intentionsSvc.getCurrentId();
-  $rootScope.$watch(
-    function() { return intentionsSvc.getCurrentId(); },
-    function(value) {
-      if ( value && currentIntentionId !== value ) {
-        currentIntentionId = value;
-        filtersSvc.reset();
-      }
-    }
-  );
+  // now watched in filtersSvc
+//  var currentIntentionId = intentionsSvc.getCurrentId();
+//  $rootScope.$watch(
+//    function() { return intentionsSvc.getCurrentId(); },
+//    function(value) {
+//      if ( value && currentIntentionId !== value ) {
+//        currentIntentionId = value;
+//        filtersSvc.reset();
+//      }
+//    }
+//  );
+
 }]);

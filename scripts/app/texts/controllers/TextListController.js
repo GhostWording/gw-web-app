@@ -17,7 +17,8 @@ angular.module('app/texts/TextListController', [])
 
   $scope.$watch(function() { return currentLanguage.getLanguageCode(); },
                 function() { textsSvc.getCurrentList().then(function(textList) {
-                                    $scope.textList =textList; $scope.filterList();})}
+                                    $scope.textList =textList; $scope.filterList();});},
+                true
                 );
 
 
@@ -34,7 +35,7 @@ angular.module('app/texts/TextListController', [])
   };
 
   if ( currentRecipient ) {
-    filtersSvc.setFiltersForRecipient(currentRecipient);
+    filtersSvc.setFiltersForRecipient(currentRecipient); // Bug : shoud not be reinitialized when we come back from TextDetail view
     filtersSvc.setRecipientTypeTag(currentRecipient.RecipientTypeId);
   }
 

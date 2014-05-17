@@ -48,8 +48,8 @@ angular.module('app/filters/TextFiltersController', [])
   };
 
   // TODO: This really should be data driven - i.e. the best filter set should be a field on the intention
-  // Start by setting default filter values for the area and intention
-  setBestFilterDefaultValues($scope.currentArea.Name , $scope.currentIntention.IntentionId, currentUser.gender);
+  // Start by setting default filter values for the area and intention // filters now watch this
+//  filtersSvc.setBestFilterDefaultValues($scope.currentArea.Name , $scope.currentIntention.IntentionId, currentUser.gender);
 
   // Then override with current recipient properties if available
   currentRecipientSvc.getCurrentRecipient().then(function(currentRecipient) {
@@ -108,50 +108,52 @@ angular.module('app/filters/TextFiltersController', [])
   }
 
 
-  function setBestFilterDefaultValues(areaName,intentionId, userGender) {
-    console.log (areaName + " - " + intentionId + ' - ' + userGender);
-
-    var filters = filtersSvc.filters;
-
-    if (areaName == 'General') {
-      console.log(areaName + ' area => disable all default filtering');
-      return;
-    }
-
-    if ( areaName == 'LoveLife' ) {
-      if ( userGender == 'H' || userGender == 'F')
-        filters.recipientGender = invertGender(userGender);
-      // Unless intention is 'I would like to see you again' or new relationship, presume 'Tu' will be adequate
-      if ( intentionId != 'BD7387' &&  intentionId != '7445BC')
-        filters.tuOuVous = 'T';
-    }
-    if ( areaName == 'Friends' ) {
-      if ( intentionId !=  'B47AE0' && intentionId !=  '938493' )
-        filters.tuOuVous = 'T';
-    }
-    // TODO : all this should be data driven, set by the server
-    switch (intentionId ) {
-      case '0ECC82' : // Exutoire
-      case '0B1EA1' : // Jokes
-      case 'D19840' : // Venez diner à la maison
-      case '451563' : // Stop the world, I want to get off
-        filters.recipientGender = 'P';
-        filters.tuOuVous = 'V';
-        break;
-      case '016E91' : // Je pense à toi
-      case 'D392C1' : // Sleep well
-      case '8ED62C' : // Tu me manques
-      case '1395B6' : // Surprends-moi
-      case '5CDCF2' : // Je t'aime
-      case 'BD7387' : // J'aimerais vous revoir
-      case 'D78AFB' : // Je te quitte
-      case 'F4566D' : // J'ai envie de toi
-        if ( userGender == 'H' || userGender == 'F')
-          filters.recipientGender = invertGender(userGender);
-        filters.tuOuVous = 'T';
-        break;
-    }
-
-  }
+//  function setBestFilterDefaultValues(areaName,intentionId, userGender) {
+//    console.log (areaName + " - " + intentionId + ' - ' + userGender);
+//
+//    var filters = filtersSvc.filters;
+//
+//    if (areaName == 'General') {
+//      console.log(areaName + ' area => disable all default filtering');
+//      return;
+//    }
+//
+//    if ( areaName == 'LoveLife' ) {
+//      if ( userGender == 'H' || userGender == 'F')
+//        filters.recipientGender = invertGender(userGender);
+//      // Unless intention is 'I would like to see you again' or new relationship, presume 'Tu' will be adequate
+//      if ( intentionId != 'BD7387' &&  intentionId != '7445BC')
+//        filters.tuOuVous = 'T';
+//    }
+//    if ( areaName == 'Friends' ) {
+//      if ( intentionId !=  'B47AE0' && intentionId !=  '938493' )
+//        filters.tuOuVous = 'T';
+//    }
+//    // TODO : all this should be data driven, set by the server
+//    switch (intentionId ) {
+//      case '0ECC82' : // Exutoire
+//        filters.recipientGender = 'H';
+//        filters.tuOuVous = 'T';
+//        break;
+//      case '0B1EA1' : // Jokes
+//      case 'D19840' : // Venez diner à la maison
+//      case '451563' : // Stop the world, I want to get off
+//        filters.recipientGender = 'P';
+//        filters.tuOuVous = 'V';
+//        break;
+//      case '016E91' : // Je pense à toi
+//      case 'D392C1' : // Sleep well
+//      case '8ED62C' : // Tu me manques
+//      case '1395B6' : // Surprends-moi
+//      case '5CDCF2' : // Je t'aime
+//      case 'BD7387' : // J'aimerais vous revoir
+//      case 'D78AFB' : // Je te quitte
+//      case 'F4566D' : // J'ai envie de toi
+//        if ( userGender == 'H' || userGender == 'F')
+//          filters.recipientGender = invertGender(userGender);
+//        filters.tuOuVous = 'T';
+//        break;
+//    }
+//  }
 
 }]);

@@ -42,9 +42,8 @@ function ($scope, currentText, currentIntention, currentArea, tagLabelsSvc, $mod
 
   function insertAuthorInText(text,author) {
     var pos = text.indexOf("»");
-    var spacing = (pos == text.length - 1 || pos < 0)
-                            ? "\n"
-                            : ' ';
+    var spacing = (pos == text.length - 1 || pos < 0) ? "\n"
+                                                      : ' ';
     var toBeAdded = spacing  + "(" + author + ")";
     var retval =  (pos > 0) ? text.substring(0, pos+1) + toBeAdded + text.substring(pos+1, text.length)
                             : text + toBeAdded;
@@ -80,23 +79,23 @@ function ($scope, currentText, currentIntention, currentArea, tagLabelsSvc, $mod
     var recipientWarning =  alternativeTextsSvc.getRecipientGenderVariationFromOriginal(currentText.Content,text);
 
     var valret = "Ecrit par " + alternativeTextsSvc.getGenderString(text.Sender);
-    if ( recipientWarning != "" )
+    if ( recipientWarning !== "" )
       valret += " " + recipientWarning;
     return valret;
   };
   $scope.getSenderGender = function(text) {
     return "par " + text.Sender;
-  }
+  };
   $scope.getRecipientGender = function(text) {
     return "à " + text.Target;
-  }
+  };
   $scope.getTV = function(text) {
     return "en disant " + text.PoliteForm;
-  }
+  };
 
   $scope.isVariationFormMorePrecise = function(text) {
     return alternativeTextsSvc.isVariationFormMorePrecise(currentText,text);
-  }
+  };
 //
 //  Ecrit (par un homme) (à une femme) (en disant Tu)
 

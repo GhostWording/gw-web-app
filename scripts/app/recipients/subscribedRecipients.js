@@ -55,7 +55,7 @@ function ($scope, subscribableRecipientsSvc, subscribedRecipientsSvc) {
 
   $scope.hasSubscribedRecipients = function() {
     return subscribedRecipientsSvc.nbSubscribedRecipients > 0;
-  }
+  };
 
   subscribableRecipientsSvc.getAll().then(function (value) {
     $scope.recipients = value;

@@ -35,7 +35,8 @@ function(areasSvc, intentionsSvc, $route, cacheSvc, serverSvc,HelperSvc,currentL
             return -(text2.SortBy - text1.SortBy); //
           });
           // Keep the first texts sorted to display a few good ones but randomize the others to facilitate machine learning
-          var minSortOrderToBeRandomized = 25; // if texts match this condition, we will know they have a fair/equal chance to be picked by users
+//          var minSortOrderToBeRandomized = 25; // if texts match this condition, we will know they have a fair/equal chance to be picked by users
+          var minSortOrderToBeRandomized = 35; // if texts match this condition, we will know they have a fair/equal chance to be picked by users
           textList = HelperSvc.shuffleTextIfSortOrderNotLessThan(textList,minSortOrderToBeRandomized);
           return textList;
         });
