@@ -2,7 +2,8 @@ angular.module('app/filters/filtersSvc', ['app/filters/styles'])
 
 
 // This service keeps track of user choices that impact the filtering of texts
-.factory('filtersSvc', ['$rootScope', 'StyleCollection','intentionsSvc','areasSvc','currentUser', function($rootScope, StyleCollection,intentionsSvc,areasSvc,currentUser) {
+.factory('filtersSvc', ['$rootScope', 'StyleCollection','intentionsSvc','areasSvc','currentUser','currentLanguage',
+function($rootScope, StyleCollection,intentionsSvc,areasSvc,currentUser,currentLanguage) {
 
 
   var service = {
@@ -125,7 +126,13 @@ angular.module('app/filters/filtersSvc', ['app/filters/styles'])
 
     wellDefined: function() {
       var filters = service.filters;
-      return filters.recipientGender && filters.tuOuVous;
+      //currentLanguage
+      //return filters.recipientGender && filters.tuOuVous;
+      if ( !filters.recipientGender )
+        return false;
+      if ( currentLanguage.usesTVDistinction(currentLanguage.getLanguageCode()) && !filters.tuOuVous)
+        return false;
+      return true;
     },
 
     displayFilters: function(area, intention) {
