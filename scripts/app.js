@@ -93,26 +93,9 @@ angular.module('cherryApp',  [
         currentLanguage.setLanguageCode(languageCode);
       }
     });
-
   }
 ])
 
 .run(['$rootScope', 'intentionsSvc', 'filtersSvc','promiseTracker', function($rootScope, intentionsSvc, filtersSvc,promiseTracker) {
-  
-  // Watch the current intention.  If it changes to something not null and different to what it
-  // was before then reset the filters.
   $rootScope.loadingTracker = promiseTracker({ activationDelay: 300, minDuration: 500 });
-
-  // now watched in filtersSvc
-//  var currentIntentionId = intentionsSvc.getCurrentId();
-//  $rootScope.$watch(
-//    function() { return intentionsSvc.getCurrentId(); },
-//    function(value) {
-//      if ( value && currentIntentionId !== value ) {
-//        currentIntentionId = value;
-//        filtersSvc.reset();
-//      }
-//    }
-//  );
-
 }]);

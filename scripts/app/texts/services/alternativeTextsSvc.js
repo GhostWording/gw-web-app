@@ -9,22 +9,9 @@ angular.module('app/texts/alternativeTextList', [])
     this.culturesList.push(style);
     this.culturesByName[style.name] = style;
   };
-
   CultureCollection.prototype.clear = function() {
     this.culturesList.length = 0;
     this.culturesByName = {};
-  };
-
-  CultureCollection.prototype.filterCultures = function(cultureCollection) {
-    var that = this;
-    var filteredCultures = new CultureCollection();
-    angular.forEach(cultureCollection, function(name) {
-      var culture = that.culturesByName[name];
-      if ( culture ) {
-        filteredCultures.addCulture(culture);
-      }
-    });
-    return filteredCultures;
   };
   return CultureCollection;
 })
@@ -35,10 +22,8 @@ angular.module('app/texts/alternativeTextList', [])
     var service = {
       // Get alternative realisations (=equivalent texts given a prototype id), for alternative languages, polite forms, sender, or recipient
       getRealizationList: function(areaName,textPrototypeId) {
-        // http://api.cvd.io/        GET /{areaName}/text/realizations/{realizationId}
         var path = areaName + '/text/realizations/' + textPrototypeId;
 //        console.log("getRealizationList called for area : " + areaName + ", ProtytypeId : " + textPrototypeId);
-//        console.log("path : " +path);
         // TODO : think about caching when we have a cache invalidation policy
         return serverSvc.get(path,null,null,'fr-FR');
       },
@@ -153,11 +138,7 @@ angular.module('app/texts/alternativeTextList', [])
       // creates an array where each entry points to a text list in a language
       getAlternativeTexts: function(text, textList,originalLanguageCode) {
         console.log("Nb alternative realizations : " + textList.length);
-        //var availableCultures = service.getCultures(textList);
-        //var currentLanguageCode = currentLanguage.getLanguageCode();
         var applicationLanguages =  availableLanguages.orderedAppLanguages(originalLanguageCode);
-        //console.log(availableCultures);
-        //console.log(applicationLanguages);
         // For each alternative language, get gather texts related to the same prototype
         var excludeCurrentLanguage = true;
         var textArraysForLanguages = [];
@@ -189,21 +170,6 @@ angular.module('app/texts/alternativeTextList', [])
         return service.isTVMorePreciseInVariation(original, variation) || service.isSenderMorePreciseInVariation(original, variation) || service.isRecipientMorePreciseInVariation(original, variation);
       },
 
-        // Give warning if PoliteForm of variation is more precise than original
-//      getTVDistinction: function (original, variation) {
-//        var retval="";
-//        if (variation.PoliteForm != original.PoliteForm && variation.PoliteForm != 'I') {
-//          switch(variation.PoliteForm) {
-//            case 'T':
-//              retval = 'Tu';
-//              break;
-//            case 'V':
-//              retval = 'Vous';
-//              break;
-//          }
-//        }
-//        return retval;
-//      },
       getSenderGenderVariationFromCurrentUser: function (variation) {
         var retval="";
 //        if (variation.Sender != currentUser.gender && variation.Sender != 'I' && variation.Sender != 'N' ) {
@@ -214,7 +180,6 @@ angular.module('app/texts/alternativeTextList', [])
       },
       getRecipientGenderVariationFromOriginal: function (original,variation) {
         var retval="";
-//        if (variation.Sender != currentUser.gender && variation.Sender != 'I' && variation.Sender != 'N' ) {
         if (variation.Target != original.Target && variation.Target != 'I' && variation.Target != 'N') {
           switch(variation.Target) {
             case "H" :
