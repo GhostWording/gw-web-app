@@ -100,7 +100,7 @@ angular.module('app/routing', [])
       redirectTo: '/area/Addressee/intention/:intentionId/recipient/:recipientId/text/'
     })
     // Text detail
-    .when('/:languageCode/area/:areaName/intention/:intentionId/recipient/:recipientId/text/:textId', {
+    .when('/area/:areaName/intention/:intentionId/recipient/:recipientId/text/:textId', {
         templateUrl: 'views/textdetail.html',
         controller: 'TextDetailController',
         resolve: {
@@ -149,7 +149,7 @@ angular.module('app/routing', [])
     // Suscribable recipients
     .when('/favoriteRecipients', {
         templateUrl: 'views/favoriteRecipients.html',
-        controller: 'SubscribableRecipientsController',
+        controller: 'SubscribedRecipientsController',
         resolve: {
             recipients: ['subscribableRecipientsSvc', function(subscribedRecipientsSvc) { return subscribedRecipientsSvc.getAll(); }]
         },
@@ -158,7 +158,7 @@ angular.module('app/routing', [])
       // Duplicate with language code
     .when('/:languageCode/favoriteRecipients', {
       templateUrl: 'views/favoriteRecipients.html',
-      controller: 'SubscribableRecipientsController',
+      controller: 'SubscribedRecipientsController',
       resolve: {
         recipients: ['subscribableRecipientsSvc', function(subscribedRecipientsSvc) { return subscribedRecipientsSvc.getAll(); }]
       },

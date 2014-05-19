@@ -6,7 +6,9 @@
     <h4 translate ng-if="intention.items.length > 0 && predicate === 'favouriteIntention'">{{intention.id}}</h4>
     <ul class="list-unstyled" style="margin-top: 20px;">
       <li ng-repeat="item in intention.items | orderBy:predicate:reverse" class="well well-small bmw-texte" ng-if="!!item.favouriteText">
-        <a href="/area/{{item.favouriteArea}}/intention/{{item.IntentionId}}/recipient/{{item.RecipientId}}/text/{{item.TextId}}">{{item.favouriteText}}</a>
+        <!--<a href="/area/{{item.favouriteArea}}/intention/{{item.IntentionId}}/recipient/{{item.RecipientId}}/text/{{item.TextId}}">{{item.favouriteText}}</a>-->
+        <!--<a ng-href="{{appUrlSvc.getFullPath('area/{{item.favouriteArea}}/intention/{{item.IntentionId}}/recipient/{{item.RecipientId}}/text/{{item.TextId}}')}}" >{{item.favouriteText}}</a>-->
+        <a ng-href="{{app.appUrlSvc.getFullPath('')}}area/{{item.favouriteArea}}/intention/{{item.IntentionId}}/recipient/{{item.RecipientId}}/text/{{item.TextId}}" >{{item.favouriteText}}</a>
         <remove-item on-remove="removeFavourite(item)"></remove-item>
       </li>
     </ul>

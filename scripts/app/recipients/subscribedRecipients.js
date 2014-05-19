@@ -48,7 +48,7 @@ angular.module('app/recipients/subscribedRecipients', ['common/services/cache'])
 	return service;
 }])
 
-.controller('SubscribableRecipientsController', ['$scope', 'subscribableRecipientsSvc', 'subscribedRecipientsSvc',
+.controller('SubscribedRecipientsController', ['$scope', 'subscribableRecipientsSvc', 'subscribedRecipientsSvc',
 function ($scope, subscribableRecipientsSvc, subscribedRecipientsSvc) {
 
   subscribedRecipientsSvc.countSubscribedRecipients();

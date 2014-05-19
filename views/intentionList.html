@@ -11,7 +11,9 @@
     <!-- Intentions list as rows and columns -->
     <div class="row" ng-repeat="row in groupedIntentions">
         <div ng-repeat="intention in row" class="col-md-4">
-          <a href="/#!/area/{{currentArea.Name}}/intention/{{intention.IntentionId}}/recipient/{{recipientId}}/text"
+          <!--<a href="/#!/area/{{currentArea.Name}}/intention/{{intention.IntentionId}}/recipient/{{recipientId}}/text"-->
+          <a ng-href="{{app.appUrlSvc.getFullPath('')}}area/{{currentArea.Name}}/intention/{{intention.IntentionId}}/recipient/{{recipientId}}/text"
+
                targettype = "intention"
                targetId = "{{intention.IntentionId}}" >
                 <div class="well well-small bmw-intention" translate>{{intention.Label}}</div>

@@ -62,8 +62,10 @@ angular.module('cherryApp',  [
 .controller('SelectedTextController', ['$scope', function($scope) {
 }])
 
-.controller('CherryController', ['$scope',  'PostActionSvc','$rootScope','$location','currentLanguage',
-  function ($scope,PostActionSvc,$rootScope,$location,currentLanguage) {
+.controller('CherryController', ['$scope',  'PostActionSvc','$rootScope','$location','currentLanguage','appUrlSvc',
+  function ($scope,PostActionSvc,$rootScope,$location,currentLanguage,appUrlSvc) {
+    $scope.app = {};
+    $scope.app.appUrlSvc = appUrlSvc;
     console.log(navigator.userAgent);
     //console.log($location.$$host);
     currentLanguage.setLanguageForHostName($location.$$host);

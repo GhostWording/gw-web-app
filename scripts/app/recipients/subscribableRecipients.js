@@ -40,4 +40,5 @@ angular.module('app/recipients/subscribableRecipients', [])
 	};
 
   return service;
-}]);
+}])
+;
