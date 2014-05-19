@@ -139,58 +139,6 @@ function($rootScope, StyleCollection,intentionsSvc,areasSvc,currentUser,currentL
       return area.name === "Formalities";
     },
 
-    // Not currently used : work is done in textFilterController instead
-//    setDefaultFilters: function (area, intention, user) {
-//      var filters = service.filters;
-//
-//      console.log('defaultFilter for : ' + area.name + " - " + intention.IntentionId + ' - ' + user.gender);
-//
-//      if (area.name == 'General') {
-//        console.log(area.name + ' area => disable all default filtering');
-//        return;
-//      }
-//
-//      if (area.name == 'LoveLife') {
-//        if (user.gender == 'H') {
-//          filters.recipientGender = 'F';
-//        }
-//        if (user.gender == 'F') {
-//          filters.recipientGender = 'H';
-//        }
-//        // Unless intention is 'I would like to see you again' or new relationship, presume 'Tu' will be adequate
-//        if (!user.gender && intentionId != 'BD7387' && intentionId != '7445BC') {
-//          filters.tuOuVous = 'T';
-//        }
-//      }
-//
-//      if (area.name == 'Friends') {
-//        if (intentionId != 'B47AE0' && intentionId != '938493')
-//          filters.tuOuVous = 'T';
-//      }
-//
-//      switch (intentionId) {
-//        case '0ECC82' : // Exutoire
-//        case '0B1EA1' : // Jokes
-//        case 'D19840' : // Venez diner à la maison
-//        case '451563' : // Stop the world, I want to get off
-//          filters.recipientGender = 'P';
-//          filters.tuOuVous = 'V';
-//          break;
-//        case '016E91' : // Je pense à toi
-//        case 'D392C1' : // Sleep well
-//          if (user.gender == 'H') {
-//            filters.recipientGender = 'F';
-//          }
-//          if (user.gender == 'F') {
-//            filters.recipientGender = 'H';
-//          }
-//          if (user.gender !== null) {
-//            filters.tuOuVous = 'T';
-//          }
-//          break;
-//      }
-//    }
-
     INVERT_GENDER_MAP : {
       'H': 'F',
       'F': 'H'
