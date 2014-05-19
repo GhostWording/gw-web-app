@@ -194,7 +194,10 @@ function($rootScope, StyleCollection,intentionsSvc,areasSvc,currentUser,currentL
         service.filters.tuOuVous = 'T';
         break;
     }
-  }
+
+    if (!currentLanguage.usesTVDistinction(currentLanguage.getLanguageCode()))
+      service.filters.tuOuVous = undefined;
+    }
 
   };
 
@@ -215,6 +218,10 @@ function($rootScope, StyleCollection,intentionsSvc,areasSvc,currentUser,currentL
     if ( !filters.tuOuVous && filters.closeness === 'P' && filters.recipientGender !== 'P') {
       filters.tuOuVous = 'T';
     }
+
+    if (!currentLanguage.usesTVDistinction(currentLanguage.getLanguageCode()))
+      service.filters.tuOuVous = undefined;
+
   };
 
   // Set up various connections between filters, using $watches

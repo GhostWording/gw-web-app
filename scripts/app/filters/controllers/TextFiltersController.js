@@ -45,7 +45,7 @@ function ($scope,filtersSvc,currentUser, FILTER_LABELS,currentRecipientSvc,curre
 
   $scope.currentLanguageHasTVDistinction = function() {
     return currentLanguage.usesTVDistinction(currentLanguage.getLanguageCode());
-  }
+  };
 
   var INVERT_GENDER_MAP = {
     'H': 'F',

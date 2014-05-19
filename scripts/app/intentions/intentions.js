@@ -31,11 +31,23 @@ angular.module('app/intentions', ['app/areas', 'common/services/cache', 'common/
         });
       });
     },
-
+    // TODO : this tries using the is as an id and then as a slug
+    // When slugs become the prefered key, they should be tried first
     getIntention: function(areaName, intentionId) {
       return cacheSvc.get('intentions.' + areaName + '.' + intentionId, -1, function() {
         // TODO : for the time being translation of the intentions happen on the client : the french version is requested to the server
-        return serverSvc.get(areaName + '/intention/' + intentionId,undefined,undefined,'fr-FR');
+//        return serverSvc.get(areaName + '/intention/' + intentionId,undefined,undefined,'fr-FR');
+        return serverSvc.get(areaName + '/intention/' + intentionId,undefined,undefined,'fr-FR')
+          .then(
+                  function(data) {return data;},
+                  function(error){
+                    console.log(error);
+                    if (error.status == "404") {
+                      console.log(intentionId + " intention id not found, trying as a slug");
+                      //return serverSvc.get(areaName + '/' + 'MerryChristmas',undefined,undefined,'fr-FR');
+                      return serverSvc.get(areaName + '/' + intentionId,undefined,undefined,'fr-FR');
+                    }
+                  });
       });
     },
     groupItems: function(items, columns) {
