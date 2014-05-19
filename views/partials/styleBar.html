@@ -3,7 +3,7 @@
         <li >
           <!-- TODO : instead of historyBack create a different href depending on the existence of a recipient  -->
           <!--<a href="/area/{{ currentArea.Name }}/intention" class="pull-left" role="button"  targetId="Back" > <img ng-src="./assets/arrow-left.png" class="stylepicto"> </a>-->
-          <a href="/area/{{ currentArea.Name }}/intention/{{ recipientId }}" class="pull-left" role="button"  targetId="Back" > <img ng-src="./assets/arrow-left.png" class="stylepicto"> </a>
+          <a ng-href="{{app.appUrlSvc.getFullPath('')}}area/{{ currentArea.Name }}/intention/{{ recipientId }}" class="pull-left" role="button"  targetId="Back" > <img ng-src="./assets/arrow-left.png" class="stylepicto"> </a>
         </li>
 
         <li class="nombreTextesB labelTextesB">
