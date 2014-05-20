@@ -25,7 +25,7 @@ angular.module('app/intentions', ['app/areas', 'common/services/cache', 'common/
         return serverSvc.get(areaName + '/intentions',undefined,undefined,'fr-FR')
           .then(
             function(intentions) { intentions.sort(function (a, b) { return (a.SortOrder - b.SortOrder); }); return intentions; });
-      })
+      });
     },
     // TODO : this tries using the is as an id and then as a slug
     // When slugs become the prefered key, they should be tried first

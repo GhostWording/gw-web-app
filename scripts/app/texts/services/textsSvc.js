@@ -31,12 +31,12 @@ function(areasSvc, intentionsSvc, $route, cacheSvc, serverSvc,HelperSvc,currentL
             var slugPath = areaName + '/' + intentionId + '/texts';
             return serverSvc.get(slugPath).then(
               function(slugTextList) {
-                return service.MakeSortedVersionWithShortenedTexts(slugTextList);  } )
+                return service.MakeSortedVersionWithShortenedTexts(slugTextList);  } );
           },
           function(error)    {
             var slugPath = areaName + '/' + intentionId + '/texts';
             return serverSvc.get(slugPath).then(function(slugTextList) {
-              return service.MakeSortedVersionWithShortenedTexts(slugTextList);  } )
+              return service.MakeSortedVersionWithShortenedTexts(slugTextList);  } );
           }
         );
       });
