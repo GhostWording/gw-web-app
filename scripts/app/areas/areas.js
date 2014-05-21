@@ -19,7 +19,6 @@ angular.module('app/areas', ['common/services/cache', 'common/services/server'])
       }
     },
 
-
     getAll: function() {
       return cacheSvc.get('areas._all', -1, function() {
         return serverSvc.get('areas');

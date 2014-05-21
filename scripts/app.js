@@ -62,10 +62,13 @@ angular.module('cherryApp',  [
 .controller('SelectedTextController', ['$scope', function($scope) {
 }])
 
-.controller('CherryController', ['$scope',  'PostActionSvc','$rootScope','$location','currentLanguage','appUrlSvc',
-  function ($scope,PostActionSvc,$rootScope,$location,currentLanguage,appUrlSvc) {
+.controller('CherryController', ['$scope',  'PostActionSvc','$rootScope','$location','currentLanguage','appUrlSvc','intentionsSvc',
+  function ($scope,PostActionSvc,$rootScope,$location,currentLanguage,appUrlSvc,intentionsSvc) {
     $scope.app = {};
     $scope.app.appUrlSvc = appUrlSvc;
+    $rootScope.pageTitle1 = "hello";
+    $rootScope.pageTitle2 = "world";
+
     console.log(navigator.userAgent);
     //console.log($location.$$host);
     currentLanguage.setLanguageForHostName($location.$$host);
@@ -89,6 +92,19 @@ angular.module('cherryApp',  [
     });
     $rootScope.$on("$routeChangeSuccess",function (event, current, previous, rejection) {
       $scope.showSpinner = false;
+
+      intentionsSvc.getCurrent().then(function(intention) {
+        if ( intention ) {
+          console.log("app says intention : " + intention.Label);
+
+          $rootScope.pageTitle1 = "Comment dire";
+          $rootScope.pageTitle2 = intention.Label;
+        } else {
+          $rootScope.pageTitle1 = "Comment vous dire : les mots sur le bout de la langue, l'inspiration au bout des doigts";
+          $rootScope.pageTitle2 = "";
+        }
+      } );
+
       var languageCode = current.params.languageCode;
       if ( languageCode &&  languageCode!== undefined) {
 //        console.log(languageCode);

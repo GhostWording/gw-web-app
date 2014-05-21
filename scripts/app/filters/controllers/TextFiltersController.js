@@ -42,6 +42,7 @@ angular.module('app/filters/TextFiltersController', [])
 function ($scope,filtersSvc,currentUser, FILTER_LABELS,currentRecipientSvc,currentLanguage) {
   var filters = $scope.filters = filtersSvc.filters;
   $scope.currentUser = currentUser;
+  $scope.canHaveSeveralRecipientsforCurrentArea = filtersSvc.canHaveSeveralRecipientsforCurrentArea;
 
   $scope.currentLanguageHasTVDistinction = function() {
     return currentLanguage.usesTVDistinction(currentLanguage.getLanguageCode());
@@ -81,7 +82,7 @@ function ($scope,filtersSvc,currentUser, FILTER_LABELS,currentRecipientSvc,curre
   };
 
   $scope.getSenderGenderIconName = function() {
-    return FILTER_LABELS.GENDER_ICON[currentUser.gender] || 'Oups';
+    return FILTER_LABELS.GENDER_ICON[currentUser.gender] || 'cross.png';
   };
 
   $scope.getRecipientGenderLabel = function () {
@@ -89,7 +90,7 @@ function ($scope,filtersSvc,currentUser, FILTER_LABELS,currentRecipientSvc,curre
   };
 
   $scope.getRecipientGenderIconName = function () {
-    return FILTER_LABELS.GENDER_ICON[filters.recipientGender] || 'Oups';
+    return FILTER_LABELS.GENDER_ICON[filters.recipientGender] || 'cross.png';
   };
 
   $scope.getClosenessLabel = function () {

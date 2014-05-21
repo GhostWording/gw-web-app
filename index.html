@@ -56,21 +56,22 @@
             s.parentNode.insertBefore(ga, s);
         })();
     </script>
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+    <![endif]-->
 
     <!--CSS -->
     <!-- We could load all css before js ? -->
     <link href="assets/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="assets/fonts/font-awesome-4.0.3/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="assets/app.css">
+    <!--CSS -->
     <meta charset="utf-8">
-    <title translate>Comment vous dire : les mots sur le bout de la langue, l'inspiration au bout des doigts</title>
+    <!--<title ng:bind-template="Comment vous dire : les mots sur le bout de la langue, l'inspiration au bout des doigts"></title>-->
+    <!--<title ng-bind-template="{{app.title}}"></title>-->
+    <title ng-bind-template="{{pageTitle1 | translate}} {{pageTitle2 | translate}} "></title>
     <meta name="description" content="Changez-vous la vie, trouvez les mots qui donnent envie !">
     <meta name="google-site-verification" content="Yancq9d1odgL9tS_cPdZuci56Rmh5J30ASqLN4Mk3Wk" />
-
-    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
-    <!--[if lt IE 9]>
-        <script src="./scripts/lib/html5shiv.js"></script>
-    <![endif]-->
 
     <!-- Fav and touch icons -->
     <!--<link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">-->
@@ -93,8 +94,8 @@
           <!--<span class="icon-bar"></span>-->
           <!--<span class="icon-bar"></span>-->
         <!--</button>-->
-        <a class="navbar-brand hidden-xs" href="/" TargetId="welcome" translate>CommentVousDire</a>
-        <a class="navbar-brand glyphicon glyphicon-home visible-xs" href="/" ></a>
+        <a class="navbar-brand hidden-xs" ng-href="/" TargetId="welcome" translate>CommentVousDire</a>
+        <a class="navbar-brand glyphicon glyphicon-home visible-xs" ng-href="/" ></a>
         <div class="pull-right visible-xs">
           <!--<a href="" style="margin-right: 4px;" ng-class='{active: getLanguage()=="fr"}' ng-click="changeLanguage('fr')" class="navbar-brand flag flag-icon flag-icon-fr flag-icon-squared"></a>-->
           <!--<a href="" style="margin-right: 4px;" ng-class='{active: getLanguage()=="en"}' ng-click="changeLanguage('en')" class="navbar-brand flag flag-icon flag-icon-uk flag-icon-squared"></a>-->
@@ -104,16 +105,16 @@
           <a href="" style="margin-right: 0px; padding-left: 0px; padding-right: 7px;" ng-class='{active: getLanguage()=="es"}'  ng-click="changeLanguage('es')" class="navbar-brand">es</a>
 
           <!-- Envoyer à  -->
-          <a  href="/#!/recipientList" class="navbar-brand glyphicon glyphicon-user" translate></a>
+          <a  ng-href="{{app.appUrlSvc.getFullPath('')}}recipientList" class="navbar-brand glyphicon glyphicon-user" translate></a>
           <!-- Penser à  -->
-          <a href="/#!/favoriteRecipients" class = "navbar-brand glyphicon glyphicon-bell" translate></a>
+          <a ng-href="{{app.appUrlSvc.getFullPath('')}}favoriteRecipients" class = "navbar-brand glyphicon glyphicon-bell" translate></a>
           <!-- Tous les textes  -->
-          <a href="/#!/area/General/intention" ng-show="false" class ="navbar-brand glyphicon glyphicon-search" translate></a>
+          <a ng-href="{{app.appUrlSvc.getFullPath('')}}area/General/intention" ng-show="false" class ="navbar-brand glyphicon glyphicon-search" translate></a>
           <!-- Favoris  -->
-          <a ng-show = "hasFavourite()" href="/#!/favouriteTexts" class="navbar-brand glyphicon glyphicon-star"></a>
+          <a ng-show = "hasFavourite()" ng-href="{{app.appUrlSvc.getFullPath('')}}favouriteTexts" class="navbar-brand glyphicon glyphicon-star"></a>
           <!-- Mon profil  -->
-          <a href="/#!/userprofile" class ="navbar-brand glyphicon glyphicon-cog" translate></a>
-          <a  class="navbar-brand" href="/#!/about" translate>?</a>
+          <a ng-href="{{app.appUrlSvc.getFullPath('')}}userprofile" class ="navbar-brand glyphicon glyphicon-cog" translate></a>
+          <a  class="navbar-brand" ng-href="{{app.appUrlSvc.getFullPath('')}}about" translate>?</a>
         </div>
       </div>
 
@@ -129,16 +130,16 @@
           <li style="margin-right: 12px;" ng-class='{active: getLanguage()=="es"}' ng-click="changeLanguage('es')"><a href="" >es</a></li>
 
           <!-- Envoyer à  -->
-          <li class="active"><a href="/#!/recipientList" class = "glyphicon glyphicon-user" translate></a></li>
+          <li class="active"><a ng-href="{{app.appUrlSvc.getFullPath('')}}recipientList" class = "glyphicon glyphicon-user" translate></a></li>
           <!-- Penser à  -->
-          <li class="active"><a href="/#!/favoriteRecipients" class = "glyphicon glyphicon-bell" translate></a></li>
+          <li class="active"><a ng-href="{{app.appUrlSvc.getFullPath('')}}favoriteRecipients" class = "glyphicon glyphicon-bell" translate></a></li>
           <!-- Tous les textes  -->
-          <li class="active"><a href="/#!/area/General/intention" class ="glyphicon glyphicon-search" translate></a></li>
+          <li class="active"><a ng-href="{{app.appUrlSvc.getFullPath('')}}area/General/intention" class ="glyphicon glyphicon-search" translate></a></li>
           <!-- Favoris  -->
-          <li class="active" ng-show = "hasFavourite()"><a href="/#!/favouriteTexts" class="glyphicon glyphicon-star"></a></li>
+          <li class="active" ng-show = "hasFavourite()"><a ng-href="{{app.appUrlSvc.getFullPath('')}}favouriteTexts" class="glyphicon glyphicon-star"></a></li>
           <!-- Mon profil  -->
-          <li class="active"><a href="/#!/userprofile" class ="glyphicon glyphicon-cog" translate></a></li>
-          <li class="active"><a href="/#!/about" translate>A propos</a></li>
+          <li class="active"><a ng-href="{{app.appUrlSvc.getFullPath('')}}userprofile" class ="glyphicon glyphicon-cog" translate></a></li>
+          <li class="active"><a ng-href="{{app.appUrlSvc.getFullPath('')}}about" translate>A propos</a></li>
         </ul>
       </div>
      </div>  <!--container-fluid-->
@@ -152,7 +153,7 @@
         <div class="tabBar" ng-show="showTabs" action-location="Tabs">
           <ul id="myTab" class="nav nav-pills ">
             <li ng-class="{active: currentAreaName() == tab.name}" ng-repeat="tab in tabs">
-              <a ng-href="/#!/area/{{tab.name}}/intention" translate> {{tab.label}} </a>
+              <a ng-href="{{app.appUrlSvc.getFullPath('')}}area/{{tab.name}}/intention" translate> {{tab.label}} </a>
             </li>
           </ul>
         </div>
@@ -161,8 +162,7 @@
       <div ng-show="showSpinner || trackerIsActive()" style="position:fixed;top:-20px;left:300px; z-index:3;"><circle-spinner></circle-spinner></div>
 
       <!-- Views -->
-      <div ng-view>
-      </div>
+      <div ng-view></div>
 
     </div>
 

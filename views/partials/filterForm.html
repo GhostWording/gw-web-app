@@ -36,16 +36,16 @@
          <ul class="pager bmwQuestionButton">
              <span translate>Destinataire</span>
              <li ng-class= '{selectionne: filters.recipientGender == "F"}' >
-                <a targetType="Command" targetId="RecipientGender" ng-click = "filters.recipientGender = 'F'"> 
+                <a targetType="Command" targetId="RecipientGender" ng-click = "filters.recipientGender = 'F'">
                     <img ng-src="./assets/femaleuser32.png" class="breadcrumbpicto">
                 </a>
             </li>
              <li ng-class= '{selectionne: filters.recipientGender=="H"}'>
-                <a targetType="Command" targetId="RecipientGender"  ng-click = "filters.recipientGender = 'H'"> 
+                <a targetType="Command" targetId="RecipientGender"  ng-click = "filters.recipientGender = 'H'">
                     <img ng-src="./assets/maleuser32.png" class="breadcrumbpicto">
                 </a>
             </li>
-             <li ng-class= '{selectionne: filters.recipientGender == "P"}' >
+             <li ng-class= '{selectionne: filters.recipientGender == "P"}' ng-show="canHaveSeveralRecipientsforCurrentArea()" >
                  <a targetType="Command" targetId="RecipientGender" ng-click = "filters.recipientGender = 'P'">
                     <img ng-src="./assets/several32.png" class="breadcrumbpicto">
                 </a>

@@ -2,7 +2,7 @@
     <!-- Page title -->
     <ul ng-show="isForRecipient" style="vertical-align: middle;" class="pager bmwQuestionButton " ng-show = 'true' >
       <li ng-show="true" >
-      <a  href="/#!/area/{{ currentArea.Name }}/recipient" class="pull-left" role="button"  targetId="Back" ><img ng-src="./assets/arrow-left.png" class="stylepicto"></a>
+      <a  ng-href="{{app.appUrlSvc.getFullPath('')}}area/{{ currentArea.Name }}/recipient" class="pull-left" role="button"  targetId="Back" ><img ng-src="./assets/arrow-left.png" class="stylepicto"></a>
       </li>
       <span class="pull-left" style="vertical-align: middle; font-size: 150%; padding-left: 10px; padding-top: 5px;" translate> {{ pageTitle }}</span>
     </ul>

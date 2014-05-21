@@ -148,6 +148,13 @@ function($rootScope, StyleCollection,intentionsSvc,areasSvc,currentUser,currentL
     return service.INVERT_GENDER_MAP[gender] || gender;
     },
 
+    canHaveSeveralRecipientsforCurrentArea: function () {
+      var retval = true;
+      var areaName = areasSvc.getCurrentName();
+      if ( areaName == 'LoveLife' )
+        retval = false;
+      return retval;
+    },
 
   setBestFilterDefaultValues: function (areaName,intentionId, userGender) {
     console.log (areaName + " - " + intentionId + ' - ' + userGender);
@@ -200,6 +207,7 @@ function($rootScope, StyleCollection,intentionsSvc,areasSvc,currentUser,currentL
     }
 
   };
+
 
   $rootScope.$watch(function() { return intentionsSvc.getCurrentId(); }, function(intentionId) {
     var areaName = areasSvc.getCurrentName();

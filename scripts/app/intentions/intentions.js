@@ -11,10 +11,14 @@ angular.module('app/intentions', ['app/areas', 'common/services/cache', 'common/
 
     getCurrent: function() {
       var currentIntentionId = service.getCurrentId();
+      if ( !currentIntentionId )
+        return $q.when(null);
       return areasSvc.getCurrent().then(function(currentArea) {
         if ( currentArea ) {
           return service.getIntention(currentArea.Name, currentIntentionId);
         }
+        else
+          return $q.when(null);
       });
     },
 
