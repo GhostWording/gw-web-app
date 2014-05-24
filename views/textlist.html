@@ -30,7 +30,7 @@
           src="./assets/e-mail64.png"
           class="pull-right envoyer"
           ng-click="send(txt)">
-          <favourite-toggle is-favourite="isFavourite(txt)" on-change="setFavourite(txt, isFavourite(txt))"></favourite-toggle>
+          <!--<favourite-toggle is-favourite="isFavourite(txt)" on-change="setFavourite(txt, isFavourite(txt))"></favourite-toggle>-->
           <a href="{{appUrlSvc.getRootPath()}}area/{{ currentArea.Name }}/intention/{{ currentIntention.IntentionId }}/recipient/{{ recipientId }}/text/{{txt.TextId}}"
           targetType="Text"
           actionType="open"

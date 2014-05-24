@@ -1,6 +1,6 @@
 ﻿<html ng-app='cherryApp' lang="en">
   <head>
-    <!--<script src="http://api.cvd.io/userevent?ActionLocation=Header&ActionType=Load&AreaId=na&ClientTime=&TargetId=na"></script>-->
+    <script src="http://api.cvd.io/userevent?ActionLocation=Header&ActionType=Load&AreaId=na&ClientTime=&TargetId=na"></script>
 
     <base href="/">
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
@@ -8,6 +8,15 @@
 
     <!--http://www.yearofmoo.com/2012/11/angularjs-and-seo.html-->
     <meta name="fragment" content="!" />
+
+    <!--Prevent 300 ms delay on Android-->
+    <script src="scripts/lib/fastclick.js"></script>
+    <script type="application/javascript">
+      window.addEventListener('load', function () {
+        FastClick.attach(document.body);
+      }, false);
+    </script>
+
 
     <!--Angular and Bootstrap -->
     <script src="assets/angular/angular.min.js"></script>
@@ -23,13 +32,6 @@
 
     <!--Reminder : include Respond.js for IE8 support with bootstrap 3.0 -->
 
-    <!--Prevent 300 ms delay on Android-->
-    <script src="scripts/lib/fastclick.js"></script>
-    <script type="application/javascript">
-    window.addEventListener('load', function () {
-    FastClick.attach(document.body);
-    }, false);
-    </script>
 
     <!--Google scripts-->
     <script>
@@ -56,21 +58,23 @@
             s.parentNode.insertBefore(ga, s);
         })();
     </script>
-    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
+    <!--<script src="./scripts/lib/html5shiv.js"></script>-->
+    <!--<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>-->
     <![endif]-->
 
     <!--CSS -->
-    <!-- We could load all css before js ? -->
+    <!-- Is is better to load css before js ? -->
     <link href="assets/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="assets/fonts/font-awesome-4.0.3/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="assets/app.css">
     <!--CSS -->
     <meta charset="utf-8">
-    <!--<title ng:bind-template="Comment vous dire : les mots sur le bout de la langue, l'inspiration au bout des doigts"></title>-->
-    <!--<title ng-bind-template="{{app.title}}"></title>-->
     <title ng-bind-template="{{pageTitle1 | translate}} {{pageTitle2 | translate}} "></title>
-    <meta name="description" content="Changez-vous la vie, trouvez les mots qui donnent envie !">
+    <meta name="description" content="Change your life, find the magic words! Changez-vous la vie, trouvez les mots qui donnent envie !">
     <meta name="google-site-verification" content="Yancq9d1odgL9tS_cPdZuci56Rmh5J30ASqLN4Mk3Wk" />
 
     <!-- Fav and touch icons -->

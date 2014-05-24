@@ -212,7 +212,7 @@ function($rootScope, StyleCollection,intentionsSvc,areasSvc,currentUser,currentL
   $rootScope.$watch(function() { return intentionsSvc.getCurrentId(); }, function(intentionId) {
     var areaName = areasSvc.getCurrentName();
     var userGender = currentUser.gender;
-    console.log("Intention changed to " + intentionId + " on area " + areaName + " with user gender " + userGender);
+//    console.log("Intention changed to " + intentionId + " on area " + areaName + " with user gender " + userGender);
     if (intentionId !== undefined && areaName !== undefined) {
       service.reset();
       service.setBestFilterDefaultValues(areaName,intentionId, userGender);

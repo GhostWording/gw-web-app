@@ -25,19 +25,6 @@ angular.module('cherryApp',  [
    $sceDelegateProvider.resourceUrlWhitelist(['self', /^https?:\/\/(api\.)?cvd.io/]);
 }])
 
-//.config(function($translateProvider) {
-//  $translateProvider
-//  .translations('fr', {
-//    HEADLINE: 'Ma super App!',
-//    'A propos': 'A propos'
-//  })
-//  .translations('en', {
-//    HEADLINE: 'Hello there, This is my awesome app!',
-//    'A propos': 'About'
-//  });
-//  $translateProvider.preferredLanguage('en');
-//})
-
 .controller('NavBarController',  ['$scope','appUrlSvc','currentLanguage','favouritesSvc', function($scope,appUrlSvc,currentLanguage,favouritesSvc) {
   $scope.appUrlSvc = appUrlSvc;
 
@@ -47,7 +34,6 @@ angular.module('cherryApp',  [
 
   $scope.getLanguage = function() {
     var l =currentLanguage.getLanguageCode();
-//    console.log(l);
     return currentLanguage.getLanguageCode();
   };
 
@@ -95,8 +81,6 @@ angular.module('cherryApp',  [
 
       intentionsSvc.getCurrent().then(function(intention) {
         if ( intention ) {
-          console.log("app says intention : " + intention.Label);
-
           $rootScope.pageTitle1 = "Comment dire";
           $rootScope.pageTitle2 = intention.Label;
         } else {
@@ -107,7 +91,6 @@ angular.module('cherryApp',  [
 
       var languageCode = current.params.languageCode;
       if ( languageCode &&  languageCode!== undefined) {
-//        console.log(languageCode);
         currentLanguage.setLanguageCode(languageCode);
       }
     });

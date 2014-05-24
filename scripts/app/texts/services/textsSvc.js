@@ -89,7 +89,7 @@ function(areasSvc, intentionsSvc, $route, cacheSvc, serverSvc,HelperSvc,currentL
       var path = areaName + '/text/' + textId;
 
       return cacheSvc.get(path, -1, getTextById, true);
-    },
+    }
 //    // This function gets other realisations (=equivalent texts), for alternative languages, polite forms, sender, or recipient
 //    getRealizationList: function(textId) {
 //      console.log("getRealizationList called for : " + textId);
