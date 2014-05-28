@@ -31,7 +31,8 @@
           class="pull-right envoyer"
           ng-click="send(txt)">
           <!--<favourite-toggle is-favourite="isFavourite(txt)" on-change="setFavourite(txt, isFavourite(txt))"></favourite-toggle>-->
-          <a href="{{appUrlSvc.getRootPath()}}area/{{ currentArea.Name }}/intention/{{ currentIntention.IntentionId }}/recipient/{{ recipientId }}/text/{{txt.TextId}}"
+          <!--currentIntention.SlugPrototypeLink instead of IntentionId -->
+          <a href="{{appUrlSvc.getRootPath()}}area/{{ currentArea.Name }}/intention/{{ currentIntention.SlugPrototypeLink }}/recipient/{{ recipientId }}/text/{{txt.TextId}}"
           targetType="Text"
           actionType="open"
           targetId="{{txt.TextId}}"
