@@ -41,6 +41,8 @@ function(areasSvc, intentionsSvc, $route, cacheSvc, serverSvc,HelperSvc,currentL
         );
       });
     },
+    minSortOrderToBeRandomized : 100,
+
     MakeSortedVersionWithShortenedTexts: function (textListtoDebug) {
       var textList = textListtoDebug;
       // Make a short version of the content for list display
@@ -55,13 +57,10 @@ function(areasSvc, intentionsSvc, $route, cacheSvc, serverSvc,HelperSvc,currentL
       });
       // Keep the first texts sorted to display a few good ones but randomize the others to facilitate machine learning
       // var minSortOrderToBeRandomized = 25; // if texts match this condition, we will know they have a fair/equal chance to be picked by users
-      var minSortOrderToBeRandomized = 35; // if texts match this condition, we will know they have a fair/equal chance to be picked by users
-      textList = HelperSvc.shuffleTextIfSortOrderNotLessThan(textList, minSortOrderToBeRandomized);
+      //var minSortOrderToBeRandomized = 100; // if texts match this condition, we will know they have a fair/equal chance to be picked by users
+      textList = HelperSvc.shuffleTextIfSortOrderNotLessThan(textList, service.minSortOrderToBeRandomized);
       return textList;
     },
-
-    // TODO : add another version of getText that will be used from TextDetail page, to cache text and translations
-
 
     getText: function(areaName, intentionId, textId) {
 
@@ -90,10 +89,7 @@ function(areasSvc, intentionsSvc, $route, cacheSvc, serverSvc,HelperSvc,currentL
 
       return cacheSvc.get(path, -1, getTextById, true);
     }
-//    // This function gets other realisations (=equivalent texts), for alternative languages, polite forms, sender, or recipient
-//    getRealizationList: function(textId) {
-//      console.log("getRealizationList called for : " + textId);
-//    }
+
 
   };
   return service;
