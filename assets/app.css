@@ -1,7 +1,79 @@
-﻿.fb_pixel_send{
+﻿.navbar-brand {
+     padding-left:5px;}
+.navbar-brand.active {
+     color:#ffffff;
+}
+
+.frontPageLink {
+    color:black; padding: 5px;
+}
+.frontPageLink.active {
+    border-bottom-color: black;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+}
+
+.fb_pixel_send{
     background-image: url('https://www.facebook.com/offsite_event.php?id=6009586863594&amp;value=0&amp;currency=EUR');
     display:none;
 }
+
+.flag-icon {
+    position: relative;
+    display: inline-block;
+    width: 1.3333333333333333em;
+    line-height: 1em;
+    background-size: contain;
+    background-position: 50%;
+    background-repeat: no-repeat;
+}
+.flag-icon:before {
+    content: "\00a0";
+}
+.flag-icon.flag-icon-squared {
+    width: 1em;
+}
+.flag-icon-background {
+    background-size: contain;
+    background-position: 50%;
+    background-repeat: no-repeat;
+}
+
+.flag-icon-fr {
+    background-image: url(fr.svg);
+}
+.flag-icon-fr.flag-icon-squared {
+    background-image: url(frSquared.svg);
+}
+
+.flag-icon-uk {
+    background-image: url(uk.svg);
+}
+.flag-icon-uk.flag-icon-squared {
+    background-image: url(ukSquared.svg);
+}
+
+.flag-icon-es {
+    background-image: url(es.svg);
+}
+.flag-icon-es.flag-icon-squared {
+    background-image: url(esSquared.svg);
+}
+
+.flag-icon-de {
+    background-image: url(de.svg);
+}
+.flag-icon-de.flag-icon-squared {
+    background-image: url(deSquared.svg);
+}
+.flag-icon-cn {
+    background-image: url(cn.svg);
+}
+.flag-icon-cn.flag-icon-squared {
+    background-image: url(cnSquared.svg);
+}
+
+
 /* To get rid of 300 ms delay in IE10  */
 a, input, button {
     -ms-touch-action: none !important;
@@ -16,10 +88,11 @@ a, input, button {
 /*.nav-pills>.active>a, .nav-pills>.active>a:focus:hover , .nav-pills>.active>a:focus {background-color: rgb(232, 94, 38); }*/
 
 
-.splashTitle { font-size: 120%;}
+.splashTitle { font-size: 140%;}
 
 .intentionTitle { margin-top: 20px;
-                  margin-bottom: 20px;}
+                  margin-bottom: 20px;
+    font-size: 140%;  }
 
 .block-blanc-carre { background-color:rgb(255, 255, 255);
                     border-radius:7px}
@@ -80,6 +153,9 @@ a:hover .bmw-texte, a:hover .citation, a:hover .bmw-intention { text-decoration:
 
 /*.bmw-text.active  { text-decoration: none ; color: #428bca;  }*/
 
+
+
+
 a:hover { text-decoration: none }
 
 a .citation   { color: black; font-size: 14px  }
@@ -126,6 +202,7 @@ a .citation   { color: black; font-size: 14px  }
 .navbar-inverse .brandCerise { color:#D94179;  }
 .brand { color: rgb(247,133,40); }
 
+.brandBlue { color: #428bca; }
 
 
 .brandTitle { color: rgb(0,0,0); }

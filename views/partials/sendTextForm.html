@@ -1,5 +1,5 @@
 <div class="modal-header">
-    <h4 class="modal-title" id="modalLabelTitle">Envoyer</h4>
+    <h4 class="modal-title" translate id="modalLabelTitle">Envoyer</h4>
 </div>
 <div id="modalMessageBody" class="modal-body">
     <!-- Facebook add tracking -->
@@ -24,21 +24,21 @@
       Mail
     </a>
 
-    <button ng-hide="isIPhone()"
+    <button ng-hide="isIPhone()" translate
             targetType="Text" targetId="{{getSelectedTextId()}}" actionType="sendSMS"
             class="btn btn-warning"
             ng-click="sms()">
         SMS
     </button>
     
-    <button class="btn btn-warning"
+    <button class="btn btn-warning" translate
             targetType="Text" targetId="{{getSelectedTextId()}}" actionType="sendTweet"
             ng-show="check()"
             ng-click="tweet()">
         Tweet
     </button>
     
-    <button class="btn" ng-show="false"
+    <button class="btn" ng-show="false" translate
             targetType="Text" targetId="{{getSelectedTextId()}}" actionType="sendCopy"
             id="popoverCopier"
             data-toggle="popover"
@@ -48,7 +48,7 @@
         Copier
     </button>
     
-    <button class="btn"
+    <button class="btn" translate
             data-dismiss="modal"
             targetType="Text" targetId="{{getSelectedTextId()}}" actionType="close"
             ng-click="$close()">

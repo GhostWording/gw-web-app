@@ -11,28 +11,44 @@ angular.module('app/intentions', ['app/areas', 'common/services/cache', 'common/
 
     getCurrent: function() {
       var currentIntentionId = service.getCurrentId();
+      if ( !currentIntentionId )
+        return $q.when(null);
       return areasSvc.getCurrent().then(function(currentArea) {
         if ( currentArea ) {
           return service.getIntention(currentArea.Name, currentIntentionId);
         }
+        else
+          return $q.when(null);
       });
     },
 
     getForArea: function(areaName) {
+      // TODO : should be cached per culture
       return cacheSvc.get('intentions.' + areaName, -1, function() {
-        return serverSvc.get(areaName + '/intentions').then(function(intentions) {
-            // Sort the intentions by the SortOrder property
-            intentions.sort(function (a, b) {
-                return (a.SortOrder - b.SortOrder);
-            });
-            return intentions;
-        });
+        // TODO : for the time being translation of the intentions happen on the client : the french version is requested to the server
+        return serverSvc.get(areaName + '/intentions',undefined,undefined,'fr-FR')
+          .then(
+            function(intentions) { intentions.sort(function (a, b) { return (a.SortOrder - b.SortOrder); }); return intentions; });
       });
     },
-
+    // TODO : this tries using the is as an id and then as a slug
+    // When slugs become the prefered key, they should be tried first
     getIntention: function(areaName, intentionId) {
       return cacheSvc.get('intentions.' + areaName + '.' + intentionId, -1, function() {
-        return serverSvc.get(areaName + '/intention/' + intentionId);
+        // TODO : for the time being translation of the intentions happen on the client : the french version is requested to the server
+//        return serverSvc.get(areaName + '/intention/' + intentionId,undefined,undefined,'fr-FR');
+        return serverSvc.get(areaName + '/intention/' + intentionId,undefined,undefined,'fr-FR')
+          .then(
+                  function(data) {return data;},
+                  function(error){
+                    console.log(error);
+                    if (error.status == "404") {
+                      console.log(intentionId + " intention id not found, trying as a slug");
+                      //return serverSvc.get(areaName + '/' + 'MerryChristmas',undefined,undefined,'fr-FR');
+                      return serverSvc.get(areaName + '/' + intentionId,undefined,undefined,'fr-FR');
+                    }
+                  }
+        );
       });
     },
     groupItems: function(items, columns) {
@@ -59,7 +75,7 @@ function($scope, currentArea, intentionsSvc,currentRecipientSvc,likelyIntentions
     "Family" : "Dites-leur !",
     "Important" : "Occasions spéciales", // événements notables, saillants, singulier
     "Formalities" : "Expédiez les formalités !",
-    "General" : "Rubriques",
+    "General" : "Rubriques"
   };
   $scope.pageTitle = AREA_PAGE_TITLE[currentArea.Name];
 

@@ -31,12 +31,12 @@
 
     <ul class="pager bmwQuestionButton pull-left" >
         <li ng-class= '{selectionne: false}' >
-            <a href="/subscriptions" role="button"  targetId="Next" ng-click="sendMailToServer()"> <img ng-src="./assets/arrow-left.png" class="stylepicto"> </a>
+            <a ng-href="{{app.appUrlSvc.getFullPath('')}}subscriptions" role="button"  targetId="Next" ng-click="sendMailToServer()"> <img ng-src="./assets/arrow-left.png" class="stylepicto"> </a>
         </li>
     </ul>
     <ul class="pager bmwQuestionButton" >
         <li ng-class= '{selectionne: false}' >
-            <a href="/" role="button" class="pull-right" targetId="Next" ng-click="sendMailToServer()"><img ng-src="./assets/arrow-right.png" class="stylepicto"> </a>
+            <a ng-href="{{app.appUrlSvc.getFullPath('')}}" role="button" class="pull-right" targetId="Next" ng-click="sendMailToServer()"><img ng-src="./assets/arrow-right.png" class="stylepicto"> </a>
         </li>
     </ul>
 

@@ -1,6 +1,6 @@
-﻿<html lang="en">
+﻿<html ng-app='cherryApp' lang="en">
   <head>
-    <!--<script src="http://api.cvd.io/userevent?ActionLocation=Header&ActionType=Load&AreaId=na&ClientTime=&TargetId=na"></script>-->
+    <script src="http://api.cvd.io/userevent?ActionLocation=Header&ActionType=Load&AreaId=na&ClientTime=&TargetId=na"></script>
 
     <base href="/">
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
@@ -8,6 +8,15 @@
 
     <!--http://www.yearofmoo.com/2012/11/angularjs-and-seo.html-->
     <meta name="fragment" content="!" />
+
+    <!--Prevent 300 ms delay on Android-->
+    <script src="scripts/lib/fastclick.js"></script>
+    <script type="application/javascript">
+      window.addEventListener('load', function () {
+        FastClick.attach(document.body);
+      }, false);
+    </script>
+
 
     <!--Angular and Bootstrap -->
     <script src="assets/angular/angular.min.js"></script>
@@ -23,13 +32,6 @@
 
     <!--Reminder : include Respond.js for IE8 support with bootstrap 3.0 -->
 
-    <!--Prevent 300 ms delay on Android-->
-    <script src="scripts/lib/fastclick.js"></script>
-    <script type="application/javascript">
-    window.addEventListener('load', function () {
-    FastClick.attach(document.body);
-    }, false);
-    </script>
 
     <!--Google scripts-->
     <script>
@@ -57,20 +59,23 @@
         })();
     </script>
 
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <!--<script src="./scripts/lib/html5shiv.js"></script>-->
+    <!--<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>-->
+    <![endif]-->
+
     <!--CSS -->
-    <!-- We could load all css before js ? -->
+    <!-- Is is better to load css before js ? -->
     <link href="assets/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="assets/fonts/font-awesome-4.0.3/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="assets/app.css">
+    <!--CSS -->
     <meta charset="utf-8">
-    <title>Comment vous dire</title>
-    <meta name="description" content="Les mots sur le bout de la langue. L'inspiration au bout des doigts.">
+    <title ng-bind-template="{{pageTitle1 | translate}} {{pageTitle2 | translate}} "></title>
+    <meta name="description" content="Change your life, find the magic words! Changez-vous la vie, trouvez les mots qui donnent envie !">
     <meta name="google-site-verification" content="Yancq9d1odgL9tS_cPdZuci56Rmh5J30ASqLN4Mk3Wk" />
-
-    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
-    <!--[if lt IE 9]>
-        <script src="./scripts/lib/html5shiv.js"></script>
-    <![endif]-->
 
     <!-- Fav and touch icons -->
     <!--<link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">-->
@@ -78,31 +83,70 @@
     <link rel="shortcut icon"  href="assets/favicon-bmw-32.jpg">
   </head>
 
-  <body ng-app='cherryApp' id="leCorps">
+  <body  id="leCorps">
 
     <!-- Menu bar -->
     <nav class="navbar navbar-inverse navbar-static-top" role="navigation" ng-init="navCollapsed = true"
          data-ng-controller="NavBarController" action-location="NavBar">
+     <div class="container-fluid">
+
       <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" ng-click="navCollapsed = !navCollapsed"
-                data-target="#bs-example-navbar-collapse-1">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="/" TargetId="welcome" translate>CommentVousDire</a>
+        <!--<button type="button" class="navbar-toggle" data-toggle="collapse" ng-click="navCollapsed = !navCollapsed"-->
+                <!--data-target="#bs-example-navbar-collapse-1">-->
+          <!--<span class="sr-only">Toggle navigation</span>-->
+          <!--<span class="icon-bar"></span>-->
+          <!--<span class="icon-bar"></span>-->
+          <!--<span class="icon-bar"></span>-->
+        <!--</button>-->
+        <a class="navbar-brand hidden-xs" ng-href="/" TargetId="welcome" translate>CommentVousDire</a>
+        <a class="navbar-brand glyphicon glyphicon-home visible-xs" ng-href="/" ></a>
+        <div class="pull-right visible-xs">
+          <!--<a href="" style="margin-right: 4px;" ng-class='{active: getLanguage()=="fr"}' ng-click="changeLanguage('fr')" class="navbar-brand flag flag-icon flag-icon-fr flag-icon-squared"></a>-->
+          <!--<a href="" style="margin-right: 4px;" ng-class='{active: getLanguage()=="en"}' ng-click="changeLanguage('en')" class="navbar-brand flag flag-icon flag-icon-uk flag-icon-squared"></a>-->
+          <!--<a href="" style="margin-right: 4px;" ng-class='{active: getLanguage()=="es"}'  ng-click="changeLanguage('es')" class="navbar-brand flag flag-icon flag-icon-es flag-icon-squared"></a>-->
+          <a href="" style="margin-right: 0px; padding-left: 0px; padding-right: 7px;" ng-class='{active: getLanguage()=="fr"}' ng-click="changeLanguage('fr')" class="navbar-brand ">fr</a>
+          <a href="" style="margin-right: 0px; padding-left: 0px; padding-right: 7px;" ng-class='{active: getLanguage()=="en"}' ng-click="changeLanguage('en')" class="navbar-brand ">en</a>
+          <a href="" style="margin-right: 0px; padding-left: 0px; padding-right: 7px;" ng-class='{active: getLanguage()=="es"}'  ng-click="changeLanguage('es')" class="navbar-brand">es</a>
+
+          <!-- Envoyer à  -->
+          <a  ng-href="{{app.appUrlSvc.getFullPath('')}}recipientList" class="navbar-brand glyphicon glyphicon-user" translate></a>
+          <!-- Penser à  -->
+          <a ng-href="{{app.appUrlSvc.getFullPath('')}}favoriteRecipients" class = "navbar-brand glyphicon glyphicon-bell" translate></a>
+          <!-- Tous les textes  -->
+          <a ng-href="{{app.appUrlSvc.getFullPath('')}}area/General/intention" ng-show="false" class ="navbar-brand glyphicon glyphicon-search" translate></a>
+          <!-- Favoris  -->
+          <a ng-show = "hasFavourite()" ng-href="{{app.appUrlSvc.getFullPath('')}}favouriteTexts" class="navbar-brand glyphicon glyphicon-star"></a>
+          <!-- Mon profil  -->
+          <a ng-href="{{app.appUrlSvc.getFullPath('')}}userprofile" class ="navbar-brand glyphicon glyphicon-cog" translate></a>
+          <a  class="navbar-brand" ng-href="{{app.appUrlSvc.getFullPath('')}}about" translate>?</a>
+        </div>
       </div>
-      <div class="collapse navbar-collapse" ng-class="!navCollapsed && 'in'" ng-click="navCollapsed=true">
+
+      <div class="collapse navbar-collapse hidden-xs"  ng-class="!navCollapsed && 'in'" ng-click="navCollapsed=true">
+      <!--<div data-no-collapse="true" >-->
+
         <ul class="nav navbar-nav pull-right">
-          <li class="active"><a href="/#!/userprofile" translate>           Mon profil</a></li>
-          <li class="active"><a href="/#!/recipientList" translate>         Envoyer à</a></li>
-          <li class="active"><a href="/#!/favoriteRecipients" translate>    Ne plus oublier</a></li>
-          <li class="active"><a href="/#!/area/General/intention" translate>Tous les textes</a></li>
-          <li class="active"><a href="/#!/favouriteTexts" translate>        Favoris</a></li>
-          <li class="active"><a href="/#!/about" translate>                 A propos</a></li>
+          <!--<li style="margin-right: 12px;" ng-class='{active: getLanguage()=="fr"}' ng-click="changeLanguage('fr')"><a href="" class="flag flag-icon flag-icon-fr flag-icon-squared"></a></li>-->
+          <!--<li style="margin-right: 12px;" ng-class='{active: getLanguage()=="en"}' ng-click="changeLanguage('en')"><a href="" class="flag flag-icon flag-icon-uk flag-icon-squared"></a></li>-->
+          <!--<li style="margin-right: 12px;" ng-class='{active: getLanguage()=="es"}' ng-click="changeLanguage('es')"><a href="" class="flag flag-icon flag-icon-es flag-icon-squared"></a></li>-->
+          <li style="margin-right: 12px;" ng-class='{active: getLanguage()=="fr"}' ng-click="changeLanguage('fr')" ><a href="" >fr</a></li>
+          <li style="margin-right: 12px;" ng-class='{active: getLanguage()=="en"}' ng-click="changeLanguage('en')"><a href="" >en</a></li>
+          <li style="margin-right: 12px;" ng-class='{active: getLanguage()=="es"}' ng-click="changeLanguage('es')"><a href="" >es</a></li>
+
+          <!-- Envoyer à  -->
+          <li class="active"><a ng-href="{{app.appUrlSvc.getFullPath('')}}recipientList" class = "glyphicon glyphicon-user" translate></a></li>
+          <!-- Penser à  -->
+          <li class="active"><a ng-href="{{app.appUrlSvc.getFullPath('')}}favoriteRecipients" class = "glyphicon glyphicon-bell" translate></a></li>
+          <!-- Tous les textes  -->
+          <li class="active"><a ng-href="{{app.appUrlSvc.getFullPath('')}}area/General/intention" class ="glyphicon glyphicon-search" translate></a></li>
+          <!-- Favoris  -->
+          <li class="active" ng-show = "hasFavourite()"><a ng-href="{{app.appUrlSvc.getFullPath('')}}favouriteTexts" class="glyphicon glyphicon-star"></a></li>
+          <!-- Mon profil  -->
+          <li class="active"><a ng-href="{{app.appUrlSvc.getFullPath('')}}userprofile" class ="glyphicon glyphicon-cog" translate></a></li>
+          <li class="active"><a ng-href="{{app.appUrlSvc.getFullPath('')}}about" translate>A propos</a></li>
         </ul>
       </div>
+     </div>  <!--container-fluid-->
     </nav>
 
     <!-- Container -->
@@ -113,7 +157,7 @@
         <div class="tabBar" ng-show="showTabs" action-location="Tabs">
           <ul id="myTab" class="nav nav-pills ">
             <li ng-class="{active: currentAreaName() == tab.name}" ng-repeat="tab in tabs">
-              <a href="/#!/area/{{tab.name}}/intention" translate> {{tab.label}} </a>
+              <a ng-href="{{app.appUrlSvc.getFullPath('')}}area/{{tab.name}}/intention" translate> {{tab.label}} </a>
             </li>
           </ul>
         </div>
@@ -122,8 +166,7 @@
       <div ng-show="showSpinner || trackerIsActive()" style="position:fixed;top:-20px;left:300px; z-index:3;"><circle-spinner></circle-spinner></div>
 
       <!-- Views -->
-      <div ng-view>
-      </div>
+      <div ng-view></div>
 
     </div>
 

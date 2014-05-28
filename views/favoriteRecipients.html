@@ -1,27 +1,29 @@
 ﻿<div ng-show="true" style="text-align: center;">
     <div class="row" style="margin-top: 5px; margin-bottom: 25px; font-size: 16px;" >
-        <div class="splashTitle" translate>
-          Avec qui...
-        </div>
+        <div class="splashTitle" translate>Avec qui...</div>
+      <div translate>(cliquez les destinataires applicables)</div>
+
     </div>
 
     <div class = "listeTypeDestinataire" >
         <div class="row" ng-repeat="qui in recipients" style="vertical-align: middle; margin-bottom: 20px ">
             <div class="col-xs-1"></div>
-            <div class="col-xs-5" style="text-align: right">{{ qui.LocalLabel }}</div>
-            <div class="col-xs-2"><toggle-switch state="getState(qui.Id)" switch="switchState(qui.Id)"></toggle-switch></div>
+            <div class="col-xs-5" translate style="text-align: right">{{ qui.LocalLabel }}</div>
+            <div class="col-xs-2"><toggle-switch state="getState(qui.Id)" switchh="switchState(qui.Id) "></toggle-switch></div>
             <div class="col-xs-4"></div>
          </div>
      </div>
 
     <ul class="pager bmwQuestionButton pull-left" >
         <li ng-class= '{selectionne: false}' >
-            <a href="/" role="button"  targetId="Next"> <img ng-src="./assets/arrow-left.png" class="stylepicto"> </a>
+          <!--<a href="/" role="button"  targetId="Next"> <img ng-src="./assets/arrow-left.png" class="stylepicto"> </a>-->
+          <a ng-href="{{app.appUrlSvc.getFullPath('')}}" role="button"  targetId="Next"> <img ng-src="./assets/arrow-left.png" class="stylepicto"> </a>
         </li>
     </ul>
-    <ul class="pager bmwQuestionButton" >
-        <li ng-class= '{selectionne: false}' >
-            <a href="/subscriptions" role="button" class="pull-right" targetId="Next"> <img ng-src="./assets/arrow-right.png" class="stylepicto"> </a>
+    <ul class="pager bmwQuestionButton" ng-show="hasSubscribedRecipients()">
+        <li ng-class= '{selectionne: false}'>
+            <!--<a href="/subscriptions" role="button" class="pull-right" targetId="Next"> <img ng-src="./assets/arrow-right.png" class="stylepicto"> </a>-->
+          <a ng-href="{{app.appUrlSvc.getFullPath('subscriptions')}}" role="button" class="pull-right" targetId="Next"> <img ng-src="./assets/arrow-right.png" class="stylepicto"> </a>
         </li>
     </ul>
 </div>

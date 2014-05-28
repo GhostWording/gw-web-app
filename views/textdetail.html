@@ -1,54 +1,91 @@
 ﻿<div action-location="TextDetail">
-    <div>
-            <!--<h3   ng-bind-html = "currentText.Abstract || currentIntention.Label" ></h3>-->
-          <h3 translate>{{ currentIntention.Label }}</h3>
-    </div>
+  <div>
+    <!--<h3   ng-bind-html = "currentText.Abstract || currentIntention.Label" ></h3>-->
+    <ul class="pager bmwQuestionButton" style="margin-top: 5px;  margin-bottom: 25px;">
+      <li ng-class='{selectionne: false}'>
+        <a ng-href="{{app.appUrlSvc.getFullPath('')}}area/{{ currentArea.Name }}/intention/{{ currentIntention.IntentionId }}/recipient/{{ recipientId }}/text"
+           class="pull-left" role="button" targetId="Back">
+          <img ng-src="./assets/arrow-left.png" class="stylepicto">
+        </a>
+        <h4 class="pull-left" style="margin-left: 10px;" translate>{{ currentIntention.Label }}</h4>
+      </li>
+    </ul>
+  </div>
 
-    <span ng-repeat = "tagLabel in currentText.TagLabels" >
-        <span class = "label label-primary">{{tagLabel}}</span>&nbsp
+  <!--glyphicon glyphicon-plus-->
+
+
+  <span ng-repeat="tagLabel in currentText.TagLabels" >
+      <span class="label label-primary" translate>{{tagLabel}}</span>&nbsp
+  </span>
+
+  <div class="well well-lg" ng-hide="editText" style="border-color: #428bca; margin-bottom: 5px; background-color: #FFFFFF;" >
+    <!--<span ng-bind-html="currentText.Content"></span>-->
+    <span ng-bind-html="txt.Content" style="white-space: pre-wrap"></span>
+    <!--<span cvd-text="currentText"></span>-->
+    <favourite-toggle is-favourite="isFavourite()" on-change="setFavourite()"></favourite-toggle>
+  </div>
+
+  <div ng-show="editText">
+    <textarea
+        ng-model="txt.Content"
+        id="currentText"
+        style="width:100%;" rows="10">
+    </textarea>
+  </div>
+
+  <div>
+    <span class="pull-right">
+        <button class="btn btn-default  glyphicon glyphicon-pencil" translate
+                targetId="{{ Id }}" targetType="Text" actionType="edit"
+                ng-click="edit()" ng-hide="editText">
+        </button>
+        <button class="btn btn-primary" translate
+                targetId="{{ Id }}" targetType="Text" actionType="send"
+                ng-click="send()">Envoyer
+        </button>
     </span>
+  </div>
 
-    <div class = "well well-lg"  ng-hide ="editText" style="border-color: #428bca">
-        <span ng-bind-html = "currentText.Content"></span>
-        <favourite-toggle is-favourite="isFavourite()" on-change="setFavourite()"></favourite-toggle>
-    </div>
-
-    <div ng-show ="editText" >
-        <textarea
-                ng-model= "txt.editableText"
-                id="currentText"
-                style="width:100%;" rows="10">
-        </textarea>
-        <br>
-        <br>
-    </div>
-
-    <div>
-        <ul class="pager bmwQuestionButton">
-            <li ng-class= '{selectionne: false}' >
-                <!--<a href="/area/{{ currentArea.Name }}/intention/{{ currentIntention.IntentionId }}/text" class="pull-left" role="button" targetId="Back"  >-->
-                <a href="/area/{{ currentArea.Name }}/intention/{{ currentIntention.IntentionId }}/recipient/{{ recipientId }}/text" class="pull-left" role="button" targetId="Back"  >
-                <img ng-src="./assets/arrow-left.png" class="stylepicto">
-                </a>
-                <span class="pull-right">
-                    <button class="btn"
-                            targetId = "{{ Id }}" targetType="Text" actionType="edit"
-                            ng-click="edit()" ng-hide ="editText">Editer</button>
-                    <button class="btn btn-primary"
-                            targetId = "{{ Id }}" targetType="Text" actionType="send"
-                            ng-click="send()">Envoyer</button>
-                </span>
-            </li>
-        </ul>
-    </div>
-
-    <br/>
-    <div class ="auteur" ng-show="currentText.IsQuote">
-        Auteur : {{currentText.Author}}
-    </div>
-
+    <!--<br/>-->
+  <div ng-show="isQuote(currentText)">
+    <span class ="auteur" translate>Auteur</span>
+    <span class ="auteur">: {{currentText.Author}}</span>
+    &nbsp
+    <button class="btn btn-default glyphicon glyphicon-plus" ng-class = '{disabled: authorButton=="disabled"}'
+            targetId="{{ Id }}" targetType="Text" actionType="edit"
+            ng-click="addAuthor()">
+    </button>
+  </div>
     <div ng-show="currentText.ReferenceUrl">
         Source : <a ng-href = "{{currentText.ReferenceUrl}}" >{{currentText.ReferenceUrl}}</a>
     </div>
+
+  <div style="margin-bottom:20px;"></div>
+  <div ng-repeat="languageTextGroup in  languageTextGroups" style="padding-top: 20px;">
+    <h5 style="font-size: 120%; margin-top: 0px;" translate>{{ languageTextGroup.code }}</h5>
+
+    <div ng-repeat="text in languageTextGroup.texts">
+      <div class="well well-lg" style="border-color: #428bca; margin-bottom: 5px; margin-top: 25px;">
+        <span ng-bind-html="text.Content"></span>
+        <!--<div cvd-text="text"></div>-->
+        <!--<favourite-toggle is-favourite="isFavourite()" on-change="setFavourite()"></favourite-toggle>-->
+      </div>
+      <div>
+        <span ng-show="isVariationFormMorePrecise(text)" style="color: #428bca;">
+          <span translate>Ecrit</span> <span translate>{{getSenderGender(text)}}</span> <span translate>{{getRecipientGender(text)}}</span> <span translate>{{getTV(text)}}</span>
+        </span>
+
+        <!--<span translate>{{ getVariationWarning(text)}}</span>-->
+        <!--<span>{{ getSenderGenderVariationFromCurrentUser(text) }}</span>-->
+        <a ng-href="{{app.appUrlSvc.getRootPath('')}}area/{{ currentArea.Name }}/intention/{{ currentIntention.IntentionId }}/recipient/{{ recipientId }}/text/{{text.TextId}}"
+           targetType="Text"  actionType="open"  targetId="{{txt.TextId}}">
+          <button class="btn btn-primary pull-right glyphicon glyphicon-ok" translate
+                  targetId="{{ Id }}" targetType="Text"></button>
+         </a>
+      </div>
+      <div>&nbsp</div>
+    </div>
+  </div>
 
 </div>

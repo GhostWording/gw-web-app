@@ -8,7 +8,7 @@
       <span class="labelTextes" translate>façons de dire</span>
     </span>
     <span ng-hide="textList.length">
-      <span class="labelTextes">Aucun texte pour dire</span>
+      <span class="labelTextes" translate>Aucun texte pour dire</span>
     </span>
     <!-- Back button -->
     <a href="/area/{{ currentArea.Name }}/intention/{{ recipientId }}" class="pull-right" role="button" targetId="Back">
@@ -30,7 +30,7 @@
           src="./assets/e-mail64.png"
           class="pull-right envoyer"
           ng-click="send(txt)">
-          <favourite-toggle is-favourite="isFavourite(txt)" on-change="setFavourite(txt, isFavourite(txt))"></favourite-toggle>
+          <!--<favourite-toggle is-favourite="isFavourite(txt)" on-change="setFavourite(txt, isFavourite(txt))"></favourite-toggle>-->
           <a href="{{appUrlSvc.getRootPath()}}area/{{ currentArea.Name }}/intention/{{ currentIntention.IntentionId }}/recipient/{{ recipientId }}/text/{{txt.TextId}}"
           targetType="Text"
           actionType="open"

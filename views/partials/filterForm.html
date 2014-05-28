@@ -4,7 +4,7 @@
      <ul class="breadcrumb"  ng-show = "showBreadcrumbs()">
          <li>
            <!--User -->
-            <a href="/userprofile" translate >Moi </a> &nbsp
+            <a ng-href="{{app.appUrlSvc.getFullPath('')}}userprofile" translate >Moi </a> &nbsp
             <img ng-src="./assets/arrow-right.png" class="breadcrumbpicto"> &nbsp
            <!-- Recipient gender -->
             <a href="" ng-show="recipientGenderIsDefined()" ng-click = "resetRecipientGender()">
@@ -23,29 +23,29 @@
      <!-- User Gender -->
      <div ng-show = "currentUser.gender == null">
          <ul class="pager bmwQuestionButton">
-             Vous êtes
+             <span translate>Vous êtes</span>
              <li ng-class = '{selectionne: currentUser.gender=="H"}'>
-                 <a targetType="Command" targetId="UserGender" ng-click = "currentUser.gender = 'H'">Un homme</a></li>
+                 <a translate targetType="Command" targetId="UserGender" ng-click = "currentUser.gender = 'H'">Un homme</a></li>
              <li ng-class = '{selectionne: currentUser.gender=="F"}'>
-                 <a targetType="Command" targetId="UserGender" ng-click = "currentUser.gender = 'F'">Une femme</a></li>
+                 <a translate targetType="Command" targetId="UserGender" ng-click = "currentUser.gender = 'F'">Une femme</a></li>
          </ul>
      </div>
 
      <!-- Recipient Gender -->
      <div ng-show = "filters.recipientGender == null">
          <ul class="pager bmwQuestionButton">
-             Destinataire
+             <span translate>Destinataire</span>
              <li ng-class= '{selectionne: filters.recipientGender == "F"}' >
-                <a targetType="Command" targetId="RecipientGender" ng-click = "filters.recipientGender = 'F'"> 
+                <a targetType="Command" targetId="RecipientGender" ng-click = "filters.recipientGender = 'F'">
                     <img ng-src="./assets/femaleuser32.png" class="breadcrumbpicto">
                 </a>
             </li>
              <li ng-class= '{selectionne: filters.recipientGender=="H"}'>
-                <a targetType="Command" targetId="RecipientGender"  ng-click = "filters.recipientGender = 'H'"> 
+                <a targetType="Command" targetId="RecipientGender"  ng-click = "filters.recipientGender = 'H'">
                     <img ng-src="./assets/maleuser32.png" class="breadcrumbpicto">
                 </a>
             </li>
-             <li ng-class= '{selectionne: filters.recipientGender == "P"}' >
+             <li ng-class= '{selectionne: filters.recipientGender == "P"}' ng-show="canHaveSeveralRecipientsforCurrentArea()" >
                  <a targetType="Command" targetId="RecipientGender" ng-click = "filters.recipientGender = 'P'">
                     <img ng-src="./assets/several32.png" class="breadcrumbpicto">
                 </a>
@@ -54,9 +54,9 @@
      </div>
 
      <!-- In French, would you say Tu or Vous -->
-     <div ng-show = "filters.tuOuVous == null">
+     <div ng-show = "filters.tuOuVous == null && currentLanguageHasTVDistinction()">
          <ul class="pager bmwQuestionButton">
-             Lui dire
+             <span translate>Lui dire</span>
              <li ng-class= '{selectionne: filters.tuOuVous=="T"}'>
                  <a targetType="Command" targetId="TuOuVous" ng-click = "filters.tuOuVous = 'T'">Tu</a></li>
              <li ng-class= '{selectionne: BasicFilters.getTuOuVous()=="V"}' >

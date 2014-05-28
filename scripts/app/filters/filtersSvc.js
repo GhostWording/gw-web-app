@@ -2,7 +2,8 @@ angular.module('app/filters/filtersSvc', ['app/filters/styles'])
 
 
 // This service keeps track of user choices that impact the filtering of texts
-.factory('filtersSvc', ['$rootScope', 'StyleCollection', function($rootScope, StyleCollection) {
+.factory('filtersSvc', ['$rootScope', 'StyleCollection','intentionsSvc','areasSvc','currentUser','currentLanguage',
+function($rootScope, StyleCollection,intentionsSvc,areasSvc,currentUser,currentLanguage) {
 
 
   var service = {
@@ -16,6 +17,9 @@ angular.module('app/filters/filtersSvc', ['app/filters/styles'])
       recipientTypeTag : null
     },
 
+    getFilters: function() {
+      return service.filters;
+    },
     reset: function() {
       service.filters.recipientGender = null;
       service.filters.tuOuVous = null;
@@ -103,12 +107,18 @@ angular.module('app/filters/filtersSvc', ['app/filters/styles'])
               service.matchesRecipient(text,service.filters.recipientTypeTag);
     },
 
-    // TODO
+    // TODO : instead of being called, we should watch for a (true) recipient change
+    previousCurrentRecipient: undefined,
     setFiltersForRecipient : function(recipient) {
-      if ( recipient) {
-        service.filters.recipientGender = recipient.Gender;
-        service.filters.tuOuVous = recipient.TuOuVous;
+      var message = (!service.previousCurrentRecipient || recipient.Id != service.previousCurrentRecipient.Id) ? "different" : "same" ;
+      //console.log(message + " " + recipient);
+      if ( recipient && message != "same") { // second condition prevents overriding explicit user choices when recipient has not really changed
+        if ( recipient.Gender )
+          service.filters.recipientGender = recipient.Gender;
+        if ( recipient.TuOuVous )
+          service.filters.tuOuVous = recipient.TuOuVous;
       }
+      service.previousCurrentRecipient = recipient;
     },
     setRecipientTypeTag: function(recipientTypeTag) {
       service.filters.recipientTypeTag = recipientTypeTag;
@@ -116,67 +126,98 @@ angular.module('app/filters/filtersSvc', ['app/filters/styles'])
 
     wellDefined: function() {
       var filters = service.filters;
-      return filters.recipientGender && filters.tuOuVous;
+      //currentLanguage
+      //return filters.recipientGender && filters.tuOuVous;
+      if ( !filters.recipientGender )
+        return false;
+      if ( currentLanguage.usesTVDistinction(currentLanguage.getLanguageCode()) && !filters.tuOuVous)
+        return false;
+      return true;
     },
 
     displayFilters: function(area, intention) {
       return area.name === "Formalities";
     },
 
-    // Not currently used : work is done in textFilterController instead
-    setDefaultFilters: function (area, intention, user) {
-      var filters = service.filters;
+    INVERT_GENDER_MAP : {
+      'H': 'F',
+      'F': 'H'
+    },
 
-      console.log('defaultFilter for : ' + area.name + " - " + intention.IntentionId + ' - ' + user.gender);
+    invertGender : function (gender) {
+    return service.INVERT_GENDER_MAP[gender] || gender;
+    },
 
-      if (area.name == 'General') {
-        console.log(area.name + ' area => disable all default filtering');
-        return;
-      }
+    canHaveSeveralRecipientsforCurrentArea: function () {
+      var retval = true;
+      var areaName = areasSvc.getCurrentName();
+      if ( areaName == 'LoveLife' )
+        retval = false;
+      return retval;
+    },
 
-      if (area.name == 'LoveLife') {
-        if (user.gender == 'H') {
-          filters.recipientGender = 'F';
-        }
-        if (user.gender == 'F') {
-          filters.recipientGender = 'H';
-        }
-        // Unless intention is 'I would like to see you again' or new relationship, presume 'Tu' will be adequate
-        if (!user.gender && intentionId != 'BD7387' && intentionId != '7445BC') {
-          filters.tuOuVous = 'T';
-        }
-      }
+  setBestFilterDefaultValues: function (areaName,intentionId, userGender) {
+    console.log (areaName + " - " + intentionId + ' - ' + userGender);
 
-      if (area.name == 'Friends') {
-        if (intentionId != 'B47AE0' && intentionId != '938493')
-          filters.tuOuVous = 'T';
-      }
+    // When intention (trully) changes : try to guess best filter settings
+    if (areaName == 'General') {
+      console.log(areaName + ' area => disable all default filtering');
+      return;
+    }
+    if ( areaName == 'LoveLife' ) {
+      if ( userGender == 'H' || userGender == 'F')
+        service.filters.recipientGender = service.invertGender(userGender);
+      // Unless intention is 'I would like to see you again' or new relationship, presume 'Tu' will be adequate
+      if ( intentionId != 'BD7387' &&  intentionId != '7445BC')
+        service.filters.tuOuVous = 'T';
+    }
+    if ( areaName == 'Friends' ) {
+      if ( intentionId !=  'B47AE0' && intentionId !=  '938493' )
+        service.filters.tuOuVous = 'T';
+    }
 
-      switch (intentionId) {
-        case '0ECC82' : // Exutoire
-        case '0B1EA1' : // Jokes
-        case 'D19840' : // Venez diner à la maison
-        case '451563' : // Stop the world, I want to get off
-          filters.recipientGender = 'P';
-          filters.tuOuVous = 'V';
-          break;
-        case '016E91' : // Je pense à toi
-        case 'D392C1' : // Sleep well
-          if (user.gender == 'H') {
-            filters.recipientGender = 'F';
-          }
-          if (user.gender == 'F') {
-            filters.recipientGender = 'H';
-          }
-          if (user.gender !== null) {
-            filters.tuOuVous = 'T';
-          }
-          break;
-      }
+    // TODO : all this should be data driven, set by the server
+    switch (intentionId ) {
+      case '0ECC82' : // Exutoire
+        service.filters.recipientGender = 'H';
+        service.filters.tuOuVous = 'T';
+        break;
+      case '0B1EA1' : // Jokes
+      case 'D19840' : // Venez diner à la maison
+      case '451563' : // Stop the world, I want to get off
+        service.filters.recipientGender = 'P';
+        service.filters.tuOuVous = 'V';
+        break;
+      case '016E91' : // Je pense à toi
+      case 'D392C1' : // Sleep well
+      case '8ED62C' : // Tu me manques
+      case '1395B6' : // Surprends-moi
+      case '5CDCF2' : // Je t'aime
+      case 'BD7387' : // J'aimerais vous revoir
+      case 'D78AFB' : // Je te quitte
+      case 'F4566D' : // J'ai envie de toi
+        if ( userGender == 'H' || userGender == 'F')
+          service.filters.recipientGender = service.invertGender(userGender);
+        service.filters.tuOuVous = 'T';
+        break;
+    }
 
+    if (!currentLanguage.usesTVDistinction(currentLanguage.getLanguageCode()))
+      service.filters.tuOuVous = undefined;
     }
 
   };
+
+
+  $rootScope.$watch(function() { return intentionsSvc.getCurrentId(); }, function(intentionId) {
+    var areaName = areasSvc.getCurrentName();
+    var userGender = currentUser.gender;
+//    console.log("Intention changed to " + intentionId + " on area " + areaName + " with user gender " + userGender);
+    if (intentionId !== undefined && areaName !== undefined) {
+      service.reset();
+      service.setBestFilterDefaultValues(areaName,intentionId, userGender);
+    }
+  }, true);
 
   // Compute additional filter values
   var updateFilters = function() {
@@ -185,6 +226,10 @@ angular.module('app/filters/filtersSvc', ['app/filters/styles'])
     if ( !filters.tuOuVous && filters.closeness === 'P' && filters.recipientGender !== 'P') {
       filters.tuOuVous = 'T';
     }
+
+    if (!currentLanguage.usesTVDistinction(currentLanguage.getLanguageCode()))
+      service.filters.tuOuVous = undefined;
+
   };
 
   // Set up various connections between filters, using $watches

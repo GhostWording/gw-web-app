@@ -25,21 +25,21 @@ angular.module('cherryApp',  [
    $sceDelegateProvider.resourceUrlWhitelist(['self', /^https?:\/\/(api\.)?cvd.io/]);
 }])
 
-//.config(function($translateProvider) {
-//  $translateProvider
-//  .translations('fr', {
-//    HEADLINE: 'Ma super App!',
-//    'A propos': 'A propos'
-//  })
-//  .translations('en', {
-//    HEADLINE: 'Hello there, This is my awesome app!',
-//    'A propos': 'About'
-//  });
-//  $translateProvider.preferredLanguage('en');
-//})
-
-.controller('NavBarController',  ['$scope','appUrlSvc', function($scope,appUrlSvc) {
+.controller('NavBarController',  ['$scope','appUrlSvc','currentLanguage','favouritesSvc', function($scope,appUrlSvc,currentLanguage,favouritesSvc) {
   $scope.appUrlSvc = appUrlSvc;
+
+  $scope.changeLanguage = function (langKey) {
+    currentLanguage.setLanguageCode(langKey);
+  };
+
+  $scope.getLanguage = function() {
+    var l =currentLanguage.getLanguageCode();
+    return currentLanguage.getLanguageCode();
+  };
+
+  $scope.hasFavourite = function()  {
+    return favouritesSvc.hasFavourite();
+  };
 }])
 
 .controller('FilterDialogController', ['$scope', function($scope) {
@@ -48,9 +48,25 @@ angular.module('cherryApp',  [
 .controller('SelectedTextController', ['$scope', function($scope) {
 }])
 
-.controller('CherryController', ['$scope',  'PostActionSvc','$rootScope',
-  function ($scope,PostActionSvc,$rootScope) {
+.controller('CherryController', ['$scope',  'PostActionSvc','$rootScope','$location','currentLanguage','appUrlSvc','intentionsSvc',
+  function ($scope,PostActionSvc,$rootScope,$location,currentLanguage,appUrlSvc,intentionsSvc) {
+    $scope.app = {};
+    $scope.app.appUrlSvc = appUrlSvc;
+    $rootScope.pageTitle1 = "hello";
+    $rootScope.pageTitle2 = "world";
+
     console.log(navigator.userAgent);
+    //console.log($location.$$host);
+    currentLanguage.setLanguageForHostName($location.$$host);
+
+    $scope.changeLanguage = function (langKey) {
+      currentLanguage.setLanguageCode(langKey);
+    };
+
+    $scope.getLanguage = function() {
+      return currentLanguage.getLanguageCode();
+    };
+
     PostActionSvc.postActionInfo('Init', 'Init', 'App', 'Init');
     $scope.showSpinner = false;
 
@@ -62,24 +78,25 @@ angular.module('cherryApp',  [
     });
     $rootScope.$on("$routeChangeSuccess",function (event, current, previous, rejection) {
       $scope.showSpinner = false;
+
+      intentionsSvc.getCurrent().then(function(intention) {
+        if ( intention ) {
+          $rootScope.pageTitle1 = "Comment dire";
+          $rootScope.pageTitle2 = intention.Label;
+        } else {
+          $rootScope.pageTitle1 = "Comment vous dire : les mots sur le bout de la langue, l'inspiration au bout des doigts";
+          $rootScope.pageTitle2 = "";
+        }
+      } );
+
+      var languageCode = current.params.languageCode;
+      if ( languageCode &&  languageCode!== undefined) {
+        currentLanguage.setLanguageCode(languageCode);
+      }
     });
   }
 ])
 
 .run(['$rootScope', 'intentionsSvc', 'filtersSvc','promiseTracker', function($rootScope, intentionsSvc, filtersSvc,promiseTracker) {
-  
-  // Watch the current intention.  If it changes to something not null and different to what it
-  // was before then reset the filters.
   $rootScope.loadingTracker = promiseTracker({ activationDelay: 300, minDuration: 500 });
-
-  var currentIntentionId = intentionsSvc.getCurrentId();
-  $rootScope.$watch(
-    function() { return intentionsSvc.getCurrentId(); },
-    function(value) {
-      if ( value && currentIntentionId !== value ) {
-        currentIntentionId = value;
-        filtersSvc.reset();
-      }
-    }
-  );
 }]);
