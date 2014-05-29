@@ -18,24 +18,31 @@ function(areasSvc, intentionsSvc, $route, cacheSvc, serverSvc,HelperSvc,currentL
       return service.getText(areaName, intentionId, textId);
     },
     getTextList: function(areaName, intentionId) {
-      var regularPath = areaName + '/intention/' + intentionId + '/texts';
       var culture = currentLanguage.currentCulture();
+      var regularPath = areaName + '/intention/' + intentionId + '/texts';
+      var slugPath = areaName + '/' + intentionId + '/texts';
 
-      return cacheSvc.get(regularPath + culture, -1, function() {
-        return serverSvc.get(regularPath).then(
+//      var firstPath = regularPath;
+//      var secondPath = slugPath;
+
+      var firstPath = slugPath;  // Slug syntax becomes our prefered one
+      var secondPath = regularPath;
+
+
+      return cacheSvc.get(firstPath + culture, -1, function() {
+        return serverSvc.get(firstPath).then(
           function(textList) {
             // HACK : the server API should return an error when we use a bad slug instead of an empty list
             if ( textList.length > 0 )
               return service.MakeSortedVersionWithShortenedTexts(textList);
-            // As a workaround, we temporarily try the slug version here
-            var slugPath = areaName + '/' + intentionId + '/texts';
-            return serverSvc.get(slugPath).then(
+            // As a workaround, we temporarily try the slug version here : should not be used anymore
+            return serverSvc.get(secondPath).then(
               function(slugTextList) {
+                console.log(firstPath + " returned 0 texts");
                 return service.MakeSortedVersionWithShortenedTexts(slugTextList);  } );
           },
           function(error)    {
-            var slugPath = areaName + '/' + intentionId + '/texts';
-            return serverSvc.get(slugPath).then(function(slugTextList) {
+            return serverSvc.get(secondPath).then(function(slugTextList) {
               return service.MakeSortedVersionWithShortenedTexts(slugTextList);  } );
           }
         );
