@@ -32,7 +32,9 @@
           ng-click="send(txt)">
           <!--<favourite-toggle is-favourite="isFavourite(txt)" on-change="setFavourite(txt, isFavourite(txt))"></favourite-toggle>-->
           <!--currentIntention.SlugPrototypeLink instead of IntentionId -->
-          <a href="{{appUrlSvc.getRootPath()}}area/{{ currentArea.Name }}/intention/{{ currentIntention.SlugPrototypeLink }}/recipient/{{ recipientId }}/text/{{txt.TextId}}"
+          <!--<a href="{{appUrlSvc.getRootPath()}}area/{{ currentArea.Name }}/intention/{{ currentIntention.SlugPrototypeLink }}/recipient/{{ recipientId }}/text/{{txt.TextId}}"-->
+          <a href="{{appUrlSvc.getRootPath()}}area/{{ currentArea.Name }}/intention/{{ app.appUrlSvc.getIntentionSlug(currentIntention) }}/recipient/{{ recipientId }}/text/{{txt.TextId}}"
+
           targetType="Text"
           actionType="open"
           targetId="{{txt.TextId}}"
