@@ -19,24 +19,29 @@ function(areasSvc, intentionsSvc, $route, cacheSvc, serverSvc,HelperSvc,currentL
     },
     getTextList: function(areaName, intentionId) {
       var culture = currentLanguage.currentCulture();
+
       var regularPath = areaName + '/intention/' + intentionId + '/texts';
       var slugPath = areaName + '/' + intentionId + '/texts';
 
-//      var firstPath = regularPath;
-//      var secondPath = slugPath;
+      // HACK : while we don't have spanish texts, display english ones instead
+      if ( culture == "es-ES") {
+        culture = "en-EN";
+//        console.log("!!!!!! Switching from es-ES to " + culture);
+      }
 
       var firstPath = slugPath;  // Slug syntax becomes our prefered one
       var secondPath = regularPath;
 
 
       return cacheSvc.get(firstPath + culture, -1, function() {
-        return serverSvc.get(firstPath).then(
+//        return serverSvc.get(firstPath).then(
+        return serverSvc.get(firstPath,null,null,culture).then(
           function(textList) {
             // HACK : the server API should return an error when we use a bad slug instead of an empty list
             if ( textList.length > 0 )
               return service.MakeSortedVersionWithShortenedTexts(textList);
             // As a workaround, we temporarily try the slug version here : should not be used anymore
-            return serverSvc.get(secondPath).then(
+            return serverSvc.get(secondPath,null,null,culture).then(
               function(slugTextList) {
                 console.log(firstPath + " returned 0 texts");
                 return service.MakeSortedVersionWithShortenedTexts(slugTextList);  } );
