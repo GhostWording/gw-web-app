@@ -48,15 +48,14 @@ angular.module('cherryApp',  [
 .controller('SelectedTextController', ['$scope', function($scope) {
 }])
 
-.controller('CherryController', ['$scope',  'PostActionSvc','$rootScope','$location','currentLanguage','appUrlSvc','intentionsSvc','appVersionCheck',
-  function ($scope,PostActionSvc,$rootScope,$location,currentLanguage,appUrlSvc,intentionsSvc,appVersionCheck) {
+.controller('CherryController', ['$scope',  'PostActionSvc','$rootScope','$location','currentLanguage','appUrlSvc','intentionsSvc','appVersionCheck','textsSvc',
+  function ($scope,PostActionSvc,$rootScope,$location,currentLanguage,appUrlSvc,intentionsSvc,appVersionCheck,textsSvc) {
     $scope.app = {};
     $scope.app.appUrlSvc = appUrlSvc;
     $rootScope.pageTitle1 = "hello";
     $rootScope.pageTitle2 = "world";
 
     console.log(navigator.userAgent);
-    //console.log($location.$$host);
     currentLanguage.setLanguageForHostName($location.$$host);
 
     $scope.changeLanguage = function (langKey) {
@@ -69,8 +68,19 @@ angular.module('cherryApp',  [
 
     PostActionSvc.postActionInfo('Init', 'Init', 'App', 'Init');
     $scope.showSpinner = false;
-
     $scope.trackerIsActive = function () { return $rootScope.loadingTracker.active();};
+
+    // Preload a few things
+    intentionsSvc.getForArea('Friends');
+    intentionsSvc.getForArea('LoveLife');
+    intentionsSvc.getForArea('Family');
+    intentionsSvc.getForArea('General');
+
+    textsSvc.getTextList('Friends', 'joyeux-anniversaire');
+    textsSvc.getTextList('Friends', 'merci');
+    textsSvc.getTextList('LoveLife', 'j-aimerais-vous-revoir');
+    textsSvc.getTextList('LoveLife', 'je-pense-a-toi');
+    textsSvc.getTextList('LoveLife', 'je-t-aime');
 
     // We may want to user a tracker linked to route change instead of directly setting
     $rootScope.$on("$routeChangeStart",function (event, current, previous, rejection) {

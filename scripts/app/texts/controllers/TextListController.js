@@ -2,13 +2,11 @@ angular.module('app/texts/TextListController', [])
 // Displays a list of texts
 .controller('TextListController',
  ['$scope', 'currentTextList', 'currentIntention', 'currentArea', 'currentUser', 'filtersSvc', '$modal', 'currentRecipient', 'favouritesSvc','appUrlSvc','currentRecipientSvc','currentLanguage','textsSvc','intentionsSvc',
- function ($scope, currentTextList, currentIntention, currentArea, currentUser, filtersSvc, $modal,currentRecipient, favouritesSvc,appUrlSvc,currentRecipientSvc,currentLanguage,textsSvc,intentionsSvc) {
-   $scope.appUrlSvc = appUrlSvc;
-
-  intentionsSvc.invalidateCacheIfNewerServerVesionExists(currentArea.Name,intentionsSvc.getCurrentId() );
+function ($scope, currentTextList, currentIntention, currentArea, currentUser, filtersSvc, $modal,currentRecipient, favouritesSvc,appUrlSvc,currentRecipientSvc,currentLanguage,textsSvc,intentionsSvc) {
+  $scope.appUrlSvc = appUrlSvc;
 
 
-   $scope.currentArea = currentArea;
+  $scope.currentArea = currentArea;
   $scope.currentIntention = currentIntention;
   $scope.textList = currentTextList;
   $scope.filteredList = [];
@@ -18,12 +16,22 @@ angular.module('app/texts/TextListController', [])
   $scope.recipientId = currentRecipientSvc.getIdOfRecipient(currentRecipient);
 
 
+  function prepareAndDisplayTextList() {
+    textsSvc.getCurrentList().then(function(textList) {$scope.textList =textList; $scope.filterList();});
+   // console.log("I want texts");
+  }
+
   $scope.$watch(function() { return currentLanguage.getLanguageCode(); },
-                function() { textsSvc.getCurrentList().then(function(textList) {
-                                    $scope.textList =textList; $scope.filterList();});},
+//                function() { textsSvc.getCurrentList().then(function(textList) {$scope.textList =textList; $scope.filterList();});  },
+                prepareAndDisplayTextList(),
                 true
                 );
 
+  intentionsSvc.invalidateCacheIfNewerServerVersionExists(currentArea.Name,intentionsSvc.getCurrentId())
+  .then(function(shouldReload){
+        if (shouldReload)
+          prepareAndDisplayTextList();
+        });
 
    $scope.showTextsAnyway = function() {
     return currentArea.Name == 'General';

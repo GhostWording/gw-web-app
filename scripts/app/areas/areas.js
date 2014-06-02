@@ -29,23 +29,23 @@ angular.module('app/areas', ['common/services/cache', 'common/services/server'])
       // It would be nice to provide lastChange instead of -1 at this point but we don't have it
       var valret = cacheSvc.get('areas.' + areaName, -1, function() {
         return serverSvc.get(areaName); });
-      // That would generate quite a lot of calls to the server, so we call only eache time intentionList controller initialize
-      //  valret.then(function(area) {
-      //    console.log('could call invalidateCacheIfNewerServerVesionExists for ' + area.Name) });
       return valret;
     },
 
-    // Invalidate cache if server version is newer : the area will only be refreshed on next call to getArea
-    invalidateCacheIfNewerServerVesionExists: function(areaName) {
+    // Invalidate cache if server version is newer : the area will only be refreshed on next call to getArea. Returns true if intentions should be reloaded
+    invalidateCacheIfNewerServerVersionExists: function(areaName) {
       // Get the server version
-      serverSvc.get(areaName).then(function(areaFromServer) {
-        service.getArea(areaName).then(function(areaFromCache) {
+      return serverSvc.get(areaName).then(function(areaFromServer) {
+        return service.getArea(areaName).then(function(areaFromCache) {
+          var valret = false;
           // compare version with the cache
           if ( areaFromCache && areaFromCache.LastChangeTime != areaFromServer.LastChangeTime ) {
             // If different, reset area object and list of intentions for area
             cacheSvc.reInitializeCacheEntry('areas.' + areaName);
             cacheSvc.reInitializeCacheEntry('intentions.' + areaName);
+            valret = true;
           }
+          return valret;
         })
       });
     }

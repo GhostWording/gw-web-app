@@ -32,49 +32,46 @@ angular.module('app/intentions', ['app/areas', 'common/services/cache', 'common/
       });
     },
     // TODO : this tries using the is as an id and then as a slug
-    // When slugs having become the prefered key, they are tried first
+    // Slugs having become the prefered key, they are tried first
     getIntention: function(areaName, intentionIdOrSlug) {
-//      return cacheSvc.get('intentions.' + areaName + '.' + intentionIdOrSlug, -1, function() {
       return cacheSvc.get(cacheSvc.makeIntentionCacheKey(areaName, intentionIdOrSlug),  -1,  function() {
-
-        // TODO : for the time being translation of the intentions happen on the client : the french version is requested to the server
+        // For the time being translation of the intentions happen on the client : the french version is requested to the server
         return serverSvc.get(areaName + '/' + intentionIdOrSlug,undefined,undefined,'fr-FR') // get by slug API syntax
-          .then(
-                  function(data) {
-                    return data;
-                  },
-                  function(error){
-                    console.log(error);
+          .then(function(data) {return data;},
+                function(error){ console.log(error);
                     if (error.status == "404") {
                       console.log(intentionIdOrSlug + " intention slug not found, trying as an id");
                       return serverSvc.get(areaName + '/intention/' + intentionIdOrSlug,undefined,undefined,'fr-FR'); // get by Id API syntax
-                    }
-                  }
+                    }}
         );
       });
     },
-    invalidateCacheIfNewerServerVesionExists: function(areaName,intentionIdOrSlug) {
+    // Returns true if texts for the intention should be reloaded
+    invalidateCacheIfNewerServerVersionExists: function (areaName, intentionIdOrSlug) {
       // Get the server version
-        serverSvc.get(areaName + '/' + intentionIdOrSlug,undefined,undefined,'fr-FR').then(function(intentionFromServer) {
-          // compare version with the cache
-          service.getIntention(areaName,intentionIdOrSlug).then(function(intentionFromCache) {
+      return serverSvc.get(areaName + '/' + intentionIdOrSlug, undefined, undefined, 'fr-FR').then(function (intentionFromServer) {
+        // compare version with the cache
+        return service.getIntention(areaName, intentionIdOrSlug).then(function (intentionFromCache) {
+          var retval = false;
           // Invalidate cache description of intention if intention description changed
-          if ( intentionFromCache && intentionFromCache.UpdateDate != intentionFromServer.UpdateDate ) {
+          if (intentionFromCache && intentionFromCache.UpdateDate != intentionFromServer.UpdateDate) {
             cacheSvc.reInitializeCacheEntry(cacheSvc.makeIntentionCacheKey(areaName, intentionIdOrSlug));
           }
           // Invalidate cached text list if it was modified on the server
-          if (intentionFromCache && intentionFromCache.MostRecentTextUpdate != intentionFromServer.MostRecentTextUpdate ) {
+          if ( intentionFromCache && intentionFromCache.MostRecentTextUpdate != intentionFromServer.MostRecentTextUpdate) {
             // Invalidate cache description of intention also : if we don't do that, MostRecentTextUpdate will always look out of date
             cacheSvc.reInitializeCacheEntry(cacheSvc.makeIntentionCacheKey(areaName, intentionIdOrSlug));
             // Invalidate cache description of text list for intention
             var culture = currentLanguage.currentCulture();
             // HACK : while we don't have spanish texts, display english ones instead
-            if ( culture == "es-ES") {
+            if (culture == "es-ES") {
               culture = "en-EN";
             }
-            var textListCacheKey = cacheSvc.makeTextListCacheKey(areaName, intentionIdOrSlug,culture);
+            var textListCacheKey = cacheSvc.makeTextListCacheKey(areaName, intentionIdOrSlug, culture);
             cacheSvc.reInitializeCacheEntry(textListCacheKey);
+            retval = true;
           }
+          return  retval;
         })
       });
     },
@@ -96,8 +93,7 @@ angular.module('app/intentions', ['app/areas', 'common/services/cache', 'common/
 function($scope, currentArea, intentionsSvc,currentRecipientSvc,likelyIntentionsSvc,appUrlSvc,areasSvc) {
   $scope.appUrlSvc = appUrlSvc;
 
-  areasSvc.invalidateCacheIfNewerServerVesionExists(currentArea.Name);
-
+  areasSvc.invalidateCacheIfNewerServerVersionExists(currentArea.Name);
 
   // Choose title according to areaId : TODO : move to localisation service
   var AREA_PAGE_TITLE = {
