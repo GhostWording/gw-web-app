@@ -76,6 +76,7 @@ angular.module('cherryApp',  [
     $rootScope.$on("$routeChangeStart",function (event, current, previous, rejection) {
       $scope.showSpinner = true;
     });
+
     $rootScope.$on("$routeChangeSuccess",function (event, current, previous, rejection) {
       $scope.showSpinner = false;
 

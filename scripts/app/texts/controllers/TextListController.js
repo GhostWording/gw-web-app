@@ -1,11 +1,14 @@
 angular.module('app/texts/TextListController', [])
 // Displays a list of texts
 .controller('TextListController',
- ['$scope', 'currentTextList', 'currentIntention', 'currentArea', 'currentUser', 'filtersSvc', '$modal', 'currentRecipient', 'favouritesSvc','appUrlSvc','currentRecipientSvc','currentLanguage','textsSvc',
- function ($scope, currentTextList, currentIntention, currentArea, currentUser, filtersSvc, $modal,currentRecipient, favouritesSvc,appUrlSvc,currentRecipientSvc,currentLanguage,textsSvc) {
+ ['$scope', 'currentTextList', 'currentIntention', 'currentArea', 'currentUser', 'filtersSvc', '$modal', 'currentRecipient', 'favouritesSvc','appUrlSvc','currentRecipientSvc','currentLanguage','textsSvc','intentionsSvc',
+ function ($scope, currentTextList, currentIntention, currentArea, currentUser, filtersSvc, $modal,currentRecipient, favouritesSvc,appUrlSvc,currentRecipientSvc,currentLanguage,textsSvc,intentionsSvc) {
    $scope.appUrlSvc = appUrlSvc;
 
-  $scope.currentArea = currentArea;
+  intentionsSvc.invalidateCacheIfNewerServerVesionExists(currentArea.Name,intentionsSvc.getCurrentId() );
+
+
+   $scope.currentArea = currentArea;
   $scope.currentIntention = currentIntention;
   $scope.textList = currentTextList;
   $scope.filteredList = [];
