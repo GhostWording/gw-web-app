@@ -15,14 +15,16 @@ angular.module('app/recipients/subscribableRecipients', [])
 			return $q.when([
 				{ "Id": "SweetheartF", "RecipientTypeId": "9E2D23", "Gender": "F", "LocalLabel": "Votre chérie", "TuOuVous" : "T", "Importance" : 1},
 				{ "Id": "SweetheartM", "RecipientTypeId": "9E2D23", "Gender": "H", "LocalLabel": "Votre chéri", "TuOuVous" : "T", "Importance" : 2},
-        { "Id": "ProNetwork", "RecipientTypeId": "35AE93", "Gender": null, "LocalLabel": "Votre réseau pro", "TuOuVous" : null,"Importance" : 4},
-				{ "Id": "CloseFriends", "RecipientTypeId": "3B9BF2", "Gender": null, "LocalLabel": "Vos copains et copines", "TuOuVous" : "T","Importance" : 3},
-				{ "Id": "LongLostFriends", "RecipientTypeId": "2B4F14", "Gender": null, "LocalLabel": "Vos amis perdus de vue", "TuOuVous" : "T","Importance" : 9},
-        { "Id": "Mother", "RecipientTypeId": "64C63D", "Gender": "F", "LocalLabel": "Votre maman", "TuOuVous" : "T","Importance" : 5},
-        { "Id": "Father", "RecipientTypeId": "64C63D", "Gender": "H", "LocalLabel": "Votre papa", "TuOuVous" : "T","Importance" : 6},
+        { "Id": "Mother", "RecipientTypeId": "64C63D", "Gender": "F", "LocalLabel": "Votre maman", "TuOuVous" : "T","Importance" : 2.5},
+        { "Id": "LoveInterestF", "RecipientTypeId": "47B7E9", "Gender": "F", "LocalLabel": "La femme que j'aime", "TuOuVous" : "T", "Importance" : 3},
+        { "Id": "LoveInterestM", "RecipientTypeId": "47B7E9", "Gender": "H", "LocalLabel": "L'homme que j'aime", "TuOuVous" : "T", "Importance" : 3},
+				{ "Id": "CloseFriends", "RecipientTypeId": "3B9BF2", "Gender": null, "LocalLabel": "Vos copains et copines", "TuOuVous" : "T","Importance" : 2.5},
+        { "Id": "Father", "RecipientTypeId": "64C63D", "Gender": "H", "LocalLabel": "Votre papa", "TuOuVous" : "T","Importance" : 8.5},
 				{ "Id": "Sister", "RecipientTypeId": "87F524", "Gender": "F", "LocalLabel": "Votre soeur", "TuOuVous" : "T","Importance" : 7},
 				{ "Id": "Brother", "RecipientTypeId": "87F524", "Gender": "H", "LocalLabel": "Votre frère", "TuOuVous" : "T","Importance" : 8},
-				{ "Id": "DistantRelatives", "RecipientTypeId": "BCA601", "Gender": null, "LocalLabel": "La famille éloignée", "TuOuVous" : "T","Importance" : 10},
+        { "Id": "ProNetwork", "RecipientTypeId": "35AE93", "Gender": null, "LocalLabel": "Votre réseau pro", "TuOuVous" : null,"Importance" : 4},
+        { "Id": "LongLostFriends", "RecipientTypeId": "2B4F14", "Gender": null, "LocalLabel": "Vos amis perdus de vue", "TuOuVous" : "T","Importance" : 10 },
+				{ "Id": "DistantRelatives", "RecipientTypeId": "BCA601", "Gender": null, "LocalLabel": "La famille éloignée", "TuOuVous" : "T","Importance" : 11},
 			]);
 		},
 

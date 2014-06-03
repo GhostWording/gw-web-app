@@ -58,12 +58,12 @@ function ($scope,filtersSvc,currentUser, FILTER_LABELS,currentRecipientSvc,curre
 //  filtersSvc.setBestFilterDefaultValues($scope.currentArea.Name , $scope.currentIntention.IntentionId, currentUser.gender);
 
   // Then override with current recipient properties if available
-  currentRecipientSvc.getCurrentRecipient().then(function(currentRecipient) {
-    if (currentRecipient ) {
-      filtersSvc.setFiltersForRecipient(currentRecipient);
-      filtersSvc.setRecipientTypeTag(currentRecipient.RecipientTypeId);
-    }
-  });
+//  currentRecipientSvc.getCurrentRecipient().then(function(currentRecipient) {
+//    if (currentRecipient ) {
+//      filtersSvc.setFiltersForRecipient(currentRecipient);
+//      filtersSvc.setRecipientTypeTag(currentRecipient.RecipientTypeId);
+//    }
+//  });
 
   $scope.resetRecipientGender = function() {
     filters.recipientGender = null;
