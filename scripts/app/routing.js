@@ -180,14 +180,14 @@ angular.module('app/routing', [])
       resolve: {
         recipients: ['subscribableRecipientsSvc', function(subscribedRecipientsSvc) { return subscribedRecipientsSvc.getAll(); }]
       },
-      showTabs: true
+      showTabs: false
     })
     .when('/recipientList', {
       redirectTo: '/area/Addressee/recipient'
     })
     // Duplicate with language code
     .when('/:languageCode/recipientList', {
-      redirectTo: '/area/Addressee/recipient'
+      redirectTo: '/:languageCode/area/Addressee/recipient'
     })
     .when('/subscriptions', {
         templateUrl: 'views/subscriptions.html',

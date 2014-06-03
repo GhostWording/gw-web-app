@@ -46,7 +46,7 @@ angular.module('app/areas', ['common/services/cache', 'common/services/server'])
             valret = true;
           }
           return valret;
-        })
+        });
       });
     }
 

@@ -217,7 +217,6 @@ function($rootScope, StyleCollection,intentionsSvc,areasSvc,currentUser,currentL
         service.filters.tuOuVous = recipient.TuOuVous;
       else
         service.filters.tuOuVous = null;
-
     }
 
   };

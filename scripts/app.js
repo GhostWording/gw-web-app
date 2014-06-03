@@ -25,29 +25,6 @@ angular.module('cherryApp',  [
    $sceDelegateProvider.resourceUrlWhitelist(['self', /^https?:\/\/(api\.)?cvd.io/]);
 }])
 
-.controller('NavBarController',  ['$scope','appUrlSvc','currentLanguage','favouritesSvc', function($scope,appUrlSvc,currentLanguage,favouritesSvc) {
-  $scope.appUrlSvc = appUrlSvc;
-
-  $scope.changeLanguage = function (langKey) {
-    currentLanguage.setLanguageCode(langKey);
-  };
-
-  $scope.getLanguage = function() {
-    var l =currentLanguage.getLanguageCode();
-    return currentLanguage.getLanguageCode();
-  };
-
-  $scope.hasFavourite = function()  {
-    return favouritesSvc.hasFavourite();
-  };
-}])
-
-.controller('FilterDialogController', ['$scope', function($scope) {
-}])
-
-.controller('SelectedTextController', ['$scope', function($scope) {
-}])
-
 .controller('CherryController', ['$scope',  'PostActionSvc','$rootScope','$location','currentLanguage','appUrlSvc','intentionsSvc','appVersionCheck','textsSvc',
   function ($scope,PostActionSvc,$rootScope,$location,currentLanguage,appUrlSvc,intentionsSvc,appVersionCheck,textsSvc) {
     $scope.app = {};
@@ -109,6 +86,34 @@ angular.module('cherryApp',  [
     });
   }
 ])
+
+.controller('NavBarController',  ['$scope','appUrlSvc','currentLanguage','favouritesSvc', function($scope,appUrlSvc,currentLanguage,favouritesSvc) {
+  if ( !$scope.app) {
+    $scope.app = {};
+    $scope.app.appUrlSvc = appUrlSvc;
+  }
+
+
+  $scope.changeLanguage = function (langKey) {
+    currentLanguage.setLanguageCode(langKey);
+  };
+
+  $scope.getLanguage = function() {
+    var l =currentLanguage.getLanguageCode();
+    return currentLanguage.getLanguageCode();
+  };
+
+  $scope.hasFavourite = function()  {
+    return favouritesSvc.hasFavourite();
+  };
+}])
+
+.controller('FilterDialogController', ['$scope', function($scope) {
+}])
+
+.controller('SelectedTextController', ['$scope', function($scope) {
+}])
+
 
 .run(['$rootScope', 'intentionsSvc', 'filtersSvc','promiseTracker', function($rootScope, intentionsSvc, filtersSvc,promiseTracker) {
   $rootScope.loadingTracker = promiseTracker({ activationDelay: 300, minDuration: 500 });

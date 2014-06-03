@@ -72,7 +72,7 @@ angular.module('app/intentions', ['app/areas', 'common/services/cache', 'common/
             retval = true;
           }
           return  retval;
-        })
+        });
       });
     },
 
