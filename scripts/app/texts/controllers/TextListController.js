@@ -13,6 +13,11 @@ function ($scope, currentTextList, currentIntention, currentArea, currentUser, f
   $scope.filters = filtersSvc.filters;
   $scope.filtersWellDefined = filtersSvc.wellDefined;
   $scope.recipientId = currentRecipientSvc.getIdOfRecipient(currentRecipient);
+  $scope.currentRecipient = currentRecipientSvc.getCurrentRecipientNow();
+  $scope.currentRecipientLabel = "";
+  if ( $scope.currentRecipient )
+    $scope.currentRecipientLabel =  $scope.currentRecipient.LocalLabel;
+
 
 
   function prepareAndDisplayTextList() {

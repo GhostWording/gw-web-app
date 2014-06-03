@@ -17,7 +17,12 @@
     </div>
 
     <!-- Selected intention  -->
-    <div><h4 id="testId" class="intentionCourante" translate>{{ currentIntention.Label }} </h4></div>
+    <!--<div><h4 id="testId" class="intentionCourante" translate>{{ currentIntention.Label }} </h4></div>-->
+    <div><h4 class="intentionCourante">
+      <span translate>{{ currentIntention.Label }}</span>
+      <span ng-show="currentRecipient !== null"> - </span>
+      <span translate>{{ currentRecipientLabel }}</span>
+    </h4></div>
 
     <!-- Filtering options  -->
     <div ng-include="'views/partials/filterForm.html'" style="margin-bottom: 20px;"></div>
