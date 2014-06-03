@@ -114,6 +114,8 @@ angular.module('cherryApp',  [
 .controller('SelectedTextController', ['$scope', function($scope) {
 }])
 
+.controller('LanguageBarController', ['$scope', function ($scope) {
+}])
 
 .run(['$rootScope', 'intentionsSvc', 'filtersSvc','promiseTracker', function($rootScope, intentionsSvc, filtersSvc,promiseTracker) {
   $rootScope.loadingTracker = promiseTracker({ activationDelay: 300, minDuration: 500 });

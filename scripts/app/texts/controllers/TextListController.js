@@ -5,7 +5,6 @@ angular.module('app/texts/TextListController', [])
 function ($scope, currentTextList, currentIntention, currentArea, currentUser, filtersSvc, $modal,currentRecipient, favouritesSvc,appUrlSvc,currentRecipientSvc,currentLanguage,textsSvc,intentionsSvc) {
   $scope.appUrlSvc = appUrlSvc;
 
-
   $scope.currentArea = currentArea;
   $scope.currentIntention = currentIntention;
   $scope.textList = currentTextList;
