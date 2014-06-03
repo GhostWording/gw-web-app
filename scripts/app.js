@@ -81,6 +81,8 @@ angular.module('cherryApp',  [
     textsSvc.getTextList('LoveLife', 'j-aimerais-vous-revoir');
     textsSvc.getTextList('LoveLife', 'je-pense-a-toi');
     textsSvc.getTextList('LoveLife', 'je-t-aime');
+    textsSvc.getTextList('LoveLife', 'j-ai-envie-de-toi');
+    textsSvc.getTextList('Family', 'je-pense-a-toi');
 
     // We may want to user a tracker linked to route change instead of directly setting
     $rootScope.$on("$routeChangeStart",function (event, current, previous, rejection) {
