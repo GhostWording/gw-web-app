@@ -17,8 +17,8 @@ function ($scope, currentTextList, currentIntention, currentArea, currentUser, f
 
 
   function prepareAndDisplayTextList() {
-    textsSvc.getCurrentList().then(function(textList) {$scope.textList =textList; $scope.filterList();});
-   // console.log("I want texts");
+    textsSvc.getCurrentList().then(function(textList) {
+      $scope.textList =textList; $scope.filterList();});
   }
 
   $scope.$watch(function() { return currentLanguage.getLanguageCode(); },
@@ -46,7 +46,7 @@ function ($scope, currentTextList, currentIntention, currentArea, currentUser, f
   };
 
   if ( currentRecipient ) {
-    filtersSvc.setFiltersForRecipient(currentRecipient); // Bug : shoud not be reinitialized when we come back from TextDetail view
+    //filtersSvc.setFiltersForRecipient(currentRecipient); // Bug : shoud not be reinitialized when we come back from TextDetail view
     filtersSvc.setRecipientTypeTag(currentRecipient.RecipientTypeId);
   }
 
@@ -55,7 +55,7 @@ function ($scope, currentTextList, currentIntention, currentArea, currentUser, f
      // Clear the previous filter list
      $scope.filteredList.length = 0;
 
-     function orderOnStyles(textList,currentUser,preferredStyles) {
+     function applyFiltersthenOrderOnStyles(textList,currentUser,preferredStyles) {
        var filteredList = [];
        // A map used to count the number of matching styles indexed by text id
        var matchingStylesMap = {};
@@ -88,7 +88,7 @@ function ($scope, currentTextList, currentIntention, currentArea, currentUser, f
       return filteredList;
      }
 
-     $scope.filteredList = orderOnStyles($scope.textList, currentUser,  filtersSvc.filters.preferredStyles);
+     $scope.filteredList = applyFiltersthenOrderOnStyles($scope.textList, currentUser,  filtersSvc.filters.preferredStyles);
   };
 
   $scope.send = function(text) {

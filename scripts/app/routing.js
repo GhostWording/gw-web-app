@@ -23,7 +23,7 @@ angular.module('app/routing', [])
     })
     // Duplicate wiht languageCode
     .when('/:languageCode/area/Addressee/intention/:recipientId', {
-      redirectTo: '/area/Addressee/recipient/:recipientId'
+      redirectTo: '/:languageCode/area/Addressee/recipient/:recipientId'
     })
     //
     // Intention list for an area

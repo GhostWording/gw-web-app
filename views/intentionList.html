@@ -4,15 +4,14 @@
       <li ng-show="true" >
       <a  ng-href="{{app.appUrlSvc.getFullPath('')}}area/{{ currentArea.Name }}/recipient" class="pull-left" role="button"  targetId="Back" ><img ng-src="./assets/arrow-left.png" class="stylepicto"></a>
       </li>
-      <span class="pull-left" style="vertical-align: middle; font-size: 150%; padding-left: 10px; padding-top: 5px;" translate> {{ pageTitle }}</span>
+      <span class="pull-left" style="vertical-align: middle; font-size: 150%; padding-left: 10px; padding-top: 5px;" > {{ pageTitle | translate }}  {{ pageRecipient | translate }}</span>
+      <!--<span class="pull-left" style="vertical-align: middle; font-size: 150%; padding-left: 10px; padding-top: 5px;" translate> {{ pageTitle }}  {{ pageRecipient }}</span>-->
     </ul>
-    <!--<h3 ng-show="!isForRecipient" class="intentionTitle">{{ pageTitle }}</h3>-->
     <h3 ng-show="!isForRecipient" class="intentionTitle" translate> {{ pageTitle }}</h3>
     <!-- Intentions list as rows and columns -->
     <div class="row" ng-repeat="row in groupedIntentions">
         <div ng-repeat="intention in row" class="col-md-4">
           <!--<a href="/#!/area/{{currentArea.Name}}/intention/{{intention.IntentionId}}/recipient/{{recipientId}}/text"-->
-          <!--<a ng-href="{{app.appUrlSvc.getFullPath('')}}area/{{currentArea.Name}}/intention/{{intention.IntentionId}}/recipient/{{recipientId}}/text"-->
           <!--<a ng-href="{{app.appUrlSvc.getFullPath('')}}area/{{currentArea.Name}}/intention/{{intention.SlugPrototypeLink}}/recipient/{{recipientId}}/text"-->
           <a ng-href="{{app.appUrlSvc.getFullPath('')}}area/{{currentArea.Name}}/intention/{{app.appUrlSvc.getIntentionSlug(intention)}}/recipient/{{recipientId}}/text"
 

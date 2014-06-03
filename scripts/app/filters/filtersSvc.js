@@ -104,18 +104,19 @@ function($rootScope, StyleCollection,intentionsSvc,areasSvc,currentUser,currentL
     },
 
     // TODO : instead of being called, we should watch for a (true) recipient change
-    previousCurrentRecipient: undefined,
-    setFiltersForRecipient : function(recipient) {
-      var message = (!service.previousCurrentRecipient || recipient.Id != service.previousCurrentRecipient.Id) ? "different" : "same" ;
-      //console.log(message + " " + recipient);
-      if ( recipient && message != "same") { // second condition prevents overriding explicit user choices when recipient has not really changed
-        if ( recipient.Gender )
-          service.filters.recipientGender = recipient.Gender;
-        if ( recipient.TuOuVous )
-          service.filters.tuOuVous = recipient.TuOuVous;
-      }
-      service.previousCurrentRecipient = recipient;
-    },
+//    previousCurrentRecipient: undefined,
+//    setFiltersForRecipient : function(recipient) {
+//      var message = (!service.previousCurrentRecipient || recipient.Id != service.previousCurrentRecipient.Id) ? "different" : "same" ;
+//      //console.log(message + " " + recipient);
+//      if ( recipient && message != "same") { // second condition prevents overriding explicit user choices when recipient has not really changed
+//        if ( recipient.Gender )
+//          service.filters.recipientGender = recipient.Gender;
+//        if ( recipient.TuOuVous )
+//          service.filters.tuOuVous = recipient.TuOuVous;
+//      }
+//      service.previousCurrentRecipient = recipient;
+//    },
+//
     setRecipientTypeTag: function(recipientTypeTag) {
       service.filters.recipientTypeTag = recipientTypeTag;
     },

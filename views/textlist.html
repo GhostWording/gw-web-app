@@ -4,7 +4,8 @@
     <!-- Number of texts -->
 
     <span ng-show="textList.length">
-      <span class="nombreTextes">{{ textList.length }}</span>&nbsp
+      <!--<span class="nombreTextes">{{ textList.length }}</span>&nbsp-->
+      <span class="nombreTextes">{{ filteredList.length }}</span>&nbsp
       <span class="labelTextes" translate>façons de dire</span>
     </span>
     <span ng-hide="textList.length">
@@ -31,7 +32,6 @@
           class="pull-right envoyer"
           ng-click="send(txt)">
           <!--<favourite-toggle is-favourite="isFavourite(txt)" on-change="setFavourite(txt, isFavourite(txt))"></favourite-toggle>-->
-          <!--currentIntention.SlugPrototypeLink instead of IntentionId -->
           <!--<a href="{{appUrlSvc.getRootPath()}}area/{{ currentArea.Name }}/intention/{{ currentIntention.SlugPrototypeLink }}/recipient/{{ recipientId }}/text/{{txt.TextId}}"-->
           <a href="{{appUrlSvc.getRootPath()}}area/{{ currentArea.Name }}/intention/{{ app.appUrlSvc.getIntentionSlug(currentIntention) }}/recipient/{{ recipientId }}/text/{{txt.TextId}}"
 

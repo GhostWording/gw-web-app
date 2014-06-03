@@ -113,9 +113,12 @@ function($scope, currentArea, intentionsSvc,currentRecipientSvc,likelyIntentions
   $scope.isForRecipient = false;
   if ( currentArea.Name == 'Addressee') {
     $scope.isForRecipient = true;
-    currentRecipientSvc.getCurrentRecipient().then(function(recipient) {
-      $scope.pageTitle = recipient.LocalLabel;
-    });
+    $scope.pageTitle = "";
+    currentRecipient = currentRecipientSvc.getCurrentRecipientNow();
+    $scope.pageRecipient = currentRecipient ? currentRecipient.LocalLabel : "---";
+//    currentRecipientSvc.getCurrentRecipient().then(function(recipient) {
+//      $scope.pageRecipient = recipient.LocalLabel;
+//    });
   }
 
   $scope.currentArea = currentArea;
