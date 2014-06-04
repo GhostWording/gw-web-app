@@ -106,10 +106,6 @@ function($scope, currentArea, intentionsSvc,currentRecipientSvc,likelyIntentions
   };
   $scope.pageTitle = AREA_PAGE_TITLE[currentArea.Name];
 
-  if ( !$scope.pageTitle ) {
-    $scope.pageTitle = "Dites le !";
-    console.log("Unknown area : ", currentArea);
-  }
   $scope.isForRecipient = false;
   if ( currentArea.Name == 'Addressee') {
     $scope.isForRecipient = true;
@@ -119,7 +115,11 @@ function($scope, currentArea, intentionsSvc,currentRecipientSvc,likelyIntentions
 //    currentRecipientSvc.getCurrentRecipient().then(function(recipient) {
 //      $scope.pageRecipient = recipient.LocalLabel;
 //    });
+  } else if ( !$scope.pageTitle ) {
+    $scope.pageTitle = "Dites le !";
+    console.log("Unknown area : ", currentArea);
   }
+
 
   $scope.currentArea = currentArea;
   var ITEMS_PER_ROW = 3;
