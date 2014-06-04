@@ -1,10 +1,7 @@
 ﻿<div class="panneauTexte" action-location="TextList">
 
   <div ng-hide="filtersWellDefined()">
-    <!-- Number of texts -->
-
     <span ng-show="textList.length">
-      <!--<span class="nombreTextes">{{ textList.length }}</span>&nbsp-->
       <span class="nombreTextes">{{ filteredList.length }}</span>&nbsp
       <span class="labelTextes" translate>façons de dire</span>
     </span>
@@ -12,17 +9,27 @@
       <span class="labelTextes" translate>Aucun texte pour dire</span>
     </span>
     <!-- Back button -->
-    <a href="/area/{{ currentArea.Name }}/intention/{{ recipientId }}" class="pull-right" role="button" targetId="Back">
-      <img ng-src="./assets/arrow-left.png" class="stylepicto"> </a>
-    </div>
+    <!--<a href="/area/{{ currentArea.Name }}/intention/{{ recipientId }}" class="pull-right" role="button" targetId="Back">-->
+      <!--<img ng-src="./assets/arrow-left.png" class="stylepicto"> -->
+    <!--</a>-->
+  </div>
 
-    <!-- Selected intention  -->
-    <!--<div><h4 id="testId" class="intentionCourante" translate>{{ currentIntention.Label }} </h4></div>-->
-    <div><h4 class="intentionCourante">
+  <!--<ul class="pager bmwQuestionButton " ng-show='true'>-->
+    <!--<li>-->
+      <!--<a ng-href="{{app.appUrlSvc.getFullPath('')}}area/{{ currentArea.Name }}/intention/{{ recipientId }}"-->
+         <!--class="pull-left" role="button" targetId="Back"> <img ng-src="./assets/arrow-left.png" class="stylepicto"> </a>-->
+    <!--</li>-->
+  <!--</ul>-->
+
+
+  <div style="vertical-align: middle;">
+    <h4 class="intentionCourante " style="  vertical-align: middle;">
+      <a class="backArrow" style="margin-right: 5px" ng-href="{{app.appUrlSvc.getFullPath('')}}area/{{ currentArea.Name }}/intention/{{ recipientId }}"  role="button"  targetId="Back" > <img ng-src="./assets/arrow-left.png" class="stylepicto"> </a>
       <span translate>{{ currentIntention.Label }}</span>
       <span ng-show="currentRecipient !== null"> - </span>
       <span translate>{{ currentRecipientLabel }}</span>
-    </h4></div>
+    </h4>
+  </div>
 
     <!-- Filtering options  -->
     <div ng-include="'views/partials/filterForm.html'" style="margin-bottom: 20px;"></div>

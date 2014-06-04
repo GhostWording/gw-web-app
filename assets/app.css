@@ -19,6 +19,26 @@
     border-bottom-width: 1px;
 }
 
+.backArrow {
+    display: inline-block;
+    padding: 5px 14px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    box-sizing: border-box;
+    color: rgb(66, 139, 202);
+    cursor: auto;
+    text-align: center;
+    vertical-align: middle;
+}
+
+/*does not work*/
+a.backArrow:hover, a.backArrow:focus  { background-color: rgba(240, 173, 78, 0.38); }
+/*a.backArrow:hover, a.backArrow:focus  { background-color: rgb(240, 173, 78); }*/
+/*a.backArrow:hover, a.backArrow:focus  { background-color: #f0ad4e ; }*/
+
+
+
 .fb_pixel_send{
     background-image: url('https://www.facebook.com/offsite_event.php?id=6009586863594&amp;value=0&amp;currency=EUR');
     display:none;
