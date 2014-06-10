@@ -29,8 +29,8 @@ angular.module('cherryApp',  [
   function ($scope,PostActionSvc,$rootScope,$location,currentLanguage,appUrlSvc,intentionsSvc,appVersionCheck,textsSvc) {
     $scope.app = {};
     $scope.app.appUrlSvc = appUrlSvc;
-    $rootScope.pageTitle1 = "hello";
-    $rootScope.pageTitle2 = "world";
+    $rootScope.pageTitle1 = "Comment vous dire. Les mots sur le bout de la langue, l'inspiration au bout des doigts";
+    $rootScope.pageTitle2 = "";
 
     console.log(navigator.userAgent);
     currentLanguage.setLanguageForHostName($location.$$host);
