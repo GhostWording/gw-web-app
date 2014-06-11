@@ -1,18 +1,16 @@
 ﻿<div class="splash" style="text-align: center;" action-location="Welcome">
     <!--<h4>Chaque jour est une opportunité</h4>-->
-    <div class="row" style="margin-top: 22px; margin-bottom: 30px; font-size: 16px;">
-        <div class="span4"></div>
+    <!--<div class="row" style="margin-top: 22px; margin-bottom: 30px; font-size: 16px;">-->
         <!--<div class="span4">CommentVousDire libère<br> les pensées qui vous changent la vie</div>-->
       <!--Libérez vos pensées-->
       <!--Changez vous la vie-->
       <!--<br> avec des mots qui donnent envie !-->
       <!--L'inspiration au bout des doigts pour-->
       <!--L'inspiration en trois clics pour-->
-        <div class="span4 splashTitle" translate>
+        <h1 class="span4 splashTitle" style="margin: 15px; margin-bottom: 30px;" translate>
             Des mots pour
-        </div>
-        <div class="span4"></div>
-    </div>
+        </h1>
+    <!--</div>-->
 
     <ul class="pager bmwQuestionButton" >
         <li ng-class = '{selectionne: false}'>
@@ -39,17 +37,15 @@
       </li>
     </ul>
 
-    <!--<div style="margin-top: 30px; margin-bottom: 0px;" >-->
   <div style="margin-top: 0px; margin-bottom: 0px;" >
         <!--Trouvez les mots<br> qui donnent envie&nbsp!-->
         <!--Les mots sur le bout de la langue,<br>l'inspiration au bout des doigts&nbsp!-->
         <!--Changez-vous la vie&nbsp!-->
     </div>
 
-    <div class="row" style="margin-bottom: 20px;" >
+    <div class="row" style="margin-bottom: 12px;" >
         <div class="span4"></div>
         <div class="span4 brand">
-            <!--<img src="./assets/plumecenteredsmall.png">-->
             <img src="./assets/plume-text-small.png">
         </div>
         <div class="span4"></div>
@@ -62,9 +58,9 @@
   <!--<a href="/#!/en"><button type="button" style="border: none" class="btn btn-default" ng-class='{"btn-primary": getLanguage()=="en"}'><img src="/assets/FlagUK.png"></button></a>-->
   <!--<a href="/#!/es"><button type="button" style="border: none" class="btn btn-default" ng-class='{"btn-primary": getLanguage()=="es"}'><img src="/assets/FlagSpain.png"></button></a>-->
   <div style="margin-bottom: 15px;">
-    <a href="/#!/fr" class="frontpageLink" ng-class='{"active": getLanguage()=="fr"}'>Français</a>
-    <a href="/#!/en" class="frontpageLink" ng-class='{"active": getLanguage()=="en"}'>English</a>
-    <a href="/#!/es" class="frontpageLink" ng-class='{"active": getLanguage()=="es"}'>Español</a>
+    <a href="/fr" class="frontpageLink" ng-class='{"active": getLanguage()=="fr"}'>Français</a>
+    <a href="/en" class="frontpageLink" ng-class='{"active": getLanguage()=="en"}'>English</a>
+    <a href="/es" class="frontpageLink" ng-class='{"active": getLanguage()=="es"}'>Español</a>
   </div>
 
   <!--<div ng-include="'views/partials/languageBar.html'" style="margin-bottom: 20px;"></div>-->
