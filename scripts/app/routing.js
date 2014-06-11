@@ -16,7 +16,7 @@ angular.module('app/routing', [])
     })
     // Duplicate wiht languageCode
     .when('/:languageCode/area/:areaName/intention/none', {
-      redirectTo: '/area/:areaName/intention'
+      redirectTo: '/:languageCode/area/:areaName/intention'
     })
     .when('/area/Addressee/intention/:recipientId', {
       redirectTo: '/area/Addressee/recipient/:recipientId'
