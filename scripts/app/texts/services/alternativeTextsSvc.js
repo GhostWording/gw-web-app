@@ -1,4 +1,9 @@
-angular.module('app/texts/alternativeTextList', [])
+angular.module('app/texts/alternativeTextList', [
+  'common/services/cache',
+  'common/services/server',
+  'common/services/HelperSvc',
+  'app/filters/filtersSvc'
+])
 
 .factory('CultureCollection', function() {
   function CultureCollection() {

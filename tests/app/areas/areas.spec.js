@@ -11,11 +11,10 @@ describe("areasSvc", function() {
 
   // TODO: create a generic mock cacheSvc that simplifies these and other tests that use cacheSvc
 
-
   beforeEach(module('app/areas'));
 
   describe("getCurrent", function() {
-    
+
     it("should lookup the current area in the current route", inject(function(areasSvc, $route) {
       spyOn(areasSvc, 'getArea');
       $route.current.params.areaName = 'dummy';
@@ -65,7 +64,7 @@ describe("areasSvc", function() {
     }));
   });
 
-  
+
   describe("getArea", function() {
 
     it("should request an area from the cacheSvc", inject(function(cacheSvc, $q, $rootScope, areasSvc) {
