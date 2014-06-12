@@ -79,7 +79,7 @@ describe("subscriptionsSvc", function() {
 
 });
 
-describe("SubscribableRecipientsController", function() {
+describe("SubscriptionController", function() {
   var $rootScope,
       mockRecipientsSvc;
 
@@ -90,12 +90,12 @@ describe("SubscribableRecipientsController", function() {
     $rootScope = _$rootScope_;
     var dummyRecipients = ['a', 'b'];
 
-    mocksubscribableRecipientsSvc = {
-      getAll: function (){
+    mockSubscriptionsSvc = {
+      getRecipientsWithSubscriptions: function (){
         return $q.when(dummyRecipients);
       },
-      switchStateForRecipientTypeAlerts: function(){},
-      getStateForRecipientTypeAlerts: function(){}
+      switchState: function(){},
+      getState: function(){}
     };
 
 		mockRecipientsSvc = {
@@ -103,14 +103,18 @@ describe("SubscribableRecipientsController", function() {
 			getStateForRecipientTypeAlerts: function(){}
 		};
 
-    $controller('SubscribableRecipientsController', {$scope: $rootScope,subscribableRecipientsSvc : mocksubscribableRecipientsSvc,  subscribedRecipientsSvc: mockRecipientsSvc});
+    $controller('SubscriptionController', {
+      $scope: $rootScope,
+      subscriptionsSvc : mockSubscriptionsSvc,
+      subscribedRecipientsSvc: mockRecipientsSvc
+    });
   }));
 
   it("should attach the provided recipients to the scope", function() {
     $rootScope.$digest();
-    expect($rootScope.recipients.length).toBe(2);
-    expect($rootScope.recipients[0]).toEqual('a');
-    expect($rootScope.recipients[1]).toEqual('b');
+    expect($rootScope.recipientsWithSubscriptions.length).toBe(2);
+    expect($rootScope.recipientsWithSubscriptions[0]).toEqual('a');
+    expect($rootScope.recipientsWithSubscriptions[1]).toEqual('b');
   });
 
   it("should attach the switch state method to the scope", function() {
