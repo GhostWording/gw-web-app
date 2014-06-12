@@ -3,7 +3,8 @@
     <!--<h3   ng-bind-html = "currentText.Abstract || currentIntention.Label" ></h3>-->
     <ul class="pager bmwQuestionButton" style="margin-top: 5px;  margin-bottom: 25px;">
       <li ng-class='{selectionne: false}'>
-        <a ng-href="{{app.appUrlSvc.getFullPath('')}}area/{{ currentArea.Name }}/intention/{{ currentIntention.IntentionId }}/recipient/{{ recipientId }}/text"
+        <!--<a ng-href="{{app.appUrlSvc.getFullPath('')}}area/{{ currentArea.Name }}/intention/{{ currentIntention.SlugPrototypeLink }}/recipient/{{ recipientId }}/text"-->
+        <a ng-href="{{app.appUrlSvc.getFullPath('')}}area/{{ currentArea.Name }}/intention/{{app.appUrlSvc.getIntentionSlug(currentIntention)}}/recipient/{{ recipientId }}/text"
            class="pull-left" role="button" targetId="Back">
           <img ng-src="./assets/arrow-left.png" class="stylepicto">
         </a>
@@ -78,7 +79,10 @@
 
         <!--<span translate>{{ getVariationWarning(text)}}</span>-->
         <!--<span>{{ getSenderGenderVariationFromCurrentUser(text) }}</span>-->
-        <a ng-href="{{app.appUrlSvc.getRootPath('')}}area/{{ currentArea.Name }}/intention/{{ currentIntention.IntentionId }}/recipient/{{ recipientId }}/text/{{text.TextId}}"
+        <!--currentIntention.SlugPrototypeLink instead of IntentionId -->
+
+        <!--<a ng-href="{{app.appUrlSvc.getRootPath('')}}area/{{ currentArea.Name }}/intention/{{ currentIntention.SlugPrototypeLink }}/recipient/{{ recipientId }}/text/{{text.TextId}}"-->
+        <a ng-href="{{app.appUrlSvc.getRootPath('')}}area/{{ currentArea.Name }}/intention/{{ app.appUrlSvc.getIntentionSlug(currentIntention) }}/recipient/{{ recipientId }}/text/{{text.TextId}}"
            targetType="Text"  actionType="open"  targetId="{{txt.TextId}}">
           <button class="btn btn-primary pull-right glyphicon glyphicon-ok" translate
                   targetId="{{ Id }}" targetType="Text"></button>

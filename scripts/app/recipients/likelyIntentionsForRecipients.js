@@ -32,7 +32,7 @@ angular.module('app/recipients/likelyIntentions', [])
         { "RecipientTypeId": "9E2D23", "IntentionId": "016E91", "IntentionLabel" : "Je pense à toi",    "Freq": "1-day",   "FreqLabel":"1 par jour"},
         { "RecipientTypeId": "9E2D23", "IntentionId": "8ED62C", "IntentionLabel" : "Tu me manques",     "Freq": "1-week",  "FreqLabel":"1 par semaine"},
         { "RecipientTypeId": "9E2D23", "IntentionId": "5CDCF2", "IntentionLabel" : "Je t'aime",         "Freq": "1-week",  "FreqLabel":"1 par semaine" },
-        { "RecipientTypeId": "9E2D23", "IntentionId": "1778B7", "IntentionLabel" : "Merci",             "Freq": "3-week", "FreqLabel":"3 par semaine"},
+        { "RecipientTypeId": "9E2D23", "IntentionId": "1778B7", "IntentionLabel" : "Merci",              "Freq": "3-week", "FreqLabel":"3 par semaine"},
         { "RecipientTypeId": "9E2D23", "IntentionId": "F4566D", "IntentionLabel" : "J'ai envie de toi" },
         { "RecipientTypeId": "9E2D23", "IntentionId": "DF7A10", "IntentionLabel" : "Je suis jaloux/jalouse"},
         { "RecipientTypeId": "9E2D23", "IntentionId": "9B2C8B", "IntentionLabel" : "Je suis en retard"},
@@ -42,7 +42,20 @@ angular.module('app/recipients/likelyIntentions', [])
         { "RecipientTypeId": "9E2D23", "IntentionId": "D78AFB", "IntentionLabel" : "Je te quitte"},
         { "RecipientTypeId": "9E2D23", "IntentionId": "70D12F", "IntentionLabel" : "Pardon"},
         { "RecipientTypeId": "9E2D23", "IntentionId": "B0D576", "IntentionLabel" : "Il manque quelque chose"},
-        { "RecipientTypeId": "87F524", "IntentionId": "03B6E4", "IntentionLabel" : "Je suis là pour toi"},
+        { "RecipientTypeId": "9E2D23", "IntentionId": "03B6E4", "IntentionLabel" : "Je suis là pour toi"},
+        { "RecipientTypeId": "9E2D23", "IntentionId": "0B1EA1", "IntentionLabel" : "Un peu d'humour"},
+
+        // Loveinterest
+        { "RecipientTypeId": "47B7E9", "IntentionId": "016E91", "IntentionLabel" : "Je pense à toi",    "Freq": "1-day",   "FreqLabel":"1 par jour"},
+        { "RecipientTypeId": "47B7E9", "IntentionId": "8ED62C", "IntentionLabel" : "Tu me manques",     "Freq": "1-week",  "FreqLabel":"1 par semaine"},
+        { "RecipientTypeId": "47B7E9", "IntentionId": "5CDCF2", "IntentionLabel" : "Je t'aime"},
+        { "RecipientTypeId": "47B7E9", "IntentionId": "F4566D", "IntentionLabel" : "J'ai envie de toi", "Freq": "1-week",  "FreqLabel":"1 par semaine" },
+        { "RecipientTypeId": "47B7E9", "IntentionId": "D392C1", "IntentionLabel" : "Bonne nuit",          "Freq": "1-week",  "FreqLabel":"1 par semaine" },
+        { "RecipientTypeId": "47B7E9", "IntentionId": "A730B4", "IntentionLabel" : "Bon anniversaire"},
+        { "RecipientTypeId": "47B7E9", "IntentionId": "BD7387", "IntentionLabel" : "J'aimerais vous revoir"},
+        { "RecipientTypeId": "47B7E9", "IntentionId": "916FFC", "IntentionLabel" : "Prenons un verre"},
+
+
         // Siblings
 				{ "RecipientTypeId": "87F524", "IntentionId": "1778B7", "IntentionLabel" : "Merci",             "Freq": "2-month", "FreqLabel":"2 par mois"},
 				{ "RecipientTypeId": "87F524", "IntentionId": "916FFC", "IntentionLabel" : "Prenons un verre",  "Freq": "2-month", "FreqLabel":"2 par mois"},
@@ -57,7 +70,6 @@ angular.module('app/recipients/likelyIntentions', [])
 //        { "RecipientTypeId": "87F524", "IntentionId": "EB020F", "IntentionLabel" : "Bonne fête"},
         { "RecipientTypeId": "87F524", "IntentionId": "2D4079", "IntentionLabel" : "J'ai besoin d'un service"},
         { "RecipientTypeId": "87F524", "IntentionId": "F57DBD", "IntentionLabel" : "Pourquoi ce silence"},
-//        { "RecipientTypeId": "87F524", "IntentionId": "451563", "IntentionLabel" : "Arrêtez le monde"},
         // Parents
 				{ "RecipientTypeId": "64C63D", "IntentionId": "016E91", "IntentionLabel" : "Je pense à toi",    "Freq": "2-week", "FreqLabel":"3 par semaine"},
 				{ "RecipientTypeId": "64C63D", "IntentionId": "D19840", "IntentionLabel" : "Venez dîner",       "Freq": "1-month", "FreqLabel":"1 par mois"},

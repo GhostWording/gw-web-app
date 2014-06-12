@@ -1,11 +1,7 @@
 <div ng-show="true" style="text-align: center;">
-  <!--<div class="row" style="margin-top: 5px; margin-bottom: 25px;" >-->
-    <div style="margin-top: 20px; margin-bottom: 25px;">
-      <!--Choisir un destinataire-->
-      <h3 class="intentionCourante" translate>Qui ?</h3>
-    </div>
-  <!--</div>-->
+  <h3 style="margin-top: 15px; margin-bottom: 25px; font-size: 140%;" class="intentionCourante" translate>Pour qui ?</h3>
 
+  <!-- Choose a recipient -->
   <div class = "listeTypeDestinataire" >
     <div ng-repeat="qui in recipients" >
       <ul class="pager bmwQuestionButton" >
@@ -16,5 +12,7 @@
       </ul>
     </div>
   </div>
+
+  <div ng-include="'views/partials/languageBar.html'" style="margin-top: 25px; text-align: center" ></div>
 
 </div>

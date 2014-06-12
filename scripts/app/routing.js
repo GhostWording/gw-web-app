@@ -16,14 +16,14 @@ angular.module('app/routing', [])
     })
     // Duplicate wiht languageCode
     .when('/:languageCode/area/:areaName/intention/none', {
-      redirectTo: '/area/:areaName/intention'
+      redirectTo: '/:languageCode/area/:areaName/intention'
     })
     .when('/area/Addressee/intention/:recipientId', {
       redirectTo: '/area/Addressee/recipient/:recipientId'
     })
     // Duplicate wiht languageCode
     .when('/:languageCode/area/Addressee/intention/:recipientId', {
-      redirectTo: '/area/Addressee/recipient/:recipientId'
+      redirectTo: '/:languageCode/area/Addressee/recipient/:recipientId'
     })
     //
     // Intention list for an area
@@ -180,14 +180,14 @@ angular.module('app/routing', [])
       resolve: {
         recipients: ['subscribableRecipientsSvc', function(subscribedRecipientsSvc) { return subscribedRecipientsSvc.getAll(); }]
       },
-      showTabs: true
+      showTabs: false
     })
     .when('/recipientList', {
       redirectTo: '/area/Addressee/recipient'
     })
     // Duplicate with language code
     .when('/:languageCode/recipientList', {
-      redirectTo: '/area/Addressee/recipient'
+      redirectTo: '/:languageCode/area/Addressee/recipient'
     })
     .when('/subscriptions', {
         templateUrl: 'views/subscriptions.html',

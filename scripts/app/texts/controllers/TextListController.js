@@ -1,9 +1,9 @@
 angular.module('app/texts/TextListController', [])
 // Displays a list of texts
 .controller('TextListController',
- ['$scope', 'currentTextList', 'currentIntention', 'currentArea', 'currentUser', 'filtersSvc', '$modal', 'currentRecipient', 'favouritesSvc','appUrlSvc','currentRecipientSvc','currentLanguage','textsSvc',
- function ($scope, currentTextList, currentIntention, currentArea, currentUser, filtersSvc, $modal,currentRecipient, favouritesSvc,appUrlSvc,currentRecipientSvc,currentLanguage,textsSvc) {
-   $scope.appUrlSvc = appUrlSvc;
+ ['$scope', 'currentTextList', 'currentIntention', 'currentArea', 'currentUser', 'filtersSvc', '$modal', 'currentRecipient', 'favouritesSvc','appUrlSvc','currentRecipientSvc','currentLanguage','textsSvc','intentionsSvc',
+function ($scope, currentTextList, currentIntention, currentArea, currentUser, filtersSvc, $modal,currentRecipient, favouritesSvc,appUrlSvc,currentRecipientSvc,currentLanguage,textsSvc,intentionsSvc) {
+  $scope.appUrlSvc = appUrlSvc;
 
   $scope.currentArea = currentArea;
   $scope.currentIntention = currentIntention;
@@ -13,14 +13,29 @@ angular.module('app/texts/TextListController', [])
   $scope.filters = filtersSvc.filters;
   $scope.filtersWellDefined = filtersSvc.wellDefined;
   $scope.recipientId = currentRecipientSvc.getIdOfRecipient(currentRecipient);
+  $scope.currentRecipient = currentRecipientSvc.getCurrentRecipientNow();
+  $scope.currentRecipientLabel = "";
+  if ( $scope.currentRecipient )
+    $scope.currentRecipientLabel =  $scope.currentRecipient.LocalLabel;
 
+
+
+  function prepareAndDisplayTextList() {
+    textsSvc.getCurrentList().then(function(textList) {
+      $scope.textList =textList; $scope.filterList();});
+  }
 
   $scope.$watch(function() { return currentLanguage.getLanguageCode(); },
-                function() { textsSvc.getCurrentList().then(function(textList) {
-                                    $scope.textList =textList; $scope.filterList();});},
+//                function() { textsSvc.getCurrentList().then(function(textList) {$scope.textList =textList; $scope.filterList();});  },
+                prepareAndDisplayTextList(),
                 true
                 );
 
+  intentionsSvc.invalidateCacheIfNewerServerVersionExists(currentArea.Name,intentionsSvc.getCurrentId())
+  .then(function(shouldReload){
+        if (shouldReload)
+          prepareAndDisplayTextList();
+        });
 
    $scope.showTextsAnyway = function() {
     return currentArea.Name == 'General';
@@ -35,7 +50,7 @@ angular.module('app/texts/TextListController', [])
   };
 
   if ( currentRecipient ) {
-    filtersSvc.setFiltersForRecipient(currentRecipient); // Bug : shoud not be reinitialized when we come back from TextDetail view
+    //filtersSvc.setFiltersForRecipient(currentRecipient); // Bug : shoud not be reinitialized when we come back from TextDetail view
     filtersSvc.setRecipientTypeTag(currentRecipient.RecipientTypeId);
   }
 
@@ -44,7 +59,7 @@ angular.module('app/texts/TextListController', [])
      // Clear the previous filter list
      $scope.filteredList.length = 0;
 
-     function orderOnStyles(textList,currentUser,preferredStyles) {
+     function applyFiltersthenOrderOnStyles(textList,currentUser,preferredStyles) {
        var filteredList = [];
        // A map used to count the number of matching styles indexed by text id
        var matchingStylesMap = {};
@@ -77,7 +92,7 @@ angular.module('app/texts/TextListController', [])
       return filteredList;
      }
 
-     $scope.filteredList = orderOnStyles($scope.textList, currentUser,  filtersSvc.filters.preferredStyles);
+     $scope.filteredList = applyFiltersthenOrderOnStyles($scope.textList, currentUser,  filtersSvc.filters.preferredStyles);
   };
 
   $scope.send = function(text) {

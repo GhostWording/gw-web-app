@@ -28,6 +28,10 @@ angular.module('app/recipients/currentRecipient', [])
         } else
           return null;
       });
+    },
+
+    getCurrentRecipientNow: function() {
+      return subscribableRecipientsSvc.getThisOneNow(service.getCurrentRecipientId());
     }
   };
 

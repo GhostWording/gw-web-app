@@ -1,13 +1,11 @@
 ﻿<html ng-app='cherryApp' lang="en">
   <head>
-    <script src="http://api.cvd.io/userevent?ActionLocation=Header&ActionType=Load&AreaId=na&ClientTime=&TargetId=na"></script>
 
+    <meta name="fragment" content="!">
     <base href="/">
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <!--<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
 
-    <!--http://www.yearofmoo.com/2012/11/angularjs-and-seo.html-->
-    <meta name="fragment" content="!" />
 
     <!--Prevent 300 ms delay on Android-->
     <script src="scripts/lib/fastclick.js"></script>
@@ -16,6 +14,8 @@
         FastClick.attach(document.body);
       }, false);
     </script>
+
+    <script src="http://api.cvd.io/userevent?ActionLocation=Header&ActionType=Load&AreaId=na&ClientTime=&TargetId=na"></script>
 
 
     <!--Angular and Bootstrap -->
@@ -29,8 +29,6 @@
     <script src="assets/angular-translate/angular-translate.min.js"></script>
 
     <script src="scripts/lib/bootstrap-custom/ui-bootstrap-custom-tpls-0.10.0.js"></script>
-
-    <!--Reminder : include Respond.js for IE8 support with bootstrap 3.0 -->
 
 
     <!--Google scripts-->
@@ -59,6 +57,9 @@
         })();
     </script>
 
+    <!--<script src="http://192.168.0.8:8080/target/target-script-min.js"></script>-->
+
+    <!--Reminder : include Respond.js for IE8 support with bootstrap 3.0 -->
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -109,7 +110,7 @@
           <a href="" style="margin-right: 0px; padding-left: 0px; padding-right: 7px;" ng-class='{active: getLanguage()=="es"}'  ng-click="changeLanguage('es')" class="navbar-brand">es</a>
 
           <!-- Envoyer à  -->
-          <a  ng-href="{{app.appUrlSvc.getFullPath('')}}recipientList" class="navbar-brand glyphicon glyphicon-user" translate></a>
+          <a ng-href="{{app.appUrlSvc.getFullPath('')}}recipientList" class="navbar-brand glyphicon glyphicon-user" translate></a>
           <!-- Penser à  -->
           <a ng-href="{{app.appUrlSvc.getFullPath('')}}favoriteRecipients" class = "navbar-brand glyphicon glyphicon-bell" translate></a>
           <!-- Tous les textes  -->
@@ -165,6 +166,14 @@
       <!-- Spinner -->
       <div ng-show="showSpinner || trackerIsActive()" style="position:fixed;top:-20px;left:300px; z-index:3;"><circle-spinner></circle-spinner></div>
 
+      <div ng-show="false" style="position:fixed; background-color: #ffffff;  text-align:center; margin-left: -160px;    left: 50%; ; width: 20px; bottom:12px; z-index:5">
+        <span class="badge">42</span>
+      </div>
+
+      <div ng-show="false" style="position:fixed; border:1px solid #00ffff; background-color: #ffffff; text-align:center; z-index:3;
+                  left: 50%; width: 300px; margin-left: -150px;  bottom:1px; padding: 0px; margin-bottom: 0px;" class="alert alert-info">
+        margin-top: -50px; margin-left: -100px; HOUBAAAAAAAAAAAAAAA
+      </div>
       <!-- Views -->
       <div ng-view></div>
 

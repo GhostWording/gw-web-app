@@ -17,25 +17,44 @@ function(areasSvc, intentionsSvc, $route, cacheSvc, serverSvc,HelperSvc,currentL
       var textId = service.getCurrentId();
       return service.getText(areaName, intentionId, textId);
     },
-    getTextList: function(areaName, intentionId) {
-      var regularPath = areaName + '/intention/' + intentionId + '/texts';
-      var culture = currentLanguage.currentCulture();
 
-      return cacheSvc.get(regularPath + culture, -1, function() {
-        return serverSvc.get(regularPath).then(
+//    makeCacheKey: function(areaName, intentionIdOrSlug) {
+//      var culture = currentLanguage.currentCulture();
+//      if ( culture == "es-ES") {
+//        culture = "en-EN";
+//      }
+//      return areaName + '/' + intentionIdOrSlug + '/texts' + '.' + culture;
+//    },
+    getTextList: function(areaName, intentionIdOrSlug) {
+
+      var regularPath = areaName + '/intention/' + intentionIdOrSlug + '/texts';
+      var slugPath = areaName + '/' + intentionIdOrSlug + '/texts';
+
+      var culture = currentLanguage.currentCulture();
+      // HACK : while we don't have spanish texts, display english ones instead
+      if ( culture == "es-ES") {
+        culture = "en-EN";
+//        console.log("!!!!!! Switching from es-ES to " + culture);
+      }
+
+      var firstPath = slugPath;  // Slug syntax becomes our prefered one
+      var secondPath = regularPath;
+
+//      return cacheSvc.get(firstPath + '.' + culture, -1, function() {
+      return cacheSvc.get(cacheSvc.makeTextListCacheKey(areaName, intentionIdOrSlug,culture), -1, function() {
+        return serverSvc.get(firstPath,null,null,culture).then(
           function(textList) {
             // HACK : the server API should return an error when we use a bad slug instead of an empty list
             if ( textList.length > 0 )
               return service.MakeSortedVersionWithShortenedTexts(textList);
-            // As a workaround, we temporarily try the slug version here
-            var slugPath = areaName + '/' + intentionId + '/texts';
-            return serverSvc.get(slugPath).then(
+            // Do the same thing as with the error case
+            return serverSvc.get(secondPath,null,null,culture).then(
               function(slugTextList) {
+                console.log(firstPath + " returned 0 texts");
                 return service.MakeSortedVersionWithShortenedTexts(slugTextList);  } );
           },
           function(error)    {
-            var slugPath = areaName + '/' + intentionId + '/texts';
-            return serverSvc.get(slugPath).then(function(slugTextList) {
+            return serverSvc.get(secondPath).then(function(slugTextList) {
               return service.MakeSortedVersionWithShortenedTexts(slugTextList);  } );
           }
         );
@@ -56,8 +75,6 @@ function(areasSvc, intentionsSvc, $route, cacheSvc, serverSvc,HelperSvc,currentL
         return -(text2.SortBy - text1.SortBy); //
       });
       // Keep the first texts sorted to display a few good ones but randomize the others to facilitate machine learning
-      // var minSortOrderToBeRandomized = 25; // if texts match this condition, we will know they have a fair/equal chance to be picked by users
-      //var minSortOrderToBeRandomized = 100; // if texts match this condition, we will know they have a fair/equal chance to be picked by users
       textList = HelperSvc.shuffleTextIfSortOrderNotLessThan(textList, service.minSortOrderToBeRandomized);
       return textList;
     },

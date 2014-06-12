@@ -15,7 +15,7 @@ angular.module('cherryApp',  [
 //CORS for angular v < 1.2
 .config(['$httpProvider', '$locationProvider','$sceProvider', function ($httpProvider, $locationProvider,$sceProvider) {
   $locationProvider.html5Mode(true);
-  $locationProvider.hashPrefix('!');
+//  $locationProvider.hashPrefix('!');
   $httpProvider.defaults.useXDomain = true;
   delete $httpProvider.defaults.headers.common['X-Requested-With'];
   $sceProvider.enabled(false);
@@ -25,8 +25,74 @@ angular.module('cherryApp',  [
    $sceDelegateProvider.resourceUrlWhitelist(['self', /^https?:\/\/(api\.)?cvd.io/]);
 }])
 
+.controller('CherryController', ['$scope',  'PostActionSvc','$rootScope','$location','currentLanguage','appUrlSvc','intentionsSvc','appVersionCheck','textsSvc',
+  function ($scope,PostActionSvc,$rootScope,$location,currentLanguage,appUrlSvc,intentionsSvc,appVersionCheck,textsSvc) {
+    $scope.app = {};
+    $scope.app.appUrlSvc = appUrlSvc;
+    $rootScope.pageTitle1 = "Comment vous dire. Les mots sur le bout de la langue, l'inspiration au bout des doigts";
+    $rootScope.pageTitle2 = "";
+
+    console.log(navigator.userAgent);
+    currentLanguage.setLanguageForHostName($location.$$host);
+
+    $scope.changeLanguage = function (langKey) {
+      currentLanguage.setLanguageCode(langKey);
+    };
+
+    $scope.getLanguage = function() {
+      return currentLanguage.getLanguageCode();
+    };
+
+    PostActionSvc.postActionInfo('Init', 'Init', 'App', 'Init');
+    $scope.showSpinner = false;
+    $scope.trackerIsActive = function () { return $rootScope.loadingTracker.active();};
+
+    // Preload a few things
+    intentionsSvc.getForArea('Friends');
+    intentionsSvc.getForArea('LoveLife');
+    intentionsSvc.getForArea('Family');
+    intentionsSvc.getForArea('General');
+
+    textsSvc.getTextList('Friends', 'joyeux-anniversaire');
+    textsSvc.getTextList('Friends', 'merci');
+    textsSvc.getTextList('LoveLife', 'j-aimerais-vous-revoir');
+    textsSvc.getTextList('LoveLife', 'je-pense-a-toi');
+    textsSvc.getTextList('LoveLife', 'je-t-aime');
+    textsSvc.getTextList('LoveLife', 'j-ai-envie-de-toi');
+    textsSvc.getTextList('Family', 'je-pense-a-toi');
+
+    // We may want to user a tracker linked to route change instead of directly setting
+    $rootScope.$on("$routeChangeStart",function (event, current, previous, rejection) {
+      $scope.showSpinner = true;
+    });
+
+    $rootScope.$on("$routeChangeSuccess",function (event, current, previous, rejection) {
+      $scope.showSpinner = false;
+
+      intentionsSvc.getCurrent().then(function(intention) {
+        if ( intention ) {
+          $rootScope.pageTitle1 = "Comment dire";
+          $rootScope.pageTitle2 = intention.Label;
+        } else {
+          $rootScope.pageTitle1 = "Comment vous dire : les mots sur le bout de la langue, l'inspiration au bout des doigts";
+          $rootScope.pageTitle2 = "";
+        }
+      } );
+
+      var languageCode = current.params.languageCode;
+      if ( languageCode &&  languageCode!== undefined) {
+        currentLanguage.setLanguageCode(languageCode);
+      }
+    });
+  }
+])
+
 .controller('NavBarController',  ['$scope','appUrlSvc','currentLanguage','favouritesSvc', function($scope,appUrlSvc,currentLanguage,favouritesSvc) {
-  $scope.appUrlSvc = appUrlSvc;
+  if ( !$scope.app) {
+    $scope.app = {};
+    $scope.app.appUrlSvc = appUrlSvc;
+  }
+
 
   $scope.changeLanguage = function (langKey) {
     currentLanguage.setLanguageCode(langKey);
@@ -48,54 +114,8 @@ angular.module('cherryApp',  [
 .controller('SelectedTextController', ['$scope', function($scope) {
 }])
 
-.controller('CherryController', ['$scope',  'PostActionSvc','$rootScope','$location','currentLanguage','appUrlSvc','intentionsSvc',
-  function ($scope,PostActionSvc,$rootScope,$location,currentLanguage,appUrlSvc,intentionsSvc) {
-    $scope.app = {};
-    $scope.app.appUrlSvc = appUrlSvc;
-    $rootScope.pageTitle1 = "hello";
-    $rootScope.pageTitle2 = "world";
-
-    console.log(navigator.userAgent);
-    //console.log($location.$$host);
-    currentLanguage.setLanguageForHostName($location.$$host);
-
-    $scope.changeLanguage = function (langKey) {
-      currentLanguage.setLanguageCode(langKey);
-    };
-
-    $scope.getLanguage = function() {
-      return currentLanguage.getLanguageCode();
-    };
-
-    PostActionSvc.postActionInfo('Init', 'Init', 'App', 'Init');
-    $scope.showSpinner = false;
-
-    $scope.trackerIsActive = function () { return $rootScope.loadingTracker.active();};
-
-    // We may want to user a tracker linked to route change instead of directly setting
-    $rootScope.$on("$routeChangeStart",function (event, current, previous, rejection) {
-      $scope.showSpinner = true;
-    });
-    $rootScope.$on("$routeChangeSuccess",function (event, current, previous, rejection) {
-      $scope.showSpinner = false;
-
-      intentionsSvc.getCurrent().then(function(intention) {
-        if ( intention ) {
-          $rootScope.pageTitle1 = "Comment dire";
-          $rootScope.pageTitle2 = intention.Label;
-        } else {
-          $rootScope.pageTitle1 = "Comment vous dire : les mots sur le bout de la langue, l'inspiration au bout des doigts";
-          $rootScope.pageTitle2 = "";
-        }
-      } );
-
-      var languageCode = current.params.languageCode;
-      if ( languageCode &&  languageCode!== undefined) {
-        currentLanguage.setLanguageCode(languageCode);
-      }
-    });
-  }
-])
+.controller('LanguageBarController', ['$scope', function ($scope) {
+}])
 
 .run(['$rootScope', 'intentionsSvc', 'filtersSvc','promiseTracker', function($rootScope, intentionsSvc, filtersSvc,promiseTracker) {
   $rootScope.loadingTracker = promiseTracker({ activationDelay: 300, minDuration: 500 });
