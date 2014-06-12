@@ -80,8 +80,6 @@ describe("cacheSvc", function() {
 
     });
 
-  });
-
     it("should clear the cache if the changeId greater than the stored one", function() {
 //      cacheSvc.get('myData');
 //      expect(getMyData).toHaveBeenCalled();
