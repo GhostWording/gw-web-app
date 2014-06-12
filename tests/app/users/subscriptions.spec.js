@@ -115,12 +115,12 @@ describe("SubscribableRecipientsController", function() {
 
   it("should attach the switch state method to the scope", function() {
     $rootScope.$digest();
-    expect($rootScope.switchState).toEqual(mockRecipientsSvc.switchStateForRecipientTypeAlerts);
+    expect($rootScope.switchState).toEqual(mockRecipientsSvc.switchState);
   });
 
-  it("should attach the switch state method to the scope", function() {
+  it("should attach the get state method to the scope", function() {
     $rootScope.$digest();
-    expect($rootScope.getState).toEqual(mockRecipientsSvc.getStateForRecipientTypeAlerts);
+    expect($rootScope.getState).toEqual(mockRecipientsSvc.getStateFor);
   });
 
 });
