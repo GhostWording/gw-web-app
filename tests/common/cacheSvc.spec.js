@@ -7,7 +7,7 @@ describe("cacheSvc", function() {
   beforeEach(module('common/services/cache'));
 
   beforeEach(inject(function(_cacheSvc_, _localStorage_, _$rootScope_) {
-   
+
     // Store a reference to $rootScope
     $rootScope = _$rootScope_;
 
@@ -77,29 +77,10 @@ describe("cacheSvc", function() {
       var promise = cacheSvc.get('myData', 999, getMyData, true);
       expect(getMyData).toHaveBeenCalled();
       expect(localStorage.get).not.toHaveBeenCalled();
-      
+
     });
 
   });
-
-  describe("update", function() {
-    it("should update the lastChange value without clearing the cache the first time it is called", function() {
-      cacheSvc.get('myData');
-      expect(getMyData).toHaveBeenCalled();
-      expect(cacheSvc._cache['myData'].lastChange).toBeUndefined();
-      getMyData.reset();
-
-      cacheSvc.update('myData', 1234);
-      expect(cacheSvc._cache['myData'].lastChange).toEqual(1234);
-      cacheSvc.get('myData');
-      expect(getMyData).not.toHaveBeenCalled();
-      expect(cacheSvc._cache['myData'].lastChange).toEqual(1234);
-
-      cacheSvc.update('myData', 1235);
-      expect(cacheSvc._cache['myData'].lastChange).toEqual(1235);
-      cacheSvc.get('myData');
-      expect(getMyData).toHaveBeenCalled();
-    });
 
     it("should clear the cache if the changeId greater than the stored one", function() {
 //      cacheSvc.get('myData');

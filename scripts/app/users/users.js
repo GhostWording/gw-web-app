@@ -1,5 +1,7 @@
 // Keeps track of our user's local profile and preferences
-angular.module('app/users/users', [])
+angular.module('app/users/users', [
+  'common/services/deviceIdSvc'
+])
 
 .value('userAges', {
   under25: 'under25',
