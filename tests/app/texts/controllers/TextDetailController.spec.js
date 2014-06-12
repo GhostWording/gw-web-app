@@ -53,7 +53,7 @@ beforeEach(module('app/texts/TextDetailController'));
 		expect($rootScope.currentArea).toEqual({AreaId: '123', Name: 'mockCurrentArea'});
 		expect($rootScope.currentIntention).toEqual({IntentionId: '456',Label: 'mockCurrentIntention'});
 		expect($rootScope.currentText).toEqual({TextId: '789', Content: 'mockCurrentText'});
-		expect($rootScope.txt.editableText).toEqual('mockCurrentText');
+		expect($rootScope.txt.Content).toEqual('mockCurrentText');
 	});
 
 	it('should call the method to attach tags based on labels', inject(function(tagLabelsSvc) {

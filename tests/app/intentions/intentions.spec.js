@@ -52,7 +52,7 @@ describe("intentionsSvc", function() {
     }));
   });
 
-  
+
   describe("getIntention", function() {
 
     it("should request an intention from the cacheSvc", inject(function(cacheSvc, $q, $rootScope, intentionsSvc) {
@@ -83,7 +83,7 @@ describe("intentionsSvc", function() {
       intentionsSvc.getIntention('dummyAreaName', 'dummyIntentionId');
 
       // Check that the getFn will call make a server request
-      $httpBackend.expectGET('http://api.cvd.io/dummyAreaName/intention/dummyIntentionId').respond({});
+      $httpBackend.expectGET('http://api.cvd.io/dummyAreaName/dummyIntentionId').respond({});
 
       var getFn = cacheSvc.get.mostRecentCall.args[2];
       getFn();

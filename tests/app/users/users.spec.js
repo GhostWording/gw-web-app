@@ -1,11 +1,11 @@
 describe("currentUser", function() {
+  beforeEach(module('app/users'));
   beforeEach(module(function($provide) {
     $provide.value('$cookieStore', {
       get: jasmine.createSpy('$cookieStore.get'),
       put: jasmine.createSpy('$cookieStore.put')
     });
   }));
-  beforeEach(module('app/users'));
 
   it("should get the currentUser from the cookie", inject(function($cookieStore, currentUser) {
     expect($cookieStore.get).toHaveBeenCalled();
