@@ -1,4 +1,4 @@
-angular.module('app/texts/TextDetailController', ['common/i18n'])
+angular.module('app/texts/TextDetailController', ['common/i18n', 'app/texts/alternativeTextList'])
 
 // Display text with author, link to the source, usage recommandations or comments
 

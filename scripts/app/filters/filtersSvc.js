@@ -1,4 +1,8 @@
-angular.module('app/filters/filtersSvc', ['app/filters/styles'])
+angular.module('app/filters/filtersSvc', [
+  'app/filters/styles',
+  'app/intentions',
+  'app/users/users'
+])
 
 
 // This service keeps track of user choices that impact the filtering of texts

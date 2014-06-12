@@ -1,4 +1,9 @@
-angular.module('app/intentions', ['app/areas', 'common/services/cache', 'common/services/server'])
+angular.module('app/intentions', [
+  'app/areas',
+  'common/services/cache',
+  'common/services/server',
+  'ngRoute'
+])
 
 // This service provides promises to intentions for the application.
 // It uses the cache or requests from the server
