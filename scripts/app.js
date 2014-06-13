@@ -62,11 +62,11 @@ angular.module('cherryApp',  [
     textsSvc.getTextList('Family', 'je-pense-a-toi');
 
     // We may want to user a tracker linked to route change instead of directly setting
-    $rootScope.$on("$routeChangeStart",function (event, current, previous, rejection) {
+    $rootScope.$on("$stateChangeStart",function (event, toState, toParams, fromState, fromParams) {
       $scope.showSpinner = true;
     });
 
-    $rootScope.$on("$routeChangeSuccess",function (event, current, previous, rejection) {
+    $rootScope.$on("$stateChangeSuccess",function (event, toState, toParams, fromState, fromParams) {
       $scope.showSpinner = false;
 
       intentionsSvc.getCurrent().then(function(intention) {

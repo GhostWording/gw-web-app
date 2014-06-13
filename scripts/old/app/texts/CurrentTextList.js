@@ -1,8 +1,8 @@
 
 
 cherryApp.factory('CurrentTextList', [
-    '$http', '$rootScope', '$routeParams','$filter', 'AppUrlSvc',  'HelperService', 'cacheSvc', 'TextFilterHelperSvc','NormalTextFilters','currentArea','SelectedIntention','intentionApi',
-    function($http, $rootScope, $routeParams, $filter, AppUrlSvc,  HelperService, cacheSvc, TextFilterHelperSvc,TextFilters,currentArea,SelectedIntention,intentionApi) {
+    '$http', '$rootScope', '$stateParams','$filter', 'AppUrlSvc',  'HelperService', 'cacheSvc', 'TextFilterHelperSvc','NormalTextFilters','currentArea','SelectedIntention','intentionApi',
+    function($http, $rootScope, $stateParams, $filter, AppUrlSvc,  HelperService, cacheSvc, TextFilterHelperSvc,TextFilters,currentArea,SelectedIntention,intentionApi) {
 
     var areaName, intentionId, currentTextList;
     var completeTextListForIntention;
@@ -25,9 +25,9 @@ cherryApp.factory('CurrentTextList', [
     };
 
     // Ask the cache for a new list when route changes + area and intention can be read from route
-    $rootScope.$watch(function() { return $routeParams; }, function(event, route) {
-        areaName = $routeParams.areaName;
-        intentionId = $routeParams.intentionId;
+    $rootScope.$watch(function() { return $stateParams; }, function(event, route) {
+        areaName = $stateParams.areaName;
+        intentionId = $stateParams.intentionId;
 
         if (areaName && intentionId) {
             // This is the text list that will be displayed

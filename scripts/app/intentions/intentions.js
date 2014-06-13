@@ -1,17 +1,16 @@
 angular.module('app/intentions', [
   'app/areas',
   'common/services/cache',
-  'common/services/server',
-  'ngRoute'
+  'common/services/server'
 ])
 
 // This service provides promises to intentions for the application.
 // It uses the cache or requests from the server
-.factory('intentionsSvc', ['$q', '$route', 'areasSvc', 'cacheSvc', 'serverSvc','currentLanguage', function($q, $route, areasSvc, cacheSvc, serverSvc,currentLanguage) {
+.factory('intentionsSvc', ['$q', '$state', 'areasSvc', 'cacheSvc', 'serverSvc','currentLanguage', function($q, $state, areasSvc, cacheSvc, serverSvc,currentLanguage) {
   var service = {
 
     getCurrentId: function() {
-      return $route.current && $route.current.params.intentionId;
+      return $state.params && $state.params.intentionId;
     },
 
     getCurrent: function() {
