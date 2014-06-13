@@ -79,7 +79,7 @@ angular.module('cherryApp',  [
         }
       } );
 
-      var languageCode = current.params.languageCode;
+      var languageCode = toParams.languageCode;
       if ( languageCode &&  languageCode!== undefined) {
         currentLanguage.setLanguageCode(languageCode);
       }
