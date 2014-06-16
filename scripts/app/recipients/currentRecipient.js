@@ -1,14 +1,14 @@
 angular.module('app/recipients/currentRecipient', [])
 
-.factory('currentRecipientSvc', ['$q', '$stateParams', 'subscribableRecipientsSvc',
-      function($q, $stateParams, subscribableRecipientsSvc) {
+.factory('currentRecipientSvc', ['$q', '$transition', 'subscribableRecipientsSvc',
+      function($q, $transition, subscribableRecipientsSvc) {
 
   var service = {
 
     nullRecipientId: 'none',
 
     getCurrentRecipientId: function() {
-      var retval = $stateParams.recipientId;
+      var retval = $transition.stateParams.recipientId;
       if ( !retval )
         retval = service.nullRecipientId;
       return retval;

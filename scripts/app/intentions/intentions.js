@@ -6,11 +6,11 @@ angular.module('app/intentions', [
 
 // This service provides promises to intentions for the application.
 // It uses the cache or requests from the server
-.factory('intentionsSvc', ['$q', '$state', 'areasSvc', 'cacheSvc', 'serverSvc','currentLanguage', function($q, $state, areasSvc, cacheSvc, serverSvc,currentLanguage) {
+.factory('intentionsSvc', ['$q', '$transition', 'areasSvc', 'cacheSvc', 'serverSvc','currentLanguage', function($q, $transition, areasSvc, cacheSvc, serverSvc,currentLanguage) {
   var service = {
 
     getCurrentId: function() {
-      return $state.params && $state.params.intentionId;
+      return $transition.stateParams && $transition.stateParams.intentionId;
     },
 
     getCurrent: function() {
@@ -93,8 +93,9 @@ angular.module('app/intentions', [
   return service;
 }])
 
-.controller('IntentionListController', ['$scope', 'currentArea', 'intentionsSvc','currentRecipientSvc','likelyIntentionsSvc','appUrlSvc','areasSvc',
-function($scope, currentArea, intentionsSvc,currentRecipientSvc,likelyIntentionsSvc,appUrlSvc,areasSvc) {
+.controller('IntentionListController', ['$scope', 'currentArea', 'areasSvc', 'intentionsSvc','currentRecipientSvc','likelyIntentionsSvc','appUrlSvc',
+function($scope, currentArea, areasSvc, intentionsSvc, currentRecipientSvc,likelyIntentionsSvc,appUrlSvc) {
+
   $scope.appUrlSvc = appUrlSvc;
 
   areasSvc.invalidateCacheIfNewerServerVersionExists(currentArea.Name);
@@ -161,5 +162,4 @@ function($scope, currentArea, intentionsSvc,currentRecipientSvc,likelyIntentions
       .then(function(intentions) {
         $scope.groupedIntentions = intentionsSvc.groupItems(intentions, ITEMS_PER_ROW);
         });
-
 }]);

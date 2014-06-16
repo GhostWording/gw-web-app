@@ -63,10 +63,14 @@ angular.module('cherryApp',  [
 
     // We may want to user a tracker linked to route change instead of directly setting
     $rootScope.$on("$stateChangeStart",function (event, toState, toParams, fromState, fromParams) {
+      console.log("$stateChangeStart");
+      console.log("FROM:", fromState, fromParams);
+      console.log("TO:", toState, toParams);
       $scope.showSpinner = true;
     });
 
     $rootScope.$on("$stateChangeSuccess",function (event, toState, toParams, fromState, fromParams) {
+      console.log("$stateChangeSuccess");
       $scope.showSpinner = false;
 
       intentionsSvc.getCurrent().then(function(intention) {

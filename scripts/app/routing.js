@@ -1,8 +1,25 @@
 angular.module('app/routing', ['ui.router'])
 
+.value('$transition', { stateParams: {} })
+
+.run(['$rootScope', '$transition', '$stateParams',
+        function($rootScope, $transition, $stateParams) {
+  // Make the new params available to be injected during a state transition
+  $rootScope.$on('$stateChangeStart', function(event, toState, toParams) {
+    $transition.stateParams = toParams;
+  });
+  // Reset on error
+  $rootScope.$on('$stateChangeError', function(event, toState, toParams) {
+    $transition.stateParams = $stateParams;
+  });
+}])
+
 .config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
 
+  // Set up the redirects
+  // (most of these have a duplicate redirect with language code)
   $urlRouterProvider
+
     // Special case : if the area is Addressee, we first need to ask for the recipient
     .when('/area/Addressee/intention', '/area/Addressee/recipient')
     .when('/:languageCode/area/Addressee/intention', '/:languageCode/area/Addressee/recipient')
@@ -20,40 +37,116 @@ angular.module('app/routing', ['ui.router'])
 
 
     .when('/recipientList', '/area/Addressee/recipient')
+    .when('/:languageCode/recipientList', '/:languageCode/area/Addressee/recipient')
+
     .when('/BonneAnnee', '/area/Friends/intention/938493/text')
     .when('/Amour', '/area/LoveLife/intention')
     .when('/Amis', '/area/Friends/intention')
-    .when('/Famille', '/area/Family/intention')
-    .otherwise('/');
+    .when('/Famille', '/area/Family/intention');
 
   $stateProvider
 
+
   .state('area', {
-    url: '/area/:areaName?recipient',
+    url: '/area/:areaName/intention',
     templateUrl: 'views/intentionList.html',
     controller: 'IntentionListController',
+    resolve: {
+      currentArea: ['areasSvc', function(areasSvc) { return areasSvc.getCurrent(); }],
+    },
+    showTabs: true
+  })
+  .state('areaWithLanguage', {
+    url: '/:languageCode/area/:areaName/intention',
+    templateUrl: 'views/intentionList.html',
+    controller: 'IntentionListController',
+    resolve: {
+      currentArea: ['areasSvc', function(areasSvc) { return areasSvc.getCurrent(); }],
+    },
     showTabs: true
   })
 
 
-  .state('area.intention', {
-    url: '/intention/:intentionId',
+  // Intention list for an area and a recipient
+  // .state('intentionList', {
+  //   url: '/area/:areaName/recipient/:recipientId',
+  //   templateUrl: 'views/intentionList.html',
+  //   controller: 'IntentionListController',
+  //   showTabs: true
+  // })
+  // .state('intentionListWithLanguage', {
+  //   url: '/:languageCode/area/:areaName/recipient/:recipientId',
+  //   templateUrl: 'views/intentionList.html',
+  //   controller: 'IntentionListController',
+  //   showTabs: true
+  // })
+
+
+  // Text list for an intention, and a recipient. Recipient can be 'none'
+  .state('textList', {
+    url: '/area/:areaName/intention/:intentionId/recipient/:recipientId/text',
     templateUrl: 'views/textList.html',
     controller: 'TextListController',
+    resolve: {
+      currentArea: ['areasSvc', function(areasSvc) { return areasSvc.getCurrent(); }],
+      currentIntention: ['intentionsSvc', function(intentionsSvc) { return intentionsSvc.getCurrent(); }],
+      currentTextList: ['textsSvc', function(textsSvc) { return textsSvc.getCurrentList(); }],
+      currentRecipient: ['currentRecipientSvc', function(currentRecipientSvc) { return currentRecipientSvc.getCurrentRecipient(); }]
+    },
+    showTabs: true
+  })
+  // Text list for an intention, and a recipient. Recipient can be 'none'
+  .state('textListWithLanguage', {
+    url: '/:languageCode/area/:areaName/intention/:intentionId/recipient/:recipientId/text',
+    templateUrl: 'views/textList.html',
+    controller: 'TextListController',
+    resolve: {
+      currentArea: ['areasSvc', function(areasSvc) { return areasSvc.getCurrent(); }],
+      currentIntention: ['intentionsSvc', function(intentionsSvc) { return intentionsSvc.getCurrent(); }],
+      currentTextList: ['textsSvc', function(textsSvc) { return textsSvc.getCurrentList(); }],
+      currentRecipient: ['currentRecipientSvc', function(currentRecipientSvc) { return currentRecipientSvc.getCurrentRecipient(); }]
+    },
+    showTabs: true
   })
 
 
-  .state('area.intention.text', {
-    url: '/text/:textId',
+  .state('textDetail', {
+    url: '/area/:areaName/intention/:intentionId/recipient/:recipientId/text/:textId',
     templateUrl: 'views/textdetail.html',
-    controller: 'TextDetailController'
+    controller: 'TextDetailController',
+    resolve: {
+      currentArea: ['areasSvc', function(areasSvc) { return areasSvc.getCurrent(); }],
+      currentIntention: ['intentionsSvc', function(intentionsSvc) { return intentionsSvc.getCurrent(); }],
+      currentText: ['textsSvc', function(textsSvc) { return textsSvc.getCurrent(); }],
+      currentRecipient: ['currentRecipientSvc', function(currentRecipientSvc) { return currentRecipientSvc.getCurrentRecipient(); }]
+    }
+  })
+  .state('textDetailWithLanguage', {
+    url: '/:languageCode/area/:areaName/intention/:intentionId/recipient/:recipientId/text/:textId',
+    templateUrl: 'views/textdetail.html',
+    controller: 'TextDetailController',
+    resolve: {
+      currentArea: ['areasSvc', function(areasSvc) { return areasSvc.getCurrent(); }],
+      currentIntention: ['intentionsSvc', function(intentionsSvc) { return intentionsSvc.getCurrent(); }],
+      currentText: ['textsSvc', function(textsSvc) { return textsSvc.getCurrent(); }],
+      currentRecipient: ['currentRecipientSvc', function(currentRecipientSvc) { return currentRecipientSvc.getCurrentRecipient(); }]
+    }
   })
 
 
   .state('favourites', {
     url: '/favoriteRecipients',
     templateUrl: 'views/favoriteRecipients.html',
-    controller: 'SubscribableRecipientsController',
+    controller: 'SubscribedRecipientsController',
+    resolve: {
+      recipients: ['subscribableRecipientsSvc', function(subscribedRecipientsSvc) { return subscribedRecipientsSvc.getAll(); }]
+    },
+    showTabs: false
+  })
+  .state('favouritesWithLanguage', {
+    url: '/:languageCode/favoriteRecipients',
+    templateUrl: 'views/favoriteRecipients.html',
+    controller: 'SubscribedRecipientsController',
     resolve: {
       recipients: ['subscribableRecipientsSvc', function(subscribedRecipientsSvc) { return subscribedRecipientsSvc.getAll(); }]
     },
@@ -63,6 +156,15 @@ angular.module('app/routing', ['ui.router'])
 
   .state('recipients', {
     url: '/recipients',
+    templateUrl: 'views/recipientList.html',
+    controller: 'OneTimeRecipientsController',
+    resolve: {
+      recipients: ['subscribableRecipientsSvc', function(subscribedRecipientsSvc) { return subscribedRecipientsSvc.getAll(); }]
+    },
+    showTabs: true
+  })
+  .state('recipientsWithLanguage', {
+    url: '/:languageCode/recipients',
     templateUrl: 'views/recipientList.html',
     controller: 'OneTimeRecipientsController',
     resolve: {
@@ -80,10 +182,24 @@ angular.module('app/routing', ['ui.router'])
     },
     showTabs: false
   })
+  .state('subscriptionsWithLanguage', {
+    url: '/:languageCode/subscriptions',
+    templateUrl: 'views/subscriptions.html',
+    controller: 'SubscriptionController',
+    resolve: {
+      recipients: ['subscribableRecipientsSvc', function(subscribedRecipientsSvc) { return subscribedRecipientsSvc.getAll(); }]
+    },
+    showTabs: false
+  })
 
 
-  .state('user-email', {
+  .state('userEmail', {
     url: '/userEMail',
+    templateUrl: 'views/userEMail.html',
+    controller: 'UserEMailController'
+  })
+  .state('userEmailWithLanguage', {
+    url: '/"languageCode/userEMail',
     templateUrl: 'views/userEMail.html',
     controller: 'UserEMailController'
   })
@@ -94,6 +210,11 @@ angular.module('app/routing', ['ui.router'])
     templateUrl: 'views/notimplemented.html',
     controller: 'NotImplementedController'
   })
+  .state('notImplementedWithLanguage', {
+    url: '/:languageCode/notimplemented',
+    templateUrl: 'views/notimplemented.html',
+    controller: 'NotImplementedController'
+  })
 
 
   .state('userprofile', {
@@ -101,12 +222,10 @@ angular.module('app/routing', ['ui.router'])
     templateUrl: 'views/userprofile.html',
     controller: 'UserProfileController'
   })
-
-
-  .state('splashscreen', {
-    url: '/',
-    templateUrl: 'views/splashscreen.html',
-    controller: 'SplashScreenController'
+  .state('userprofileWithLanguage', {
+    url: '/:languageCode/userprofile',
+    templateUrl: 'views/userprofile.html',
+    controller: 'UserProfileController'
   })
 
 
@@ -115,40 +234,29 @@ angular.module('app/routing', ['ui.router'])
     templateUrl: 'views/about.html',
     controller: 'SimplePageController'
   })
+  .state('aboutWithLanguage', {
+    url: '/:languageCode/about',
+    templateUrl: 'views/about.html',
+    controller: 'SimplePageController'
+  })
 
 
-  // Shortcut for human readable link : must be placed after other single piece parameter urls
-  .state('intention-slug', {
-    url:  '/:intentionSlug',
-    templateUrl: 'views/textList.html',
-    controller: 'TextListController'
+  .state('splashscreen', {
+    url: '/',
+    templateUrl: 'views/splashscreen.html',
+    controller: 'SplashScreenController'
+  })
+  .state('splashscreenWithLanguage', {
+    url: '/:languageCode',
+    templateUrl: 'views/splashscreen.html',
+    controller: 'SplashScreenController'
   });
 
 
-  $urlRouterProvider
-    // Special case : if the area is Addressee, we first need to ask for the recipient
-    .when('/area/Addressee/intention', '/area/Addressee/recipient')
-    .when('/area/Addressee/intention/:recipientId', '/area/Addressee/recipient/:recipientId')
-    // shortcut : text list for recipient and intention like /addressee/Father/xxxx
-    .when('/addressee/:recipientId/:intentionId', '/area/Addressee/intention/:intentionId/recipient/:recipientId/text/')
-    .when('/recipientList', '/area/Addressee/recipient')
-    .when('/BonneAnnee', '/area/Friends/intention/938493/text')
-    .when('/Amour', '/area/LoveLife/intention')
-    .when('/Amis', '/area/Friends/intention')
-    .when('/Famille', '/area/Family/intention')
-    .otherwise('/');
 
-  // // Shortcut for human readable link
-  // // TODO: Move this to a redirect on the server??
-  // .when('/:areaName/:intentionId', function($match) {
+ $urlRouterProvider.otherwise('/');
 
-  //   templateUrl: 'views/textList.html',
-  //   controller: 'TextListController',
-  //   resolve: {
-  //     currentArea: ['areasSvc', function(areasSvc) { return areasSvc.getCurrent(); }],
-  //     currentIntention: ['intentionsSvc', function(intentionsSvc) { return intentionsSvc.getCurrent(); }]
-  //   }
-  // })
+
 
 
 }]);

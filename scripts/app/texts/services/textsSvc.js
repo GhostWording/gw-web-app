@@ -1,7 +1,7 @@
 angular.module('app/texts/textList', [])
 
-.factory('textsSvc', ['areasSvc', 'intentionsSvc', '$stateParams', 'cacheSvc', 'serverSvc','HelperSvc','currentLanguage',
-function(areasSvc, intentionsSvc, $stateParams, cacheSvc, serverSvc,HelperSvc,currentLanguage) {
+.factory('textsSvc', ['areasSvc', 'intentionsSvc', '$transition', 'cacheSvc', 'serverSvc','HelperSvc','currentLanguage',
+function(areasSvc, intentionsSvc, $transition, cacheSvc, serverSvc,HelperSvc,currentLanguage) {
   var service = {
     getCurrentList: function() {
       var areaName = areasSvc.getCurrentName();
@@ -9,7 +9,7 @@ function(areasSvc, intentionsSvc, $stateParams, cacheSvc, serverSvc,HelperSvc,cu
       return service.getTextList(areaName, intentionId);
     },
     getCurrentId: function() {
-      return $stateParams.textId;
+      return $transition.stateParams.textId;
     },
     getCurrent: function() {
       var areaName = areasSvc.getCurrentName();

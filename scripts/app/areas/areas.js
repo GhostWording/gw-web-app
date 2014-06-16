@@ -7,11 +7,12 @@ angular.module('app/areas', [
 
 // This service provides promises to areas for the application.
 // It uses the cache or requests from the server
-.factory('areasSvc', ['$q', '$stateParams', 'cacheSvc', 'serverSvc', function($q, $stateParams, cacheSvc, serverSvc) {
+.factory('areasSvc', ['$q', '$transition', 'cacheSvc', 'serverSvc',
+                  function($q, $transition, cacheSvc, serverSvc) {
   var service = {
 
     getCurrentName: function() {
-      return $stateParams.areaName || $stateParams.areaId;
+      return $transition.stateParams.areaName || $transition.stateParams.areaId;
     },
 
     getCurrent: function() {
