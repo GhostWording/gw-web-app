@@ -6,11 +6,11 @@ angular.module('app/intentions', [
 
 // This service provides promises to intentions for the application.
 // It uses the cache or requests from the server
-.factory('intentionsSvc', ['$q', '$transition', 'areasSvc', 'cacheSvc', 'serverSvc','currentLanguage', function($q, $transition, areasSvc, cacheSvc, serverSvc,currentLanguage) {
+.factory('intentionsSvc', ['$q', '$stateChange', 'areasSvc', 'cacheSvc', 'serverSvc','currentLanguage', function($q, $stateChange, areasSvc, cacheSvc, serverSvc,currentLanguage) {
   var service = {
 
     getCurrentId: function() {
-      return $transition.stateParams && $transition.stateParams.intentionId;
+      return $stateChange.toParams && $stateChange.toParams.intentionId;
     },
 
     getCurrent: function() {

@@ -1,17 +1,19 @@
 angular.module('app/routing', ['ui.router'])
 
-.value('$transition', { stateParams: {} })
+.value('$stateChange', { toState: {}, toParams: {}, fromState: {}, fromParams: {} })
 
-.run(['$rootScope', '$transition', '$stateParams',
-        function($rootScope, $transition, $stateParams) {
-  // Make the new params available to be injected during a state transition
-  $rootScope.$on('$stateChangeStart', function(event, toState, toParams) {
-    $transition.stateParams = toParams;
-  });
-  // Reset on error
-  $rootScope.$on('$stateChangeError', function(event, toState, toParams) {
-    $transition.stateParams = $stateParams;
-  });
+.run(['$rootScope', '$stateChange', function($rootScope, $stateChange) {
+  function updateTransition(event, toState, toParams, fromState, fromParams) {
+    $stateChange.toState = toState;
+    $stateChange.toParams = toParams;
+    $stateChange.fromState = fromState;
+    $stateChange.fromParams = fromParams;
+  }
+
+  // Ensure state transition info is available to be injected during a state transition
+  $rootScope.$on('$stateChangeStart', updateTransition);
+  $rootScope.$on('$stateChangeError', updateTransition);
+  $rootScope.$on('$stateChangeSuccess', updateTransition);
 }])
 
 .config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
