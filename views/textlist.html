@@ -1,4 +1,8 @@
-﻿<div class="panneauTexte" action-location="TextList">
+﻿
+<!-- Text detail  -->
+<ui-view></ui-view>
+
+<div ng-show="getCurrentTextId() == undefined" class="panneauTexte" action-location="TextList">
 
   <div ng-hide="filtersWellDefined()" style="padding-top: 0px; margin-top: 0px; margin-bottom: 5px; ">
     <span ng-show="textList.length">
@@ -8,19 +12,7 @@
     <span ng-hide="textList.length">
       <span class="labelTextes" translate>Aucun texte pour dire</span>
     </span>
-    <!-- Back button -->
-    <!--<a href="/area/{{ currentArea.Name }}/intention/{{ recipientId }}" class="pull-right" role="button" targetId="Back">-->
-      <!--<img ng-src="./assets/arrow-left.png" class="stylepicto"> -->
-    <!--</a>-->
   </div>
-
-  <!--<ul class="pager bmwQuestionButton " ng-show='true'>-->
-    <!--<li>-->
-      <!--<a ng-href="{{app.appUrlSvc.getFullPath('')}}area/{{ currentArea.Name }}/intention/{{ recipientId }}"-->
-         <!--class="pull-left" role="button" targetId="Back"> <img ng-src="./assets/arrow-left.png" class="stylepicto"> </a>-->
-    <!--</li>-->
-  <!--</ul>-->
-
 
   <div style="vertical-align: middle;">
     <h4 class="intentionCourante " style="  vertical-align: middle;">
@@ -31,9 +23,11 @@
     </h4>
   </div>
 
-    <!-- Filtering options  -->
+
+  <!-- Filtering options  -->
     <div ng-include="'views/partials/filterForm.html'" style="margin-bottom: 20px;"></div>
     <div ng-include="'views/partials/styleBar.html'" ng-show="filtersWellDefined()"></div>
+
 
     <!-- Text list  -->
     <div class="listeTextes" ng-show="filtersWellDefined() || showTextsAnyway()">

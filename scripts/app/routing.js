@@ -123,6 +123,18 @@ angular.module('app/routing', ['ui.router'])
       currentRecipient: ['currentRecipientSvc', function(currentRecipientSvc) { return currentRecipientSvc.getCurrentRecipient(); }]
     }
   })
+
+  .state('textListWithLanguage.textDetail', {
+    url: '/:textId',
+    templateUrl: 'views/textdetail.html',
+    controller: 'TextDetailController',
+    resolve: {
+      // other should be inherited from parents
+      currentText: ['textsSvc', function(textsSvc) { return textsSvc.getCurrent(); }]
+    }
+  })
+
+
   .state('textDetailWithLanguage', {
     url: '/:languageCode/area/:areaName/intention/:intentionId/recipient/:recipientId/text/:textId',
     templateUrl: 'views/textdetail.html',
@@ -134,7 +146,6 @@ angular.module('app/routing', ['ui.router'])
       currentRecipient: ['currentRecipientSvc', function(currentRecipientSvc) { return currentRecipientSvc.getCurrentRecipient(); }]
     }
   })
-
 
   .state('favourites', {
     url: '/favoriteRecipients',
