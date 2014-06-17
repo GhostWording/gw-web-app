@@ -33,42 +33,30 @@ angular.module('app/routing', ['ui.router'])
     .when('/addressee/:recipientId/:intentionId', '/area/Addressee/recipient/:recipientId/intention/:intentionId/text/')
     .when('/:languageCode/addressee/:recipientId/:intentionId', '/:languageCode/area/Addressee/recipient/:recipientId/intention/:intentionId/text/')
 
-    // if there is no recipient, just go to the intention list
 //    .when('/area/:areaName/intention/none', '/area/:areaName/recipient/none/intention')
 //    .when('/:languageCode/area/:areaName/intention/none', '/:languageCode/area/:areaName/recipient/none/intention')
-//    .when('/area/Addressee/intention/:recipientId', '/area/Addressee/recipient/:recipientId')
-//    .when('/:languageCode/area/Addressee/intention/:recipientId', '/:languageCode/area/Addressee/recipient/:recipientId')
-//  .when('/:languageCode/:areaName/intention)','/:languageCode/area/:areaName/recipient/none/intention')
 
-    .when('/BonneAnnee', '/fr/area/Friends/recipient/none/intention/bonne-annee/text')
-    .when('/Amour', '/fr/area/LoveLife/recipient/none/intention')
-    .when('/Amis', '/fr/area/Friends/recipient/none/intention')
-    .when('/Famille', '/fr/area/Family/recipient/none/intention');
+    //.when('/blabla','/xx/blabla')
+    // on $stateChangeSuccess, the added "xx" string will be replaced by the current (or default) language code
+    .when('/userprofile'              ,'/xx/userprofile')
+    .when('/about'                    ,'/xx/about')
+    .when('/favoriteRecipients'       ,'/xx/favoriteRecipients')
+    .when('/subscriptions'            ,'/xx/subscriptions')
+    .when('/userEMail'                ,'/xx/userEMail')
+    .when('/notimplemented'           ,'/xx/notimplemented')
+
+    .when('/area/:areaName/recipient' ,'/xx/area/:areaName/recipient')
+    .when('/area/:areaName/recipient/:recipientId/intention','/xx/area/:areaName/recipient/:recipientId/intention')
+    .when('/area/:areaName/recipient/:recipientId/intention/:intentionId/text','/xx/area/:areaName/recipient/:recipientId/intention/:intentionId/text')
+
+    .when('/Amour',      '/fr/area/LoveLife/recipient/none/intention')
+    .when('/Amis',       '/fr/area/Friends/recipient/none/intention')
+    .when('/Famille',    '/fr/area/Family/recipient/none/intention')
+    .when('/BonneAnnee', '/fr/area/Friends/recipient/none/intention/bonne-annee/text');
 
   $stateProvider
-
-
-//  .state('area', {
-//    url: '/area/:areaName/intention',
-//    templateUrl: 'views/intentionList.html',
-//    controller: 'IntentionListController',
-//    resolve: {
-//      currentArea: ['areasSvc', function(areasSvc) { return areasSvc.getCurrent(); }],
-//    },
-//    showTabs: true
-//  })
-//  .state('areaWithLanguage', {
-//    url: '/:languageCode/area/:areaName/intention',
-//    templateUrl: 'views/intentionList.html',
-//    controller: 'IntentionListController',
-//    resolve: {
-//      currentArea: ['areasSvc', function(areasSvc) { return areasSvc.getCurrent(); }],
-//    },
-//    showTabs: true
-//  })
-
-    // Intention list for area and recipient. Recipient can be 'none'
-  .state('areaWithRecipientWithLanguage', {
+  // Intention list for area and recipient.
+  .state('intentionList', {
     url: '/:languageCode/area/:areaName/recipient/:recipientId/intention',
     templateUrl: 'views/intentionList.html',
     controller: 'IntentionListController',
@@ -79,22 +67,8 @@ angular.module('app/routing', ['ui.router'])
     showTabs: true
   })
 
-    // Text list for an intention, and a recipient. Recipient can be 'none'
-  .state('textList', {
-    url: '/area/:areaName/intention/:intentionId/recipient/:recipientId/text',
-    templateUrl: 'views/textList.html',
-    controller: 'TextListController',
-    resolve: {
-      currentArea: ['areasSvc', function(areasSvc) { return areasSvc.getCurrent(); }],
-      currentIntention: ['intentionsSvc', function(intentionsSvc) { return intentionsSvc.getCurrent(); }],
-      currentTextList: ['textsSvc', function(textsSvc) { return textsSvc.getCurrentList(); }],
-      currentRecipient: ['currentRecipientSvc', function(currentRecipientSvc) { return currentRecipientSvc.getCurrentRecipient(); }]
-    },
-    showTabs: true
-  })
   // Text list for an intention, and a recipient. Recipient can be 'none'
-  .state('textListWithLanguage', {
-//    url: '/:languageCode/area/:areaName/intention/:intentionId/recipient/:recipientId/text',
+  .state('textList', {
     url: '/:languageCode/area/:areaName/recipient/:recipientId/intention/:intentionId/text',
     templateUrl: 'views/textList.html',
     controller: 'TextListController',
@@ -106,9 +80,7 @@ angular.module('app/routing', ['ui.router'])
     },
     showTabs: true
   })
-
-
-  .state('textListWithLanguage.textDetail', {
+  .state('textList.textDetail', {
     url: '/:textId',
     templateUrl: 'views/textdetail.html',
     controller: 'TextDetailController',
@@ -117,30 +89,7 @@ angular.module('app/routing', ['ui.router'])
       currentText: ['textsSvc', function(textsSvc) { return textsSvc.getCurrent(); }]
     }
   })
-
-  .state('textDetailWithLanguage', {
-    url: '/:languageCode/area/:areaName/intention/:intentionId/recipient/:recipientId/text/:textId',
-    templateUrl: 'views/textdetail.html',
-    controller: 'TextDetailController',
-    resolve: {
-      currentArea: ['areasSvc', function(areasSvc) { return areasSvc.getCurrent(); }],
-      currentIntention: ['intentionsSvc', function(intentionsSvc) { return intentionsSvc.getCurrent(); }],
-      currentText: ['textsSvc', function(textsSvc) { return textsSvc.getCurrent(); }],
-      currentRecipient: ['currentRecipientSvc', function(currentRecipientSvc) { return currentRecipientSvc.getCurrentRecipient(); }]
-    }
-  })
-
-
-  .state('recipients', {
-    url: '/area/:areaName/recipient',
-    templateUrl: 'views/recipientList.html',
-    controller: 'OneTimeRecipientsController',
-    resolve: {
-      recipients: ['subscribableRecipientsSvc', function(subscribedRecipientsSvc) { return subscribedRecipientsSvc.getAll(); }]
-    },
-    showTabs: true
-  })
-  .state('recipientsWithLanguage', {
+  .state('recipientList', {
     url: '/:languageCode/area/:areaName/recipient',
     templateUrl: 'views/recipientList.html',
     controller: 'OneTimeRecipientsController',
@@ -149,17 +98,7 @@ angular.module('app/routing', ['ui.router'])
     },
     showTabs: true
   })
-
-  .state('favourites', {
-    url: '/favoriteRecipients',
-    templateUrl: 'views/favoriteRecipients.html',
-    controller: 'SubscribedRecipientsController',
-    resolve: {
-      recipients: ['subscribableRecipientsSvc', function(subscribedRecipientsSvc) { return subscribedRecipientsSvc.getAll(); }]
-    },
-    showTabs: false
-  })
-  .state('favouritesWithLanguage', {
+  .state('favoriteRecipients', {
     url: '/:languageCode/favoriteRecipients',
     templateUrl: 'views/favoriteRecipients.html',
     controller: 'SubscribedRecipientsController',
@@ -168,20 +107,7 @@ angular.module('app/routing', ['ui.router'])
     },
     showTabs: false
   })
-
-
-
-
   .state('subscriptions', {
-    url: '/subscriptions',
-    templateUrl: 'views/subscriptions.html',
-    controller: 'SubscriptionController',
-    resolve: {
-      recipients: ['subscribableRecipientsSvc', function(subscribedRecipientsSvc) { return subscribedRecipientsSvc.getAll(); }]
-    },
-    showTabs: false
-  })
-  .state('subscriptionsWithLanguage', {
     url: '/:languageCode/subscriptions',
     templateUrl: 'views/subscriptions.html',
     controller: 'SubscriptionController',
@@ -190,62 +116,33 @@ angular.module('app/routing', ['ui.router'])
     },
     showTabs: false
   })
-
-
   .state('userEmail', {
-    url: '/userEMail',
+    url: '/:languageCode/userEMail',
     templateUrl: 'views/userEMail.html',
     controller: 'UserEMailController'
   })
-  .state('userEmailWithLanguage', {
-    url: '/"languageCode/userEMail',
-    templateUrl: 'views/userEMail.html',
-    controller: 'UserEMailController'
-  })
-
-
-  .state('not-implemented', {
-    url: '/notimplemented',
-    templateUrl: 'views/notimplemented.html',
-    controller: 'NotImplementedController'
-  })
-  .state('notImplementedWithLanguage', {
+  .state('notimplemented', {
     url: '/:languageCode/notimplemented',
     templateUrl: 'views/notimplemented.html',
     controller: 'NotImplementedController'
   })
-
-
   .state('userprofile', {
-    url: '/userprofile',
-    templateUrl: 'views/userprofile.html',
-    controller: 'UserProfileController'
-  })
-  .state('userprofileWithLanguage', {
     url: '/:languageCode/userprofile',
     templateUrl: 'views/userprofile.html',
     controller: 'UserProfileController'
   })
-
-
   .state('about', {
-    url: '/about',
-    templateUrl: 'views/about.html',
-    controller: 'SimplePageController'
-  })
-  .state('aboutWithLanguage', {
     url: '/:languageCode/about',
     templateUrl: 'views/about.html',
     controller: 'SimplePageController'
   })
 
-
-  .state('splashscreen', {
+  .state('splashscreenNoLanguage', {
     url: '/',
     templateUrl: 'views/splashscreen.html',
     controller: 'SplashScreenController'
   })
-  .state('splashscreenWithLanguage', {
+  .state('splashscreen', {
     url: '/:languageCode',
     templateUrl: 'views/splashscreen.html',
     controller: 'SplashScreenController'

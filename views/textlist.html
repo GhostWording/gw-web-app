@@ -16,7 +16,10 @@
 
   <div style="vertical-align: middle;">
     <h4 class="intentionCourante " style="  vertical-align: middle;">
-      <a class="backArrow" style="margin-right: 5px" ng-href="{{app.appUrlSvc.getFullPath('')}}area/{{ currentArea.Name }}/intention/{{ recipientId }}"  role="button"  targetId="Back" > <img ng-src="./assets/arrow-left.png" class="stylepicto"> </a>
+      <!--ng-href="{{app.appUrlSvc.getFullPath('')}}area/{{ currentArea.Name }}/intention/{{ recipientId }}"-->
+      <a class="backArrow" style="margin-right: 5px"
+         ng-href="{{app.appUrlSvc.getFullPath('')}}area/{{ currentArea.Name }}/recipient/{{ recipientId }}/intention"
+         role="button"  targetId="Back" > <img ng-src="./assets/arrow-left.png" class="stylepicto"> </a>
       <span translate>{{ currentIntention.Label }}</span>
       <span ng-show="currentRecipient !== null"> - </span>
       <span translate>{{ currentRecipientLabel }}</span>

@@ -87,6 +87,18 @@ angular.module('cherryApp',  [
       if ( languageCode &&  languageCode!== undefined) {
         currentLanguage.setLanguageCode(languageCode);
       }
+
+      var includeLanguageInUrl = true;
+      if (includeLanguageInUrl) {
+        // Url states that we don't know the language code. Inject the current language code in the url instead of xx
+        if (languageCode == 'xx') {
+          currentLanguage.includeLanguageCodeInUrl(languageCode, currentLanguage.getLanguageCode());
+        }
+        // To be donne last : we like user urls to be prefixed by the language code in any cases
+        if ( !languageCode )
+         currentLanguage.insertCurrentLanguageCodeInUrlIfAbsent();
+      }
+
     });
   }
 ])
