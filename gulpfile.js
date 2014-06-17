@@ -14,7 +14,7 @@ var rename = require('gulp-rename');
 var inject = require('gulp-inject');
 //var server = lr();
 var shelljs = require('shelljs');
-//var bower = require('bower'); // fails because Olivier cannot reinstall it on his machine
+var bower = require('bower'); // fails because Olivier cannot reinstall it on his machine
 
 var definitions = [];
 var columnSpace = "            ";

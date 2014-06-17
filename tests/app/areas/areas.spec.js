@@ -6,9 +6,9 @@ describe("areasSvc", function() {
 
   describe("getCurrent", function() {
 
-    it("should lookup the current area in the current route", inject(function(areasSvc, $stateParams) {
+      it("should lookup the current area in the current route", inject(function(areasSvc, $stateChange) {
       spyOn(areasSvc, 'getArea');
-      $stateParams.areaName = 'dummy';
+      $stateChange.toParams.areaName = 'dummy';
       areasSvc.getCurrent();
       expect(areasSvc.getArea).toHaveBeenCalledWith('dummy');
     }));

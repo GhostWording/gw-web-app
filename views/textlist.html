@@ -23,11 +23,9 @@
     </h4>
   </div>
 
-
   <!-- Filtering options  -->
     <div ng-include="'views/partials/filterForm.html'" style="margin-bottom: 20px;"></div>
     <div ng-include="'views/partials/styleBar.html'" ng-show="filtersWellDefined()"></div>
-
 
     <!-- Text list  -->
     <div class="listeTextes" ng-show="filtersWellDefined() || showTextsAnyway()">
@@ -44,7 +42,8 @@
           targetType="Text"
           actionType="open"
           targetId="{{txt.TextId}}"
-          ng-click="selectThisText(txt,'open')">
+          ng-click="appUrlSvc.setTextDetailWasCalledFromTextList(true)"
+          >
           <div cvd-text="txt" ng-class="{active: txt.TextId == selectedTextId}" style="white-space: pre-wrap"></div>
         </a>
       </div>

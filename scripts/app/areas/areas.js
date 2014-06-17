@@ -1,7 +1,7 @@
 angular.module('app/areas', [
   'common/services/cache',
   'common/services/server',
-  'ui.router'
+'app/routing'
 ])
 
 
