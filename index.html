@@ -43,19 +43,19 @@
         ga('send', 'pageview');
     </script>
 
-    <script type="text/javascript">
-        var _gaq = _gaq || [];
-        _gaq.push(['_setAccount', 'UA-47718196-1']);
-        _gaq.push(['_trackPageview']);
-        (function () {
-            var ga = document.createElement('script');
-            ga.type = 'text/javascript';
-            ga.async = true;
-            ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
-            var s = document.getElementsByTagName('script')[0];
-            s.parentNode.insertBefore(ga, s);
-        })();
-    </script>
+    <!--<script type="text/javascript">-->
+        <!--var _gaq = _gaq || [];-->
+        <!--_gaq.push(['_setAccount', 'UA-47718196-1']);-->
+        <!--_gaq.push(['_trackPageview']);-->
+        <!--(function () {-->
+            <!--var ga = document.createElement('script');-->
+            <!--ga.type = 'text/javascript';-->
+            <!--ga.async = true;-->
+            <!--ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';-->
+            <!--var s = document.getElementsByTagName('script')[0];-->
+            <!--s.parentNode.insertBefore(ga, s);-->
+        <!--})();-->
+    <!--</script>-->
 
     <!--<script src="http://192.168.0.8:8080/target/target-script-min.js"></script>-->
 
@@ -139,7 +139,7 @@
           <!-- Penser à  -->
           <li class="active"><a ng-href="{{app.appUrlSvc.getFullPath('')}}favoriteRecipients" class = "glyphicon glyphicon-bell" translate></a></li>
           <!-- Tous les textes  -->
-          <li class="active"><a ng-href="{{app.appUrlSvc.getFullPath('')}}area/General/intention" class ="glyphicon glyphicon-search" translate></a></li>
+          <li class="active"><a ng-href="{{app.appUrlSvc.getFullPath('')}}area/General/recipient/none/intention" class ="glyphicon glyphicon-search" translate></a></li>
           <!-- Favoris  -->
           <li class="active" ng-show = "hasFavourite()"><a ng-href="{{app.appUrlSvc.getFullPath('')}}favouriteTexts" class="glyphicon glyphicon-star"></a></li>
           <!-- Mon profil  -->
@@ -158,7 +158,7 @@
         <div class="tabBar" ng-show="showTabs" action-location="Tabs">
           <ul id="myTab" class="nav nav-pills ">
             <li ng-class="{active: currentAreaName() == tab.name}" ng-repeat="tab in tabs">
-              <a ng-href="{{app.appUrlSvc.getFullPath('')}}area/{{tab.name}}/intention" translate> {{tab.label}} </a>
+              <a ng-href="{{app.appUrlSvc.getFullPath('')}}area/{{tab.name}}/recipient/none/intention" translate> {{tab.label}} </a>
             </li>
           </ul>
         </div>

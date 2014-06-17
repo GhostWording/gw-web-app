@@ -3,7 +3,8 @@
     <!--<h3   ng-bind-html = "currentText.Abstract || currentIntention.Label" ></h3>-->
     <ul class="pager bmwQuestionButton" style="margin-top: 5px;  margin-bottom: 25px;">
       <li ng-class='{selectionne: false}'>
-        <a ng-show = "appUrlSvc.getTextDetailWasCalledFromTextList() == false" ng-href="{{app.appUrlSvc.getFullPath('')}}area/{{ currentArea.Name }}/intention/{{app.appUrlSvc.getIntentionSlug(currentIntention)}}/recipient/{{ recipientId }}/text"
+        <a ng-show = "appUrlSvc.getTextDetailWasCalledFromTextList() == false"
+           ng-href="{{app.appUrlSvc.getFullPath('')}}area/{{ currentArea.Name }}/recipient/{{ recipientId }}/intention/{{app.appUrlSvc.getIntentionSlug(currentIntention)}}/text"
            class="pull-left" role="button" targetId="Back">
           <img ng-src="./assets/arrow-left.png" class="stylepicto">
         </a>

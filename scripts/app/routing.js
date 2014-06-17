@@ -18,65 +18,62 @@ angular.module('app/routing', ['ui.router'])
 
 .config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
 
-  // Set up the redirects
-  // (most of these have a duplicate redirect with language code)
-  $urlRouterProvider
+    // Set up the redirects
+    // (most of these have a duplicate redirect with language code)
+    $urlRouterProvider
 
-    // Special case : if the area is Addressee, we first need to ask for the recipient
-    .when('/recipientList', '/area/Addressee/recipient')
-    .when('/:languageCode/recipientList', '/:languageCode/area/Addressee/recipient')
+    // RecientList shortcut
+    .when('/recipientList'                                      , '/area/Addressee/recipient')
+    .when('/:languageCode/recipientList'           ,'/:languageCode/area/Addressee/recipient')
+      // Special case for the Adressee area : if we have no recipient, look for it
+    .when('/:languageCode/area/Addressee/intention','/:languageCode/area/Addressee/recipient')
+    .when('/:languageCode/area/Addressee/recipient/none/intention','/:languageCode/area/Addressee/recipient')
 
-    .when('/area/Addressee/intention', '/area/Addressee/recipient')
-    .when('/:languageCode/area/Addressee/intention', '/:languageCode/area/Addressee/recipient')
+    // shortcut : text list for a specific recipient and intention like /addressee/Father/xxxx
+    .when('/addressee/:recipientId/:intentionId', '/area/Addressee/recipient/:recipientId/intention/:intentionId/text/')
+    .when('/:languageCode/addressee/:recipientId/:intentionId', '/:languageCode/area/Addressee/recipient/:recipientId/intention/:intentionId/text/')
 
     // if there is no recipient, just go to the intention list
-    .when('/area/:areaName/intention/none', '/area/:areaName/intention')
-    .when('/:languageCode/area/:areaName/intention/none', '/:languageCode/area/:areaName/intention')
+//    .when('/area/:areaName/intention/none', '/area/:areaName/recipient/none/intention')
+//    .when('/:languageCode/area/:areaName/intention/none', '/:languageCode/area/:areaName/recipient/none/intention')
+//    .when('/area/Addressee/intention/:recipientId', '/area/Addressee/recipient/:recipientId')
+//    .when('/:languageCode/area/Addressee/intention/:recipientId', '/:languageCode/area/Addressee/recipient/:recipientId')
+//  .when('/:languageCode/:areaName/intention)','/:languageCode/area/:areaName/recipient/none/intention')
 
-    .when('/area/Addressee/intention/:recipientId', '/area/Addressee/recipient/:recipientId')
-    .when('/:languageCode/area/Addressee/intention/:recipientId', '/:languageCode/area/Addressee/recipient/:recipientId')
-
-    // shortcut : text list for recipient and intention like /addressee/Father/xxxx
-    .when('/addressee/:recipientId/:intentionId', '/area/Addressee/intention/:intentionId/recipient/:recipientId/text/')
-    .when('/:languageCode/addressee/:recipientId/:intentionId', '/:languageCode/area/Addressee/intention/:intentionId/recipient/:recipientId/text/')
-
-
-
-    .when('/BonneAnnee', '/area/Friends/intention/938493/text')
-    .when('/Amour', '/area/LoveLife/intention')
-    .when('/Amis', '/area/Friends/intention')
-    .when('/Famille', '/area/Family/intention');
+    .when('/BonneAnnee', '/fr/area/Friends/recipient/none/intention/bonne-annee/text')
+    .when('/Amour', '/fr/area/LoveLife/recipient/none/intention')
+    .when('/Amis', '/fr/area/Friends/recipient/none/intention')
+    .when('/Famille', '/fr/area/Family/recipient/none/intention');
 
   $stateProvider
 
 
-  .state('area', {
-    url: '/area/:areaName/intention',
-    templateUrl: 'views/intentionList.html',
-    controller: 'IntentionListController',
-    resolve: {
-      currentArea: ['areasSvc', function(areasSvc) { return areasSvc.getCurrent(); }],
-    },
-    showTabs: true
-  })
-  .state('areaWithLanguage', {
-    url: '/:languageCode/area/:areaName/intention',
-    templateUrl: 'views/intentionList.html',
-    controller: 'IntentionListController',
-    resolve: {
-      currentArea: ['areasSvc', function(areasSvc) { return areasSvc.getCurrent(); }],
-    },
-    showTabs: true
-  })
+//  .state('area', {
+//    url: '/area/:areaName/intention',
+//    templateUrl: 'views/intentionList.html',
+//    controller: 'IntentionListController',
+//    resolve: {
+//      currentArea: ['areasSvc', function(areasSvc) { return areasSvc.getCurrent(); }],
+//    },
+//    showTabs: true
+//  })
+//  .state('areaWithLanguage', {
+//    url: '/:languageCode/area/:areaName/intention',
+//    templateUrl: 'views/intentionList.html',
+//    controller: 'IntentionListController',
+//    resolve: {
+//      currentArea: ['areasSvc', function(areasSvc) { return areasSvc.getCurrent(); }],
+//    },
+//    showTabs: true
+//  })
 
-    // Text list for an intention, and a recipient. Recipient can be 'none'
+    // Intention list for area and recipient. Recipient can be 'none'
   .state('areaWithRecipientWithLanguage', {
-    url: '/:languageCode/area/:areaName/recipient/:recipientId',
+    url: '/:languageCode/area/:areaName/recipient/:recipientId/intention',
     templateUrl: 'views/intentionList.html',
     controller: 'IntentionListController',
     resolve: {
       currentArea: ['areasSvc', function(areasSvc) { return areasSvc.getCurrent(); }],
-      currentTextList: ['textsSvc', function(textsSvc) { return textsSvc.getCurrentList(); }],
       currentRecipient: ['currentRecipientSvc', function(currentRecipientSvc) { return currentRecipientSvc.getCurrentRecipient(); }]
     },
     showTabs: true
@@ -97,7 +94,8 @@ angular.module('app/routing', ['ui.router'])
   })
   // Text list for an intention, and a recipient. Recipient can be 'none'
   .state('textListWithLanguage', {
-    url: '/:languageCode/area/:areaName/intention/:intentionId/recipient/:recipientId/text',
+//    url: '/:languageCode/area/:areaName/intention/:intentionId/recipient/:recipientId/text',
+    url: '/:languageCode/area/:areaName/recipient/:recipientId/intention/:intentionId/text',
     templateUrl: 'views/textList.html',
     controller: 'TextListController',
     resolve: {
