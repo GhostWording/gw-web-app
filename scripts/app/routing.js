@@ -23,6 +23,9 @@ angular.module('app/routing', ['ui.router'])
   $urlRouterProvider
 
     // Special case : if the area is Addressee, we first need to ask for the recipient
+    .when('/recipientList', '/area/Addressee/recipient')
+    .when('/:languageCode/recipientList', '/:languageCode/area/Addressee/recipient')
+
     .when('/area/Addressee/intention', '/area/Addressee/recipient')
     .when('/:languageCode/area/Addressee/intention', '/:languageCode/area/Addressee/recipient')
 
@@ -38,8 +41,6 @@ angular.module('app/routing', ['ui.router'])
     .when('/:languageCode/addressee/:recipientId/:intentionId', '/:languageCode/area/Addressee/intention/:intentionId/recipient/:recipientId/text/')
 
 
-    .when('/recipientList', '/area/Addressee/recipient')
-    .when('/:languageCode/recipientList', '/:languageCode/area/Addressee/recipient')
 
     .when('/BonneAnnee', '/area/Friends/intention/938493/text')
     .when('/Amour', '/area/LoveLife/intention')
@@ -68,23 +69,20 @@ angular.module('app/routing', ['ui.router'])
     showTabs: true
   })
 
+    // Text list for an intention, and a recipient. Recipient can be 'none'
+  .state('areaWithRecipientWithLanguage', {
+    url: '/:languageCode/area/:areaName/recipient/:recipientId',
+    templateUrl: 'views/intentionList.html',
+    controller: 'IntentionListController',
+    resolve: {
+      currentArea: ['areasSvc', function(areasSvc) { return areasSvc.getCurrent(); }],
+      currentTextList: ['textsSvc', function(textsSvc) { return textsSvc.getCurrentList(); }],
+      currentRecipient: ['currentRecipientSvc', function(currentRecipientSvc) { return currentRecipientSvc.getCurrentRecipient(); }]
+    },
+    showTabs: true
+  })
 
-  // Intention list for an area and a recipient
-  // .state('intentionList', {
-  //   url: '/area/:areaName/recipient/:recipientId',
-  //   templateUrl: 'views/intentionList.html',
-  //   controller: 'IntentionListController',
-  //   showTabs: true
-  // })
-  // .state('intentionListWithLanguage', {
-  //   url: '/:languageCode/area/:areaName/recipient/:recipientId',
-  //   templateUrl: 'views/intentionList.html',
-  //   controller: 'IntentionListController',
-  //   showTabs: true
-  // })
-
-
-  // Text list for an intention, and a recipient. Recipient can be 'none'
+    // Text list for an intention, and a recipient. Recipient can be 'none'
   .state('textList', {
     url: '/area/:areaName/intention/:intentionId/recipient/:recipientId/text',
     templateUrl: 'views/textList.html',
@@ -112,28 +110,15 @@ angular.module('app/routing', ['ui.router'])
   })
 
 
-  .state('textDetail', {
-    url: '/area/:areaName/intention/:intentionId/recipient/:recipientId/text/:textId',
-    templateUrl: 'views/textdetail.html',
-    controller: 'TextDetailController',
-    resolve: {
-      currentArea: ['areasSvc', function(areasSvc) { return areasSvc.getCurrent(); }],
-      currentIntention: ['intentionsSvc', function(intentionsSvc) { return intentionsSvc.getCurrent(); }],
-      currentText: ['textsSvc', function(textsSvc) { return textsSvc.getCurrent(); }],
-      currentRecipient: ['currentRecipientSvc', function(currentRecipientSvc) { return currentRecipientSvc.getCurrentRecipient(); }]
-    }
-  })
-
   .state('textListWithLanguage.textDetail', {
     url: '/:textId',
     templateUrl: 'views/textdetail.html',
     controller: 'TextDetailController',
     resolve: {
-      // other should be inherited from parents
+      // other resolves should be inherited from parents
       currentText: ['textsSvc', function(textsSvc) { return textsSvc.getCurrent(); }]
     }
   })
-
 
   .state('textDetailWithLanguage', {
     url: '/:languageCode/area/:areaName/intention/:intentionId/recipient/:recipientId/text/:textId',
@@ -145,6 +130,26 @@ angular.module('app/routing', ['ui.router'])
       currentText: ['textsSvc', function(textsSvc) { return textsSvc.getCurrent(); }],
       currentRecipient: ['currentRecipientSvc', function(currentRecipientSvc) { return currentRecipientSvc.getCurrentRecipient(); }]
     }
+  })
+
+
+  .state('recipients', {
+    url: '/area/:areaName/recipient',
+    templateUrl: 'views/recipientList.html',
+    controller: 'OneTimeRecipientsController',
+    resolve: {
+      recipients: ['subscribableRecipientsSvc', function(subscribedRecipientsSvc) { return subscribedRecipientsSvc.getAll(); }]
+    },
+    showTabs: true
+  })
+  .state('recipientsWithLanguage', {
+    url: '/:languageCode/area/:areaName/recipient',
+    templateUrl: 'views/recipientList.html',
+    controller: 'OneTimeRecipientsController',
+    resolve: {
+      recipients: ['subscribableRecipientsSvc', function(subscribedRecipientsSvc) { return subscribedRecipientsSvc.getAll(); }]
+    },
+    showTabs: true
   })
 
   .state('favourites', {
@@ -167,24 +172,7 @@ angular.module('app/routing', ['ui.router'])
   })
 
 
-  .state('recipients', {
-    url: '/recipients',
-    templateUrl: 'views/recipientList.html',
-    controller: 'OneTimeRecipientsController',
-    resolve: {
-      recipients: ['subscribableRecipientsSvc', function(subscribedRecipientsSvc) { return subscribedRecipientsSvc.getAll(); }]
-    },
-    showTabs: true
-  })
-  .state('recipientsWithLanguage', {
-    url: '/:languageCode/recipients',
-    templateUrl: 'views/recipientList.html',
-    controller: 'OneTimeRecipientsController',
-    resolve: {
-      recipients: ['subscribableRecipientsSvc', function(subscribedRecipientsSvc) { return subscribedRecipientsSvc.getAll(); }]
-    },
-    showTabs: true
-  })
+
 
   .state('subscriptions', {
     url: '/subscriptions',
