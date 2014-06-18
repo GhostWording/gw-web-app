@@ -1,8 +1,8 @@
 angular.module('app/texts/TextListController', [])
 // Displays a list of texts
 .controller('TextListController',
- ['$scope', 'currentTextList', 'currentIntention', 'currentUser', 'filtersSvc', '$modal', 'currentRecipient', 'favouritesSvc','appUrlSvc','currentLanguage','textsSvc','intentionsSvc','currentAreaName',
-function ($scope, currentTextList, currentIntention,  currentUser, filtersSvc, $modal,currentRecipient, favouritesSvc,appUrlSvc,currentLanguage,textsSvc,intentionsSvc,currentAreaName) {
+ ['$scope', 'currentTextList', 'currentIntention', 'currentUser', 'filtersSvc', '$modal', 'currentRecipient', 'favouritesSvc','appUrlSvc','currentLanguage','textsSvc','intentionsSvc','currentAreaName','PostActionSvc',
+function ($scope, currentTextList, currentIntention,  currentUser, filtersSvc, $modal,currentRecipient, favouritesSvc,appUrlSvc,currentLanguage,textsSvc,intentionsSvc,currentAreaName,PostActionSvc) {
   $scope.appUrlSvc = appUrlSvc;
 
   $scope.getCurrentTextId = function() {
@@ -95,6 +95,8 @@ function ($scope, currentTextList, currentIntention,  currentUser, filtersSvc, $
   };
 
   $scope.send = function(text) {
+    PostActionSvc.postActionInfo('Text',text.TextId, 'TextList','send');
+
     $scope.sendDialog = $modal.open({
       templateUrl: 'views/partials/sendTextForm.html',
       scope: $scope,
