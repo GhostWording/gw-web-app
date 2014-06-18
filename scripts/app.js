@@ -15,7 +15,7 @@ angular.module('cherryApp',  [
 //CORS for angular v < 1.2
 .config(['$httpProvider', '$locationProvider','$sceProvider', function ($httpProvider, $locationProvider,$sceProvider) {
   $locationProvider.html5Mode(true);
-//  $locationProvider.hashPrefix('!');
+  $locationProvider.hashPrefix('!');
   $httpProvider.defaults.useXDomain = true;
   delete $httpProvider.defaults.headers.common['X-Requested-With'];
   $sceProvider.enabled(false);
