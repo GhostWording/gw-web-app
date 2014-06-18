@@ -21,7 +21,7 @@ function ($scope, currentTextList, currentIntention,  currentUser, filtersSvc, $
   //$scope.recipientId = currentRecipientSvc.getIdOfRecipient(currentRecipient);
   //$scope.currentRecipient = currentRecipientSvc.getCurrentRecipientNow();
   $scope.currentRecipient = currentRecipient;
-  $scope.recipientId = $scope.currentRecipient.Id;
+  $scope.recipientId = $scope.currentRecipient ? $scope.currentRecipient.Id : 'none';
   $scope.currentRecipientLabel = "";
   if ( $scope.currentRecipient )
     $scope.currentRecipientLabel =  $scope.currentRecipient.LocalLabel;
