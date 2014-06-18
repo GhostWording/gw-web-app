@@ -5,10 +5,6 @@ beforeEach(module('app/texts/TextDetailController'));
 	var $rootScope, mocks;
 
 	beforeEach(module(function($provide) {
-		$provide.value('currentArea', {
-			AreaId: '123',
-			Name: 'mockCurrentArea'
-		});
     $provide.value('currentAreaName', 'mockCurrentArea');
 		$provide.value('currentIntention', {
 			IntentionId: '456',
@@ -51,7 +47,6 @@ beforeEach(module('app/texts/TextDetailController'));
 	}));
 
 	it('should have the correct text details attached to the scope', function() {
-		expect($rootScope.currentArea).toEqual({AreaId: '123', Name: 'mockCurrentArea'});
 		expect($rootScope.currentIntention).toEqual({IntentionId: '456',Label: 'mockCurrentIntention'});
 		expect($rootScope.currentText).toEqual({TextId: '789', Content: 'mockCurrentText'});
 		expect($rootScope.txt.Content).toEqual('mockCurrentText');

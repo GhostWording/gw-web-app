@@ -97,11 +97,7 @@ function ($scope, currentText, currentIntention, tagLabelsSvc, $modal,currentRec
   $scope.isVariationFormMorePrecise = function(text) {
     return alternativeTextsSvc.isVariationFormMorePrecise(currentText,text);
   };
-//
-//  Ecrit (par un homme) (à une femme) (en disant Tu)
 
-//  alternativeTextsSvc.getRealizationList(currentArea.AreaId,currentText.TextId).then(function(textList) {
-//  alternativeTextsSvc.getRealizationList(currentArea.AreaId,currentText.PrototypeId).then(function(textList) {
   alternativeTextsSvc.getRealizationList(currentAreaName,currentText.PrototypeId).then(function(textList) {
 
     if ( textList != "null") {

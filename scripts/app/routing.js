@@ -112,18 +112,12 @@ angular.module('app/routing', ['ui.router'])
     url: '/:languageCode/favoriteRecipients',
     templateUrl: 'views/favoriteRecipients.html',
     controller: 'SubscribedRecipientsController',
-    resolve: {
-      recipients: ['subscribableRecipientsSvc', function(subscribedRecipientsSvc) { return subscribedRecipientsSvc.getAll(); }]
-    },
     showTabs: false
   })
   .state('subscriptions', {
     url: '/:languageCode/subscriptions',
     templateUrl: 'views/subscriptions.html',
     controller: 'SubscriptionController',
-    resolve: {
-      recipients: ['subscribableRecipientsSvc', function(subscribedRecipientsSvc) { return subscribedRecipientsSvc.getAll(); }]
-    },
     showTabs: false
   })
   .state('userEmail', {
