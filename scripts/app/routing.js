@@ -55,48 +55,58 @@ angular.module('app/routing', ['ui.router'])
     .when('/BonneAnnee', '/fr/area/Friends/recipient/none/intention/bonne-annee/text');
 
   $stateProvider
-  // Intention list for area and recipient.
-  .state('intentionList', {
-    url: '/:languageCode/area/:areaName/recipient/:recipientId/intention',
-    templateUrl: 'views/intentionList.html',
-    controller: 'IntentionListController',
+  .state('area', {
+    abstract: true,
+    template: '<ui-view/>',
+    url:'/:languageCode/area/:areaName',
     resolve: {
-      currentArea: ['areasSvc', function(areasSvc) { return areasSvc.getCurrent(); }],
-      currentRecipient: ['currentRecipientSvc', function(currentRecipientSvc) { return currentRecipientSvc.getCurrentRecipient(); }]
-    },
-    showTabs: true
-  })
-
-  // Text list for an intention, and a recipient. Recipient can be 'none'
-  .state('textList', {
-    url: '/:languageCode/area/:areaName/recipient/:recipientId/intention/:intentionId/text',
-    templateUrl: 'views/textList.html',
-    controller: 'TextListController',
-    resolve: {
-      currentArea: ['areasSvc', function(areasSvc) { return areasSvc.getCurrent(); }],
-      currentIntention: ['intentionsSvc', function(intentionsSvc) { return intentionsSvc.getCurrent(); }],
-      currentTextList: ['textsSvc', function(textsSvc) { return textsSvc.getCurrentList(); }],
-      currentRecipient: ['currentRecipientSvc', function(currentRecipientSvc) { return currentRecipientSvc.getCurrentRecipient(); }]
-    },
-    showTabs: true
-  })
-  .state('textList.textDetail', {
-    url: '/:textId',
-    templateUrl: 'views/textdetail.html',
-    controller: 'TextDetailController',
-    resolve: {
-      // other resolves should be inherited from parents
-      currentText: ['textsSvc', function(textsSvc) { return textsSvc.getCurrent(); }]
+      // currentAreaName will be available to child states
+      currentAreaName: ['$stateParams', 'areasSvc' , function ($stateParams, areasSvc) {
+        var areaName = $stateParams.areaName;
+        areasSvc.setCurrentName(areaName);
+        areasSvc.invalidateCacheIfNewerServerVersionExists(areaName);
+        return areaName;  } ]
     }
-  })
-  .state('recipientList', {
-    url: '/:languageCode/area/:areaName/recipient',
+    })
+    // We might want recipientList, intentionList and text list to be siblings
+  .state('area.recipientList', {
+    url: '/recipient',
     templateUrl: 'views/recipientList.html',
     controller: 'OneTimeRecipientsController',
     resolve: {
       recipients: ['subscribableRecipientsSvc', function(subscribedRecipientsSvc) { return subscribedRecipientsSvc.getAll(); }]
     },
     showTabs: true
+  })
+  // Intention list for area and recipient.
+  .state('area.intentionList', {
+    url: '/recipient/:recipientId/intention',
+    templateUrl: 'views/intentionList.html',
+    controller: 'IntentionListController',
+    resolve: {
+      currentRecipient: ['currentRecipientSvc', function(currentRecipientSvc) { return currentRecipientSvc.getCurrentRecipient(); }],
+    },
+    showTabs: true
+  })
+  // Text list for an intention, and a recipient. Recipient can be 'none'
+  .state('area.textList', {
+    url: '/recipient/:recipientId/intention/:intentionId/text',
+    templateUrl: 'views/textList.html',
+    controller: 'TextListController',
+    resolve: {
+      currentIntention: ['intentionsSvc', function(intentionsSvc) { return intentionsSvc.getCurrent(); }],
+      currentTextList: ['textsSvc', function(textsSvc) { return textsSvc.getCurrentList(); }],
+      currentRecipient: ['currentRecipientSvc', function(currentRecipientSvc) { return currentRecipientSvc.getCurrentRecipient(); }]
+    },
+    showTabs: true
+  })
+  .state('area.textList.textDetail', {
+    url: '/:textId',
+    templateUrl: 'views/textdetail.html',
+    controller: 'TextDetailController',
+    resolve: {
+      currentText: ['textsSvc', function(textsSvc) { return textsSvc.getCurrent(); }]
+    }
   })
   .state('favoriteRecipients', {
     url: '/:languageCode/favoriteRecipients',
@@ -136,7 +146,7 @@ angular.module('app/routing', ['ui.router'])
     templateUrl: 'views/about.html',
     controller: 'SimplePageController'
   })
-
+  // It might be pretier to have a clean url for the home page
   .state('splashscreenNoLanguage', {
     url: '/',
     templateUrl: 'views/splashscreen.html',

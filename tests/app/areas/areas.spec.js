@@ -4,23 +4,11 @@ describe("areasSvc", function() {
 
   beforeEach(module('app/areas'));
 
-  describe("getCurrent", function() {
-
-      it("should lookup the current area in the current route", inject(function(areasSvc, $stateChange) {
-      spyOn(areasSvc, 'getArea');
-      $stateChange.toParams.areaName = 'dummy';
-      areasSvc.getCurrent();
-      expect(areasSvc.getArea).toHaveBeenCalledWith('dummy');
-    }));
-  });
-
-
   describe("getAll", function() {
 
     it("should request the areas from the cacheSvc", inject(function(cacheSvc, $q, $rootScope, areasSvc) {
       var dummyAreas = [],
           areas;
-
       // Set up a spy on the cacheSvc
       spyOn(cacheSvc, 'get').andReturn($q.when(dummyAreas));
 

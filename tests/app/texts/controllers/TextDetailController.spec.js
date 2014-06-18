@@ -9,6 +9,7 @@ beforeEach(module('app/texts/TextDetailController'));
 			AreaId: '123',
 			Name: 'mockCurrentArea'
 		});
+    $provide.value('currentAreaName', 'mockCurrentArea');
 		$provide.value('currentIntention', {
 			IntentionId: '456',
 			Label: 'mockCurrentIntention'
@@ -92,12 +93,12 @@ beforeEach(module('app/texts/TextDetailController'));
 	describe('setFavourite', function() {
 
 		it('should call the set favourite method of the favourite service with the correct arguments',
-			inject(function(currentText, currentArea, currentIntention, favouritesSvc) {
+			inject(function(currentText, currentAreaName, currentIntention, favouritesSvc) {
 
 			favouritesSvc.isExisting.andReturn(true);
 			$rootScope.recipientId = '123';
 			$rootScope.setFavourite();
-			expect(favouritesSvc.setFavourite).toHaveBeenCalledWith(currentText, currentArea, currentIntention, '123', true);
+			expect(favouritesSvc.setFavourite).toHaveBeenCalledWith(currentText, currentAreaName, currentIntention, true);
 		}));
 
 	});

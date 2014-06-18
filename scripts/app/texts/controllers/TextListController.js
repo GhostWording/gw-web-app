@@ -1,8 +1,8 @@
 angular.module('app/texts/TextListController', [])
 // Displays a list of texts
 .controller('TextListController',
- ['$scope', 'currentTextList', 'currentIntention', 'currentArea', 'currentUser', 'filtersSvc', '$modal', 'currentRecipient', 'favouritesSvc','appUrlSvc','currentRecipientSvc','currentLanguage','textsSvc','intentionsSvc',
-function ($scope, currentTextList, currentIntention, currentArea, currentUser, filtersSvc, $modal,currentRecipient, favouritesSvc,appUrlSvc,currentRecipientSvc,currentLanguage,textsSvc,intentionsSvc) {
+ ['$scope', 'currentTextList', 'currentIntention', 'currentUser', 'filtersSvc', '$modal', 'currentRecipient', 'favouritesSvc','appUrlSvc','currentRecipientSvc','currentLanguage','textsSvc','intentionsSvc','currentAreaName',
+function ($scope, currentTextList, currentIntention,  currentUser, filtersSvc, $modal,currentRecipient, favouritesSvc,appUrlSvc,currentRecipientSvc,currentLanguage,textsSvc,intentionsSvc,currentAreaName) {
   $scope.appUrlSvc = appUrlSvc;
 
   $scope.getCurrentTextId = function() {
@@ -10,7 +10,9 @@ function ($scope, currentTextList, currentIntention, currentArea, currentUser, f
     return valret;
   };
 
-  $scope.currentArea = currentArea;
+  //$scope.currentArea = currentArea;
+  $scope.currentAreaName = currentAreaName;
+
   $scope.currentIntention = currentIntention;
   $scope.textList = currentTextList;
   $scope.filteredList = [];
@@ -24,26 +26,22 @@ function ($scope, currentTextList, currentIntention, currentArea, currentUser, f
     $scope.currentRecipientLabel =  $scope.currentRecipient.LocalLabel;
 
 
-
   function prepareAndDisplayTextList() {
     textsSvc.getCurrentList().then(function(textList) {
       $scope.textList =textList; $scope.filterList();});
   }
 
   $scope.$watch(function() { return currentLanguage.getLanguageCode(); },
-//                function() { textsSvc.getCurrentList().then(function(textList) {$scope.textList =textList; $scope.filterList();});  },
-                prepareAndDisplayTextList(),
-                true
-                );
+                prepareAndDisplayTextList(),true);
 
-  intentionsSvc.invalidateCacheIfNewerServerVersionExists(currentArea.Name,intentionsSvc.getCurrentId())
+  intentionsSvc.invalidateCacheIfNewerServerVersionExists(currentAreaName,intentionsSvc.getCurrentId())
   .then(function(shouldReload){
         if (shouldReload)
           prepareAndDisplayTextList();
         });
 
    $scope.showTextsAnyway = function() {
-    return currentArea.Name == 'General';
+    return currentAreaName == 'General';
   };
 
   $scope.isFavourite = function(txt) {
@@ -51,7 +49,7 @@ function ($scope, currentTextList, currentIntention, currentArea, currentUser, f
   };
 
   $scope.setFavourite = function(txt, isFav) {
-    favouritesSvc.setFavourite(txt, currentArea, currentIntention, $scope.recipientId, isFav);
+    favouritesSvc.setFavourite(txt, currentAreaName, currentIntention, isFav);
   };
 
   if ( currentRecipient ) {

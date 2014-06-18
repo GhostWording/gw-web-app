@@ -93,12 +93,12 @@ angular.module('app/intentions', [
   return service;
 }])
 
-.controller('IntentionListController', ['$scope', 'currentArea', 'areasSvc', 'intentionsSvc','currentRecipientSvc','likelyIntentionsSvc','appUrlSvc',
-function($scope, currentArea, areasSvc, intentionsSvc, currentRecipientSvc,likelyIntentionsSvc,appUrlSvc) {
-
+.controller('IntentionListController', ['$scope',  'intentionsSvc','currentRecipientSvc','likelyIntentionsSvc','appUrlSvc','currentAreaName',
+function($scope,  intentionsSvc, currentRecipientSvc,likelyIntentionsSvc,appUrlSvc, currentAreaName) {
   $scope.appUrlSvc = appUrlSvc;
+  $scope.currentAreaName = currentAreaName;
 
-  areasSvc.invalidateCacheIfNewerServerVersionExists(currentArea.Name);
+  //areasSvc.invalidateCacheIfNewerServerVersionExists(currentAreaName); // now in routing
 
   // Choose title according to areaId : TODO : move to localisation service
   var AREA_PAGE_TITLE = {
@@ -109,26 +109,21 @@ function($scope, currentArea, areasSvc, intentionsSvc, currentRecipientSvc,likel
     "Formalities" : "Expédiez les formalités !",
     "General" : "Rubriques"
   };
-  $scope.pageTitle = AREA_PAGE_TITLE[currentArea.Name];
+  $scope.pageTitle = AREA_PAGE_TITLE[currentAreaName];
 
   $scope.isForRecipient = false;
-  if ( currentArea.Name == 'Addressee') {
+  if ( currentAreaName == 'Addressee') {
     $scope.isForRecipient = true;
     $scope.pageTitle = "";
     currentRecipient = currentRecipientSvc.getCurrentRecipientNow();
     $scope.pageRecipient = currentRecipient ? currentRecipient.LocalLabel : "---";
-//    currentRecipientSvc.getCurrentRecipient().then(function(recipient) {
-//      $scope.pageRecipient = recipient.LocalLabel;
-//    });
   } else if ( !$scope.pageTitle ) {
     $scope.pageTitle = "Dites le !";
-    console.log("Unknown area : ", currentArea);
+    console.log("Unknown area : ", currentAreaName);
   }
 
 
-  $scope.currentArea = currentArea;
   var ITEMS_PER_ROW = 3;
-
   var recipientId = currentRecipientSvc.getCurrentRecipientId();
   $scope.recipientId = recipientId;
   // Get intentions for the current recipient : all this will be replaced by a call to server when  the APIs serve recipients
@@ -146,7 +141,7 @@ function($scope, currentArea, areasSvc, intentionsSvc, currentRecipientSvc,likel
       })
       // Using intentionId property in likelyIntentions, get the full intentions from the intention list
       .then(function (likelyIntentions) {
-        return intentionsSvc.getForArea(currentArea.Name)
+        return intentionsSvc.getForArea(currentAreaName)
         .then(function (intentions) {
           return likelyIntentionsSvc.getFullIntentionObjectsFromLikelyIntentions(intentions, likelyIntentions);});
       })
@@ -158,7 +153,7 @@ function($scope, currentArea, areasSvc, intentionsSvc, currentRecipientSvc,likel
   }
   else
     // Get intentions for the current area
-    intentionsSvc.getForArea(currentArea.Name)
+    intentionsSvc.getForArea(currentAreaName)
       .then(function(intentions) {
         $scope.groupedIntentions = intentionsSvc.groupItems(intentions, ITEMS_PER_ROW);
         });

@@ -9,10 +9,15 @@ angular.module('app/areas', [
 // It uses the cache or requests from the server
 .factory('areasSvc', ['$q', '$stateChange', 'cacheSvc', 'serverSvc',
                   function($q, $stateChange, cacheSvc, serverSvc) {
+  var areaName;
   var service = {
-
+    setCurrentName: function (name) {
+      //console.log("new area name is : " + name);
+      areaName = name;
+    },
     getCurrentName: function() {
-      return $stateChange.toParams.areaName || $stateChange.toParams.areaId;
+      //return $stateChange.toParams.areaName || $stateChange.toParams.areaId;
+      return areaName;
     },
 
     getCurrent: function() {
