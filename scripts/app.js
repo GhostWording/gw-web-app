@@ -25,8 +25,8 @@ angular.module('cherryApp',  [
    $sceDelegateProvider.resourceUrlWhitelist(['self', /^https?:\/\/(api\.)?cvd.io/]);
 }])
 
-.controller('CherryController', ['$scope',  'PostActionSvc','$rootScope','$location','currentLanguage','appUrlSvc','intentionsSvc','appVersionCheck','textsSvc',
-  function ($scope,PostActionSvc,$rootScope,$location,currentLanguage,appUrlSvc,intentionsSvc,appVersionCheck,textsSvc) {
+.controller('CherryController', ['$scope',  'PostActionSvc','$rootScope','$location','currentLanguage','appUrlSvc','intentionsSvc','appVersionCheck','textsSvc','$window',
+  function ($scope,PostActionSvc,$rootScope,$location,currentLanguage,appUrlSvc,intentionsSvc,appVersionCheck,textsSvc,$window) {
     $scope.app = {};
     $scope.app.appUrlSvc = appUrlSvc;
     $rootScope.pageTitle1 = "Comment vous dire. Les mots sur le bout de la langue, l'inspiration au bout des doigts";
@@ -88,6 +88,12 @@ angular.module('cherryApp',  [
         currentLanguage.setLanguageCode(languageCode);
       }
 
+      if ( $window.ga ) {
+        var path = $location.path();
+        $window.ga('send', 'pageview', { page: path });
+      }
+
+
       var includeLanguageInUrl = true;
       if (includeLanguageInUrl) {
         // Url states that we don't know the language code. Inject the current language code in the url instead of xx
@@ -98,6 +104,7 @@ angular.module('cherryApp',  [
         if ( !languageCode )
          currentLanguage.insertCurrentLanguageCodeInUrlIfAbsent();
       }
+
 
     });
   }

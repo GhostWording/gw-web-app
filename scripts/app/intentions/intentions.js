@@ -97,6 +97,7 @@ angular.module('app/intentions', [
 function($scope,  intentionsSvc, currentRecipientSvc,likelyIntentionsSvc,appUrlSvc, currentAreaName,areasSvc) {
   $scope.appUrlSvc = appUrlSvc;
   $scope.currentAreaName = currentAreaName;
+  //ga('send', 'pageview');
 
   // not in routing resolves : we allow this to happen after intentions are diplayed
   areasSvc.invalidateCacheIfNewerServerVersionExists(currentAreaName);

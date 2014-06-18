@@ -12,6 +12,8 @@ function ($scope, currentText, currentIntention, tagLabelsSvc, $modal,currentRec
   $scope.currentIntention = currentIntention;
   $scope.currentText = currentText;
 
+  $scope.Id = currentText.TextId;
+
   // Copy the text Content so that if we edit it we are not editing the original "text".
   $scope.txt = {};
   $scope.txt.Content = currentText.Content; // has to be property of a full object to avoid prototypal inheritance problems
@@ -25,6 +27,8 @@ function ($scope, currentText, currentIntention, tagLabelsSvc, $modal,currentRec
   };
 
   $scope.send = function() {
+    //PostActionSvc.postActionInfo('Text',currentText.TextId, 'TexDetail','send');
+
     $scope.sendDialog = $modal.open({
       templateUrl: 'views/partials/sendTextForm.html',
       scope: $scope,
