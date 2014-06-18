@@ -3,11 +3,12 @@ angular.module('app/texts/TextDetailController', ['common/i18n', 'app/texts/alte
 // Display text with author, link to the source, usage recommandations or comments
 
 .controller('TextDetailController',
-['$scope','currentText', 'currentIntention', 'currentArea', 'tagLabelsSvc', '$modal','currentRecipient', 'favouritesSvc','currentRecipientSvc','alternativeTextsSvc','availableLanguages','currentLanguage','HelperSvc','currentAreaName',
-function ($scope, currentText, currentIntention, currentArea, tagLabelsSvc, $modal,currentRecipient, favouritesSvc,currentRecipientSvc,alternativeTextsSvc,availableLanguages,currentLanguage,HelperSvc,currentAreaName) {
+['$scope','currentText', 'currentIntention',  'tagLabelsSvc', '$modal','currentRecipient', 'favouritesSvc','currentRecipientSvc','alternativeTextsSvc','availableLanguages','currentLanguage','HelperSvc','currentAreaName',
+function ($scope, currentText, currentIntention, tagLabelsSvc, $modal,currentRecipient, favouritesSvc,currentRecipientSvc,alternativeTextsSvc,availableLanguages,currentLanguage,HelperSvc,currentAreaName) {
 
   currentText.TagLabels = tagLabelsSvc.labelsFromStyleTagIds(currentText.TagIds);
-  $scope.currentArea = currentArea;
+  //$scope.currentArea = currentArea;
+  $scope.currentAreaName = currentAreaName;
   $scope.currentIntention = currentIntention;
   $scope.currentText = currentText;
 
@@ -100,7 +101,8 @@ function ($scope, currentText, currentIntention, currentArea, tagLabelsSvc, $mod
 //  Ecrit (par un homme) (à une femme) (en disant Tu)
 
 //  alternativeTextsSvc.getRealizationList(currentArea.AreaId,currentText.TextId).then(function(textList) {
-  alternativeTextsSvc.getRealizationList(currentArea.AreaId,currentText.PrototypeId).then(function(textList) {
+//  alternativeTextsSvc.getRealizationList(currentArea.AreaId,currentText.PrototypeId).then(function(textList) {
+  alternativeTextsSvc.getRealizationList(currentAreaName,currentText.PrototypeId).then(function(textList) {
 
     if ( textList != "null") {
       // For each orderedPresentationLanguages, prepare an array of available texts for the language, then chose the best ones according to sender, recipient and polite form
