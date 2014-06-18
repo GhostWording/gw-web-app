@@ -93,12 +93,14 @@ angular.module('app/intentions', [
   return service;
 }])
 
-.controller('IntentionListController', ['$scope',  'intentionsSvc','currentRecipientSvc','likelyIntentionsSvc','appUrlSvc','currentAreaName',
-function($scope,  intentionsSvc, currentRecipientSvc,likelyIntentionsSvc,appUrlSvc, currentAreaName) {
+.controller('IntentionListController', ['$scope',  'intentionsSvc','currentRecipientSvc','likelyIntentionsSvc','appUrlSvc','currentAreaName','areasSvc',
+function($scope,  intentionsSvc, currentRecipientSvc,likelyIntentionsSvc,appUrlSvc, currentAreaName,areasSvc) {
   $scope.appUrlSvc = appUrlSvc;
   $scope.currentAreaName = currentAreaName;
 
-  //areasSvc.invalidateCacheIfNewerServerVersionExists(currentAreaName); // now in routing
+  // not in routing resolves : we allow this to happen after intentions are diplayed
+  areasSvc.invalidateCacheIfNewerServerVersionExists(currentAreaName);
+  // There should be a then to redisplay intentions if change has been detected
 
   // Choose title according to areaId : TODO : move to localisation service
   var AREA_PAGE_TITLE = {

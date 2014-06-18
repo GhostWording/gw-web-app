@@ -64,7 +64,8 @@ angular.module('app/routing', ['ui.router'])
       currentAreaName: ['$stateParams', 'areasSvc' , function ($stateParams, areasSvc) {
         var areaName = $stateParams.areaName;
         areasSvc.setCurrentName(areaName);
-        areasSvc.invalidateCacheIfNewerServerVersionExists(areaName);
+        // We do not want to resolve this before texts are displayed !!
+        //areasSvc.invalidateCacheIfNewerServerVersionExists(areaName);
         return areaName;  } ]
     }
     })

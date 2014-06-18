@@ -32,7 +32,8 @@ function ($scope, currentTextList, currentIntention,  currentUser, filtersSvc, $
   }
   $scope.$watch(function() { return currentLanguage.getLanguageCode(); },
                 prepareAndDisplayTextList(),true);
-  intentionsSvc.invalidateCacheIfNewerServerVersionExists(currentAreaName,intentionsSvc.getCurrentId())
+  intentionsSvc.invalidateCacheIfNewerServerVersionExists(currentAreaName,currentIntention.Slug)
+//  intentionsSvc.invalidateCacheIfNewerServerVersionExists(currentAreaName,intentionsSvc.getCurrentId())
     .then(function(shouldReload){
         if (shouldReload)
           prepareAndDisplayTextList();
