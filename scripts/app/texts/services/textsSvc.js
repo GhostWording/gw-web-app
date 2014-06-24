@@ -32,10 +32,10 @@ function(areasSvc, intentionsSvc, $stateChange, cacheSvc, serverSvc,HelperSvc,cu
 
       var culture = currentLanguage.currentCulture();
       // HACK : while we don't have spanish texts, display english ones instead
-      if ( culture == "es-ES") {
-        culture = "en-EN";
-//        console.log("!!!!!! Switching from es-ES to " + culture);
-      }
+//      if ( culture == "es-ES") {
+//        culture = "en-EN";
+////        console.log("!!!!!! Switching from es-ES to " + culture);
+//      }
 
       var firstPath = slugPath;  // Slug syntax becomes our prefered one
       var secondPath = regularPath;
