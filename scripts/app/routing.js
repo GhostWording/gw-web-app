@@ -19,40 +19,42 @@ angular.module('app/routing', ['ui.router'])
 .config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
 
     // Set up the redirects
-    // (most of these have a duplicate redirect with language code)
-    $urlRouterProvider
+  $urlRouterProvider
 
     // RecientList shortcut
     .when('/recipientList'                                      , '/area/Addressee/recipient')
     .when('/:languageCode/recipientList'           ,'/:languageCode/area/Addressee/recipient')
-      // Special case for the Adressee area : if we have no recipient, look for it
+
+      // Special case for the Adressee area : before we can display intentions, we have to know about the recipient
     .when('/:languageCode/area/Addressee/intention','/:languageCode/area/Addressee/recipient')
     .when('/:languageCode/area/Addressee/recipient/none/intention','/:languageCode/area/Addressee/recipient')
 
-    // shortcut : text list for a specific recipient and intention like /addressee/Father/xxxx
+    // transform shortcuts such as  /addressee/Mother/I-think-of-you
     .when('/addressee/:recipientId/:intentionId', '/area/Addressee/recipient/:recipientId/intention/:intentionId/text/')
     .when('/:languageCode/addressee/:recipientId/:intentionId', '/:languageCode/area/Addressee/recipient/:recipientId/intention/:intentionId/text/')
 
-//    .when('/area/:areaName/intention/none', '/area/:areaName/recipient/none/intention')
-//    .when('/:languageCode/area/:areaName/intention/none', '/:languageCode/area/:areaName/recipient/none/intention')
-
     //.when('/blabla','/xx/blabla')
-    // on $stateChangeSuccess, the added "xx" string will be replaced by the current (or default) language code
+    // on $stateChangeSuccess xx is replaced by the current language code
     .when('/userprofile'              ,'/xx/userprofile')
     .when('/about'                    ,'/xx/about')
     .when('/favoriteRecipients'       ,'/xx/favoriteRecipients')
     .when('/subscriptions'            ,'/xx/subscriptions')
     .when('/userEMail'                ,'/xx/userEMail')
     .when('/notimplemented'           ,'/xx/notimplemented')
-
     .when('/area/:areaName/recipient' ,'/xx/area/:areaName/recipient')
     .when('/area/:areaName/recipient/:recipientId/intention','/xx/area/:areaName/recipient/:recipientId/intention')
     .when('/area/:areaName/recipient/:recipientId/intention/:intentionId/text','/xx/area/:areaName/recipient/:recipientId/intention/:intentionId/text')
 
+    // French area shortcuts
     .when('/Amour',      '/fr/area/LoveLife/recipient/none/intention')
     .when('/Amis',       '/fr/area/Friends/recipient/none/intention')
     .when('/Famille',    '/fr/area/Family/recipient/none/intention')
-    .when('/BonneAnnee', '/fr/area/Friends/recipient/none/intention/bonne-annee/text');
+    // French happy new year shortcup
+    .when('/BonneAnnee', '/fr/area/Friends/recipient/none/intention/bonne-annee/text')
+
+    // Allow shorter urls with no recipient
+    .when('/:languageCode/area/:areaName/intention/:intentionId/text','/:languageCode/area/:areaName/recipient/none/intention/:intentionId/text')
+    .when('/:languageCode/area/:areaName/intention/:intentionId/text/:textId','/:languageCode/area/:areaName/recipient/none/intention/:intentionId/text/:textId');
 
   $stateProvider
   .state('area', {
@@ -153,11 +155,6 @@ angular.module('app/routing', ['ui.router'])
     controller: 'SplashScreenController'
   });
 
-
-
  $urlRouterProvider.otherwise('/');
-
-
-
 
 }]);
