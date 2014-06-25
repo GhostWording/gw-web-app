@@ -138,6 +138,12 @@ angular.module('app/routing', ['ui.router'])
     templateUrl: 'views/userprofile.html',
     controller: 'UserProfileController'
   })
+  .state('favouriteTexts', {
+    url: '/:languageCode/favouriteTexts',
+    templateUrl: 'views/favouriteText.html',
+    controller: 'FavouriteTextController',
+    showTabs: false
+  })
   .state('about', {
     url: '/:languageCode/about',
     templateUrl: 'views/about.html',

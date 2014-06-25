@@ -3,8 +3,8 @@
 
     <meta name="fragment" content="!">
     <base href="/">
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-    <!--<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+    <!--<meta name="viewport" content="initial-scale=1.0, user-scalable=no">-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 
 
     <!--Prevent 300 ms delay on Android-->
@@ -21,8 +21,8 @@
     <!--Angular and Bootstrap -->
     <script src="assets/angular/angular.min.js"></script>
     <script src="assets/angular-ui-router/release/angular-ui-router.min.js"></script>
-    <script src="assets/angular-cookies/angular-cookies.js"></script>
-    <script src="assets/angular-sanitize/angular-sanitize.js"></script>bou
+    <script src="assets/angular-cookies/angular-cookies.min.js"></script>
+    <script src="assets/angular-sanitize/angular-sanitize.min.js"></script>
     <script src="assets/angular-spinkit/build/angular-spinkit.min.js"></script>
     <script src="assets/angular-promise-tracker/promise-tracker.js"></script>
     <script src="assets/angular-promise-tracker/promise-tracker-http-interceptor.js"></script>
@@ -61,7 +61,7 @@
     <link rel="stylesheet" href="assets/app.css">
 
     <meta charset="utf-8">
-    <title ng-bind-template="{{pageTitle1 | translate}} {{pageTitle2 | translate}} "></title>
+    <title ng-bind-template="{{pageTitle1 | translate}} {{pageTitle2 | translate}} ">How to say I love you. Comment dire les mots de l'amitié et de l'amour</title>
     <meta name="description" content="Change your life, find the magic words! Changez-vous la vie, trouvez les mots qui donnent envie !">
     <meta name="google-site-verification" content="Yancq9d1odgL9tS_cPdZuci56Rmh5J30ASqLN4Mk3Wk" />
 
@@ -103,7 +103,7 @@
           <!-- Tous les textes  -->
           <a ng-href="{{app.appUrlSvc.getFullPath('')}}area/General/intention" ng-show="false" class ="navbar-brand glyphicon glyphicon-search" translate></a>
           <!-- Favoris  -->
-          <a ng-show = "hasFavourite()" ng-href="{{app.appUrlSvc.getFullPath('')}}favouriteTexts" class="navbar-brand glyphicon glyphicon-star"></a>
+          <!--<a ng-show = "hasFavourite()" ng-href="{{app.appUrlSvc.getFullPath('')}}favouriteTexts" class="navbar-brand glyphicon glyphicon-star"></a>-->
           <!-- Mon profil  -->
           <a ng-href="{{app.appUrlSvc.getFullPath('')}}userprofile" class ="navbar-brand glyphicon glyphicon-cog" translate></a>
           <a  class="navbar-brand" ng-href="{{app.appUrlSvc.getFullPath('')}}about" translate>?</a>
@@ -128,7 +128,7 @@
           <!-- Tous les textes  -->
           <li class="active"><a ng-href="{{app.appUrlSvc.getFullPath('')}}area/General/recipient/none/intention" class ="glyphicon glyphicon-search" translate></a></li>
           <!-- Favoris  -->
-          <li class="active" ng-show = "hasFavourite()"><a ng-href="{{app.appUrlSvc.getFullPath('')}}favouriteTexts" class="glyphicon glyphicon-star"></a></li>
+          <!--<li class="active" ng-show = "hasFavourite()"><a ng-href="{{app.appUrlSvc.getFullPath('')}}favouriteTexts" class="glyphicon glyphicon-star"></a></li>-->
           <!-- Mon profil  -->
           <li class="active"><a ng-href="{{app.appUrlSvc.getFullPath('')}}userprofile" class ="glyphicon glyphicon-cog" translate></a></li>
           <li class="active"><a ng-href="{{app.appUrlSvc.getFullPath('')}}about" translate>A propos</a></li>
@@ -160,7 +160,7 @@
       <div ng-show="false" style="position:fixed; border:1px solid #00ffff; background-color: #ffffff; text-align:center; z-index:3;
                   left: 50%; width: 300px; margin-left: -150px;  bottom:1px; padding: 0px; margin-bottom: 0px;" class="alert alert-info">
         <h1>How to say magic words to your love or your friends</h1>
-        <h1>Comment dire les mots de l'amour, de l'amitié ou de tout les jours</h1>
+        <h1>Comment dire les mots de l'amour, de l'amitié ou de tous les jours</h1>
       </div>
       <!-- Views -->
       <div ui-view></div>
