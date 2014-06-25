@@ -2,7 +2,7 @@
 angular.module('cherryApp',  [
   'ngCookies',
   'ngSanitize',
-  'ngRoute',
+  'ui.router',
   'ui.bootstrap.modal',
   "ui.bootstrap.tpls",
   'common',
@@ -15,7 +15,7 @@ angular.module('cherryApp',  [
 //CORS for angular v < 1.2
 .config(['$httpProvider', '$locationProvider','$sceProvider', function ($httpProvider, $locationProvider,$sceProvider) {
   $locationProvider.html5Mode(true);
-//  $locationProvider.hashPrefix('!');
+  $locationProvider.hashPrefix('!');
   $httpProvider.defaults.useXDomain = true;
   delete $httpProvider.defaults.headers.common['X-Requested-With'];
   $sceProvider.enabled(false);
@@ -25,8 +25,8 @@ angular.module('cherryApp',  [
    $sceDelegateProvider.resourceUrlWhitelist(['self', /^https?:\/\/(api\.)?cvd.io/]);
 }])
 
-.controller('CherryController', ['$scope',  'PostActionSvc','$rootScope','$location','currentLanguage','appUrlSvc','intentionsSvc','appVersionCheck','textsSvc',
-  function ($scope,PostActionSvc,$rootScope,$location,currentLanguage,appUrlSvc,intentionsSvc,appVersionCheck,textsSvc) {
+.controller('CherryController', ['$scope',  'PostActionSvc','$rootScope','$location','currentLanguage','appUrlSvc','intentionsSvc','appVersionCheck','textsSvc','$window',
+  function ($scope,PostActionSvc,$rootScope,$location,currentLanguage,appUrlSvc,intentionsSvc,appVersionCheck,textsSvc,$window) {
     $scope.app = {};
     $scope.app.appUrlSvc = appUrlSvc;
     $rootScope.pageTitle1 = "Comment vous dire. Les mots sur le bout de la langue, l'inspiration au bout des doigts";
@@ -62,11 +62,15 @@ angular.module('cherryApp',  [
     textsSvc.getTextList('Family', 'je-pense-a-toi');
 
     // We may want to user a tracker linked to route change instead of directly setting
-    $rootScope.$on("$routeChangeStart",function (event, current, previous, rejection) {
+    $rootScope.$on("$stateChangeStart",function (event, toState, toParams, fromState, fromParams) {
+//      console.log("$stateChangeStart");
+//      console.log("FROM:", fromState, fromParams);
+//      console.log("TO:", toState, toParams);
       $scope.showSpinner = true;
     });
 
-    $rootScope.$on("$routeChangeSuccess",function (event, current, previous, rejection) {
+    $rootScope.$on("$stateChangeSuccess",function (event, toState, toParams, fromState, fromParams) {
+//      console.log("$stateChangeSuccess");
       $scope.showSpinner = false;
 
       intentionsSvc.getCurrent().then(function(intention) {
@@ -79,10 +83,29 @@ angular.module('cherryApp',  [
         }
       } );
 
-      var languageCode = current.params.languageCode;
+      var languageCode = toParams.languageCode;
       if ( languageCode &&  languageCode!== undefined) {
         currentLanguage.setLanguageCode(languageCode);
       }
+
+      if ( $window.ga ) {
+        var path = $location.path();
+        $window.ga('send', 'pageview', { page: path });
+      }
+
+
+      var includeLanguageInUrl = true;
+      if (includeLanguageInUrl) {
+        // Url states that we don't know the language code. Inject the current language code in the url instead of xx
+        if (languageCode == 'xx') {
+          currentLanguage.includeLanguageCodeInUrl(languageCode, currentLanguage.getLanguageCode());
+        }
+        // To be donne last : we like user urls to be prefixed by the language code in any cases
+        if ( !languageCode )
+         currentLanguage.insertCurrentLanguageCodeInUrlIfAbsent();
+      }
+
+
     });
   }
 ])

@@ -1,4 +1,8 @@
-﻿<div class="panneauTexte" action-location="TextList">
+﻿
+<!-- Text detail  -->
+<ui-view></ui-view>
+
+<div ng-show="getCurrentTextId() == undefined" class="panneauTexte" action-location="TextList">
 
   <div ng-hide="filtersWellDefined()" style="padding-top: 0px; margin-top: 0px; margin-bottom: 5px; ">
     <span ng-show="textList.length">
@@ -8,30 +12,20 @@
     <span ng-hide="textList.length">
       <span class="labelTextes" translate>Aucun texte pour dire</span>
     </span>
-    <!-- Back button -->
-    <!--<a href="/area/{{ currentArea.Name }}/intention/{{ recipientId }}" class="pull-right" role="button" targetId="Back">-->
-      <!--<img ng-src="./assets/arrow-left.png" class="stylepicto"> -->
-    <!--</a>-->
   </div>
-
-  <!--<ul class="pager bmwQuestionButton " ng-show='true'>-->
-    <!--<li>-->
-      <!--<a ng-href="{{app.appUrlSvc.getFullPath('')}}area/{{ currentArea.Name }}/intention/{{ recipientId }}"-->
-         <!--class="pull-left" role="button" targetId="Back"> <img ng-src="./assets/arrow-left.png" class="stylepicto"> </a>-->
-    <!--</li>-->
-  <!--</ul>-->
-
 
   <div style="vertical-align: middle;">
     <h4 class="intentionCourante " style="  vertical-align: middle;">
-      <a class="backArrow" style="margin-right: 5px" ng-href="{{app.appUrlSvc.getFullPath('')}}area/{{ currentArea.Name }}/intention/{{ recipientId }}"  role="button"  targetId="Back" > <img ng-src="./assets/arrow-left.png" class="stylepicto"> </a>
+      <a class="backArrow" style="margin-right: 5px"
+         ng-href="{{app.appUrlSvc.getFullPath('')}}area/{{ currentAreaName }}/recipient/{{ recipientId }}/intention"
+         role="button"  targetId="Back" > <img ng-src="./assets/arrow-left.png" class="stylepicto"> </a>
       <span translate>{{ currentIntention.Label }}</span>
       <span ng-show="currentRecipient !== null"> - </span>
       <span translate>{{ currentRecipientLabel }}</span>
     </h4>
   </div>
 
-    <!-- Filtering options  -->
+  <!-- Filtering options  -->
     <div ng-include="'views/partials/filterForm.html'" style="margin-bottom: 20px;"></div>
     <div ng-include="'views/partials/styleBar.html'" ng-show="filtersWellDefined()"></div>
 
@@ -43,14 +37,15 @@
           src="./assets/e-mail64.png"
           class="pull-right envoyer"
           ng-click="send(txt)">
-          <!--<favourite-toggle is-favourite="isFavourite(txt)" on-change="setFavourite(txt, isFavourite(txt))"></favourite-toggle>-->
           <!--<a href="{{appUrlSvc.getRootPath()}}area/{{ currentArea.Name }}/intention/{{ currentIntention.SlugPrototypeLink }}/recipient/{{ recipientId }}/text/{{txt.TextId}}"-->
-          <a href="{{appUrlSvc.getRootPath()}}area/{{ currentArea.Name }}/intention/{{ app.appUrlSvc.getIntentionSlug(currentIntention) }}/recipient/{{ recipientId }}/text/{{txt.TextId}}"
+          <!--<a href="{{appUrlSvc.getRootPath()}}area/{{ currentArea.Name }}/intention/{{ app.appUrlSvc.getIntentionSlug(currentIntention) }}/recipient/{{ recipientId }}/text/{{txt.TextId}}"-->
+          <a href="{{appUrlSvc.getRootPath()}}area/{{ currentAreaName }}/recipient/{{ recipientId }}/intention/{{ app.appUrlSvc.getIntentionSlug(currentIntention) }}/text/{{txt.TextId}}"
 
           targetType="Text"
           actionType="open"
           targetId="{{txt.TextId}}"
-          ng-click="selectThisText(txt,'open')">
+          ng-click="appUrlSvc.setTextDetailWasCalledFromTextList(true)"
+          >
           <div cvd-text="txt" ng-class="{active: txt.TextId == selectedTextId}" style="white-space: pre-wrap"></div>
         </a>
       </div>

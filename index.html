@@ -3,8 +3,8 @@
 
     <meta name="fragment" content="!">
     <base href="/">
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-    <!--<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+    <!--<meta name="viewport" content="initial-scale=1.0, user-scalable=no">-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 
 
     <!--Prevent 300 ms delay on Android-->
@@ -15,14 +15,14 @@
       }, false);
     </script>
 
-    <script src="http://api.cvd.io/userevent?ActionLocation=Header&ActionType=Load&AreaId=na&ClientTime=&TargetId=na"></script>
-
+    <!-- This may be slowing down page activation quite a bit  -->
+    <!--<script src="http://api.cvd.io/userevent?ActionLocation=Header&ActionType=Load&AreaId=na&ClientTime=&TargetId=na"></script>-->
 
     <!--Angular and Bootstrap -->
     <script src="assets/angular/angular.min.js"></script>
-    <script src="assets/angular-cookies/angular-cookies.js"></script>
-    <script src="assets/angular-sanitize/angular-sanitize.js"></script>
-    <script src="assets/angular-route/angular-route.js"></script>
+    <script src="assets/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <script src="assets/angular-cookies/angular-cookies.min.js"></script>
+    <script src="assets/angular-sanitize/angular-sanitize.min.js"></script>
     <script src="assets/angular-spinkit/build/angular-spinkit.min.js"></script>
     <script src="assets/angular-promise-tracker/promise-tracker.js"></script>
     <script src="assets/angular-promise-tracker/promise-tracker-http-interceptor.js"></script>
@@ -39,24 +39,11 @@
         })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
         ga('create', 'UA-47718196-1', 'commentvousdire.com');
-        ga('require', 'linkid', 'linkid.js');
-        ga('send', 'pageview');
+        //ga('require', 'linkid', 'linkid.js'); // improves accuracy. might cause loading delay
+        //ga('send', 'pageview'); // done for all pages on $stateChangeSuccess
     </script>
 
-    <script type="text/javascript">
-        var _gaq = _gaq || [];
-        _gaq.push(['_setAccount', 'UA-47718196-1']);
-        _gaq.push(['_trackPageview']);
-        (function () {
-            var ga = document.createElement('script');
-            ga.type = 'text/javascript';
-            ga.async = true;
-            ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
-            var s = document.getElementsByTagName('script')[0];
-            s.parentNode.insertBefore(ga, s);
-        })();
-    </script>
-
+    <!-- WEINRE debuguer-->
     <!--<script src="http://192.168.0.8:8080/target/target-script-min.js"></script>-->
 
     <!--Reminder : include Respond.js for IE8 support with bootstrap 3.0 -->
@@ -72,9 +59,9 @@
     <link href="assets/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="assets/fonts/font-awesome-4.0.3/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="assets/app.css">
-    <!--CSS -->
+
     <meta charset="utf-8">
-    <title ng-bind-template="{{pageTitle1 | translate}} {{pageTitle2 | translate}} "></title>
+    <title ng-bind-template="{{pageTitle1 | translate}} {{pageTitle2 | translate}} ">How to say I love you. Comment dire les mots de l'amitié et de l'amour</title>
     <meta name="description" content="Change your life, find the magic words! Changez-vous la vie, trouvez les mots qui donnent envie !">
     <meta name="google-site-verification" content="Yancq9d1odgL9tS_cPdZuci56Rmh5J30ASqLN4Mk3Wk" />
 
@@ -116,7 +103,7 @@
           <!-- Tous les textes  -->
           <a ng-href="{{app.appUrlSvc.getFullPath('')}}area/General/intention" ng-show="false" class ="navbar-brand glyphicon glyphicon-search" translate></a>
           <!-- Favoris  -->
-          <a ng-show = "hasFavourite()" ng-href="{{app.appUrlSvc.getFullPath('')}}favouriteTexts" class="navbar-brand glyphicon glyphicon-star"></a>
+          <!--<a ng-show = "hasFavourite()" ng-href="{{app.appUrlSvc.getFullPath('')}}favouriteTexts" class="navbar-brand glyphicon glyphicon-star"></a>-->
           <!-- Mon profil  -->
           <a ng-href="{{app.appUrlSvc.getFullPath('')}}userprofile" class ="navbar-brand glyphicon glyphicon-cog" translate></a>
           <a  class="navbar-brand" ng-href="{{app.appUrlSvc.getFullPath('')}}about" translate>?</a>
@@ -139,9 +126,9 @@
           <!-- Penser à  -->
           <li class="active"><a ng-href="{{app.appUrlSvc.getFullPath('')}}favoriteRecipients" class = "glyphicon glyphicon-bell" translate></a></li>
           <!-- Tous les textes  -->
-          <li class="active"><a ng-href="{{app.appUrlSvc.getFullPath('')}}area/General/intention" class ="glyphicon glyphicon-search" translate></a></li>
+          <li class="active"><a ng-href="{{app.appUrlSvc.getFullPath('')}}area/General/recipient/none/intention" class ="glyphicon glyphicon-search" translate></a></li>
           <!-- Favoris  -->
-          <li class="active" ng-show = "hasFavourite()"><a ng-href="{{app.appUrlSvc.getFullPath('')}}favouriteTexts" class="glyphicon glyphicon-star"></a></li>
+          <!--<li class="active" ng-show = "hasFavourite()"><a ng-href="{{app.appUrlSvc.getFullPath('')}}favouriteTexts" class="glyphicon glyphicon-star"></a></li>-->
           <!-- Mon profil  -->
           <li class="active"><a ng-href="{{app.appUrlSvc.getFullPath('')}}userprofile" class ="glyphicon glyphicon-cog" translate></a></li>
           <li class="active"><a ng-href="{{app.appUrlSvc.getFullPath('')}}about" translate>A propos</a></li>
@@ -158,7 +145,7 @@
         <div class="tabBar" ng-show="showTabs" action-location="Tabs">
           <ul id="myTab" class="nav nav-pills ">
             <li ng-class="{active: currentAreaName() == tab.name}" ng-repeat="tab in tabs">
-              <a ng-href="{{app.appUrlSvc.getFullPath('')}}area/{{tab.name}}/intention" translate> {{tab.label}} </a>
+              <a ng-href="{{app.appUrlSvc.getFullPath('')}}area/{{tab.name}}/recipient/none/intention" translate> {{tab.label}} </a>
             </li>
           </ul>
         </div>
@@ -172,10 +159,11 @@
 
       <div ng-show="false" style="position:fixed; border:1px solid #00ffff; background-color: #ffffff; text-align:center; z-index:3;
                   left: 50%; width: 300px; margin-left: -150px;  bottom:1px; padding: 0px; margin-bottom: 0px;" class="alert alert-info">
-        margin-top: -50px; margin-left: -100px; HOUBAAAAAAAAAAAAAAA
+        <h1>How to say magic words to your love or your friends</h1>
+        <h1>Comment dire les mots de l'amour, de l'amitié ou de tous les jours</h1>
       </div>
       <!-- Views -->
-      <div ng-view></div>
+      <div ui-view></div>
 
     </div>
 

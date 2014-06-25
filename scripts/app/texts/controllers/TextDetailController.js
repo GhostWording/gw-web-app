@@ -3,13 +3,16 @@ angular.module('app/texts/TextDetailController', ['common/i18n', 'app/texts/alte
 // Display text with author, link to the source, usage recommandations or comments
 
 .controller('TextDetailController',
-['$scope','currentText', 'currentIntention', 'currentArea', 'tagLabelsSvc', '$modal','currentRecipient', 'favouritesSvc','currentRecipientSvc','alternativeTextsSvc','availableLanguages','currentLanguage','HelperSvc',
-function ($scope, currentText, currentIntention, currentArea, tagLabelsSvc, $modal,currentRecipient, favouritesSvc,currentRecipientSvc,alternativeTextsSvc,availableLanguages,currentLanguage,HelperSvc) {
+['$scope','currentText', 'currentIntention',  'tagLabelsSvc', '$modal','currentRecipient', 'favouritesSvc','currentRecipientSvc','alternativeTextsSvc','currentLanguage','HelperSvc','currentAreaName',
+function ($scope, currentText, currentIntention, tagLabelsSvc, $modal,currentRecipient, favouritesSvc,currentRecipientSvc,alternativeTextsSvc,currentLanguage,HelperSvc,currentAreaName) {
 
   currentText.TagLabels = tagLabelsSvc.labelsFromStyleTagIds(currentText.TagIds);
-  $scope.currentArea = currentArea;
+  //$scope.currentArea = currentArea;
+  $scope.currentAreaName = currentAreaName;
   $scope.currentIntention = currentIntention;
   $scope.currentText = currentText;
+
+  $scope.Id = currentText.TextId;
 
   // Copy the text Content so that if we edit it we are not editing the original "text".
   $scope.txt = {};
@@ -24,6 +27,8 @@ function ($scope, currentText, currentIntention, currentArea, tagLabelsSvc, $mod
   };
 
   $scope.send = function() {
+    //PostActionSvc.postActionInfo('Text',currentText.TextId, 'TexDetail','send');
+
     $scope.sendDialog = $modal.open({
       templateUrl: 'views/partials/sendTextForm.html',
       scope: $scope,
@@ -64,7 +69,7 @@ function ($scope, currentText, currentIntention, currentArea, tagLabelsSvc, $mod
   };
 
   $scope.setFavourite = function() {
-    favouritesSvc.setFavourite(currentText, currentArea, currentIntention, $scope.recipientId, $scope.isFavourite());
+    favouritesSvc.setFavourite(currentText, currentAreaName, currentIntention, $scope.isFavourite());
   };
 
   // Compare text wi
@@ -96,11 +101,8 @@ function ($scope, currentText, currentIntention, currentArea, tagLabelsSvc, $mod
   $scope.isVariationFormMorePrecise = function(text) {
     return alternativeTextsSvc.isVariationFormMorePrecise(currentText,text);
   };
-//
-//  Ecrit (par un homme) (à une femme) (en disant Tu)
 
-//  alternativeTextsSvc.getRealizationList(currentArea.AreaId,currentText.TextId).then(function(textList) {
-  alternativeTextsSvc.getRealizationList(currentArea.AreaId,currentText.PrototypeId).then(function(textList) {
+  alternativeTextsSvc.getRealizationList(currentAreaName,currentText.PrototypeId).then(function(textList) {
 
     if ( textList != "null") {
       // For each orderedPresentationLanguages, prepare an array of available texts for the language, then chose the best ones according to sender, recipient and polite form

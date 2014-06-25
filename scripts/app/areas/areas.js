@@ -1,13 +1,23 @@
-angular.module('app/areas', ['common/services/cache', 'common/services/server'])
+angular.module('app/areas', [
+  'common/services/cache',
+  'common/services/server',
+'app/routing'
+])
 
 
 // This service provides promises to areas for the application.
 // It uses the cache or requests from the server
-.factory('areasSvc', ['$q', '$route', 'cacheSvc', 'serverSvc', function($q, $route, cacheSvc, serverSvc) {
+.factory('areasSvc', ['$q', '$stateChange', 'cacheSvc', 'serverSvc',
+                  function($q, $stateChange, cacheSvc, serverSvc) {
+  var areaName;
   var service = {
-
+    setCurrentName: function (name) {
+      //console.log("new area name is : " + name);
+      areaName = name;
+    },
     getCurrentName: function() {
-      return $route.current && ($route.current.params.areaName || $route.current.params.areaId);
+      //return $stateChange.toParams.areaName || $stateChange.toParams.areaId;
+      return areaName;
     },
 
     getCurrent: function() {

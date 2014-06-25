@@ -1,17 +1,16 @@
 angular.module('app/intentions', [
   'app/areas',
   'common/services/cache',
-  'common/services/server',
-  'ngRoute'
+  'common/services/server'
 ])
 
 // This service provides promises to intentions for the application.
 // It uses the cache or requests from the server
-.factory('intentionsSvc', ['$q', '$route', 'areasSvc', 'cacheSvc', 'serverSvc','currentLanguage', function($q, $route, areasSvc, cacheSvc, serverSvc,currentLanguage) {
+.factory('intentionsSvc', ['$q', '$stateChange', 'areasSvc', 'cacheSvc', 'serverSvc','currentLanguage', function($q, $stateChange, areasSvc, cacheSvc, serverSvc,currentLanguage) {
   var service = {
 
     getCurrentId: function() {
-      return $route.current && $route.current.params.intentionId;
+      return $stateChange.toParams && $stateChange.toParams.intentionId;
     },
 
     getCurrent: function() {
@@ -69,9 +68,9 @@ angular.module('app/intentions', [
             // Invalidate cache description of text list for intention
             var culture = currentLanguage.currentCulture();
             // HACK : while we don't have spanish texts, display english ones instead
-            if (culture == "es-ES") {
-              culture = "en-EN";
-            }
+//            if (culture == "es-ES") {
+//              culture = "en-EN";
+//            }
             var textListCacheKey = cacheSvc.makeTextListCacheKey(areaName, intentionIdOrSlug, culture);
             cacheSvc.reInitializeCacheEntry(textListCacheKey);
             retval = true;
@@ -94,11 +93,15 @@ angular.module('app/intentions', [
   return service;
 }])
 
-.controller('IntentionListController', ['$scope', 'currentArea', 'intentionsSvc','currentRecipientSvc','likelyIntentionsSvc','appUrlSvc','areasSvc',
-function($scope, currentArea, intentionsSvc,currentRecipientSvc,likelyIntentionsSvc,appUrlSvc,areasSvc) {
+.controller('IntentionListController', ['$scope',  'intentionsSvc','currentRecipientSvc','likelyIntentionsSvc','appUrlSvc','currentAreaName','areasSvc',
+function($scope,  intentionsSvc, currentRecipientSvc,likelyIntentionsSvc,appUrlSvc, currentAreaName,areasSvc) {
   $scope.appUrlSvc = appUrlSvc;
+  $scope.currentAreaName = currentAreaName;
+  //ga('send', 'pageview');
 
-  areasSvc.invalidateCacheIfNewerServerVersionExists(currentArea.Name);
+  // not in routing resolves : we allow this to happen after intentions are diplayed
+  areasSvc.invalidateCacheIfNewerServerVersionExists(currentAreaName);
+  // There should be a then to redisplay intentions if change has been detected
 
   // Choose title according to areaId : TODO : move to localisation service
   var AREA_PAGE_TITLE = {
@@ -109,26 +112,21 @@ function($scope, currentArea, intentionsSvc,currentRecipientSvc,likelyIntentions
     "Formalities" : "Expédiez les formalités !",
     "General" : "Rubriques"
   };
-  $scope.pageTitle = AREA_PAGE_TITLE[currentArea.Name];
+  $scope.pageTitle = AREA_PAGE_TITLE[currentAreaName];
 
   $scope.isForRecipient = false;
-  if ( currentArea.Name == 'Addressee') {
+  if ( currentAreaName == 'Addressee') {
     $scope.isForRecipient = true;
     $scope.pageTitle = "";
     currentRecipient = currentRecipientSvc.getCurrentRecipientNow();
     $scope.pageRecipient = currentRecipient ? currentRecipient.LocalLabel : "---";
-//    currentRecipientSvc.getCurrentRecipient().then(function(recipient) {
-//      $scope.pageRecipient = recipient.LocalLabel;
-//    });
   } else if ( !$scope.pageTitle ) {
     $scope.pageTitle = "Dites le !";
-    console.log("Unknown area : ", currentArea);
+    console.log("Unknown area : ", currentAreaName);
   }
 
 
-  $scope.currentArea = currentArea;
   var ITEMS_PER_ROW = 3;
-
   var recipientId = currentRecipientSvc.getCurrentRecipientId();
   $scope.recipientId = recipientId;
   // Get intentions for the current recipient : all this will be replaced by a call to server when  the APIs serve recipients
@@ -146,7 +144,7 @@ function($scope, currentArea, intentionsSvc,currentRecipientSvc,likelyIntentions
       })
       // Using intentionId property in likelyIntentions, get the full intentions from the intention list
       .then(function (likelyIntentions) {
-        return intentionsSvc.getForArea(currentArea.Name)
+        return intentionsSvc.getForArea(currentAreaName)
         .then(function (intentions) {
           return likelyIntentionsSvc.getFullIntentionObjectsFromLikelyIntentions(intentions, likelyIntentions);});
       })
@@ -158,9 +156,8 @@ function($scope, currentArea, intentionsSvc,currentRecipientSvc,likelyIntentions
   }
   else
     // Get intentions for the current area
-    intentionsSvc.getForArea(currentArea.Name)
+    intentionsSvc.getForArea(currentAreaName)
       .then(function(intentions) {
         $scope.groupedIntentions = intentionsSvc.groupItems(intentions, ITEMS_PER_ROW);
         });
-
 }]);

@@ -6,8 +6,8 @@
     <div ng-repeat="qui in recipients" >
       <ul class="pager bmwQuestionButton" >
         <li>
-          <!--<a  href="area/{{currentAreaName}}/recipient/{{qui.Id}}" translate>{{ qui.LocalLabel }}</a>-->
-          <a  ng-href="{{app.appUrlSvc.getFullPath('')}}area/{{currentAreaName}}/recipient/{{qui.Id}}" translate>{{ qui.LocalLabel }}</a>
+          <!--<a  ng-href="{{app.appUrlSvc.getFullPath('')}}area/{{currentAreaName}}/recipient/{{qui.Id}}" translate>{{ qui.LocalLabel }}</a>-->
+          <a  ng-href="{{app.appUrlSvc.getFullPath('')}}area/{{currentAreaName}}/recipient/{{qui.Id}}/intention" translate>{{ qui.LocalLabel }}</a>
         </li>
       </ul>
     </div>
