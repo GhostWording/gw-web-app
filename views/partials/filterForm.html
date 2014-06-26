@@ -32,7 +32,7 @@
      </div>
 
      <!-- Recipient Gender -->
-     <div ng-show = "filters.recipientGender == null">
+     <div ng-show = "false && filters.recipientGender == null">
          <ul class="pager bmwQuestionButton">
              <span translate>Destinataire</span>
              <li ng-class= '{selectionne: filters.recipientGender == "F"}' >
@@ -54,7 +54,7 @@
      </div>
 
      <!-- In French, would you say Tu or Vous -->
-     <div ng-show = "filters.tuOuVous == null && currentLanguageHasTVDistinction()">
+     <div ng-show = "false && filters.tuOuVous == null && currentLanguageHasTVDistinction()">
          <ul class="pager bmwQuestionButton">
              <span translate>Lui dire</span>
              <li ng-class= '{selectionne: filters.tuOuVous=="T"}'>
