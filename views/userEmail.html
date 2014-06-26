@@ -13,11 +13,11 @@
     <div class="row" style="margin-top: 5px; margin-bottom: 10px; font-size: 16px; text-align: center; " >
         <div class="col-sm-1"></div>
         <div class="col-sm-10">
-            <form role="form">
+            <form role="form" autocomplete="on">
                 <div class="form-group" >
                     <!--<label >la&nbsp</label>-->
                     <div>
-                      <input ng-model="user.email" style="vertical-align:middle; width: 250px;" ng-change="updateMail()" placeholder="{{'votre adresse mail' | translate}}" >
+                      <input ng-model="user.email" name="email" autocomplete="on" style="vertical-align:middle; width: 250px;" ng-change="updateMail()" placeholder="{{'votre adresse mail' | translate}}" >
                     </div>
                   <br>
                     <button type="button" class="btn btn-default" style="vertical-align:middle;" ng-click="sendMailToServer()" translate>Envoi</button>

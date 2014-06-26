@@ -1,6 +1,6 @@
 angular.module('app/users/UserEMailController', [])
 
-.controller('UserEMailController', ['$scope', 'serverSvc','deviceIdSvc','currentUserLocalData',  function ($scope, serverSvc,deviceIdSvc,currentUserLocalData) {
+.controller('UserEMailController', ['$scope', 'serverSvc','deviceIdSvc','currentUserLocalData','currentLanguage',  function ($scope, serverSvc,deviceIdSvc,currentUserLocalData,currentLanguage) {
   console.log(deviceIdSvc.get());
   $scope.user = currentUserLocalData;
   $scope.mailChanged = false;
@@ -19,9 +19,13 @@ angular.module('app/users/UserEMailController', [])
         $scope.mailChanged = false;
       });
 
+      serverSvc.postInStore('preferredCulture', deviceIdSvc.get(), currentLanguage.getCultureCode()).then(function (response) {
+        //console.log(response);
+      });
+
       serverSvc.postMailForVerification($scope.user.email)
       .then(function (response) {
-        console.log('mail envoyé : ' + $scope.user.email);
+        //console.log('mail envoyé : ' + $scope.user.email);
       });
     }
   };
