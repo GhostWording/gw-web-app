@@ -19,14 +19,15 @@ angular.module('app/users/UserEMailController', [])
         $scope.mailChanged = false;
       });
 
-      serverSvc.postInStore('preferredCulture', deviceIdSvc.get(), currentLanguage.getCultureCode()).then(function (response) {
-        //console.log(response);
-      });
-
       serverSvc.postMailForVerification($scope.user.email)
       .then(function (response) {
         //console.log('mail envoyé : ' + $scope.user.email);
       });
+
+      serverSvc.postInStore('preferredCulture', deviceIdSvc.get(), currentLanguage.getCultureCode()).then(function (response) {
+        //console.log(response);
+      });
+
     }
   };
 }]);
