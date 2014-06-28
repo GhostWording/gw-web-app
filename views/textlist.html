@@ -35,12 +35,12 @@
           <i class="glyphicon" ng-class="{'glyphicon-plus': !accordionStatus.open, 'glyphicon-minus': accordionStatus.open}"></i>
           <span translate class="brand">Filtrer</span>
           (
-          <span translate class="brand">&nbsp{{filteredList.length}}</span>
+          <span translate class="brand">{{filteredList.length}}</span>
           )
           <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': accordionStatus.open, 'glyphicon-chevron-right': !accordionStatus.open}"></i>
         </accordion-heading>
         <!-- Filtering options  -->
-        <div ng-include="'views/partials/filterForm.html'" style="margin-bottom: 20px;"></div>
+        <div ng-include="'views/partials/filterForm.html'" style="margin-bottom: 0px;"></div>
         <!--<div ng-include="'views/partials/styleBar.html'" ng-show="true || filtersWellDefined()"></div>-->
       </accordion-group>
     </accordion>

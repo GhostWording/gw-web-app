@@ -34,7 +34,7 @@
      <!-- Recipient Gender -->
      <!--<div ng-show = "false && filters.recipientGender == null">-->
      <div ng-show = "true">
-         <ul class="pager bmwQuestionButton">
+         <ul class="pager bmwQuestionButton" style="margin-bottom: 15px;">
              <span translate>Destinataire</span>
              <li ng-class= '{selectionne: filters.recipientGender == "F"}' >
                 <a targetType="Command" targetId="RecipientGender" ng-click = "filters.recipientGender = 'F'">
@@ -57,11 +57,11 @@
      <!-- In French, would you say Tu or Vous -->
      <!--<div ng-show = "false && filters.tuOuVous == null && currentLanguageHasTVDistinction()">-->
      <div ng-show = "currentLanguageHasTVDistinction()">
-         <ul class="pager bmwQuestionButton">
+         <ul class="pager bmwQuestionButton" style="margin-bottom: 5px;">
              <span translate>Lui dire</span>
              <li ng-class= '{selectionne: filters.tuOuVous=="T"}'>
                  <a targetType="Command" targetId="TuOuVous" ng-click = "filters.tuOuVous = 'T'">Tu</a></li>
-             <li ng-class= '{selectionne: BasicFilters.getTuOuVous()=="V"}' >
+             <li ng-class= '{selectionne: filters.tuOuVous=="V"}' >
                  <a targetType="Command" targetId="TuOuVous" ng-click = "filters.tuOuVous = 'V'">Vous</a></li>
          </ul>
      </div>
