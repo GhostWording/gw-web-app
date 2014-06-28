@@ -8,17 +8,22 @@ function($scope, $modalInstance, $window, HelperSvc, currentText,$translate) {
     editableText: currentText.Content
   };
 
+  $translate($scope.currentIntention.Label).then(function(value) {
+    $scope.mailToThis = HelperSvc.urlMailTo($scope.txt.editableText, value);
+    return value;
+  });
+
 	$scope.urlMailTo = function () {
 //  Probably some case of prototypal bizarrerie : modification to the text from the dialog are discarded if we dont use a proper object to carry the property
-    var mailSubject = $scope.currentIntention.Label;
-		return HelperSvc.urlMailTo($scope.txt.editableText, mailSubject);
-	};
-
-  $translate($scope.currentIntention.Label).then(function(value) {
-//    console.log(value);
-    $scope.mailToThis = HelperSvc.urlMailTo($scope.txt.editableText, value);
-//    console.log($scope.mailToThis);
-  });
+    //var mailSubject = $scope.currentIntention.Label;
+    //var retval = HelperSvc.urlMailTo($scope.txt.editableText, mailSubject);
+    //return retval;
+    $translate($scope.currentIntention.Label).then(function(value) {
+      $scope.mailToThis = HelperSvc.urlMailTo($scope.txt.editableText, value);
+    });
+    // Should not really work out
+    return $scope.mailToThis;
+  };
 
 
   $scope.sms = function () {

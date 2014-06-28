@@ -18,11 +18,12 @@
     <a  targetType="Text"
         targetId="{{getSelectedTextId()}}"
         actionType="sendMail"
-        ng-href="{{mailToThis}}"
+        ng-href="{{urlMailTo()}}"
         ng-click="mail()"
         class="btn btn-primary">
       Mail
     </a>
+    <!--//ng-href="{{mailToThis}}"-->
 
     <button ng-hide="isIPhone()" translate
             targetType="Text" targetId="{{getSelectedTextId()}}" actionType="sendSMS"
