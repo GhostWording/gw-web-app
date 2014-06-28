@@ -1,9 +1,12 @@
 angular.module('app/texts/TextListController', [])
 // Displays a list of texts
 .controller('TextListController',
- ['$scope', 'currentTextList', 'currentIntention', 'currentUser', 'filtersSvc', '$modal', 'currentRecipient', 'favouritesSvc','appUrlSvc','currentLanguage','textsSvc','intentionsSvc','currentAreaName','PostActionSvc','$anchorScroll',
-function ($scope, currentTextList, currentIntention,  currentUser, filtersSvc, $modal,currentRecipient, favouritesSvc,appUrlSvc,currentLanguage,textsSvc,intentionsSvc,currentAreaName,PostActionSvc,$anchorScroll) {
+ ['$scope', 'currentTextList', 'currentIntention', 'currentUser', 'filtersSvc', '$modal', 'currentRecipient', 'favouritesSvc','appUrlSvc','currentLanguage','textsSvc','intentionsSvc','currentAreaName','PostActionSvc','$anchorScroll','$location',
+function ($scope, currentTextList, currentIntention,  currentUser, filtersSvc, $modal,currentRecipient, favouritesSvc,appUrlSvc,currentLanguage,textsSvc,intentionsSvc,currentAreaName,PostActionSvc,$anchorScroll,$location) {
   $scope.appUrlSvc = appUrlSvc;
+
+  $location.hash('leCorps');
+  $anchorScroll();
 
   $scope.getCurrentTextId = function() {
     var valret = textsSvc.getCurrentId();
