@@ -43,7 +43,7 @@ angular.module('app/intentions', [
         return serverSvc.get(areaName + '/' + intentionIdOrSlug,undefined,undefined,'fr-FR') // get by slug API syntax
           .then(function(data) {return data;},
                 function(error){ console.log(error);
-                    if (error.status == "404") {
+                    if (error.accordionStatus == "404") {
                       console.log(intentionIdOrSlug + " intention slug not found, trying as an id");
                       return serverSvc.get(areaName + '/intention/' + intentionIdOrSlug,undefined,undefined,'fr-FR'); // get by Id API syntax
                     }}

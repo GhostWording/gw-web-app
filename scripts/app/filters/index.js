@@ -3,5 +3,6 @@ angular.module('app/filters', [
   'app/filters/styles',
   'app/filters/TextFiltersController',
   'app/filters/StyleBarController',
-  'app/filters/StyleDialogController'
+  'app/filters/StyleDialogController',
+  'app/filters/AccordionOptionController'
 ]);

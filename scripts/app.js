@@ -5,6 +5,7 @@ angular.module('cherryApp',  [
   'ui.router',
   'ui.bootstrap.modal',
   "ui.bootstrap.tpls",
+  "ui.bootstrap.accordion",
   'common',
   'app',
   'angularSpinkit',

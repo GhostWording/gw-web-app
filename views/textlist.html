@@ -4,7 +4,7 @@
 
 <div ng-show="getCurrentTextId() == undefined" class="panneauTexte" action-location="TextList">
 
-  <div ng-hide="filtersWellDefined()" style="padding-top: 0px; margin-top: 0px; margin-bottom: 5px; ">
+  <div ng-hide="true || filtersWellDefined()" style="padding-top: 0px; margin-top: 0px; margin-bottom: 5px; ">
     <span ng-show="textList.length">
       <span class="nombreTextes">{{ filteredList.length }}</span>&nbsp
       <span class="labelTextes" translate>façons de dire</span>
@@ -13,6 +13,7 @@
       <span class="labelTextes" translate>Aucun texte pour dire</span>
     </span>
   </div>
+
 
   <div style="vertical-align: middle;">
     <h4 class="intentionCourante " style="  vertical-align: middle;">
@@ -25,9 +26,25 @@
     </h4>
   </div>
 
-  <!-- Filtering options  -->
-    <div ng-include="'views/partials/filterForm.html'" style="margin-bottom: 20px;"></div>
-    <div ng-include="'views/partials/styleBar.html'" ng-show="filtersWellDefined()"></div>
+
+  <!--<div ng-controller="AccordionOptionController">-->
+  <div>
+    <accordion>
+      <accordion-group is-open="accordionStatus.open" is-disabled="false">
+        <accordion-heading>
+          <i class="glyphicon" ng-class="{'glyphicon-plus': !accordionStatus.open, 'glyphicon-minus': accordionStatus.open}"></i>
+          <span translate class="brand">Filtrer</span>
+          (
+          <span translate class="brand">&nbsp{{filteredList.length}}</span>
+          )
+          <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': accordionStatus.open, 'glyphicon-chevron-right': !accordionStatus.open}"></i>
+        </accordion-heading>
+        <!-- Filtering options  -->
+        <div ng-include="'views/partials/filterForm.html'" style="margin-bottom: 20px;"></div>
+        <div ng-include="'views/partials/styleBar.html'" ng-show="true || filtersWellDefined()"></div>
+      </accordion-group>
+    </accordion>
+  </div>
 
     <!-- Text list  -->
     <!--<div class="listeTextes" ng-show="filtersWellDefined() || showTextsAnyway()">-->
@@ -38,7 +55,6 @@
           src="./assets/e-mail64.png"
           class="pull-right envoyer"
           ng-click="send(txt)">
-          <!--<a href="{{appUrlSvc.getRootPath()}}area/{{ currentArea.Name }}/intention/{{ currentIntention.SlugPrototypeLink }}/recipient/{{ recipientId }}/text/{{txt.TextId}}"-->
           <!--<a href="{{appUrlSvc.getRootPath()}}area/{{ currentArea.Name }}/intention/{{ app.appUrlSvc.getIntentionSlug(currentIntention) }}/recipient/{{ recipientId }}/text/{{txt.TextId}}"-->
           <a href="{{appUrlSvc.getRootPath()}}area/{{ currentAreaName }}/recipient/{{ recipientId }}/intention/{{ app.appUrlSvc.getIntentionSlug(currentIntention) }}/text/{{txt.TextId}}"
 
@@ -67,7 +83,7 @@
     <!--<i class="fa fa-camera-retro">&nbsp{{filteredList.length}}&nbsptxt&nbsp</i>-->
     <!--<span class="fa fa-envelope-o">&nbsp{{filteredList.length}}&nbsptxt&nbsp</span>-->
 
-    <a href="" scroll-to=""  class="fa fa-envelope-o">&nbsp{{filteredList.length}}</a>
+    <a href="" scroll-to="" ng-click="openAccordion()"  class="fa fa-envelope-o">&nbsp{{filteredList.length}}</a>
 
     <!--<a class="btn btn-default btn-sm" href=""><i class="fa fa-envelope-o"></i>&nbsp{{filteredList.length}}</a>-->
   </div>

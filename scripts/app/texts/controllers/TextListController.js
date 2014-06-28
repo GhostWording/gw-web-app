@@ -16,6 +16,13 @@ function ($scope, currentTextList, currentIntention,  currentUser, filtersSvc, $
   $scope.textList = currentTextList;
   $scope.filteredList = [];
 
+  $scope.accordionStatus = { };
+  $scope.accordionStatus.open = false;
+
+  $scope.openAccordion = function() {
+    $scope.accordionStatus.open = true;
+  };
+
   $scope.filters = filtersSvc.filters;
   $scope.filtersWellDefined = filtersSvc.wellDefined;
   //$scope.recipientId = currentRecipientSvc.getIdOfRecipient(currentRecipient);

@@ -85,7 +85,7 @@ cherryApp.factory('CurrentTextList', [
 
         .then(function(response) {
             var texts = response.data;
-            console.log('text response:', response.status);
+            console.log('text response:', response.accordionStatus);
             console.log(texts.length + " texts pour l'intention " + intentionId);
             return texts;
         })
@@ -93,7 +93,7 @@ cherryApp.factory('CurrentTextList', [
                 //return filterAndReorder(texts, TextFilters);
                 return texts;
         }, function (response) {
-            console.log(response.status + "*");
+            console.log(response.accordionStatus + "*");
             throw response;
         });
     }
