@@ -10,7 +10,7 @@
   </div>
 
   <div ng-show = "filters.recipientGender == null && currentUser.gender != null">
-    <ul class="pager bmwQuestionButton" style="padding-top: 10px; margin-bottom: 10px;">
+    <ul class="pager bmwQuestionButton" style="margin-top: 15px; margin-bottom: 15px;">
       <span translate>Destinataire</span>
       <li ng-class= '{selectionne: filters.recipientGender == "F"}' >
         <a targetType="Command" targetId="RecipientGender" ng-click = "filters.recipientGender = 'F'">

@@ -37,7 +37,8 @@
           (
           <span translate class="brand">{{filteredList.length}}</span>
           )
-          <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': accordionStatus.open, 'glyphicon-chevron-right': !accordionStatus.open}"></i>
+          <!-- Not actionnable on iPhones !  -->
+          <!--<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': accordionStatus.open, 'glyphicon-chevron-right': !accordionStatus.open}"></i>-->
         </accordion-heading>
         <!-- Filtering options  -->
         <div ng-include="'views/partials/filterForm.html'" style="margin-bottom: 0px;"></div>
@@ -73,18 +74,12 @@
 
   <!-- Fixed position question view -->
   <div ui-view="v1@" ng-show="true" style="position:fixed; border:1px solid rgb(247,133,40) ; background-color: #ffffff; text-align:center; z-index:3;
-                  left: 50%; width: 300px; margin-left: -150px;  bottom:1px; padding: 0px; margin-bottom: 0px;" class="alert alert-info">
+                  left: 50%; width: 300px; margin-left: -150px; border-width: 2px;  bottom:1px; padding: 0px; margin-bottom: 0px;" class="alert alert-info">
   </div>
   <!-- margin-left: -160px; -->
-  <div ng-show="true" style="position:fixed; background-color: #ffffff; margin-left: 129px;  text-align:center;  left: 50%; ; width: 45px; bottom:0px; z-index:5; ">
-    <!--<span class="pull-left">{{filteredList.length }}</span>-->
-    <!--<span class="pull-left  fa fa-envelope-o">&nbsp{{filteredList.length }}</span>-->
-    <!--<span style="z-index:5;" >&nbsp{{filteredList.length }}&nbsptxt&nbsp</span>-->
-    <!--<i class="fa fa-camera-retro">&nbsp{{filteredList.length}}&nbsptxt&nbsp</i>-->
-    <!--<span class="fa fa-envelope-o">&nbsp{{filteredList.length}}&nbsptxt&nbsp</span>-->
-
+  <!-- margin-left: 129px; -->
+  <div ng-show="true" style="position:fixed; background-color: #ffffff; margin-left: -160px;  text-align:center;   left: 50%; ; width: 45px; bottom:0px; z-index:5; ">
     <a href="" scroll-to="" ng-click="openAccordion()"  class="fa fa-envelope-o">&nbsp{{filteredList.length}}</a>
-
     <!--<a class="btn btn-default btn-sm" href=""><i class="fa fa-envelope-o"></i>&nbsp{{filteredList.length}}</a>-->
   </div>
 
