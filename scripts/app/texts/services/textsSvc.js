@@ -1,7 +1,7 @@
 angular.module('app/texts/textList', [])
 
-.factory('textsSvc', ['areasSvc', 'intentionsSvc', '$stateChange', 'cacheSvc', 'serverSvc','HelperSvc','currentLanguage',
-function(areasSvc, intentionsSvc, $stateChange, cacheSvc, serverSvc,HelperSvc,currentLanguage) {
+.factory('textsSvc', ['areasSvc', 'intentionsSvc', '$stateChange', 'cacheSvc', 'serverSvc','HelperSvc','currentLanguage','minSortOrderToBeRandomized',
+function(areasSvc, intentionsSvc, $stateChange, cacheSvc, serverSvc,HelperSvc,currentLanguage,minSortOrderToBeRandomized) {
   var service = {
     getCurrentList: function() {
       var areaName = areasSvc.getCurrentName();
@@ -48,7 +48,7 @@ function(areasSvc, intentionsSvc, $stateChange, cacheSvc, serverSvc,HelperSvc,cu
         );
       });
     },
-    minSortOrderToBeRandomized : 100,
+    //minSortOrderToBeRandomized : 100,
 
     MakeSortedVersionWithShortenedTexts: function (textListtoDebug) {
       var textList = textListtoDebug;
@@ -63,7 +63,8 @@ function(areasSvc, intentionsSvc, $stateChange, cacheSvc, serverSvc,HelperSvc,cu
         return -(text2.SortBy - text1.SortBy); //
       });
       // Keep the first texts sorted to display a few good ones but randomize the others to facilitate machine learning
-      textList = HelperSvc.shuffleTextIfSortOrderNotLessThan(textList, service.minSortOrderToBeRandomized);
+//      textList = HelperSvc.shuffleTextIfSortOrderNotLessThan(textList, service.minSortOrderToBeRandomized);
+      textList = HelperSvc.shuffleTextIfSortOrderNotLessThan(textList, minSortOrderToBeRandomized);
       return textList;
     },
 
