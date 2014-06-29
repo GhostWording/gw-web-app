@@ -107,7 +107,7 @@ angular.module('app/routing', ['ui.router'])
         templateUrl: 'views/textList.html',
         controller: 'TextListController'
       },
-      'v1@': { templateUrl: 'views/partials/questionBar.html', controller: 'QuestionBarController' }
+      'questionBarView@': { templateUrl: 'views/partials/questionBar.html', controller: 'QuestionBarController' }
     }
   })
   .state('area.textList.textDetail', {
@@ -156,11 +156,6 @@ angular.module('app/routing', ['ui.router'])
     templateUrl: 'views/about.html',
     controller: 'SimplePageController'
   })
-//  .state('area.textList.question', {
-//    views: {
-//      'v1': { templateUrl: 'views/partials/questionBar.html', controller: 'QuestionBarController' }
-//    }
-//  })
     // It might be pretier to have a clean url for the home page
   .state('splashscreenNoLanguage', {
     url: '/',
