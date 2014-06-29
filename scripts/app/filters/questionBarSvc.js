@@ -10,6 +10,13 @@ function ($rootScope, intentionsSvc, areasSvc, currentUser, currentLanguage, cur
 
   var filters = filtersSvc.filters;
 
+  var questionsAsked = false;
+
+  function intializeQuestions() {
+    questionsAsked = false;
+  }
+
+
   var currentLanguageHasTVDistinction = function() {
     return currentLanguage.usesTVDistinction(currentLanguage.getLanguageCode());
   };
@@ -45,11 +52,11 @@ function ($rootScope, intentionsSvc, areasSvc, currentUser, currentLanguage, cur
     askForHumour: function() {
       if ( service.askForUserGender() || service.askForRecipientGender() || service.askForTuOuVous() )
         return false;
-      console.log('humorous selectiveness : ' + filteredTextListSvc.countStyleSelelectiveness('humorous'));
-//      console.log(filteredTextListSvc.countStyleSelelectiveness('racy'));
-//      console.log(filteredTextListSvc.countStyleSelelectiveness('poetic'));
-//      console.log(filteredTextListSvc.countStyleSelelectiveness('fake'));
 
+      if ( questionsAsked )
+        return false;
+
+      console.log('humorous selectiveness : ' + filteredTextListSvc.countStyleSelelectiveness('humorous'));
       var selectiveness = filteredTextListSvc.countStyleSelelectiveness('humorous');
 
       return selectiveness >= 0.25;
@@ -58,7 +65,7 @@ function ($rootScope, intentionsSvc, areasSvc, currentUser, currentLanguage, cur
     setStyleChoice: function(styleName,choice) {
       switch(choice) {
         case 'yes':
-        service.addStyleToFilters(styleName);
+           service.addStyleToFilters(styleName);
            break;
         case 'no':
           service.removeStyleFromFilters(styleName);
@@ -70,9 +77,15 @@ function ($rootScope, intentionsSvc, areasSvc, currentUser, currentLanguage, cur
           console.log(choice + ' is not a valid choice !!!!!');
           break;
       }
+      questionsAsked = true;
     }
 
   };
+  $rootScope.$watch(function() { return intentionsSvc.getCurrentId(); }, function(intentionId) {
+    if ( intentionId )
+      intializeQuestions();
+  }, true);
+
 
   return service;
 }]);
