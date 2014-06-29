@@ -1,40 +1,29 @@
 <div>
   <div ng-show = "currentUser.gender == null" class="questionLine">
-      <span translate>Vous êtes</span>
-      <span ng-class = '{selectionne: currentUser.gender=="H"}'>
-        <a class="questionChoice" ng-click = "currentUser.gender = 'H'" translate targetType="Command" targetId="UserGender" >Un homme</a>
-      </span>
-      <span ng-class = '{selectionne: currentUser.gender=="F"}'>
-        <a class="questionChoice" ng-click = "currentUser.gender = 'F'" translate targetType="Command" targetId="UserGender" >Une femme</a>
-      </span>
+    <span translate>Vous êtes</span>
+    <!-- Random display bug with the selectionne style. And we don't really need to show the status as questions disapear -->
+    <!--<span ng-class = '{selectionne: currentUser.gender=="H"}'>-->
+    <a class="questionChoice" ng-click = "currentUser.gender = 'H'" translate targetType="Command" targetId="UserGender" >Un homme</a>
+    <a class="questionChoice" ng-click = "currentUser.gender = 'F'" translate targetType="Command" targetId="UserGender" >Une femme</a>
   </div>
 
   <div ng-show = "filters.recipientGender == null && currentUser.gender != null" class="questionLine">
-      <span translate>Destinataire</span>
-      <span ng-class= '{selectionne: filters.recipientGender == "F"}' >
-        <a ng-click = "filters.recipientGender = 'F'" class="questionChoice" targetType="Command" targetId="RecipientGender">
-          <img ng-src="./assets/femaleuser32.png" class="breadcrumbpicto">
-        </a>
-      </span>
-      <span ng-class= '{selectionne: filters.recipientGender == "H"}' >
-        <a ng-click = "filters.recipientGender = 'H'" class="questionChoice" targetType="Command" targetId="RecipientGender">
-          <img ng-src="./assets/maleuser32.png" class="breadcrumbpicto">
-        </a>
-      </span>
-      <span ng-class= '{selectionne: filters.recipientGender == "P"}' >
-        <a ng-click = "filters.recipientGender = 'P'" class="questionChoice" targetType="Command" targetId="RecipientGender">
-          <img ng-src="./assets/several32.png" class="breadcrumbpicto">
-        </a>
-      </span>
+    <span translate>Destinataire</span>
+    <a ng-click = "filters.recipientGender = 'F'" class="questionChoice" targetType="Command" targetId="RecipientGender">
+      <img ng-src="./assets/femaleuser32.png" class="breadcrumbpicto">
+    </a>
+    <a ng-click = "filters.recipientGender = 'H'" class="questionChoice" targetType="Command" targetId="RecipientGender">
+      <img ng-src="./assets/maleuser32.png" class="breadcrumbpicto">
+    </a>
+    <a ng-click = "filters.recipientGender = 'P'" class="questionChoice" targetType="Command" targetId="RecipientGender">
+      <img ng-src="./assets/several32.png" class="breadcrumbpicto">
+    </a>
   </div>
 
   <div ng-show = "filters.recipientGender != null && currentUser.gender != null && filters.tuOuVous == null && currentLanguageHasTVDistinction()" class="questionLine">
-      <span translate>Lui dire</span>
-      <span ng-class= '{selectionne: filters.tuOuVous=="T"}'>
-        <a ng-click = "filters.tuOuVous = 'T'" class="questionChoice" targetType="Command" targetId="TuOuVous">Tu</a>
-      </span>
-      <span ng-class= '{selectionne: filters.tuOuVous=="V"}'>
-        <a ng-click = "filters.tuOuVous = 'V'" class="questionChoice" targetType="Command" targetId="TuOuVous">Vous</a>
-      </span>
+    <span translate>Lui dire</span>
+    <a ng-click = "filters.tuOuVous = 'T'" class="questionChoice" targetType="Command" targetId="TuOuVous">Tu</a>
+    <a ng-click = "filters.tuOuVous = 'V'" class="questionChoice" targetType="Command" targetId="TuOuVous">Vous</a>
   </div>
 </div>
+    

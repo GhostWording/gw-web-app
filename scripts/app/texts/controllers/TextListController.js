@@ -122,6 +122,4 @@ function ($scope, currentTextList, currentIntention,  currentUser, filtersSvc, $
   // Watch the filters and update the filtered text list if they change
   $scope.$watch(function() { return filtersSvc.filters; }, $scope.filterList, true);
 
-
-
  }]);
