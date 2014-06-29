@@ -6,7 +6,7 @@ function(areasSvc, intentionsSvc, $stateChange, cacheSvc, serverSvc,HelperSvc,cu
 
   var service = {
 
-    applyFiltersThenOrderOnStyles: function (textList, currentUser, preferredStyles) {
+    setFilteredAndOrderedList: function (textList, currentUser, preferredStyles) {
 
       var filteredList = [];
       // A map used to count the number of matching styles indexed by text id
@@ -40,7 +40,7 @@ function(areasSvc, intentionsSvc, $stateChange, cacheSvc, serverSvc,HelperSvc,cu
     getFilteredTextList: function() {
       return filteredTextList;
     },
-    getNbFilteredTexts: function() {
+    getLength: function() {
       return filteredTextList.length;
     }
 

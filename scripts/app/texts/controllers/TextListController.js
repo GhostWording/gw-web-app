@@ -66,14 +66,16 @@ function ($scope, currentTextList, currentIntention,  currentUser, filtersSvc, $
     filtersSvc.setRecipientTypeTag(currentRecipient.RecipientTypeId); // Shoud not be reinitialized when we come back from TextDetail view
   }
 
+  $scope.filteredTextList = filteredTextListSvc;
+
   var firstWatchCall = true;
   $scope.filterList = function () {
     //$scope.filteredList.length = 0;
     // TODO : This should not be called two times when view initializes
     if ( !firstWatchCall ) {
-      $scope.filteredList = filteredTextListSvc.applyFiltersThenOrderOnStyles($scope.textList, currentUser, filtersSvc.filters.preferredStyles);
-      console.log("called for " + $scope.filteredList.length);
+      filteredTextListSvc.setFilteredAndOrderedList($scope.textList, currentUser, filtersSvc.filters.preferredStyles);
     }
+    $scope.filteredList = filteredTextListSvc.getFilteredTextList();
     firstWatchCall = false;
   };
 

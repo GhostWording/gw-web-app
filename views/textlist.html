@@ -26,7 +26,6 @@
     </h4>
   </div>
 
-
   <!--<div ng-controller="AccordionOptionController">-->
   <div>
     <accordion>
@@ -35,7 +34,8 @@
           <i class="glyphicon" ng-class="{'glyphicon-plus': !accordionStatus.open, 'glyphicon-minus': accordionStatus.open}"></i>
           <span translate class="brand">Filtrer</span>
           (
-          <span translate class="brand">{{filteredList.length}}</span>
+          <!--<span class="brand">{{filteredList.length}}</span>-->
+          <span class="brand">{{filteredTextList.getLength()}}</span>
           )
           <!-- Not actionnable on iPhones !  -->
           <!--<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': accordionStatus.open, 'glyphicon-chevron-right': !accordionStatus.open}"></i>-->
@@ -79,8 +79,7 @@
   <!-- margin-left: -160px; -->
   <!-- margin-left: 129px; -->
   <div ng-show="true" style="position:fixed; background-color: #ffffff; margin-left: -160px;  text-align:center;   left: 50%; ; width: 47px; bottom:0px; z-index:5; ">
-    <a href="" scroll-to="" ng-click="openAccordion()"  class="fa fa-envelope-o">&nbsp{{filteredList.length}}</a>
-    <!--<a class="btn btn-default btn-sm" href=""><i class="fa fa-envelope-o"></i>&nbsp{{filteredList.length}}</a>-->
+    <a href="" scroll-to="" ng-click="openAccordion()"  class="fa fa-envelope-o">&nbsp{{filteredTextList.getLength()}}</a>
   </div>
 
 
