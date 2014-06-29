@@ -52,7 +52,9 @@
 
 a.backArrow:hover, a.backArrow:focus, a.backArrow:active  { background-color: rgba(240, 173, 78, 0.38); }
 
-a.questionChoice:hover, a.questionChoice:focus, a.questionChoice:active  { background-color: rgba(240, 173, 78, 0.38); }
+/*a.questionChoice:hover, a.questionChoice:focus, a.questionChoice:active  { background-color: rgba(240, 173, 78, 0.38); }*/
+/*a.questionChoice:hover { background-color: rgba(240, 173, 78, 0.38); }*/
+ a.questionChoice:focus, a.questionChoice:active  { background-color: rgba(240, 173, 78, 0.38); }
 
 /*.pager li a:hover,.pager a:hover { background-color: rgb(237,214,194); }*/
 .pager li a:hover,.pager a:hover { background-color: rgba(240, 173, 78, 0.38); }
