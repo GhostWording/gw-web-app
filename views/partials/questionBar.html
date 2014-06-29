@@ -1,13 +1,12 @@
 <div>
   <div ng-show = "questionBar.askForUserGender()" class="questionLine">
     <span translate>Vous êtes</span>
-    <!-- Random display bug with the selectionne style. And we don't really need to show the status as questions disapear -->
+    <!-- We don't really need to show the status as questions disapear -->
     <!--<span ng-class = '{selectionne: currentUser.gender=="H"}'>-->
     <a class="questionChoice" ng-click = "currentUser.gender = 'H'" translate targetType="Command" targetId="UserGender" >Un homme</a>
     <a class="questionChoice" ng-click = "currentUser.gender = 'F'" translate targetType="Command" targetId="UserGender" >Une femme</a>
   </div>
 
-  <!--<div ng-show = "filters.recipientGender == null && currentUser.gender != null" class="questionLine">-->
   <div ng-show = "questionBar.askForRecipientGender()" class="questionLine">
     <span translate>Destinataire</span>
     <a ng-click = "filters.recipientGender = 'F'" class="questionChoice" targetType="Command" targetId="RecipientGender">
@@ -21,10 +20,17 @@
     </a>
   </div>
 
-  <!--<div ng-show = "filters.recipientGender != null && currentUser.gender != null && filters.tuOuVous == null && currentLanguageHasTVDistinction()" class="questionLine">-->
   <div ng-show = "questionBar.askForTuOuVous()" class="questionLine">
     <span translate>Lui dire</span>
     <a ng-click = "filters.tuOuVous = 'T'" class="questionChoice" targetType="Command" targetId="TuOuVous">Tu</a>
     <a ng-click = "filters.tuOuVous = 'V'" class="questionChoice" targetType="Command" targetId="TuOuVous">Vous</a>
   </div>
+
+  <div ng-show = "questionBar.askForHumour()" class="questionLine">
+    <span translate>Humour</span>
+    <a ng-click = "questionBar.setStyleChoice('humorous','yes')" class="questionChoice" targetType="Command" targetId="Humour">oui</a>
+    <a ng-click = "questionBar.setStyleChoice('humorous','no')" class="questionChoice" targetType="Command" targetId="Humour">non</a>
+    <a ng-click = "questionBar.setStyleChoice('humorous','maybe')" class="questionChoice" targetType="Command" targetId="Humour">peut-être</a>
+  </div>
+
 </div>

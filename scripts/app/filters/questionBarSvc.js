@@ -5,8 +5,8 @@ angular.module('app/filters/questionBarSvc', [
 
 
 // This service keeps track of user choices that impact the filtering of texts
-.factory('questionBarSvc', ['$rootScope', 'intentionsSvc', 'areasSvc', 'currentUser', 'currentLanguage', 'currentRecipientSvc','filtersSvc',
-function ($rootScope, intentionsSvc, areasSvc, currentUser, currentLanguage, currentRecipientSvc,filtersSvc) {
+.factory('questionBarSvc', ['$rootScope', 'intentionsSvc', 'areasSvc', 'currentUser', 'currentLanguage', 'currentRecipientSvc','filtersSvc','filteredTextListSvc','generalStyles',
+function ($rootScope, intentionsSvc, areasSvc, currentUser, currentLanguage, currentRecipientSvc,filtersSvc,filteredTextListSvc,generalStyles) {
 
   var filters = filtersSvc.filters;
 
@@ -29,6 +29,48 @@ function ($rootScope, intentionsSvc, areasSvc, currentUser, currentLanguage, cur
       return valret;
     },
 
+    addStyleToFilters: function (styleName) {
+      var styleToAdd = generalStyles.stylesByName[styleName];
+      //console.log(styleToAdd);
+      filtersSvc.filters.preferredStyles.addStyle(styleToAdd);
+    },
+    removeStyleFromFilters: function (styleName) {
+      var styles = filtersSvc.filters.preferredStyles;
+      var styleToRemove = generalStyles.stylesByName[styleName];
+      //console.log(styleToAdd);
+      filtersSvc.filters.preferredStyles.removeStyle(styleToRemove);
+    },
+    askForHumour: function() {
+      if ( service.askForUserGender() || service.askForRecipientGender() || service.askForTuOuVous() )
+        return false;
+      console.log('humorous selectiveness : ' + filteredTextListSvc.countStyleSelelectiveness('humorous'));
+//      console.log(filteredTextListSvc.countStyleSelelectiveness('racy'));
+//      console.log(filteredTextListSvc.countStyleSelelectiveness('poetic'));
+//      console.log(filteredTextListSvc.countStyleSelelectiveness('fake'));
+
+      var selectiveness = filteredTextListSvc.countStyleSelelectiveness('humorous');
+
+      return selectiveness >= 0.25;
+    },
+
+    setStyleChoice: function(styleName,choice) {
+      switch(choice) {
+        case 'yes':
+        service.addStyleToFilters(styleName);
+          //console.log(choice + ' has been chosen');
+           break;
+        case 'no':
+          service.removeStyleFromFilters(styleName);
+          //console.log(choice + ' has been chosen');
+          break;
+        case 'maybe':
+          console.log(choice + ' has been chosen');
+          break;
+        default:
+          console.log(choice + ' is not a valid choice !!!!!');
+          break;
+      }
+    }
 
   };
 
