@@ -1,9 +1,18 @@
 angular.module('app/texts/TextListController', [])
 // Displays a list of texts
 .controller('TextListController',
- ['$scope', 'currentTextList', 'currentIntention', 'currentUser', 'filtersSvc', '$modal', 'currentRecipient', 'favouritesSvc','appUrlSvc','currentLanguage','textsSvc','intentionsSvc','currentAreaName','PostActionSvc','$window','filteredTextListSvc',
-function ($scope, currentTextList, currentIntention,  currentUser, filtersSvc, $modal,currentRecipient, favouritesSvc,appUrlSvc,currentLanguage,textsSvc,intentionsSvc,currentAreaName,PostActionSvc,$window,filteredTextListSvc) {
+ ['$scope', 'currentTextList', 'currentIntention', 'currentUser', 'filtersSvc', '$modal', 'currentRecipient', 'favouritesSvc','appUrlSvc','currentLanguage','textsSvc','intentionsSvc','currentAreaName','PostActionSvc','$window','filteredTextListSvc','tagLabelsSvc','HelperSvc',
+function ($scope, currentTextList, currentIntention,  currentUser, filtersSvc, $modal,currentRecipient, favouritesSvc,appUrlSvc,currentLanguage,textsSvc,intentionsSvc,currentAreaName,PostActionSvc,$window,filteredTextListSvc,tagLabelsSvc,HelperSvc) {
   $scope.appUrlSvc = appUrlSvc;
+
+  $scope.HelperSvc = HelperSvc;
+  $scope.labelsThatShouldBeDisplayed = function(txt) {
+    var stylesWeWant = filtersSvc.filters.preferredStyles;
+    var idsWeWant = stylesWeWant.filterIds(txt.TagIds);
+//    return tagLabelsSvc.labelsFromStyleTagIds(txt.TagIds);
+    return tagLabelsSvc.labelsFromStyleTagIds(idsWeWant);
+  };
+
 
   // Some phone browser do not initialise the view correctly
   //  $location.hash('leCorps');

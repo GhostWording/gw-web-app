@@ -14,7 +14,6 @@
     </span>
   </div>
 
-
   <div style="vertical-align: middle;">
     <h4 class="intentionCourante " style="  vertical-align: middle;">
       <a class="backArrow" style="margin-right: 5px"
@@ -51,6 +50,10 @@
     <!--<div class="listeTextes" ng-show="filtersWellDefined() || showTextsAnyway()">-->
     <div class="listeTextes" ng-show="true">
       <div ng-repeat="txt in filteredList">
+         <span ng-hide="HelperSvc.isQuote(txt)" ng-repeat="tagLabel in labelsThatShouldBeDisplayed (txt)" >
+            <span class="label label-warning" translate>{{tagLabel}}</span>&nbsp
+         </span>
+
         <div id="{{txt.TextId}}">
           <img
           src="./assets/e-mail64.png"
@@ -58,13 +61,15 @@
           ng-click="send(txt)">
           <!--<a href="{{appUrlSvc.getRootPath()}}area/{{ currentArea.Name }}/intention/{{ app.appUrlSvc.getIntentionSlug(currentIntention) }}/recipient/{{ recipientId }}/text/{{txt.TextId}}"-->
           <a href="{{appUrlSvc.getRootPath()}}area/{{ currentAreaName }}/recipient/{{ recipientId }}/intention/{{ app.appUrlSvc.getIntentionSlug(currentIntention) }}/text/{{txt.TextId}}"
-
           targetType="Text"
           actionType="open"
           targetId="{{txt.TextId}}"
           ng-click="appUrlSvc.setTextDetailWasCalledFromTextList(true)"
           >
           <div cvd-text="txt" ng-class="{active: txt.TextId == selectedTextId}" style="white-space: pre-wrap"></div>
+              <span ng-repeat="tagLabel in currentText.TagLabels" >
+                <span class="label label-primary" translate>{{tagLabel}}</span>&nbsp
+              </span>
         </a>
       </div>
     </div>

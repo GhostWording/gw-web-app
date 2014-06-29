@@ -39,6 +39,8 @@ function ($rootScope, intentionsSvc, areasSvc, currentUser, currentLanguage, cur
       var styleToRemove = generalStyles.stylesByName[styleName];
       //console.log(styleToAdd);
       filtersSvc.filters.preferredStyles.removeStyle(styleToRemove);
+
+      filtersSvc.filters.excludedStyles.addStyle(styleToRemove);
     },
     askForHumour: function() {
       if ( service.askForUserGender() || service.askForRecipientGender() || service.askForTuOuVous() )
@@ -57,14 +59,12 @@ function ($rootScope, intentionsSvc, areasSvc, currentUser, currentLanguage, cur
       switch(choice) {
         case 'yes':
         service.addStyleToFilters(styleName);
-          //console.log(choice + ' has been chosen');
            break;
         case 'no':
           service.removeStyleFromFilters(styleName);
-          //console.log(choice + ' has been chosen');
           break;
         case 'maybe':
-          console.log(choice + ' has been chosen');
+          // TODO : create asked question array that is reinitialised when current intention changes
           break;
         default:
           console.log(choice + ' is not a valid choice !!!!!');

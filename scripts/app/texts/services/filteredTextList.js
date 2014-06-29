@@ -22,9 +22,7 @@ function(areasSvc, intentionsSvc, $stateChange, cacheSvc, serverSvc,HelperSvc,cu
       }
     });
     console.log('TextsBis with humour : ' + styleCount['43AC3B']);
-  };
-
-
+  }
 
   var service = {
 
@@ -32,7 +30,7 @@ function(areasSvc, intentionsSvc, $stateChange, cacheSvc, serverSvc,HelperSvc,cu
     // the closer we are to 0.5, the better the score
     countTagSelelectiveness: function (tagId) {
       var nbTotal = service.getLength();
-      if (nbTotal == 0)
+      if (nbTotal === 0)
         return -1;
       // Are we far from midpoint ?
       var styleCount = service.getTextCountForTagId(tagId);
