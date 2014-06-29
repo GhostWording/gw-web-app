@@ -2,6 +2,8 @@ angular.module('app/texts/filteredTextListSvc', [])
 
 .factory('filteredTextListSvc', ['areasSvc', 'intentionsSvc', '$stateChange', 'cacheSvc', 'serverSvc','HelperSvc','currentLanguage','filtersSvc','minSortOrderToBeRandomized',
 function(areasSvc, intentionsSvc, $stateChange, cacheSvc, serverSvc,HelperSvc,currentLanguage,filtersSvc,minSortOrderToBeRandomized) {
+  var filteredTextList = [];
+
   var service = {
 
     applyFiltersThenOrderOnStyles: function (textList, currentUser, preferredStyles) {
@@ -32,8 +34,16 @@ function(areasSvc, intentionsSvc, $stateChange, cacheSvc, serverSvc,HelperSvc,cu
           return retval;
         });
       }
+      filteredTextList = filteredList;
       return filteredList;
+    },
+    getFilteredTextList: function() {
+      return filteredTextList;
+    },
+    getNbFilteredTexts: function() {
+      return filteredTextList.length;
     }
+
   };
   return service;
 }]);

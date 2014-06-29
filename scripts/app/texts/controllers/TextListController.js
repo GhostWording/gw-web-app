@@ -58,24 +58,23 @@ function ($scope, currentTextList, currentIntention,  currentUser, filtersSvc, $
   $scope.isFavourite = function(txt) {
     return favouritesSvc.isExisting(txt);
   };
-
   $scope.setFavourite = function(txt, isFav) {
     favouritesSvc.setFavourite(txt, currentAreaName, currentIntention, isFav);
   };
 
   if ( currentRecipient ) {
-    // Shoud not be reinitialized when we come back from TextDetail view
-    filtersSvc.setRecipientTypeTag(currentRecipient.RecipientTypeId);
+    filtersSvc.setRecipientTypeTag(currentRecipient.RecipientTypeId); // Shoud not be reinitialized when we come back from TextDetail view
   }
 
-
+  var firstWatchCall = true;
   $scope.filterList = function () {
-    // Clear the previous filter list
     //$scope.filteredList.length = 0;
-
     // TODO : This should not be called two times when view initializes
-//    $scope.filteredList = applyFiltersthenOrderOnStyles($scope.textList, currentUser, filtersSvc.filters.preferredStyles);
-    $scope.filteredList = filteredTextListSvc.applyFiltersThenOrderOnStyles($scope.textList, currentUser, filtersSvc.filters.preferredStyles);
+    if ( !firstWatchCall ) {
+      $scope.filteredList = filteredTextListSvc.applyFiltersThenOrderOnStyles($scope.textList, currentUser, filtersSvc.filters.preferredStyles);
+      console.log("called for " + $scope.filteredList.length);
+    }
+    firstWatchCall = false;
   };
 
   // Watch user gender and update filtered text list if they change
