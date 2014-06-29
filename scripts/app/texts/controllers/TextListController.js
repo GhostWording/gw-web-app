@@ -71,14 +71,17 @@ function ($scope, currentTextList, currentIntention,  currentUser, filtersSvc, $
 
   $scope.filterList = function () {
     // Clear the previous filter list
-    $scope.filteredList.length = 0;
+    //$scope.filteredList.length = 0;
 
     // TODO : This should not be called two times when view initializes
 //    $scope.filteredList = applyFiltersthenOrderOnStyles($scope.textList, currentUser, filtersSvc.filters.preferredStyles);
     $scope.filteredList = filteredTextListSvc.applyFiltersThenOrderOnStyles($scope.textList, currentUser, filtersSvc.filters.preferredStyles);
-
-
   };
+
+  // Watch user gender and update filtered text list if they change
+  $scope.$watch(function() { return currentUser.gender; }, $scope.filterList, true);
+  // Watch the filters and update filtered text list if they change
+  $scope.$watch(function() { return filtersSvc.filters; }, $scope.filterList, true);
 
   $scope.send = function(text) {
     PostActionSvc.postActionInfo('Text',text.TextId, 'TextList','send');
@@ -93,7 +96,5 @@ function ($scope, currentTextList, currentIntention,  currentUser, filtersSvc, $
     });
   };
 
-  // Watch the filters and update the filtered text list if they change
-  $scope.$watch(function() { return filtersSvc.filters; }, $scope.filterList, true);
 
  }]);
