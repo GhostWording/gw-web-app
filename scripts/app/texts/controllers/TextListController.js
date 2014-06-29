@@ -5,10 +5,9 @@ angular.module('app/texts/TextListController', [])
 function ($scope, currentTextList, currentIntention,  currentUser, filtersSvc, $modal,currentRecipient, favouritesSvc,appUrlSvc,currentLanguage,textsSvc,intentionsSvc,currentAreaName,PostActionSvc,$window) {
   $scope.appUrlSvc = appUrlSvc;
 
-// url does not look like with that
-//  $location.hash('leCorps');
-//  $anchorScroll();
-  // Some browser do not initialise the view correctly
+  // Some phone browser do not initialise the view correctly
+  //  $location.hash('leCorps');
+  //  $anchorScroll(); // url does not look nice with that
   $window.scrollTo(0,0);
 
   $scope.getCurrentTextId = function() {

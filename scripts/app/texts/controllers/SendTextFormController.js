@@ -21,7 +21,7 @@ function($scope, $modalInstance, $window, HelperSvc, currentText,$translate) {
     $translate($scope.currentIntention.Label).then(function(value) {
       $scope.mailToThis = HelperSvc.urlMailTo($scope.txt.editableText, value);
     });
-    // Should not really work out
+    // Should not really return the up to date value. Kind of does
     return $scope.mailToThis;
   };
 
