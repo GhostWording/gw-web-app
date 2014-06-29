@@ -18,24 +18,12 @@ function(areasSvc, intentionsSvc, $stateChange, cacheSvc, serverSvc,HelperSvc,cu
       return service.getText(areaName, intentionId, textId);
     },
 
-//    makeCacheKey: function(areaName, intentionIdOrSlug) {
-//      var culture = currentLanguage.currentCulture();
-//      if ( culture == "es-ES") {
-//        culture = "en-EN";
-//      }
-//      return areaName + '/' + intentionIdOrSlug + '/texts' + '.' + culture;
-//    },
     getTextList: function(areaName, intentionIdOrSlug) {
 
       var regularPath = areaName + '/intention/' + intentionIdOrSlug + '/texts';
       var slugPath = areaName + '/' + intentionIdOrSlug + '/texts';
 
       var culture = currentLanguage.currentCulture();
-      // HACK : while we don't have spanish texts, display english ones instead
-//      if ( culture == "es-ES") {
-//        culture = "en-EN";
-////        console.log("!!!!!! Switching from es-ES to " + culture);
-//      }
 
       var firstPath = slugPath;  // Slug syntax becomes our prefered one
       var secondPath = regularPath;
@@ -106,7 +94,6 @@ function(areasSvc, intentionsSvc, $stateChange, cacheSvc, serverSvc,HelperSvc,cu
 
       return cacheSvc.get(path, -1, getTextById, true);
     }
-
 
   };
   return service;

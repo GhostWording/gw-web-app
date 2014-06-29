@@ -5,5 +5,6 @@ angular.module('app/filters', [
   'app/filters/StyleBarController',
   'app/filters/StyleDialogController',
   'app/filters/AccordionOptionController',
-  'app/filters/questionBarSvc'
+  'app/filters/questionBarSvc',
+  'app/filters/QuestionBarController'
 ]);
