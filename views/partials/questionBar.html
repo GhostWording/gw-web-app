@@ -22,15 +22,37 @@
 
   <div ng-show = "questionBar.askForTuOuVous()" class="questionLine">
     <span translate>Lui dire</span>
-    <a ng-click = "filters.tuOuVous = 'T'" class="questionChoice" targetType="Command" targetId="TuOuVous">Tu</a>
-    <a ng-click = "filters.tuOuVous = 'V'" class="questionChoice" targetType="Command" targetId="TuOuVous">Vous</a>
+    <a ng-click = "filters.tuOuVous = 'T'" class="questionChoice" translate targetType="Command" targetId="TuOuVous">Tu</a>
+    <a ng-click = "filters.tuOuVous = 'V'" class="questionChoice" translate targetType="Command" targetId="TuOuVous">Vous</a>
   </div>
 
-  <div ng-show = "questionBar.askForHumour()" class="questionLine">
+  <div ng-show = "questionBar.askForThisStyle('humorous')" class="questionLine">
     <span translate>Humour</span>
-    <a ng-click = "questionBar.setStyleChoice('humorous','yes')" class="questionChoice" targetType="Command" targetId="Humour">oui</a>
-    <a ng-click = "questionBar.setStyleChoice('humorous','no')" class="questionChoice" targetType="Command" targetId="Humour">non</a>
-    <a ng-click = "questionBar.setStyleChoice('humorous','maybe')" class="questionChoice" targetType="Command" targetId="Humour">peut-être</a>
+    <a ng-click = "questionBar.setStyleChoice('humorous','yes')" class="questionChoice" translate targetType="Command" targetId="humorous">oui</a>
+    <a ng-click = "questionBar.setStyleChoice('humorous','no')" class="questionChoice" translate targetType="Command" targetId="humorous">non</a>
+    <a ng-click = "questionBar.setStyleChoice('humorous','maybe')" class="questionChoice" translate targetType="Command" targetId="humorous">peut-être</a>
   </div>
+
+  <div ng-show = "questionBar.askForThisStyle('poetic')" class="questionLine">
+    <span translate>Poésie</span>
+    <a ng-click = "questionBar.setStyleChoice('poetic','yes')" class="questionChoice" translate targetType="Command" targetId="poetic">oui</a>
+    <a ng-click = "questionBar.setStyleChoice('poetic','no')" class="questionChoice" translate targetType="Command" targetId="poetic">non</a>
+    <a ng-click = "questionBar.setStyleChoice('poetic','maybe')" class="questionChoice" translate targetType="Command" targetId="poetic">peut-être</a>
+  </div>
+
+  <div ng-show = "questionBar.askForThisStyle('imaginative')" class="questionLine">
+    <span translate>Décalé</span>
+    <a ng-click = "questionBar.setStyleChoice('imaginative','yes')" class="questionChoice" translate targetType="Command" targetId="imaginative">oui</a>
+    <a ng-click = "questionBar.setStyleChoice('imaginative','no')" class="questionChoice" translate targetType="Command" targetId="imaginative">non</a>
+    <a ng-click = "questionBar.setStyleChoice('imaginative','maybe')" class="questionChoice" translate targetType="Command" targetId="imaginative">peut-être</a>
+  </div>
+
+  <div ng-show = "questionBar.askForThisStyle('citation')" class="questionLine">
+    <span translate>Citation</span>
+    <a ng-click = "questionBar.setStyleChoice('citation','yes')" class="questionChoice" translate targetType="Command" targetId="citation">oui</a>
+    <a ng-click = "questionBar.setStyleChoice('citation','no')" class="questionChoice" translate targetType="Command" targetId="citation">non</a>
+    <a ng-click = "questionBar.setStyleChoice('citation','maybe')" class="questionChoice" translate targetType="Command" targetId="citation">peut-être</a>
+  </div>
+
 
 </div>

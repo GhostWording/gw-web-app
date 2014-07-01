@@ -10,12 +10,10 @@ function ($rootScope, intentionsSvc, areasSvc, currentUser, currentLanguage, cur
 
   var filters = filtersSvc.filters;
 
-  var questionsAsked = false;
-
-  function intializeQuestions() {
-    questionsAsked = false;
-  }
-
+  var questionsAsked = {};
+  function intializeQuestions()       { questionsAsked = {}; }
+  function countQuestionAsAsked(name) { questionsAsked[name] = true; }
+  function wasQuestionAsked(name)     { return ! questionsAsked[name] ? false : true; }
 
   var currentLanguageHasTVDistinction = function() {
     return currentLanguage.usesTVDistinction(currentLanguage.getLanguageCode());
@@ -44,24 +42,45 @@ function ($rootScope, intentionsSvc, areasSvc, currentUser, currentLanguage, cur
     removeStyleFromFilters: function (styleName) {
       var styles = filtersSvc.filters.preferredStyles;
       var styleToRemove = generalStyles.stylesByName[styleName];
-      //console.log(styleToAdd);
       filtersSvc.filters.preferredStyles.removeStyle(styleToRemove);
-
       filtersSvc.filters.excludedStyles.addStyle(styleToRemove);
     },
-    askForHumour: function() {
+    askForThisStyle: function(styleName) {
+      // Check that questions with higher priority have been asked
       if ( service.askForUserGender() || service.askForRecipientGender() || service.askForTuOuVous() )
         return false;
-
-      if ( questionsAsked )
+      switch  (styleName) {
+        case 'poetic':
+          if (wasQuestionAsked('humorous') === false)
+            return false;
+          break;
+        case 'imaginative':
+          if (wasQuestionAsked('humorous') === false || wasQuestionAsked('poetic') === false )
+            return false;
+         break;
+        case 'citation':
+          if (wasQuestionAsked('humorous') === false || wasQuestionAsked('poetic') === false || wasQuestionAsked('imaginative') === false  )
+            return false;
+          break;
+        default:
+          console.log(styleName + " UNKNONW");
+          break;
+      }
+      // Check that the question itself has not alread been asked
+      if ( wasQuestionAsked(styleName) )
         return false;
 
-      console.log('humorous selectiveness : ' + filteredTextListSvc.countStyleSelelectiveness('humorous'));
-      var selectiveness = filteredTextListSvc.countStyleSelelectiveness('humorous');
+      // Will the question help eliminate some of the remaining texts in filteredTextList ?
+      var selectiveness = filteredTextListSvc.countStyleSelelectiveness(styleName);
+      console.log(styleName + ' selectiveness : ' + filteredTextListSvc.countStyleSelelectiveness(styleName));
+      var questionWorthAsking = selectiveness >= 0.18;
 
-      return selectiveness >= 0.25;
+      // If question not worth asking, make way for other questions
+      if ( !questionWorthAsking )
+        countQuestionAsAsked(styleName);
+
+      return questionWorthAsking;
     },
-
     setStyleChoice: function(styleName,choice) {
       switch(choice) {
         case 'yes':
@@ -71,13 +90,13 @@ function ($rootScope, intentionsSvc, areasSvc, currentUser, currentLanguage, cur
           service.removeStyleFromFilters(styleName);
           break;
         case 'maybe':
-          // TODO : create asked question array that is reinitialised when current intention changes
           break;
         default:
           console.log(choice + ' is not a valid choice !!!!!');
           break;
       }
-      questionsAsked = true;
+      // Question will only we asked once
+      countQuestionAsAsked(styleName);
     }
 
   };
@@ -85,7 +104,6 @@ function ($rootScope, intentionsSvc, areasSvc, currentUser, currentLanguage, cur
     if ( intentionId )
       intializeQuestions();
   }, true);
-
 
   return service;
 }]);
