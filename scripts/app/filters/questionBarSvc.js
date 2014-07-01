@@ -1,5 +1,6 @@
 angular.module('app/filters/questionBarSvc', [
   'app/filters/filtersSvc',
+  'app/filters/styles',
   'app/users/users'
 ])
 
@@ -9,6 +10,8 @@ angular.module('app/filters/questionBarSvc', [
 function ($rootScope, intentionsSvc, areasSvc, currentUser, currentLanguage, currentRecipientSvc,filtersSvc,filteredTextListSvc,generalStyles) {
 
   var filters = filtersSvc.filters;
+
+  //var ...  = generalStyles.styles;
 
   var questionsAsked = {};
   function intializeQuestions()       { questionsAsked = {}; }
@@ -20,6 +23,9 @@ function ($rootScope, intentionsSvc, areasSvc, currentUser, currentLanguage, cur
   };
 
   var service = {
+    getStyles: function() {
+      return generalStyles.stylesList;
+    },
     askForUserGender: function() {
       return currentUser.gender === null;
     },
@@ -46,6 +52,11 @@ function ($rootScope, intentionsSvc, areasSvc, currentUser, currentLanguage, cur
       filtersSvc.filters.excludedStyles.addStyle(styleToRemove);
     },
     askForThisStyle: function(styleName) {
+
+      // if we have less than 8 texts to read, we are done
+      if ( filteredTextListSvc.getLength() < 8 )
+        return false;
+
       // Check that questions with higher priority have been asked
       if ( service.askForUserGender() || service.askForRecipientGender() || service.askForTuOuVous() )
         return false;
@@ -58,8 +69,18 @@ function ($rootScope, intentionsSvc, areasSvc, currentUser, currentLanguage, cur
           if (wasQuestionAsked('humorous') === false || wasQuestionAsked('poetic') === false )
             return false;
          break;
+        case 'warm':
+          if (wasQuestionAsked('humorous') === false || wasQuestionAsked('poetic') === false || wasQuestionAsked('imaginative') === false )
+            return false;
+          break;
         case 'citation':
-          if (wasQuestionAsked('humorous') === false || wasQuestionAsked('poetic') === false || wasQuestionAsked('imaginative') === false  )
+          if (wasQuestionAsked('humorous') === false || wasQuestionAsked('poetic') === false ||
+              wasQuestionAsked('imaginative') === false || wasQuestionAsked('warm') === false    )
+            return false;
+          break;
+        case 'colloquial':
+          if (wasQuestionAsked('humorous') === false || wasQuestionAsked('poetic') === false ||
+          wasQuestionAsked('imaginative') === false || wasQuestionAsked('warm') === false || wasQuestionAsked('citation') === false    )
             return false;
           break;
         default:
