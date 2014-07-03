@@ -27,13 +27,11 @@
   </div>
 
 
-
-
   <div ng-repeat="style in questionBar.getStyles()" ng-if="style.visible" ng-show = "questionBar.askForThisStyle(style.name)" class="questionLine">
       <span translate>{{style.name}}</span>
-      <a ng-click = "questionBar.setStyleChoice(style.name,'yes')" class="questionChoice" translate targetType="Question" targetId="{{ style.name }}">oui</a>
-      <a ng-click = "questionBar.setStyleChoice(style.name,'no')" class="questionChoice" translate targetType="Question" targetId="{{ style.name }}">non</a>
-      <a ng-click = "questionBar.setStyleChoice(style.name,'maybe')" class="questionChoice" translate targetType="Question" targetId="{{ style.name }}">peut-être</a>
+      <a ng-click = "questionBar.setStyleChoice(style.name,'yes')" class="questionChoice" translate targetType="Question" targetId="{{ style.name }}" targetParameters='yes'>oui</a>
+      <a ng-click = "questionBar.setStyleChoice(style.name,'no')" class="questionChoice" translate targetType="Question" targetId="{{ style.name }}" targetParameters='no'>non</a>
+      <a ng-click = "questionBar.setStyleChoice(style.name,'maybe')" class="questionChoice" translate targetType="Question" targetId="{{ style.name }}" targetParameters='maybe'>peut-être</a>
     </div>
 
 
