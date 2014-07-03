@@ -87,12 +87,15 @@
   <!-- margin-left: -160px; -->
   <!-- margin-left: 129px; -->
   <!--<div ng-show="QuestionBar.hasMoreQuestions()== true" style="position:fixed; background-color: #ffffff; margin-left: -160px;  text-align:center;   left: 50%; ; width: 47px; bottom:0px; z-index:5; ">-->
-  <div ng-show="QuestionBar.hasMoreQuestions()== true" style="position:fixed; background-color: #ffffff; margin-left: -23px;  text-align:center;   left: 50%; ; width: 47px; bottom:65px; z-index:5; ">
+  <div ng-show="QuestionBar.hasMoreQuestions()== true"
+       style="position:fixed; background-color: #ffffff; margin-left: -23px;  text-align:center;   left: 50%; ; width: 50px; bottom:62px; z-index:5; font-size: 100%">
     <a href="" scroll-to="" ng-click="openAccordion()"  class="fa fa-envelope-o">&nbsp{{filteredTextList.getLength()}}</a>
   </div>
 
-  <div ng-show="QuestionBar.hasMoreQuestions()== false" style="position:fixed; background-color: #ffffff; margin-left: -23px;  text-align:center;   left: 50%; ; width: 47px; bottom:0px; z-index:5; ">
-    <a href="" scroll-to="" ng-click="openAccordion()"  class="fa fa-envelope-o">&nbsp{{filteredTextList.getLength()}}</a>
+  <div ng-show="QuestionBar.hasMoreQuestions()== false"
+       style="position:fixed; background-color: #ffffff; margin-left: -38px;  text-align:center;   left: 50%; ; width: 70px; bottom:0px; z-index:5; font-size: 130% ">
+    <a href="" scroll-to="" ng-click="openAccordion()"  class="backArrow fa fa-envelope-o">&nbsp{{filteredTextList.getLength()}}</a>
+    <!--<a href="" scroll-to="" ng-click="openAccordion()"  class="fa fa-up-arrow fa-filter"></a>-->
   </div>
 
 

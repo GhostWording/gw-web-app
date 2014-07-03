@@ -26,7 +26,6 @@
     <a ng-click = "filters.tuOuVous = 'V'" class="questionChoice" translate targetType="Question" targetId="TuOuVous">Vous</a>
   </div>
 
-
   <!--<div ng-repeat="style in questionBar.getStyleList()" ng-if="style.visible" ng-show = "questionBar.askForThisStyle(style.name)" class="questionLine">-->
   <div ng-repeat="style in questionBar.getStyleList()" ng-if="style.visible" ng-show = "questionBar.isStyleVisible(style.name)" class="questionLine">
       <span translate>{{style.name}}</span>
@@ -34,36 +33,5 @@
       <a ng-click = "questionBar.setStyleChoice(style.name,'no')" class="questionChoice" translate targetType="Question" targetId="{{ style.name }}" targetParameters='no'>non</a>
       <a ng-click = "questionBar.setStyleChoice(style.name,'maybe')" class="questionChoice" translate targetType="Question" targetId="{{ style.name }}" targetParameters='maybe'>peut-être</a>
    </div>
-  <!--<div ng-show="questionBar.hasMoreQuestions()== false">houba</div>-->
-
-
-  <!--<div ng-show = "questionBar.askForThisStyle('humorous')" class="questionLine">-->
-    <!--<span translate>Humour</span>-->
-    <!--<a ng-click = "questionBar.setStyleChoice('humorous','yes')" class="questionChoice" translate targetType="Question" targetId="humorous">oui</a>-->
-    <!--<a ng-click = "questionBar.setStyleChoice('humorous','no')" class="questionChoice" translate targetType="Question" targetId="humorous">non</a>-->
-    <!--<a ng-click = "questionBar.setStyleChoice('humorous','maybe')" class="questionChoice" translate targetType="Question" targetId="humorous">peut-être</a>-->
-  <!--</div>-->
-
-  <!--<div ng-show = "questionBar.askForThisStyle('poetic')" class="questionLine">-->
-    <!--<span translate>Poésie</span>-->
-    <!--<a ng-click = "questionBar.setStyleChoice('poetic','yes')" class="questionChoice" translate targetType="Question" targetId="poetic">oui</a>-->
-    <!--<a ng-click = "questionBar.setStyleChoice('poetic','no')" class="questionChoice" translate targetType="Question" targetId="poetic">non</a>-->
-    <!--<a ng-click = "questionBar.setStyleChoice('poetic','maybe')" class="questionChoice" translate targetType="Question" targetId="poetic">peut-être</a>-->
-  <!--</div>-->
-
-  <!--<div ng-show = "questionBar.askForThisStyle('imaginative')" class="questionLine">-->
-    <!--<span translate>Décalé</span>-->
-    <!--<a ng-click = "questionBar.setStyleChoice('imaginative','yes')" class="questionChoice" translate targetType="Question" targetId="imaginative">oui</a>-->
-    <!--<a ng-click = "questionBar.setStyleChoice('imaginative','no')" class="questionChoice" translate targetType="Question" targetId="imaginative">non</a>-->
-    <!--<a ng-click = "questionBar.setStyleChoice('imaginative','maybe')" class="questionChoice" translate targetType="Question" targetId="imaginative">peut-être</a>-->
-  <!--</div>-->
-
-  <!--<div ng-show = "questionBar.askForThisStyle('citation')" class="questionLine">-->
-    <!--<span translate>Citation</span>-->
-    <!--<a ng-click = "questionBar.setStyleChoice('citation','yes')" class="questionChoice" translate targetType="Question" targetId="citation">oui</a>-->
-    <!--<a ng-click = "questionBar.setStyleChoice('citation','no')" class="questionChoice" translate targetType="Question" targetId="citation">non</a>-->
-    <!--<a ng-click = "questionBar.setStyleChoice('citation','maybe')" class="questionChoice" translate targetType="Question" targetId="citation">peut-être</a>-->
-  <!--</div>-->
-
 
 </div>
