@@ -10,8 +10,7 @@ angular.module('app/filters/questionBarSvc', [
 function ($rootScope, intentionsSvc, areasSvc, currentUser, currentLanguage, currentRecipientSvc,filtersSvc,filteredTextListSvc,generalStyles) {
 
   var filters = filtersSvc.filters;
-
-  //var ...  = generalStyles.styles;
+  var mostSelectiveStyles;
 
   var questionsAsked = {};
   function intializeQuestions()       { questionsAsked = {}; }
@@ -23,9 +22,52 @@ function ($rootScope, intentionsSvc, areasSvc, currentUser, currentLanguage, cur
   };
 
   var service = {
-    getStyles: function() {
+    getStyleList: function() {
       return generalStyles.stylesList;
     },
+    getVisibleStyles: function() {
+      return generalStyles.filterByPropertyAndCopy('visible',true);
+    },
+    calculateMostSelectiveStyles: function() {
+      // Add a selectiveness property to the styles, relative to the current filtered text list
+      var visibleStyleList = service.getVisibleStyles().stylesList;
+      console.log("== " + visibleStyleList);
+      for (var i = 0; i < visibleStyleList.length; i++) {
+        var style = visibleStyleList[i];
+        var selectiveness = filteredTextListSvc.countStyleSelelectiveness(style.name);
+        style.selectiveness = selectiveness;
+        console.log(style.name + " -- " + style.selectiveness);
+      }
+      // Make a list with most selective styles first
+      visibleStyleList.sort(function (style1, style2) {
+        var retval = style2.selectiveness - style1.selectiveness;
+        // If texts score the same as far as styles go, use SortBy, but only if the are not meant to be randomized
+        return retval;
+      });
+      console.log(visibleStyleList);
+      mostSelectiveStyles = visibleStyleList;
+
+      console.log(service.isStyleVisible('humorous'));
+
+    },
+    isStyleVisible: function(styleName) {
+
+      // Do not show style if we have other questions
+      if ( service.askForUserGender() || service.askForRecipientGender() || service.askForTuOuVous() )
+        return false;
+
+      // A style question is visible if its the most selective and if it has not been asked
+      var firstQuestionStyleNotAsked;
+      for (var i = 0; i < mostSelectiveStyles.length; i++) {
+        var style = mostSelectiveStyles[i];
+       if ( !questionsAsked[style.name] ) {
+         firstQuestionStyleNotAsked = style;
+        break;
+       }
+      }
+      return firstQuestionStyleNotAsked && firstQuestionStyleNotAsked.name == styleName;
+    },
+
     askForUserGender: function() {
       return currentUser.gender === null;
     },
@@ -51,6 +93,12 @@ function ($rootScope, intentionsSvc, areasSvc, currentUser, currentLanguage, cur
       filtersSvc.filters.preferredStyles.removeStyle(styleToRemove);
       filtersSvc.filters.excludedStyles.addStyle(styleToRemove);
     },
+
+    findMostSelectiveStyle: function() {
+      // find visible styles
+
+    },
+
     askForThisStyle: function(styleName) {
 
       // if we have less than 8 texts to read, we are done
@@ -61,6 +109,10 @@ function ($rootScope, intentionsSvc, areasSvc, currentUser, currentLanguage, cur
       if ( service.askForUserGender() || service.askForRecipientGender() || service.askForTuOuVous() )
         return false;
       switch  (styleName) {
+        case 'humorous':
+          if ( wasQuestionAsked('humorous') === true)
+            return false;
+          break;
         case 'poetic':
           if (wasQuestionAsked('humorous') === false)
             return false;
@@ -119,12 +171,19 @@ function ($rootScope, intentionsSvc, areasSvc, currentUser, currentLanguage, cur
       // Question will only we asked once
       countQuestionAsAsked(styleName);
     }
-
   };
+
+  //var selectiveStyles = service.getMostSelectiveStyles();
+
   $rootScope.$watch(function() { return intentionsSvc.getCurrentId(); }, function(intentionId) {
     if ( intentionId )
       intializeQuestions();
   }, true);
+
+  $rootScope.$watch(function() { return filteredTextListSvc.getLength();}, function(nbTexts) {
+    if ( nbTexts > 0)
+     service.calculateMostSelectiveStyles();
+  },true);
 
   return service;
 }]);

@@ -21,7 +21,7 @@ function(areasSvc, intentionsSvc, $stateChange, cacheSvc, serverSvc,HelperSvc,cu
         countTag(text.TagIds[i]);
       }
     });
-    console.log('TextsBis with humour : ' + styleCount['43AC3B']);
+    //console.log('TextsBis with humour : ' + styleCount['43AC3B']);
   }
 
   var service = {
@@ -48,7 +48,6 @@ function(areasSvc, intentionsSvc, $stateChange, cacheSvc, serverSvc,HelperSvc,cu
         return -1;
       return service.countTagSelelectiveness(style.id);
     },
-
     getTextCountForTagId: function(tagId) {
 //      console.log('Texts with tag ' + tagId + ' : ' + styleCount[tagId]);
       return styleCount[tagId];

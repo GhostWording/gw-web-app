@@ -44,6 +44,19 @@ angular.module('app/filters/styles', [])
     return filteredStyles;
   };
 
+  StyleCollection.prototype.filterByPropertyAndCopy = function(propertyName, propertyValue) {
+    var that = this;
+    var filteredStyles = new StyleCollection();
+    angular.forEach(that.stylesList, function(style) {
+//      console.log(style);
+      if ( style[propertyName] == propertyValue ) {
+        filteredStyles.addStyle(angular.copy(style));
+      }
+    });
+    console.log(filteredStyles);
+    return filteredStyles;
+  };
+
   // Creates a new style collection with all styles that intersect idCollection
   StyleCollection.prototype.filterIds = function(idCollection) {
     var that = this;
@@ -56,7 +69,6 @@ angular.module('app/filters/styles', [])
     });
     return filteredIds;
   };
-
 
   return StyleCollection;
 })
