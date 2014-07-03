@@ -13,6 +13,7 @@ function ($rootScope, intentionsSvc, areasSvc, currentUser, currentLanguage, cur
   var mostSelectiveStyles;
 
   var minSelectiveness = 0.18;
+  var minNbTextToAskQuestions = 8;
 
 
   var questionsAsked = {};
@@ -73,6 +74,8 @@ function ($rootScope, intentionsSvc, areasSvc, currentUser, currentLanguage, cur
     },
 
     hasMoreQuestions: function() {
+      if ( filteredTextListSvc.getLength() < minNbTextToAskQuestions )
+        return false;
 
       // Do not show style if we have other questions
       if ( service.askForUserGender() || service.askForRecipientGender() || service.askForTuOuVous() )
@@ -126,7 +129,7 @@ function ($rootScope, intentionsSvc, areasSvc, currentUser, currentLanguage, cur
     askForThisStyle: function(styleName) {
 
       // if we have less than 8 texts to read, we are done
-      if ( filteredTextListSvc.getLength() < 8 )
+      if ( filteredTextListSvc.getLength() < minNbTextToAskQuestions )
         return false;
 
       // Check that questions with higher priority have been asked

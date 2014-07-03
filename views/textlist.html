@@ -81,7 +81,7 @@
   <!--<div ui-view="questionBarView@" ng-show="true" style="position:fixed; border:1px solid rgb(247,133,40) ; background-color: #ffffff; text-align:center; z-index:3;-->
                   <!--left: 50%; width: 300px; margin-left: -150px; border-width: 2px;  bottom:1px; padding: 0px; margin-bottom: 0px;" class="alert alert-info">-->
   <!--</div>-->
-  <div ui-view="questionBarView@" ng-show="true" style="position:fixed; border:1px solid rgb(247,133,40) ; background-color: #ffffff; text-align:center; z-index:3;
+  <div ui-view="questionBarView@" ng-show="QuestionBar.hasMoreQuestions()== true" style="position:fixed; border:1px solid rgb(247,133,40) ; background-color: #ffffff; text-align:center; z-index:3;
                   left: 50%; width: 310px; margin-left: -155px; border-width: 2px;  bottom:1px; padding: 0px; margin-bottom: 0px;" class="alert alert-info">
   </div>
   <!-- margin-left: -160px; -->
@@ -94,7 +94,7 @@
 
   <div ng-show="QuestionBar.hasMoreQuestions()== false"
        style="position:fixed; background-color: #ffffff; margin-left: -38px;  text-align:center;   left: 50%; ; width: 70px; bottom:0px; z-index:5; font-size: 130% ">
-    <a href="" scroll-to="" ng-click="openAccordion()"  class="backArrow fa fa-envelope-o">&nbsp{{filteredTextList.getLength()}}</a>
+    <a href="" scroll-to="" ng-click="openAccordion()"  class="questionChoice fa fa-envelope-o">&nbsp{{filteredTextList.getLength()}}</a>
     <!--<a href="" scroll-to="" ng-click="openAccordion()"  class="fa fa-up-arrow fa-filter"></a>-->
   </div>
 
