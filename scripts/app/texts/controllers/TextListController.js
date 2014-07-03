@@ -1,11 +1,12 @@
 angular.module('app/texts/TextListController', [])
 // Displays a list of texts
 .controller('TextListController',
- ['$scope', 'currentTextList', 'currentIntention', 'currentUser', 'filtersSvc', '$modal', 'currentRecipient', 'favouritesSvc','appUrlSvc','currentLanguage','textsSvc','intentionsSvc','currentAreaName','PostActionSvc','$window','filteredTextListSvc','tagLabelsSvc','HelperSvc',
-function ($scope, currentTextList, currentIntention,  currentUser, filtersSvc, $modal,currentRecipient, favouritesSvc,appUrlSvc,currentLanguage,textsSvc,intentionsSvc,currentAreaName,PostActionSvc,$window,filteredTextListSvc,tagLabelsSvc,HelperSvc) {
+ ['$scope', 'currentTextList', 'currentIntention', 'currentUser', 'filtersSvc', '$modal', 'currentRecipient', 'favouritesSvc','appUrlSvc','currentLanguage','textsSvc','intentionsSvc','currentAreaName','PostActionSvc','$window','filteredTextListSvc','tagLabelsSvc','HelperSvc','questionBarSvc',
+function ($scope, currentTextList, currentIntention,  currentUser, filtersSvc, $modal,currentRecipient, favouritesSvc,appUrlSvc,currentLanguage,textsSvc,intentionsSvc,currentAreaName,PostActionSvc,$window,filteredTextListSvc,tagLabelsSvc,HelperSvc,questionBarSvc) {
   $scope.appUrlSvc = appUrlSvc;
-
   $scope.HelperSvc = HelperSvc;
+  $scope.QuestionBar = questionBarSvc;
+
   $scope.labelsThatShouldBeDisplayed = function(txt) {
     var stylesWeWant = filtersSvc.filters.preferredStyles;
     var idsWeWant = stylesWeWant.filterIds(txt.TagIds);

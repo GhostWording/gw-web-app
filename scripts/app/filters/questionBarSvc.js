@@ -12,6 +12,9 @@ function ($rootScope, intentionsSvc, areasSvc, currentUser, currentLanguage, cur
   var filters = filtersSvc.filters;
   var mostSelectiveStyles;
 
+  var minSelectiveness = 0.18;
+
+
   var questionsAsked = {};
   function intializeQuestions()       { questionsAsked = {}; }
   function countQuestionAsAsked(name) { questionsAsked[name] = true; }
@@ -57,16 +60,37 @@ function ($rootScope, intentionsSvc, areasSvc, currentUser, currentLanguage, cur
         return false;
 
       // A style question is visible if its the most selective and if it has not been asked
-      var firstQuestionStyleNotAsked;
+      var firstImportantStyleQuestionNotAsked;
       for (var i = 0; i < mostSelectiveStyles.length; i++) {
         var style = mostSelectiveStyles[i];
        if ( !questionsAsked[style.name] ) {
-         firstQuestionStyleNotAsked = style;
+         if ( style.selectiveness >= minSelectiveness )
+            firstImportantStyleQuestionNotAsked = style;
         break;
        }
       }
-      return firstQuestionStyleNotAsked && firstQuestionStyleNotAsked.name == styleName;
+      return firstImportantStyleQuestionNotAsked && firstImportantStyleQuestionNotAsked.name == styleName;
     },
+
+    hasMoreQuestions: function() {
+
+      // Do not show style if we have other questions
+      if ( service.askForUserGender() || service.askForRecipientGender() || service.askForTuOuVous() )
+        return true;
+
+      // A style question is visible if its the most selective and if it has not been asked
+      var firstImportantStyleQuestionNotAsked;
+      for (var i = 0; i < mostSelectiveStyles.length; i++) {
+        var style = mostSelectiveStyles[i];
+        if ( !questionsAsked[style.name] ) {
+          if ( style.selectiveness >= minSelectiveness )
+            firstImportantStyleQuestionNotAsked = style;
+          break;
+        }
+      }
+      return firstImportantStyleQuestionNotAsked !== undefined;
+    },
+
 
     askForUserGender: function() {
       return currentUser.gender === null;
