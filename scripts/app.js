@@ -48,21 +48,21 @@ angular.module('cherryApp',  [
     $scope.showSpinner = false;
     $scope.trackerIsActive = function () { return $rootScope.loadingTracker.active();};
 
-//    $state.go('question');
 
+    var skipTracker =  true;
     // Preload a few things
     intentionsSvc.getForArea('Friends');
     intentionsSvc.getForArea('LoveLife');
     intentionsSvc.getForArea('Family');
     intentionsSvc.getForArea('General');
 
-    textsSvc.getTextList('Friends', 'joyeux-anniversaire');
-    textsSvc.getTextList('Friends', 'merci');
-    textsSvc.getTextList('LoveLife', 'j-aimerais-vous-revoir');
-    textsSvc.getTextList('LoveLife', 'je-pense-a-toi');
-    textsSvc.getTextList('LoveLife', 'je-t-aime');
-    textsSvc.getTextList('LoveLife', 'j-ai-envie-de-toi');
-    textsSvc.getTextList('Family', 'je-pense-a-toi');
+    textsSvc.getTextList('Friends', 'joyeux-anniversaire',skipTracker);
+    //textsSvc.getTextList('Friends', 'merci',skipTracker);
+    textsSvc.getTextList('LoveLife', 'j-aimerais-vous-revoir',skipTracker);
+    textsSvc.getTextList('LoveLife', 'je-pense-a-toi',skipTracker);
+    textsSvc.getTextList('LoveLife', 'je-t-aime',skipTracker);
+    textsSvc.getTextList('LoveLife', 'j-ai-envie-de-toi',skipTracker);
+    //textsSvc.getTextList('Family', 'je-pense-a-toi',skipTracker);
 
     // We may want to user a tracker linked to route change instead of directly setting
     $rootScope.$on("$stateChangeStart",function (event, toState, toParams, fromState, fromParams) {

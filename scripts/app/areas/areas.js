@@ -46,6 +46,7 @@ angular.module('app/areas', [
     invalidateCacheIfNewerServerVersionExists: function(areaName) {
       // Get the server version
       return serverSvc.get(areaName).then(function(areaFromServer) {
+        // Then get the local version
         return service.getArea(areaName).then(function(areaFromCache) {
           var valret = false;
           // compare version with the cache

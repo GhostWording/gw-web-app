@@ -31,11 +31,11 @@ function ($scope, currentTextList, currentIntention,  currentUser, filtersSvc, $
   $scope.textList = currentTextList;
   $scope.filteredList = [];
 
-  $scope.accordionStatus = { };
-  $scope.accordionStatus.open = false;
+  $scope.theAccordionStatus = { };
+  $scope.theAccordionStatus.open = false;
 
   $scope.openAccordion = function() {
-    $scope.accordionStatus.open = true;
+    $scope.theAccordionStatus.open = true;
   };
 
   $scope.filters = filtersSvc.filters;

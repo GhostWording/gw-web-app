@@ -18,7 +18,7 @@ function(areasSvc, intentionsSvc, $stateChange, cacheSvc, serverSvc,HelperSvc,cu
       return service.getText(areaName, intentionId, textId);
     },
 
-    getTextList: function(areaName, intentionIdOrSlug) {
+    getTextList: function(areaName, intentionIdOrSlug,skipTracker) {
 
       var regularPath = areaName + '/intention/' + intentionIdOrSlug + '/texts';
       var slugPath = areaName + '/' + intentionIdOrSlug + '/texts';
@@ -28,9 +28,8 @@ function(areasSvc, intentionsSvc, $stateChange, cacheSvc, serverSvc,HelperSvc,cu
       var firstPath = slugPath;  // Slug syntax becomes our prefered one
       var secondPath = regularPath;
 
-//      return cacheSvc.get(firstPath + '.' + culture, -1, function() {
       return cacheSvc.get(cacheSvc.makeTextListCacheKey(areaName, intentionIdOrSlug,culture), -1, function() {
-        return serverSvc.get(firstPath,null,null,culture).then(
+        return serverSvc.get(firstPath,null,skipTracker,culture).then(
           function(textList) {
             // HACK : the server API should return an error when we use a bad slug instead of an empty list
             if ( textList.length > 0 )
