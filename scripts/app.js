@@ -51,10 +51,10 @@ angular.module('cherryApp',  [
 
     var skipTracker =  true;
     // Preload a few things
-    intentionsSvc.getForArea('Friends');
-    intentionsSvc.getForArea('LoveLife');
-    intentionsSvc.getForArea('Family');
-    intentionsSvc.getForArea('General');
+    intentionsSvc.getForArea('Friends',skipTracker);
+    intentionsSvc.getForArea('LoveLife',skipTracker);
+    intentionsSvc.getForArea('Family',skipTracker);
+    intentionsSvc.getForArea('General',skipTracker);
 
     textsSvc.getTextList('Friends', 'joyeux-anniversaire',skipTracker);
     //textsSvc.getTextList('Friends', 'merci',skipTracker);

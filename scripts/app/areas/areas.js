@@ -45,7 +45,7 @@ angular.module('app/areas', [
     // Invalidate cache if server version is newer : the area will only be refreshed on next call to getArea. Returns true if intentions should be reloaded
     invalidateCacheIfNewerServerVersionExists: function(areaName) {
       // Get the server version
-      return serverSvc.get(areaName).then(function(areaFromServer) {
+      return serverSvc.get(areaName,null,true).then(function(areaFromServer) {
         // Then get the local version
         return service.getArea(areaName).then(function(areaFromCache) {
           var valret = false;
