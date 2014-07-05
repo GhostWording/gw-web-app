@@ -61,6 +61,8 @@ function ($rootScope, intentionsSvc, areasSvc, currentUser, currentLanguage, cur
       var firstImportantStyleQuestionNotAsked;
       for (var i = 0; i < mostSelectiveStyles.length; i++) {
         var style = mostSelectiveStyles[i];
+        if ( !service.hasStyleChoice(style.name,'maybe'))
+          continue;
        if ( !questionsAsked[style.name] ) {
          if ( style.selectiveness >= minSelectiveness ) {
            firstImportantStyleQuestionNotAsked = style;
@@ -69,6 +71,9 @@ function ($rootScope, intentionsSvc, areasSvc, currentUser, currentLanguage, cur
        }
       }
       return firstImportantStyleQuestionNotAsked && firstImportantStyleQuestionNotAsked.name == styleName;
+    },
+    hasStyleChoice: function(styleName,choice) {
+      return filtersSvc.hasStyleChoice(styleName,choice);
     },
 
     hasMoreQuestions: function() {
@@ -85,6 +90,8 @@ function ($rootScope, intentionsSvc, areasSvc, currentUser, currentLanguage, cur
       var firstImportantStyleQuestionNotAsked;
       for (var i = 0; i < mostSelectiveStyles.length; i++) {
         var style = mostSelectiveStyles[i];
+        if ( !service.hasStyleChoice(style.name,'maybe'))
+          continue;
         if ( !questionsAsked[style.name] ) {
           if ( style.selectiveness >= minSelectiveness ) {
             firstImportantStyleQuestionNotAsked = style;
@@ -122,61 +129,7 @@ function ($rootScope, intentionsSvc, areasSvc, currentUser, currentLanguage, cur
       filtersSvc.filters.excludedStyles.addStyle(styleToRemove);
     },
 
-//    askForThisStyle: function(styleName) {
-//
-//      // if we have less than 8 texts to read, we are done
-//      if ( filteredTextListSvc.getLength() < minNbTextToAskQuestions )
-//        return false;
-//
-//      // Check that questions with higher priority have been asked
-//      if ( service.askForUserGender() || service.askForRecipientGender() || service.askForTuOuVous() )
-//        return false;
-//      switch  (styleName) {
-//        case 'humorous':
-//          if ( wasQuestionAsked('humorous') === true)
-//            return false;
-//          break;
-//        case 'poetic':
-//          if (wasQuestionAsked('humorous') === false)
-//            return false;
-//          break;
-//        case 'imaginative':
-//          if (wasQuestionAsked('humorous') === false || wasQuestionAsked('poetic') === false )
-//            return false;
-//         break;
-//        case 'warm':
-//          if (wasQuestionAsked('humorous') === false || wasQuestionAsked('poetic') === false || wasQuestionAsked('imaginative') === false )
-//            return false;
-//          break;
-//        case 'citation':
-//          if (wasQuestionAsked('humorous') === false || wasQuestionAsked('poetic') === false ||
-//              wasQuestionAsked('imaginative') === false || wasQuestionAsked('warm') === false    )
-//            return false;
-//          break;
-//        case 'colloquial':
-//          if (wasQuestionAsked('humorous') === false || wasQuestionAsked('poetic') === false ||
-//          wasQuestionAsked('imaginative') === false || wasQuestionAsked('warm') === false || wasQuestionAsked('citation') === false    )
-//            return false;
-//          break;
-//        default:
-//          console.log(styleName + " UNKNONW");
-//          break;
-//      }
-//      // Check that the question itself has not alread been asked
-//      if ( wasQuestionAsked(styleName) )
-//        return false;
-//
-//      // Will the question help eliminate some of the remaining texts in filteredTextList ?
-//      var selectiveness = filteredTextListSvc.countStyleSelelectiveness(styleName);
-//      console.log(styleName + ' selectiveness : ' + filteredTextListSvc.countStyleSelelectiveness(styleName));
-//      var questionWorthAsking = selectiveness >= 0.18;
-//
-//      // If question not worth asking, make way for other questions
-//      if ( !questionWorthAsking )
-//        countQuestionAsAsked(styleName);
-//
-//      return questionWorthAsking;
-//    },
+
     setStyleChoice: function(styleName,choice) {
       switch(choice) {
         case 'yes':

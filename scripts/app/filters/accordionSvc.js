@@ -100,20 +100,7 @@ angular.module('app/filters/accordionSvc', [
         }
       },
       hasStyleChoice: function(styleName,choice) {
-        switch(choice) {
-          case 'yes':
-            return  filtersSvc.filters.preferredStyles.stylesByName[styleName] !== undefined;
-            break;
-          case 'no':
-            return  filtersSvc.filters.excludedStyles.stylesByName[styleName] !== undefined;
-            break;
-          case 'maybe':
-            return  !filtersSvc.filters.preferredStyles.stylesByName[styleName] && !filtersSvc.filters.excludedStyles.stylesByName[styleName];
-            break;
-          default:
-            console.log(choice + ' is not a valid choice !!!!!');
-            break;
-        }
+        return filtersSvc.hasStyleChoice(styleName,choice);
       }
     };
     service.theAccordionStatus.open = false;

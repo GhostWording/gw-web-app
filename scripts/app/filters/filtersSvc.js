@@ -222,6 +222,22 @@ function($rootScope, StyleCollection,intentionsSvc,areasSvc,currentUser,currentL
         service.filters.tuOuVous = recipient.TuOuVous;
       else
         service.filters.tuOuVous = null;
+    },
+    hasStyleChoice: function(styleName,choice) {
+      switch(choice) {
+        case 'yes':
+          return  service.filters.preferredStyles.stylesByName[styleName] !== undefined;
+          break;
+        case 'no':
+          return  service.filters.excludedStyles.stylesByName[styleName] !== undefined;
+          break;
+        case 'maybe':
+          return  !service.filters.preferredStyles.stylesByName[styleName] && !service.filters.excludedStyles.stylesByName[styleName];
+          break;
+        default:
+          console.log(choice + ' is not a valid choice !!!!!');
+          break;
+      }
     }
 
   };
