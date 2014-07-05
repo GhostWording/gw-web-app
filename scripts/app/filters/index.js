@@ -4,7 +4,7 @@ angular.module('app/filters', [
   'app/filters/TextFiltersController',
   'app/filters/StyleBarController',
   'app/filters/StyleDialogController',
-  'app/filters/AccordionController',
+  'app/filters/MyAccordionController',
   'app/filters/questionBarSvc',
   'app/filters/QuestionBarController',
   'app/filters/accordionSvc',

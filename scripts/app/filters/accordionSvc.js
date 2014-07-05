@@ -89,7 +89,7 @@ angular.module('app/filters/accordionSvc', [
         }
       }
     };
-//    service.theAccordionStatus.open = true;
+    service.theAccordionStatus.open = false;
 
 //    $rootScope.$watch(function() { return textsSvc.getCurrentList();}, function(retval) {
 //      retval.then(function(list) {

@@ -31,9 +31,9 @@ function ($scope, currentTextList, currentIntention,  currentUser, filtersSvc, $
   $scope.textList = currentTextList;
   $scope.filteredList = [];
 
-  $scope.theAccordionStatus = {};
-  //$scope.theAccordionStatus = accordionSvc.theAccordionStatus;
-  $scope.theAccordionStatus.open = false;
+  //$scope.theAccordionStatus = {};
+  $scope.theAccordionStatus = accordionSvc.theAccordionStatus;
+  //$scope.theAccordionStatus.open = false;
 
   $scope.openAccordion = function() {
     $scope.theAccordionStatus.open = true;
