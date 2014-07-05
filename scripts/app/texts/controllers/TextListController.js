@@ -31,9 +31,7 @@ function ($scope, currentTextList, currentIntention,  currentUser, filtersSvc, $
   $scope.textList = currentTextList;
   $scope.filteredList = [];
 
-  //$scope.theAccordionStatus = {};
   $scope.theAccordionStatus = accordionSvc.theAccordionStatus;
-  //$scope.theAccordionStatus.open = false;
 
   $scope.openAccordion = function() {
     $scope.theAccordionStatus.open = true;
@@ -53,6 +51,7 @@ function ($scope, currentTextList, currentIntention,  currentUser, filtersSvc, $
     textsSvc.getCurrentList().then(function(textList) {
       $scope.textList =textList;
       textsSvc.countTextsPerStyle(textList);
+      accordionSvc.calculateMostSelectiveStyles();
       $scope.filterList();});
   }
   $scope.$watch(function() { return currentLanguage.getLanguageCode(); },

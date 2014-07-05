@@ -110,12 +110,12 @@ function ($rootScope, intentionsSvc, areasSvc, currentUser, currentLanguage, cur
       return valret;
     },
 
-    addStyleToFilters: function (styleName) {
+    addStyleToPreferred: function (styleName) {
       var styleToAdd = generalStyles.stylesByName[styleName];
       //console.log(styleToAdd);
       filtersSvc.filters.preferredStyles.addStyle(styleToAdd);
     },
-    removeStyleFromFilters: function (styleName) {
+    excludeStyle: function (styleName) {
       var styles = filtersSvc.filters.preferredStyles;
       var styleToRemove = generalStyles.stylesByName[styleName];
       filtersSvc.filters.preferredStyles.removeStyle(styleToRemove);
@@ -180,10 +180,10 @@ function ($rootScope, intentionsSvc, areasSvc, currentUser, currentLanguage, cur
     setStyleChoice: function(styleName,choice) {
       switch(choice) {
         case 'yes':
-           service.addStyleToFilters(styleName);
+           service.addStyleToPreferred(styleName);
            break;
         case 'no':
-          service.removeStyleFromFilters(styleName);
+          service.excludeStyle(styleName);
           break;
         case 'maybe':
           break;

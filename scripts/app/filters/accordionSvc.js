@@ -52,6 +52,9 @@ angular.module('app/filters/accordionSvc', [
         mostSelectiveStyles = visibleStyleList;
       },
       isStyleVisible: function(styleName) {
+        if ( !mostSelectiveStyles )
+          return false;
+
         // A style question is visible if it is selective enough
         for (var i = 0; i < mostSelectiveStyles.length; i++) {
           var style = mostSelectiveStyles[i];
@@ -62,26 +65,47 @@ angular.module('app/filters/accordionSvc', [
       },
 
 
-      addStyleToFilters: function (styleName) {
-        var styleToAdd = generalStyles.stylesByName[styleName];
-        filtersSvc.filters.preferredStyles.addStyle(styleToAdd);
+      addStyleToPreferred: function (styleName) {
+        var  style = generalStyles.stylesByName[styleName];
+        filtersSvc.filters.excludedStyles.removeStyle(style);
+        filtersSvc.filters.preferredStyles.addStyle(style);
       },
-      removeStyleFromFilters: function (styleName) {
-        var styles = filtersSvc.filters.preferredStyles;
-        var styleToRemove = generalStyles.stylesByName[styleName];
-        filtersSvc.filters.preferredStyles.removeStyle(styleToRemove);
-        filtersSvc.filters.excludedStyles.addStyle(styleToRemove);
+      excludeStyle: function (styleName) {
+        var style = generalStyles.stylesByName[styleName];
+        filtersSvc.filters.preferredStyles.removeStyle(style);
+        filtersSvc.filters.excludedStyles.addStyle(style);
       },
-
+      dontUseStyleInFilters: function (styleName) {
+        var style = generalStyles.stylesByName[styleName];
+        filtersSvc.filters.excludedStyles.removeStyle(style);
+        filtersSvc.filters.preferredStyles.removeStyle(style);
+      },
       setStyleChoice: function(styleName,choice) {
         switch(choice) {
           case 'yes':
-            service.addStyleToFilters(styleName);
+            service.addStyleToPreferred(styleName);
             break;
           case 'no':
-            service.removeStyleFromFilters(styleName);
+            service.excludeStyle(styleName);
             break;
           case 'maybe':
+            service.dontUseStyleInFilters(styleName);
+            break;
+          default:
+            console.log(choice + ' is not a valid choice !!!!!');
+            break;
+        }
+      },
+      hasStyleChoice: function(styleName,choice) {
+        switch(choice) {
+          case 'yes':
+            return  filtersSvc.filters.preferredStyles.stylesByName[styleName] !== undefined;
+            break;
+          case 'no':
+            return  filtersSvc.filters.excludedStyles.stylesByName[styleName] !== undefined;
+            break;
+          case 'maybe':
+            return  !filtersSvc.filters.preferredStyles.stylesByName[styleName] && !filtersSvc.filters.excludedStyles.stylesByName[styleName];
             break;
           default:
             console.log(choice + ' is not a valid choice !!!!!');
@@ -89,7 +113,7 @@ angular.module('app/filters/accordionSvc', [
         }
       }
     };
-    service.theAccordionStatus.open = false;
+    service.theAccordionStatus.open = true;
 
 //    $rootScope.$watch(function() { return textsSvc.getCurrentList();}, function(retval) {
 //      retval.then(function(list) {

@@ -65,4 +65,21 @@
                  <a targetType="Command" targetId="TuOuVous" ng-click = "filters.tuOuVous = 'V'">Vous</a></li>
          </ul>
      </div>
+
+   <div ng-repeat="style in accordionSvc.getMostSelectiveStyles()" ng-if="style.visible" ng-show = "accordionSvc.isStyleVisible(style.name)" class="questionLine">
+
+     <ul class="pager bmwQuestionButton" style="margin-bottom: 5px;">
+       <span translate>{{style.name}}</span>
+       <li ng-class= "{selectionne: accordionSvc.hasStyleChoice(style.name,'yes')}">
+         <a ng-click = "accordionSvc.setStyleChoice(style.name,'yes')"
+            targetType="Command" targetId="TuOuVous"  targetParameters='yes'>oui</a></li>
+       <li ng-class= "{selectionne: accordionSvc.hasStyleChoice(style.name,'no')}">
+         <a ng-click = "accordionSvc.setStyleChoice(style.name,'no')"
+            targetType="Command" targetId="TuOuVous"  targetParameters='yes'>non</a></li>
+       <li ng-class= "{selectionne: accordionSvc.hasStyleChoice(style.name,'maybe')}">
+         <a ng-click = "accordionSvc.setStyleChoice(style.name,'maybe')"
+            targetType="Command" targetId="TuOuVous"  targetParameters='yes'>peut-être</a></li>
+     </ul>
+   </div>
+
  </div>
