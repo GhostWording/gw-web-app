@@ -2,7 +2,23 @@ angular.module('app/texts/textList', [])
 
 .factory('textsSvc', ['areasSvc', 'intentionsSvc', '$stateChange', 'cacheSvc', 'serverSvc','HelperSvc','currentLanguage','minSortOrderToBeRandomized',
 function(areasSvc, intentionsSvc, $stateChange, cacheSvc, serverSvc,HelperSvc,currentLanguage,minSortOrderToBeRandomized) {
+
+  var styleCount = {};
+  var nbTextsForStyleCount;
+
   var service = {
+
+    countTextsPerStyle : function (textList) {
+      styleCount = HelperSvc.countNbTextsPerStyle(textList);
+      nbTextsForStyleCount = textList.length;
+      //console.log(styleCount);
+    },
+    getTextCountForTagId: function(tagId) {
+      return styleCount[tagId];
+    },
+    getLengthForTextCount : function() {
+      return nbTextsForStyleCount;
+    },
     getCurrentList: function() {
       var areaName = areasSvc.getCurrentName();
       var intentionId = intentionsSvc.getCurrentId();

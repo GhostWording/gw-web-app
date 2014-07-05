@@ -28,20 +28,16 @@
   <!--<div ng-controller="AccordionOptionController">-->
   <div>
     <accordion>
-      <accordion-group is-open="theAccordionStatus.open" is-disabled="false">
+      <accordion-group isOpen="theAccordionStatus.open" is-disabled="false">
         <accordion-heading>
           <i class="glyphicon" ng-class="{'glyphicon-plus': !theAccordionStatus.open, 'glyphicon-minus': theAccordionStatus.open}"></i>
           <span translate class="brand">Filtrer</span>
           (
-          <!--<span class="brand">{{filteredList.length}}</span>-->
           <span class="brand">{{filteredTextList.getLength()}}</span>
           )
-          <!-- Not actionnable on iPhones !  -->
-          <!--<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': accordionStatus.open, 'glyphicon-chevron-right': !accordionStatus.open}"></i>-->
         </accordion-heading>
         <!-- Filtering options  -->
         <div ng-include="'views/partials/filterForm.html'" style="margin-bottom: 0px;"></div>
-        <!--<div ng-include="'views/partials/styleBar.html'" ng-show="true || filtersWellDefined()"></div>-->
       </accordion-group>
     </accordion>
   </div>

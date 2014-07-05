@@ -1,8 +1,8 @@
 angular.module('app/texts/TextListController', [])
 // Displays a list of texts
 .controller('TextListController',
- ['$scope', 'currentTextList', 'currentIntention', 'currentUser', 'filtersSvc', '$modal', 'currentRecipient', 'favouritesSvc','appUrlSvc','currentLanguage','textsSvc','intentionsSvc','currentAreaName','PostActionSvc','$window','filteredTextListSvc','tagLabelsSvc','HelperSvc','questionBarSvc',
-function ($scope, currentTextList, currentIntention,  currentUser, filtersSvc, $modal,currentRecipient, favouritesSvc,appUrlSvc,currentLanguage,textsSvc,intentionsSvc,currentAreaName,PostActionSvc,$window,filteredTextListSvc,tagLabelsSvc,HelperSvc,questionBarSvc) {
+ ['$scope', 'currentTextList', 'currentIntention', 'currentUser', 'filtersSvc', '$modal', 'currentRecipient', 'favouritesSvc','appUrlSvc','currentLanguage','textsSvc','intentionsSvc','currentAreaName','PostActionSvc','$window','filteredTextListSvc','tagLabelsSvc','HelperSvc','questionBarSvc','accordionSvc',
+function ($scope, currentTextList, currentIntention,  currentUser, filtersSvc, $modal,currentRecipient, favouritesSvc,appUrlSvc,currentLanguage,textsSvc,intentionsSvc,currentAreaName,PostActionSvc,$window,filteredTextListSvc,tagLabelsSvc,HelperSvc,questionBarSvc,accordionSvc) {
   $scope.appUrlSvc = appUrlSvc;
   $scope.HelperSvc = HelperSvc;
   $scope.QuestionBar = questionBarSvc;
@@ -31,7 +31,8 @@ function ($scope, currentTextList, currentIntention,  currentUser, filtersSvc, $
   $scope.textList = currentTextList;
   $scope.filteredList = [];
 
-  $scope.theAccordionStatus = { };
+  $scope.theAccordionStatus = {};
+  //$scope.theAccordionStatus = accordionSvc.theAccordionStatus;
   $scope.theAccordionStatus.open = false;
 
   $scope.openAccordion = function() {
@@ -50,7 +51,9 @@ function ($scope, currentTextList, currentIntention,  currentUser, filtersSvc, $
 
   function prepareAndDisplayTextList() {
     textsSvc.getCurrentList().then(function(textList) {
-      $scope.textList =textList; $scope.filterList();});
+      $scope.textList =textList;
+      textsSvc.countTextsPerStyle(textList);
+      $scope.filterList();});
   }
   $scope.$watch(function() { return currentLanguage.getLanguageCode(); },
                 prepareAndDisplayTextList(),true);

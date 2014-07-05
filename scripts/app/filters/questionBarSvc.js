@@ -39,26 +39,22 @@ function ($rootScope, intentionsSvc, areasSvc, currentUser, currentLanguage, cur
       console.log("== " + visibleStyleList);
       for (var i = 0; i < visibleStyleList.length; i++) {
         var style = visibleStyleList[i];
-        //var selectiveness = filteredTextListSvc.countStyleSelelectiveness(style);
         var styleCount = filteredTextListSvc.getTextCountForTagId(style.id);
         style.selectiveness  = HelperSvc.countTagSelelectiveness(style.id,styleCount,filteredTextListSvc.getLength());
-
         console.log(style.name + " -- " + style.selectiveness);
       }
       // Make a list with most selective styles first
       visibleStyleList.sort(function (style1, style2) {
-        var retval = style2.selectiveness - style1.selectiveness;
-        // If texts score the same as far as styles go, use SortBy, but only if the are not meant to be randomized
-        return retval;
+        return  style2.selectiveness - style1.selectiveness;
       });
-      console.log(visibleStyleList);
       mostSelectiveStyles = visibleStyleList;
-      console.log(service.isStyleVisible('humorous'));
     },
     isStyleVisible: function(styleName) {
-
       // Do not show style if we have other questions
       if ( service.askForUserGender() || service.askForRecipientGender() || service.askForTuOuVous() )
+        return false;
+
+      if ( !mostSelectiveStyles )
         return false;
 
       // A style question is visible if its the most selective and if it has not been asked
@@ -82,6 +78,8 @@ function ($rootScope, intentionsSvc, areasSvc, currentUser, currentLanguage, cur
       // Do not show style if we have other questions
       if ( service.askForUserGender() || service.askForRecipientGender() || service.askForTuOuVous() )
         return true;
+      if ( !mostSelectiveStyles )
+        return false;
 
       // A style question is visible if its the most selective and if it has not been asked
       var firstImportantStyleQuestionNotAsked;
