@@ -6,8 +6,8 @@ angular.module('app/filters/questionBarSvc', [
 
 
 // This service keeps track of user choices that impact the filtering of texts
-.factory('questionBarSvc', ['$rootScope', 'intentionsSvc', 'areasSvc', 'currentUser', 'currentLanguage', 'currentRecipientSvc','filtersSvc','filteredTextListSvc','generalStyles',
-function ($rootScope, intentionsSvc, areasSvc, currentUser, currentLanguage, currentRecipientSvc,filtersSvc,filteredTextListSvc,generalStyles) {
+.factory('questionBarSvc', ['$rootScope', 'intentionsSvc', 'areasSvc', 'currentUser', 'currentLanguage', 'currentRecipientSvc','filtersSvc','filteredTextListSvc','generalStyles','HelperSvc',
+function ($rootScope, intentionsSvc, areasSvc, currentUser, currentLanguage, currentRecipientSvc,filtersSvc,filteredTextListSvc,generalStyles,HelperSvc) {
 
   var filters = filtersSvc.filters;
   var mostSelectiveStyles;
@@ -32,14 +32,17 @@ function ($rootScope, intentionsSvc, areasSvc, currentUser, currentLanguage, cur
     getVisibleStyles: function() {
       return generalStyles.filterByPropertyAndCopy('visible',true);
     },
+
     calculateMostSelectiveStyles: function() {
       // Add a selectiveness property to the styles, relative to the current filtered text list
       var visibleStyleList = service.getVisibleStyles().stylesList;
       console.log("== " + visibleStyleList);
       for (var i = 0; i < visibleStyleList.length; i++) {
         var style = visibleStyleList[i];
-        var selectiveness = filteredTextListSvc.countStyleSelelectiveness(style.name);
-        style.selectiveness = selectiveness;
+        //var selectiveness = filteredTextListSvc.countStyleSelelectiveness(style);
+        var styleCount = filteredTextListSvc.getTextCountForTagId(style.id);
+        style.selectiveness  = HelperSvc.countTagSelelectiveness(style.id,styleCount,filteredTextListSvc.getLength());
+
         console.log(style.name + " -- " + style.selectiveness);
       }
       // Make a list with most selective styles first
@@ -50,9 +53,7 @@ function ($rootScope, intentionsSvc, areasSvc, currentUser, currentLanguage, cur
       });
       console.log(visibleStyleList);
       mostSelectiveStyles = visibleStyleList;
-
       console.log(service.isStyleVisible('humorous'));
-
     },
     isStyleVisible: function(styleName) {
 
@@ -65,9 +66,10 @@ function ($rootScope, intentionsSvc, areasSvc, currentUser, currentLanguage, cur
       for (var i = 0; i < mostSelectiveStyles.length; i++) {
         var style = mostSelectiveStyles[i];
        if ( !questionsAsked[style.name] ) {
-         if ( style.selectiveness >= minSelectiveness )
-            firstImportantStyleQuestionNotAsked = style;
-        break;
+         if ( style.selectiveness >= minSelectiveness ) {
+           firstImportantStyleQuestionNotAsked = style;
+           break;
+         }
        }
       }
       return firstImportantStyleQuestionNotAsked && firstImportantStyleQuestionNotAsked.name == styleName;
@@ -86,9 +88,10 @@ function ($rootScope, intentionsSvc, areasSvc, currentUser, currentLanguage, cur
       for (var i = 0; i < mostSelectiveStyles.length; i++) {
         var style = mostSelectiveStyles[i];
         if ( !questionsAsked[style.name] ) {
-          if ( style.selectiveness >= minSelectiveness )
+          if ( style.selectiveness >= minSelectiveness ) {
             firstImportantStyleQuestionNotAsked = style;
-          break;
+            break;
+          }
         }
       }
       return firstImportantStyleQuestionNotAsked !== undefined;
@@ -121,66 +124,61 @@ function ($rootScope, intentionsSvc, areasSvc, currentUser, currentLanguage, cur
       filtersSvc.filters.excludedStyles.addStyle(styleToRemove);
     },
 
-    findMostSelectiveStyle: function() {
-      // find visible styles
-
-    },
-
-    askForThisStyle: function(styleName) {
-
-      // if we have less than 8 texts to read, we are done
-      if ( filteredTextListSvc.getLength() < minNbTextToAskQuestions )
-        return false;
-
-      // Check that questions with higher priority have been asked
-      if ( service.askForUserGender() || service.askForRecipientGender() || service.askForTuOuVous() )
-        return false;
-      switch  (styleName) {
-        case 'humorous':
-          if ( wasQuestionAsked('humorous') === true)
-            return false;
-          break;
-        case 'poetic':
-          if (wasQuestionAsked('humorous') === false)
-            return false;
-          break;
-        case 'imaginative':
-          if (wasQuestionAsked('humorous') === false || wasQuestionAsked('poetic') === false )
-            return false;
-         break;
-        case 'warm':
-          if (wasQuestionAsked('humorous') === false || wasQuestionAsked('poetic') === false || wasQuestionAsked('imaginative') === false )
-            return false;
-          break;
-        case 'citation':
-          if (wasQuestionAsked('humorous') === false || wasQuestionAsked('poetic') === false ||
-              wasQuestionAsked('imaginative') === false || wasQuestionAsked('warm') === false    )
-            return false;
-          break;
-        case 'colloquial':
-          if (wasQuestionAsked('humorous') === false || wasQuestionAsked('poetic') === false ||
-          wasQuestionAsked('imaginative') === false || wasQuestionAsked('warm') === false || wasQuestionAsked('citation') === false    )
-            return false;
-          break;
-        default:
-          console.log(styleName + " UNKNONW");
-          break;
-      }
-      // Check that the question itself has not alread been asked
-      if ( wasQuestionAsked(styleName) )
-        return false;
-
-      // Will the question help eliminate some of the remaining texts in filteredTextList ?
-      var selectiveness = filteredTextListSvc.countStyleSelelectiveness(styleName);
-      console.log(styleName + ' selectiveness : ' + filteredTextListSvc.countStyleSelelectiveness(styleName));
-      var questionWorthAsking = selectiveness >= 0.18;
-
-      // If question not worth asking, make way for other questions
-      if ( !questionWorthAsking )
-        countQuestionAsAsked(styleName);
-
-      return questionWorthAsking;
-    },
+//    askForThisStyle: function(styleName) {
+//
+//      // if we have less than 8 texts to read, we are done
+//      if ( filteredTextListSvc.getLength() < minNbTextToAskQuestions )
+//        return false;
+//
+//      // Check that questions with higher priority have been asked
+//      if ( service.askForUserGender() || service.askForRecipientGender() || service.askForTuOuVous() )
+//        return false;
+//      switch  (styleName) {
+//        case 'humorous':
+//          if ( wasQuestionAsked('humorous') === true)
+//            return false;
+//          break;
+//        case 'poetic':
+//          if (wasQuestionAsked('humorous') === false)
+//            return false;
+//          break;
+//        case 'imaginative':
+//          if (wasQuestionAsked('humorous') === false || wasQuestionAsked('poetic') === false )
+//            return false;
+//         break;
+//        case 'warm':
+//          if (wasQuestionAsked('humorous') === false || wasQuestionAsked('poetic') === false || wasQuestionAsked('imaginative') === false )
+//            return false;
+//          break;
+//        case 'citation':
+//          if (wasQuestionAsked('humorous') === false || wasQuestionAsked('poetic') === false ||
+//              wasQuestionAsked('imaginative') === false || wasQuestionAsked('warm') === false    )
+//            return false;
+//          break;
+//        case 'colloquial':
+//          if (wasQuestionAsked('humorous') === false || wasQuestionAsked('poetic') === false ||
+//          wasQuestionAsked('imaginative') === false || wasQuestionAsked('warm') === false || wasQuestionAsked('citation') === false    )
+//            return false;
+//          break;
+//        default:
+//          console.log(styleName + " UNKNONW");
+//          break;
+//      }
+//      // Check that the question itself has not alread been asked
+//      if ( wasQuestionAsked(styleName) )
+//        return false;
+//
+//      // Will the question help eliminate some of the remaining texts in filteredTextList ?
+//      var selectiveness = filteredTextListSvc.countStyleSelelectiveness(styleName);
+//      console.log(styleName + ' selectiveness : ' + filteredTextListSvc.countStyleSelelectiveness(styleName));
+//      var questionWorthAsking = selectiveness >= 0.18;
+//
+//      // If question not worth asking, make way for other questions
+//      if ( !questionWorthAsking )
+//        countQuestionAsAsked(styleName);
+//
+//      return questionWorthAsking;
+//    },
     setStyleChoice: function(styleName,choice) {
       switch(choice) {
         case 'yes':
@@ -199,8 +197,6 @@ function ($rootScope, intentionsSvc, areasSvc, currentUser, currentLanguage, cur
       countQuestionAsAsked(styleName);
     }
   };
-
-  //var selectiveStyles = service.getMostSelectiveStyles();
 
   $rootScope.$watch(function() { return intentionsSvc.getCurrentId(); }, function(intentionId) {
     if ( intentionId )

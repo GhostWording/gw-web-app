@@ -7,55 +7,28 @@ function(areasSvc, intentionsSvc, $stateChange, cacheSvc, serverSvc,HelperSvc,cu
   var styleCount = {};
 
   function countTextsPerStyle () {
-    styleCount = {};
-    var nbHumorous = 0;
-    function countTag (tagId) {
-      if ( !styleCount[tagId] )
-        styleCount[tagId] = 0;
-      styleCount[tagId]++;
-    }
-    // Add back in texts that are compatible with the current filters
-    angular.forEach(filteredTextList, function (text) {
-      for ( var i = 0; i < text.TagIds.length; i++) {
-        var tagId = text.TagIds[i];
-        countTag(text.TagIds[i]);
-      }
-    });
-    //console.log('TextsBis with humour : ' + styleCount['43AC3B']);
+    styleCount = HelperSvc.countNbTextsPerStyle(filteredTextList);
   }
 
   var service = {
-
     // If a tag is present in half the texts, it greatly helps with the selection
     // the closer we are to 0.5, the better the score
-    countTagSelelectiveness: function (tagId) {
-      var nbTotal = service.getLength();
-      if (nbTotal === 0)
-        return -1;
-      // Are we far from midpoint ?
-      var styleCount = service.getTextCountForTagId(tagId);
-      var distanceToMidpoint = styleCount - (nbTotal / 2);
-      if (distanceToMidpoint < 0 )
-        distanceToMidpoint = -distanceToMidpoint;
-      var relativeDistanceToMidpoint = distanceToMidpoint / (nbTotal / 2);
-      var selectiveness = 1 - relativeDistanceToMidpoint ;
-      //console.log ("styleCount . distanceToMidpoint . selectiveness : " + styleCount + ' . ' + distanceToMidpoint + ' . ' + selectiveness);
-      return selectiveness;
-    },
-    countStyleSelelectiveness: function(name) {
-      var style = generalStyles.stylesByName[name];
-      if (!style )
-        return -1;
-      return service.countTagSelelectiveness(style.id);
-    },
     getTextCountForTagId: function(tagId) {
-//      console.log('Texts with tag ' + tagId + ' : ' + styleCount[tagId]);
       return styleCount[tagId];
     },
-    getTextCountForStyleName: function(name) {
-      var style = generalStyles.stylesByName[name];
-      return service.getTextCountForTagId(style.id);
-    },
+//    countStyleSelelectiveness: function(style) {
+//      if (!style )
+//        return -1;
+//      var tagId = style.id;
+//      var styleCount = service.getTextCountForTagId(tagId);
+//      var nbTotal = service.getLength();
+//      return HelperSvc.countTagSelelectiveness(tagId,styleCount,nbTotal);
+//    },
+
+//    getTextCountForStyleName: function(name) {
+//      var style = generalStyles.stylesByName[name];
+//      return service.getTextCountForTagId(style.id);
+//    },
 
     setFilteredAndOrderedList: function (textList, currentUser, preferredStyles) {
 
