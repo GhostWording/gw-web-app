@@ -13,7 +13,7 @@ angular.module('app/filters/accordionSvc', [
       var filters = filtersSvc.filters;
       var mostSelectiveStyles;
 
-      var minSelectiveness = 0.18;
+      var minSelectiveness = 0.2;
 
       var currentLanguageHasTVDistinction = function() {
         return currentLanguage.usesTVDistinction(currentLanguage.getLanguageCode());
@@ -38,18 +38,21 @@ angular.module('app/filters/accordionSvc', [
       calculateMostSelectiveStyles: function() {
         // Add a selectiveness property to the styles, relative to the current filtered text list
         var visibleStyleList = service.getVisibleStyles().stylesList;
+        var selectiveStyleList = [];
         console.log("== " + visibleStyleList);
         for (var i = 0; i < visibleStyleList.length; i++) {
           var style = visibleStyleList[i];
           var styleCount = textsSvc.getTextCountForTagId(style.id);
           style.selectiveness  = HelperSvc.countTagSelelectiveness(style.id,styleCount,textsSvc.getLengthForTextCount());
-          console.log(style.name + " -- " + style.selectiveness);
+          if ( style.selectiveness >=  minSelectiveness)
+            selectiveStyleList.push(style);
+          console.log(style.name + " -- " + styleCount + " -- " + style.selectiveness);
         }
         // Make a list with most selective styles first
-        visibleStyleList.sort(function (style1, style2) {
+        selectiveStyleList.sort(function (style1, style2) {
           return  style2.selectiveness - style1.selectiveness;
         });
-        mostSelectiveStyles = visibleStyleList;
+        mostSelectiveStyles = selectiveStyleList;
       },
       isStyleVisible: function(styleName) {
         if ( !mostSelectiveStyles )
@@ -113,14 +116,7 @@ angular.module('app/filters/accordionSvc', [
         }
       }
     };
-    service.theAccordionStatus.open = true;
-
-//    $rootScope.$watch(function() { return textsSvc.getCurrentList();}, function(retval) {
-//      retval.then(function(list) {
-//        if ( list.length > 0)
-//          service.calculateMostSelectiveStyles();
-//        })
-//    },true);
+    service.theAccordionStatus.open = false;
 
     return service;
   }]);

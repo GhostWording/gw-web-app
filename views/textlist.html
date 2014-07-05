@@ -74,24 +74,18 @@
   <div  ng-show="false" ng-include="'views/partials/languageBar.html'" style="margin-top: 30px; text-align: center" ></div>
 
   <!-- Fixed position question view -->
-  <!--<div ui-view="questionBarView@" ng-show="true" style="position:fixed; border:1px solid rgb(247,133,40) ; background-color: #ffffff; text-align:center; z-index:3;-->
-                  <!--left: 50%; width: 300px; margin-left: -150px; border-width: 2px;  bottom:1px; padding: 0px; margin-bottom: 0px;" class="alert alert-info">-->
-  <!--</div>-->
-  <div ui-view="questionBarView@" ng-show="QuestionBar.hasMoreQuestions()== true" style="position:fixed; border:1px solid rgb(247,133,40) ; background-color: #ffffff; text-align:center; z-index:3;
-                  left: 50%; width: 316px; margin-left: -158px; border-width: 2px;  bottom:1px; padding: 0px; margin-bottom: 0px;" class="alert alert-info">
+  <div ui-view="questionBarView@" ng-show="QuestionBar.hasMoreQuestions()== true && theAccordionStatus.open == false"
+        style="position:fixed; border:1px solid rgb(247,133,40) ; background-color: #ffffff; text-align:center; z-index:3;
+        left: 50%; width: 316px; margin-left: -158px; border-width: 2px;  bottom:1px; padding: 0px; margin-bottom: 0px;" class="alert alert-info">
   </div>
-  <!-- margin-left: -160px; -->
-  <!-- margin-left: 129px; -->
-  <!--<div ng-show="QuestionBar.hasMoreQuestions()== true" style="position:fixed; background-color: #ffffff; margin-left: -160px;  text-align:center;   left: 50%; ; width: 47px; bottom:0px; z-index:5; ">-->
-  <div ng-show="QuestionBar.hasMoreQuestions()== true"
+  <div ng-show="QuestionBar.hasMoreQuestions()== true && theAccordionStatus.open == false"
        style="position:fixed; background-color: #ffffff; margin-left: -23px;  text-align:center;   left: 50%; ; width: 50px; bottom:62px; z-index:5; font-size: 100%">
     <a href="" scroll-to="" ng-click="openAccordion()"  class="fa fa-envelope-o">&nbsp{{filteredTextList.getLength()}}</a>
   </div>
 
-  <div ng-show="QuestionBar.hasMoreQuestions()== false"
+  <div ng-show="QuestionBar.hasMoreQuestions()== false || theAccordionStatus.open == true"
        style="position:fixed; background-color: #ffffff; margin-left: -38px;  text-align:center;   left: 50%; ; width: 70px; bottom:0px; z-index:5; font-size: 130% ">
     <a href="" scroll-to="" ng-click="openAccordion()"  class="questionChoice fa fa-envelope-o">&nbsp{{filteredTextList.getLength()}}</a>
-    <!--<a href="" scroll-to="" ng-click="openAccordion()"  class="fa fa-up-arrow fa-filter"></a>-->
   </div>
 
 
