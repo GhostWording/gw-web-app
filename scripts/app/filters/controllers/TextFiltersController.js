@@ -38,13 +38,15 @@ angular.module('app/filters/TextFiltersController', [])
 
 })
 
-.controller('TextFiltersController', ['$scope','filtersSvc','currentUser', 'FILTER_LABELS','currentRecipientSvc','currentLanguage','accordionSvc',
-function ($scope,filtersSvc,currentUser, FILTER_LABELS,currentRecipientSvc,currentLanguage,accordionSvc) {
+.controller('TextFiltersController', ['$scope','filtersSvc','currentUser', 'FILTER_LABELS','currentRecipientSvc','currentLanguage','accordionSvc','textsSvc',
+function ($scope,filtersSvc,currentUser, FILTER_LABELS,currentRecipientSvc,currentLanguage,accordionSvc,textsSvc) {
   var filters = $scope.filters = filtersSvc.filters;
   $scope.currentUser = currentUser;
   $scope.canHaveSeveralRecipientsforCurrentArea = filtersSvc.canHaveSeveralRecipientsforCurrentArea;
 
   $scope.accordionSvc = accordionSvc;
+
+  $scope.intentionTexts = textsSvc;
 
   $scope.currentLanguageHasTVDistinction = function() {
     return currentLanguage.usesTVDistinction(currentLanguage.getLanguageCode());

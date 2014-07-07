@@ -5,16 +5,31 @@ function(areasSvc, intentionsSvc, $stateChange, cacheSvc, serverSvc,HelperSvc,cu
 
   var styleCount = {};
   var nbTextsForStyleCount;
+  var propertyCount = {};
+  var propertyKeys = [
+    { name:'Target', value: 'H'},{ name:'Target', value: 'F'}, { name:'Target', value: 'P'},
+    { name:'PoliteForm', value: 'T'},{ name:'PoliteForm', value: 'V'},
+    { name:'Proximity', value: 'P'},{ name:'Proximity', value: 'D'}
+  ] ;
 
   var service = {
 
     countTextsPerStyle : function (textList) {
       styleCount = HelperSvc.countNbTextsPerStyle(textList);
       nbTextsForStyleCount = textList.length;
-      //console.log(styleCount);
+
+      angular.forEach(propertyKeys, function (o) {
+        var c = HelperSvc.countNbTextsPerPropertyValue(textList, o.name, o.value);
+        var key = o.name + '.' + o.value;
+        propertyCount[key] = c;
+      });
+      //console.log(propertyCount);
     },
     getTextCountForTagId: function(tagId) {
       return styleCount[tagId];
+    },
+    getTextCountForPropertyValue: function(propertyName, propertyValue) {
+      return propertyCount[propertyName+'.'+ propertyValue];
     },
     getLengthForTextCount : function() {
       return nbTextsForStyleCount;
