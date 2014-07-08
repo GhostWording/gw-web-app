@@ -6,7 +6,7 @@ function(areasSvc, intentionsSvc, $stateChange, cacheSvc, serverSvc,HelperSvc,cu
   var styleCount = {};
   var nbTextsForStyleCount;
   var propertyCount = {};
-  var propertyKeys = [
+  var propertyKeystoBeCounted = [
     { name:'Target', value: 'H'},{ name:'Target', value: 'F'}, { name:'Target', value: 'P'},
     { name:'PoliteForm', value: 'T'},{ name:'PoliteForm', value: 'V'},
     { name:'Proximity', value: 'P'},{ name:'Proximity', value: 'D'}
@@ -14,11 +14,11 @@ function(areasSvc, intentionsSvc, $stateChange, cacheSvc, serverSvc,HelperSvc,cu
 
   var service = {
 
-    countTextsPerStyle : function (textList) {
+    countTextsForStylesAndProperties : function (textList) {
       styleCount = HelperSvc.countNbTextsPerStyle(textList);
       nbTextsForStyleCount = textList.length;
 
-      angular.forEach(propertyKeys, function (o) {
+      angular.forEach(propertyKeystoBeCounted, function (o) {
         var c = HelperSvc.countNbTextsPerPropertyValue(textList, o.name, o.value);
         var key = o.name + '.' + o.value;
         propertyCount[key] = c;

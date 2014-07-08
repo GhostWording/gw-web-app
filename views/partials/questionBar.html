@@ -7,7 +7,7 @@
     <a class="questionChoice" ng-click = "currentUser.gender = 'F'" translate targetType="Question" targetId="UserGender" >Une femme</a>
   </div>
 
-  <div ng-show = "questionBar.askForRecipientGender()" class="questionLine">
+  <div ng-show = "questionBar.askForRecipientGender() && recipientGenderCanHelpChooseTexts()" class="questionLine"  >
     <span translate>Destinataire</span>
     <a ng-click = "filters.recipientGender = 'F'" class="questionChoice" targetType="Question" targetId="RecipientGender">
       <img ng-src="./assets/femaleuser32.png" class="breadcrumbpicto">
@@ -20,18 +20,16 @@
     </a>
   </div>
 
-  <div ng-show = "questionBar.askForTuOuVous()" class="questionLine">
+  <div ng-show = "questionBar.askForTuOuVous() && politeFormCanHelpChooseTexts()" class="questionLine">
     <span translate>Lui dire</span>
     <a ng-click = "filters.tuOuVous = 'T'" class="questionChoice" translate targetType="Question" targetId="TuOuVous">Tu</a>
     <a ng-click = "filters.tuOuVous = 'V'" class="questionChoice" translate targetType="Question" targetId="TuOuVous">Vous</a>
   </div>
 
-  <!--<div ng-repeat="style in questionBar.getStyleList()" ng-if="style.visible" ng-show = "questionBar.askForThisStyle(style.name)" class="questionLine">-->
   <div ng-repeat="style in questionBar.getStyleList()" ng-if="style.visible" ng-show = "questionBar.isStyleVisible(style.name)" class="questionLine">
       <span translate>{{style.name}}</span>
       <a ng-click = "questionBar.setStyleChoice(style.name,'yes')" class="questionChoice" translate targetType="Question" targetId="{{ style.name }}" targetParameters='yes'>oui</a>
       <a ng-click = "questionBar.setStyleChoice(style.name,'no')" class="questionChoice" translate targetType="Question" targetId="{{ style.name }}" targetParameters='no'>non</a>
       <a ng-click = "questionBar.setStyleChoice(style.name,'maybe')" class="questionChoice" translate targetType="Question" targetId="{{ style.name }}" targetParameters='maybe'>peut-être</a>
    </div>
-
 </div>

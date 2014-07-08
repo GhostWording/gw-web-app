@@ -50,7 +50,7 @@ function ($scope, currentTextList, currentIntention,  currentUser, filtersSvc, $
   function prepareAndDisplayTextList() {
     textsSvc.getCurrentList().then(function(textList) {
       $scope.textList =textList;
-      textsSvc.countTextsPerStyle(textList);
+      textsSvc.countTextsForStylesAndProperties(textList);
       accordionSvc.calculateMostSelectiveStyles();
       $scope.filterList();});
   }

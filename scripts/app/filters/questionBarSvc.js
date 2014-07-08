@@ -32,7 +32,7 @@ function ($rootScope, intentionsSvc, areasSvc, currentUser, currentLanguage, cur
     getVisibleStyles: function() {
       return generalStyles.filterByPropertyAndCopy('visible',true);
     },
-
+    // TODO : same thing with recipient tags, but just take the most likely ones
     calculateMostSelectiveStyles: function() {
       // Add a selectiveness property to the styles, relative to the current filtered text list
       var visibleStyleList = service.getVisibleStyles().stylesList;

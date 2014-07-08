@@ -3,33 +3,32 @@ angular.module('app/texts/filteredTextListSvc', [])
 .factory('filteredTextListSvc', ['areasSvc', 'intentionsSvc', '$stateChange', 'cacheSvc', 'serverSvc','HelperSvc','currentLanguage','filtersSvc','minSortOrderToBeRandomized','generalStyles',
 function(areasSvc, intentionsSvc, $stateChange, cacheSvc, serverSvc,HelperSvc,currentLanguage,filtersSvc,minSortOrderToBeRandomized,generalStyles) {
   var filteredTextList = [];
-
   var styleCount = {};
+  var propertyCount = {};
 
-  function countTextsPerStyle () {
+  var propertyKeystoBeCounted = [
+    { name:'Target', value: 'H'},{ name:'Target', value: 'F'}, { name:'Target', value: 'P'},
+    { name:'PoliteForm', value: 'T'},{ name:'PoliteForm', value: 'V'},
+    { name:'Proximity', value: 'P'},{ name:'Proximity', value: 'D'}
+  ] ;
+
+  function countTextsForStylesAndProperties () {
     styleCount = HelperSvc.countNbTextsPerStyle(filteredTextList);
+
+    angular.forEach(propertyKeystoBeCounted, function (o) {
+      var c = HelperSvc.countNbTextsPerPropertyValue(filteredTextList, o.name, o.value);
+      var key = o.name + '.' + o.value;
+      propertyCount[key] = c;
+    });
   }
 
   var service = {
-    // If a tag is present in half the texts, it greatly helps with the selection
-    // the closer we are to 0.5, the better the score
     getTextCountForTagId: function(tagId) {
       return styleCount[tagId];
     },
-//    countStyleSelelectiveness: function(style) {
-//      if (!style )
-//        return -1;
-//      var tagId = style.id;
-//      var styleCount = service.getTextCountForTagId(tagId);
-//      var nbTotal = service.getLength();
-//      return HelperSvc.countTagSelelectiveness(tagId,styleCount,nbTotal);
-//    },
-
-//    getTextCountForStyleName: function(name) {
-//      var style = generalStyles.stylesByName[name];
-//      return service.getTextCountForTagId(style.id);
-//    },
-
+    getTextCountForPropertyValue: function(propertyName, propertyValue) {
+      return propertyCount[propertyName+'.'+ propertyValue];
+    },
     setFilteredAndOrderedList: function (textList, currentUser, preferredStyles) {
 
       var filteredList = [];
@@ -59,7 +58,7 @@ function(areasSvc, intentionsSvc, $stateChange, cacheSvc, serverSvc,HelperSvc,cu
         });
       }
       filteredTextList = filteredList;
-      countTextsPerStyle();
+      countTextsForStylesAndProperties();
       return filteredList;
     },
     getFilteredTextList: function() {
