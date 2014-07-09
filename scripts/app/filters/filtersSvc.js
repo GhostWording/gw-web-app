@@ -186,9 +186,10 @@ function($rootScope, StyleCollection,intentionsSvc,areasSvc,currentUser,currentL
       }
 
       // TODO : all this should be data driven, set by the server
+      // TODO : We should use the slugs instead
       switch (intentionId) {
         case '0ECC82' : // Exutoire
-          service.filters.recipientGender = 'H';
+          service.filters.recipientGender = 'N';
           service.filters.tuOuVous = 'T';
           break;
         case '0B1EA1' : // Jokes
