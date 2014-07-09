@@ -18,7 +18,8 @@ function($rootScope, StyleCollection,intentionsSvc,areasSvc,currentUser,currentL
       excludedStyles: new StyleCollection(),   // exclude texts that have these styles
       preferredStyles: new StyleCollection(),  // move texts that have these styles to the top of the list
       contexts: new StyleCollection(),         // If not empty, only show texts that match this context
-      recipientTypeTag : null
+      recipientTypeTag : null,
+      proximity : null
     },
 
     getFilters: function() {
@@ -32,8 +33,10 @@ function($rootScope, StyleCollection,intentionsSvc,areasSvc,currentUser,currentL
       service.filters.preferredStyles.clear();
       service.filters.contexts.clear();
       service.filters.recipientTypeTag = null;
+      service.filters.proximity = null;
     },
 
+    // A text property is compatible with a filter if is has the same value, has value I : Indifferent, or filter is not defined
     compatible: function(textValue, filterValue) {
       return !textValue || textValue == 'I' || !filterValue ||
               textValue == filterValue;
@@ -52,14 +55,16 @@ function($rootScope, StyleCollection,intentionsSvc,areasSvc,currentUser,currentL
               (textValue == 'P' && filterValue == 'V');
     },
 
+    proximityCompatible: function(textValue, filterValue) {
+      return service.compatible(textValue, filterValue);
+    },
+
     matchesAllStyles: function(text, styleCollection) {
       var i;
-
       // Optimization - if the text has too few tags then it obviously fails
       if ( text.TagIds.length < styleCollection.stylesList.length ) {
         return false;
       }
-
       for (i = 0; i < styleCollection.stylesList.length; i++) {
         if ( text.TagIds.indexOf(styleCollection.stylesList[i].id) === -1 ) {
           return false;
@@ -101,6 +106,7 @@ function($rootScope, StyleCollection,intentionsSvc,areasSvc,currentUser,currentL
         return service.senderCompatible(text.Sender, sender.gender) &&
                service.genderCompatible(text.Target, service.filters.recipientGender) &&
                service.tuOuVousCompatible(text.PoliteForm, service.filters.tuOuVous) &&
+               service.proximityCompatible(text.Promimity, service.filters.tuOuVous) &&
                service.matchesNoStyles(text, service.filters.excludedStyles) &&
                //service.matchesAllStyles(text, service.filters.contexts); //
               (service.matchesAStyle(text, service.filters.contexts) || service.filters.contexts.stylesList.length === 0) &&
