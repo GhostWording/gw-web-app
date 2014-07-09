@@ -109,10 +109,16 @@ function ($rootScope, intentionsSvc, areasSvc, currentUser, currentLanguage, cur
     askForRecipientGender: function() {
       return !service.askForUserGender() &&  filters.recipientGender === null ;
     },
+    askForProximity: function() {
+      var valret = !service.askForUserGender() && !service.askForRecipientGender() && filters.proximity === null;
+      return valret;
+    },
+
     askForTuOuVous: function() {
       var valret = !service.askForUserGender() &&
                    !service.askForRecipientGender() &&
-                   currentLanguageHasTVDistinction() &&
+                   !service.askForProximity() &&
+                    currentLanguageHasTVDistinction() &&
                    filters.tuOuVous === null;
       return valret;
     },

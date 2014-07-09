@@ -20,6 +20,13 @@
     </a>
   </div>
 
+  <div ng-show = "questionBar.askForProximity()" class="questionLine">
+    <span translate>Proche</span>
+    <a ng-click = "filters.proximity = 'P'" class="questionChoice" translate targetType="Question" targetId="Proximity">oui</a>
+    <a ng-click = "filters.proximity = 'D'" class="questionChoice" translate targetType="Question" targetId="Proximity">non</a>
+    <a ng-click = "filters.proximity = 'I'" class="questionChoice" translate targetType="Question" targetId="Proximity">+ ou -</a>
+  </div>
+
   <div ng-show = "questionBar.askForTuOuVous() && politeFormCanHelpChooseTexts()" class="questionLine">
     <span translate>Lui dire</span>
     <a ng-click = "filters.tuOuVous = 'T'" class="questionChoice" translate targetType="Question" targetId="TuOuVous">Tu</a>

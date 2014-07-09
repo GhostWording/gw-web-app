@@ -54,7 +54,7 @@
      </div>
 
      <!-- Proximity : are we close to the recipient -->
-     <div ng-show = "intentionTexts.getTextCountForPropertyValue('Proximity','P') >= 20 && intentionTexts.getTextCountForPropertyValue('Proximity','D') >= 20 ">
+     <div ng-show = "intentionTexts.getTextCountForPropertyValue('Proximity','P') >= 10 && intentionTexts.getTextCountForPropertyValue('Proximity','D') >= 10 ">
        <ul class="pager bmwQuestionButton" style="margin-bottom: 15px;">
          <span translate>Proche</span>
          <li ng-class= '{selectionne: filters.proximity=="P"}'>
