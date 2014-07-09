@@ -39,7 +39,9 @@ function($rootScope, StyleCollection,intentionsSvc,areasSvc,currentUser,currentL
     // A text property is compatible with a filter if is has the same value, has value I : Indifferent, or filter is not defined
     compatible: function(textValue, filterValue) {
       return !textValue || textValue == 'I' || !filterValue ||
-              textValue == filterValue;
+              textValue == filterValue ||
+              filterValue == 'I' // new, 9th July
+      ;
     },
     genderCompatible: function(textValue, filterValue) {
       return service.compatible(textValue, filterValue) ||
@@ -106,7 +108,7 @@ function($rootScope, StyleCollection,intentionsSvc,areasSvc,currentUser,currentL
         return service.senderCompatible(text.Sender, sender.gender) &&
                service.genderCompatible(text.Target, service.filters.recipientGender) &&
                service.tuOuVousCompatible(text.PoliteForm, service.filters.tuOuVous) &&
-               service.proximityCompatible(text.Promimity, service.filters.tuOuVous) &&
+               service.proximityCompatible(text.Proximity, service.filters.proximity) &&
                service.matchesNoStyles(text, service.filters.excludedStyles) &&
                //service.matchesAllStyles(text, service.filters.contexts); //
               (service.matchesAStyle(text, service.filters.contexts) || service.filters.contexts.stylesList.length === 0) &&
@@ -175,7 +177,7 @@ function($rootScope, StyleCollection,intentionsSvc,areasSvc,currentUser,currentL
         if (userGender == 'H' || userGender == 'F')
           service.filters.recipientGender = service.invertGender(userGender);
         // Unless intention is 'I would like to see you again' or new relationship, presume 'Tu' will be adequate
-        if (intentionId != 'BD7387' && intentionId != '7445BC')
+        if (intentionId != 'BD7387' && intentionId != '7445BC' && intentionId != 'j-aimerais-vous-revoir')
           service.filters.tuOuVous = 'T';
       }
       if (areaName == 'Friends') {
@@ -200,12 +202,16 @@ function($rootScope, StyleCollection,intentionsSvc,areasSvc,currentUser,currentL
         case '8ED62C' : // Tu me manques
         case '1395B6' : // Surprends-moi
         case '5CDCF2' : // Je t'aime
-        case 'BD7387' : // J'aimerais vous revoir
         case 'D78AFB' : // Je te quitte
         case 'F4566D' : // J'ai envie de toi
           if (userGender == 'H' || userGender == 'F')
             service.filters.recipientGender = service.invertGender(userGender);
           service.filters.tuOuVous = 'T';
+          break;
+        case 'BD7387' : // J'aimerais vous revoir
+          if (userGender == 'H' || userGender == 'F')
+            service.filters.recipientGender = service.invertGender(userGender);
+          service.filters.tuOuVous = null;
           break;
       }
 
@@ -267,10 +273,13 @@ function($rootScope, StyleCollection,intentionsSvc,areasSvc,currentUser,currentL
   // Compute additional filter values
   var updateFilters = function() {
     var filters = service.filters;
-    // Proche mais pas Plusieurs : Close to recipient and not several of them => Tu looks like a good choice
-    if ( !filters.tuOuVous && filters.closeness === 'P' && filters.recipientGender !== 'P') {
+    // Close to recipient and not several of them => Tu looks like a good choice
+    if ( !filters.tuOuVous && filters.proximity === 'P' && filters.recipientGender !== 'P')
       filters.tuOuVous = 'T';
-    }
+    // Not Close to recipient  => Vous looks like a good choice
+    if ( !filters.tuOuVous && filters.proximity === 'D' )
+      filters.tuOuVous = 'V';
+
     if (!currentLanguage.usesTVDistinction(currentLanguage.getLanguageCode()))
       service.filters.tuOuVous = undefined;
 

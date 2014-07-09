@@ -53,6 +53,19 @@
          </ul>
      </div>
 
+     <!-- Proximity : are we close to the recipient -->
+     <div ng-show = "intentionTexts.getTextCountForPropertyValue('Proximity','P') >= 20 && intentionTexts.getTextCountForPropertyValue('Proximity','D') >= 20 ">
+       <ul class="pager bmwQuestionButton" style="margin-bottom: 15px;">
+         <span translate>Proche</span>
+         <li ng-class= '{selectionne: filters.proximity=="P"}'>
+           <a targetType="Command" targetId="Proximity" ng-click = "filters.proximity = 'P'">Oui</a></li>
+         <li ng-class= '{selectionne: filters.proximity=="D"}' >
+           <a targetType="Command" targetId="Proximity" ng-click = "filters.proximity = 'D'">Non</a></li>
+         <li ng-class= '{selectionne: filters.proximity=="I"}' >
+           <a targetType="Command" targetId="Proximity" ng-click = "filters.proximity = 'I'">+ ou -</a></li>
+       </ul>
+     </div>
+
      <!-- In French, would you say Tu or Vous -->
      <div ng-show = "currentLanguageHasTVDistinction() && ( intentionTexts.getTextCountForPropertyValue('PoliteForm','T') >= 2 && intentionTexts.getTextCountForPropertyValue('PoliteForm','V') >= 2  )">
          <ul class="pager bmwQuestionButton" style="margin-bottom: 5px;">
@@ -65,18 +78,17 @@
      </div>
 
    <div ng-repeat="style in accordionSvc.getMostSelectiveStyles()" ng-if="style.visible" ng-show = "accordionSvc.isStyleVisible(style.name)" class="questionLine">
-
      <ul class="pager bmwQuestionButton" style="margin-bottom: 5px;">
        <span translate>{{style.name}}</span>
        <li ng-class= "{selectionne: accordionSvc.hasStyleChoice(style.name,'yes')}">
          <a translate ng-click = "accordionSvc.setStyleChoice(style.name,'yes')"
-            targetType="Command" targetId="TuOuVous"  targetParameters='yes'>oui</a></li>
+            targetType="Command" targetId="{{style.name}}"  targetParameters='yes' >oui</a></li>
        <li  ng-class= "{selectionne: accordionSvc.hasStyleChoice(style.name,'no')}">
          <a translate ng-click = "accordionSvc.setStyleChoice(style.name,'no')"
-            targetType="Command" targetId="TuOuVous"  targetParameters='yes'>non</a></li>
+            targetType="Command" targetId="{{style.name}}"  targetParameters='no'>non</a></li>
        <li ng-class= "{selectionne: accordionSvc.hasStyleChoice(style.name,'maybe')}">
          <a translate ng-click = "accordionSvc.setStyleChoice(style.name,'maybe')"
-            targetType="Command" targetId="TuOuVous"  targetParameters='yes'>peut-être</a></li>
+            targetType="Command" targetId="{{style.name}}"  targetParameters='maybe'>peut-être</a></li>
      </ul>
    </div>
 
