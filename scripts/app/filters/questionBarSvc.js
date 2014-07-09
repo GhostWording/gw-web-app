@@ -49,26 +49,36 @@ function ($rootScope, intentionsSvc, areasSvc, currentUser, currentLanguage, cur
       });
       mostSelectiveStyles = visibleStyleList;
     },
-    isStyleVisible: function(styleName) {
-      // Do not show style if we have other questions
-      if ( service.askForUserGender() || service.askForRecipientGender() || service.askForTuOuVous() )
-        return false;
 
-      if ( !mostSelectiveStyles )
+
+    isBasicInfoOK: function(styleName) {
+      // Do not show style if we have other questions
+      if ( service.askForUserGender() || service.askForRecipientGender() || service.askForTuOuVous() || service.askForProximity() )
+        return false;
+      return true;
+    },
+
+
+    isStyleVisible: function (styleName) {
+      // Do not show style if we have other questions
+//      if (service.askForUserGender() || service.askForRecipientGender() || service.askForTuOuVous() || service.askForProximity())
+//        return false;
+
+      if (!mostSelectiveStyles)
         return false;
 
       // A style question is visible if its the most selective and if it has not been asked
       var firstImportantStyleQuestionNotAsked;
       for (var i = 0; i < mostSelectiveStyles.length; i++) {
         var style = mostSelectiveStyles[i];
-        if ( !service.hasStyleChoice(style.name,'maybe'))
+        if (!service.hasStyleChoice(style.name, 'maybe'))
           continue;
-       if ( !questionsAsked[style.name] ) {
-         if ( style.selectiveness >= minSelectiveness ) {
-           firstImportantStyleQuestionNotAsked = style;
-           break;
-         }
-       }
+        if (!questionsAsked[style.name]) {
+          if (style.selectiveness >= minSelectiveness) {
+            firstImportantStyleQuestionNotAsked = style;
+            break;
+          }
+        }
       }
       return firstImportantStyleQuestionNotAsked && firstImportantStyleQuestionNotAsked.name == styleName;
     },

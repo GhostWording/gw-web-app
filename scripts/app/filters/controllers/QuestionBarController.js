@@ -2,12 +2,11 @@ angular.module('app/filters/QuestionBarController', [])
 
 .controller('QuestionBarController', ['$scope','currentUser','filtersSvc','currentLanguage','questionBarSvc','filteredTextListSvc',
 function($scope,currentUser,filtersSvc,currentLanguage,questionBarSvc,filteredTextListSvc) {
-  var filters = $scope.filters = filtersSvc.filters;
+
+  //var filters = $scope.filters = filtersSvc.filters;
 
   $scope.currentUser = currentUser;
   $scope.questionBar = questionBarSvc;
-
-  //$scope.filteredTexts = filteredTextListSvc;
 
   // TODO : move those in questionBarSvc
   $scope.recipientGenderCanHelpChooseTexts = function() {
@@ -18,6 +17,11 @@ function($scope,currentUser,filtersSvc,currentLanguage,questionBarSvc,filteredTe
   $scope.politeFormCanHelpChooseTexts = function() {
     return filteredTextListSvc.getTextCountForPropertyValue('PoliteForm','T') >= 2 && filteredTextListSvc.getTextCountForPropertyValue('PoliteForm','V') >= 2 ;
   };
+
+  $scope.proximityCanHelpChooseTexts = function() {
+    return filteredTextListSvc.getTextCountForPropertyValue('Proximity','P') >= 10 && filteredTextListSvc.getTextCountForPropertyValue('Proximity','D') >= 10;
+  };
+
 
   $scope.canHaveSeveralRecipientsforCurrentArea = filtersSvc.canHaveSeveralRecipientsforCurrentArea;
 
