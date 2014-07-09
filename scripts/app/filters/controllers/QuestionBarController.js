@@ -19,6 +19,7 @@ function($scope,currentUser,filtersSvc,currentLanguage,questionBarSvc,filteredTe
   };
 
   $scope.proximityCanHelpChooseTexts = function() {
+    console.log(filteredTextListSvc.getTextCountForPropertyValue('Proximity','P') + ' === ' + filteredTextListSvc.getTextCountForPropertyValue('Proximity','D') );
     return filteredTextListSvc.getTextCountForPropertyValue('Proximity','P') >= 10 && filteredTextListSvc.getTextCountForPropertyValue('Proximity','D') >= 10;
   };
 
