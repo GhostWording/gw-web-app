@@ -1,8 +1,39 @@
 angular.module('app/texts/textList', [])
 
-.factory('textsSvc', ['areasSvc', 'intentionsSvc', '$stateChange', 'cacheSvc', 'serverSvc','HelperSvc','currentLanguage',
-function(areasSvc, intentionsSvc, $stateChange, cacheSvc, serverSvc,HelperSvc,currentLanguage) {
+.factory('textsSvc', ['areasSvc', 'intentionsSvc', '$stateChange', 'cacheSvc', 'serverSvc','HelperSvc','currentLanguage','minSortOrderToBeRandomized',
+function(areasSvc, intentionsSvc, $stateChange, cacheSvc, serverSvc,HelperSvc,currentLanguage,minSortOrderToBeRandomized) {
+
+  var styleCount = {};
+  var nbTextsForStyleCount;
+  var propertyCount = {};
+  var propertyKeystoBeCounted = [
+    { name:'Target', value: 'H'},{ name:'Target', value: 'F'}, { name:'Target', value: 'P'},
+    { name:'PoliteForm', value: 'T'},{ name:'PoliteForm', value: 'V'},
+    { name:'Proximity', value: 'P'},{ name:'Proximity', value: 'D'}
+  ] ;
+
   var service = {
+
+    countTextsForStylesAndProperties : function (textList) {
+      styleCount = HelperSvc.countNbTextsPerStyle(textList);
+      nbTextsForStyleCount = textList.length;
+
+      angular.forEach(propertyKeystoBeCounted, function (o) {
+        var c = HelperSvc.countNbTextsPerPropertyValue(textList, o.name, o.value);
+        var key = o.name + '.' + o.value;
+        propertyCount[key] = c;
+      });
+      //console.log(propertyCount);
+    },
+    getTextCountForTagId: function(tagId) {
+      return styleCount[tagId];
+    },
+    getTextCountForPropertyValue: function(propertyName, propertyValue) {
+      return propertyCount[propertyName+'.'+ propertyValue];
+    },
+    getLengthForTextCount : function() {
+      return nbTextsForStyleCount;
+    },
     getCurrentList: function() {
       var areaName = areasSvc.getCurrentName();
       var intentionId = intentionsSvc.getCurrentId();
@@ -18,31 +49,18 @@ function(areasSvc, intentionsSvc, $stateChange, cacheSvc, serverSvc,HelperSvc,cu
       return service.getText(areaName, intentionId, textId);
     },
 
-//    makeCacheKey: function(areaName, intentionIdOrSlug) {
-//      var culture = currentLanguage.currentCulture();
-//      if ( culture == "es-ES") {
-//        culture = "en-EN";
-//      }
-//      return areaName + '/' + intentionIdOrSlug + '/texts' + '.' + culture;
-//    },
-    getTextList: function(areaName, intentionIdOrSlug) {
+    getTextList: function(areaName, intentionIdOrSlug,skipTracker) {
 
       var regularPath = areaName + '/intention/' + intentionIdOrSlug + '/texts';
       var slugPath = areaName + '/' + intentionIdOrSlug + '/texts';
 
       var culture = currentLanguage.currentCulture();
-      // HACK : while we don't have spanish texts, display english ones instead
-//      if ( culture == "es-ES") {
-//        culture = "en-EN";
-////        console.log("!!!!!! Switching from es-ES to " + culture);
-//      }
 
       var firstPath = slugPath;  // Slug syntax becomes our prefered one
       var secondPath = regularPath;
 
-//      return cacheSvc.get(firstPath + '.' + culture, -1, function() {
       return cacheSvc.get(cacheSvc.makeTextListCacheKey(areaName, intentionIdOrSlug,culture), -1, function() {
-        return serverSvc.get(firstPath,null,null,culture).then(
+        return serverSvc.get(firstPath,null,skipTracker,culture).then(
           function(textList) {
             // HACK : the server API should return an error when we use a bad slug instead of an empty list
             if ( textList.length > 0 )
@@ -60,7 +78,7 @@ function(areasSvc, intentionsSvc, $stateChange, cacheSvc, serverSvc,HelperSvc,cu
         );
       });
     },
-    minSortOrderToBeRandomized : 100,
+    //minSortOrderToBeRandomized : 100,
 
     MakeSortedVersionWithShortenedTexts: function (textListtoDebug) {
       var textList = textListtoDebug;
@@ -75,7 +93,8 @@ function(areasSvc, intentionsSvc, $stateChange, cacheSvc, serverSvc,HelperSvc,cu
         return -(text2.SortBy - text1.SortBy); //
       });
       // Keep the first texts sorted to display a few good ones but randomize the others to facilitate machine learning
-      textList = HelperSvc.shuffleTextIfSortOrderNotLessThan(textList, service.minSortOrderToBeRandomized);
+//      textList = HelperSvc.shuffleTextIfSortOrderNotLessThan(textList, service.minSortOrderToBeRandomized);
+      textList = HelperSvc.shuffleTextIfSortOrderNotLessThan(textList, minSortOrderToBeRandomized);
       return textList;
     },
 
@@ -106,7 +125,6 @@ function(areasSvc, intentionsSvc, $stateChange, cacheSvc, serverSvc,HelperSvc,cu
 
       return cacheSvc.get(path, -1, getTextById, true);
     }
-
 
   };
   return service;

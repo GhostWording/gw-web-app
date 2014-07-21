@@ -1,7 +1,7 @@
  <!-- BasicFilters  filtering buttons -->
  <div ng-controller="TextFiltersController">
      <!-- Breadcrumbs -->
-     <ul class="breadcrumb"  ng-show = "showBreadcrumbs()">
+     <ul class="breadcrumb"  ng-show = "false && showBreadcrumbs()">
          <li>
            <!--User -->
             <a ng-href="{{app.appUrlSvc.getFullPath('')}}userprofile" translate >Moi </a> &nbsp
@@ -32,8 +32,8 @@
      </div>
 
      <!-- Recipient Gender -->
-     <div ng-show = "filters.recipientGender == null">
-         <ul class="pager bmwQuestionButton">
+     <div ng-show = "intentionTexts.getTextCountForPropertyValue('Target','H') > 3 || intentionTexts.getTextCountForPropertyValue('Target','F') > 2 || intentionTexts.getTextCountForPropertyValue('Target','P') > 2">
+         <ul class="pager bmwQuestionButton" style="margin-bottom: 15px;">
              <span translate>Destinataire</span>
              <li ng-class= '{selectionne: filters.recipientGender == "F"}' >
                 <a targetType="Command" targetId="RecipientGender" ng-click = "filters.recipientGender = 'F'">
@@ -53,14 +53,43 @@
          </ul>
      </div>
 
+     <!-- Proximity : are we close to the recipient -->
+     <div ng-show = "intentionTexts.getTextCountForPropertyValue('Proximity','P') >= 10 && intentionTexts.getTextCountForPropertyValue('Proximity','D') >= 10">
+       <ul class="pager bmwQuestionButton" style="margin-bottom: 15px;">
+         <span translate>Proche</span>
+         <li ng-class= '{selectionne: filters.proximity=="P"}'>
+           <a translate targetType="Command" targetId="Proximity" ng-click = "filters.proximity = 'P'">oui</a></li>
+         <li ng-class= '{selectionne: filters.proximity=="D"}' >
+           <a translate targetType="Command" targetId="Proximity" ng-click = "filters.proximity = 'D'">non</a></li>
+         <li ng-class= '{selectionne: filters.proximity=="I"}' >
+           <a translate  targetType="Command" targetId="Proximity" ng-click = "filters.proximity = 'I'">+ ou -</a></li>
+       </ul>
+     </div>
+
      <!-- In French, would you say Tu or Vous -->
-     <div ng-show = "filters.tuOuVous == null && currentLanguageHasTVDistinction()">
-         <ul class="pager bmwQuestionButton">
+     <div ng-show = "currentLanguageHasTVDistinction() && ( intentionTexts.getTextCountForPropertyValue('PoliteForm','T') >= 2 && intentionTexts.getTextCountForPropertyValue('PoliteForm','V') >= 2  )">
+         <ul class="pager bmwQuestionButton" style="margin-bottom: 5px;">
              <span translate>Lui dire</span>
              <li ng-class= '{selectionne: filters.tuOuVous=="T"}'>
                  <a targetType="Command" targetId="TuOuVous" ng-click = "filters.tuOuVous = 'T'">Tu</a></li>
-             <li ng-class= '{selectionne: BasicFilters.getTuOuVous()=="V"}' >
+             <li ng-class= '{selectionne: filters.tuOuVous=="V"}' >
                  <a targetType="Command" targetId="TuOuVous" ng-click = "filters.tuOuVous = 'V'">Vous</a></li>
          </ul>
      </div>
+
+   <div ng-repeat="style in accordionSvc.getMostSelectiveStyles()" ng-if="style.visible" ng-show = "accordionSvc.isStyleVisible(style.name)" class="questionLine">
+     <ul class="pager bmwQuestionButton" style="margin-bottom: 5px;">
+       <span translate>{{style.name}}</span>
+       <li ng-class= "{selectionne: accordionSvc.hasStyleChoice(style.name,'yes')}">
+         <a translate ng-click = "accordionSvc.setStyleChoice(style.name,'yes')"
+            targetType="Command" targetId="{{style.name}}"  targetParameters='yes' >oui</a></li>
+       <li  ng-class= "{selectionne: accordionSvc.hasStyleChoice(style.name,'no')}">
+         <a translate ng-click = "accordionSvc.setStyleChoice(style.name,'no')"
+            targetType="Command" targetId="{{style.name}}"  targetParameters='no'>non</a></li>
+       <li ng-class= "{selectionne: accordionSvc.hasStyleChoice(style.name,'maybe')}">
+         <a translate ng-click = "accordionSvc.setStyleChoice(style.name,'maybe')"
+            targetType="Command" targetId="{{style.name}}"  targetParameters='maybe'>peut-être</a></li>
+     </ul>
+   </div>
+
  </div>

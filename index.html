@@ -6,6 +6,10 @@
     <!--<meta name="viewport" content="initial-scale=1.0, user-scalable=no">-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 
+    <meta charset="utf-8">
+    <title ng-bind-template="{{pageTitle1 | translate}} {{pageTitle2 | translate}} ">Comment dire les choses importantes - Your highway from ideas to words</title>
+    <meta name="description" content="Changez-vous la vie, trouvez les mots qui donnent envie - Find the magic words">
+    <meta name="google-site-verification" content="Yancq9d1odgL9tS_cPdZuci56Rmh5J30ASqLN4Mk3Wk" />
 
     <!--Prevent 300 ms delay on Android-->
     <script src="scripts/lib/fastclick.js"></script>
@@ -20,6 +24,7 @@
 
     <!--Angular and Bootstrap -->
     <script src="assets/angular/angular.min.js"></script>
+    <!--<script src="assets/angular/angular.js"></script>-->
     <script src="assets/angular-ui-router/release/angular-ui-router.min.js"></script>
     <script src="assets/angular-cookies/angular-cookies.min.js"></script>
     <script src="assets/angular-sanitize/angular-sanitize.min.js"></script>
@@ -29,6 +34,9 @@
     <script src="assets/angular-translate/angular-translate.min.js"></script>
 
     <script src="scripts/lib/bootstrap-custom/ui-bootstrap-custom-tpls-0.10.0.js"></script>
+    <!--<script src="scripts/lib/bootstrap-custom/ui-bootstrap-tpls-0.11.0.js"></script>-->
+
+
 
 
     <!--Google scripts-->
@@ -60,10 +68,6 @@
     <link href="assets/fonts/font-awesome-4.0.3/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="assets/app.css">
 
-    <meta charset="utf-8">
-    <title ng-bind-template="{{pageTitle1 | translate}} {{pageTitle2 | translate}} ">How to say I love you. Comment dire les mots de l'amitié et de l'amour</title>
-    <meta name="description" content="Change your life, find the magic words! Changez-vous la vie, trouvez les mots qui donnent envie !">
-    <meta name="google-site-verification" content="Yancq9d1odgL9tS_cPdZuci56Rmh5J30ASqLN4Mk3Wk" />
 
     <!-- Fav and touch icons -->
     <!--<link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">-->
@@ -72,6 +76,8 @@
   </head>
 
   <body  id="leCorps">
+  <h4 ng-show="false">Comment dire les mots de l'amitié, de l'amour et de tous les jours</h4>
+  <h4 ng-show>How to say magic words to your love or your friends</h3>
 
     <!-- Menu bar -->
     <nav class="navbar navbar-inverse navbar-static-top" role="navigation" ng-init="navCollapsed = true"
@@ -101,7 +107,7 @@
           <!-- Penser à  -->
           <a ng-href="{{app.appUrlSvc.getFullPath('')}}favoriteRecipients" class = "navbar-brand glyphicon glyphicon-bell" translate></a>
           <!-- Tous les textes  -->
-          <a ng-href="{{app.appUrlSvc.getFullPath('')}}area/General/intention" ng-show="false" class ="navbar-brand glyphicon glyphicon-search" translate></a>
+          <a rel="nofollow" ng-href="{{app.appUrlSvc.getFullPath('')}}area/General/recipient/none/intention" ng-show="false" class ="navbar-brand glyphicon glyphicon-search" translate></a>
           <!-- Favoris  -->
           <!--<a ng-show = "hasFavourite()" ng-href="{{app.appUrlSvc.getFullPath('')}}favouriteTexts" class="navbar-brand glyphicon glyphicon-star"></a>-->
           <!-- Mon profil  -->
@@ -126,7 +132,7 @@
           <!-- Penser à  -->
           <li class="active"><a ng-href="{{app.appUrlSvc.getFullPath('')}}favoriteRecipients" class = "glyphicon glyphicon-bell" translate></a></li>
           <!-- Tous les textes  -->
-          <li class="active"><a ng-href="{{app.appUrlSvc.getFullPath('')}}area/General/recipient/none/intention" class ="glyphicon glyphicon-search" translate></a></li>
+          <li class="active"><a  rel="nofollow" ng-href="{{app.appUrlSvc.getFullPath('')}}area/General/recipient/none/intention" class ="glyphicon glyphicon-search" translate></a></li>
           <!-- Favoris  -->
           <!--<li class="active" ng-show = "hasFavourite()"><a ng-href="{{app.appUrlSvc.getFullPath('')}}favouriteTexts" class="glyphicon glyphicon-star"></a></li>-->
           <!-- Mon profil  -->
@@ -153,15 +159,10 @@
       <!-- Spinner -->
       <div ng-show="showSpinner || trackerIsActive()" style="position:fixed;top:-20px;left:300px; z-index:3;"><circle-spinner></circle-spinner></div>
 
-      <div ng-show="false" style="position:fixed; background-color: #ffffff;  text-align:center; margin-left: -160px;    left: 50%; ; width: 20px; bottom:12px; z-index:5">
-        <span class="badge">42</span>
-      </div>
+      <!--<div ng-show="true" style="position:fixed; background-color: #ffffff;  text-align:center; margin-left: -160px;    left: 50%; ; width: 20px; bottom:12px; z-index:5">-->
+        <!--<span class="badge">42</span>-->
+      <!--</div>-->
 
-      <div ng-show="false" style="position:fixed; border:1px solid #00ffff; background-color: #ffffff; text-align:center; z-index:3;
-                  left: 50%; width: 300px; margin-left: -150px;  bottom:1px; padding: 0px; margin-bottom: 0px;" class="alert alert-info">
-        <h1>How to say magic words to your love or your friends</h1>
-        <h1>Comment dire les mots de l'amour, de l'amitié ou de tous les jours</h1>
-      </div>
       <!-- Views -->
       <div ui-view></div>
 

@@ -5,6 +5,7 @@ angular.module('cherryApp',  [
   'ui.router',
   'ui.bootstrap.modal',
   "ui.bootstrap.tpls",
+  "ui.bootstrap.accordion",
   'common',
   'app',
   'angularSpinkit',
@@ -25,8 +26,8 @@ angular.module('cherryApp',  [
    $sceDelegateProvider.resourceUrlWhitelist(['self', /^https?:\/\/(api\.)?cvd.io/]);
 }])
 
-.controller('CherryController', ['$scope',  'PostActionSvc','$rootScope','$location','currentLanguage','appUrlSvc','intentionsSvc','appVersionCheck','textsSvc','$window',
-  function ($scope,PostActionSvc,$rootScope,$location,currentLanguage,appUrlSvc,intentionsSvc,appVersionCheck,textsSvc,$window) {
+.controller('CherryController', ['$scope',  'PostActionSvc','$rootScope','$location','currentLanguage','appUrlSvc','intentionsSvc','appVersionCheck','textsSvc','$window', '$state',
+  function ($scope,PostActionSvc,$rootScope,$location,currentLanguage,appUrlSvc,intentionsSvc,appVersionCheck,textsSvc,$window,$state) {
     $scope.app = {};
     $scope.app.appUrlSvc = appUrlSvc;
     $rootScope.pageTitle1 = "Comment vous dire. Les mots sur le bout de la langue, l'inspiration au bout des doigts";
@@ -47,19 +48,21 @@ angular.module('cherryApp',  [
     $scope.showSpinner = false;
     $scope.trackerIsActive = function () { return $rootScope.loadingTracker.active();};
 
-    // Preload a few things
-    intentionsSvc.getForArea('Friends');
-    intentionsSvc.getForArea('LoveLife');
-    intentionsSvc.getForArea('Family');
-    intentionsSvc.getForArea('General');
 
-    textsSvc.getTextList('Friends', 'joyeux-anniversaire');
-    textsSvc.getTextList('Friends', 'merci');
-    textsSvc.getTextList('LoveLife', 'j-aimerais-vous-revoir');
-    textsSvc.getTextList('LoveLife', 'je-pense-a-toi');
-    textsSvc.getTextList('LoveLife', 'je-t-aime');
-    textsSvc.getTextList('LoveLife', 'j-ai-envie-de-toi');
-    textsSvc.getTextList('Family', 'je-pense-a-toi');
+    var skipTracker =  true;
+    // Preload a few things
+    intentionsSvc.getForArea('Friends',skipTracker);
+    intentionsSvc.getForArea('LoveLife',skipTracker);
+    intentionsSvc.getForArea('Family',skipTracker);
+    intentionsSvc.getForArea('General',skipTracker);
+
+    textsSvc.getTextList('Friends', 'joyeux-anniversaire',skipTracker);
+    //textsSvc.getTextList('Friends', 'merci',skipTracker);
+    textsSvc.getTextList('LoveLife', 'j-aimerais-vous-revoir',skipTracker);
+    textsSvc.getTextList('LoveLife', 'je-pense-a-toi',skipTracker);
+    textsSvc.getTextList('LoveLife', 'je-t-aime',skipTracker);
+    textsSvc.getTextList('LoveLife', 'j-ai-envie-de-toi',skipTracker);
+    //textsSvc.getTextList('Family', 'je-pense-a-toi',skipTracker);
 
     // We may want to user a tracker linked to route change instead of directly setting
     $rootScope.$on("$stateChangeStart",function (event, toState, toParams, fromState, fromParams) {

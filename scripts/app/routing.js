@@ -94,14 +94,21 @@ angular.module('app/routing', ['ui.router'])
   // Text list for an intention, and a recipient. Recipient can be 'none'
   .state('area.textList', {
     url: '/recipient/:recipientId/intention/:intentionId/text',
-    templateUrl: 'views/textList.html',
-    controller: 'TextListController',
+//    templateUrl: 'views/textList.html',
+//    controller: 'TextListController',
     resolve: {
       currentIntention: ['intentionsSvc', function(intentionsSvc) { return intentionsSvc.getCurrent(); }],
       currentTextList: ['textsSvc', function(textsSvc) { return textsSvc.getCurrentList(); }],
       currentRecipient: ['currentRecipientSvc', function(currentRecipientSvc) { return currentRecipientSvc.getCurrentRecipient(); }]
     },
-    showTabs: true
+    showTabs: true,
+    views: {
+      '' : {
+        templateUrl: 'views/textList.html',
+        controller: 'TextListController'
+      },
+      'questionBarView@': { templateUrl: 'views/partials/questionBar.html', controller: 'QuestionBarController' }
+    }
   })
   .state('area.textList.textDetail', {
     url: '/:textId',
@@ -149,7 +156,7 @@ angular.module('app/routing', ['ui.router'])
     templateUrl: 'views/about.html',
     controller: 'SimplePageController'
   })
-  // It might be pretier to have a clean url for the home page
+    // It might be pretier to have a clean url for the home page
   .state('splashscreenNoLanguage', {
     url: '/',
     templateUrl: 'views/splashscreen.html',

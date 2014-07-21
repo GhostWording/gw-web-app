@@ -1,9 +1,24 @@
 angular.module('app/texts/TextListController', [])
 // Displays a list of texts
 .controller('TextListController',
- ['$scope', 'currentTextList', 'currentIntention', 'currentUser', 'filtersSvc', '$modal', 'currentRecipient', 'favouritesSvc','appUrlSvc','currentLanguage','textsSvc','intentionsSvc','currentAreaName','PostActionSvc',
-function ($scope, currentTextList, currentIntention,  currentUser, filtersSvc, $modal,currentRecipient, favouritesSvc,appUrlSvc,currentLanguage,textsSvc,intentionsSvc,currentAreaName,PostActionSvc) {
+ ['$scope', 'currentTextList', 'currentIntention', 'currentUser', 'filtersSvc', '$modal', 'currentRecipient', 'favouritesSvc','appUrlSvc','currentLanguage','textsSvc','intentionsSvc','currentAreaName','PostActionSvc','$window','filteredTextListSvc','tagLabelsSvc','HelperSvc','questionBarSvc','accordionSvc',
+function ($scope, currentTextList, currentIntention,  currentUser, filtersSvc, $modal,currentRecipient, favouritesSvc,appUrlSvc,currentLanguage,textsSvc,intentionsSvc,currentAreaName,PostActionSvc,$window,filteredTextListSvc,tagLabelsSvc,HelperSvc,questionBarSvc,accordionSvc) {
   $scope.appUrlSvc = appUrlSvc;
+  $scope.HelperSvc = HelperSvc;
+  $scope.QuestionBar = questionBarSvc;
+
+  $scope.labelsThatShouldBeDisplayed = function(txt) {
+    var stylesWeWant = filtersSvc.filters.preferredStyles;
+    var idsWeWant = stylesWeWant.filterIds(txt.TagIds);
+//    return tagLabelsSvc.labelsFromStyleTagIds(txt.TagIds);
+    return tagLabelsSvc.labelsFromStyleTagIds(idsWeWant);
+  };
+
+
+  // Some phone browser do not initialise the view correctly
+  //  $location.hash('leCorps');
+  //  $anchorScroll(); // url does not look nice with that
+  $window.scrollTo(0,0);
 
   $scope.getCurrentTextId = function() {
     var valret = textsSvc.getCurrentId();
@@ -15,6 +30,12 @@ function ($scope, currentTextList, currentIntention,  currentUser, filtersSvc, $
   $scope.currentIntention = currentIntention;
   $scope.textList = currentTextList;
   $scope.filteredList = [];
+
+  $scope.theAccordionStatus = accordionSvc.theAccordionStatus;
+
+  $scope.openAccordion = function() {
+    $scope.theAccordionStatus.open = true;
+  };
 
   $scope.filters = filtersSvc.filters;
   $scope.filtersWellDefined = filtersSvc.wellDefined;
@@ -28,7 +49,10 @@ function ($scope, currentTextList, currentIntention,  currentUser, filtersSvc, $
 
   function prepareAndDisplayTextList() {
     textsSvc.getCurrentList().then(function(textList) {
-      $scope.textList =textList; $scope.filterList();});
+      $scope.textList =textList;
+      textsSvc.countTextsForStylesAndProperties(textList);
+      accordionSvc.calculateMostSelectiveStyles();
+      $scope.filterList();});
   }
   $scope.$watch(function() { return currentLanguage.getLanguageCode(); },
                 prepareAndDisplayTextList(),true);
@@ -46,53 +70,31 @@ function ($scope, currentTextList, currentIntention,  currentUser, filtersSvc, $
   $scope.isFavourite = function(txt) {
     return favouritesSvc.isExisting(txt);
   };
-
   $scope.setFavourite = function(txt, isFav) {
     favouritesSvc.setFavourite(txt, currentAreaName, currentIntention, isFav);
   };
 
   if ( currentRecipient ) {
-    // Shoud not be reinitialized when we come back from TextDetail view
-    filtersSvc.setRecipientTypeTag(currentRecipient.RecipientTypeId);
+    filtersSvc.setRecipientTypeTag(currentRecipient.RecipientTypeId); // Shoud not be reinitialized when we come back from TextDetail view
   }
 
+  $scope.filteredTextList = filteredTextListSvc;
 
+  var firstWatchCall = true;
   $scope.filterList = function () {
-    // Clear the previous filter list
-    $scope.filteredList.length = 0;
-
-    function applyFiltersthenOrderOnStyles(textList, currentUser, preferredStyles) {
-      var filteredList = [];
-      // A map used to count the number of matching styles indexed by text id
-      var matchingStylesMap = {};
-      // Add back in texts that are compatible with the current filters
-      angular.forEach(textList, function (text) {
-        if (filtersSvc.textCompatible(text, currentUser)) {
-          filteredList.push(text);
-          // This is a hack, when text is a quotation, we don't have a proper style tag for it so we add it on the fly
-          var tagIds = angular.copy(text.TagIds); // We may need to copy that in case it modifies the original tag list ????
-          matchingStylesMap[text.TextId] = preferredStyles.filterStyles(tagIds);
-        }
-      });
-
-      // If there are no preferred style we don't want to perturbate ordering at all
-      if (preferredStyles.stylesList.length > 0) {
-        // Sort by number of matching preferred styles first
-        filteredList.sort(function (text1, text2) {
-          var count1 = matchingStylesMap[text1.TextId].stylesList.length * 100;
-          var count2 = matchingStylesMap[text2.TextId].stylesList.length * 100;
-          var retval = count2 - count1;
-          // If texts score the same as far as styles go, use SortBy, but only if the are not meant to be randomized
-          if (count1 == count2 && ( text1.SortBy < textsSvc.minSortOrderToBeRandomized || text2.SortBy < textsSvc.minSortOrderToBeRandomized  ))
-            retval = -(text2.SortBy - text1.SortBy);
-          return retval;
-        });
-      }
-      return filteredList;
+    //$scope.filteredList.length = 0;
+    // TODO : This should not be called two times when view initializes
+    if ( !firstWatchCall ) {
+      filteredTextListSvc.setFilteredAndOrderedList($scope.textList, currentUser, filtersSvc.filters.preferredStyles);
     }
-
-    $scope.filteredList = applyFiltersthenOrderOnStyles($scope.textList, currentUser, filtersSvc.filters.preferredStyles);
+    $scope.filteredList = filteredTextListSvc.getFilteredTextList();
+    firstWatchCall = false;
   };
+
+  // Watch user gender and update filtered text list if they change
+  $scope.$watch(function() { return currentUser.gender; }, $scope.filterList, true);
+  // Watch the filters and update filtered text list if they change
+  $scope.$watch(function() { return filtersSvc.filters; }, $scope.filterList, true);
 
   $scope.send = function(text) {
     PostActionSvc.postActionInfo('Text',text.TextId, 'TextList','send');
@@ -106,10 +108,6 @@ function ($scope, currentTextList, currentIntention,  currentUser, filtersSvc, $
       }
     });
   };
-
-  // Watch the filters and update the filtered text list if they change
-  $scope.$watch(function() { return filtersSvc.filters; }, $scope.filterList, true);
-
 
 
  }]);

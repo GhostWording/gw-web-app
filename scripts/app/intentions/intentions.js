@@ -26,11 +26,11 @@ angular.module('app/intentions', [
       });
     },
 
-    getForArea: function(areaName) {
+    getForArea: function(areaName,skipTracker) {
       // TODO : should be cached per culture
       return cacheSvc.get('intentions.' + areaName, -1, function() {
         // TODO : for the time being translation of the intentions happen on the client : the french version is requested to the server
-        return serverSvc.get(areaName + '/intentions',undefined,undefined,'fr-FR')
+        return serverSvc.get(areaName + '/intentions',undefined,skipTracker,'fr-FR')
           .then(
             function(intentions) { intentions.sort(function (a, b) { return (a.SortOrder - b.SortOrder); }); return intentions; });
       });
@@ -52,8 +52,8 @@ angular.module('app/intentions', [
     },
     // Returns true if texts for the intention should be reloaded
     invalidateCacheIfNewerServerVersionExists: function (areaName, intentionIdOrSlug) {
-      // Get the server version
-      return serverSvc.get(areaName + '/' + intentionIdOrSlug, undefined, undefined, 'fr-FR').then(function (intentionFromServer) {
+      // Get the server version (but skip tracker)
+      return serverSvc.get(areaName + '/' + intentionIdOrSlug, undefined, true, 'fr-FR').then(function (intentionFromServer) {
         // compare version with the cache
         return service.getIntention(areaName, intentionIdOrSlug).then(function (intentionFromCache) {
           var retval = false;

@@ -1,4 +1,4 @@
-﻿<div ng-show="true" style="text-align: center;">
+﻿<div ng-show="true" style="text-align: center;" action-location="FavoriteRecipients">
     <div class="row" style="margin-top: 0px; margin-bottom: 30px;margin-left: 10px; margin-right: 10px; " >
       <h3 class="splashTitle" style="font-size: 140%; margin-bottom: 0px;" translate>Avec qui...</h3>
       <span translate>(cliquez les destinataires applicables)</span>
@@ -16,7 +16,7 @@
     <ul class="pager bmwQuestionButton pull-left" >
         <li ng-class= '{selectionne: false}' >
           <!--<a href="/" role="button"  targetId="Next"> <img ng-src="./assets/arrow-left.png" class="stylepicto"> </a>-->
-          <a ng-href="{{app.appUrlSvc.getFullPath('')}}" role="button"  targetId="Next"> <img ng-src="./assets/arrow-left.png" class="stylepicto"> </a>
+          <a ng-href="{{app.appUrlSvc.getFullPath('')}}" role="button"  targetId="Previous"> <img ng-src="./assets/arrow-left.png" class="stylepicto"> </a>
         </li>
     </ul>
     <ul class="pager bmwQuestionButton" ng-show="hasSubscribedRecipients()">

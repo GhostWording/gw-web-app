@@ -34,11 +34,37 @@
     vertical-align: middle;
 }
 
-/*does not work*/
-a.backArrow:hover, a.backArrow:focus, a.backArrow:active  { background-color: rgba(240, 173, 78, 0.38); }
-/*a.backArrow:hover, a.backArrow:focus  { background-color: rgb(240, 173, 78); }*/
-/*a.backArrow:hover, a.backArrow:focus  { background-color: #f0ad4e ; }*/
+.questionChoice {
+    display: inline-block;
+    padding: 5px 14px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    box-sizing: border-box;
+    color: rgb(66, 139, 202);
+    cursor: auto;
+    text-align: center;
+    vertical-align: middle;
+}
 
+
+.questionLine { margin-top: 15px; margin-bottom: 15px;  }
+
+a.backArrow:hover, a.backArrow:focus, a.backArrow:active  { background-color: rgba(240, 173, 78, 0.38); }
+
+/*a.questionChoice:hover, a.questionChoice:focus, a.questionChoice:active  { background-color: rgba(240, 173, 78, 0.38); }*/
+/*a.questionChoice:hover { background-color: rgba(240, 173, 78, 0.38); }*/
+ a.questionChoice:focus, a.questionChoice:active  { background-color: rgba(240, 173, 78, 0.38); }
+
+/*.pager li a:hover,.pager a:hover { background-color: rgb(237,214,194); }*/
+.pager li a:hover,.pager a:hover { background-color: rgba(240, 173, 78, 0.38); }
+
+.selectionne li a { background-color: rgb(237,214,194); }
+
+.selectionne.pager  li a  { background-color: rgb(237,214,194); }
+
+/*.selectionne a { background-color: rgb(237,214,194) !important;  }*/
+.selectionne a { background-color: rgba(240, 173, 78, 0.38) !important;  }
 
 
 .fb_pixel_send{
@@ -284,14 +310,9 @@ a .citation   { color: black; font-size: 14px  }
 
 .bmwQuestionButton { margin-top: 0;  }
 
-.pager li a:hover,.pager a:hover { background-color: rgb(237,214,194); }
-
-.selectionne li a { background-color: rgb(237,214,194); }
 
 
-.selectionne.pager  li a  { background-color: rgb(237,214,194); }
 
-.selectionne a { background-color: rgb(237,214,194) !important;  }
 .H a { background-color: rgb(237,214,194) !important;  }
 
 #zzz { background-color: rgb(237,214,194);  }
