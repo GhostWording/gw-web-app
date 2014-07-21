@@ -125,9 +125,9 @@ function ($rootScope, intentionsSvc, areasSvc, currentUser, currentLanguage, cur
       return !service.askForUserGender() &&  filters.recipientGender === null ;
     },
     askForProximity: function() {
-      return false;
-      var valret = !service.askForUserGender() && !service.askForRecipientGender() && filters.proximity === null;
-      return valret;
+      return false; // For the time being, don't ask, we don't have the complete logic to know when we need the question
+//      var valret = !service.askForUserGender() && !service.askForRecipientGender() && filters.proximity === null;
+//      return valret;
     },
 
     askForTuOuVous: function() {
