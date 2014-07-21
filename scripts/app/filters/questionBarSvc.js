@@ -53,9 +53,14 @@ function ($rootScope, intentionsSvc, areasSvc, currentUser, currentLanguage, cur
 
     isBasicInfoOK: function(styleName) {
       // Do not show style if we have other questions
-      if ( service.askForUserGender() || service.askForRecipientGender() || service.askForTuOuVous() || service.askForProximity() )
-        return false;
-      return true;
+      //return true;
+      var v1 = !service.askForUserGender();
+      var v2 = !service.askForRecipientGender();
+      var v3 = !service.askForTuOuVous();
+      var v4 = !service.askForProximity();
+      if ( !service.askForUserGender() && !service.askForRecipientGender() && !service.askForTuOuVous() && !service.askForProximity() )
+        return true;
+      return false;
     },
 
 
@@ -91,7 +96,7 @@ function ($rootScope, intentionsSvc, areasSvc, currentUser, currentLanguage, cur
         return false;
 
       // Do not show style if we have other questions
-      if ( service.askForUserGender() || service.askForRecipientGender() || service.askForTuOuVous() )
+      if ( service.askForUserGender() || service.askForRecipientGender() || service.askForTuOuVous() || service.askForProximity()  )
         return true;
       if ( !mostSelectiveStyles )
         return false;
@@ -120,14 +125,20 @@ function ($rootScope, intentionsSvc, areasSvc, currentUser, currentLanguage, cur
       return !service.askForUserGender() &&  filters.recipientGender === null ;
     },
     askForProximity: function() {
+      return false;
       var valret = !service.askForUserGender() && !service.askForRecipientGender() && filters.proximity === null;
       return valret;
     },
 
     askForTuOuVous: function() {
+      var v1 = !service.askForUserGender();
+      var v2 = !service.askForRecipientGender();
+      var v3 = !service.askForProximity();
+      var v4 = currentLanguageHasTVDistinction();
+      var v5 = filters.tuOuVous === null;
       var valret = !service.askForUserGender() &&
                    !service.askForRecipientGender() &&
-                   !service.askForProximity() &&
+                   !service.askForProximity() && // TODO : put this back when we handle cases when we dont need it
                     currentLanguageHasTVDistinction() &&
                    filters.tuOuVous === null;
       return valret;
