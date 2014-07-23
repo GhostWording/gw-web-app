@@ -26,7 +26,7 @@ angular.module('cherryApp',  [
 .config(['$sceDelegateProvider', function ($sceDelegateProvider) {
    $sceDelegateProvider.resourceUrlWhitelist(['self', /^https?:\/\/(api\.)?cvd.io/]);
 }])
-.config( function( $facebookProvider ) {
+.config(['$facebookProvider', function( $facebookProvider ) {
   //CommentVousDire facebook App
   $facebookProvider.setAppId('582577148493403');
   // If we ever need to set different AppIds for TouchWording, MessagePanda, etc.
@@ -37,7 +37,7 @@ angular.module('cherryApp',  [
 //    fbAppId = '345345546545';
 //  }
 //  $facebookProvider.setAppId(fbAppId);
-})
+}])
 .controller('CherryController', ['$scope',  'PostActionSvc','$rootScope','$location','currentLanguage','appUrlSvc','intentionsSvc','appVersionCheck','textsSvc','$window', '$state',
   function ($scope,PostActionSvc,$rootScope,$location,currentLanguage,appUrlSvc,intentionsSvc,appVersionCheck,textsSvc,$window,$state) {
     $scope.app = {};
