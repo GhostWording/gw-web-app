@@ -3,4 +3,5 @@ angular.module('app/users', [
   'app/users/subscriptions',
   'app/users/UserEMailController',
   'app/users/UserProfileController',
+  'app/users/FbLoginController'
 ]);
