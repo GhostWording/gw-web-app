@@ -10,7 +10,8 @@ angular.module('cherryApp',  [
   'app',
   'angularSpinkit',
   'ajoslin.promise-tracker',
-  'pascalprecht.translate'
+  'pascalprecht.translate',
+  'ngFacebook'
 ])
 
 //CORS for angular v < 1.2
@@ -25,7 +26,18 @@ angular.module('cherryApp',  [
 .config(['$sceDelegateProvider', function ($sceDelegateProvider) {
    $sceDelegateProvider.resourceUrlWhitelist(['self', /^https?:\/\/(api\.)?cvd.io/]);
 }])
-
+.config( function( $facebookProvider ) {
+  //CommentVousDire facebook App
+  $facebookProvider.setAppId('582577148493403');
+  // If we ever need to set different AppIds for TouchWording, MessagePanda, etc.
+//  var fbAppId;
+//  if ( /<your-reg-exp>/.test(window.location.hostname) ) {
+//    fbAppId = '54345345345';
+//  } else {
+//    fbAppId = '345345546545';
+//  }
+//  $facebookProvider.setAppId(fbAppId);
+})
 .controller('CherryController', ['$scope',  'PostActionSvc','$rootScope','$location','currentLanguage','appUrlSvc','intentionsSvc','appVersionCheck','textsSvc','$window', '$state',
   function ($scope,PostActionSvc,$rootScope,$location,currentLanguage,appUrlSvc,intentionsSvc,appVersionCheck,textsSvc,$window,$state) {
     $scope.app = {};
@@ -144,5 +156,20 @@ angular.module('cherryApp',  [
 }])
 
 .run(['$rootScope', 'intentionsSvc', 'filtersSvc','promiseTracker', function($rootScope, intentionsSvc, filtersSvc,promiseTracker) {
+  // Promise tracker to display spinner when getting files
   $rootScope.loadingTracker = promiseTracker({ activationDelay: 300, minDuration: 500 });
+  // ngFacebook : Load the facebook SDK asynchronously
+  (function(){
+    // If we've already installed the SDK, we're done
+    if (document.getElementById('facebook-jssdk')) {return;}
+    // Get the first script element, which we'll use to find the parent node
+    var firstScriptElement = document.getElementsByTagName('script')[0];
+    // Create a new script element and set its id
+    var facebookJS = document.createElement('script');
+    facebookJS.id = 'facebook-jssdk';
+    // Set the new script's source to the source of the Facebook JS SDK
+    facebookJS.src = '//connect.facebook.net/en_US/all.js';
+    // Insert the Facebook JS SDK into the DOM
+    firstScriptElement.parentNode.insertBefore(facebookJS, firstScriptElement);
+  }());
 }]);

@@ -25,6 +25,7 @@
     "bootstrap": "~3.1.1",
     "angular-spinkit": "v0.0.2.1",
     "angular-promise-tracker":"~v2.0.0",
-    "angular-translate" : "~2.0.1"
+    "angular-translate" : "~2.0.1",
+    "ng-facebook" : "~0.1.3"
   }
 }
