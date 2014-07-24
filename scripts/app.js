@@ -26,9 +26,13 @@ angular.module('cherryApp',  [
 .config(['$sceDelegateProvider', function ($sceDelegateProvider) {
    $sceDelegateProvider.resourceUrlWhitelist(['self', /^https?:\/\/(api\.)?cvd.io/]);
 }])
+//Facebook connexion configuration
 .config(['$facebookProvider', function( $facebookProvider ) {
-  //CommentVousDire facebook App
   $facebookProvider.setAppId('582577148493403');
+  $facebookProvider.setCustomInit({
+    xfbml      : true,
+    version    : 'v2.0'
+  });
   // If we ever need to set different AppIds for TouchWording, MessagePanda, etc.
 //  var fbAppId;
 //  if ( /<your-reg-exp>/.test(window.location.hostname) ) {
@@ -159,17 +163,17 @@ angular.module('cherryApp',  [
   // Promise tracker to display spinner when getting files
   $rootScope.loadingTracker = promiseTracker({ activationDelay: 300, minDuration: 500 });
   // ngFacebook : Load the facebook SDK asynchronously
-  (function(){
-    // If we've already installed the SDK, we're done
-    if (document.getElementById('facebook-jssdk')) {return;}
-    // Get the first script element, which we'll use to find the parent node
-    var firstScriptElement = document.getElementsByTagName('script')[0];
-    // Create a new script element and set its id
-    var facebookJS = document.createElement('script');
-    facebookJS.id = 'facebook-jssdk';
-    // Set the new script's source to the source of the Facebook JS SDK
-    facebookJS.src = '//connect.facebook.net/en_US/all.js';
-    // Insert the Facebook JS SDK into the DOM
-    firstScriptElement.parentNode.insertBefore(facebookJS, firstScriptElement);
-  }());
+//  (function(){
+//    // If we've already installed the SDK, we're done
+//    if (document.getElementById('facebook-jssdk')) {return;}
+//    // Get the first script element, which we'll use to find the parent node
+//    var firstScriptElement = document.getElementsByTagName('script')[0];
+//    // Create a new script element and set its id
+//    var facebookJS = document.createElement('script');
+//    facebookJS.id = 'facebook-jssdk';
+//    // Set the new script's source to the source of the Facebook JS SDK
+//    facebookJS.src = '//connect.facebook.net/en_US/all.js';
+//    // Insert the Facebook JS SDK into the DOM
+//    firstScriptElement.parentNode.insertBefore(facebookJS, firstScriptElement);
+//  }());
 }]);

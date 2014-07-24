@@ -7,8 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 
     <meta charset="utf-8">
-    <title ng-bind-template="{{pageTitle1 | translate}} {{pageTitle2 | translate}} ">Comment dire les choses importantes - Your highway from ideas to words</title>
-    <meta name="description" content="Changez-vous la vie, trouvez les mots qui donnent envie - Find the magic words">
+    <!--<title ng-bind-template="{{pageTitle1 | translate}} {{pageTitle2 | translate}} ">Comment dire les choses importantes - Your highway from ideas to words</title>-->
+    <title ng-bind-template="{{pageTitle1 | translate}} {{pageTitle2 | translate}} ">Mots magiques pour belles occasions</title>
+     <!--TODO : description could adapt to user language as in http://stackoverflow.com/questions/20807761/angular-modify-meta-tag-->
+    <!--<meta name="description" content="Des mots pour saisir les occasions de la vie - Magic words for every occasion">-->
+    <meta name="description" content="Words with a magic touch for every occasion">
     <meta name="google-site-verification" content="Yancq9d1odgL9tS_cPdZuci56Rmh5J30ASqLN4Mk3Wk" />
 
     <!--Prevent 300 ms delay on Android-->
@@ -77,7 +80,17 @@
   </head>
 
   <body  id="leCorps">
-  <div id="fb-root"></div>
+    <!-- facebook scripts -->
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+//      js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&appId=582577148493403&version=v2.0";
+      js.src = "//connect.facebook.net/en_US/sdk.js";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+
   <h4 ng-show="false">Comment dire les mots de l'amitié, de l'amour et de tous les jours</h4>
   <h4 ng-show>How to say magic words to people you like and people you love</h4>
 

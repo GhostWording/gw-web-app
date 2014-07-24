@@ -1,9 +1,7 @@
-<div class="container">
-  <h4>
-    {{welcomeMsg}}
-  </h4>
-  <button type="button" ng-click="login()" ng-hide="isLoggedIn" class="btn btn-default navbar-btn">
-    Login
-  </button>
+<div>
+  <h4>{{welcomeMsg}}</h4>
+  <button type="button" ng-click="login()"  ng-hide="isLoggedIn" class="btn btn-default navbar-btn">Login</button>
+  <button type="button" ng-click="logout()" ng-show="isLoggedIn" class="btn btn-default navbar-btn">Logout</button>
+  <div class="fb-like" data-layout="button_count" data-action="like" data-share="true">fbLike</div>
+  <div class="fb-share-button"></div>
 </div>
-<!--<div id="fb-root"></div>-->
