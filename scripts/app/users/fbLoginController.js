@@ -27,6 +27,9 @@ angular.module('app/users/FbLoginController', [])
       $scope.welcomeMsg = "Please log in";
     });
   }
+$facebook.$on(fb.auth.login, function(response) {
+  console.log(response);
+})
 
   refresh();
   }]);
