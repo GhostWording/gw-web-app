@@ -6,8 +6,9 @@ angular.module('app/texts/TextDetailController', ['common/i18n', 'app/texts/alte
 ['$scope','currentText', 'currentIntention',  'tagLabelsSvc', '$modal','currentRecipient', 'favouritesSvc','currentRecipientSvc','alternativeTextsSvc','currentLanguage','HelperSvc','currentAreaName',
 function ($scope, currentText, currentIntention, tagLabelsSvc, $modal,currentRecipient, favouritesSvc,currentRecipientSvc,alternativeTextsSvc,currentLanguage,HelperSvc,currentAreaName) {
 
+  // TODO : when may want to explicitly set og:title from here because facebook randomly picks the intention title instead
+
   currentText.TagLabels = tagLabelsSvc.labelsFromStyleTagIds(currentText.TagIds);
-  //$scope.currentArea = currentArea;
   $scope.currentAreaName = currentAreaName;
   $scope.currentIntention = currentIntention;
   $scope.currentText = currentText;
@@ -29,13 +30,6 @@ function ($scope, currentText, currentIntention, tagLabelsSvc, $modal,currentRec
     console.log(valret);
     return valret;
   }
-
-//  if (HelperSvc.isQuote(currentText)) {
-//    if (currentText.Culture != "fr-FR")
-//      $scope.txt.Content = HelperSvc.replaceAngledQuotes($scope.txt.Content, '"');
-//    else
-//      $scope.txt.Content = HelperSvc.insertSpaceInsideAngledQuotes($scope.txt.Content);
-//  }
   $scope.txt.Content = adaptTextContentToLanguage(currentText);
 
   $scope.recipientId = currentRecipientSvc.getIdOfRecipient(currentRecipient);
