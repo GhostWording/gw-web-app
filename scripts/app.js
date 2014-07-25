@@ -96,7 +96,8 @@ angular.module('cherryApp',  [
       $scope.showSpinner = false;
 
       // Set facebook open graph og:url property
-      $rootScope.ogUrl = $location.url();
+      $rootScope.ogUrl = $location.absUrl();
+      //console.log($rootScope.ogUrl);
 
       function chooseTitleFromIntentionOrSiteDefault(intention) {
         if (intention) {
