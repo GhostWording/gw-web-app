@@ -166,7 +166,7 @@ function($rootScope, StyleCollection,intentionsSvc,areasSvc,currentUser,currentL
     },
 
     setBestFilterDefaultValues: function (areaName, intentionId, userGender) {
-      console.log(areaName + " - " + intentionId + ' - ' + userGender);
+//      console.log(areaName + " - " + intentionId + ' - ' + userGender);
 
       // When intention (trully) changes : try to guess best filter settings
       if (areaName == 'General') {

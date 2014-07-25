@@ -18,6 +18,26 @@ function ($scope, currentText, currentIntention, tagLabelsSvc, $modal,currentRec
   $scope.txt = {};
   $scope.txt.Content = currentText.Content; // has to be property of a full object to avoid prototypal inheritance problems
 
+  function adaptTextContentToLanguage(text) {
+    var valret = text.Content;
+    if (HelperSvc.isQuote(currentText)) {
+      if (text.Culture != "fr-FR")
+        valret = HelperSvc.replaceAngledQuotes(text.Content, '"');
+      else
+        valret = HelperSvc.insertSpaceInsideAngledQuotes(text.Content);
+    }
+    console.log(valret);
+    return valret;
+  }
+
+//  if (HelperSvc.isQuote(currentText)) {
+//    if (currentText.Culture != "fr-FR")
+//      $scope.txt.Content = HelperSvc.replaceAngledQuotes($scope.txt.Content, '"');
+//    else
+//      $scope.txt.Content = HelperSvc.insertSpaceInsideAngledQuotes($scope.txt.Content);
+//  }
+  $scope.txt.Content = adaptTextContentToLanguage(currentText);
+
   $scope.recipientId = currentRecipientSvc.getIdOfRecipient(currentRecipient);
 
   $scope.authorButton = "active";
@@ -45,23 +65,12 @@ function ($scope, currentText, currentIntention, tagLabelsSvc, $modal,currentRec
     $scope.editText = true;
   };
 
-  function insertAuthorInText(text,author) {
-    var pos = text.indexOf("»");
-    var spacing = (pos == text.length - 1 || pos < 0) ? "\n"
-                                                      : ' ';
-    var toBeAdded = spacing  + "(" + author + ")";
-    var retval =  (pos > 0) ? text.substring(0, pos+1) + toBeAdded + text.substring(pos+1, text.length)
-                            : text + toBeAdded;
-    return retval;
-  }
-
   $scope.addAuthor = function() {
 //    var toBeAdded = " (" + currentText.Author + ")";
 //    $scope.txt.Content += toBeAdded;
 //    $scope.currentText.Content += toBeAdded;
-    $scope.txt.Content = insertAuthorInText($scope.txt.Content, currentText.Author);
+    $scope.txt.Content = HelperSvc.insertAuthorInText($scope.txt.Content, currentText.Author);
     $scope.authorButton = "disabled";
-    //$scope.currentText.Content = insertAuthorInText($scope.currentText.Content, currentText.Author);
   };
 
   $scope.isFavourite = function() {
@@ -71,11 +80,6 @@ function ($scope, currentText, currentIntention, tagLabelsSvc, $modal,currentRec
   $scope.setFavourite = function() {
     favouritesSvc.setFavourite(currentText, currentAreaName, currentIntention, $scope.isFavourite());
   };
-
-  // Compare text wi
-//  $scope.getTVDistinction = function(text) {
-//    return alternativeTextsSvc.getTVDistinction(currentText.Content,text);
-//  };
 
   $scope.getSenderGenderVariationFromCurrentUser = function (text) {
     return alternativeTextsSvc.getSenderGenderVariationFromCurrentUser(text);
@@ -103,6 +107,13 @@ function ($scope, currentText, currentIntention, tagLabelsSvc, $modal,currentRec
   };
 
   alternativeTextsSvc.getRealizationList(currentAreaName,currentText.PrototypeId).then(function(textList) {
+
+    // Adapt text Content formating to culture
+    for (var i = 0; i < textList.length; i++) {
+      var t = textList[i];
+      console.log(t);
+      t.Content = adaptTextContentToLanguage(t);
+    }
 
     if ( textList != "null") {
       // For each orderedPresentationLanguages, prepare an array of available texts for the language, then chose the best ones according to sender, recipient and polite form

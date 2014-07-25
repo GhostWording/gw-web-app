@@ -36,12 +36,12 @@ function ($rootScope, intentionsSvc, areasSvc, currentUser, currentLanguage, cur
     calculateMostSelectiveStyles: function() {
       // Add a selectiveness property to the styles, relative to the current filtered text list
       var visibleStyleList = service.getVisibleStyles().stylesList;
-      console.log("== " + visibleStyleList);
+      //console.log("== " + visibleStyleList);
       for (var i = 0; i < visibleStyleList.length; i++) {
         var style = visibleStyleList[i];
         var styleCount = filteredTextListSvc.getTextCountForTagId(style.id);
         style.selectiveness  = HelperSvc.countTagSelelectiveness(style.id,styleCount,filteredTextListSvc.getLength());
-        console.log(style.name + " -- " + style.selectiveness);
+        //console.log(style.name + " -- " + style.selectiveness);
       }
       // Make a list with most selective styles first
       visibleStyleList.sort(function (style1, style2) {

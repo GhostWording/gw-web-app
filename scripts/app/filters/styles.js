@@ -53,7 +53,7 @@ angular.module('app/filters/styles', [])
         filteredStyles.addStyle(angular.copy(style));
       }
     });
-    console.log(filteredStyles);
+    //console.log(filteredStyles);
     return filteredStyles;
   };
 

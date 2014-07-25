@@ -42,8 +42,8 @@ angular.module('cherryApp',  [
 //  }
 //  $facebookProvider.setAppId(fbAppId);
 }])
-.controller('CherryController', ['$scope',  'PostActionSvc','$rootScope','$location','currentLanguage','appUrlSvc','intentionsSvc','appVersionCheck','textsSvc','$window', '$state',
-  function ($scope,PostActionSvc,$rootScope,$location,currentLanguage,appUrlSvc,intentionsSvc,appVersionCheck,textsSvc,$window,$state) {
+.controller('CherryController', ['$scope',  'PostActionSvc','$rootScope','$location','currentLanguage','appUrlSvc','intentionsSvc','appVersionCheck','textsSvc','$window', '$state','HelperSvc',
+  function ($scope,PostActionSvc,$rootScope,$location,currentLanguage,appUrlSvc,intentionsSvc,appVersionCheck,textsSvc,$window,$state,HelperSvc) {
     $scope.app = {};
     $scope.app.appUrlSvc = appUrlSvc;
     $rootScope.pageTitle1 = "Comment vous dire. Les mots sur le bout de la langue, l'inspiration au bout des doigts";
@@ -89,18 +89,47 @@ angular.module('cherryApp',  [
     });
 
     $rootScope.$on("$stateChangeSuccess",function (event, toState, toParams, fromState, fromParams) {
-//      console.log("$stateChangeSuccess");
       $scope.showSpinner = false;
 
-      intentionsSvc.getCurrent().then(function(intention) {
-        if ( intention ) {
+      function chooseTitleFromIntentionOrSiteDefault(intention) {
+        if (intention) {
           $rootScope.pageTitle1 = "Comment dire";
           $rootScope.pageTitle2 = intention.Label;
-        } else {
+        }
+        else {
           $rootScope.pageTitle1 = "Comment vous dire : les mots sur le bout de la langue, l'inspiration au bout des doigts";
           $rootScope.pageTitle2 = "";
         }
-      } );
+      }
+      function getCurrentIntentionThenSetTitle() {
+        intentionsSvc.getCurrent().then(function(intention) {
+          chooseTitleFromIntentionOrSiteDefault(intention);
+          console.log("TITLE : " + $rootScope.pageTitle1 + " " + $rootScope.pageTitle2);
+        });
+      }
+
+      //console.log(textsSvc.getCurrentId());
+      // First try to set the title according to current text
+      if (!!textsSvc.getCurrentId()) {
+        textsSvc.getCurrent().then(function (text) {
+          if (text) {
+            $rootScope.pageTitle1 = "";
+            if ( HelperSvc.isQuote(text)) {
+              var txt =  HelperSvc.replaceAngledQuotes(text.Content,"");
+              $rootScope.pageTitle2 = HelperSvc.insertAuthorInText(txt, text.Author,true);
+            }
+            else
+              $rootScope.pageTitle2 = text.Content;
+            console.log("TITLE : " + $rootScope.pageTitle1 + " " + $rootScope.pageTitle2);
+          }
+          else
+            getCurrentIntentionThenSetTitle();
+        });
+      }
+      // else from current intention
+      else
+        getCurrentIntentionThenSetTitle();
+
 
       var languageCode = toParams.languageCode;
       if ( languageCode &&  languageCode!== undefined) {
@@ -111,7 +140,6 @@ angular.module('cherryApp',  [
         var path = $location.path();
         $window.ga('send', 'pageview', { page: path });
       }
-
 
       var includeLanguageInUrl = true;
       if (includeLanguageInUrl) {
@@ -124,7 +152,6 @@ angular.module('cherryApp',  [
          currentLanguage.insertCurrentLanguageCodeInUrlIfAbsent();
       }
 
-
     });
   }
 ])
@@ -134,7 +161,6 @@ angular.module('cherryApp',  [
     $scope.app = {};
     $scope.app.appUrlSvc = appUrlSvc;
   }
-
 
   $scope.changeLanguage = function (langKey) {
     currentLanguage.setLanguageCode(langKey);

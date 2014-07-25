@@ -10,4 +10,9 @@ angular.module('app/splash', ['common/services'])
     FB.XFBML.parse(); // fb sdk must be initialised before FB can be mentionned
   } );
 
+  // Does not work : FB not initialized
+//  if ($facebook.isConnected && !!FB)
+//    FB.XFBML.parse(); // fb sdk must be initialised before FB can be mentionned
+
+
 }]);
