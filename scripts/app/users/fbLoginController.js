@@ -1,9 +1,11 @@
 angular.module('app/users/FbLoginController', [])
-.controller('FbLoginController', ['$scope', 'currentUser','$facebook','$location', function ($scope, currentUser,$facebook,$location) {
+.controller('FbLoginController', ['$scope', 'currentUser','$facebook','$rootScope', function ($scope, currentUser,$facebook,$rootScope) {
 
 
   //$scope.pageAddress = $location.url();
   $scope.pageAddress = "beta.commentvousdire.com";
+
+
 
   $scope.isLoggedIn = false;
 
@@ -27,9 +29,17 @@ angular.module('app/users/FbLoginController', [])
       $scope.welcomeMsg = "Please log in";
     });
   }
-$facebook.$on(fb.auth.login, function(response) {
+
+  $rootScope.$on("fb.auth.authResponseChange", function(response,fb) {
   console.log(response);
-})
+  console.log(fb.authResponse);
+  });
 
   refresh();
-  }]);
+
+  $facebook.getLoginStatus().then(function(response) {
+    console.log(response);
+    FB.XFBML.parse(); // fb sdk must be initialised before FB can be mentionned
+  } );
+
+}]);
