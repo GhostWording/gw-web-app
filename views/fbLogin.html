@@ -3,8 +3,11 @@
   <button type="button" ng-click="login()"  ng-hide="isLoggedIn" class="btn btn-default navbar-btn">Login</button>
   <button type="button" ng-click="logout()" ng-show="isLoggedIn" class="btn btn-default navbar-btn">Logout</button>
   <div class="fb-like" data-layout="button_count" data-action="like" data-share="true">fbLike</div>
+  <div class="fb-like" data-layout="button" data-action="like" data-share="true">fbLike</div>
   <div class="fb-share-button"></div>
   ...............
   <fb:login-button data-size="large" scope="public_profile,email" onlogin="checkLoginState();">
   </fb:login-button>
+------------
+  <div class="fb-send" data-href="https://developers.facebook.com/docs/plugins/" data-colorscheme="light"></div>
 </div>

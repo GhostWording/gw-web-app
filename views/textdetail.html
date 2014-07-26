@@ -21,9 +21,10 @@
   <span ng-repeat="tagLabel in currentText.TagLabels" >
       <span class="label label-primary" translate>{{tagLabel}}</span>&nbsp
   </span>
+  <span class="pull-right">  <div class="fb-like" data-layout="button" data-action="like" data-share="true"></div>
+  </span>
 
   <div class="well well-lg" ng-hide="editText" style="border-color: #428bca; margin-bottom: 5px; background-color: #FFFFFF;" >
-    <!--<span ng-bind-html="currentText.Content"></span>-->
     <span ng-bind-html="txt.Content" style="white-space: pre-wrap"></span>
     <!--<span cvd-text="currentText"></span>-->
     <favourite-toggle is-favourite="isFavourite()" on-change="setFavourite()"></favourite-toggle>

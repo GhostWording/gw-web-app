@@ -206,7 +206,7 @@ angular.module('cherryApp',  [
 
 .run(['$rootScope', 'intentionsSvc', 'filtersSvc','promiseTracker', function($rootScope, intentionsSvc, filtersSvc,promiseTracker) {
   // Promise tracker to display spinner when getting files
-  $rootScope.loadingTracker = promiseTracker({ activationDelay: 300, minDuration: 500 });
+  $rootScope.loadingTracker = promiseTracker({ activationDelay: 300, minDuration: 400 });
   // ngFacebook : Load the facebook SDK asynchronously
 //  (function(){
 //    // If we've already installed the SDK, we're done

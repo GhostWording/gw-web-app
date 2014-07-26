@@ -38,7 +38,7 @@ angular.module('app/users/FbLoginController', [])
   refresh();
 
   $facebook.getLoginStatus().then(function(response) {
-    console.log(response);
+//    console.log(response);
     FB.XFBML.parse(); // fb sdk must be initialised before FB can be mentionned
   } );
 //  if ( FB !== null && FB !== undefined && !!FB.XFBML )

@@ -3,8 +3,8 @@ angular.module('app/texts/TextDetailController', ['common/i18n', 'app/texts/alte
 // Display text with author, link to the source, usage recommandations or comments
 
 .controller('TextDetailController',
-['$scope','currentText', 'currentIntention',  'tagLabelsSvc', '$modal','currentRecipient', 'favouritesSvc','currentRecipientSvc','alternativeTextsSvc','currentLanguage','HelperSvc','currentAreaName',
-function ($scope, currentText, currentIntention, tagLabelsSvc, $modal,currentRecipient, favouritesSvc,currentRecipientSvc,alternativeTextsSvc,currentLanguage,HelperSvc,currentAreaName) {
+['$scope','currentText', 'currentIntention',  'tagLabelsSvc', '$modal','currentRecipient', 'favouritesSvc','currentRecipientSvc','alternativeTextsSvc','currentLanguage','HelperSvc','currentAreaName','$facebook',
+function ($scope, currentText, currentIntention, tagLabelsSvc, $modal,currentRecipient, favouritesSvc,currentRecipientSvc,alternativeTextsSvc,currentLanguage,HelperSvc,currentAreaName,$facebook) {
 
   // TODO : when may want to explicitly set og:title from here because facebook randomly picks the intention title instead
 
@@ -117,5 +117,10 @@ function ($scope, currentText, currentIntention, tagLabelsSvc, $modal,currentRec
     else
       console.log("No alternative realization for " + currentText.TextId);
   });
+
+  // Make sure social buttons are displayed
+  $facebook.getLoginStatus().then(function(response) {
+    FB.XFBML.parse(); // fb sdk must be initialised before FB can be mentionned
+  } );
 
 }]);
