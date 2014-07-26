@@ -42,7 +42,7 @@ angular.module('cherryApp',  [
 //.config(function (ezfbProvider) {
 //  ezfbProvider.setLocale('fr_FR');
 //})
-.config(function (ezfbProvider) {
+.config(['ezfbProvider',function (ezfbProvider) {
   ezfbProvider.setInitParams({
     // https://developers.facebook.com/docs/javascript/reference/FB.init/v2.0
     appId: '582577148493403',
@@ -50,7 +50,7 @@ angular.module('cherryApp',  [
     xfbml      : true,
     version: 'v2.0'
   });
-})
+}])
 .controller('CherryController', ['$scope',  'PostActionSvc','$rootScope','$location','currentLanguage','appUrlSvc','intentionsSvc','appVersionCheck','textsSvc','$window', '$state','HelperSvc','$translate','myfb',
   function ($scope,PostActionSvc,$rootScope,$location,currentLanguage,appUrlSvc,intentionsSvc,appVersionCheck,textsSvc,$window,$state,HelperSvc,$translate,myfb) {
     $scope.app = {};

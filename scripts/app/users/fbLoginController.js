@@ -1,18 +1,63 @@
 angular.module('app/users/FbLoginController', [])
-.controller('FbLoginController', ['$scope', 'currentUser','myfb','$rootScope', function ($scope, currentUser,myfb,$rootScope) {
+.controller('FbLoginController', ['$scope', 'currentUser','ezfb','$rootScope', function ($scope, currentUser,ezfb,$rootScope) {
 
   //$scope.pageAddress = $location.url();
-  $scope.isLoggedIn = false;
+  //$scope.isLoggedIn = false;
+
+  updateLoginStatus(updateApiMe);
+
+  $scope.login = function () {
+    ezfb.login(function (res) {
+      if (res.authResponse) {
+        updateLoginStatus(updateApiMe);
+      }
+    }, {scope: 'email'});
+  };
+
+  //
+  var autoToJSON = ['loginStatus', 'apiMe'];
+  angular.forEach(autoToJSON, function (varName) {
+    $scope.$watch(varName, function (val) {
+      $scope[varName + 'JSON'] = JSON.stringify(val, null, 2);
+    }, true);
+  });
+
+  /**
+   * Update loginStatus result
+   */
+  function updateLoginStatus (more) {
+    ezfb.getLoginStatus(function (res) {
+      $scope.loginStatus = res;
+
+      (more || angular.noop)();
+    });
+  }
+
+  function updateApiMe () {
+    ezfb.api('/me', function (res) {
+      $scope.apiMe = res;
+    });
+  }
+
+  $scope.logout = function() {
+    //FB.logout(); //  Refused to display 'https://www.facebook.com/home.php' in a frame because it set 'X-Frame-Options' to 'DENY'.
+    ezfb.logout(function () {
+      //updateLoginStatus(updateApiMe);
+      console.log("try to log out");
+    });
+  };
+
+
+
+}]);
+
 
 //  $scope.login = function() {
 //    $facebook.login().then(function() {
 //      refresh();
 //    });
 //  };
-//  $scope.logout = function() {
-//    $facebook.logout(); //  Refused to display 'https://www.facebook.com/home.php' in a frame because it set 'X-Frame-Options' to 'DENY'.
-//  };
-//
+
 //  function refresh() {
 //    $facebook.api("/me").then(
 //    function(response) {
@@ -37,4 +82,3 @@ angular.module('app/users/FbLoginController', [])
 //    FB.XFBML.parse(); // fb sdk must be initialised before FB can be mentionned
 //  } );
 
-}]);
