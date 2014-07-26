@@ -11,7 +11,8 @@ angular.module('cherryApp',  [
   'angularSpinkit',
   'ajoslin.promise-tracker',
   'pascalprecht.translate',
-  'ngFacebook'
+//'ngFacebook'
+  'ezfb'
 ])
 
 //CORS for angular v < 1.2
@@ -27,23 +28,31 @@ angular.module('cherryApp',  [
    $sceDelegateProvider.resourceUrlWhitelist(['self', /^https?:\/\/(api\.)?cvd.io/]);
 }])
 //Facebook connexion configuration
-.config(['$facebookProvider', function( $facebookProvider ) {
-  $facebookProvider.setAppId('582577148493403');
-  $facebookProvider.setCustomInit({
+// If we ever need to set different AppIds for TouchWording, MessagePanda, etc.
+//  if ( /<your-reg-exp>/.test(window.location.hostname) ) fbAppId = '......';
+
+//.config(['$facebookProvider', function( $facebookProvider ) {
+//  $facebookProvider.setAppId('582577148493403');
+//  $facebookProvider.setCustomInit({
+//    xfbml      : true,
+//    version    : 'v2.0'
+//  });
+//}])
+// TODO : configure best language
+//.config(function (ezfbProvider) {
+//  ezfbProvider.setLocale('fr_FR');
+//})
+.config(function (ezfbProvider) {
+  ezfbProvider.setInitParams({
+    // https://developers.facebook.com/docs/javascript/reference/FB.init/v2.0
+    appId: '582577148493403',
+    status     : true,
     xfbml      : true,
-    version    : 'v2.0'
+    version: 'v2.0'
   });
-  // If we ever need to set different AppIds for TouchWording, MessagePanda, etc.
-//  var fbAppId;
-//  if ( /<your-reg-exp>/.test(window.location.hostname) ) {
-//    fbAppId = '54345345345';
-//  } else {
-//    fbAppId = '345345546545';
-//  }
-//  $facebookProvider.setAppId(fbAppId);
-}])
-.controller('CherryController', ['$scope',  'PostActionSvc','$rootScope','$location','currentLanguage','appUrlSvc','intentionsSvc','appVersionCheck','textsSvc','$window', '$state','HelperSvc','$translate','$facebook',
-  function ($scope,PostActionSvc,$rootScope,$location,currentLanguage,appUrlSvc,intentionsSvc,appVersionCheck,textsSvc,$window,$state,HelperSvc,$translate,$facebook) {
+})
+.controller('CherryController', ['$scope',  'PostActionSvc','$rootScope','$location','currentLanguage','appUrlSvc','intentionsSvc','appVersionCheck','textsSvc','$window', '$state','HelperSvc','$translate','myfb',
+  function ($scope,PostActionSvc,$rootScope,$location,currentLanguage,appUrlSvc,intentionsSvc,appVersionCheck,textsSvc,$window,$state,HelperSvc,$translate,myfb) {
     $scope.app = {};
     $scope.app.appUrlSvc = appUrlSvc;
     $rootScope.pageTitle1 = "Comment vous dire. Les mots sur le bout de la langue, l'inspiration au bout des doigts";
@@ -100,9 +109,9 @@ angular.module('cherryApp',  [
       //console.log($rootScope.ogUrl);
 
 
-      $facebook.getLoginStatus().then(function (response) {
-        FB.XFBML.parse(); // fb sdk must be initialised before FB can be mentionned
-      });
+//      $facebook.getLoginStatus().then(function (response) {
+//        FB.XFBML.parse(); // fb sdk must be initialised before FB can be mentionned
+//      });
 
 
       function chooseTitleFromIntentionOrSiteDefault(intention) {

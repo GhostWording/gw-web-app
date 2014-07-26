@@ -1,21 +1,19 @@
 ﻿<html ng-app='cherryApp' lang="en">
   <head>
 
+    <meta charset="utf-8">
     <meta name="fragment" content="!">
     <base href="/">
+
     <!--<meta name="viewport" content="initial-scale=1.0, user-scalable=no">-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="google-site-verification" content="Yancq9d1odgL9tS_cPdZuci56Rmh5J30ASqLN4Mk3Wk" />
 
-    <meta charset="utf-8">
-    <!--<title ng-bind-template="{{pageTitle1 | translate}} {{pageTitle2 | translate}} ">Comment dire les choses importantes - Your highway from ideas to words</title>-->
     <title ng-bind-template="{{pageTitle1 | translate}} {{pageTitle2 | translate}}">Mots magiques pour belles occasions</title>
 
      <!--TODO : description could adapt to page and language as in http://stackoverflow.com/questions/20807761/angular-modify-meta-tag-->
-    <!--<meta name="description" content="Words with a magic touch">-->
-    <!--<meta name="description" content="Words with a magic touch - L'avenir s'esquisse du bout des doigts">-->
     <meta name="description" content="{{ pageDescription | translate }}">
 
-    <meta name="google-site-verification" content="Yancq9d1odgL9tS_cPdZuci56Rmh5J30ASqLN4Mk3Wk" />
 
     <meta property="og:title" content="{{pageTitle1 | translate}} {{pageTitle2 | translate}}"/>
     <meta property="og:image" content="http://www.commentvousdire.com/assets/TouchWording.jpg"/>
@@ -46,7 +44,10 @@
     <script src="assets/angular-promise-tracker/promise-tracker.js"></script>
     <script src="assets/angular-promise-tracker/promise-tracker-http-interceptor.js"></script>
     <script src="assets/angular-translate/angular-translate.min.js"></script>
-    <script src="assets/ng-facebook/ngFacebook.js"></script>
+    <!--<script src="assets/ng-facebook/ngFacebook.js"></script>-->
+    <script src="assets/angular-easyfb/angular-easyfb.js"></script>
+
+
 
     <script src="scripts/lib/bootstrap-custom/ui-bootstrap-custom-tpls-0.10.0.js"></script>
     <!--<script src="scripts/lib/bootstrap-custom/ui-bootstrap-tpls-0.11.0.js"></script>-->
@@ -92,15 +93,25 @@
 
   <body  id="leCorps">
     <!-- facebook scripts -->
-    <div id="fb-root"></div>
-    <script>(function(d, s, id) {
-      var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) return;
-      js = d.createElement(s); js.id = id;
-//      js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&appId=582577148493403&version=v2.0";
-      js.src = "//connect.facebook.net/en_US/sdk.js";
-      fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));</script>
+
+    <!--<div id="fb-root"></div>-->
+    <!--<script>(function(d, s, id) {-->
+      <!--var js, fjs = d.getElementsByTagName(s)[0];-->
+      <!--if (d.getElementById(id)) return;-->
+      <!--js = d.createElement(s); js.id = id;-->
+      <!--js.src = "//connect.facebook.net/en_US/sdk.js";-->
+      <!--fjs.parentNode.insertBefore(js, fjs);-->
+    <!--}(document, 'script', 'facebook-jssdk'));</script>-->
+
+    <!--<div id="fb-root"></div>-->
+    <!--<script>(function(d, s, id) {-->
+      <!--var js, fjs = d.getElementsByTagName(s)[0];-->
+      <!--if (d.getElementById(id)) return;-->
+      <!--js = d.createElement(s); js.id = id;-->
+      <!--js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&appId=582577148493403&version=v2.0";-->
+      <!--fjs.parentNode.insertBefore(js, fjs);-->
+    <!--}(document, 'script', 'facebook-jssdk'));</script>-->
+
 
   <h4 ng-show="false">Comment dire les mots de l'amitié, de l'amour et de tous les jours</h4>
   <h4 ng-show>How to say magic words to people you like and people you love</h4>
