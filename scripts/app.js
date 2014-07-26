@@ -42,15 +42,15 @@ angular.module('cherryApp',  [
 //  }
 //  $facebookProvider.setAppId(fbAppId);
 }])
-.controller('CherryController', ['$scope',  'PostActionSvc','$rootScope','$location','currentLanguage','appUrlSvc','intentionsSvc','appVersionCheck','textsSvc','$window', '$state','HelperSvc','$translate',
-  function ($scope,PostActionSvc,$rootScope,$location,currentLanguage,appUrlSvc,intentionsSvc,appVersionCheck,textsSvc,$window,$state,HelperSvc,$translate) {
+.controller('CherryController', ['$scope',  'PostActionSvc','$rootScope','$location','currentLanguage','appUrlSvc','intentionsSvc','appVersionCheck','textsSvc','$window', '$state','HelperSvc','$translate','$facebook',
+  function ($scope,PostActionSvc,$rootScope,$location,currentLanguage,appUrlSvc,intentionsSvc,appVersionCheck,textsSvc,$window,$state,HelperSvc,$translate,$facebook) {
     $scope.app = {};
     $scope.app.appUrlSvc = appUrlSvc;
     $rootScope.pageTitle1 = "Comment vous dire. Les mots sur le bout de la langue, l'inspiration au bout des doigts";
     $rootScope.pageTitle2 = "";
 
-    $rootScope.pageDescription = "L'avenir s'esquisse du bout des doigts";
-    $rootScope.ogDescription = "L'avenir s'esquisse du bout des doigts";
+    $rootScope.pageDescription = "Vos friends meritent de meilleurs messages";
+    $rootScope.ogDescription = "Vos friends meritent de meilleurs messages";
 
     console.log(navigator.userAgent);
     currentLanguage.setLanguageForHostName($location.$$host);
@@ -99,6 +99,12 @@ angular.module('cherryApp',  [
       $rootScope.ogUrl = $location.absUrl();
       //console.log($rootScope.ogUrl);
 
+
+      $facebook.getLoginStatus().then(function (response) {
+        FB.XFBML.parse(); // fb sdk must be initialised before FB can be mentionned
+      });
+
+
       function chooseTitleFromIntentionOrSiteDefault(intention) {
         if (intention) {
           $rootScope.pageTitle1 = "Comment dire";
@@ -132,8 +138,9 @@ angular.module('cherryApp',  [
               $translate("Comment dire").then(function(translatedPrefix) {
                 $translate(intention.Label).then(function(translatedIntentionLable) {
                   $rootScope.pageDescription = translatedPrefix + " " + HelperSvc.lowerFirstLetter(translatedIntentionLable);
-                  console.log("DESCRIPTION : " + $rootScope.pageDescription);
-                })
+                  $rootScope.ogDescription = translatedIntentionLable;
+                  console.log("ogDescription : " +$rootScope.ogDescription);
+                });
               });
             });
           }
