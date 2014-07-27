@@ -3,10 +3,12 @@ angular.module('app/texts/TextDetailController', ['common/i18n', 'app/texts/alte
 // Display text with author, link to the source, usage recommandations or comments
 
 .controller('TextDetailController',
-['$scope','currentText', 'currentIntention',  'tagLabelsSvc', '$modal','currentRecipient', 'favouritesSvc','currentRecipientSvc','alternativeTextsSvc','currentLanguage','HelperSvc','currentAreaName','$rootScope',
-function ($scope, currentText, currentIntention, tagLabelsSvc, $modal,currentRecipient, favouritesSvc,currentRecipientSvc,alternativeTextsSvc,currentLanguage,HelperSvc,currentAreaName,$rootScope) {
+['$scope','currentText', 'currentIntention',  'tagLabelsSvc', '$modal','currentRecipient', 'favouritesSvc','currentRecipientSvc','alternativeTextsSvc','currentLanguage','HelperSvc','currentAreaName','$rootScope','$location',
+function ($scope, currentText, currentIntention, tagLabelsSvc, $modal,currentRecipient, favouritesSvc,currentRecipientSvc,alternativeTextsSvc,currentLanguage,HelperSvc,currentAreaName,$rootScope,$location) {
 
   // TODO : when may want to explicitly set og:title from here because facebook randomly picks the intention title instead
+
+  $scope.url = $location.url();
 
   currentText.TagLabels = tagLabelsSvc.labelsFromStyleTagIds(currentText.TagIds);
   $scope.currentAreaName = currentAreaName;
@@ -14,12 +16,39 @@ function ($scope, currentText, currentIntention, tagLabelsSvc, $modal,currentRec
   $scope.currentText = currentText;
 
   $rootScope.ogDescription = currentIntention.Label;
+  //$rootScope.ogTitle = currentText.Content;
 
   $scope.Id = currentText.TextId;
 
   // Copy the text Content so that if we edit it we are not editing the original "text".
   $scope.txt = {};
   $scope.txt.Content = currentText.Content; // has to be property of a full object to avoid prototypal inheritance problems
+
+
+//  $scope.fbShare = function () {
+//    var url = $location.absUrl();
+////    console.log(url);
+//    ezfb.ui(
+//    {
+//      method: 'feed',
+//      name: $rootScope.pageTitle1 + " " + $rootScope.pageTitle2,
+//      picture: 'http://www.commentvousdire.com/assets/TouchWordingCompressed.png',
+//      link: url,
+//      description: currentIntention.Label
+//    },function (res) {});
+//  };
+//
+//  $scope.fbSend = function () {
+//    var url = $location.absUrl();
+//    ezfb.ui({
+//      method: 'send',
+//      name: $rootScope.pageTitle1 + " " + $rootScope.pageTitle2,
+//      picture: 'http://www.commentvousdire.com/assets/TouchWordingCompressed.png',
+//      link: url,
+//      description: currentIntention.Label
+//    },function (res) { console.log(res);} );
+//  };
+
 
   function adaptTextContentToLanguage(text) {
     var valret = text.Content;
@@ -29,7 +58,7 @@ function ($scope, currentText, currentIntention, tagLabelsSvc, $modal,currentRec
       else
         valret = HelperSvc.insertSpaceInsideAngledQuotes(text.Content);
     }
-    console.log(valret);
+//    console.log(valret);
     return valret;
   }
   $scope.txt.Content = adaptTextContentToLanguage(currentText);
@@ -107,7 +136,7 @@ function ($scope, currentText, currentIntention, tagLabelsSvc, $modal,currentRec
     // Adapt text Content formating to culture
     for (var i = 0; i < textList.length; i++) {
       var t = textList[i];
-      console.log(t);
+      //console.log(t);
       t.Content = adaptTextContentToLanguage(t);
     }
 

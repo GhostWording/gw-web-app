@@ -13,36 +13,46 @@
           <img ng-src="./assets/arrow-left.png" class="stylepicto">
         </a>
         <h4 class="pull-left" style="margin-left: 10px;" translate>{{ currentIntention.Label }}</h4>
+        <img style="margin-top:0px; margin-right: 10px;" width="50px" height="40px" src="./assets/TouchWordingCompressed.jpg" class="pull-right">
+
       </li>
     </ul>
   </div>
 
 
-  <span ng-repeat="tagLabel in currentText.TagLabels" >
-      <span class="label label-primary" translate>{{tagLabel}}</span>&nbsp
-  </span>
+  <!--<span ng-repeat="tagLabel in currentText.TagLabels" >-->
+      <!--<span class="label label-primary" translate>{{tagLabel}}</span>&nbsp-->
+  <!--</span>-->
   <!--<span class="pull-right">  <div class="fb-like" data-layout="button" data-action="like" data-share="true"></div>-->
-  <span class="pull-right">
-    <div class="fb-share-button" style="
-                margin-right: 25px;
-                transform: scale(1.5);
-                -ms-transform: scale(1.5);
-                -webkit-transform: scale(1.5);
-                -o-transform: scale(1.5);
-                -moz-transform: scale(1.5);
-                /*transform-origin: top left;*/
-                /*-ms-transform-origin: top left;*/
-                /*-webkit-transform-origin: top left;*/
-                /*-moz-transform-origin: top left;*/
-                /*-webkit-transform-origin: top left;*/" ></div>
-  </span>
+  <!--<span class="pull-right">-->
+    <!--<div class="fb-share-button" style="-->
+                <!--margin-right: 25px;-->
+                <!--transform: scale(1.5);-->
+                <!---ms-transform: scale(1.5);-->
+                <!---webkit-transform: scale(1.5);-->
+                <!---o-transform: scale(1.5);-->
+                <!---moz-transform: scale(1.5);-->
+                <!--/*transform-origin: top left;*/-->
+                <!--/*-ms-transform-origin: top left;*/-->
+                <!--/*-webkit-transform-origin: top left;*/-->
+                <!--/*-moz-transform-origin: top left;*/-->
+                <!--/*-webkit-transform-origin: top left;*/-->
+                <!--" ></div>-->
+  <!--</span>-->
+
+
+<div class="pull-right" style="margin-bottom: 5px; margin-top: 5px; margin-right: 5px;" >
+  <!-- fb share  -->
+  <div class="fb-share-button btn btn-default"></div>
+</div>
+  <div></div>
 
   <div class="well well-lg" ng-hide="editText" style="border-color: #428bca; margin-bottom: 5px; background-color: #FFFFFF;" >
     <span ng-bind-html="txt.Content" style="white-space: pre-wrap"></span>
     <!--<span cvd-text="currentText"></span>-->
-    <favourite-toggle is-favourite="isFavourite()" on-change="setFavourite()"></favourite-toggle>
+    <!-- favourite star appears at random places  -->
+    <!--<favourite-toggle is-favourite="isFavourite()" on-change="setFavourite()"></favourite-toggle>-->
   </div>
-
   <div ng-show="editText">
     <textarea
         ng-model="txt.Content"
@@ -51,34 +61,48 @@
     </textarea>
   </div>
 
-  <div>
-    <span class="pull-right">
-        <button class="btn btn-default  glyphicon glyphicon-pencil" translate
-                targetId="{{ Id }}" targetType="Text" actionType="edit"
-                ng-click="edit()" ng-hide="editText">
-        </button>
-        <button class="btn btn-primary" translate
-                targetId="{{ Id }}" targetType="Text" actionType="send"
-                ng-click="send()">Envoyer
-        </button>
-    </span>
+
+  <div class="pull-left">
+    <!-- fb send : use api version when possible, button shows right away and content of fb plugin looks less random, will not work on mobiles -->
+    <!-- ......but it does not seem to work if the page has never been scrapped by fb before  -->
+    <!--<button ng-click="fbSend()" class="btn hidden-xs" style="background: url(/assets/fbSend.png)  no-repeat; width: 70px; height: 25px;"></button>-->
+    <!-- use the fb social button on mobiles : can take a few seconds to render, and will scrape what it can  -->
+    <!--<div class="fb-send btn btn-default visible-xs"></div>-->
+    <div class="fb-send btn btn-default"></div>
+  </div>
+  <div class="pull-right">
+    <!-- edit  -->
+    <button style="margin-left: 10px" class="btn btn-default  glyphicon glyphicon-pencil" translate
+            targetId="{{ Id }}" targetType="Text" actionType="edit"
+            ng-click="edit()" ng-hide="editText"></button>
+    <!-- send  -->
+    <button style="margin-left: 10px" class="btn btn-default glyphicon glyphicon-envelope" translate
+            targetId="{{ Id }}" targetType="Text" actionType="send"
+            ng-click="send()"></button>
+  </div>
+<div></div>
+  <br>
+  <div ng-show="isQuote(currentText)" style="margin-bottom: 5px;" >
+    <span class ="auteur hidden-xs " translate>Auteur</span>
+    <span class ="auteur hidden-xs" translate> : </span>
+
+    <span class ="auteur">{{currentText.Author}}</span>
+    &nbsp
+    <!--<button class="btn btn-default glyphicon glyphicon-plus" ng-class = '{disabled: authorButton=="disabled"}'-->
+    <!--targetId="{{ Id }}" targetType="Text" actionType="edit"-->
+    <!--ng-click="addAuthor()">-->
+    <button class="btn btn-sm btn-default " ng-class = '{disabled: authorButton=="disabled"}'
+            targetId="{{ Id }}" targetType="Text" actionType="edit"
+            ng-click="addAuthor()">+    </button>
   </div>
 
     <!--<br/>-->
-  <div ng-show="isQuote(currentText)">
-    <span class ="auteur" translate>Auteur</span>
-    <span class ="auteur">: {{currentText.Author}}</span>
-    &nbsp
-    <button class="btn btn-default glyphicon glyphicon-plus" ng-class = '{disabled: authorButton=="disabled"}'
-            targetId="{{ Id }}" targetType="Text" actionType="edit"
-            ng-click="addAuthor()">
-    </button>
-  </div>
     <div ng-show="currentText.ReferenceUrl">
         Source : <a ng-href = "{{currentText.ReferenceUrl}}" >{{currentText.ReferenceUrl}}</a>
     </div>
 
-  <div style="margin-bottom:20px;"></div>
+  <div style="margin-bottom:30px;"></div>
+
   <div ng-repeat="languageTextGroup in  languageTextGroups" style="padding-top: 20px;">
     <h5 style="font-size: 120%; margin-top: 0px;" translate>{{ languageTextGroup.code }}</h5>
 

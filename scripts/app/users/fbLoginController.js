@@ -1,7 +1,7 @@
 angular.module('app/users/FbLoginController', [])
-.controller('FbLoginController', ['$scope', 'currentUser','ezfb','$rootScope', function ($scope, currentUser,ezfb,$rootScope) {
+.controller('FbLoginController', ['$scope', 'currentUser','ezfb','$rootScope','$location', function ($scope, currentUser,ezfb,$rootScope,$location) {
 
-  //$scope.pageAddress = $location.url();
+  $scope.pageAddress = $location.absUrl();
   //$scope.isLoggedIn = false;
 
   updateLoginStatus(updateApiMe);
@@ -47,8 +47,38 @@ angular.module('app/users/FbLoginController', [])
     });
   };
 
+  $scope.fbShare = function () {
+    var url = $location.absUrl();
+    console.log(url);
+    ezfb.ui(
+    {
+      method: 'feed',
+      name: $rootScope.pageTitle1 + " " + $rootScope.pageTitle2,
+      picture: 'http://www.commentvousdire.com/assets/TouchWordingCompressed.png',
+      link: url,
+      description: $rootScope.pageDescription
+    },function (res) {});
+  };
 
+  $scope.fbSend = function () {
+    var url = $location.absUrl();
+    //console.log(url);
+    ezfb.ui({
+      method: 'send',
+      name: $rootScope.pageTitle1 + " " + $rootScope.pageTitle2,
+      picture: 'http://www.commentvousdire.com/assets/TouchWordingCompressed.png',
+      link: url,
+      description: $rootScope.pageDescription
+    },function (res) { console.log(res);} );
+  };
 
+  // Send to full page inside facbook, Does not work on mobiles
+  $scope.sendLink = function() {
+  var url = $location.absUrl();
+  var v =  "http://www.facebook.com/dialog/send?app_id=" + "582577148493403" + "&link=" + url + "&redirect_uri=" + url;
+    console.log(v);
+    return v;
+  };
 }]);
 
 

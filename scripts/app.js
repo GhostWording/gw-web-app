@@ -39,9 +39,9 @@ angular.module('cherryApp',  [
 //  });
 //}])
 // TODO : configure best language
-//.config(function (ezfbProvider) {
-//  ezfbProvider.setLocale('fr_FR');
-//})
+.config(['ezfbProvider',function (ezfbProvider) {
+  ezfbProvider.setLocale('fr_FR');
+}])
 .config(['ezfbProvider',function (ezfbProvider) {
   ezfbProvider.setInitParams({
     // https://developers.facebook.com/docs/javascript/reference/FB.init/v2.0
@@ -60,6 +60,7 @@ angular.module('cherryApp',  [
 
     $rootScope.pageDescription = "Vos friends meritent de meilleurs messages";
     $rootScope.ogDescription = "Vos friends meritent de meilleurs messages";
+    //$rootScope.ogTitle = $rootScope.pageTitle1;
 
     console.log(navigator.userAgent);
     currentLanguage.setLanguageForHostName($location.$$host);
