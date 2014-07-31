@@ -1,7 +1,7 @@
 <div>
   <h4>{{welcomeMsg}}</h4>
   <button type="button" ng-click="login()"  ng-hide="false ||isLoggedIn" class="btn btn-default navbar-btn">Login</button>
-  <!--<button type="button" ng-click="logout()" ng-show="true || isLoggedIn" class="btn btn-default navbar-btn">Logout</button>-->
+  <button type="button" ng-click="logout()" ng-show="true || isLoggedIn" class="btn btn-default navbar-btn">Logout</button>
 
   <div class="fb-share-button"></div>
   ...............
@@ -21,13 +21,21 @@
   <a ng-href="{{sendLink()}}">Send via link</a>
 
   <div class="row">
-    <div class="col-lg-6">
+    <div class="col-lg-2">
+      <h4 class="text-info">$FB.loginStatus()</h4>
+      <div >{{ loginStatus.authResponse.userID}} {{loginStatus.status}}</div>
+    </div>
+    <div class="col-lg-10">
       <h4 class="text-info">$FB.api('/me')</h4>
       <div >{{ apiMeJSON }}</div>
     </div>
-    <div class="col-lg-6">
-      <h4 class="text-info">$FB.loginStatus()</h4>
-      <div >{{loginStatusJSON}}</div>
+    <div class="col-lg-12">
+      <h4 class="text-info">$FB.api('/me/family')</h4>
+      <div >{{apiFamily}}</div>
+    </div>
+    <div class="col-lg-12">
+      <h4 class="text-info">$FB.api('/me/friends')</h4>
+      <div >{{ apiFriends }}</div>
     </div>
   </div>
 

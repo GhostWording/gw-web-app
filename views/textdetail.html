@@ -20,27 +20,6 @@
   </div>
 
 
-  <!--<span ng-repeat="tagLabel in currentText.TagLabels" >-->
-      <!--<span class="label label-primary" translate>{{tagLabel}}</span>&nbsp-->
-  <!--</span>-->
-  <!--<span class="pull-right">  <div class="fb-like" data-layout="button" data-action="like" data-share="true"></div>-->
-  <!--<span class="pull-right">-->
-    <!--<div class="fb-share-button" style="-->
-                <!--margin-right: 25px;-->
-                <!--transform: scale(1.5);-->
-                <!---ms-transform: scale(1.5);-->
-                <!---webkit-transform: scale(1.5);-->
-                <!---o-transform: scale(1.5);-->
-                <!---moz-transform: scale(1.5);-->
-                <!--/*transform-origin: top left;*/-->
-                <!--/*-ms-transform-origin: top left;*/-->
-                <!--/*-webkit-transform-origin: top left;*/-->
-                <!--/*-moz-transform-origin: top left;*/-->
-                <!--/*-webkit-transform-origin: top left;*/-->
-                <!--" ></div>-->
-  <!--</span>-->
-
-
 <div class="pull-right" style="margin-bottom: 5px; margin-top: 5px; margin-right: 5px;" >
   <!-- fb share  -->
   <div class="fb-share-button btn btn-default"></div>
@@ -68,8 +47,25 @@
     <!--<button ng-click="fbSend()" class="btn hidden-xs" style="background: url(/assets/fbSend.png)  no-repeat; width: 70px; height: 25px;"></button>-->
     <!-- use the fb social button on mobiles : can take a few seconds to render, and will scrape what it can  -->
     <!--<div class="fb-send btn btn-default visible-xs"></div>-->
-    <div class="fb-send btn btn-default"></div>
+    <div class="fb-send"></div>
+
+    <div ng-show="isQuote(currentText)" style="margin-bottom: 5px;" >
+      <span class ="auteur hidden-xs " translate>Auteur</span>
+      <span class ="auteur hidden-xs" translate> : </span>
+
+      <span class ="auteur">{{currentText.Author}}</span>
+      &nbsp
+      <!--<button class="btn btn-default glyphicon glyphicon-plus" ng-class = '{disabled: authorButton=="disabled"}'-->
+      <!--targetId="{{ Id }}" targetType="Text" actionType="edit"-->
+      <!--ng-click="addAuthor()">-->
+      <button class="btn btn-sm btn-default " ng-class = '{disabled: authorButton=="disabled"}'
+              targetId="{{ Id }}" targetType="Text" actionType="edit"
+              ng-click="addAuthor()">+    </button>
+    </div>
+
   </div>
+
+
   <div class="pull-right">
     <!-- edit  -->
     <button style="margin-left: 10px" class="btn btn-default  glyphicon glyphicon-pencil" translate
@@ -80,23 +76,9 @@
             targetId="{{ Id }}" targetType="Text" actionType="send"
             ng-click="send()"></button>
   </div>
-<div></div>
-  <br>
-  <div ng-show="isQuote(currentText)" style="margin-bottom: 5px;" >
-    <span class ="auteur hidden-xs " translate>Auteur</span>
-    <span class ="auteur hidden-xs" translate> : </span>
 
-    <span class ="auteur">{{currentText.Author}}</span>
-    &nbsp
-    <!--<button class="btn btn-default glyphicon glyphicon-plus" ng-class = '{disabled: authorButton=="disabled"}'-->
-    <!--targetId="{{ Id }}" targetType="Text" actionType="edit"-->
-    <!--ng-click="addAuthor()">-->
-    <button class="btn btn-sm btn-default " ng-class = '{disabled: authorButton=="disabled"}'
-            targetId="{{ Id }}" targetType="Text" actionType="edit"
-            ng-click="addAuthor()">+    </button>
-  </div>
+    <br/>
 
-    <!--<br/>-->
     <div ng-show="currentText.ReferenceUrl">
         Source : <a ng-href = "{{currentText.ReferenceUrl}}" >{{currentText.ReferenceUrl}}</a>
     </div>

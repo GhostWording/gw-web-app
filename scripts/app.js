@@ -44,11 +44,10 @@ angular.module('cherryApp',  [
 }])
 .config(['ezfbProvider',function (ezfbProvider) {
   ezfbProvider.setInitParams({
-    // https://developers.facebook.com/docs/javascript/reference/FB.init/v2.0
-    appId: '582577148493403',
+    appId: '582577148493403', // ou 582577148493403 ou 679461192138331 pour test
     status     : true,
     xfbml      : true,
-    version: 'v2.0'
+    version: 'v1.0'
   });
 }])
 .controller('CherryController', ['$scope',  'PostActionSvc','$rootScope','$location','currentLanguage','appUrlSvc','intentionsSvc','appVersionCheck','textsSvc','$window', '$state','HelperSvc','$translate','myfb',
