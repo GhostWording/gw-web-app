@@ -12,7 +12,8 @@ angular.module('app/users/UserEMailController', [])
   };
 
   $scope.sendMailToServer = function () {
-    if ($scope.mailChanged) {
+    //if ($scope.mailChanged) // email might have been set from facebook profile
+    {
 
       serverSvc.postInStore('mailStore', deviceIdSvc.get(), $scope.user.email).then(function (response) {
         $scope.mailSent = true;

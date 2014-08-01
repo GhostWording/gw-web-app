@@ -10,8 +10,9 @@ angular.module('app/users/currentUserLocalData', [
   var currentUser = localStorage.get(key) || {
     email: null,
     fbId : null,
+    me : null,
     subcriptions: null,
-    fbFriends: null,
+    fbFriends: null
   };
 
   currentUser.setFbId = function(id) {

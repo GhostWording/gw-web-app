@@ -95,25 +95,7 @@
 
   <body  id="leCorps">
     <!-- facebook scripts -->
-
     <!--<div id="fb-root"></div>-->
-    <!--<script>(function(d, s, id) {-->
-      <!--var js, fjs = d.getElementsByTagName(s)[0];-->
-      <!--if (d.getElementById(id)) return;-->
-      <!--js = d.createElement(s); js.id = id;-->
-      <!--js.src = "//connect.facebook.net/en_US/sdk.js";-->
-      <!--fjs.parentNode.insertBefore(js, fjs);-->
-    <!--}(document, 'script', 'facebook-jssdk'));</script>-->
-
-    <!--<div id="fb-root"></div>-->
-    <!--<script>(function(d, s, id) {-->
-      <!--var js, fjs = d.getElementsByTagName(s)[0];-->
-      <!--if (d.getElementById(id)) return;-->
-      <!--js = d.createElement(s); js.id = id;-->
-      <!--js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&appId=582577148493403&version=v2.0";-->
-      <!--fjs.parentNode.insertBefore(js, fjs);-->
-    <!--}(document, 'script', 'facebook-jssdk'));</script>-->
-
 
   <h4 ng-show="false">Comment dire les mots de l'amitié, de l'amour et de tous les jours</h4>
   <h4 ng-show>How to say magic words to people you like and people you love</h4>
@@ -174,6 +156,10 @@
           <!--<li class="active"><a  rel="nofollow" ng-href="{{app.appUrlSvc.getFullPath('')}}area/General/recipient/none/intention" class ="glyphicon glyphicon-search" translate></a></li>-->
           <!-- Favoris  -->
           <!--<li class="active" ng-show = "hasFavourite()"><a ng-href="{{app.appUrlSvc.getFullPath('')}}favouriteTexts" class="glyphicon glyphicon-star"></a></li>-->
+
+          <!-- fbLogin  -->
+          <li class="active"><a ng-href="{{app.appUrlSvc.getFullPath('')}}fbLogin" ng-show="true" class ="glyphicon glyphicon-play"></a></li>
+
           <!-- Mon profil  -->
           <li class="active"><a ng-href="{{app.appUrlSvc.getFullPath('')}}userprofile" class ="glyphicon glyphicon-cog" translate></a></li>
           <li class="active"><a ng-href="{{app.appUrlSvc.getFullPath('')}}about" translate>A propos</a></li>

@@ -1,27 +1,15 @@
 angular.module('app/users/FbLoginController', [])
-.controller('FbLoginController', ['$scope', 'ezfb','$rootScope','$location','$q','currentUserLocalData',
-  function ($scope, ezfb,$rootScope,$location,$q,currentUserLocalData) {
+.controller('FbLoginController', ['$scope', 'ezfb','$rootScope','$location','$q','currentUserLocalData','facebookSvc',
+  function ($scope, ezfb,$rootScope,$location,$q,currentUserLocalData,facebookSvc) {
   $scope.pageAddress = $location.absUrl();
 
-    // hopefully, they will be called when we subscribe to auth.statusChange
-  updateMe();
   //updateLoginStatus();//.then(updateApiCall);//.then(updateFriendCall)
 
-  function updateMe () {
-    ezfb.getLoginStatus()
-    .then(function (res) {
-      console.log(res.authResponse.userID);
-      return ezfb.api('/me');} )
-    .then(function (me)  { $scope.apiMe = me; } );
-  }
+  facebookSvc.updateMe().then(function(me) {
+    $scope.apiMe = me;
+    $scope.loginStatus = facebookSvc.getLoginStatus();
+  });
 
-  function updateLoginStatus () {
-    return ezfb.getLoginStatus()
-    .then(function (res) {
-      $scope.loginStatus = res;
-      currentUserLocalData.setFbId($scope.loginStatus.authResponse.userID);
-    });
-  }
   function updateFamilyCall () {
     // For demo : wait for severa api calls to return
     console.log("Update Family Call");
@@ -41,7 +29,7 @@ angular.module('app/users/FbLoginController', [])
       $scope.apiFriendsData = friendList;
       var nbFriendsStored = currentUserLocalData.nbFriends();
       console.log(currentUserLocalData);
-      console.log(currentUserLocalData.fbFriends);
+      //console.log(currentUserLocalData.fbFriends);
       console.log("currentUser nb friends = " + nbFriendsStored);
       console.log("NbFriends = " + res.data.length);
       // If the last read friend list does not look truncated
@@ -57,8 +45,8 @@ angular.module('app/users/FbLoginController', [])
   ezfb.Event.subscribe('auth.statusChange', function (statusRes) {
     $scope.loginStatus = statusRes;
     console.log("auth.statusChange : "+ statusRes.status);
-    updateLoginStatus();
-    updateMe();
+    //updateLoginStatus();
+    facebookSvc.updateMe();
     updateFamilyCall();
     updateFriendCall();
   });
@@ -73,7 +61,7 @@ angular.module('app/users/FbLoginController', [])
   });
 
   $scope.login = function () {
-    ezfb.login(function (res) {console.log(res); }, {scope: 'user_likes,user_friends,friends_birthday,user_relationships'}
+    ezfb.login(function (res) {console.log(res); }, {scope: 'user_likes,user_friends,friends_birthday,user_relationships,email'}
     );
   };
   $scope.logout = function () {
