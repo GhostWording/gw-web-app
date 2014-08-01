@@ -5,11 +5,8 @@ angular.module('app/users/UserProfileController', [])
   $scope.userAges = userAges;
 
   $scope.clearAll = function() {
-    var deviceId = deviceIdSvc.get();
-    localStorage.clearAll(deviceId);
     // We want to delete everything but the deviceId
-    //console.log("deviceId restored : " + deviceId);
-    //deviceIdSvc.storeAgain(deviceId);
+    localStorage.clearAllExceptThis(deviceIdSvc.get());
 
     currentUser.gender = null;
     currentUser.readsAlot =  null;

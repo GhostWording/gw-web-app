@@ -1,7 +1,7 @@
 angular.module('app/filters/questionBarSvc', [
   'app/filters/filtersSvc',
   'app/filters/styles',
-  'app/users/users'
+  'app/users/currentUser'
 ])
 
 
