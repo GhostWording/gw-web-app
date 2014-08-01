@@ -1,13 +1,22 @@
 angular.module('app/users/FbLoginController', [])
 .controller('FbLoginController', ['$scope', 'ezfb','$rootScope','$location','$q','currentUserLocalData','facebookSvc',
-  function ($scope, ezfb,$rootScope,$location,$q,currentUserLocalData,facebookSvc) {
+function ($scope, ezfb,$rootScope,$location,$q,currentUserLocalData,facebookSvc) {
   $scope.pageAddress = $location.absUrl();
 
   //updateLoginStatus();//.then(updateApiCall);//.then(updateFriendCall)
 
-  facebookSvc.updateMe().then(function(me) {
+  facebookSvc.updateMe().then(function (me) {
     $scope.apiMe = me;
-    $scope.loginStatus = facebookSvc.getLoginStatus();
+    $scope.loginStatus = facebookSvc.isConnected();
+    console.log("Me updated");
+  });
+  facebookSvc.updateFamily().then(function(family) {
+    console.log("Family updated");
+    $scope.apiFamilyData = family;
+  });
+  facebookSvc.updateFriends().then(function(friendList) {
+    console.log("Friends updated");
+    $scope.apiFriendsData = friendList;
   });
 
   function updateFamilyCall () {
@@ -20,36 +29,14 @@ angular.module('app/users/FbLoginController', [])
     });
   }
 
-  function updateFriendCall () {
-    // For demo : wait for severa api calls to return
-    console.log("Update Friend Call");
-    return ezfb.api('/me/friends?fields=id,name,birthday,gender')
-    .then(function (res) {
-      var friendList = res.data;
-      $scope.apiFriendsData = friendList;
-      var nbFriendsStored = currentUserLocalData.nbFriends();
-      console.log(currentUserLocalData);
-      //console.log(currentUserLocalData.fbFriends);
-      console.log("currentUser nb friends = " + nbFriendsStored);
-      console.log("NbFriends = " + res.data.length);
-      // If the last read friend list does not look truncated
-      if ( friendList.length >=  nbFriendsStored / 2   ) {
-        currentUserLocalData.fbFriends = friendList;
-        console.log("stored new friendlist");
-      }
-    });
-  }
-
-  //   Subscribe to 'auth.statusChange' event to response to login/logout
-  // TODO : this should be donne in a service and called from app.js
-  ezfb.Event.subscribe('auth.statusChange', function (statusRes) {
-    $scope.loginStatus = statusRes;
-    console.log("auth.statusChange : "+ statusRes.status);
-    //updateLoginStatus();
-    facebookSvc.updateMe();
-    updateFamilyCall();
-    updateFriendCall();
-  });
+//  // TODO : this should be donne in a service
+//  //   Subscribe to 'auth.statusChange' event to response to login/logout
+//  ezfb.Event.subscribe('auth.statusChange', function (statusRes) {
+//    console.log("auth.statusChange : "+ statusRes.status);
+//    facebookSvc.updateMe();
+//    facebookSvc.updateFriends();
+//    facebookSvc.updateFamily();
+//  });
 
   // For generating better looking JSON results
   var autoToJSON = ['loginStatus', 'apiMe','apiFriendsData','apiFamilyData'];
@@ -60,23 +47,26 @@ angular.module('app/users/FbLoginController', [])
     }, true);
   });
 
-  $scope.login = function () {
-    ezfb.login(function (res) {console.log(res); }, {scope: 'user_likes,user_friends,friends_birthday,user_relationships,email'}
-    );
-  };
-  $scope.logout = function () {
-    ezfb.logout();
-    /**
-     * In the case you need to use the callback
-     *
-     * ezfb.logout(function (res) {
-     *   // Executes 1
-     * })
-     * .then(function (res) {
-     *   // Executes 2
-     * })
-     */
-  };
+  $scope.login = facebookSvc.fbLogin;
+  $scope.logout = facebookSvc.fbLogout;
+
+//  $scope.login= function () {
+//    ezfb.login(function (res) {console.log(res); }, {scope: 'user_likes,user_friends,friends_birthday,user_relationships,email'}
+//    );
+//  };
+//  $scope.logout = function () {
+//    ezfb.logout();
+//    /**
+//     * In the case you need to use the callback
+//     *
+//     * ezfb.logout(function (res) {
+//     *   // Executes 1
+//     * })
+//     * .then(function (res) {
+//     *   // Executes 2
+//     * })
+//     */
+//  };
 
 //// Send to full page inside facbook, Does not work on mobiles
 //$scope.sendLink = function() {

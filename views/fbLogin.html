@@ -17,8 +17,10 @@
 
   <div class="row">
     <div class="col-lg-2">
-      <h4 class="text-info">$FB.loginStatus()</h4>
-      <div >{{ loginStatus.authResponse.userID}} {{loginStatus.status}}</div>
+      <!--<h4 class="text-info">$FB.loginStatus()</h4>-->
+      <h4 class="text-info">isConnected()</h4>
+      <!--<div >{{ loginStatus.authResponse.userID}} {{loginStatus.status}}</div>-->
+      <div >{{ loginStatus}}</div>
     </div>
     <div class="col-lg-10">
       <h4 class="text-info">$FB.api('/me')</h4>

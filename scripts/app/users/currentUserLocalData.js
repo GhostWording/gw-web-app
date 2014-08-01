@@ -10,9 +10,10 @@ angular.module('app/users/currentUserLocalData', [
   var currentUser = localStorage.get(key) || {
     email: null,
     fbId : null,
-    me : null,
+    fbMe : null,
     subcriptions: null,
-    fbFriends: null
+    fbFriends: null,
+    fbFamily: null
   };
 
   currentUser.setFbId = function(id) {
@@ -41,6 +42,9 @@ angular.module('app/users/currentUserLocalData', [
 
   currentUser.nbFriends = function() {
     return !!currentUser.fbFriends ?  currentUser.fbFriends.length : 0;
+  };
+  currentUser.nbFamily = function() {
+    return !!currentUser.fbFamily ?  currentUser.fbFamily.length : 0;
   };
 
   // Whenever a property changes, write everything to local storage
