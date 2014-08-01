@@ -3,70 +3,64 @@ angular.module('app/users/FbLoginController', [])
 function ($scope, ezfb,$rootScope,$location,$q,currentUserLocalData,facebookSvc) {
   $scope.pageAddress = $location.absUrl();
 
-  //updateLoginStatus();//.then(updateApiCall);//.then(updateFriendCall)
+  $scope.$watch(function() { return facebookSvc.isConnected();},function() {
+    //console.log("facebookSvc.isConnected() : " +facebookSvc.isConnected() )
+    $scope.loginStatus = facebookSvc.isConnected();
+  },true);
+
+  $scope.$watch(function() { return facebookSvc.getCurrentMe();},function() {
+    console.log("facebookSvc.getCurrentMe() : " +facebookSvc.getCurrentMe());
+    $scope.apiMe = facebookSvc.getCurrentMe();
+  },true);
+
+  $scope.$watch(function() { return facebookSvc.getCurrentFamily();},function() {
+    console.log("facebookSvc.getCurrentFamily() : " +facebookSvc.getCurrentFamily().length );
+    $scope.apiFamily = facebookSvc.getCurrentFamily();
+  },true);
+
+  $scope.$watch(function() { return facebookSvc.getCurrentFriends();},function() {
+    console.log("facebookSvc.getCurrentFriends() : " +facebookSvc.getCurrentFriends().length );
+    $scope.apiFriends = facebookSvc.getCurrentFriends();
+  },true);
+
+  $scope.$watch(function() { return facebookSvc.getSortedFriendsWithBirthday();},function() {
+    console.log("facebookSvc.getSortedFriendsWithBirthDay() : " +facebookSvc.getSortedFriendsWithBirthday().length );
+    $scope.apiFriendsWithBirthday = facebookSvc.getSortedFriendsWithBirthday();
+  },true);
+
 
   facebookSvc.updateMe().then(function (me) {
-    $scope.apiMe = me;
-    $scope.loginStatus = facebookSvc.isConnected();
-    console.log("Me updated");
+    //$scope.apiMe = me;
   });
+
   facebookSvc.updateFamily().then(function(family) {
-    console.log("Family updated");
-    $scope.apiFamilyData = family;
+//    $scope.apiFamily = family;
   });
   facebookSvc.updateFriends().then(function(friendList) {
-    console.log("Friends updated");
-    $scope.apiFriendsData = friendList;
+//    $scope.apiFriends = friendList;
   });
 
-  function updateFamilyCall () {
-    // For demo : wait for severa api calls to return
-    console.log("Update Family Call");
-      return ezfb.api('/me/family?fields=id,name,birthday,gender,relationship')
-    .then(function (res) {
-      //console.log(res);
-      $scope.apiFamilyData = res.data;
-    });
-  }
-
-//  // TODO : this should be donne in a service
-//  //   Subscribe to 'auth.statusChange' event to response to login/logout
-//  ezfb.Event.subscribe('auth.statusChange', function (statusRes) {
-//    console.log("auth.statusChange : "+ statusRes.status);
-//    facebookSvc.updateMe();
-//    facebookSvc.updateFriends();
-//    facebookSvc.updateFamily();
-//  });
+//  function updateFamilyCall () {
+//    // For demo : wait for severa api calls to return
+//    console.log("Update Family Call");
+//      return ezfb.api('/me/family?fields=id,name,birthday,gender,relationship')
+//    .then(function (res) {
+//      //console.log(res);
+//      $scope.apiFamilyData = res.data;
+//    });
+//  }
 
   // For generating better looking JSON results
-  var autoToJSON = ['loginStatus', 'apiMe','apiFriendsData','apiFamilyData'];
-  angular.forEach(autoToJSON, function (varName) {
-    $scope.$watch(varName, function (val) {
-      $scope[varName + 'JSON'] = JSON.stringify(val, null, 2);
-      //$scope[varName] = val;
-    }, true);
-  });
+//  var autoToJSON = ['loginStatus', 'apiMe','apiFriendsData','apiFamilyData'];
+//  angular.forEach(autoToJSON, function (varName) {
+//    $scope.$watch(varName, function (val) {
+//      $scope[varName + 'JSON'] = JSON.stringify(val, null, 2);
+//      //$scope[varName] = val;
+//    }, true);
+//  });
 
   $scope.login = facebookSvc.fbLogin;
   $scope.logout = facebookSvc.fbLogout;
-
-//  $scope.login= function () {
-//    ezfb.login(function (res) {console.log(res); }, {scope: 'user_likes,user_friends,friends_birthday,user_relationships,email'}
-//    );
-//  };
-//  $scope.logout = function () {
-//    ezfb.logout();
-//    /**
-//     * In the case you need to use the callback
-//     *
-//     * ezfb.logout(function (res) {
-//     *   // Executes 1
-//     * })
-//     * .then(function (res) {
-//     *   // Executes 2
-//     * })
-//     */
-//  };
 
 //// Send to full page inside facbook, Does not work on mobiles
 //$scope.sendLink = function() {
