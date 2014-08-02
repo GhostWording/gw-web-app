@@ -26,8 +26,19 @@ function ($scope, ezfb,$rootScope,$location,$q,currentUserLocalData,facebookSvc)
   $scope.$watch(function() { return facebookSvc.getSortedFriendsWithBirthday();},function() {
     console.log("facebookSvc.getSortedFriendsWithBirthDay() : " +facebookSvc.getSortedFriendsWithBirthday().length );
     $scope.apiFriendsWithBirthday = facebookSvc.getSortedFriendsWithBirthday();
+    $scope.apiNextBirthdayFriends =  facebookSvc.getNextBirthdayFriend();
   },true);
 
+$scope.today = Date.now();
+
+  var currentTime = new Date();
+  var month = currentTime.getMonth() + 1;
+  var day = currentTime.getDate();
+  var year = currentTime.getFullYear();
+  //console.log(month + "/" + day + "/" + year);
+
+  $scope.month = month;
+  $scope.day = day;
 
   facebookSvc.updateMe().then(function (me) {
     //$scope.apiMe = me;
@@ -36,9 +47,9 @@ function ($scope, ezfb,$rootScope,$location,$q,currentUserLocalData,facebookSvc)
   facebookSvc.updateFamily().then(function(family) {
 //    $scope.apiFamily = family;
   });
-  facebookSvc.updateFriends().then(function(friendList) {
-//    $scope.apiFriends = friendList;
-  });
+//  facebookSvc.updateFriends().then(function(friendList) {
+////    $scope.apiFriends = friendList;
+//  });
 
 //  function updateFamilyCall () {
 //    // For demo : wait for severa api calls to return

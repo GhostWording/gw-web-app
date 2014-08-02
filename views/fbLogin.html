@@ -17,18 +17,32 @@
 
   <div class="row">
     <div class="col-lg-2">
-      <!--<h4 class="text-info">$FB.loginStatus()</h4>-->
       <h4 class="text-info">isConnected()</h4>
-      <!--<div >{{ loginStatus.authResponse.userID}} {{loginStatus.status}}</div>-->
       <div >{{ loginStatus}}</div>
     </div>
-    <div class="col-lg-10">
+    <div class="col-lg-2">
+      <h4 class="text-info">Date</h4>
+      <div >{{ today }}</div>
+    </div>
+    <div class="col-lg-2">
+      <h4 class="text-info">Month</h4>
+      <div >{{ month }}</div>
+    </div>
+    <div class="col-lg-6">
+      <h4 class="text-info">Day</h4>
+      <div >{{ day }}</div>
+    </div>
+    <div class="col-lg-12">
       <h4 class="text-info">$FB.api('/me')</h4>
       <div >{{ apiMe }}</div>
     </div>
     <div class="col-lg-12">
       <h4 class="text-info">$FB.api('/me/family.data')</h4>
       <div >{{apiFamily}}</div>
+    </div>
+    <div class="col-lg-12">
+      <h4 class="text-info">apiNextBirthdayFriends</h4>
+      <div >{{ apiNextBirthdayFriends }}</div>
     </div>
     <div class="col-lg-12">
       <h4 class="text-info">$FB.api('/me/friends.data')</h4>
