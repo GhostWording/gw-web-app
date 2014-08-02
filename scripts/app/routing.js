@@ -72,6 +72,15 @@ angular.module('app/routing', ['ui.router'])
         return areaName;  } ]
     }
     })
+  .state('area.dashboard', {
+    url: '/dashboard',
+    templateUrl: 'views/dashboard.html',
+    controller: 'DashboardController',
+    resolve: {
+    },
+    showTabs: false
+  })
+
     // We might want recipientList, intentionList and text list to be siblings
   .state('area.recipientList', {
     url: '/recipient',

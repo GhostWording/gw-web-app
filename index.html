@@ -127,7 +127,9 @@
           <a ng-href="{{app.appUrlSvc.getFullPath('')}}recipientList" class="navbar-brand glyphicon glyphicon-user" translate></a>
           <!-- Subscriptions  -->
           <a ng-href="{{app.appUrlSvc.getFullPath('')}}favoriteRecipients" class = "navbar-brand glyphicon glyphicon-bell" translate></a>
-          <!-- All texts  -->
+          <!-- Dashboard  -->
+          <a ng-href="{{app.appUrlSvc.getFullPath('')}}area/General/dashboard" class = "navbar-brand glyphicon glyphicon-play" translate></a>
+
           <!--<a rel="nofollow" ng-href="{{app.appUrlSvc.getFullPath('')}}area/General/recipient/none/intention" ng-show="false" class ="navbar-brand glyphicon glyphicon-search" translate></a>-->
           <!-- Favourites  -->
           <!--<a ng-show = "hasFavourite()" ng-href="{{app.appUrlSvc.getFullPath('')}}favouriteTexts" class="navbar-brand glyphicon glyphicon-star"></a>-->
@@ -158,7 +160,8 @@
           <!--<li class="active" ng-show = "hasFavourite()"><a ng-href="{{app.appUrlSvc.getFullPath('')}}favouriteTexts" class="glyphicon glyphicon-star"></a></li>-->
 
           <!-- fbLogin  -->
-          <li class="active"><a ng-href="{{app.appUrlSvc.getFullPath('')}}fbLogin" ng-show="true" class ="glyphicon glyphicon-play"></a></li>
+          <!--<li class="active"><a ng-href="{{app.appUrlSvc.getFullPath('')}}fbLogin" ng-show="true" class ="glyphicon glyphicon-play"></a></li>-->
+          <li class="active"><a ng-href="{{app.appUrlSvc.getFullPath('')}}area/General/dashboard" ng-show="true" class ="glyphicon glyphicon-play"></a></li>
 
           <!-- Mon profil  -->
           <li class="active"><a ng-href="{{app.appUrlSvc.getFullPath('')}}userprofile" class ="glyphicon glyphicon-cog" translate></a></li>

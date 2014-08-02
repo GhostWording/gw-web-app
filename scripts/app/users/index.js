@@ -6,4 +6,5 @@ angular.module('app/users', [
   'app/users/FbLoginController',
   'app/users/currentUserLocalData',
   'app/users/SubscriptionController',
+  'app/users/DashboardController',
 ]);
