@@ -16,6 +16,13 @@ angular.module('app/users/currentUserLocalData', [
     fbFamily: null
   };
 
+
+  currentUser.setPropertiesFromFbMe = function (me) {
+    this.fbMe = me;
+    if ( !this.email )
+      this.email = me.email;
+  };
+
   currentUser.setFbId = function(id) {
 //    var loguedUserId = 'facebook' + ':' + id;
 //    var loguedUserId = '['+ 'facebook' + ':' + id + ']';
