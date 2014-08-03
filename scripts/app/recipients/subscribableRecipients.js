@@ -29,6 +29,7 @@ angular.module('app/recipients/subscribableRecipients', [])
 		},
 
     getRecipients: function() {
+      console.log("getRecipients called");
       // skip local storage until we have a way to invalidate the cache
       return cacheSvc.get('recipients.subscribableRecipients', -1, function() { return service.getAll(); }, true)
       .then(function(v) { _recipients = v;  return v;});
@@ -55,6 +56,9 @@ angular.module('app/recipients/subscribableRecipients', [])
       return null;
     }
 	};
+
+  // We want to make sure _recipients is initialized
+  service.getRecipients();
 
   return service;
 }])
