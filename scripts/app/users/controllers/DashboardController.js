@@ -1,6 +1,6 @@
 angular.module('app/users/DashboardController', [])
-.controller('DashboardController', ['$scope', 'ezfb','$location','currentUserLocalData','facebookSvc',
-  function ($scope, ezfb,$location,currentUserLocalData,facebookSvc) {
+.controller('DashboardController', ['$scope', 'ezfb','$location','currentUserLocalData','facebookSvc','$filter','currentLanguage','HelperSvc','$translate',
+  function ($scope, ezfb,$location,currentUserLocalData,facebookSvc,$filter,currentLanguage,HelperSvc,$translate) {
 
     $scope.fbLogin = facebookSvc.fbLogin;
 
@@ -28,20 +28,73 @@ angular.module('app/users/DashboardController', [])
       $scope.apiFriendsWithBirthday = facebookSvc.getSortedFriendsWithBirthday();
       $scope.apiNextBirthdayFriends =  facebookSvc.getNextBirthdayFriend();
     },true);
-//
-//    $scope.today = Date.now();
-//
-//    var currentTime = new Date();
-//    var month = currentTime.getMonth() + 1;
-//    var day = currentTime.getDate();
-//    var year = currentTime.getFullYear();
-//    //console.log(month + "/" + day + "/" + year);
-//
-//    console.log(currentTime.toDateString);
-//
-//    $scope.month = month;
-//    $scope.day = day;
-//
+
+
+    var enMonths = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    var frMonths = ['jan','fev','mars','avr.','mai','juin','juil','aout','sept','oct','nov','dec'];
+
+    var enDays = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+    var frDays = ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
+
+    // Use    d.toLocaleDateString() if you don't want to bother !!!!!!
+    var displayDate = function (d) {
+      var months = enMonths;
+      var days = enDays;
+
+      var language = currentLanguage.getLanguageCode();
+      if (language == 'fr') {
+        months = frMonths;
+        days = frDays;
+      }
+
+      // TODO // if fb user locale == "en_US", change date format
+      var retval = days[d.getDay()] + ' ' + d.getDate() + ' ' + months[d.getMonth()] + ' ' + d.getFullYear();
+      return retval;
+    };
+
+    //$translate('ans')
+
+    $scope.fbBirthdayHasDayAndMonth = function(d) {
+      return HelperSvc.fbBirthdayDay(d) > -1 && HelperSvc.fbBirthdayMonth(d) > -1;
+    };
+    $scope.fbBirthdayHasYear = function(d) {
+      return HelperSvc.fbBirthdayAge(d) > -1;
+    };
+
+    $scope.fbBirthdayToDisplay = function (d) {
+      var monthNames = enMonths;
+
+      var language = currentLanguage.getLanguageCode();
+      if (language == 'fr') { monthNames = frMonths; }
+
+      var day = HelperSvc.fbBirthdayDay(d);
+      var month = HelperSvc.fbBirthdayMonth(d);
+//      var age = HelperSvc.fbBirthdayAge(d);
+
+      var valret = "";
+      if ( day > -1 && month > -1) {
+        valret += day + ' '  + monthNames[month-1];
+      }
+      //return d + " == "  + valret;
+      return valret;
+    };
+
+    $scope.fbAgeToDisplay = function (d) {
+      var valret = "";
+      var age = HelperSvc.fbBirthdayAge(d);
+      if ( age > -1 ) {
+        valret += age;
+      }
+    return valret;
+    };
+
+
+
+      $scope.displayDate = displayDate(new Date());
+
+    var dd = new Date();
+    console.log( dd.toLocaleDateString());
+
 //
 //    facebookSvc.updateMe().then(function (me) {
 //      //$scope.apiMe = me;

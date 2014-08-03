@@ -2,7 +2,8 @@
 
   <div class="row">
     <div class="col-xs-12 text-center" style="margin-top: 0px; margin-bottom: 0px">
-      <h2 translate>Suggestions du jour</h2>
+      <h2 translate>Opportunités du jour</h2>
+      <h5 class="text-info">{{ displayDate }}</h5>
     </div>
 
     <div ng-show="isConnected == false" class="col-xs-12 text-center" style="margin-top: 20px; margin-bottom: 20px">
@@ -10,13 +11,19 @@
       <br>
       <div style="margin-top: 10px">Pour accéder aux anniversaires de vos friends</div>
     </div>
-    <div ng-show="isConnected == true" class="col-xs-12 text-center bg-info" style="margin-top: 20px; margin-bottom: 20px">
+    <div ng-show="isConnected == true" class="col-xs-12 text-center bg-info" style="margin-top: 10px; margin-bottom: 0px; padding-top: 10px; padding-bottom: 10px;">
       Anniversaires
     </div>
 
     <div ng-repeat="friend in apiNextBirthdayFriends" class="col-xs-6 col-sm-3 text-center" style="margin-top: 10px; margin-top: 30px;">
       <div>{{friend.name }}</div>
-      <div>{{friend.birthday }}</div>
+      <div>
+        <span ng-show="fbBirthdayHasDayAndMonth(friend.birthday)">{{fbBirthdayToDisplay(friend.birthday)}}</span>
+        <span ng-show="fbBirthdayHasDayAndMonth(friend.birthday) && fbBirthdayHasYear(friend.birthday)"> - </span>
+        <span ng-show="fbBirthdayHasYear(friend.birthday)">{{fbAgeToDisplay(friend.birthday)}}</span>
+        <span ng-show="fbBirthdayHasYear(friend.birthday)"> </span>
+        <span ng-show="fbBirthdayHasYear(friend.birthday)" translate>ans</span>
+      </div>
     </div>
 
   </div>
