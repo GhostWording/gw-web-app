@@ -1,13 +1,13 @@
 angular.module('app/users/DashboardController', [])
-.controller('DashboardController', ['$scope', 'ezfb','$location','currentUserLocalData','facebookSvc','$filter','currentLanguage','HelperSvc','$translate',
-  function ($scope, ezfb,$location,currentUserLocalData,facebookSvc,$filter,currentLanguage,HelperSvc,$translate) {
+.controller('DashboardController', ['$scope', 'ezfb','$location','currentUserLocalData','facebookSvc','$filter','currentLanguage','HelperSvc','textsSvc','filteredTextListSvc','currentUser','filtersSvc',
+  function ($scope, ezfb,$location,currentUserLocalData,facebookSvc,$filter,currentLanguage,HelperSvc,textsSvc,filteredTextListSvc,currentUser,filtersSvc) {
 
     $scope.fbLogin = facebookSvc.fbLogin;
 
     $scope.$watch(function() { return facebookSvc.isConnected();},function() {
       $scope.isConnected = facebookSvc.isConnected();
     },true);
-//
+
 //    $scope.$watch(function() { return facebookSvc.getCurrentMe();},function() {
 //      console.log("facebookSvc.getCurrentMe() : " +facebookSvc.getCurrentMe());
 //      $scope.apiMe = facebookSvc.getCurrentMe();
@@ -28,6 +28,47 @@ angular.module('app/users/DashboardController', [])
       $scope.apiFriendsWithBirthday = facebookSvc.getSortedFriendsWithBirthday();
       $scope.apiNextBirthdayFriends =  facebookSvc.getNextBirthdayFriend();
     },true);
+
+
+    $scope.filteredList = [];
+
+    $scope.filters = filtersSvc.filters;
+
+    $scope.setCurrentFriend = function(f) {
+      $scope.currentFriend = f;
+      if ( !!f.gender ) {
+        if ( f.gender == 'female'  )
+          $scope.filters.recipientGender = 'F';
+        if ( f.gender == 'male'  )
+          $scope.filters.recipientGender = 'H';
+        $scope.filterList();
+      }
+    };
+
+    //var firstWatchCall = true;
+    $scope.filterList = function () {
+      //$scope.filteredList.length = 0;
+      // TODO : This should not be called two times when view initializes
+      //if ( !firstWatchCall ) {
+      $scope.filteredList = filteredTextListSvc.setFilteredAndOrderedList($scope.textList, currentUser, filtersSvc.filters.preferredStyles);
+      //}
+      //firstWatchCall = false;
+    };
+
+    function prepareBirthdayTextList() {
+      textsSvc.getListForCurrentArea("happy-birthday").then(function(textList) {
+        $scope.textList =textList;
+        //textsSvc.countTextsForStylesAndProperties(textList);
+        $scope.filterList();
+         });
+    }
+
+    prepareBirthdayTextList();
+
+//    if ( currentRecipient ) {
+//      filtersSvc.setRecipientTypeTag(currentRecipient.RecipientTypeId); // Shoud not be reinitialized when we come back from TextDetail view
+//    }
+
 
 
     var enMonths = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];

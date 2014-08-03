@@ -9,7 +9,6 @@ angular.module('app/filters/filtersSvc', [
 .factory('filtersSvc', ['$rootScope', 'StyleCollection','intentionsSvc','areasSvc','currentUser','currentLanguage','currentRecipientSvc',
 function($rootScope, StyleCollection,intentionsSvc,areasSvc,currentUser,currentLanguage,currentRecipientSvc) {
 
-
   var service = {
     filters: {
       recipientGender: null,                   // Gender of recipient
@@ -25,6 +24,7 @@ function($rootScope, StyleCollection,intentionsSvc,areasSvc,currentUser,currentL
     getFilters: function() {
       return service.filters;
     },
+
     reset: function() {
       service.filters.recipientGender = null;
       service.filters.tuOuVous = null;
@@ -135,8 +135,6 @@ function($rootScope, StyleCollection,intentionsSvc,areasSvc,currentUser,currentL
 
     wellDefined: function() {
       var filters = service.filters;
-      //currentLanguage
-      //return filters.recipientGender && filters.tuOuVous;
       if ( !filters.recipientGender )
         return false;
       if ( currentLanguage.usesTVDistinction(currentLanguage.getLanguageCode()) && !filters.tuOuVous)
