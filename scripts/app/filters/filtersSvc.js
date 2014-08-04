@@ -139,7 +139,7 @@ function($rootScope, StyleCollection,intentionsSvc,areasSvc,currentUser,currentL
 
     filters: filterHelperSvc.createEmptyFilters(),
 
-    getFilters: function() {
+    getCurrentFilters: function() {
       return service.filters;
     },
 

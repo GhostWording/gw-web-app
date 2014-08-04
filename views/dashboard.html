@@ -29,6 +29,14 @@
   </div>
 
   <div style="margin-top: 30px">Current friend : {{ currentFriend.name }}</div>
+  <div style="margin-top: 0px">Friend context :
+    <button type="button" class ="btn btn-default btn-sm" translate
+           ng-repeat="style in contextStyles.stylesList"
+           ng-click="setContextFilterToThis(style)">
+      {{ style.label }}
+
+    </button>
+  </div>
 
 
   <div>Filtered list : {{ filteredList.length }} textes</div>

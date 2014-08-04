@@ -1,6 +1,6 @@
 angular.module('app/users/DashboardController', [])
-.controller('DashboardController', ['$scope', 'ezfb','$location','currentUserLocalData','facebookSvc','$filter','currentLanguage','HelperSvc','textsSvc','filteredTextListSvc','currentUser','filtersSvc',
-  function ($scope, ezfb,$location,currentUserLocalData,facebookSvc,$filter,currentLanguage,HelperSvc,textsSvc,filteredTextListSvc,currentUser,filtersSvc) {
+.controller('DashboardController', ['$scope', 'ezfb','$location','currentUserLocalData','facebookSvc','$filter','currentLanguage','HelperSvc','textsSvc','filteredTextListSvc','currentUser','filtersSvc','contextStyles',
+  function ($scope, ezfb,$location,currentUserLocalData,facebookSvc,$filter,currentLanguage,HelperSvc,textsSvc,filteredTextListSvc,currentUser,filtersSvc,contextStyles) {
 
     $scope.fbLogin = facebookSvc.fbLogin;
 
@@ -55,6 +55,11 @@ angular.module('app/users/DashboardController', [])
       //firstWatchCall = false;
     };
 
+    $scope.contextStyles = contextStyles.createEmptyListForDashboard();
+    $scope.setContextFilterToThis = function (style) {
+    };
+
+
     function prepareBirthdayTextList() {
       textsSvc.getListForCurrentArea("happy-birthday").then(function(textList) {
         $scope.textList =textList;
@@ -68,7 +73,6 @@ angular.module('app/users/DashboardController', [])
 //    if ( currentRecipient ) {
 //      filtersSvc.setRecipientTypeTag(currentRecipient.RecipientTypeId); // Shoud not be reinitialized when we come back from TextDetail view
 //    }
-
 
 
     var enMonths = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];

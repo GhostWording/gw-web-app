@@ -78,15 +78,22 @@ angular.module('app/filters/styles', [])
 .factory('contextStyles', ['StyleCollection', function(StyleCollection) {
   var styles = new StyleCollection();
 
-  styles.addStyle({ name: 'administrativeContext', id : '4A53D1', visible: true});
+  styles.addStyle({ name: 'friendlyContext', id : 'E40677', visible: true});
+  styles.addStyle({ name: 'administrativeContext', id : '4A53D1', visible: false});
   styles.addStyle({ name: 'familialContext', id : '71185C', visible: true});
+  styles.addStyle({ name: 'professionalContext', id : '657D8E', visible: true});
   styles.addStyle({ name: 'romanticContext', id : '7A55C6', visible: true});
   styles.addStyle({ name: 'datingContext', id : '37018A', visible: false});
   styles.addStyle({ name: 'coupleContext', id : 'AD9362', visible: false});
-  styles.addStyle({ name: 'friendlyContext', id : 'E40677', visible: true});
-  styles.addStyle({ name: 'professionalContext', id : '657D8E', visible: true});
-// NEW !!!!!!!!!! Will use old one instead
-// styles.addStyle({name: 'sentimentalContext', id: 'A6C9E6'});
+
+  styles.createEmptyListForDashboard = function () {
+    var valret  = new StyleCollection();
+    valret.addStyle({ name: 'friendlyContext', id : 'E40677', selected: false, label:'Amical'});
+    valret.addStyle({ name: 'familialContext', id : '71185C', selected: false, label:'Familial'});
+    valret.addStyle({ name: 'professionalContext', id : '657D8E', selected: false, label:'Pro'});
+    valret.addStyle({ name: 'romanticContext', id : '7A55C6', selected: false, label:'Amoureux'});
+    return valret;
+  };
 
   return styles;
 }])

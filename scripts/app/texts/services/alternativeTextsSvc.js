@@ -80,7 +80,7 @@ angular.module('app/texts/alternativeTextList', [
         if ( filtersSvc.genderCompatible(textToTest.Target, nativeText.Target) )
           retval += 1; // give bonus points if they are compatible
         // If defined current TextFilters may carry extra indications for the recipient Gender
-        var filters = filtersSvc.getFilters();
+        var filters = filtersSvc.getCurrentFilters();
         if (filters && filters.recipientGender !== null) {
           if ( textToTest.Target == filters.recipientGender )
             retval += 2; // if Sender gender match exactly, give bonus points
