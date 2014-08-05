@@ -1,6 +1,6 @@
 angular.module('app/users/DashboardController', [])
-.controller('DashboardController', ['$scope', 'ezfb','currentUserLocalData','facebookSvc','currentLanguage','HelperSvc','textsSvc','currentUser','contextStyles','filteredTextsHelperSvc','filterHelperSvc',
-  function ($scope, ezfb,currentUserLocalData,facebookSvc,currentLanguage,HelperSvc,textsSvc,currentUser,contextStyles,filteredTextsHelperSvc,filterHelperSvc) {
+.controller('DashboardController', ['$scope', 'ezfb','currentUserLocalData','facebookSvc','currentLanguage','HelperSvc','textsSvc','currentUser','contextStyles','filteredTextsHelperSvc','filterHelperSvc','DateHelperSvc',
+  function ($scope, ezfb,currentUserLocalData,facebookSvc,currentLanguage,HelperSvc,textsSvc,currentUser,contextStyles,filteredTextsHelperSvc,filterHelperSvc,DateHelperSvc) {
 
     $scope.fbLogin = facebookSvc.fbLogin;
 
@@ -25,11 +25,7 @@ angular.module('app/users/DashboardController', [])
     },true);
 
     $scope.filteredList = [];
-
-//    $scope.filters = filtersSvc.filters;
     $scope.filters = filterHelperSvc.createEmptyFilters();
-
-
     $scope.setCurrentFriend = function(f) {
       $scope.currentFriend = f;
       if ( !!f.gender ) {
@@ -59,69 +55,15 @@ angular.module('app/users/DashboardController', [])
         $scope.filterList();
          });
     }
-
     prepareBirthdayTextList();
 
 //    if ( currentRecipient ) {
 //      filtersSvc.setRecipientTypeTag(currentRecipient.RecipientTypeId); // Shoud not be reinitialized when we come back from TextDetail view
 //    }
+    $scope.fbBirthdayHasDayAndMonth = DateHelperSvc.fbBirthdayHasDayAndMonth;
+    $scope.fbBirthdayHasYear = DateHelperSvc.fbBirthdayHasYear;
 
-
-    var enMonths = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-    var frMonths = ['jan','fev','mars','avr.','mai','juin','juil','aout','sept','oct','nov','dec'];
-
-    var enDays = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-    var frDays = ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
-
-    // Use    d.toLocaleDateString() if you don't want to bother !!!!!!
-    var displayDate = function (d) {
-      var months = enMonths;
-      var days = enDays;
-
-      var language = currentLanguage.getLanguageCode();
-      if (language == 'fr') {
-        months = frMonths;
-        days = frDays;
-      }
-
-      // TODO // if fb user locale == "en_US", change date format
-      var retval = days[d.getDay()] + ' ' + d.getDate() + ' ' + months[d.getMonth()] + ' ' + d.getFullYear();
-      return retval;
-    };
-
-    $scope.fbBirthdayHasDayAndMonth = function(d) {
-      return HelperSvc.fbBirthdayDay(d) > -1 && HelperSvc.fbBirthdayMonth(d) > -1;
-    };
-    $scope.fbBirthdayHasYear = function(d) {
-      return HelperSvc.fbBirthdayAge(d) > -1;
-    };
-
-    $scope.fbBirthdayToDisplay = function (d) {
-      var monthNames = enMonths;
-
-      var language = currentLanguage.getLanguageCode();
-      if (language == 'fr') { monthNames = frMonths; }
-
-      var day = HelperSvc.fbBirthdayDay(d);
-      var month = HelperSvc.fbBirthdayMonth(d);
-
-      var valret = "";
-      if ( day > -1 && month > -1) {
-        valret += day + ' '  + monthNames[month-1];
-      }
-      return valret;
-    };
-
-    $scope.fbAgeToDisplay = function (d) {
-      var valret = "";
-      var age = HelperSvc.fbBirthdayAge(d);
-      if ( age > -1 ) {
-        valret += age;
-      }
-    return valret;
-    };
-
-    $scope.displayDate = displayDate(new Date());
-
-    //console.log( new Date().toLocaleDateString());
+    $scope.fbBirthdayToDisplay = DateHelperSvc.fbBirthdayToDisplay;
+    $scope.fbAgeToDisplay = DateHelperSvc.fbAgeToDisplay;
+    $scope.displayDate = DateHelperSvc.localDisplayDateWithMonth(new Date());
   }]);
