@@ -1,6 +1,6 @@
 angular.module('app/users/DashboardController', [])
-.controller('DashboardController', ['$scope', 'ezfb','currentUserLocalData','facebookSvc','currentLanguage','HelperSvc','textsSvc','currentUser','contextStyles','filteredTextsHelperSvc','filterHelperSvc','DateHelperSvc',
-  function ($scope, ezfb,currentUserLocalData,facebookSvc,currentLanguage,HelperSvc,textsSvc,currentUser,contextStyles,filteredTextsHelperSvc,filterHelperSvc,DateHelperSvc) {
+.controller('DashboardController', ['$scope', 'ezfb','currentUserLocalData','facebookSvc','currentLanguage','HelperSvc','textsSvc','currentUser','contextStyles','filteredTextsHelperSvc','filterHelperSvc','DateHelperSvc','subscribableRecipientsSvc',
+  function ($scope, ezfb,currentUserLocalData,facebookSvc,currentLanguage,HelperSvc,textsSvc,currentUser,contextStyles,filteredTextsHelperSvc,filterHelperSvc,DateHelperSvc,subscribableRecipientsSvc) {
 
     $scope.fbLogin = facebookSvc.fbLogin;
 
@@ -18,14 +18,33 @@ angular.module('app/users/DashboardController', [])
 //      $scope.apiFamily = facebookSvc.getCurrentFamily();
 //    },true);
 
+    // Refresh birthday friends when they facebook service changes them
     $scope.$watch(function() { return facebookSvc.getSortedFriendsWithBirthday();},function() {
       console.log("facebookSvc.getSortedFriendsWithBirthDay() : " +facebookSvc.getSortedFriendsWithBirthday().length );
       $scope.apiFriendsWithBirthday = facebookSvc.getSortedFriendsWithBirthday();
       $scope.apiNextBirthdayFriends =  facebookSvc.getNextBirthdayFriend();
     },true);
 
+    // Birthday message list
     $scope.filteredList = [];
+    // Update birthday message filtering
+    $scope.filterMessageList = function () {
+      // Avoid calling twice when view initializes
+      $scope.filteredMessageList = filteredTextsHelperSvc.getFilteredAndOrderedList($scope.textList, currentUser, $scope.filters.preferredStyles,$scope.filters);
+    };
+    // Initilize full text list and filtered text list
+    function prepareBirthdayTextList() {
+      textsSvc.getListForCurrentArea("happy-birthday").then(function (textList) {
+        $scope.textList = textList;
+        $scope.filterMessageList();
+      });
+    }
+    prepareBirthdayTextList();
+
+    // TODO : filters will be durable properties of recipients
     $scope.filters = filterHelperSvc.createEmptyFilters();
+
+    // Set filters : recipient gender property
     $scope.setCurrentFriend = function(f) {
       $scope.currentFriend = f;
       if ( !!f.gender ) {
@@ -33,52 +52,43 @@ angular.module('app/users/DashboardController', [])
           $scope.filters.recipientGender = 'F';
         if ( f.gender == 'male'  )
           $scope.filters.recipientGender = 'H';
-        $scope.filterList();
+        $scope.filterMessageList();
       }
     };
 
-    $scope.filterList = function () {
-      // TODO : This should not be called two times when view initializes
-//      $scope.filteredList = filteredTextListSvc.setFilteredAndOrderedList($scope.textList, currentUser, filtersSvc.filters.preferredStyles);
-      $scope.filteredList = filteredTextsHelperSvc.getFilteredAndOrderedList($scope.textList, currentUser, $scope.filters.preferredStyles,$scope.filters);
-    };
-
+    // Set filters : context  property
     $scope.contextStyles = contextStyles.createEmptyListForDashboard();
     $scope.setContextFilterToThis = function (style) {
       $scope.currentContextStyle = style;
       filterHelperSvc.setContextTypeTag($scope.filters,style);
-      $scope.filterList();
+      $scope.filterMessageList();
     };
-
     $scope.isCurrentContextStyle = function (style) {
       return  (style ==  $scope.currentContextStyle);
     };
 
-    //$scope.recipientStyles = contextStyles.createEmptyListForDashboard();
 
+    // Set filters : recipient property
+    //$scope.recipientStyles = contextStyles.createEmptyListForDashboard();
     $scope.recipientTypeTag = null;
+    subscribableRecipientsSvc.getAll().then(function(recipients) {
+      $scope.recipients = recipients;
+    });
     $scope.setRecipienttypeToThis = function (recipientType) {
       $scope.recipientTypeTag = recipientType;
       filterHelperSvc.setRecipientTypeTag($scope.filters,recipientType);
-      $scope.filterList();
+      $scope.filterMessageList();
     };
 
-    function prepareBirthdayTextList() {
-      textsSvc.getListForCurrentArea("happy-birthday").then(function(textList) {
-        $scope.textList =textList;
-        //textsSvc.countTextsForStylesAndProperties(textList);
-        $scope.filterList();
-         });
-    }
-    prepareBirthdayTextList();
 
 //    if ( currentRecipient ) {
 //      filtersSvc.setRecipientTypeTag(currentRecipient.RecipientTypeId); // Shoud not be reinitialized when we come back from TextDetail view
 //    }
-    $scope.fbBirthdayHasDayAndMonth = DateHelperSvc.fbBirthdayHasDayAndMonth;
-    $scope.fbBirthdayHasYear = DateHelperSvc.fbBirthdayHasYear;
 
-    $scope.fbBirthdayToDisplay = DateHelperSvc.fbBirthdayToDisplay;
-    $scope.fbAgeToDisplay = DateHelperSvc.fbAgeToDisplay;
-    $scope.displayDate = DateHelperSvc.localDisplayDateWithMonth(new Date());
+    // Map date functions
+    $scope.fbBirthdayHasDayAndMonth = DateHelperSvc.fbBirthdayHasDayAndMonth;
+    $scope.fbBirthdayHasYear        = DateHelperSvc.fbBirthdayHasYear;
+    $scope.fbBirthdayToDisplay      = DateHelperSvc.fbBirthdayToDisplay;
+    $scope.fbAgeToDisplay           = DateHelperSvc.fbAgeToDisplay;
+    $scope.displayDate              = DateHelperSvc.localDisplayDateWithMonth(new Date());
   }]);

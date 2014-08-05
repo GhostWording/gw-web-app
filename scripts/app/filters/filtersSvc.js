@@ -107,12 +107,12 @@ angular.module('app/filters/filtersSvc', [
       },
       setRecipientTypeTag: function(filters,recipientTypeTag) {
         filters.recipientTypeTag = recipientTypeTag;
-        //console.log("recipient tag set to " + recipientTypeTag);
+        console.log("recipient tag set to " + recipientTypeTag);
       },
       setContextTypeTag: function(filters,contextTypeStyle) {
         filters.contexts.clear();
         filters.contexts.addStyle(contextTypeStyle);
-        console.log("contexts tag set to " + contextTypeStyle);
+//        console.log("contexts tag set to " + contextTypeStyle);
       },
 
 

@@ -42,28 +42,32 @@
       </button>
     </div>
   </div>
+
   <div style="margin-top: 5px">Friend recipient type :
     <!-- btn-group-vertical or btn-group-justified options-->
     <div class="btn-group btn-group-sm">
       <button type="button" class ="btn btn-default" translate
-              ng-repeat="recipientStyle in recipientStyles.stylesList"
+              ng-repeat="recipientType in recipients"
               ng-if=" true || style.visible"
               ng-class="{active: isCurrentRecipient(recipientStyle)}"
-              ng-click="setRecipientTypeToThis(recipientStyle)">
-        {{ style.label }}
+              ng-click="setRecipientTypeToThis(recipientType)">
+        {{ recipientType.LocalLabel }}
       </button>
     </div>
   </div>
 
 
-  <div style="margin-top: 5px">Filtered list : {{ filteredList.length }} textes</div>
-  <div>Full list : {{ textList.length }} textes</div>
+  <div style="margin-top: 5px">
+    <span>Filtered list : {{ filteredMessageList.length }} textes</span>
+     ...
+    <span>Full list : {{ textList.length }} textes</span>
+  </div>
 
-  <div class="text-center bg-info" style="margin-top: 10px; margin-bottom: 0px; padding-top: 30px; padding-bottom: 30px;">
-    <div>Filtered list : {{ filteredList.length }} textes</div>
+  <div class="text-center bg-info" style="margin-top: 10px; margin-bottom: 0px; padding-top: 10px; padding-bottom: 10px;">
+    <div>Filtered list : {{ filteredMessageList.length }} textes</div>
   </div>
   <div class="listeTextes" ng-show="true">
-    <div ng-repeat="txt in filteredList">
+    <div ng-repeat="txt in filteredMessageList">
       <div cvd-text="txt" ng-class="{active: txt.TextId == selectedTextId}" style="white-space: pre-wrap"></div>
     </div>
   </div>
