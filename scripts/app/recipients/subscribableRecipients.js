@@ -63,6 +63,18 @@ angular.module('app/recipients/subscribableRecipients', [])
           valret = false;
         }
       }
+      if ( possibleRecipientId == 'LongLostFriends'  ) {
+        // It does happen though
+        if ( fbFriendAge <= myAge - 25 || fbFriendAge >= myAge + 25 ) {
+          valret = false;
+        }
+      }
+      if ( possibleRecipientId == 'FamillyYoungsters'  ) {
+        // It does happen though
+        if ( fbFriendAge >= myAge - 17  ) {
+          valret = false;
+        }
+      }
 
 
       }
@@ -120,7 +132,8 @@ angular.module('app/recipients/subscribableRecipients', [])
         { "Id": "ProNetwork",     "RecipientTypeId": "35AE93", "Gender": null,usualRecipient : false,subscribableRecipient : false,"dashLabel": "Boulot","LocalLabel": "Votre réseau pro", "TuOuVous" : null,"Importance" : 5},
 				{ "Id": "DistantRelatives","RecipientTypeId": "BCA601","Gender": null,usualRecipient : false,subscribableRecipient : false,"dashLabel": "Famille éloignée", "LocalLabel": "La famille éloignée", "TuOuVous" : "T","Importance" : 11},
         { "Id": "OtherFriends",    "RecipientTypeId": null,    "Gender": null,usualRecipient : false,subscribableRecipient : false,"dashLabel": "Amis divers", "LocalLabel": "Vos autres amis", "TuOuVous" : "T","Importance" : 10},
-        { "Id": "OtherFamilly",    "RecipientTypeId": null,    "Gender": null,usualRecipient : false,subscribableRecipient : false,"dashLabel": "Famille divers", "LocalLabel": "Famille autre", "TuOuVous" : "T","Importance" : 10}
+//        { "Id": "OtherFamilly",    "RecipientTypeId": null,    "Gender": null,usualRecipient : false,subscribableRecipient : false,"dashLabel": "Famille divers", "LocalLabel": "Famille autre", "TuOuVous" : "T","Importance" : 10},
+        { "Id": "FamillyYoungsters","RecipientTypeId": "420A3E", "Gender": null,usualRecipient : false,subscribableRecipient : false,"dashLabel": "Enfant, neveux, filleul", "LocalLabel": "Enfant, neveux, filleul", "TuOuVous" : "T","Importance" : 10},
 			]);
 		},
 
