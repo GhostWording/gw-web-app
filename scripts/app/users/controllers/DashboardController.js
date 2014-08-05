@@ -45,7 +45,18 @@ angular.module('app/users/DashboardController', [])
 
     $scope.contextStyles = contextStyles.createEmptyListForDashboard();
     $scope.setContextFilterToThis = function (style) {
+      $scope.currentContextStyle = style;
+      filterHelperSvc.setContextTypeTag($scope.filters,style);
+      $scope.filterList();
     };
+
+    $scope.isCurrentContextStyle = function (style) {
+      return  (style ==  $scope.currentContextStyle);
+    };
+
+    //$scope.recipientStyles = contextStyles.createEmptyListForDashboard();
+
+    $scope.recipientTypeTag = null;
 
 
     function prepareBirthdayTextList() {

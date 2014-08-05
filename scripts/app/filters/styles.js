@@ -88,10 +88,10 @@ angular.module('app/filters/styles', [])
 
   styles.createEmptyListForDashboard = function () {
     var valret  = new StyleCollection();
-    valret.addStyle({ name: 'friendlyContext', id : 'E40677', selected: false, label:'Amical'});
-    valret.addStyle({ name: 'familialContext', id : '71185C', selected: false, label:'Familial'});
-    valret.addStyle({ name: 'professionalContext', id : '657D8E', selected: false, label:'Pro'});
-    valret.addStyle({ name: 'romanticContext', id : '7A55C6', selected: false, label:'Amoureux'});
+    valret.addStyle({ name: 'friendlyContext', id : 'E40677', selected: false,  label:'Amical', visible: true});
+    valret.addStyle({ name: 'familialContext', id : '71185C', selected: false, label:'Familial', visible: true});
+    valret.addStyle({ name: 'professionalContext', id : '657D8E', selected: false, label:'Pro', visible: true});
+    valret.addStyle({ name: 'romanticContext', id : '7A55C6', selected: false, label:'Amoureux', visible: false});
     return valret;
   };
 
