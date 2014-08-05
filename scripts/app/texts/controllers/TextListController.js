@@ -54,10 +54,10 @@ function ($scope, currentTextList, currentIntention,  currentUser, filtersSvc, $
       accordionSvc.calculateMostSelectiveStyles();
       $scope.filterList();});
   }
-  $scope.$watch(function() { return currentLanguage.getLanguageCode(); },
-                prepareAndDisplayTextList(),true);
-  intentionsSvc.invalidateCacheIfNewerServerVersionExists(currentAreaName,currentIntention.Slug)
-//  intentionsSvc.invalidateCacheIfNewerServerVersionExists(currentAreaName,intentionsSvc.getCurrentId())
+  $scope.$watch(function() { return currentLanguage.getLanguageCode(); },prepareAndDisplayTextList(),true);
+
+  var intentionId = (!! currentIntention ) ? currentIntention.Slug : intentionsSvc.getCurrentId();
+  intentionsSvc.invalidateCacheIfNewerServerVersionExists(currentAreaName,intentionId)
     .then(function(shouldReload){
         if (shouldReload)
           prepareAndDisplayTextList();

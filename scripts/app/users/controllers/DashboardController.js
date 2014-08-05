@@ -1,6 +1,6 @@
 angular.module('app/users/DashboardController', [])
-.controller('DashboardController', ['$scope', 'ezfb','$location','currentUserLocalData','facebookSvc','$filter','currentLanguage','HelperSvc','textsSvc','filteredTextListSvc','currentUser','filtersSvc','contextStyles',
-  function ($scope, ezfb,$location,currentUserLocalData,facebookSvc,$filter,currentLanguage,HelperSvc,textsSvc,filteredTextListSvc,currentUser,filtersSvc,contextStyles) {
+.controller('DashboardController', ['$scope', 'ezfb','currentUserLocalData','facebookSvc','currentLanguage','HelperSvc','textsSvc','currentUser','contextStyles','filteredTextsHelperSvc','filterHelperSvc',
+  function ($scope, ezfb,currentUserLocalData,facebookSvc,currentLanguage,HelperSvc,textsSvc,currentUser,contextStyles,filteredTextsHelperSvc,filterHelperSvc) {
 
     $scope.fbLogin = facebookSvc.fbLogin;
 
@@ -17,22 +17,18 @@ angular.module('app/users/DashboardController', [])
 //      console.log("facebookSvc.getCurrentFamily() : " +facebookSvc.getCurrentFamily().length );
 //      $scope.apiFamily = facebookSvc.getCurrentFamily();
 //    },true);
-//
-//    $scope.$watch(function() { return facebookSvc.getCurrentFriends();},function() {
-//      console.log("facebookSvc.getCurrentFriends() : " +facebookSvc.getCurrentFriends().length );
-//      $scope.apiFriends = facebookSvc.getCurrentFriends();
-//    },true);
-//
+
     $scope.$watch(function() { return facebookSvc.getSortedFriendsWithBirthday();},function() {
       console.log("facebookSvc.getSortedFriendsWithBirthDay() : " +facebookSvc.getSortedFriendsWithBirthday().length );
       $scope.apiFriendsWithBirthday = facebookSvc.getSortedFriendsWithBirthday();
       $scope.apiNextBirthdayFriends =  facebookSvc.getNextBirthdayFriend();
     },true);
 
-
     $scope.filteredList = [];
 
-    $scope.filters = filtersSvc.filters;
+//    $scope.filters = filtersSvc.filters;
+    $scope.filters = filterHelperSvc.createEmptyFilters();
+
 
     $scope.setCurrentFriend = function(f) {
       $scope.currentFriend = f;
@@ -45,14 +41,10 @@ angular.module('app/users/DashboardController', [])
       }
     };
 
-    //var firstWatchCall = true;
     $scope.filterList = function () {
-      //$scope.filteredList.length = 0;
       // TODO : This should not be called two times when view initializes
-      //if ( !firstWatchCall ) {
-      $scope.filteredList = filteredTextListSvc.setFilteredAndOrderedList($scope.textList, currentUser, filtersSvc.filters.preferredStyles);
-      //}
-      //firstWatchCall = false;
+//      $scope.filteredList = filteredTextListSvc.setFilteredAndOrderedList($scope.textList, currentUser, filtersSvc.filters.preferredStyles);
+      $scope.filteredList = filteredTextsHelperSvc.getFilteredAndOrderedList($scope.textList, currentUser, $scope.filters.preferredStyles,$scope.filters);
     };
 
     $scope.contextStyles = contextStyles.createEmptyListForDashboard();
@@ -97,8 +89,6 @@ angular.module('app/users/DashboardController', [])
       return retval;
     };
 
-    //$translate('ans')
-
     $scope.fbBirthdayHasDayAndMonth = function(d) {
       return HelperSvc.fbBirthdayDay(d) > -1 && HelperSvc.fbBirthdayMonth(d) > -1;
     };
@@ -114,13 +104,11 @@ angular.module('app/users/DashboardController', [])
 
       var day = HelperSvc.fbBirthdayDay(d);
       var month = HelperSvc.fbBirthdayMonth(d);
-//      var age = HelperSvc.fbBirthdayAge(d);
 
       var valret = "";
       if ( day > -1 && month > -1) {
         valret += day + ' '  + monthNames[month-1];
       }
-      //return d + " == "  + valret;
       return valret;
     };
 
@@ -133,26 +121,7 @@ angular.module('app/users/DashboardController', [])
     return valret;
     };
 
+    $scope.displayDate = displayDate(new Date());
 
-
-      $scope.displayDate = displayDate(new Date());
-
-    var dd = new Date();
-    console.log( dd.toLocaleDateString());
-
-//
-//    facebookSvc.updateMe().then(function (me) {
-//      //$scope.apiMe = me;
-//    });
-//
-//    facebookSvc.updateFamily().then(function(family) {
-////    $scope.apiFamily = family;
-//    });
-//
-//    $scope.login = facebookSvc.fbLogin;
-//    $scope.logout = facebookSvc.fbLogout;
-//
-
-
-
+    //console.log( new Date().toLocaleDateString());
   }]);
