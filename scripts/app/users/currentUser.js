@@ -14,7 +14,7 @@ angular.module('app/users/currentUser', [
   var currentUser = $cookieStore.get('users.currentUser') || {
     gender: null,
     readsAlot: null,
-    age: null,
+    age: null, // TODO : replace with ageRange
     isDemonstrative: null
   };
 

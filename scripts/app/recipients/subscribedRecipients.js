@@ -48,8 +48,8 @@ angular.module('app/recipients/subscribedRecipients', ['common/services/cache'])
 	return service;
 }])
 
-.controller('SubscribedRecipientsController', ['$scope', 'subscribableRecipientsSvc', 'subscribedRecipientsSvc',
-function ($scope, subscribableRecipientsSvc, subscribedRecipientsSvc) {
+.controller('SubscribedRecipientsController', ['$scope', 'subscribableRecipientsSvc', 'subscribedRecipientsSvc','recipientsHelperSvc','currentUser',
+function ($scope, subscribableRecipientsSvc, subscribedRecipientsSvc,recipientsHelperSvc,currentUser) {
 
   subscribedRecipientsSvc.countSubscribedRecipients();
 
@@ -58,7 +58,9 @@ function ($scope, subscribableRecipientsSvc, subscribedRecipientsSvc) {
   };
 
   subscribableRecipientsSvc.getAll().then(function (value) {
-    $scope.recipients = value;
+    var compatibleRecipients = recipientsHelperSvc.getCompatibleRecipients(value,currentUser);
+
+    $scope.recipients = compatibleRecipients;
   });
   $scope.switchState = subscribedRecipientsSvc.switchStateForRecipientTypeAlerts;
   $scope.getState = subscribedRecipientsSvc.getStateForRecipientTypeAlerts;

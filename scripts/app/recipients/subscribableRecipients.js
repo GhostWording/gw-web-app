@@ -1,27 +1,85 @@
 angular.module('app/recipients/subscribableRecipients', [])
 
 
-.factory('recipientsHelperSvc', [ function () {
+.factory('recipientsHelperSvc', [ 'DateHelperSvc', function (DateHelperSvc) {
 
-  function recipientIsCompatibleWithCurrentUser(recipient,currentUser) {
+  function recipientIsCompatibleWithCurrentUser(possibleRecipient,currentUser) {
     var valret = true;
-    if ( currentUser.gender == 'H' && "SweetheartM" == recipient.Id )
+    if ( currentUser.gender == 'H' && "SweetheartM" == possibleRecipient.Id )
       valret = false;
-    if ( currentUser.gender == 'H' && "LoveInterestM" == recipient.Id )
+    if ( currentUser.gender == 'H' && "LoveInterestM" == possibleRecipient.Id )
       valret = false;
-    if ( currentUser.gender == 'F' && "SweetheartF" == recipient.Id )
+    if ( currentUser.gender == 'F' && "SweetheartF" == possibleRecipient.Id )
       valret = false;
-    if ( currentUser.gender == 'F' && "LoveInterestF" == recipient.Id )
+    if ( currentUser.gender == 'F' && "LoveInterestF" == possibleRecipient.Id )
       valret = false;
     return valret;
   }
 
+  function recipientIsCompatibleWithFbTarget(possibleRecipient,fbTargetUser) {
+    var valret = true;
+    if ( fbTargetUser.gender == 'female' && possibleRecipient.Gender == 'H')
+      valret = false;
+    if ( fbTargetUser.gender == 'male' && possibleRecipient.Gender == 'F')
+      valret = false;
+    return valret;
+  }
+
+  function fbMeIsCompatibleWithFbTarget(fbMe,fbTargetUser, possibleRecipientId) {
+    var valret = true;
+    var myAge = DateHelperSvc.fbBirthdayAge(fbMe.birthday);
+    var fbFriendAge = DateHelperSvc.fbBirthdayAge(fbTargetUser.birthday);
+
+    // Look for age incompatibilities
+    if ( myAge > -1 && fbFriendAge > -1) {
+      // If age difference is to big, don't suggest darling or loveinterest
+      if ( possibleRecipientId == 'SweetheartF' || possibleRecipientId == 'SweetheartM' || possibleRecipientId == 'LoveInterestF' || possibleRecipientId == 'LoveInterestM'  ) {
+        // Now that's arbitrary
+        if ( fbFriendAge < 18 &&  myAge > fbFriendAge + 3 )
+          valret = false;
+        // Arbitrary again (but unlikely)
+        if ( myAge > fbFriendAge + 20 || myAge < fbFriendAge - 20  )
+          valret = false;
+      }
+
+      if ( possibleRecipientId == 'Mother' || possibleRecipientId == 'Father'  ) {
+        // Might not hold in some countries
+        if ( fbFriendAge <= myAge + 17 || fbFriendAge >= myAge + 50 )
+          valret = false;
+      }
+      if ( possibleRecipientId == 'Sister' || possibleRecipientId == 'Brother'  ) {
+        // Might not hold in some countries
+        if ( fbFriendAge <= myAge - 25 || fbFriendAge >= myAge + 25 )
+          valret = false;
+      }
+      if ( possibleRecipientId == 'ProNetwork'  ) {
+        // Might not hold in some countries
+        if ( fbFriendAge <= 16 || myAge <= 16 )
+          valret = false;
+      }
+      if ( possibleRecipientId == 'CloseFriends'  ) {
+        // It does happen though
+        if ( fbFriendAge <= myAge - 20 || fbFriendAge >= myAge + 20 ) {
+          valret = false;
+        }
+      }
+
+
+      }
+    return valret;
+  }
+
+
   var service = {
-    getCompatibleRecipients: function (recipients, currentUser) {
+    getCompatibleRecipients: function (possibleRecipient, currentUser, fbTargetUser, fbMe) {
       var retval = [];
-      for (var i = 0; i < recipients.length; i++ ) {
-        var recipient = recipients[i];
+      for (var i = 0; i < possibleRecipient.length; i++ ) {
+        var recipient = possibleRecipient[i];
         if ( recipientIsCompatibleWithCurrentUser(recipient,currentUser) === false )
+          continue;
+        if ( fbTargetUser && recipientIsCompatibleWithFbTarget(recipient, fbTargetUser) === false )
+          continue;
+        if ( fbTargetUser && fbMe && fbMeIsCompatibleWithFbTarget(fbMe, fbTargetUser,recipient.Id) === false )
           continue;
         retval.push(recipient);
       }
@@ -52,13 +110,13 @@ angular.module('app/recipients/subscribableRecipients', [])
 				{ "Id": "SweetheartF",    "RecipientTypeId": "9E2D23", "Gender": "F", usualRecipient : true, subscribableRecipient : true, "dashLabel": "Ma chérie", "LocalLabel": "Votre chérie", "TuOuVous" : "T", "Importance" : 1},
 				{ "Id": "SweetheartM",    "RecipientTypeId": "9E2D23", "Gender": "H", usualRecipient : true, subscribableRecipient : true, "dashLabel": "Mon chéri", "LocalLabel": "Votre chéri", "TuOuVous" : "T", "Importance" : 2},
         { "Id": "CloseFriends",   "RecipientTypeId": "3B9BF2", "Gender": null,usualRecipient : true, subscribableRecipient : true, "dashLabel": "Ami(e) proche", "LocalLabel": "Vos copains et copines", "TuOuVous" : "T","Importance" : 2.5},
-        { "Id": "Mother",         "RecipientTypeId": "64C63D", "Gender": "F", usualRecipient : true, subscribableRecipient : true, "dashLabel": "Maman", "LocalLabel": "Votre maman", "TuOuVous" : "T","Importance" : 2.7},
-        { "Id": "Father",         "RecipientTypeId": "64C63D", "Gender": "H", usualRecipient : false,subscribableRecipient : false,"dashLabel": "Papa", "LocalLabel": "Votre papa", "TuOuVous" : "T","Importance" : 2.8},
-        { "Id": "LoveInterestF",  "RecipientTypeId": "47B7E9", "Gender": "F", usualRecipient : true, subscribableRecipient : true, "dashLabel": "Elle me plaît","LocalLabel": "La femme que j'aime", "TuOuVous" : "T", "Importance" : 3},
+        { "Id": "LoveInterestF",  "RecipientTypeId": "47B7E9", "Gender": "F", usualRecipient : true, subscribableRecipient : true, "dashLabel": "Elle me plaît","LocalLabel": "La femme que j'aime", "TuOuVous" : "T", "Importance" : 2.6},
         { "Id": "LoveInterestM",  "RecipientTypeId": "47B7E9", "Gender": "H", usualRecipient : true, subscribableRecipient : true, "dashLabel": "Il me plaît","LocalLabel": "L'homme que j'aime", "TuOuVous" : "T", "Importance" : 3},
         { "Id": "LongLostFriends","RecipientTypeId": "2B4F14", "Gender": null,usualRecipient : true, subscribableRecipient : true, "dashLabel": "Perdu(e) de vue","LocalLabel": "Vos amis perdus de vue", "TuOuVous" : "T","Importance" : 4 },
-				{ "Id": "Sister",         "RecipientTypeId": "87F524", "Gender": "F", usualRecipient : false,subscribableRecipient : false,"dashLabel": "Soeur","LocalLabel": "Votre soeur", "TuOuVous" : "T","Importance" : 7},
-				{ "Id": "Brother",        "RecipientTypeId": "87F524", "Gender": "H", usualRecipient : false,subscribableRecipient : false,"dashLabel": "Frère","LocalLabel": "Votre frère", "TuOuVous" : "T","Importance" : 8},
+        { "Id": "Mother",         "RecipientTypeId": "64C63D", "Gender": "F", usualRecipient : true, subscribableRecipient : true, "dashLabel": "Maman", "LocalLabel": "Votre maman", "TuOuVous" : "T","Importance" : 2.7},
+        { "Id": "Father",         "RecipientTypeId": "64C63D", "Gender": "H", usualRecipient : true,subscribableRecipient : true,"dashLabel": "Papa", "LocalLabel": "Votre papa", "TuOuVous" : "T","Importance" : 2.8},
+				{ "Id": "Sister",         "RecipientTypeId": "87F524", "Gender": "F", usualRecipient : true,subscribableRecipient : true,"dashLabel": "Soeur","LocalLabel": "Votre soeur", "TuOuVous" : "T","Importance" : 7},
+				{ "Id": "Brother",        "RecipientTypeId": "87F524", "Gender": "H", usualRecipient : true,subscribableRecipient : true,"dashLabel": "Frère","LocalLabel": "Votre frère", "TuOuVous" : "T","Importance" : 8},
         { "Id": "ProNetwork",     "RecipientTypeId": "35AE93", "Gender": null,usualRecipient : false,subscribableRecipient : false,"dashLabel": "Boulot","LocalLabel": "Votre réseau pro", "TuOuVous" : null,"Importance" : 5},
 				{ "Id": "DistantRelatives","RecipientTypeId": "BCA601","Gender": null,usualRecipient : false,subscribableRecipient : false,"dashLabel": "Famille éloignée", "LocalLabel": "La famille éloignée", "TuOuVous" : "T","Importance" : 11},
         { "Id": "OtherFriends",    "RecipientTypeId": null,    "Gender": null,usualRecipient : false,subscribableRecipient : false,"dashLabel": "Amis divers", "LocalLabel": "Vos autres amis", "TuOuVous" : "T","Importance" : 10},

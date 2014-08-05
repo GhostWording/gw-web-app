@@ -47,6 +47,7 @@ angular.module('app/users/DashboardController', [])
     // Set filters : recipient gender property
     $scope.setCurrentFriend = function(f) {
       $scope.currentFriend = f;
+      updatePossibleRecipients();
       if ( !!f.gender ) {
         if ( f.gender == 'female'  )
           $scope.filters.recipientGender = 'F';
@@ -71,9 +72,19 @@ angular.module('app/users/DashboardController', [])
     // Set filters : recipient property
     //$scope.recipientStyles = contextStyles.createEmptyListForDashboard();
     $scope.recipientTypeTag = null;
-    subscribableRecipientsSvc.getAll().then(function(recipients) {
-      $scope.recipients = recipientsHelperSvc.getCompatibleRecipients(recipients,currentUser);
-    });
+
+    var updatePossibleRecipients = function() {
+      subscribableRecipientsSvc.getAll().then(function(recipients) {
+        $scope.recipients = recipientsHelperSvc.getCompatibleRecipients(recipients,currentUser,$scope.currentFriend,facebookSvc.getCurrentMe());
+      });
+    };
+    updatePossibleRecipients();
+
+//    subscribableRecipientsSvc.getAll().then(function(recipients) {
+//      $scope.recipients = recipientsHelperSvc.getCompatibleRecipients(recipients,currentUser,$scope.currentFriend);
+//    });
+
+
     $scope.setRecipientTypeToThis = function (recipientType) {
       $scope.recipientTypeTag = recipientType.RecipientTypeId;
       filterHelperSvc.setRecipientTypeTag($scope.filters,$scope.recipientTypeTag);
