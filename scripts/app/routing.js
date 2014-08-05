@@ -85,7 +85,7 @@ angular.module('app/routing', ['ui.router'])
   .state('area.recipientList', {
     url: '/recipient',
     templateUrl: 'views/recipientList.html',
-    controller: 'OneTimeRecipientsController',
+    controller: 'UsualRecipientsController',
     resolve: {
       recipients: ['subscribableRecipientsSvc', function(subscribedRecipientsSvc) { return subscribedRecipientsSvc.getAll(); }]
     },

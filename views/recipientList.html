@@ -3,7 +3,7 @@
 
   <!-- Choose a recipient -->
   <div class = "listeTypeDestinataire" >
-    <div ng-repeat="qui in recipients" >
+    <div ng-repeat="qui in recipients" ng-show="qui.usualRecipient == true" >
       <ul class="pager bmwQuestionButton" >
         <li>
           <!--<a  ng-href="{{app.appUrlSvc.getFullPath('')}}area/{{currentAreaName}}/recipient/{{qui.Id}}" translate>{{ qui.LocalLabel }}</a>-->

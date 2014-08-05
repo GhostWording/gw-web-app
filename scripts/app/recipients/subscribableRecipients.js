@@ -10,33 +10,35 @@ angular.module('app/recipients/subscribableRecipients', [])
 
   var service = {
     // Will be read from server in the future
-    // TODO : add a property to kwon if they are subscribable
-		getAll: function() {
+    // TODO : add a property to kwon if they are amongst usual recipients, subscribable recipients, dashboard recipients
+    // TODO : add a property to kwon if they are compatible with sender gender, recipient gender, recipient context, sender / recipient age difference
+
+    getAll: function() {
 			return $q.when([
-				{ "Id": "SweetheartF", "RecipientTypeId": "9E2D23", "Gender": "F", "LocalLabel": "Votre chérie", "TuOuVous" : "T", "Importance" : 1},
-				{ "Id": "SweetheartM", "RecipientTypeId": "9E2D23", "Gender": "H", "LocalLabel": "Votre chéri", "TuOuVous" : "T", "Importance" : 2},
-        { "Id": "CloseFriends", "RecipientTypeId": "3B9BF2", "Gender": null, "LocalLabel": "Vos copains et copines", "TuOuVous" : "T","Importance" : 2.5},
-        { "Id": "Mother", "RecipientTypeId": "64C63D", "Gender": "F", "LocalLabel": "Votre maman", "TuOuVous" : "T","Importance" : 2.7},
-        { "Id": "LoveInterestF", "RecipientTypeId": "47B7E9", "Gender": "F", "LocalLabel": "La femme que j'aime", "TuOuVous" : "T", "Importance" : 3},
-        { "Id": "LoveInterestM", "RecipientTypeId": "47B7E9", "Gender": "H", "LocalLabel": "L'homme que j'aime", "TuOuVous" : "T", "Importance" : 3},
-        { "Id": "LongLostFriends", "RecipientTypeId": "2B4F14", "Gender": null, "LocalLabel": "Vos amis perdus de vue", "TuOuVous" : "T","Importance" : 4 },
-//        { "Id": "Father", "RecipientTypeId": "64C63D", "Gender": "H", "LocalLabel": "Votre papa", "TuOuVous" : "T","Importance" : 8.5},
-//				{ "Id": "Sister", "RecipientTypeId": "87F524", "Gender": "F", "LocalLabel": "Votre soeur", "TuOuVous" : "T","Importance" : 7},
-//				{ "Id": "Brother", "RecipientTypeId": "87F524", "Gender": "H", "LocalLabel": "Votre frère", "TuOuVous" : "T","Importance" : 8},
-//        { "Id": "ProNetwork", "RecipientTypeId": "35AE93", "Gender": null, "LocalLabel": "Votre réseau pro", "TuOuVous" : null,"Importance" : 5},
-//				{ "Id": "DistantRelatives", "RecipientTypeId": "BCA601", "Gender": null, "LocalLabel": "La famille éloignée", "TuOuVous" : "T","Importance" : 11}
+				{ "Id": "SweetheartF",    "RecipientTypeId": "9E2D23", "Gender": "F", usualRecipient : true, subscribableRecipient : true,  "LocalLabel": "Votre chérie", "TuOuVous" : "T", "Importance" : 1},
+				{ "Id": "SweetheartM",    "RecipientTypeId": "9E2D23", "Gender": "H", usualRecipient : true, subscribableRecipient : true, "LocalLabel": "Votre chéri", "TuOuVous" : "T", "Importance" : 2},
+        { "Id": "CloseFriends",   "RecipientTypeId": "3B9BF2", "Gender": null,usualRecipient : true, subscribableRecipient : true, "LocalLabel": "Vos copains et copines", "TuOuVous" : "T","Importance" : 2.5},
+        { "Id": "Mother",         "RecipientTypeId": "64C63D", "Gender": "F", usualRecipient : true, subscribableRecipient : true, "LocalLabel": "Votre maman", "TuOuVous" : "T","Importance" : 2.7},
+        { "Id": "LoveInterestF",  "RecipientTypeId": "47B7E9", "Gender": "F", usualRecipient : true, subscribableRecipient : true, "LocalLabel": "La femme que j'aime", "TuOuVous" : "T", "Importance" : 3},
+        { "Id": "LoveInterestM",  "RecipientTypeId": "47B7E9", "Gender": "H", usualRecipient : true, subscribableRecipient : true, "LocalLabel": "L'homme que j'aime", "TuOuVous" : "T", "Importance" : 3},
+        { "Id": "LongLostFriends","RecipientTypeId": "2B4F14", "Gender": null,usualRecipient : true, subscribableRecipient : true, "LocalLabel": "Vos amis perdus de vue", "TuOuVous" : "T","Importance" : 4 },
+//        { "Id": "Father", "RecipientTypeId": "64C63D", "Gender": "H",usualRecipient : false, subscribableRecipient : false, "LocalLabel": "Votre papa", "TuOuVous" : "T","Importance" : 8.5},
+//				{ "Id": "Sister", "RecipientTypeId": "87F524", "Gender": "F",usualRecipient : false, subscribableRecipient : false,"LocalLabel": "Votre soeur", "TuOuVous" : "T","Importance" : 7},
+//				{ "Id": "Brother", "RecipientTypeId": "87F524", "Gender": "H",usualRecipient : false,subscribableRecipient : false, "LocalLabel": "Votre frère", "TuOuVous" : "T","Importance" : 8},
+//        { "Id": "ProNetwork", "RecipientTypeId": "35AE93", "Gender": null,usualRecipient : false,subscribableRecipient : false, "LocalLabel": "Votre réseau pro", "TuOuVous" : null,"Importance" : 5},
+//				{ "Id": "DistantRelatives", "RecipientTypeId": "BCA601", "Gender": null,usualRecipient : false, subscribableRecipient : false, "LocalLabel": "La famille éloignée", "TuOuVous" : "T","Importance" : 11}
 			]);
 		},
 
     getRecipients: function() {
       //console.log("getRecipients called");
-      // skip local storage until we have a way to invalidate the cache
+      // skip local storage until we have a way to invalidate the cache for recipients
       return cacheSvc.get('recipients.subscribableRecipients', -1, function() { return service.getAll(); }, true)
       .then(function(v) { _recipients = v;  return v;});
     },
 
     // Can return undefined
-    getAllNow: function() {
+    getAllRecipientsNow: function() {
       return _recipients;
     },
     // Can return undefined

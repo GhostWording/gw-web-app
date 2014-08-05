@@ -57,7 +57,11 @@ angular.module('app/users/DashboardController', [])
     //$scope.recipientStyles = contextStyles.createEmptyListForDashboard();
 
     $scope.recipientTypeTag = null;
-
+    $scope.setRecipienttypeToThis = function (recipientType) {
+      $scope.recipientTypeTag = recipientType;
+      filterHelperSvc.setRecipientTypeTag($scope.filters,recipientType);
+      $scope.filterList();
+    };
 
     function prepareBirthdayTextList() {
       textsSvc.getListForCurrentArea("happy-birthday").then(function(textList) {
