@@ -105,14 +105,14 @@ angular.module('app/filters/filtersSvc', [
       invertGender: function (gender) {
         return service.INVERT_GENDER_MAP[gender] || gender;
       },
-      setRecipientTypeTag: function(filters,recipientTypeTag) {
-        filters.recipientTypeTag = recipientTypeTag;
-        console.log("recipient tag set to " + recipientTypeTag);
-      },
       setContextTypeTag: function(filters,contextTypeStyle) {
         filters.contexts.clear();
         filters.contexts.addStyle(contextTypeStyle);
 //        console.log("contexts tag set to " + contextTypeStyle);
+      },
+      setRecipientTypeTag: function(filters,recipientTypeTag) {
+        filters.recipientTypeTag = recipientTypeTag;
+        console.log("recipient tag set to " + recipientTypeTag);
       },
 
 

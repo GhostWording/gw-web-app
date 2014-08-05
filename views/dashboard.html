@@ -30,7 +30,7 @@
 
   <div style="margin-top: 30px">Current friend : {{ currentFriend.name }}</div>
 
-  <div style="margin-top: 5px">Friend context :
+  <div style="margin-top: 5px">Contexte :
     <!-- btn-group-vertical or btn-group-justified options-->
     <div class="btn-group btn-group-sm">
       <button type="button" class ="btn btn-default" translate
@@ -43,7 +43,8 @@
     </div>
   </div>
 
-  <div style="margin-top: 5px">Friend recipient type :
+  <!-- Recipient type -->
+  <div style="margin-top: 5px">Catégorie :
     <!-- btn-group-vertical or btn-group-justified options-->
     <div class="btn-group btn-group-sm">
       <button type="button" class ="btn btn-default" translate
@@ -51,7 +52,7 @@
               ng-if=" true || style.visible"
               ng-class="{active: isCurrentRecipient(recipientStyle)}"
               ng-click="setRecipientTypeToThis(recipientType)">
-        {{ recipientType.LocalLabel }}
+        {{ recipientType.dashLabel }}
       </button>
     </div>
   </div>

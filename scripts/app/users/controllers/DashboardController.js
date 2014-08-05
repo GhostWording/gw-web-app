@@ -74,9 +74,9 @@ angular.module('app/users/DashboardController', [])
     subscribableRecipientsSvc.getAll().then(function(recipients) {
       $scope.recipients = recipients;
     });
-    $scope.setRecipienttypeToThis = function (recipientType) {
-      $scope.recipientTypeTag = recipientType;
-      filterHelperSvc.setRecipientTypeTag($scope.filters,recipientType);
+    $scope.setRecipientTypeToThis = function (recipientType) {
+      $scope.recipientTypeTag = recipientType.RecipientTypeId;
+      filterHelperSvc.setRecipientTypeTag($scope.filters,$scope.recipientTypeTag);
       $scope.filterMessageList();
     };
 
