@@ -1,6 +1,6 @@
 angular.module('app/users/DashboardController', [])
-.controller('DashboardController', ['$scope', 'ezfb','currentUserLocalData','facebookSvc','currentLanguage','HelperSvc','textsSvc','currentUser','contextStyles','filteredTextsHelperSvc','filterHelperSvc','DateHelperSvc','subscribableRecipientsSvc',
-  function ($scope, ezfb,currentUserLocalData,facebookSvc,currentLanguage,HelperSvc,textsSvc,currentUser,contextStyles,filteredTextsHelperSvc,filterHelperSvc,DateHelperSvc,subscribableRecipientsSvc) {
+.controller('DashboardController', ['$scope', 'ezfb','currentUserLocalData','facebookSvc','currentLanguage','HelperSvc','textsSvc','currentUser','contextStyles','filteredTextsHelperSvc','filterHelperSvc','DateHelperSvc','subscribableRecipientsSvc','recipientsHelperSvc',
+  function ($scope, ezfb,currentUserLocalData,facebookSvc,currentLanguage,HelperSvc,textsSvc,currentUser,contextStyles,filteredTextsHelperSvc,filterHelperSvc,DateHelperSvc,subscribableRecipientsSvc,recipientsHelperSvc) {
 
     $scope.fbLogin = facebookSvc.fbLogin;
 
@@ -72,7 +72,7 @@ angular.module('app/users/DashboardController', [])
     //$scope.recipientStyles = contextStyles.createEmptyListForDashboard();
     $scope.recipientTypeTag = null;
     subscribableRecipientsSvc.getAll().then(function(recipients) {
-      $scope.recipients = recipients;
+      $scope.recipients = recipientsHelperSvc.getCompatibleRecipients(recipients,currentUser);
     });
     $scope.setRecipientTypeToThis = function (recipientType) {
       $scope.recipientTypeTag = recipientType.RecipientTypeId;

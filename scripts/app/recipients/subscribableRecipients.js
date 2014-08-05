@@ -1,5 +1,37 @@
 angular.module('app/recipients/subscribableRecipients', [])
 
+
+.factory('recipientsHelperSvc', [ function () {
+
+  function recipientIsCompatibleWithCurrentUser(recipient,currentUser) {
+    var valret = true;
+    if ( currentUser.gender == 'H' && "SweetheartM" == recipient.Id )
+      valret = false;
+    if ( currentUser.gender == 'H' && "LoveInterestM" == recipient.Id )
+      valret = false;
+    if ( currentUser.gender == 'F' && "SweetheartF" == recipient.Id )
+      valret = false;
+    if ( currentUser.gender == 'F' && "LoveInterestF" == recipient.Id )
+      valret = false;
+    return valret;
+  }
+
+  var service = {
+    getCompatibleRecipients: function (recipients, currentUser) {
+      var retval = [];
+      for (var i = 0; i < recipients.length; i++ ) {
+        var recipient = recipients[i];
+        if ( recipientIsCompatibleWithCurrentUser(recipient,currentUser) === false )
+          continue;
+        retval.push(recipient);
+      }
+      return retval;
+    }
+  };
+  return service;
+}])
+
+
 // http://en.wikipedia.org/wiki/Mother
 //Mom and mommy are used in the United States, Canada, South Africa, Philippines, India and parts of the West Midlands including Birmingham in the United Kingdom.
 //Mum and mummy are used in the United Kingdom, Canada, Singapore, Australia, New Zealand, India, Pakistan, Hong Kong and Ireland. Charles, Prince of Wales publicly addressed his mother Queen Elizabeth II as "Mummy" on the occasion of her Diamond Jubilee.[37]
