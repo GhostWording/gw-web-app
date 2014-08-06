@@ -8,16 +8,6 @@ angular.module('app/users/DashboardController', [])
       $scope.isConnected = facebookSvc.isConnected();
     },true);
 
-//    $scope.$watch(function() { return facebookSvc.getCurrentMe();},function() {
-//      console.log("facebookSvc.getCurrentMe() : " +facebookSvc.getCurrentMe());
-//      $scope.apiMe = facebookSvc.getCurrentMe();
-//    },true);
-//
-//    $scope.$watch(function() { return facebookSvc.getCurrentFamily();},function() {
-//      console.log("facebookSvc.getCurrentFamily() : " +facebookSvc.getCurrentFamily().length );
-//      $scope.apiFamily = facebookSvc.getCurrentFamily();
-//    },true);
-
     // Refresh birthday friends when they facebook service changes them
     $scope.$watch(function() { return facebookSvc.getSortedFriendsWithBirthday();},function() {
       console.log("facebookSvc.getSortedFriendsWithBirthDay() : " +facebookSvc.getSortedFriendsWithBirthday().length );
@@ -44,7 +34,7 @@ angular.module('app/users/DashboardController', [])
     // TODO : filters will be durable properties of recipients
     $scope.filters = filterHelperSvc.createEmptyFilters();
 
-    // Set filters : recipient gender property
+    // Set filters for recipient gender property
     $scope.setCurrentFriend = function(f) {
       $scope.currentFriend = f;
       updatePossibleRecipients();
@@ -57,32 +47,26 @@ angular.module('app/users/DashboardController', [])
       }
     };
 
-    // Set filters : context  property
+    // Set filters for context  property
     $scope.contextStyles = contextStyles.createEmptyListForDashboard();
-    $scope.setContextFilterToThis = function (style) {
-      $scope.currentContextStyle = style;
-      filterHelperSvc.setContextTypeTag($scope.filters,style);
+    $scope.setContextFilterToThis = function (contextStyle) {
+      $scope.currentContextStyle = contextStyle;
+      filterHelperSvc.setContextTypeTag($scope.filters,contextStyle);
       $scope.filterMessageList();
+      updatePossibleRecipients();
     };
     $scope.isCurrentContextStyle = function (style) {
       return  (style ==  $scope.currentContextStyle);
     };
 
-
-    // Set filters : recipient property
-    //$scope.recipientStyles = contextStyles.createEmptyListForDashboard();
+    // Get likely recipient types using know information
     $scope.recipientTypeTag = null;
-
     var updatePossibleRecipients = function() {
       subscribableRecipientsSvc.getAll().then(function(recipients) {
-        $scope.recipients = recipientsHelperSvc.getCompatibleRecipients(recipients,currentUser,$scope.currentFriend,facebookSvc.getCurrentMe());
+        $scope.recipients = recipientsHelperSvc.getCompatibleRecipients(recipients,currentUser,$scope.currentFriend,facebookSvc.getCurrentMe(),$scope.currentContextStyle);
       });
     };
     updatePossibleRecipients();
-
-//    subscribableRecipientsSvc.getAll().then(function(recipients) {
-//      $scope.recipients = recipientsHelperSvc.getCompatibleRecipients(recipients,currentUser,$scope.currentFriend);
-//    });
 
 
     $scope.setRecipientTypeToThis = function (recipientType) {

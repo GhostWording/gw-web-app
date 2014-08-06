@@ -81,9 +81,21 @@ angular.module('app/recipients/subscribableRecipients', [])
     return valret;
   }
 
+  var CONTEXT_RECIPIENT_MAP = {
+    'friendlyContext': {'CloseFriends':true,'LoveInterestF':true,'LoveInterestM':true,'LongLostFriends':true,'OtherFriends':true},
+    'familialContext': { 'SweetheartF':true,'SweetheartM':true,'Mother':true,'Father':true,'Sister':true,'Brother':true,'DistantRelatives':true,'FamillyYoungsters':true},
+    'professionalContext' : { 'ProNetwork':true}
+  };
+
+
+  function possibleRecipientIsCompatibleWithContext(possibleRecipient, currentContextStyle) {
+    var possibleRecipientsForContext = CONTEXT_RECIPIENT_MAP[currentContextStyle.name];
+    var valret = !!possibleRecipientsForContext[possibleRecipient.Id];
+    return valret;
+  }
 
   var service = {
-    getCompatibleRecipients: function (possibleRecipient, currentUser, fbTargetUser, fbMe) {
+    getCompatibleRecipients: function (possibleRecipient, currentUser, fbTargetUser, fbMe, currentContextStyle) {
       var retval = [];
       for (var i = 0; i < possibleRecipient.length; i++ ) {
         var recipient = possibleRecipient[i];
@@ -92,6 +104,9 @@ angular.module('app/recipients/subscribableRecipients', [])
         if ( fbTargetUser && recipientIsCompatibleWithFbTarget(recipient, fbTargetUser) === false )
           continue;
         if ( fbTargetUser && fbMe && fbMeIsCompatibleWithFbTarget(fbMe, fbTargetUser,recipient.Id) === false )
+          continue;
+        console.log(currentContextStyle);
+        if ( currentContextStyle &&  possibleRecipientIsCompatibleWithContext(recipient, currentContextStyle) === false   )
           continue;
         retval.push(recipient);
       }
