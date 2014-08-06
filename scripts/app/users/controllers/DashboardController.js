@@ -38,6 +38,17 @@ angular.module('app/users/DashboardController', [])
     $scope.setCurrentFriend = function(f) {
       $scope.currentFriend = f;
       updatePossibleRecipients();
+
+      var isFamily = false;
+      var fbFamily = facebookSvc.getCurrentFamily();
+      if (facebookSvc.friendListContainsFriend(fbFamily, f.id) ) {
+        console.log(f.name + " is family");
+        $scope.currentContextName = "familialContext";
+      } else
+        $scope.currentContextName = "";
+
+
+
       if ( !!f.gender ) {
         if ( f.gender == 'female'  )
           $scope.filters.recipientGender = 'F';
@@ -50,20 +61,20 @@ angular.module('app/users/DashboardController', [])
     // Set filters for context  property
     $scope.contextStyles = contextStyles.createEmptyListForDashboard();
     $scope.setContextFilterToThis = function (contextStyle) {
-      $scope.currentContextStyle = contextStyle;
+      $scope.currentContextName = contextStyle.name;
       filterHelperSvc.setContextTypeTag($scope.filters,contextStyle);
       $scope.filterMessageList();
       updatePossibleRecipients();
     };
     $scope.isCurrentContextStyle = function (style) {
-      return  (style ==  $scope.currentContextStyle);
+      return  (style.name ==  $scope.currentContextName);
     };
 
     // Get likely recipient types using know information
     $scope.recipientTypeTag = null;
     var updatePossibleRecipients = function() {
       subscribableRecipientsSvc.getAll().then(function(recipients) {
-        $scope.recipients = recipientsHelperSvc.getCompatibleRecipients(recipients,currentUser,$scope.currentFriend,facebookSvc.getCurrentMe(),$scope.currentContextStyle);
+        $scope.recipients = recipientsHelperSvc.getCompatibleRecipients(recipients,currentUser,$scope.currentFriend,facebookSvc.getCurrentMe(),$scope.currentContextName);
       });
     };
     updatePossibleRecipients();

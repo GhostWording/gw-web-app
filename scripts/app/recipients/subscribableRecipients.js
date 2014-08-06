@@ -88,14 +88,14 @@ angular.module('app/recipients/subscribableRecipients', [])
   };
 
 
-  function possibleRecipientIsCompatibleWithContext(possibleRecipient, currentContextStyle) {
-    var possibleRecipientsForContext = CONTEXT_RECIPIENT_MAP[currentContextStyle.name];
+  function possibleRecipientIsCompatibleWithContext(possibleRecipient, currentContextName) {
+    var possibleRecipientsForContext = CONTEXT_RECIPIENT_MAP[currentContextName];
     var valret = !!possibleRecipientsForContext[possibleRecipient.Id];
     return valret;
   }
 
   var service = {
-    getCompatibleRecipients: function (possibleRecipient, currentUser, fbTargetUser, fbMe, currentContextStyle) {
+    getCompatibleRecipients: function (possibleRecipient, currentUser, fbTargetUser, fbMe, currentContextName) {
       var retval = [];
       for (var i = 0; i < possibleRecipient.length; i++ ) {
         var recipient = possibleRecipient[i];
@@ -105,8 +105,7 @@ angular.module('app/recipients/subscribableRecipients', [])
           continue;
         if ( fbTargetUser && fbMe && fbMeIsCompatibleWithFbTarget(fbMe, fbTargetUser,recipient.Id) === false )
           continue;
-        console.log(currentContextStyle);
-        if ( currentContextStyle &&  possibleRecipientIsCompatibleWithContext(recipient, currentContextStyle) === false   )
+        if ( currentContextName &&  possibleRecipientIsCompatibleWithContext(recipient, currentContextName) === false   )
           continue;
         retval.push(recipient);
       }
