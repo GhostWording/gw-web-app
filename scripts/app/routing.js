@@ -41,6 +41,7 @@ angular.module('app/routing', ['ui.router'])
     .when('/subscriptions'            ,'/xx/subscriptions')
     .when('/userEMail'                ,'/xx/userEMail')
     .when('/notimplemented'           ,'/xx/notimplemented')
+    .when('/fbLogin'                  ,'/xx/fbLogin')
     .when('/area/:areaName/recipient' ,'/xx/area/:areaName/recipient')
     .when('/area/:areaName/recipient/:recipientId/intention','/xx/area/:areaName/recipient/:recipientId/intention')
     .when('/area/:areaName/recipient/:recipientId/intention/:intentionId/text','/xx/area/:areaName/recipient/:recipientId/intention/:intentionId/text')
@@ -71,11 +72,20 @@ angular.module('app/routing', ['ui.router'])
         return areaName;  } ]
     }
     })
+  .state('area.dashboard', {
+    url: '/dashboard',
+    templateUrl: 'views/dashboard.html',
+    controller: 'DashboardController',
+    resolve: {
+    },
+    showTabs: false
+  })
+
     // We might want recipientList, intentionList and text list to be siblings
   .state('area.recipientList', {
     url: '/recipient',
     templateUrl: 'views/recipientList.html',
-    controller: 'OneTimeRecipientsController',
+    controller: 'UsualRecipientsController',
     resolve: {
       recipients: ['subscribableRecipientsSvc', function(subscribedRecipientsSvc) { return subscribedRecipientsSvc.getAll(); }]
     },
@@ -144,6 +154,11 @@ angular.module('app/routing', ['ui.router'])
     url: '/:languageCode/userprofile',
     templateUrl: 'views/userprofile.html',
     controller: 'UserProfileController'
+  })
+  .state('fbLogin', {
+    url: '/:languageCode/fbLogin',
+    templateUrl: 'views/fbLogin.html',
+    controller: 'FbLoginController'
   })
   .state('favouriteTexts', {
     url: '/:languageCode/favouriteTexts',

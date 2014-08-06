@@ -5,7 +5,7 @@
     </div>
 
     <div class = "listeTypeDestinataire" >
-        <div class="row" ng-repeat="qui in recipients" style="vertical-align: middle; margin-bottom: 20px ">
+        <div class="row" ng-repeat="qui in recipients" ng-show="qui.subscribableRecipient == true" style="vertical-align: middle; margin-bottom: 20px ">
             <div class="col-xs-1"></div>
             <div class="col-xs-5" translate style="text-align: right">{{ qui.LocalLabel }}</div>
             <div class="col-xs-2"><toggle-switch state="getState(qui.Id)" switchh="switchState(qui.Id) "></toggle-switch></div>

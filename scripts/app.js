@@ -10,7 +10,9 @@ angular.module('cherryApp',  [
   'app',
   'angularSpinkit',
   'ajoslin.promise-tracker',
-  'pascalprecht.translate'
+  'pascalprecht.translate',
+//'ngFacebook'
+  'ezfb'
 ])
 
 //CORS for angular v < 1.2
@@ -25,13 +27,39 @@ angular.module('cherryApp',  [
 .config(['$sceDelegateProvider', function ($sceDelegateProvider) {
    $sceDelegateProvider.resourceUrlWhitelist(['self', /^https?:\/\/(api\.)?cvd.io/]);
 }])
+//Facebook connexion configuration
+// If we ever need to set different AppIds for TouchWording, MessagePanda, etc.
+//  if ( /<your-reg-exp>/.test(window.location.hostname) ) fbAppId = '......';
 
-.controller('CherryController', ['$scope',  'PostActionSvc','$rootScope','$location','currentLanguage','appUrlSvc','intentionsSvc','appVersionCheck','textsSvc','$window', '$state',
-  function ($scope,PostActionSvc,$rootScope,$location,currentLanguage,appUrlSvc,intentionsSvc,appVersionCheck,textsSvc,$window,$state) {
+//.config(['$facebookProvider', function( $facebookProvider ) {
+//  $facebookProvider.setAppId('582577148493403');
+//  $facebookProvider.setCustomInit({
+//    xfbml      : true,
+//    version    : 'v2.0'
+//  });
+//}])
+// TODO : configure best language
+.config(['ezfbProvider',function (ezfbProvider) {
+  ezfbProvider.setLocale('fr_FR');
+}])
+.config(['ezfbProvider',function (ezfbProvider) {
+  ezfbProvider.setInitParams({
+    appId: '582577148493403', // ou 582577148493403 ou 679461192138331 pour test
+    status     : true,
+    xfbml      : true,
+    version: 'v1.0'
+  });
+}])
+.controller('CherryController', ['$scope',  'PostActionSvc','$rootScope','$location','currentLanguage','appUrlSvc','intentionsSvc','appVersionCheck','textsSvc','$window', '$state','HelperSvc','$translate','facebookSvc',
+  function ($scope,PostActionSvc,$rootScope,$location,currentLanguage,appUrlSvc,intentionsSvc,appVersionCheck,textsSvc,$window,$state,HelperSvc,$translate,facebookSvc) {
     $scope.app = {};
     $scope.app.appUrlSvc = appUrlSvc;
     $rootScope.pageTitle1 = "Comment vous dire. Les mots sur le bout de la langue, l'inspiration au bout des doigts";
     $rootScope.pageTitle2 = "";
+
+    $rootScope.pageDescription = "Vos friends meritent de meilleurs messages";
+    $rootScope.ogDescription = "Vos friends meritent de meilleurs messages";
+    //$rootScope.ogTitle = $rootScope.pageTitle1;
 
     console.log(navigator.userAgent);
     currentLanguage.setLanguageForHostName($location.$$host);
@@ -73,18 +101,70 @@ angular.module('cherryApp',  [
     });
 
     $rootScope.$on("$stateChangeSuccess",function (event, toState, toParams, fromState, fromParams) {
-//      console.log("$stateChangeSuccess");
+      // Stop showing spinner
       $scope.showSpinner = false;
 
-      intentionsSvc.getCurrent().then(function(intention) {
-        if ( intention ) {
+      // Set facebook open graph og:url property
+      $rootScope.ogUrl = $location.absUrl();
+      //console.log($rootScope.ogUrl);
+
+
+//      $facebook.getLoginStatus().then(function (response) {
+//        FB.XFBML.parse(); // fb sdk must be initialised before FB can be mentionned
+//      });
+
+
+      function chooseTitleFromIntentionOrSiteDefault(intention) {
+        if (intention) {
           $rootScope.pageTitle1 = "Comment dire";
           $rootScope.pageTitle2 = intention.Label;
-        } else {
+        }
+        else {
           $rootScope.pageTitle1 = "Comment vous dire : les mots sur le bout de la langue, l'inspiration au bout des doigts";
           $rootScope.pageTitle2 = "";
         }
-      } );
+      }
+      function getCurrentIntentionThenSetTitle() {
+        intentionsSvc.getCurrent().then(function(intention) {
+          chooseTitleFromIntentionOrSiteDefault(intention);
+          console.log("TITLE : " + $rootScope.pageTitle1 + " " + $rootScope.pageTitle2);
+        });
+      }
+      function setTitleFromCurrentText() {
+        textsSvc.getCurrent().then(function (text) {
+          if (text) {
+            $rootScope.pageTitle1 = "";
+            if ( HelperSvc.isQuote(text)) {
+              var txt =  HelperSvc.replaceAngledQuotes(text.Content,"");
+              $rootScope.pageTitle2 = HelperSvc.insertAuthorInText(txt, text.Author,true);
+              $translate("Citation").then(function(value) {$rootScope.pageTitle2 += " - " + value;});
+            }
+            else
+              $rootScope.pageTitle2 = text.Content;
+
+            // Modify the page description as well : Comment dire + intention label => How to say + translated intention label
+            intentionsSvc.getCurrent().then(function(intention) {
+              $translate("Comment dire").then(function(translatedPrefix) {
+                $translate(intention.Label).then(function(translatedIntentionLable) {
+                  $rootScope.pageDescription = translatedPrefix + " " + HelperSvc.lowerFirstLetter(translatedIntentionLable);
+                  $rootScope.ogDescription = translatedIntentionLable;
+                  console.log("ogDescription : " +$rootScope.ogDescription);
+                });
+              });
+            });
+          }
+          else
+            getCurrentIntentionThenSetTitle();
+        });
+      }
+
+
+      // If current text is defined, set the title using to current text content
+      if (!!textsSvc.getCurrentId())
+        setTitleFromCurrentText();
+      // else set the title using current intention label
+      else
+        getCurrentIntentionThenSetTitle();
 
       var languageCode = toParams.languageCode;
       if ( languageCode &&  languageCode!== undefined) {
@@ -95,7 +175,6 @@ angular.module('cherryApp',  [
         var path = $location.path();
         $window.ga('send', 'pageview', { page: path });
       }
-
 
       var includeLanguageInUrl = true;
       if (includeLanguageInUrl) {
@@ -108,7 +187,6 @@ angular.module('cherryApp',  [
          currentLanguage.insertCurrentLanguageCodeInUrlIfAbsent();
       }
 
-
     });
   }
 ])
@@ -118,7 +196,6 @@ angular.module('cherryApp',  [
     $scope.app = {};
     $scope.app.appUrlSvc = appUrlSvc;
   }
-
 
   $scope.changeLanguage = function (langKey) {
     currentLanguage.setLanguageCode(langKey);
@@ -144,5 +221,20 @@ angular.module('cherryApp',  [
 }])
 
 .run(['$rootScope', 'intentionsSvc', 'filtersSvc','promiseTracker', function($rootScope, intentionsSvc, filtersSvc,promiseTracker) {
-  $rootScope.loadingTracker = promiseTracker({ activationDelay: 300, minDuration: 500 });
+  // Promise tracker to display spinner when getting files
+  $rootScope.loadingTracker = promiseTracker({ activationDelay: 300, minDuration: 400 });
+  // ngFacebook : Load the facebook SDK asynchronously
+//  (function(){
+//    // If we've already installed the SDK, we're done
+//    if (document.getElementById('facebook-jssdk')) {return;}
+//    // Get the first script element, which we'll use to find the parent node
+//    var firstScriptElement = document.getElementsByTagName('script')[0];
+//    // Create a new script element and set its id
+//    var facebookJS = document.createElement('script');
+//    facebookJS.id = 'facebook-jssdk';
+//    // Set the new script's source to the source of the Facebook JS SDK
+//    facebookJS.src = '//connect.facebook.net/en_US/all.js';
+//    // Insert the Facebook JS SDK into the DOM
+//    firstScriptElement.parentNode.insertBefore(facebookJS, firstScriptElement);
+//  }());
 }]);

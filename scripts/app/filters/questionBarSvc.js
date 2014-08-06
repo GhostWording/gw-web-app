@@ -1,7 +1,7 @@
 angular.module('app/filters/questionBarSvc', [
   'app/filters/filtersSvc',
   'app/filters/styles',
-  'app/users/users'
+  'app/users/currentUser'
 ])
 
 
@@ -36,12 +36,12 @@ function ($rootScope, intentionsSvc, areasSvc, currentUser, currentLanguage, cur
     calculateMostSelectiveStyles: function() {
       // Add a selectiveness property to the styles, relative to the current filtered text list
       var visibleStyleList = service.getVisibleStyles().stylesList;
-      console.log("== " + visibleStyleList);
+      //console.log("== " + visibleStyleList);
       for (var i = 0; i < visibleStyleList.length; i++) {
         var style = visibleStyleList[i];
         var styleCount = filteredTextListSvc.getTextCountForTagId(style.id);
         style.selectiveness  = HelperSvc.countTagSelelectiveness(style.id,styleCount,filteredTextListSvc.getLength());
-        console.log(style.name + " -- " + style.selectiveness);
+        //console.log(style.name + " -- " + style.selectiveness);
       }
       // Make a list with most selective styles first
       visibleStyleList.sort(function (style1, style2) {
@@ -125,9 +125,9 @@ function ($rootScope, intentionsSvc, areasSvc, currentUser, currentLanguage, cur
       return !service.askForUserGender() &&  filters.recipientGender === null ;
     },
     askForProximity: function() {
-      return false;
-      var valret = !service.askForUserGender() && !service.askForRecipientGender() && filters.proximity === null;
-      return valret;
+      return false; // For the time being, don't ask, we don't have the complete logic to know when we need the question
+//      var valret = !service.askForUserGender() && !service.askForRecipientGender() && filters.proximity === null;
+//      return valret;
     },
 
     askForTuOuVous: function() {

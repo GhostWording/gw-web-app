@@ -1,0 +1,53 @@
+<div>
+  <h4>{{welcomeMsg}}</h4>
+  <button type="button" ng-click="login()"  ng-hide="false ||isLoggedIn" class="btn btn-default navbar-btn">Login</button>
+  <button type="button" ng-click="logout()" ng-show="true || isLoggedIn" class="btn btn-default navbar-btn">Logout</button>
+ .......
+  <fb:login-button data-size="large" scope="public_profile,email" onlogin="checkLoginState();"></fb:login-button>
+  &nbsp
+  <div class="fb-send" data-href="http://www.commentvousdire.com/" data-colorscheme="light"></div>
+  <button class="btn btn-success" ng-click="fbShare()">FB.share</button>&nbsp
+  <button class="btn btn-success" ng-click="fbSend()">FB.send</button>
+  <button ng-click="fbSend()" class="btn hidden-xs" style="background: url(/assets/fbSend.png)  no-repeat; width: 70px; height: 25px;"></button>
+  <div class="fb-send" data-colorscheme="light"></div>
+  <br>
+  <!--<div class="fb-send" data-href="{{ pageAddress }}" data-colorscheme="light"></div>-->
+  <br>
+  <a ng-href="{{sendLink()}}">Send via link</a>
+
+  <div class="row">
+    <div class="col-lg-2">
+      <h4 class="text-info">isConnected()</h4>
+      <div >{{ loginStatus}}</div>
+    </div>
+    <div class="col-lg-2">
+      <h4 class="text-info">Date</h4>
+      <div >{{ today }}</div>
+    </div>
+    <div class="col-lg-2">
+      <h4 class="text-info">Month</h4>
+      <div >{{ month }}</div>
+    </div>
+    <div class="col-lg-6">
+      <h4 class="text-info">Day</h4>
+      <div >{{ day }}</div>
+    </div>
+    <div class="col-lg-12">
+      <h4 class="text-info">$FB.api('/me')</h4>
+      <div >{{ apiMe }}</div>
+    </div>
+    <div class="col-lg-12">
+      <h4 class="text-info">$FB.api('/me/family.data')</h4>
+      <div >{{apiFamily}}</div>
+    </div>
+    <div class="col-lg-12">
+      <h4 class="text-info">apiNextBirthdayFriends</h4>
+      <div >{{ apiNextBirthdayFriends }}</div>
+    </div>
+    <div class="col-lg-12">
+      <h4 class="text-info">$FB.api('/me/friends.data')</h4>
+      <div >{{ apiFriendsWithBirthday }}</div>
+    </div>
+  </div>
+
+</div>

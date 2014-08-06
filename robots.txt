@@ -1,2 +1,9 @@
 User-agent: *
 Disallow: /bin/
+Disallow: /fr/area/General/recipient/none/intention/
+Disallow: /fr/area/General/intention/
+Disallow: /area/General/intention/
+Disallow: /?_escaped_fragment_=/area/LoveLife/intention/
+Disallow: /?_escaped_fragment_=/area/Friends/intention/
+Disallow: /?_escaped_fragment_=/area/Family/intention/
+Disallow: /?_escaped_fragment_=/area/General/intention/

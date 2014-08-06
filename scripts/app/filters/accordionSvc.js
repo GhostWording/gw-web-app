@@ -1,7 +1,7 @@
 angular.module('app/filters/accordionSvc', [
   'app/filters/filtersSvc',
   'app/filters/styles',
-  'app/users/users'
+  'app/users/currentUser'
 ])
 
 
@@ -39,14 +39,14 @@ angular.module('app/filters/accordionSvc', [
         // Add a selectiveness property to the styles, relative to the current filtered text list
         var visibleStyleList = service.getVisibleStyles().stylesList;
         var selectiveStyleList = [];
-        console.log("== " + visibleStyleList);
+        //console.log("== " + visibleStyleList);
         for (var i = 0; i < visibleStyleList.length; i++) {
           var style = visibleStyleList[i];
           var styleCount = textsSvc.getTextCountForTagId(style.id);
           style.selectiveness  = HelperSvc.countTagSelelectiveness(style.id,styleCount,textsSvc.getLengthForTextCount());
           if ( style.selectiveness >=  minSelectiveness)
             selectiveStyleList.push(style);
-          console.log(style.name + " -- " + styleCount + " -- " + style.selectiveness);
+        //  console.log(style.name + " -- " + styleCount + " -- " + style.selectiveness);
         }
         // Make a list with most selective styles first
         selectiveStyleList.sort(function (style1, style2) {

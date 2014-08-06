@@ -80,7 +80,7 @@ angular.module('app/texts/alternativeTextList', [
         if ( filtersSvc.genderCompatible(textToTest.Target, nativeText.Target) )
           retval += 1; // give bonus points if they are compatible
         // If defined current TextFilters may carry extra indications for the recipient Gender
-        var filters = filtersSvc.getFilters();
+        var filters = filtersSvc.getCurrentFilters();
         if (filters && filters.recipientGender !== null) {
           if ( textToTest.Target == filters.recipientGender )
             retval += 2; // if Sender gender match exactly, give bonus points
@@ -116,13 +116,13 @@ angular.module('app/texts/alternativeTextList', [
         var nbPropertyMatched = [];
         var textsWithScore = [];
 
-        console.log(nativeText.Content);
+        //console.log(nativeText.Content);
         var bestScoreSoFar = -100;
         for (var i = 0; i < textList.length; i++) {
           var text = textList[i];
           text.shortContent = text.Content; // hack for cvd-text
           nbPropertyMatched[i] = service.countSimilarityPoints(nativeText,text);
-          console.log(nbPropertyMatched[i] + " points for " + text.Content);
+          //console.log(nbPropertyMatched[i] + " points for " + text.Content);
           if ( nbPropertyMatched[i] > bestScoreSoFar ) {
             bestScoreSoFar = nbPropertyMatched[i];
           }
@@ -137,12 +137,12 @@ angular.module('app/texts/alternativeTextList', [
               retval.push(textsWithScore[i].text);
           }
         }
-        console.log(retval);
+        //console.log(retval);
         return retval;
       },
       // creates an array where each entry points to a text list in a language
       getAlternativeTexts: function(text, textList,originalLanguageCode) {
-        console.log("Nb alternative realizations : " + textList.length);
+        //console.log("Nb alternative realizations : " + textList.length);
         var applicationLanguages =  availableLanguages.orderedAppLanguages(originalLanguageCode);
         // For each alternative language, get gather texts related to the same prototype
         var excludeCurrentLanguage = true;
@@ -150,7 +150,7 @@ angular.module('app/texts/alternativeTextList', [
         for (var i = 0; i < applicationLanguages.length; i++ ) {
           var languageCode = applicationLanguages[i];
           var textsForThisLanguage =  service.getTextsForLanguage(textList,languageCode);
-          console.log(textsForThisLanguage.length + " texts for " + languageCode + " vs original " + originalLanguageCode);
+          //console.log(textsForThisLanguage.length + " texts for " + languageCode + " vs original " + originalLanguageCode);
           if ( excludeCurrentLanguage && languageCode == originalLanguageCode )
             continue;
           if ( textsForThisLanguage.length > 0) {

@@ -34,6 +34,10 @@ function(areasSvc, intentionsSvc, $stateChange, cacheSvc, serverSvc,HelperSvc,cu
     getLengthForTextCount : function() {
       return nbTextsForStyleCount;
     },
+    getListForCurrentArea: function(intentionId) {
+      var areaName = areasSvc.getCurrentName();
+      return service.getTextList(areaName, intentionId);
+    },
     getCurrentList: function() {
       var areaName = areasSvc.getCurrentName();
       var intentionId = intentionsSvc.getCurrentId();

@@ -1,70 +1,52 @@
 ﻿<div class="splash" style="text-align: center;" action-location="Welcome">
-    <!--<h4>Chaque jour est une opportunité</h4>-->
-    <!--<div class="row" style="margin-top: 22px; margin-bottom: 30px; font-size: 16px;">-->
-        <!--<div class="span4">CommentVousDire libère<br> les pensées qui vous changent la vie</div>-->
-      <!--Libérez vos pensées-->
-      <!--Changez vous la vie-->
-      <!--<br> avec des mots qui donnent envie !-->
-      <!--L'inspiration au bout des doigts pour-->
-      <!--L'inspiration en trois clics pour-->
-        <h1 class="span4 splashTitle" style="margin: 15px; margin-bottom: 30px;" translate>
-            Des mots pour
-        </h1>
-    <!--</div>-->
 
-    <ul class="pager bmwQuestionButton" >
-        <li ng-class = '{selectionne: false}'>
-            <!--<a class="brandBlue" ng-href="{{app.appUrlSvc.getFullPath('')}}area/Friends/intention" translate >Vos amis</a>-->
-          <a class="brandBlue" id="toFriends" ng-href="{{app.appUrlSvc.getFullPath('')}}area/Friends/recipient/none/intention" targetId="Friends" translate >Vos amis</a>
-        </li>
-    </ul>
-    <ul class="pager bmwQuestionButton" >
-        <li ng-class = '{selectionne: false}'>
-            <!--<a class="brandBlue" ng-href="{{  app.appUrlSvc.getFullPath('area/LoveLife/intention') }}" translate >Vos amours</a>-->
-          <a class="brandBlue" id="toLoveLife" ng-href="{{  app.appUrlSvc.getFullPath('area/LoveLife/recipient/none/intention') }}" targetId="LoveLife" translate >Vos amours</a>
-        </li>
-    </ul>
-    <ul class="pager bmwQuestionButton" >
-        <li ng-class = '{selectionne: false}'>
-            <a class="brandBlue" id="toFamily" ng-href="{{ app.appUrlSvc.getFullPath('area/Family/recipient/none/intention') }}" targetId="Family" translate>Votre famille</a>
-        </li>
-    </ul>
-    <ul class="pager bmwQuestionButton" >
-      <li ng-class = '{selectionne: false}'>
-        <!--<a href="favoriteRecipients" >Créer du lien</a>-->
-        <!--<a href="favoriteRecipients" >Enchanter mon univers</a>-->
-        <!--<a ng-href="{{ appUrlSvc.getFullPath('favoriteRecipients')}}">Entretenir ma bulle</a>-->
-        <!--<a ng-href="{{ appUrlSvc.getFullPath('favoriteRecipients')}}">Les plumes des jours</a>-->
-        <a class="brandBlue" id="toSubscription" ng-href="{{app.appUrlSvc.getFullPath('')}}favoriteRecipients" targetId="FavoriteRecipients" translate>Transformer votre quotidien</a>
-      </li>
-    </ul>
+  <!--<img src="./assets/TouchWordingCompressed.jpg" width="300px;">-->
+  <a class="hidden-xs" id="toLargeImageSubscription" ng-href="{{app.appUrlSvc.getFullPath('')}}favoriteRecipients" targetId="FavoriteRecipients">
+    <img style="margin-top:15px" src="./assets/TouchWordingCompressed.jpg">
+  </a>
+  <a class="visible-xs" id="toSmallImageSubscription" ng-href="{{app.appUrlSvc.getFullPath('')}}favoriteRecipients" targetId="FavoriteRecipients">
+    <img class="" style="margin-left: -13px; margin-top: -17px;"  width="350px;" src="./assets/TouchWordingCompressed.jpg">
+    <!--<img class="" style="margin-left: -14px" src="./assets/TouchWordingCompressed.jpg">-->
+  </a>
 
-  <div style="margin-top: 0px; margin-bottom: 0px;" >
-        <!--Trouvez les mots<br> qui donnent envie&nbsp!-->
-        <!--Les mots sur le bout de la langue,<br>l'inspiration au bout des doigts&nbsp!-->
-        <!--Changez-vous la vie&nbsp!-->
+  <h1 class="span4 splashTitle"  style="margin-top: 25px; margin-bottom: 25px; margin-left: 35px; margin-right: 45px;" translate>
+      Des mots pour
+  </h1>
+
+
+  <div style="margin-bottom: 30px;">
+    <a class="btn btn-primary btn-lg" id="toSubscription" ng-href="{{app.appUrlSvc.getFullPath('')}}favoriteRecipients" targetId="FavoriteRecipients" translate>Transformer votre quotidien</a>
+   <!--<button type="button" class="btn btn-primary btn-lg" translate>Transformer votre quotidien</button>-->
+  </div>
+  <div>
+    <div style="margin-bottom: 20px;" translate>
+      Trouver un message pour
     </div>
-
-    <div class="row" style="margin-bottom: 12px;" >
-        <div class="span4"></div>
-        <div class="span4 brand">
-            <img src="./assets/plume-text-small.png">
-        </div>
-        <div class="span4"></div>
+    <div style="margin-bottom: 20px;">
+      <a class="btn btn-default" id="toFriends" ng-href="{{app.appUrlSvc.getFullPath('')}}area/Friends/recipient/none/intention" targetId="Friends" translate>Vos amis</a>
     </div>
+    <div style="margin-bottom: 20px;">
+      <a class="btn btn-default" id="toLoveLife" ng-href="{{  app.appUrlSvc.getFullPath('area/LoveLife/recipient/none/intention') }}" targetId="LoveLife" translate>Vos amours</a>
+    </div>
+    <div style="margin-bottom: 20px;">
+      <a class="btn btn-default" id="toFamily" ng-href="{{ app.appUrlSvc.getFullPath('area/Family/recipient/none/intention') }}" targetId="Family" translate>Votre famille</a>
+    </div>
+  </div>
 
 
-  <!--<button type="button" style="border: none" class="btn btn-default" ng-class='{"btn-primary": getLanguage()=="en"}' ng-click="changeLanguage('en')"><img src="/assets/FlagUK.png"></button>-->
-  <!-- TODO : add language code after #!/ in getFullPath  -->
-  <!--<a href="/#!/fr"><button type="button" style="border: none" class="btn btn-default" ng-class='{"btn-primary": getLanguage()=="fr"}'><img src="/assets/FlagFrance.png"></button></a>-->
-  <!--<a href="/#!/en"><button type="button" style="border: none" class="btn btn-default" ng-class='{"btn-primary": getLanguage()=="en"}'><img src="/assets/FlagUK.png"></button></a>-->
-  <!--<a href="/#!/es"><button type="button" style="border: none" class="btn btn-default" ng-class='{"btn-primary": getLanguage()=="es"}'><img src="/assets/FlagSpain.png"></button></a>-->
-  <div style="margin-bottom: 15px;">
+  <div style="margin-top:25px; margin-bottom: 30px;">
     <a href="/fr" class="frontpageLink" ng-class='{"active": getLanguage()=="fr"}'>Français</a>
     <a href="/en" class="frontpageLink" ng-class='{"active": getLanguage()=="en"}'>English</a>
     <a href="/es" class="frontpageLink" ng-class='{"active": getLanguage()=="es"}'>Español</a>
   </div>
 
-  <!--<div ng-include="'views/partials/languageBar.html'" style="margin-bottom: 20px;"></div>-->
+  <div  style="margin-bottom: 15px;" >
+    <div ng-show ="isFrench"  class="fb-like hidden-xs" data-href="https://www.facebook.com/MessagesAmusants" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>
+    <div ng-show ="!isFrench" class="fb-like hidden-xs" data-href="https://www.facebook.com/TouchWording" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>
+  </div>
+  <div class="visible-xs" style="margin-bottom: 15px;" >
+    <div ng-show ="isFrench"  class="fb-like" data-href="https://www.facebook.com/MessagesAmusants" data-layout="button_count" data-action="like" data-share="true"></div>
+    <div ng-hide ="isFrench" class="fb-like" data-href="https://www.facebook.com/TouchWording"     data-layout="button_count" data-action="like" data-share="true"></div>
+  </div>
 
 </div>

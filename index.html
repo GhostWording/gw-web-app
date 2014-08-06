@@ -1,15 +1,29 @@
 ﻿<html ng-app='cherryApp' lang="en">
   <head>
 
+    <meta charset="utf-8">
     <meta name="fragment" content="!">
     <base href="/">
+
     <!--<meta name="viewport" content="initial-scale=1.0, user-scalable=no">-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-
-    <meta charset="utf-8">
-    <title ng-bind-template="{{pageTitle1 | translate}} {{pageTitle2 | translate}} ">Comment dire les choses importantes - Your highway from ideas to words</title>
-    <meta name="description" content="Changez-vous la vie, trouvez les mots qui donnent envie - Find the magic words">
     <meta name="google-site-verification" content="Yancq9d1odgL9tS_cPdZuci56Rmh5J30ASqLN4Mk3Wk" />
+
+    <title ng-bind-template="{{pageTitle1 | translate}} {{pageTitle2 | translate}}">Mots magiques pour belles occasions</title>
+
+     <!--TODO : description could adapt to page and language as in http://stackoverflow.com/questions/20807761/angular-modify-meta-tag-->
+    <meta name="description" content="{{ pageDescription | translate }}">
+
+
+    <meta property="og:title" content="{{pageTitle1 | translate}} {{pageTitle2 | translate}}"/>
+    <!--<meta property="og:title" content="{{ogTitle}}"/>-->
+    <meta property="og:image" content="http://www.commentvousdire.com/assets/TouchWording.jpg"/>
+    <meta property="og:description" content="{{ ogDescription | translate }}">
+    <meta property="og:url" content="{{ ogUrl }}">
+    <meta property="og:type" content="website">
+    <meta property="fb:app_id" content="582577148493403">
+    <!--582577148493403 ou 679461192138331 pour test-->
+
 
     <!--Prevent 300 ms delay on Android-->
     <script src="scripts/lib/fastclick.js"></script>
@@ -32,11 +46,13 @@
     <script src="assets/angular-promise-tracker/promise-tracker.js"></script>
     <script src="assets/angular-promise-tracker/promise-tracker-http-interceptor.js"></script>
     <script src="assets/angular-translate/angular-translate.min.js"></script>
+    <!--<script src="assets/ng-facebook/ngFacebook.js"></script>-->
+    <script src="assets/angular-easyfb/angular-easyfb.js"></script>
+
+
 
     <script src="scripts/lib/bootstrap-custom/ui-bootstrap-custom-tpls-0.10.0.js"></script>
     <!--<script src="scripts/lib/bootstrap-custom/ui-bootstrap-tpls-0.11.0.js"></script>-->
-
-
 
 
     <!--Google scripts-->
@@ -46,7 +62,9 @@
                 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
         })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-        ga('create', 'UA-47718196-1', 'commentvousdire.com');
+        //ga('create', 'UA-47718196-1', 'commentvousdire.com');
+        ga('create', 'UA-47718196-1', 'auto'); // 22/07/2014
+
         //ga('require', 'linkid', 'linkid.js'); // improves accuracy. might cause loading delay
         //ga('send', 'pageview'); // done for all pages on $stateChangeSuccess
     </script>
@@ -76,8 +94,11 @@
   </head>
 
   <body  id="leCorps">
+    <!-- facebook scripts -->
+    <!--<div id="fb-root"></div>-->
+
   <h4 ng-show="false">Comment dire les mots de l'amitié, de l'amour et de tous les jours</h4>
-  <h4 ng-show>How to say magic words to your love or your friends</h3>
+  <h4 ng-show>How to say magic words to people you like and people you love</h4>
 
     <!-- Menu bar -->
     <nav class="navbar navbar-inverse navbar-static-top" role="navigation" ng-init="navCollapsed = true"
@@ -102,13 +123,15 @@
           <a href="" style="margin-right: 0px; padding-left: 0px; padding-right: 7px;" ng-class='{active: getLanguage()=="en"}' ng-click="changeLanguage('en')" class="navbar-brand ">en</a>
           <a href="" style="margin-right: 0px; padding-left: 0px; padding-right: 7px;" ng-class='{active: getLanguage()=="es"}'  ng-click="changeLanguage('es')" class="navbar-brand">es</a>
 
-          <!-- Envoyer à  -->
+          <!-- Recipient list  -->
           <a ng-href="{{app.appUrlSvc.getFullPath('')}}recipientList" class="navbar-brand glyphicon glyphicon-user" translate></a>
-          <!-- Penser à  -->
+          <!-- Subscriptions  -->
           <a ng-href="{{app.appUrlSvc.getFullPath('')}}favoriteRecipients" class = "navbar-brand glyphicon glyphicon-bell" translate></a>
-          <!-- Tous les textes  -->
-          <a rel="nofollow" ng-href="{{app.appUrlSvc.getFullPath('')}}area/General/recipient/none/intention" ng-show="false" class ="navbar-brand glyphicon glyphicon-search" translate></a>
-          <!-- Favoris  -->
+          <!-- Dashboard  -->
+          <a ng-href="{{app.appUrlSvc.getFullPath('')}}area/General/dashboard" class = "navbar-brand glyphicon glyphicon-play" translate></a>
+
+          <!--<a rel="nofollow" ng-href="{{app.appUrlSvc.getFullPath('')}}area/General/recipient/none/intention" ng-show="false" class ="navbar-brand glyphicon glyphicon-search" translate></a>-->
+          <!-- Favourites  -->
           <!--<a ng-show = "hasFavourite()" ng-href="{{app.appUrlSvc.getFullPath('')}}favouriteTexts" class="navbar-brand glyphicon glyphicon-star"></a>-->
           <!-- Mon profil  -->
           <a ng-href="{{app.appUrlSvc.getFullPath('')}}userprofile" class ="navbar-brand glyphicon glyphicon-cog" translate></a>
@@ -127,14 +150,19 @@
           <li style="margin-right: 12px;" ng-class='{active: getLanguage()=="en"}' ng-click="changeLanguage('en')"><a href="" >en</a></li>
           <li style="margin-right: 12px;" ng-class='{active: getLanguage()=="es"}' ng-click="changeLanguage('es')"><a href="" >es</a></li>
 
-          <!-- Envoyer à  -->
+          <!-- Recipient list  -->
           <li class="active"><a ng-href="{{app.appUrlSvc.getFullPath('')}}recipientList" class = "glyphicon glyphicon-user" translate></a></li>
-          <!-- Penser à  -->
+          <!-- Subscriptions  -->
           <li class="active"><a ng-href="{{app.appUrlSvc.getFullPath('')}}favoriteRecipients" class = "glyphicon glyphicon-bell" translate></a></li>
-          <!-- Tous les textes  -->
-          <li class="active"><a  rel="nofollow" ng-href="{{app.appUrlSvc.getFullPath('')}}area/General/recipient/none/intention" class ="glyphicon glyphicon-search" translate></a></li>
+          <!-- All texts  -->
+          <!--<li class="active"><a  rel="nofollow" ng-href="{{app.appUrlSvc.getFullPath('')}}area/General/recipient/none/intention" class ="glyphicon glyphicon-search" translate></a></li>-->
           <!-- Favoris  -->
           <!--<li class="active" ng-show = "hasFavourite()"><a ng-href="{{app.appUrlSvc.getFullPath('')}}favouriteTexts" class="glyphicon glyphicon-star"></a></li>-->
+
+          <!-- fbLogin  -->
+          <!--<li class="active"><a ng-href="{{app.appUrlSvc.getFullPath('')}}fbLogin" ng-show="true" class ="glyphicon glyphicon-play"></a></li>-->
+          <li class="active"><a ng-href="{{app.appUrlSvc.getFullPath('')}}area/General/dashboard" ng-show="true" class ="glyphicon glyphicon-play"></a></li>
+
           <!-- Mon profil  -->
           <li class="active"><a ng-href="{{app.appUrlSvc.getFullPath('')}}userprofile" class ="glyphicon glyphicon-cog" translate></a></li>
           <li class="active"><a ng-href="{{app.appUrlSvc.getFullPath('')}}about" translate>A propos</a></li>
