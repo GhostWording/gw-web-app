@@ -1,6 +1,6 @@
 angular.module('app/users/DashboardController', [])
-.controller('DashboardController', ['$scope', 'ezfb','currentUserLocalData','facebookSvc','currentLanguage','HelperSvc','textsSvc','currentUser','contextStyles','filteredTextsHelperSvc','filterHelperSvc','DateHelperSvc','subscribableRecipientsSvc','recipientsHelperSvc',
-  function ($scope, ezfb,currentUserLocalData,facebookSvc,currentLanguage,HelperSvc,textsSvc,currentUser,contextStyles,filteredTextsHelperSvc,filterHelperSvc,DateHelperSvc,subscribableRecipientsSvc,recipientsHelperSvc) {
+.controller('DashboardController', ['$scope', 'ezfb','currentUserLocalData','facebookSvc','currentLanguage','HelperSvc','textsSvc','currentUser','contextStyles','filteredTextsHelperSvc','filterHelperSvc','DateHelperSvc','subscribableRecipientsSvc','recipientsHelperSvc','facebookHelperSvc',
+  function ($scope, ezfb,currentUserLocalData,facebookSvc,currentLanguage,HelperSvc,textsSvc,currentUser,contextStyles,filteredTextsHelperSvc,filterHelperSvc,DateHelperSvc,subscribableRecipientsSvc,recipientsHelperSvc,facebookHelperSvc) {
 
     $scope.fbLogin = facebookSvc.fbLogin;
 
@@ -41,19 +41,17 @@ angular.module('app/users/DashboardController', [])
 
       var isFamily = false;
       var fbFamily = facebookSvc.getCurrentFamily();
-      if (facebookSvc.friendListContainsFriend(fbFamily, f.id) ) {
+
+      if (facebookHelperSvc.friendListContainsFriend(fbFamily, f.id) ) {
         console.log(f.name + " is family");
         $scope.currentContextName = "familialContext";
       } else
         $scope.currentContextName = "";
 
 
-
       if ( !!f.gender ) {
-        if ( f.gender == 'female'  )
-          $scope.filters.recipientGender = 'F';
-        if ( f.gender == 'male'  )
-          $scope.filters.recipientGender = 'H';
+        $scope.filters.recipientGender = facebookHelperSvc.getCVDGenderFromFbGender(f.gender);
+        console.log($scope.filters.recipientGender);
         $scope.filterMessageList();
       }
     };
