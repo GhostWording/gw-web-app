@@ -53,28 +53,28 @@ function(areasSvc, intentionsSvc, $stateChange, cacheSvc, serverSvc,HelperSvc,cu
       return service.getText(areaName, intentionId, textId);
     },
 
+    // Get a text list from the cache or the server
     getTextList: function(areaName, intentionIdOrSlug,skipTracker) {
-
-      var regularPath = areaName + '/intention/' + intentionIdOrSlug + '/texts';
+      // Two ways to query the apis : with the slug or the id
       var slugPath = areaName + '/' + intentionIdOrSlug + '/texts';
-
-      var culture = currentLanguage.currentCulture();
-
+      var regularPath = areaName + '/intention/' + intentionIdOrSlug + '/texts';
       var firstPath = slugPath;  // Slug syntax becomes our prefered one
       var secondPath = regularPath;
+
+      var culture = currentLanguage.currentCulture();
 
       return cacheSvc.get(cacheSvc.makeTextListCacheKey(areaName, intentionIdOrSlug,culture), -1, function() {
         return serverSvc.get(firstPath,null,skipTracker,culture).then(
           function(textList) {
-            // HACK : the server API should return an error when we use a bad slug instead of an empty list
             if ( textList.length > 0 )
               return service.MakeSortedVersionWithShortenedTexts(textList);
-            // Do the same thing as with the error case
+            // The server API may return an empty list instead of an error when we use a bad slug : try other syntax
             return serverSvc.get(secondPath,null,null,culture).then(
               function(slugTextList) {
                 console.log(firstPath + " returned 0 texts");
                 return service.MakeSortedVersionWithShortenedTexts(slugTextList);  } );
           },
+        // Do the same thing as with the error case
           function(error)    {
             return serverSvc.get(secondPath).then(function(slugTextList) {
               return service.MakeSortedVersionWithShortenedTexts(slugTextList);  } );

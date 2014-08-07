@@ -67,10 +67,6 @@ angular.module('app/intentions', [
             cacheSvc.reInitializeCacheEntry(cacheSvc.makeIntentionCacheKey(areaName, intentionIdOrSlug));
             // Invalidate cache description of text list for intention
             var culture = currentLanguage.currentCulture();
-            // HACK : while we don't have spanish texts, display english ones instead
-//            if (culture == "es-ES") {
-//              culture = "en-EN";
-//            }
             var textListCacheKey = cacheSvc.makeTextListCacheKey(areaName, intentionIdOrSlug, culture);
             cacheSvc.reInitializeCacheEntry(textListCacheKey);
             retval = true;

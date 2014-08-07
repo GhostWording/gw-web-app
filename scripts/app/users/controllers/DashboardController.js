@@ -1,6 +1,6 @@
 angular.module('app/users/DashboardController', [])
-.controller('DashboardController', ['$scope', 'ezfb','currentUserLocalData','facebookSvc','currentLanguage','HelperSvc','textsSvc','currentUser','contextStyles','filteredTextsHelperSvc','filterHelperSvc','DateHelperSvc','subscribableRecipientsSvc','recipientsHelperSvc','facebookHelperSvc',
-  function ($scope, ezfb,currentUserLocalData,facebookSvc,currentLanguage,HelperSvc,textsSvc,currentUser,contextStyles,filteredTextsHelperSvc,filterHelperSvc,DateHelperSvc,subscribableRecipientsSvc,recipientsHelperSvc,facebookHelperSvc) {
+.controller('DashboardController', ['$scope', 'ezfb','currentUserLocalData','facebookSvc','currentLanguage','HelperSvc','textsSvc','currentUser','contextStyles','filteredTextsHelperSvc','filterHelperSvc','DateHelperSvc','subscribableRecipientsSvc','recipientsHelperSvc','facebookHelperSvc','intentionsSvc','areasSvc',
+  function ($scope, ezfb,currentUserLocalData,facebookSvc,currentLanguage,HelperSvc,textsSvc,currentUser,contextStyles,filteredTextsHelperSvc,filterHelperSvc,DateHelperSvc,subscribableRecipientsSvc,recipientsHelperSvc,facebookHelperSvc,intentionsSvc,areasSvc) {
 
     $scope.fbLogin = facebookSvc.fbLogin;
 
@@ -9,11 +9,38 @@ angular.module('app/users/DashboardController', [])
     },true);
 
     // Refresh birthday friends when they facebook service changes them
-    $scope.$watch(function() { return facebookSvc.getSortedFriendsWithBirthday();},function() {
+    $scope.$watch(function() { return facebookSvc.getSortedFriendsWithBirthday(); }, function() {
       console.log("facebookSvc.getSortedFriendsWithBirthDay() : " +facebookSvc.getSortedFriendsWithBirthday().length );
       $scope.apiFriendsWithBirthday = facebookSvc.getSortedFriendsWithBirthday();
       $scope.apiNextBirthdayFriends =  facebookSvc.getNextBirthdayFriend();
+
+      addFbFriendsToFriendInfo($scope.apiNextBirthdayFriends);
+
+      prepareBirthdayTextList();
+      // todo : if birthday Text list available, add this list to each birthday friend then filter it according to available information
+      // same goes with birthday Text list : when it becomes available, try to make a copy for each birthday friend
+      // or
+      // ask for a promise from the cache or the live service : should be better
     },true);
+
+
+    // Initilize full text list and filtered text list
+    function prepareBirthdayTextList() {
+      textsSvc.getListForCurrentArea("happy-birthday").then(function (textList) {
+        // Set this for every users in birthdayUserFriends
+        $scope.textList = textList;
+        $scope.filterMessageList();
+
+//        intentionsSvc.invalidateCacheIfNewerServerVersionExists(areasSvc.getCurrentName(),"happy-birthday")
+//        .then(function(shouldReload){
+//          if (shouldReload)
+//            // refresh texts
+//        });
+
+      });
+    }
+    //prepareBirthdayTextList();
+
 
     $scope.randomTextList = {};
 
@@ -48,21 +75,30 @@ angular.module('app/users/DashboardController', [])
           var txt = getRandomTextFromThisList($scope.filteredMessageList);
           console.log("HelperSvc.isQuote(txt) : " + HelperSvc.isQuote(txt));
           var content = HelperSvc.isQuote(txt) ? HelperSvc.insertAuthorInText(txt.Content, txt.Author) : txt.Content ;
-          //HelperSvc.insertAuthorInText(txt.Content, txt.Author);
-          //     $scope.txt.Content = HelperSvc.insertAuthorInText($scope.txt.Content, currentText.Author);
-          //$scope.randomTextList[id] = getRandomTextFromThisList($scope.filteredMessageList);
           $scope.randomTextList[id] = content;
         }
       }
     };
-    // Initilize full text list and filtered text list
-    function prepareBirthdayTextList() {
-      textsSvc.getListForCurrentArea("happy-birthday").then(function (textList) {
-        $scope.textList = textList;
-        $scope.filterMessageList();
-      });
-    }
-    prepareBirthdayTextList();
+
+
+    // To store information provided by user on his friends / recipients
+    var userFriends = {};
+
+    var makeUserFriendIdFromFbId = function (fbId) {
+      return "facebook:" + fbId;
+    };
+
+    var addFbFriendsToFriendInfo = function(fbFriendList) {
+      for (var i= 0; i < fbFriendList.length; i++ ) {
+        var key = makeUserFriendIdFromFbId(fbFriendList[i].id);
+        if ( !userFriends[key] ) {
+          userFriends[key] = { 'userFriendId' : key, 'userName' : fbFriendList[i].name };
+          console.log(userFriends[key]);
+        }
+      }
+    };
+
+
 
     // TODO : filters will be durable properties of recipients
     $scope.filters = filterHelperSvc.createEmptyFilters();
