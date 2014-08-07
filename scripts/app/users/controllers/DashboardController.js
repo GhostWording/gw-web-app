@@ -4,6 +4,9 @@ angular.module('app/users/DashboardController', [])
 
     $scope.fbLogin = facebookSvc.fbLogin;
 
+    $scope.isDebug = true;
+    $scope.currentBirthdayFriend = null;
+
     $scope.$watch(function() { return facebookSvc.isConnected();},function() {
       $scope.isConnected = facebookSvc.isConnected();
     },true);
@@ -41,7 +44,6 @@ angular.module('app/users/DashboardController', [])
     }
     //prepareBirthdayTextList();
 
-
     $scope.randomBirthdayTextList = {};
 
 
@@ -55,7 +57,6 @@ angular.module('app/users/DashboardController', [])
       }
       return valret;
     };
-
 
 
     // Il ne marche pas: un autre svp
@@ -75,24 +76,36 @@ angular.module('app/users/DashboardController', [])
           var id = $scope.apiNextBirthdayFriends[i].id;
           var txt = getRandomTextFromThisList($scope.filteredMessageList);
           var content = HelperSvc.isQuote(txt) ? HelperSvc.insertAuthorInText(txt.Content, txt.Author) : txt.Content ;
-          //$scope.randomTextList[id] = content;
+          $scope.randomBirthdayTextList[id] = content;
         }
       }
     };
 
-    $scope.randomBirthdayTextList = function(listName,fbId) {
+    var filterUserFriendMessageList = function (userFriend) {
+      userFriend.filteredTextList = filteredTextsHelperSvc.getFilteredAndOrderedList(userFriend.textList, currentUser, userFriend.filters.preferredStyles, userFriend.filters);
+      var txt = getRandomTextFromThisList($scope.filteredMessageList);
+      var content = HelperSvc.isQuote(txt) ? HelperSvc.insertAuthorInText(txt.Content, txt.Author) : txt.Content;
+      //$scope.randomTextList[id] = content;
+    };
+
+
+var findUserFriendInList = function (listName,fbId) {
       var valret = null;
       if (listName != 'birthdayList') {
         console.log('not implemented !!!!!!');
         return valret;
       }
-      var userFriend = userBirthdayFriends[makeUserFriendIdFromFbId(fbId)];
-      userFriend.currentText = userFriend.textList[0];
-      valret = userFriend.currentText;
-      $scope[fbId] = valret;
-      //return valret;
-      return $scope[fbId];
+      return userBirthdayFriends[makeUserFriendIdFromFbId(fbId)];
     };
+
+//    $scope.randomBirthdayTextList = function(listName,fbId) {
+//      var userFriend = findUserFriendInList(listName,fbId);
+//      userFriend.currentText = userFriend.textList[0];
+//      valret = userFriend.currentText;
+//      $scope[fbId] = valret;
+//      //return valret;
+//      return $scope[fbId];
+//    };
 
     var makeUserFriendIdFromFbId = function (fbId) {
       return "facebook:" + fbId;
@@ -106,20 +119,63 @@ angular.module('app/users/DashboardController', [])
         var fbFriend = fbFriendList[i];
         var key = makeUserFriendIdFromFbId(fbFriend.id);
         if ( !userBirthdayFriends[key] ) {
-          userBirthdayFriends[key] = { 'userFriendId' : key, 'userName' : fbFriend.name, 'gender' :  fbFriend.gender, 'birthday' : fbFriend.birthday, 'fbId' : fbFriend.id };
+          userBirthdayFriends[key] = { 'userFriendId' : key, 'name' : fbFriend.name, 'gender' :  fbFriend.gender, 'birthday' : fbFriend.birthday, 'fbId' : fbFriend.id };
           //console.log(userBirthdayFriends[key]);
         }
       }
     };
 
+    $scope.userFriendInfo = {};
+    var setUserFriendInfo = function(userFriend) {
+      //var userFriend = findUserFriendInList("birthdayList",fbFriend.id);
+      var valret ="";
+      valret += userFriend.filteredTextList.length;
+      $scope.userFriendInfo[userFriend.fbId] = valret;
+      return valret;
+    };
+
+    var filterUserTextListAndDisplayInfo = function(userFriend,textList) {
+      userFriend.filteredTextList = filteredTextsHelperSvc.getFilteredAndOrderedList(textList, currentUser, userFriend.filters.preferredStyles, userFriend.filters);
+      $scope.randomBirthdayTextList[userFriend.fbId] = userFriend.filteredTextList[0].Content;
+      setUserFriendInfo(userFriend);
+    };
+
+    var setUserFriendGenderFilter = function (userFriend) {
+      if ( !!userFriend.gender ) {
+        userFriend.filters.recipientGender = facebookHelperSvc.getCVDGenderFromFbGender(userFriend.gender);
+      }
+    };
+
+    var setUFContextFilterFromName = function (userFriend,contextName,availableContextsStyles) {
+
+    };
+
+    var setUserFriendContextFilterFromFbFamilyList = function (userFriend,fbFamily,availableContextsStyles) {
+      if ( !!fbFamily  ) {
+        if (facebookHelperSvc.friendListContainsFriend(fbFamily, userFriend.fbId) ) {
+          console.log(userFriend.name + " is family");
+          userFriend.ufContext = "familialContext";
+          var contextStyle = availableContextsStyles.stylesByName[userFriend.ufContext];
+          filterHelperSvc.setContextTypeTag(userFriend.filters,contextStyle);
+        }
+      }
+    };
+
     var initializeTextListForUserFriends = function (userBirthdayFriends, textList) {
+
       for (var key in userBirthdayFriends) {
         var userFriend = userBirthdayFriends[key];
+        // Initialize text list
         userFriend.textList = textList;
+        // Initialize filters
         userFriend.filters = filterHelperSvc.createEmptyFilters();
         // TODO : set filters from what we know
-        userFriend.textfilteredTextList = filteredTextsHelperSvc.getFilteredAndOrderedList(textList, currentUser, userFriend.filters.preferredStyles, userFriend.filters);
-        $scope.randomBirthdayTextList[userFriend.fbId] = userFriend.textfilteredTextList[0].Content;
+        // Set gender filter
+        setUserFriendGenderFilter(userFriend);
+        // Set context filter to family if friend is in family list
+        setUserFriendContextFilterFromFbFamilyList(userFriend,facebookSvc.getCurrentFamily(),contextStyles.createEmptyListForDashboard());
+        // Do filter and display
+        filterUserTextListAndDisplayInfo(userFriend,textList);
       }
     };
 
@@ -127,13 +183,17 @@ angular.module('app/users/DashboardController', [])
     $scope.filters = filterHelperSvc.createEmptyFilters();
 
     // Set filters for recipient gender property
-    $scope.setCurrentFriend = function(f) {
+    $scope.setCurrentFriend = function(listName,f) {
+      // new stuff
+      var userFriend = findUserFriendInList (listName, f.id);
+      $scope.currentBirthdayFriend = userFriend;
+
+      // old stuff
       $scope.currentFriend = f;
       updatePossibleRecipients();
 
       var isFamily = false;
       var fbFamily = facebookSvc.getCurrentFamily();
-
       if (facebookHelperSvc.friendListContainsFriend(fbFamily, f.id) ) {
         console.log(f.name + " is family");
         $scope.currentContextName = "familialContext";
@@ -168,8 +228,6 @@ angular.module('app/users/DashboardController', [])
       });
     };
     updatePossibleRecipients();
-
-
     $scope.setRecipientTypeToThis = function (recipientType) {
       $scope.recipientTypeTag = recipientType.RecipientTypeId;
       filterHelperSvc.setRecipientTypeTag($scope.filters,$scope.recipientTypeTag);
