@@ -30,8 +30,9 @@
       <!--<div class="well well-lg" ng-hide="editText" style="border-color: #428bca; margin-bottom: 5px; background-color: #FFFFFF;" >-->
         <!--<span ng-bind-html="getRandomTextFromList()" style="white-space: pre-wrap; height: 300px;;"></span>-->
       <!--</div>-->
-      <textarea ng-model="randomTextList[friend.id]" style="width:100%; padding: 15px; background-color: #d9edf7" disabled rows="6">
-      </textarea>
+      <textarea ng-model="randomBirthdayTextList[friend.id]" style="width:100%; padding: 15px; background-color: #d9edf7" disabled rows="6"></textarea>
+      <!--<textarea ng-model="randomTextList('birthdayList',friend.id)" style="width:100%; padding: 15px; background-color: #d9edf7" disabled rows="6"></textarea>-->
+
 
       <button type="button" ng-click="setCurrentFriend(friend)"  class="btn btn-primary btn-sm">Select</button>
     </div>

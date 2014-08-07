@@ -14,23 +14,23 @@ angular.module('app/users/DashboardController', [])
       $scope.apiFriendsWithBirthday = facebookSvc.getSortedFriendsWithBirthday();
       $scope.apiNextBirthdayFriends =  facebookSvc.getNextBirthdayFriend();
 
-      addFbFriendsToFriendInfo($scope.apiNextBirthdayFriends);
+      addFbFriendsToUserBirthdayFriends($scope.apiNextBirthdayFriends);
 
-      prepareBirthdayTextList();
-      // todo : if birthday Text list available, add this list to each birthday friend then filter it according to available information
-      // same goes with birthday Text list : when it becomes available, try to make a copy for each birthday friend
-      // or
-      // ask for a promise from the cache or the live service : should be better
+      prepareBirthdayTextLists();
     },true);
 
 
-    // Initilize full text list and filtered text list
-    function prepareBirthdayTextList() {
+    // Initilize text list for each birthday friend
+    function prepareBirthdayTextLists() {
+      // Get promise from cache or server
       textsSvc.getListForCurrentArea("happy-birthday").then(function (textList) {
         // Set this for every users in birthdayUserFriends
         $scope.textList = textList;
         $scope.filterMessageList();
 
+        initializeTextListForUserFriends(userBirthdayFriends,textList);
+
+          // Check server for newer version then if courageous update current display, or leave it until next time
 //        intentionsSvc.invalidateCacheIfNewerServerVersionExists(areasSvc.getCurrentName(),"happy-birthday")
 //        .then(function(shouldReload){
 //          if (shouldReload)
@@ -42,7 +42,8 @@ angular.module('app/users/DashboardController', [])
     //prepareBirthdayTextList();
 
 
-    $scope.randomTextList = {};
+    $scope.randomBirthdayTextList = {};
+
 
     var getRandomTextFromThisList = function(textList) {
       // TODO : should not do that, should generate random index !!
@@ -73,32 +74,54 @@ angular.module('app/users/DashboardController', [])
         for (var i = 0; i < $scope.apiNextBirthdayFriends.length; i++ ) {
           var id = $scope.apiNextBirthdayFriends[i].id;
           var txt = getRandomTextFromThisList($scope.filteredMessageList);
-          console.log("HelperSvc.isQuote(txt) : " + HelperSvc.isQuote(txt));
           var content = HelperSvc.isQuote(txt) ? HelperSvc.insertAuthorInText(txt.Content, txt.Author) : txt.Content ;
-          $scope.randomTextList[id] = content;
+          //$scope.randomTextList[id] = content;
         }
       }
     };
 
-
-    // To store information provided by user on his friends / recipients
-    var userFriends = {};
+    $scope.randomBirthdayTextList = function(listName,fbId) {
+      var valret = null;
+      if (listName != 'birthdayList') {
+        console.log('not implemented !!!!!!');
+        return valret;
+      }
+      var userFriend = userBirthdayFriends[makeUserFriendIdFromFbId(fbId)];
+      userFriend.currentText = userFriend.textList[0];
+      valret = userFriend.currentText;
+      $scope[fbId] = valret;
+      //return valret;
+      return $scope[fbId];
+    };
 
     var makeUserFriendIdFromFbId = function (fbId) {
       return "facebook:" + fbId;
     };
 
-    var addFbFriendsToFriendInfo = function(fbFriendList) {
+    // To store information provided by user on his friends / recipients
+    var userBirthdayFriends = {};
+
+    var addFbFriendsToUserBirthdayFriends = function(fbFriendList) {
       for (var i= 0; i < fbFriendList.length; i++ ) {
-        var key = makeUserFriendIdFromFbId(fbFriendList[i].id);
-        if ( !userFriends[key] ) {
-          userFriends[key] = { 'userFriendId' : key, 'userName' : fbFriendList[i].name };
-          console.log(userFriends[key]);
+        var fbFriend = fbFriendList[i];
+        var key = makeUserFriendIdFromFbId(fbFriend.id);
+        if ( !userBirthdayFriends[key] ) {
+          userBirthdayFriends[key] = { 'userFriendId' : key, 'userName' : fbFriend.name, 'gender' :  fbFriend.gender, 'birthday' : fbFriend.birthday, 'fbId' : fbFriend.id };
+          //console.log(userBirthdayFriends[key]);
         }
       }
     };
 
-
+    var initializeTextListForUserFriends = function (userBirthdayFriends, textList) {
+      for (var key in userBirthdayFriends) {
+        var userFriend = userBirthdayFriends[key];
+        userFriend.textList = textList;
+        userFriend.filters = filterHelperSvc.createEmptyFilters();
+        // TODO : set filters from what we know
+        userFriend.textfilteredTextList = filteredTextsHelperSvc.getFilteredAndOrderedList(textList, currentUser, userFriend.filters.preferredStyles, userFriend.filters);
+        $scope.randomBirthdayTextList[userFriend.fbId] = userFriend.textfilteredTextList[0].Content;
+      }
+    };
 
     // TODO : filters will be durable properties of recipients
     $scope.filters = filterHelperSvc.createEmptyFilters();
@@ -152,6 +175,8 @@ angular.module('app/users/DashboardController', [])
       filterHelperSvc.setRecipientTypeTag($scope.filters,$scope.recipientTypeTag);
       $scope.filterMessageList();
     };
+
+    // Crap below
 
     $scope.randomText = {};
 
