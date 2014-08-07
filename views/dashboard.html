@@ -15,8 +15,10 @@
       Anniversaires
     </div>
 
-    <div ng-repeat="friend in apiNextBirthdayFriends" class="col-xs-6 col-sm-3 text-center" style="margin-top: 10px; margin-top: 30px;">
+    <div ng-repeat="friend in apiNextBirthdayFriends" class="col-xs-12 col-sm-6 col-md-4 text-center" style="margin-top: 10px; margin-top: 30px;">
+      <!-- Name -->
       <div>{{friend.name }}</div>
+      <!-- Birthday and age -->
       <div class="text-info">
         <span ng-show="fbBirthdayHasDayAndMonth(friend.birthday)">{{fbBirthdayToDisplay(friend.birthday)}}</span>
         <span ng-show="fbBirthdayHasDayAndMonth(friend.birthday) && fbBirthdayHasYear(friend.birthday)"> - </span>
@@ -24,6 +26,13 @@
         <span ng-show="fbBirthdayHasYear(friend.birthday)"> </span>
         <span ng-show="fbBirthdayHasYear(friend.birthday)" translate>ans</span>
       </div>
+      <!-- Message -->
+      <!--<div class="well well-lg" ng-hide="editText" style="border-color: #428bca; margin-bottom: 5px; background-color: #FFFFFF;" >-->
+        <!--<span ng-bind-html="getRandomTextFromList()" style="white-space: pre-wrap; height: 300px;;"></span>-->
+      <!--</div>-->
+      <textarea ng-model="randomTextList[friend.id]" style="width:100%; padding: 15px; background-color: #d9edf7" disabled rows="6">
+      </textarea>
+
       <button type="button" ng-click="setCurrentFriend(friend)"  class="btn btn-primary btn-sm">Select</button>
     </div>
   </div>

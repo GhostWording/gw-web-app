@@ -50,6 +50,7 @@ function ($scope, currentText, currentIntention, tagLabelsSvc, $modal,currentRec
 //  };
 
 
+  // TODO : move in helper
   function adaptTextContentToLanguage(text) {
     var valret = text.Content;
     if (HelperSvc.isQuote(currentText)) {
@@ -58,7 +59,6 @@ function ($scope, currentText, currentIntention, tagLabelsSvc, $modal,currentRec
       else
         valret = HelperSvc.insertSpaceInsideAngledQuotes(text.Content);
     }
-//    console.log(valret);
     return valret;
   }
   $scope.txt.Content = adaptTextContentToLanguage(currentText);

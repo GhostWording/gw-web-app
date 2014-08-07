@@ -15,12 +15,45 @@ angular.module('app/users/DashboardController', [])
       $scope.apiNextBirthdayFriends =  facebookSvc.getNextBirthdayFriend();
     },true);
 
+    $scope.randomTextList = {};
+
+    var getRandomTextFromThisList = function(textList) {
+      // TODO : should not do that, should generate random index !!
+      var shuffledList = HelperSvc.shuffleTextIfSortOrderNotLessThan(textList,-1);
+      var valret = '';
+      if ( shuffledList.length > 0  ) {
+        //valret = angular.copy(shuffledList[0]).Content;
+        valret = shuffledList[0];
+      }
+      return valret;
+    };
+
+
+
+    // Il ne marche pas: un autre svp
+    // OK, envoyer
+
+    // Not appropriate / doesnt work : get a better one
+    // Ok, send it
+
     // Birthday message list
     $scope.filteredList = [];
     // Update birthday message filtering
     $scope.filterMessageList = function () {
       // Avoid calling twice when view initializes
       $scope.filteredMessageList = filteredTextsHelperSvc.getFilteredAndOrderedList($scope.textList, currentUser, $scope.filters.preferredStyles,$scope.filters);
+      if ( !! $scope.apiNextBirthdayFriends ) {
+        for (var i = 0; i < $scope.apiNextBirthdayFriends.length; i++ ) {
+          var id = $scope.apiNextBirthdayFriends[i].id;
+          var txt = getRandomTextFromThisList($scope.filteredMessageList);
+          console.log("HelperSvc.isQuote(txt) : " + HelperSvc.isQuote(txt));
+          var content = HelperSvc.isQuote(txt) ? HelperSvc.insertAuthorInText(txt.Content, txt.Author) : txt.Content ;
+          //HelperSvc.insertAuthorInText(txt.Content, txt.Author);
+          //     $scope.txt.Content = HelperSvc.insertAuthorInText($scope.txt.Content, currentText.Author);
+          //$scope.randomTextList[id] = getRandomTextFromThisList($scope.filteredMessageList);
+          $scope.randomTextList[id] = content;
+        }
+      }
     };
     // Initilize full text list and filtered text list
     function prepareBirthdayTextList() {
@@ -51,10 +84,10 @@ angular.module('app/users/DashboardController', [])
 
       if ( !!f.gender ) {
         $scope.filters.recipientGender = facebookHelperSvc.getCVDGenderFromFbGender(f.gender);
-        console.log($scope.filters.recipientGender);
         $scope.filterMessageList();
       }
     };
+
 
     // Set filters for context  property
     $scope.contextStyles = contextStyles.createEmptyListForDashboard();
@@ -84,10 +117,26 @@ angular.module('app/users/DashboardController', [])
       $scope.filterMessageList();
     };
 
+    $scope.randomText = {};
 
-//    if ( currentRecipient ) {
-//      filtersSvc.setRecipientTypeTag(currentRecipient.RecipientTypeId); // Shoud not be reinitialized when we come back from TextDetail view
-//    }
+    $scope.getRandomTextFromList = function() {
+      var shuffledList = HelperSvc.shuffleTextIfSortOrderNotLessThan($scope.filteredMessageList,-1);
+      $scope.txtContent = '';
+      if ( shuffledList.length > 0  ) {
+        $scope.txtContent = angular.copy(shuffledList[0]).Content;
+      }
+      //console.log($scope.txtContent);
+      return $scope.txtContent;
+    };
+
+    var getRandomTextFromList = function(textList) {
+      var shuffledList = HelperSvc.shuffleTextIfSortOrderNotLessThan(textList,-1);
+      var valret = '';
+      if ( shuffledList.length > 0  ) {
+        valret = angular.copy(shuffledList[0]).Content;
+      }
+      return valret;
+    };
 
     // Map date functions
     $scope.fbBirthdayHasDayAndMonth = DateHelperSvc.fbBirthdayHasDayAndMonth;
