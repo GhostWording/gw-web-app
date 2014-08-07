@@ -76,7 +76,6 @@ angular.module('app/users/DashboardController', [])
           var id = $scope.apiNextBirthdayFriends[i].id;
           var txt = getRandomTextFromThisList($scope.filteredMessageList);
           var content = HelperSvc.isQuote(txt) ? HelperSvc.insertAuthorInText(txt.Content, txt.Author) : txt.Content ;
-          $scope.randomBirthdayTextList[id] = content;
         }
       }
     };
@@ -89,7 +88,7 @@ angular.module('app/users/DashboardController', [])
     };
 
 
-var findUserFriendInList = function (listName,fbId) {
+    var findUserFriendInList = function (listName, fbId) {
       var valret = null;
       if (listName != 'birthdayList') {
         console.log('not implemented !!!!!!');
@@ -134,8 +133,9 @@ var findUserFriendInList = function (listName,fbId) {
       return valret;
     };
 
-    var filterUserTextListAndDisplayInfo = function(userFriend,textList) {
-      userFriend.filteredTextList = filteredTextsHelperSvc.getFilteredAndOrderedList(textList, currentUser, userFriend.filters.preferredStyles, userFriend.filters);
+    var filterUserTextListAndDisplayInfo = function(userFriend) {
+//      userFriend.filteredTextList = filteredTextsHelperSvc.getFilteredAndOrderedList(textList, currentUser, userFriend.filters.preferredStyles, userFriend.filters);
+      userFriend.filteredTextList = filteredTextsHelperSvc.getFilteredAndOrderedList(userFriend.textList, currentUser, userFriend.filters.preferredStyles, userFriend.filters);
       $scope.randomBirthdayTextList[userFriend.fbId] = userFriend.filteredTextList[0].Content;
       setUserFriendInfo(userFriend);
     };
@@ -147,16 +147,20 @@ var findUserFriendInList = function (listName,fbId) {
     };
 
     var setUFContextFilterFromName = function (userFriend,contextName,availableContextsStyles) {
-
+      userFriend.ufContext = contextName;
+      var contextStyle = availableContextsStyles.stylesByName[userFriend.ufContext];
+      filterHelperSvc.setContextTypeTag(userFriend.filters,contextStyle);
     };
+    var setUFRecipientTypeFilter = function (userFriend,recipientTypeTag) {
+    filterHelperSvc.setRecipientTypeTag(userFriend.filters,recipientTypeTag);
+    };
+
 
     var setUserFriendContextFilterFromFbFamilyList = function (userFriend,fbFamily,availableContextsStyles) {
       if ( !!fbFamily  ) {
         if (facebookHelperSvc.friendListContainsFriend(fbFamily, userFriend.fbId) ) {
           console.log(userFriend.name + " is family");
-          userFriend.ufContext = "familialContext";
-          var contextStyle = availableContextsStyles.stylesByName[userFriend.ufContext];
-          filterHelperSvc.setContextTypeTag(userFriend.filters,contextStyle);
+          setUFContextFilterFromName (userFriend,"familialContext",availableContextsStyles);
         }
       }
     };
@@ -175,7 +179,7 @@ var findUserFriendInList = function (listName,fbId) {
         // Set context filter to family if friend is in family list
         setUserFriendContextFilterFromFbFamilyList(userFriend,facebookSvc.getCurrentFamily(),contextStyles.createEmptyListForDashboard());
         // Do filter and display
-        filterUserTextListAndDisplayInfo(userFriend,textList);
+        filterUserTextListAndDisplayInfo(userFriend);
       }
     };
 
@@ -184,9 +188,6 @@ var findUserFriendInList = function (listName,fbId) {
 
     // Set filters for recipient gender property
     $scope.setCurrentFriend = function(listName,f) {
-      // new stuff
-      var userFriend = findUserFriendInList (listName, f.id);
-      $scope.currentBirthdayFriend = userFriend;
 
       // old stuff
       $scope.currentFriend = f;
@@ -198,15 +199,21 @@ var findUserFriendInList = function (listName,fbId) {
         console.log(f.name + " is family");
         $scope.currentContextName = "familialContext";
       } else
-        $scope.currentContextName = "";
-
+        $scope.currentContextName = null;
 
       if ( !!f.gender ) {
         $scope.filters.recipientGender = facebookHelperSvc.getCVDGenderFromFbGender(f.gender);
         $scope.filterMessageList();
       }
-    };
 
+      // new stuff
+      var userFriend = findUserFriendInList (listName, f.id);
+      $scope.currentBirthdayFriend = userFriend;
+      $scope.currentContextName = userFriend.ufContext;
+      var contextStyle = $scope.contextStyles.stylesByName[userFriend.ufContext];
+      filterHelperSvc.setContextTypeTag($scope.filters,contextStyle);
+      $scope.filterMessageList();
+    };
 
     // Set filters for context  property
     $scope.contextStyles = contextStyles.createEmptyListForDashboard();
@@ -215,14 +222,19 @@ var findUserFriendInList = function (listName,fbId) {
       filterHelperSvc.setContextTypeTag($scope.filters,contextStyle);
       $scope.filterMessageList();
       updatePossibleRecipients();
-    };
+
+      // New stuff
+      setUFContextFilterFromName ($scope.currentBirthdayFriend,contextStyle.name,$scope.contextStyles);
+      filterUserTextListAndDisplayInfo ($scope.currentBirthdayFriend);
+      };
+
     $scope.isCurrentContextStyle = function (style) {
       return  (style.name ==  $scope.currentContextName);
     };
 
     // Get likely recipient types using know information
     $scope.recipientTypeTag = null;
-    var updatePossibleRecipients = function() {
+    var updatePossibleRecipients = function() { // TODO : userFriends should have possibleRecipients too !!!!!!!!!!!!!
       subscribableRecipientsSvc.getAll().then(function(recipients) {
         $scope.recipients = recipientsHelperSvc.getCompatibleRecipients(recipients,currentUser,$scope.currentFriend,facebookSvc.getCurrentMe(),$scope.currentContextName);
       });
@@ -232,6 +244,11 @@ var findUserFriendInList = function (listName,fbId) {
       $scope.recipientTypeTag = recipientType.RecipientTypeId;
       filterHelperSvc.setRecipientTypeTag($scope.filters,$scope.recipientTypeTag);
       $scope.filterMessageList();
+
+      // New stuff
+      setUFRecipientTypeFilter ($scope.currentBirthdayFriend,$scope.recipientTypeTag);
+      filterUserTextListAndDisplayInfo ($scope.currentBirthdayFriend);
+
     };
 
     // Crap below

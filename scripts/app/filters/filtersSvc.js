@@ -107,7 +107,8 @@ angular.module('app/filters/filtersSvc', [
       },
       setContextTypeTag: function(filters,contextTypeStyle) {
         filters.contexts.clear();
-        filters.contexts.addStyle(contextTypeStyle);
+        if ( !!contextTypeStyle )
+          filters.contexts.addStyle(contextTypeStyle);
 //        console.log("contexts tag set to " + contextTypeStyle);
       },
       setRecipientTypeTag: function(filters,recipientTypeTag) {
