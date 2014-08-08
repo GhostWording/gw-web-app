@@ -2,8 +2,8 @@
 
   <div class="row">
     <div class="col-xs-12 text-center" style="margin-top: 0px; margin-bottom: 0px">
-      <h3><span translate>Opportunités du jour</span></h3>
-      <h4 class="text-info">{{ displayDate }}</h4>
+      <h4><span translate>Opportunités du jour</span></h4>
+      <h5 class="text-info">{{ displayDate }}</h5>
     </div>
 
     <div ng-show="isConnected == false" class="col-xs-12 text-center" style="margin-top: 20px; margin-bottom: 20px">
@@ -15,9 +15,9 @@
       Anniversaires
     </div>
 
-    <div ng-repeat="friend in apiNextBirthdayFriends" class="col-xs-12 col-sm-6 col-md-4 text-center" style="margin-top: 10px; margin-top: 30px;">
+    <div ng-repeat="friend in apiNextBirthdayFriends" class="col-xs-12 col-sm-6 col-md-4 text-center" style="margin-top: 20px;">
       <!-- Name -->
-      <div>{{friend.name }}</div>
+      <div>{{friend.name}}</div>
       <!-- Birthday and age -->
       <div class="text-info">
         <span ng-show="fbBirthdayHasDayAndMonth(friend.birthday)">{{fbBirthdayToDisplay(friend.birthday)}}</span>
@@ -26,15 +26,13 @@
         <span ng-show="fbBirthdayHasYear(friend.birthday)"> </span>
         <span ng-show="fbBirthdayHasYear(friend.birthday)" translate>ans</span>
       </div>
-      <div ng-show="isDebug">-- {{ userFriendInfo[friend.id] }} --</div>
+      <div ng-show="isDebug">{{ userFriendInfo[friend.id] }} texts</div>
       <!-- Message -->
       <!--<div class="well well-lg" ng-hide="editText" style="border-color: #428bca; margin-bottom: 5px; background-color: #FFFFFF;" >-->
         <!--<span ng-bind-html="getRandomTextFromList()" style="white-space: pre-wrap; height: 300px;;"></span>-->
       <!--</div>-->
       <textarea ng-model="randomBirthdayTextList[friend.id]" style="width:100%; padding: 15px; background-color: #d9edf7" disabled rows="6"></textarea>
       <!--<textarea ng-model="randomTextList('birthdayList',friend.id)" style="width:100%; padding: 15px; background-color: #d9edf7" disabled rows="6"></textarea>-->
-
-
       <button type="button" ng-click="setCurrentFriend('birthdayList',friend)"  class="btn btn-primary btn-sm">Select</button>
     </div>
   </div>
@@ -69,30 +67,31 @@
     </div>
   </div>
 
+  <div ng-if="isDebug">
+    <div style="margin-top: 5px">
+      <span>Filtered list : {{ filteredMessageList.length }} textes</span>
+      ...
+      <span>Full list : {{ debugTextList.length }} textes</span>
+    </div>
 
-  <div style="margin-top: 5px">
-    <span>Filtered list : {{ filteredMessageList.length }} textes</span>
-     ...
-    <span>Full list : {{ textList.length }} textes</span>
-  </div>
+    <div class="text-center bg-info" style="margin-top: 10px; margin-bottom: 0px; padding-top: 10px; padding-bottom: 10px;">
+      <div>Filtered list : {{ filteredMessageList.length }} textes</div>
+    </div>
+    <div class="listeTextes" ng-show="true">
+      <div ng-repeat="txt in filteredMessageList">
+        <div cvd-text="txt" ng-class="{active: txt.TextId == selectedTextId}" style="white-space: pre-wrap"></div>
+      </div>
+    </div>
 
-  <div class="text-center bg-info" style="margin-top: 10px; margin-bottom: 0px; padding-top: 10px; padding-bottom: 10px;">
-    <div>Filtered list : {{ filteredMessageList.length }} textes</div>
-  </div>
-  <div class="listeTextes" ng-show="true">
-    <div ng-repeat="txt in filteredMessageList">
-      <div cvd-text="txt" ng-class="{active: txt.TextId == selectedTextId}" style="white-space: pre-wrap"></div>
+    <div class="text-center bg-info"
+         style="margin-top: 10px; margin-bottom: 0px; padding-top: 30px; padding-bottom: 30px;">
+      <div>Full list : {{ debugTextList.length }} textes</div>
+    </div>
+    <div class="listeTextes" ng-show="true">
+      <div ng-repeat="txt in debugTextList">
+        <div cvd-text="txt" ng-class="{active: txt.TextId == selectedTextId}" style="white-space: pre-wrap"></div>
+      </div>
     </div>
   </div>
-
-  <div class="text-center bg-info" style="margin-top: 10px; margin-bottom: 0px; padding-top: 30px; padding-bottom: 30px;">
-    <div>Full list : {{ textList.length }} textes</div>
-  </div>
-  <div class="listeTextes" ng-show="true">
-    <div ng-repeat="txt in textList">
-      <div cvd-text="txt" ng-class="{active: txt.TextId == selectedTextId}" style="white-space: pre-wrap"></div>
-    </div>
-  </div>
-
 
 </div>
