@@ -23,7 +23,7 @@ angular.module('app/users/DashboardController', [])
     $scope.contextStyles = contextStyles.createEmptyListForDashboard();
 
     $scope.isCurrentContextStyle = function (style) {
-      return  (style.name ==  $scope.currentContextName);
+      return style.name == currentUserFriendSvc.getCurrentUserFriendContext();
     };
 
     // Initilize text list for each birthday friend
@@ -46,7 +46,6 @@ angular.module('app/users/DashboardController', [])
       var valret ="";
       valret += userFriend.filteredTextList.length;
       $scope.userFriendInfo[userFriend.fbId] = valret;
-//      $scope.filteredMessageList = userFriend.filteredTextList;
       $scope.randomBirthdayTextList[userFriend.fbId] = userFriend.filteredTextList[0].Content;
       return valret;
     };
@@ -64,7 +63,6 @@ angular.module('app/users/DashboardController', [])
 
     // Set filters for context  property
     $scope.setContextFilterToThis = function (contextStyle) {
-      $scope.currentContextName = contextStyle.name;
       userFriendHelperSvc.setUFriendContextFilter (currentUserFriendSvc.getCurrentUserFriend(),contextStyle.name,$scope.contextStyles,currentUser);
     };
 
@@ -81,12 +79,10 @@ angular.module('app/users/DashboardController', [])
 
     $scope.$watch(function() { return currentUserFriendSvc.getCurrentUserFriend();}, function(userFriend) {
       displayScopeUFriendInfo(userFriend);
-      if ( !!userFriend ) {
-        $scope.currentContextName = userFriend.ufContext;
-      }
     },true);
 
-    $scope.$watch(function() { return $scope.currentContextName;}, function(contextName) {
+    // TODO : should be donne in a userFriend svc
+    $scope.$watch(function() { return currentUserFriendSvc.getCurrentUserFriendContext();}, function(contextName) {
       updatePossibleRecipients(contextName,currentUserFriendSvc.getCurrentUserFriend());
     },true);
 

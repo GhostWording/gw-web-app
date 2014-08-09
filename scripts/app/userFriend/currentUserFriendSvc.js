@@ -11,6 +11,11 @@ function (HelperSvc) {
     },
     getCurrentUserFriend: function () {
       return currentUserFriend;
+    },
+    getCurrentUserFriendContext: function () {
+      if ( !currentUserFriend )
+        return '';
+      return currentUserFriend.ufContext;
     }
   };
 

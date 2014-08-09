@@ -95,10 +95,10 @@ angular.module('app/recipients/subscribableRecipients', [])
   }
 
   var service = {
-    getCompatibleRecipients: function (possibleRecipient, currentUser, fbTargetUser, fbMe, currentContextName) {
+    getCompatibleRecipients: function (possibleRecipients, currentUser, fbTargetUser, fbMe, currentContextName) {
       var retval = [];
-      for (var i = 0; i < possibleRecipient.length; i++ ) {
-        var recipient = possibleRecipient[i];
+      for (var i = 0; i < possibleRecipients.length; i++ ) {
+        var recipient = possibleRecipients[i];
         if ( recipientIsCompatibleWithCurrentUser(recipient,currentUser) === false )
           continue;
         if ( fbTargetUser && recipientIsCompatibleWithFbTarget(recipient, fbTargetUser) === false )

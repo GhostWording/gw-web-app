@@ -18,6 +18,7 @@ angular.module('app/userFriend/userFriendHelperSvc', ['common/services/HelperSvc
       return ufriendList[service.makeUserFriendIdFromFbId(fbId)];
     },
 
+    // TODO : should create userFriend object, then watch for changes on context and on recipient type
     addFbFriendsToUserFriends : function(fbFriendList,uFriendList) {
       for (var i= 0; i < fbFriendList.length; i++ ) {
         var fbFriend = fbFriendList[i];
