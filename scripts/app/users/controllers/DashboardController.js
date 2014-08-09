@@ -15,14 +15,10 @@ angular.module('app/users/DashboardController', [])
     $scope.randomBirthdayTextList = {};
     // Binds to userFriendInfo[fbId] in view : for debug
     $scope.userFriendInfo = {};
-    // Track friend that we act on with global buttons
-    $scope.currentBirthdayFriend = null;
 
     // To store information provided by user on his friends / recipients
     var userBirthdayFriends = {};
 
-    // Filtered birthday message list
-    $scope.filteredList = [];
     // Available context styles
     $scope.contextStyles = contextStyles.createEmptyListForDashboard();
 
@@ -36,8 +32,6 @@ angular.module('app/users/DashboardController', [])
       textsSvc.getListForCurrentArea("happy-birthday").then(function (textList) {
         userFriendHelperSvc.initializeTextListForUserFriends(userBirthdayFriends,textList,contextStyles.createEmptyListForDashboard(),facebookSvc.getCurrentFamily(),currentUser);
         updateUFriendListDisplay(userBirthdayFriends);
-
-        $scope.debugTextList = textList;
           // Check server for newer version in case cache is stale
           // intentionsSvc.invalidateCacheIfNewerServerVersionExists(areasSvc.getCurrentName(),"happy-birthday")
           // Then you may want to update current display (or leave it as it si : cache will be good next time)
@@ -52,7 +46,7 @@ angular.module('app/users/DashboardController', [])
       var valret ="";
       valret += userFriend.filteredTextList.length;
       $scope.userFriendInfo[userFriend.fbId] = valret;
-      $scope.filteredMessageList = userFriend.filteredTextList;
+//      $scope.filteredMessageList = userFriend.filteredTextList;
       $scope.randomBirthdayTextList[userFriend.fbId] = userFriend.filteredTextList[0].Content;
       return valret;
     };
@@ -64,14 +58,14 @@ angular.module('app/users/DashboardController', [])
 
     // Set filters for recipient gender property
     $scope.setCurrentFriend = function(listName,f) {
-      $scope.currentBirthdayFriend = userFriendHelperSvc.findUserFriendInList (listName,userBirthdayFriends, f.id);
-      currentUserFriendSvc.setCurrentUserFriend($scope.currentBirthdayFriend);
+      var uf = userFriendHelperSvc.findUserFriendInList (listName,userBirthdayFriends, f.id);
+      currentUserFriendSvc.setCurrentUserFriend(uf);
     };
 
     // Set filters for context  property
     $scope.setContextFilterToThis = function (contextStyle) {
       $scope.currentContextName = contextStyle.name;
-      userFriendHelperSvc.setUFriendContextFilter ($scope.currentBirthdayFriend,contextStyle.name,$scope.contextStyles,currentUser);
+      userFriendHelperSvc.setUFriendContextFilter (currentUserFriendSvc.getCurrentUserFriend(),contextStyle.name,$scope.contextStyles,currentUser);
     };
 
     // Get likely recipient types using know information
@@ -82,19 +76,18 @@ angular.module('app/users/DashboardController', [])
     };
 
     $scope.setRecipientTypeToThis = function (recipientType) {
-      userFriendHelperSvc.setUFriendRecipientTypeFilter ($scope.currentBirthdayFriend,recipientType.RecipientTypeId,currentUser);
+      userFriendHelperSvc.setUFriendRecipientTypeFilter (currentUserFriendSvc.getCurrentUserFriend(),recipientType.RecipientTypeId,currentUser);
     };
 
-    $scope.$watch(function() { return $scope.currentBirthdayFriend;}, function(UFriend) {
-      displayScopeUFriendInfo(UFriend);
-      if ( !!UFriend ) {
-        $scope.filteredList = UFriend.filteredTextList;
-        $scope.currentContextName = UFriend.ufContext;
+    $scope.$watch(function() { return currentUserFriendSvc.getCurrentUserFriend();}, function(userFriend) {
+      displayScopeUFriendInfo(userFriend);
+      if ( !!userFriend ) {
+        $scope.currentContextName = userFriend.ufContext;
       }
     },true);
 
     $scope.$watch(function() { return $scope.currentContextName;}, function(contextName) {
-      updatePossibleRecipients(contextName,$scope.currentBirthdayFriend);
+      updatePossibleRecipients(contextName,currentUserFriendSvc.getCurrentUserFriend());
     },true);
 
     $scope.$watch(function() { return facebookSvc.isConnected();},function() {

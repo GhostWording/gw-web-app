@@ -7,5 +7,5 @@ angular.module('app/users', [
   'app/users/currentUserLocalData',
   'app/users/SubscriptionController',
   'app/users/DashboardController',
-  'app/users/userFriendHelperSvc'
+//  'app/users/userFriendHelperSvc'
 ]);

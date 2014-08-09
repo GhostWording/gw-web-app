@@ -1,4 +1,4 @@
-angular.module('app/users/userFriendHelperSvc', ['common/services/HelperSvc'])
+angular.module('app/userFriend/userFriendHelperSvc', ['common/services/HelperSvc'])
 
 .factory('userFriendHelperSvc', ['HelperSvc','filterHelperSvc','filteredTextsHelperSvc','facebookHelperSvc',
   function (HelperSvc,filterHelperSvc,filteredTextsHelperSvc,facebookHelperSvc) {
