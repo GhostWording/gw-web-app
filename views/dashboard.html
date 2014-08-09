@@ -1,10 +1,25 @@
 <div action-location="Dashboard">
 
+  <!--<div ui-view="testView">Houba !!</div>-->
+  <!--<div ui-view="sectionList">Houba</div>-->
+  <!--<div ui-view="area.dashboard.friendList">Houboo</div>-->
+
+  <div ng-repeat="section in sectionList">
+    <div ui-view="sectionList"></div>
+  </div>
+
+
   <div class="row">
     <div class="col-xs-12 text-center" style="margin-top: 0px; margin-bottom: 0px">
       <h4><span translate>Opportunités du jour</span></h4>
       <h5 class="text-info">{{ displayDate }}</h5>
     </div>
+
+
+    <!--<div ng-show="isConnected == true" class="col-xs-12 text-center bg-info" style="margin-top: 10px; margin-bottom: 0px; padding-top: 10px; padding-bottom: 10px;" translate>-->
+      <!--Listes-->
+    <!--</div>-->
+    <!---->
 
     <div ng-show="isConnected == false" class="col-xs-12 text-center" style="margin-top: 20px; margin-bottom: 20px">
       <button type="button" ng-click="fbLogin()"  class="btn btn-primary btn-lg">Login facebook</button>

@@ -22,6 +22,9 @@ angular.module('app/users/DashboardController', [])
     // Available context styles
     $scope.contextStyles = contextStyles.createEmptyListForDashboard();
 
+    $scope.sectionList = ['one','two','three'];
+
+
     $scope.isCurrentContextStyle = function (style) {
       return style.name == currentUserFriendSvc.getCurrentUserFriendContext();
     };
