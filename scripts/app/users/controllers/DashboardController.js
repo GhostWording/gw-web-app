@@ -1,6 +1,6 @@
 angular.module('app/users/DashboardController', [])
-.controller('DashboardController', ['$scope', 'ezfb','currentUserLocalData','facebookSvc','currentLanguage','HelperSvc','textsSvc','currentUser','contextStyles','filteredTextsHelperSvc','filterHelperSvc','DateHelperSvc','subscribableRecipientsSvc','recipientsHelperSvc','facebookHelperSvc','intentionsSvc','areasSvc','userFriendHelperSvc',
-  function ($scope, ezfb,currentUserLocalData,facebookSvc,currentLanguage,HelperSvc,textsSvc,currentUser,contextStyles,filteredTextsHelperSvc,filterHelperSvc,DateHelperSvc,subscribableRecipientsSvc,recipientsHelperSvc,facebookHelperSvc,intentionsSvc,areasSvc,userFriendHelperSvc) {
+.controller('DashboardController', ['$scope', 'facebookSvc','HelperSvc','textsSvc','currentUser','contextStyles','filteredTextsHelperSvc','filterHelperSvc','DateHelperSvc','subscribableRecipientsSvc','recipientsHelperSvc','facebookHelperSvc','intentionsSvc','areasSvc','userFriendHelperSvc',
+  function ($scope, facebookSvc,HelperSvc,textsSvc,currentUser,contextStyles,filteredTextsHelperSvc,filterHelperSvc,DateHelperSvc,subscribableRecipientsSvc,recipientsHelperSvc,facebookHelperSvc,intentionsSvc,areasSvc,userFriendHelperSvc) {
     // Date functions
     $scope.fbBirthdayHasDayAndMonth = DateHelperSvc.fbBirthdayHasDayAndMonth;
     $scope.fbBirthdayHasYear        = DateHelperSvc.fbBirthdayHasYear;
@@ -103,7 +103,7 @@ angular.module('app/users/DashboardController', [])
     $scope.$watch(function() { return facebookSvc.getSortedFriendsWithBirthday(); }, function() {
       console.log("facebookSvc.getSortedFriendsWithBirthDay() : " +facebookSvc.getSortedFriendsWithBirthday().length );
       $scope.apiFriendsWithBirthday = facebookSvc.getSortedFriendsWithBirthday();
-      $scope.apiNextBirthdayFriends =  facebookSvc.getNextBirthdayFriend();
+      $scope.apiNextBirthdayFriends =  facebookSvc.getNextBirthdayFriend(3);
       userFriendHelperSvc.addFbFriendsToUserFriends($scope.apiNextBirthdayFriends,userBirthdayFriends);
       prepareBirthdayTextLists();
     },true);

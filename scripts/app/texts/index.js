@@ -6,5 +6,6 @@ angular.module('app/texts', [
   'app/texts/SendTextFormController',
   'app/texts/cvdText',
   'app/texts/filteredTextListSvc',
-  'app/texts/minSortOrderToBeRandomized'
+  'app/texts/minSortOrderToBeRandomized',
+  'app/texts/DebugTextListController'
 ]);
