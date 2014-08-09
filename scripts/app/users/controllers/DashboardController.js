@@ -1,6 +1,6 @@
 angular.module('app/users/DashboardController', [])
-.controller('DashboardController', ['$scope', 'facebookSvc','HelperSvc','textsSvc','currentUser','contextStyles','filteredTextsHelperSvc','filterHelperSvc','DateHelperSvc','subscribableRecipientsSvc','recipientsHelperSvc','facebookHelperSvc','intentionsSvc','areasSvc','userFriendHelperSvc',
-  function ($scope, facebookSvc,HelperSvc,textsSvc,currentUser,contextStyles,filteredTextsHelperSvc,filterHelperSvc,DateHelperSvc,subscribableRecipientsSvc,recipientsHelperSvc,facebookHelperSvc,intentionsSvc,areasSvc,userFriendHelperSvc) {
+.controller('DashboardController', ['$scope', 'facebookSvc','HelperSvc','textsSvc','currentUser','contextStyles','filteredTextsHelperSvc','filterHelperSvc','DateHelperSvc','subscribableRecipientsSvc','recipientsHelperSvc','facebookHelperSvc','intentionsSvc','areasSvc','userFriendHelperSvc','currentUserFriendSvc',
+  function ($scope, facebookSvc,HelperSvc,textsSvc,currentUser,contextStyles,filteredTextsHelperSvc,filterHelperSvc,DateHelperSvc,subscribableRecipientsSvc,recipientsHelperSvc,facebookHelperSvc,intentionsSvc,areasSvc,userFriendHelperSvc,currentUserFriendSvc) {
     // Date functions
     $scope.fbBirthdayHasDayAndMonth = DateHelperSvc.fbBirthdayHasDayAndMonth;
     $scope.fbBirthdayHasYear        = DateHelperSvc.fbBirthdayHasYear;
@@ -65,6 +65,7 @@ angular.module('app/users/DashboardController', [])
     // Set filters for recipient gender property
     $scope.setCurrentFriend = function(listName,f) {
       $scope.currentBirthdayFriend = userFriendHelperSvc.findUserFriendInList (listName,userBirthdayFriends, f.id);
+      currentUserFriendSvc.setCurrentUserFriend($scope.currentBirthdayFriend);
     };
 
     // Set filters for context  property
