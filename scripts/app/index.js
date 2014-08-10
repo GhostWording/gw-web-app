@@ -8,5 +8,6 @@ angular.module('app', [
   'app/users',
   'app/routing',
   'app/favourites',
-  'app/userFriend'
+  'app/userFriend',
+  'app/userDashboard'
 ]);

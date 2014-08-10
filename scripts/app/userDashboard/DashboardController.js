@@ -1,4 +1,4 @@
-angular.module('app/users/DashboardController', [])
+angular.module('app/userDashboard/DashboardController', [])
 .controller('DashboardController', ['$scope', 'facebookSvc','HelperSvc','textsSvc','currentUser','contextStyles','filteredTextsHelperSvc','filterHelperSvc','DateHelperSvc','subscribableRecipientsSvc','recipientsHelperSvc','facebookHelperSvc','intentionsSvc','areasSvc','userFriendHelperSvc','currentUserFriendSvc',
   function ($scope, facebookSvc,HelperSvc,textsSvc,currentUser,contextStyles,filteredTextsHelperSvc,filterHelperSvc,DateHelperSvc,subscribableRecipientsSvc,recipientsHelperSvc,facebookHelperSvc,intentionsSvc,areasSvc,userFriendHelperSvc,currentUserFriendSvc) {
     // Date functions
@@ -22,7 +22,9 @@ angular.module('app/users/DashboardController', [])
     // Available context styles
     $scope.contextStyles = contextStyles.createEmptyListForDashboard();
 
-    $scope.sectionList = ['one','two','three'];
+//    $scope.sectionList = ['one','two','three'];
+    $scope.sectionList =  [ { 'sectionLabel' : 'Anniversaires', 'sectionType' : 'intention', 'sectionTargetId' : 'happy-birthday'},
+                            {'sectionLabel' : 'Fake', 'sectionType' : 'fake', 'sectionTargetId' : 'fake-fake'}  ];
 
 
     $scope.isCurrentContextStyle = function (style) {

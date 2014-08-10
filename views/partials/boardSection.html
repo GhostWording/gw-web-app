@@ -1,0 +1,13 @@
+<div>
+  <div class="row">
+    <!-- Section Title -->
+    <div ng-show="isConnected == true" class="col-xs-12 text-center bg-info" style="margin-top: 10px; margin-bottom: 0px; padding-top: 10px; padding-bottom: 10px;" translate>
+      {{ section.sectionLabel }}
+    </div>
+
+    <!-- Section Posters -->
+    <div ng-repeat = "uf in friendList">
+      <div ui-view = "boardPosterView">zzzz</div>
+    </div>
+  </div>
+</div>

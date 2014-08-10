@@ -81,13 +81,13 @@ angular.module('app/routing', ['ui.router'])
         templateUrl: 'views/dashboard.html',
         controller: 'DashboardController'
       },
-      'sectionList@area.dashboard': {
-        templateUrl: 'views/partials/friendList.html',
-        controller: 'FriendListController'
+      'boardSectionView@area.dashboard': {
+        templateUrl: 'views/partials/boardSection.html',
+        controller: 'BoardSectionController'
       },
-      'friendDetail@area.dashboard': {
-        templateUrl: 'views/partials/friendDetail.html',
-        controller: 'FriendDetailController'
+      'boardPosterView@area.dashboard': {
+        templateUrl: 'views/partials/boardPoster.html',
+        controller: 'BoardPosterController'
       }
     },
 
@@ -95,22 +95,6 @@ angular.module('app/routing', ['ui.router'])
     },
     showTabs: false
   })
-//  .state('area.dashboard.friendList', {
-//    templateUrl: 'views/partials/friendList.html',
-//    controller: 'FriendListController',
-//    views: {
-//      'testView': {
-//        template: 'aaaaaaaa'
-//      },
-//      'area.dashboard.friendList': {
-//        template: 'bbbbbb'
-//      }
-//    },
-//    resolve: {
-//    },
-//    showTabs: false
-//  })
-
     // We might want recipientList, intentionList and text list to be siblings
   .state('area.recipientList', {
     url: '/recipient',
