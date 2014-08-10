@@ -1,3 +1,18 @@
-<div>
- boardPoster  {{ uf }}
+<div class="col-xs-12 col-md-4 text-center" style="margin-top: 20px;">
+  <!-- Name -->
+  <div>{{userFriend.name}}</div>
+  <!-- Birthday and age -->
+  <div class="text-info">
+    <span ng-show="fbBirthdayHasDayAndMonth(userFriend.birthday)">{{fbBirthdayToDisplay(userFriend.birthday)}}</span>
+    <span ng-show="fbBirthdayHasDayAndMonth(userFriend.birthday) && fbBirthdayHasYear(userFriend.birthday)"> - </span>
+    <span ng-show="fbBirthdayHasYear(userFriend.birthday)">{{fbAgeToDisplay(userFriend.birthday)}}</span>
+    <span ng-show="fbBirthdayHasYear(userFriend.birthday)"> </span>
+    <span ng-show="fbBirthdayHasYear(userFriend.birthday)" translate>ans</span>
+  </div>
+  <!-- Debug info -->
+  <div ng-show="isDebug">{{ userFriendInfo }} texts</div>
+  <!-- Message -->
+  <textarea ng-model="posterFullTextList[0].Content" style="width:100%; padding: 15px; background-color: #d9edf7" disabled rows="5"></textarea>
+  <!--<button type="button" ng-click="setCurrentFriend('birthdayList',friend)" class="btn btn-primary btn-sm">Select-->
+  </button>
 </div>

@@ -22,9 +22,12 @@ angular.module('app/userDashboard/DashboardController', [])
     // Available context styles
     $scope.contextStyles = contextStyles.createEmptyListForDashboard();
 
-//    $scope.sectionList = ['one','two','three'];
-    $scope.sectionList =  [ { 'sectionLabel' : 'Anniversaires', 'sectionType' : 'intention', 'sectionTargetId' : 'happy-birthday'},
-                            {'sectionLabel' : 'Fake', 'sectionType' : 'fake', 'sectionTargetId' : 'fake-fake'}  ];
+    // Sections can display one intention for several userFriends, or several intentions for one userFriend
+    $scope.sectionList =  [
+      // For birthday there is a special way of getting relevant userFriends
+      { 'sectionLabel' : 'Anniversaires', 'sectionType' : 'intention', 'sectionTargetId' : 'happy-birthday', 'visible' : true },
+      { 'sectionLabel' : "Connais-tu l'histoire", 'sectionType' : 'intention', 'sectionTargetId' : 'humour', 'friends' : ['507096389','1228231171' ] },
+      { 'sectionLabel' : 'Fake', 'sectionType' : 'fake', 'sectionTargetId' : 'fake'}  ];
 
 
     $scope.isCurrentContextStyle = function (style) {
