@@ -34,8 +34,10 @@
       <!--<a targetType="Command" targetId="UserAge" translate ng-click = "currentUser.age = userAges.under21">{{ '18-20' }}</a></li>-->
     <li ng-class = '{selectionne: currentUser.age==userAges.between18and39}'>
       <a targetType="Command" targetId="UserAge" translate ng-click = "currentUser.age = userAges.between18and39">18-39</a></li>
-    <li ng-class = '{selectionne: currentUser.age==userAges.from40ToInfinity}'>
-      <a targetType="Command" targetId="UserAge" translate ng-click = "currentUser.age = userAges.from40ToInfinity">{{ '40+' }}</a></li>
+    <li ng-class = '{selectionne: currentUser.age==userAges.between40and64}'>
+      <a targetType="Command" targetId="UserAge" translate ng-click = "currentUser.age = userAges.between40and64">{{ '40-64' }}</a></li>
+    <li ng-class = '{selectionne: currentUser.age==userAges.from65ToInfinity}'>
+      <a targetType="Command" targetId="UserAge" translate ng-click = "currentUser.age = userAges.from65ToInfinity">{{ '65+' }}</a></li>
   </ul>
 
 

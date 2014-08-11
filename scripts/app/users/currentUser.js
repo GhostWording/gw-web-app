@@ -13,7 +13,8 @@ angular.module('app/users/currentUser', [
   under18: 'under18',
   under21: 'under21',
   between21and39: 'between21and39',
-  from40ToInfinity: 'from40ToInfinity'
+  between40and64: 'between40and64',
+  from65ToInfinity: 'from65ToInfinity'
 })
 .factory('currentUser', ['$rootScope', '$cookieStore', 'HelperSvc','userAges','DateHelperSvc', function ($rootScope, $cookieStore,HelperSvc,userAges,DateHelperSvc) {
 
