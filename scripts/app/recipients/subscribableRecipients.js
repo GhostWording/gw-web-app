@@ -77,7 +77,7 @@ angular.module('app/recipients/subscribableRecipients', [])
       }
 
 
-      }
+    }
     return valret;
   }
 
@@ -108,6 +108,15 @@ angular.module('app/recipients/subscribableRecipients', [])
         if ( currentContextName &&  possibleRecipientIsCompatibleWithContext(recipient, currentContextName) === false   )
           continue;
         retval.push(recipient);
+      }
+      return retval;
+    },
+    getRecipientById : function(possibleRecipients,id) {
+      var retval = null;
+      for (var i = 0; i < possibleRecipients.length; i++ ) {
+        var recipient = possibleRecipients[i];
+        if ( recipient.Id == id )
+          return recipient;
       }
       return retval;
     }

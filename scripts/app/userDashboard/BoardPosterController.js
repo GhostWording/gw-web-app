@@ -1,6 +1,6 @@
 angular.module('app/userDashboard/BoardPosterController', [])
-.controller('BoardPosterController', ['$scope', 'HelperSvc', 'currentUserFriendSvc','DateHelperSvc','textsSvc','filterHelperSvc','facebookHelperSvc','currentUser','filteredTextsHelperSvc','facebookSvc','intentionsSvc','areasSvc','dashboardContextStyles','$modal',
-  function ($scope, HelperSvc,  currentUserFriendSvc,DateHelperSvc,textsSvc,filterHelperSvc,facebookHelperSvc,currentUser,filteredTextsHelperSvc,facebookSvc,intentionsSvc,areasSvc,dashboardContextStyles,$modal) {
+.controller('BoardPosterController', ['$scope', 'HelperSvc', 'currentUserFriendSvc','DateHelperSvc','textsSvc','filterHelperSvc','facebookHelperSvc','currentUser','filteredTextsHelperSvc','facebookSvc','intentionsSvc','areasSvc','dashboardContextStyles','$modal','recipientsHelperSvc',
+  function ($scope, HelperSvc,  currentUserFriendSvc,DateHelperSvc,textsSvc,filterHelperSvc,facebookHelperSvc,currentUser,filteredTextsHelperSvc,facebookSvc,intentionsSvc,areasSvc,dashboardContextStyles,$modal,recipientsHelperSvc) {
     // Date functions
     $scope.fbBirthdayHasDayAndMonth = DateHelperSvc.fbBirthdayHasDayAndMonth;
     $scope.fbBirthdayHasYear        = DateHelperSvc.fbBirthdayHasYear;
@@ -19,7 +19,20 @@ angular.module('app/userDashboard/BoardPosterController', [])
 
     $scope.setContext = function(contextStyle) {
       $scope.userFriend.ufContext = contextStyle.name;
+      $scope.userFriend.ufRecipientTypeId = null;
       console.log(contextStyle);
+    };
+
+    $scope.setRecipientTypeId = function(id) {
+      $scope.userFriend.ufRecipientTypeId = id;
+    };
+    $scope.getRecipientTypeLabel = function(id) {
+      var valret = "";
+      if ( !! id ) {
+        var recipient = recipientsHelperSvc.getRecipientById($scope.possibleRecipients, id);
+        valret = !!recipient ? recipient.dashLabel : "";
+      }
+      return valret;
     };
 
     var intentionSlug = thisSection.sectionType == 'intention' ? thisSection.sectionTargetId : 'none-for-the-time-being';
@@ -38,15 +51,29 @@ angular.module('app/userDashboard/BoardPosterController', [])
         $scope.posterFilteredTextList = filteredTextsHelperSvc.getFilteredAndOrderedList($scope.posterFullTextList, currentUser, $scope.posterFilters.preferredStyles, $scope.posterFilters);
     }
 
-    function showContextFilters () {
+
+    $scope.showNextQuestion = function () {
+      if (!$scope.userFriend.ufContext)
+        $scope.showContextFilters();
+      else
+        $scope.showRecipientTypes();
+    };
+
+    $scope.showContextFilters = function() {
       $modal.open({
         templateUrl: 'views/partials/posterContextDialog.html',
         scope: $scope,
         controller: 'BoardPosterController'
       });
-    }
+    };
+    $scope.showRecipientTypes = function () {
+      $modal.open({
+        templateUrl: 'views/partials/posterRecipientTypeDialog.html',
+        scope: $scope,
+        controller: 'BoardPosterController'
+      });
+    };
 
-    $scope.askForContext = showContextFilters;
 
     // TODO : we should watch posterFriend filters, then merge them with poster filters if needed
 
@@ -64,16 +91,22 @@ angular.module('app/userDashboard/BoardPosterController', [])
           var contextStyle = dashboardContextStyles.stylesByName[posterFriend.ufContext];
           filterHelperSvc.setContextTypeTag($scope.posterFilters, contextStyle);
         }
+        if ( !! $scope.userFriend.ufRecipientTypeId ) {
+          //RecipientTypeId
+          var recipient = recipientsHelperSvc.getRecipientById($scope.possibleRecipients, $scope.userFriend.ufRecipientTypeId);
+          if ( recipient )
+            filterHelperSvc.setRecipientTypeTag($scope.posterFilters, recipient.RecipientTypeId);
+        }
         // Set Recipient type filter
-        // =>  filterHelperSvc.setRecipientTypeTag($scope.posterFilters, recipientTypeTag);
       }
     },true);
 
 
     // Temporary for testing
-    $scope.$watch(function() { return $scope.dashBoardRecipientType;  }, function() {
-      if ( !! $scope.posterFilters && !! $scope.dashBoardRecipientType  )
-        filterHelperSvc.setRecipientTypeTag($scope.posterFilters, $scope.dashBoardRecipientType.RecipientTypeId);
+    $scope.$watch(function() { return $scope.userFriend.ufContext;  }, function(res) {
+//      if ( !! $scope.posterFilters && !! $scope.dashBoardRecipientType  )
+//        filterHelperSvc.setRecipientTypeTag($scope.posterFilters, $scope.dashBoardRecipientType.RecipientTypeId);
+      $scope.compatibleRecipients = recipientsHelperSvc.getCompatibleRecipients($scope.possibleRecipients,currentUser,$scope.userFriend,facebookSvc.getCurrentMe(),res);
     },true);
 
     $scope.$watch(function() { return $scope.posterFullTextList;},function() {

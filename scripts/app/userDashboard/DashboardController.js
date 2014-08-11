@@ -22,6 +22,7 @@ angular.module('app/userDashboard/DashboardController', [])
 //    $scope.contextStyles = contextStyles.createEmptyListForDashboard();
     $scope.contextStyles = dashboardContextStyles;
 
+
     // Sections can display one intention for several userFriends, or several intentions for one userFriend
     $scope.sectionList =  [
       // For birthday there is a special way of getting relevant userFriends

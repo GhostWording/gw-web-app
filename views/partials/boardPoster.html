@@ -11,12 +11,14 @@
     <span ng-show="fbBirthdayHasYear(userFriend.birthday)"> </span>
     <span ng-show="fbBirthdayHasYear(userFriend.birthday)" translate>ans</span>
     <!--<span class="label label-default" style="margin-left: 5px;" >{{ userFriend.ufContext | translate }}</span>-->
-    <button class="button btn btn-default btn-xs" ng-show = "userFriend.ufContext" ng-click="askForContext()"
+    <button class="button btn btn-default btn-xs" ng-show = "userFriend.ufContext" ng-click="showContextFilters()"
             style="margin-left: 5px;" >{{ userFriend.ufContext | translate }}</button>
+    <button class="button btn btn-default btn-xs" ng-show = "userFriend.ufRecipientTypeId" ng-click="showRecipientTypes()"
+            style="margin-left: 5px;" >{{ getRecipientTypeLabel(userFriend.ufRecipientTypeId) | translate }}</button>
   </div>
   <!-- Debug info -->
   <div ng-show="isDebug">{{ userFriendInfo }} texts</div>
   <!-- Message -->
   <textarea ng-model="posterFullTextList[0].Content" style="width:100%; padding: 15px; margin-bottom: 5px; background-color: #d9edf7" disabled rows="5"></textarea>
-  <button type="button" ng-click="askForContext()" class="btn btn-primary btn-sm">Améliorer</button>
+  <button type="button" ng-click="showNextQuestion()" class="btn btn-primary btn-sm">Améliorer</button>
 </div>
