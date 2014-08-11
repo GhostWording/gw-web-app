@@ -18,7 +18,6 @@ angular.module('app/userDashboard/DashboardController', [])
 
     // To store information provided by user on his friends / recipients
     var userBirthdayFriends = {};
-
     // Available context styles
     $scope.contextStyles = contextStyles.createEmptyListForDashboard();
 
@@ -40,11 +39,6 @@ angular.module('app/userDashboard/DashboardController', [])
       textsSvc.getListForCurrentArea("happy-birthday").then(function (textList) {
         userFriendHelperSvc.initializeTextListForUserFriends(userBirthdayFriends,textList,contextStyles.createEmptyListForDashboard(),facebookSvc.getCurrentFamily(),currentUser);
         updateUFriendListDisplay(userBirthdayFriends);
-          // Check server for newer version in case cache is stale
-          // intentionsSvc.invalidateCacheIfNewerServerVersionExists(areasSvc.getCurrentName(),"happy-birthday")
-          // Then you may want to update current display (or leave it as it si : cache will be good next time)
-         //  .then(function(shouldReload){  if (shouldReload)  // refresh texts     });
-
       });
     }
 
@@ -67,6 +61,7 @@ angular.module('app/userDashboard/DashboardController', [])
     $scope.setCurrentFriend = function(listName,f) {
       var uf = userFriendHelperSvc.findUserFriendInList (listName,userBirthdayFriends, f.id);
       currentUserFriendSvc.setCurrentUserFriend(uf);
+      $scope.currentBirthdayFriend = uf;
     };
 
     // Set filters for context  property
@@ -97,14 +92,34 @@ angular.module('app/userDashboard/DashboardController', [])
     $scope.$watch(function() { return facebookSvc.isConnected();},function() {
       $scope.isConnected = facebookSvc.isConnected();
     },true);
-    // Refresh birthday friends when they facebook service changes them
-    $scope.$watch(function() { return facebookSvc.getSortedFriendsWithBirthday(); }, function() {
-      console.log("facebookSvc.getSortedFriendsWithBirthDay() : " +facebookSvc.getSortedFriendsWithBirthday().length );
-      $scope.apiFriendsWithBirthday = facebookSvc.getSortedFriendsWithBirthday();
-      $scope.apiNextBirthdayFriends =  facebookSvc.getNextBirthdayFriend(3);
-      userFriendHelperSvc.addFbFriendsToUserFriends($scope.apiNextBirthdayFriends,userBirthdayFriends);
+    // Refresh facebook birthday friends when  facebook service changes them
+    $scope.$watch(function() { return facebookSvc.getSortedFriendsWithBirthday(); }, function(data) {
+      console.log("facebookSvc.getSortedFriendsWithBirthDay() : " +data.length );
+      $scope.apiFriendsWithBirthday = data;
+
+      var birthdayFriend =  facebookSvc.getNextBirthdayFriends(facebookSvc.getCurrentFriends(),3);
+      $scope.apiNextBirthdayFriends = birthdayFriend;
+      userFriendHelperSvc.addFbFriendsToUserFriends(birthdayFriend,userBirthdayFriends);
       prepareBirthdayTextLists();
     },true);
+
+    // Refresh user birthday friends when  facebook service changes them
+    $scope.$watch(function() { return facebookSvc.getCurrentFriends(); }, function(res) {
+      console.log("facebookSvc.getCurrentFriends() : " +res.length );
+      $scope.allFbFriends =  res;
+      $scope.allUserFriends = {};
+      userFriendHelperSvc.addFbFriendsToUserFriends($scope.allFbFriends,$scope.allUserFriends);
+      $scope.birthDayUserFriends = userFriendHelperSvc.getNextBirthdayFriends($scope.allUserFriends,3);
+      console.log($scope.birthDayUserFriends);
+    },true);
+
+    // TODO : watch for current familly : if not present in user friends, add them  (will be usefull for when common friends are not available from facebook),
+
+    $scope.$watch(function() { return facebookSvc.getCurrentFamily(); }, function(res) {
+      console.log("facebookSvc.getCurrentFamily() : " +res.length );
+      userFriendHelperSvc.addFamilyMembersOrUpdateFamilialContext(res,$scope.allUserFriends);
+    },true);
+
 
   }]);
 

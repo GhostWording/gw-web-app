@@ -10,6 +10,7 @@ angular.module('app/userDashboard/BoardPosterController', [])
 
     var thisSection = $scope.section;
     var posterFriend = $scope.userFriend;
+
     //console.log("Section : " + thisSection.sectionLabel + " friend " + thisFriend.name);
     $scope.posterFullTextList = [];
     $scope.posterFilteredTextList = [];
@@ -51,6 +52,8 @@ angular.module('app/userDashboard/BoardPosterController', [])
       valret += $scope.posterFilteredTextList.length;
       valret += " / ";
       valret += $scope.posterFullTextList.length;
+      if ( posterFriend.ufContext == 'familialContext' )
+        valret += " F";
       $scope.userFriendInfo = valret;
     };
 
@@ -61,14 +64,6 @@ angular.module('app/userDashboard/BoardPosterController', [])
       if (!!gender)
         retval.recipientGender = facebookHelperSvc.getCVDGenderFromFbGender(gender);
       return retval;
-    }
-
-    var fbFamilyList = facebookSvc.getCurrentFamily();
-    if (facebookHelperSvc.friendListContainsFriend(fbFamilyList, posterFriend.fbId)) {
-      console.log(posterFriend.name + " is family ++");
-      posterFriend.ufContext = "familialContext";
-      var contextStyle = contextStyles.createEmptyListForDashboard().stylesByName[posterFriend.ufContext];
-      filterHelperSvc.setContextTypeTag($scope.posterFilters, contextStyle);
     }
 
   }]);
