@@ -1,6 +1,6 @@
 angular.module('app/userDashboard/DashboardController', [])
-.controller('DashboardController', ['$scope', 'facebookSvc','HelperSvc','textsSvc','currentUser','contextStyles','filteredTextsHelperSvc','filterHelperSvc','DateHelperSvc','subscribableRecipientsSvc','recipientsHelperSvc','facebookHelperSvc','intentionsSvc','areasSvc','userFriendHelperSvc','currentUserFriendSvc',
-  function ($scope, facebookSvc,HelperSvc,textsSvc,currentUser,contextStyles,filteredTextsHelperSvc,filterHelperSvc,DateHelperSvc,subscribableRecipientsSvc,recipientsHelperSvc,facebookHelperSvc,intentionsSvc,areasSvc,userFriendHelperSvc,currentUserFriendSvc) {
+.controller('DashboardController', ['$scope', 'facebookSvc','HelperSvc','textsSvc','currentUser','contextStyles','filteredTextsHelperSvc','filterHelperSvc','DateHelperSvc','subscribableRecipientsSvc','recipientsHelperSvc','facebookHelperSvc','intentionsSvc','areasSvc','userFriendHelperSvc','currentUserFriendSvc','dashboardContextStyles',
+  function ($scope, facebookSvc,HelperSvc,textsSvc,currentUser,contextStyles,filteredTextsHelperSvc,filterHelperSvc,DateHelperSvc,subscribableRecipientsSvc,recipientsHelperSvc,facebookHelperSvc,intentionsSvc,areasSvc,userFriendHelperSvc,currentUserFriendSvc,dashboardContextStyles) {
     // Date functions
     $scope.fbBirthdayHasDayAndMonth = DateHelperSvc.fbBirthdayHasDayAndMonth;
     $scope.fbBirthdayHasYear        = DateHelperSvc.fbBirthdayHasYear;
@@ -19,7 +19,8 @@ angular.module('app/userDashboard/DashboardController', [])
     // To store information provided by user on his friends / recipients
     var userBirthdayFriends = {};
     // Available context styles
-    $scope.contextStyles = contextStyles.createEmptyListForDashboard();
+//    $scope.contextStyles = contextStyles.createEmptyListForDashboard();
+    $scope.contextStyles = dashboardContextStyles;
 
     // Sections can display one intention for several userFriends, or several intentions for one userFriend
     $scope.sectionList =  [
@@ -27,6 +28,12 @@ angular.module('app/userDashboard/DashboardController', [])
       { 'sectionLabel' : 'Anniversaires', 'sectionType' : 'intention', 'sectionTargetId' : 'happy-birthday', 'visible' : true },
       { 'sectionLabel' : "Connais-tu l'histoire", 'sectionType' : 'intention', 'sectionTargetId' : 'humour', 'friends' : ['507096389','1228231171' ] },
       { 'sectionLabel' : 'Fake', 'sectionType' : 'fake', 'sectionTargetId' : 'fake'}  ];
+
+
+    subscribableRecipientsSvc.getAll().then(function(recipients) {
+      $scope.possibleRecipients = recipients;
+    });
+
 
 
     $scope.isCurrentContextStyle = function (style) {
@@ -37,7 +44,8 @@ angular.module('app/userDashboard/DashboardController', [])
     function prepareBirthdayTextLists() {
       // Get promise from cache or server
       textsSvc.getListForCurrentArea("happy-birthday").then(function (textList) {
-        userFriendHelperSvc.initializeTextListForUserFriends(userBirthdayFriends,textList,contextStyles.createEmptyListForDashboard(),facebookSvc.getCurrentFamily(),currentUser);
+        userFriendHelperSvc.initializeTextListForUserFriends(userBirthdayFriends,textList,dashboardContextStyles,facebookSvc.getCurrentFamily(),currentUser);
+
         updateUFriendListDisplay(userBirthdayFriends);
       });
     }
@@ -78,6 +86,7 @@ angular.module('app/userDashboard/DashboardController', [])
 
     $scope.setRecipientTypeToThis = function (recipientType) {
       userFriendHelperSvc.setUFriendRecipientTypeFilter (currentUserFriendSvc.getCurrentUserFriend(),recipientType.RecipientTypeId,currentUser);
+      $scope.dashBoardRecipientType = recipientType;
     };
 
     $scope.$watch(function() { return currentUserFriendSvc.getCurrentUserFriend();}, function(userFriend) {

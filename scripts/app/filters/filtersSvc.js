@@ -117,7 +117,7 @@ angular.module('app/filters/filtersSvc', [
       },
 
 
-      //contexts
+      // should be able to do the same with userFriends
       setFilterValuesForRecipient: function (recipient,filters) {
         if (!recipient)
           return;
