@@ -11,10 +11,9 @@ angular.module('app/userDashboard/BoardPosterController', [])
     var thisSection = $scope.section;
     var posterFriend = $scope.userFriend;
 
-    //console.log("Section : " + thisSection.sectionLabel + " friend " + thisFriend.name);
     $scope.posterFullTextList = [];
     $scope.posterFilteredTextList = [];
-    $scope.posterFilters = null; //= filterHelperSvc.createEmptyFilters();//initializeFiltersForPoster(posterFriend.gender);
+    $scope.posterFilters = null;
     $scope.contextStyles = dashboardContextStyles;
 
     $scope.setContext = function(contextStyle) {
@@ -46,11 +45,6 @@ angular.module('app/userDashboard/BoardPosterController', [])
          $scope.posterFullTextList = newTextList;}); } });
     });
 
-    function filterPosterTextList() {
-      if ( $scope.posterFullTextList.length > 0 && !! $scope.posterFilters )
-        $scope.posterFilteredTextList = filteredTextsHelperSvc.getFilteredAndOrderedList($scope.posterFullTextList, currentUser, $scope.posterFilters.preferredStyles, $scope.posterFilters);
-    }
-
 
     $scope.showNextQuestion = function () {
       if (!$scope.userFriend.ufContext)
@@ -74,52 +68,54 @@ angular.module('app/userDashboard/BoardPosterController', [])
       });
     };
 
-
-    // TODO : we should watch posterFriend filters, then merge them with poster filters if needed
-
+    // When user friend property change : update filters
     $scope.$watch(function() { return posterFriend;},function(res) {
       // When user friend property change, initialize poster filters
       if ( ! $scope.posterFilters )
         $scope.posterFilters = filterHelperSvc.createEmptyFilters();
-      if ( posterFriend ) {
+      if ( res ) {
         // Set gender filter
-        if ( posterFriend.gender)
-          $scope.posterFilters.recipientGender = facebookHelperSvc.getCVDGenderFromFbGender(posterFriend.gender);
+        if ( res.gender)
+          $scope.posterFilters.recipientGender = facebookHelperSvc.getCVDGenderFromFbGender(res.gender);
         // Set context filter
-        if ( !! posterFriend.ufContext ) {
+        if ( !! res.ufContext ) {
           //var availableContextsStyles = dashboardContextStyles;
-          var contextStyle = dashboardContextStyles.stylesByName[posterFriend.ufContext];
+          var contextStyle = dashboardContextStyles.stylesByName[res.ufContext];
           filterHelperSvc.setContextTypeTag($scope.posterFilters, contextStyle);
         }
-        if ( !! $scope.userFriend.ufRecipientTypeId ) {
-          //RecipientTypeId
-          var recipient = recipientsHelperSvc.getRecipientById($scope.possibleRecipients, $scope.userFriend.ufRecipientTypeId);
+        if ( !! res.ufRecipientTypeId ) {
+          var recipient = recipientsHelperSvc.getRecipientById($scope.possibleRecipients, res.ufRecipientTypeId);
           if ( recipient )
             filterHelperSvc.setRecipientTypeTag($scope.posterFilters, recipient.RecipientTypeId);
         }
-        // Set Recipient type filter
       }
     },true);
 
+    // Filter text list
+    function filterPosterTextList() {
+      if ( $scope.posterFullTextList.length > 0 && !! $scope.posterFilters )
+        $scope.posterFilteredTextList = filteredTextsHelperSvc.getFilteredAndOrderedList($scope.posterFullTextList, currentUser, $scope.posterFilters.preferredStyles, $scope.posterFilters);
+    }
 
-    // Temporary for testing
+    // When user context changes : update compatible recipient types
     $scope.$watch(function() { return $scope.userFriend.ufContext;  }, function(res) {
-//      if ( !! $scope.posterFilters && !! $scope.dashBoardRecipientType  )
-//        filterHelperSvc.setRecipientTypeTag($scope.posterFilters, $scope.dashBoardRecipientType.RecipientTypeId);
       $scope.compatibleRecipients = recipientsHelperSvc.getCompatibleRecipients($scope.possibleRecipients,currentUser,$scope.userFriend,facebookSvc.getCurrentMe(),res);
     },true);
 
+    // When text list changes : filter text list
     $scope.$watch(function() { return $scope.posterFullTextList;},function() {
       filterPosterTextList();
       setUserFrienInfo();
     },true);
 
+    // When filters change : filter text list
     $scope.$watch(function() { return $scope.posterFilters;},function() {
       filterPosterTextList();
       setUserFrienInfo();
     },true);
 
 
+    // Debug info
     var setUserFrienInfo = function() {
       var valret = "";
       valret ="";
