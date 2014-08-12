@@ -120,7 +120,7 @@ angular.module('app/userDashboard/DashboardController', [])
       $scope.allUserFriends = {};
       userFriendHelperSvc.addFbFriendsToUserFriends($scope.allFbFriends,$scope.allUserFriends);
       $scope.birthDayUserFriends = userFriendHelperSvc.getNextBirthdayFriends($scope.allUserFriends,3);
-      console.log($scope.birthDayUserFriends);
+      //console.log($scope.birthDayUserFriends);
     },true);
 
     // TODO : watch for current familly : if not present in user friends, add them  (will be usefull for when common friends are not available from facebook),
