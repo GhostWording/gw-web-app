@@ -1,6 +1,6 @@
 angular.module('app/userDashboard/BoardPosterController', [])
-.controller('BoardPosterController', ['$scope',  'DateHelperSvc','currentUser','facebookSvc','$modal','recipientsHelperSvc','subscribableRecipientsSvc','userFriendHelperSvc','boardPosterHelperSvc',
-  function ($scope,  DateHelperSvc,currentUser,facebookSvc,$modal,recipientsHelperSvc,subscribableRecipientsSvc,userFriendHelperSvc,boardPosterHelperSvc) {
+.controller('BoardPosterController', ['$scope',  'DateHelperSvc','$modal', 'userFriendHelperSvc','boardPosterHelperSvc','currentBoardPosterSvc',
+  function ($scope, DateHelperSvc,$modal,userFriendHelperSvc,boardPosterHelperSvc,currentBoardPosterSvc) {
 
     // Initialize : most properties will be set by the $watch functions
     $scope.poster = {'fullTextList' : [], 'filteredTextList' : [], 'filters' : null, 'userFriend' : $scope.userFriend, 'section' : $scope.section  };
@@ -8,13 +8,19 @@ angular.module('app/userDashboard/BoardPosterController', [])
     // Fetch text list to display from cache or server
     boardPosterHelperSvc.setPosterTextList($scope.poster);
 
+
+    $scope.setCurrentPoster = function() {
+      currentBoardPosterSvc.setCurrentPoster($scope.poster);
+    };
+
     // Date functions
     $scope.DateHelperSvc = DateHelperSvc;
     $scope.displayDate   = DateHelperSvc.localDisplayDateWithMonth(new Date());
 
     // Get / Set functions
     $scope.setContext = function(contextStyle) {
-      userFriendHelperSvc.setUFriendContextName($scope.poster.userFriend,contextStyle.name);};
+      userFriendHelperSvc.setUFriendContextName($scope.poster.userFriend,contextStyle.name);
+    };
     $scope.setRecipientTypeId = function(id) { $scope.poster.userFriend.ufRecipientTypeId = id; };
     $scope.getRecipientTypeLabel = function(id) { return boardPosterHelperSvc.getRecipientTypeLabel(id); };
     $scope.getUserFriendInfo = function() { return boardPosterHelperSvc.getPosterDebugInfo($scope.poster); };
@@ -25,9 +31,11 @@ angular.module('app/userDashboard/BoardPosterController', [])
     };
     $scope.showContextFilters = function() {
       $modal.open({ templateUrl: 'views/partials/posterContextDialog.html', scope: $scope,controller: 'BoardPosterController'});
+      currentBoardPosterSvc.setCurrentPoster($scope.poster);
     };
     $scope.showRecipientTypes = function () {
       $modal.open({ templateUrl: 'views/partials/posterRecipientTypeDialog.html',scope: $scope,controller: 'BoardPosterController'});
+      currentBoardPosterSvc.setCurrentPoster($scope.poster);
     };
 
     // Update poster filtered text list
