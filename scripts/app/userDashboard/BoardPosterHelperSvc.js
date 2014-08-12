@@ -1,7 +1,7 @@
 angular.module('app/userDashboard/boardPosterHelperSvc', ['app/texts'])
 
-.factory('boardPosterHelperSvc', ['textsSvc','intentionsSvc','areasSvc','filterHelperSvc','recipientsHelperSvc','facebookHelperSvc','subscribableRecipientsSvc','dashboardContextStyles',
-function (textsSvc,intentionsSvc,areasSvc,filterHelperSvc,recipientsHelperSvc,facebookHelperSvc,subscribableRecipientsSvc,dashboardContextStyles) {
+.factory('boardPosterHelperSvc', ['textsSvc','intentionsSvc','areasSvc','filterHelperSvc','recipientsHelperSvc','facebookSvc','facebookHelperSvc','subscribableRecipientsSvc','dashboardContextStyles','filteredTextsHelperSvc','currentUser',
+function (textsSvc,intentionsSvc,areasSvc,filterHelperSvc,recipientsHelperSvc,facebookSvc,facebookHelperSvc,subscribableRecipientsSvc,dashboardContextStyles,filteredTextsHelperSvc,currentUser) {
 
   var service = {
     // Get poster text list from cache or server for the poster section intention
@@ -32,7 +32,6 @@ function (textsSvc,intentionsSvc,areasSvc,filterHelperSvc,recipientsHelperSvc,fa
           poster.filters.recipientGender = facebookHelperSvc.getCVDGenderFromFbGender(poster.userFriend.gender);
         // Set context filter
         if ( !! poster.userFriend.ufContext ) {
-          //var availableContextsStyles = dashboardContextStyles;
           var contextStyle = dashboardContextStyles.stylesByName[poster.userFriend.ufContext];
           filterHelperSvc.setContextTypeTag(poster.filters, contextStyle);
         }
@@ -51,9 +50,22 @@ function (textsSvc,intentionsSvc,areasSvc,filterHelperSvc,recipientsHelperSvc,fa
         valret = !!recipient ? recipient.dashLabel : "";
       }
       return valret;
+    },
+    updateFilteredList: function(poster) {
+      if ( poster.fullTextList.length > 0 && !! poster.filters )
+        poster.filteredTextList = filteredTextsHelperSvc.getFilteredAndOrderedList(poster.fullTextList, currentUser, poster.filters.preferredStyles, poster.filters);
+    },
+    getCompatibleRecipients: function(poster) {
+      return recipientsHelperSvc.getCompatibleRecipients(subscribableRecipientsSvc.getAllPossibleRecipientsNow(),currentUser,poster.userFriend,facebookSvc.getCurrentMe(),poster.userFriend.ufContext);
+    },
+    getPosterDebugInfo: function (poster) {
+      var valret = "";
+      valret = "";
+      valret += poster.filteredTextList.length;
+      valret += " / ";
+      valret += poster.fullTextList.length;
+      return valret;
     }
-
-
 
   };
 

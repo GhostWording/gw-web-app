@@ -1,77 +1,48 @@
 angular.module('app/userDashboard/BoardPosterController', [])
-.controller('BoardPosterController', ['$scope',  'DateHelperSvc','currentUser','filteredTextsHelperSvc','facebookSvc','$modal','recipientsHelperSvc','subscribableRecipientsSvc','userFriendHelperSvc','boardPosterHelperSvc',
-  function ($scope,  DateHelperSvc,currentUser,filteredTextsHelperSvc,facebookSvc,$modal,recipientsHelperSvc,subscribableRecipientsSvc,userFriendHelperSvc,boardPosterHelperSvc) {
+.controller('BoardPosterController', ['$scope',  'DateHelperSvc','currentUser','facebookSvc','$modal','recipientsHelperSvc','subscribableRecipientsSvc','userFriendHelperSvc','boardPosterHelperSvc',
+  function ($scope,  DateHelperSvc,currentUser,facebookSvc,$modal,recipientsHelperSvc,subscribableRecipientsSvc,userFriendHelperSvc,boardPosterHelperSvc) {
+
+    // Initialize : most properties will be set by the $watch functions
+    $scope.poster = {'fullTextList' : [], 'filteredTextList' : [], 'filters' : null, 'userFriend' : $scope.userFriend, 'section' : $scope.section  };
+
+    // Fetch text list to display from cache or server
+    boardPosterHelperSvc.setPosterTextList($scope.poster);
+
     // Date functions
     $scope.DateHelperSvc = DateHelperSvc;
     $scope.displayDate   = DateHelperSvc.localDisplayDateWithMonth(new Date());
 
-    $scope.poster = {'fullTextList' : [], 'filteredTextList' : [], 'filters' : null, 'userFriend' : $scope.userFriend, 'section' : $scope.section  };
-
+    // Get / Set functions
     $scope.setContext = function(contextStyle) {
-      userFriendHelperSvc.setUFriendContextName($scope.poster.userFriend,contextStyle.name);
-    };
-    $scope.setRecipientTypeId = function(id) {
-      $scope.poster.userFriend.ufRecipientTypeId = id;
-    };
-    $scope.getRecipientTypeLabel = function(id) {
-      return boardPosterHelperSvc.getRecipientTypeLabel(id);
-    };
+      userFriendHelperSvc.setUFriendContextName($scope.poster.userFriend,contextStyle.name);};
+    $scope.setRecipientTypeId = function(id) { $scope.poster.userFriend.ufRecipientTypeId = id; };
+    $scope.getRecipientTypeLabel = function(id) { return boardPosterHelperSvc.getRecipientTypeLabel(id); };
+    $scope.getUserFriendInfo = function() { return boardPosterHelperSvc.getPosterDebugInfo($scope.poster); };
 
-    // Get text list for poster intention from cache or server
-    boardPosterHelperSvc.setPosterTextList($scope.poster);
-
+    // Show modal dialogs
     $scope.showNextQuestion = function () {
-      if (!$scope.poster.userFriend.ufContext)
-        $scope.showContextFilters();
-      else
-        $scope.showRecipientTypes();
+      if (!$scope.poster.userFriend.ufContext) $scope.showContextFilters(); else $scope.showRecipientTypes();
     };
-
     $scope.showContextFilters = function() {
-      $modal.open({
-        templateUrl: 'views/partials/posterContextDialog.html',
-        scope: $scope,
-        controller: 'BoardPosterController'
-      });
+      $modal.open({ templateUrl: 'views/partials/posterContextDialog.html', scope: $scope,controller: 'BoardPosterController'});
     };
     $scope.showRecipientTypes = function () {
-      $modal.open({
-        templateUrl: 'views/partials/posterRecipientTypeDialog.html',
-        scope: $scope,
-        controller: 'BoardPosterController'
-      });
+      $modal.open({ templateUrl: 'views/partials/posterRecipientTypeDialog.html',scope: $scope,controller: 'BoardPosterController'});
     };
+
+    // Update poster filtered text list
+    function filterPosterTextList() { boardPosterHelperSvc.updateFilteredList($scope.poster); }
 
     // When poster user friend properties change : update poster filters
-    $scope.$watch(function() { return $scope.poster.userFriend;},function(res) {
-      boardPosterHelperSvc.setPosterFilters($scope.poster);
-    },true);
-
-    // Filter text list
-    function filterPosterTextList() {
-      if ( $scope.poster.fullTextList.length > 0 && !! $scope.poster.filters )
-        $scope.poster.filteredTextList = filteredTextsHelperSvc.getFilteredAndOrderedList($scope.poster.fullTextList, currentUser, $scope.poster.filters.preferredStyles, $scope.poster.filters);
-    }
-
+    $scope.$watch(function() { return $scope.poster.userFriend;},function() {
+      boardPosterHelperSvc.setPosterFilters($scope.poster); },true);
     // When user context changes : update compatible recipient types
-    $scope.$watch(function() { return $scope.poster.userFriend.ufContext;  }, function(res) {
-      $scope.compatibleRecipients = recipientsHelperSvc.getCompatibleRecipients(subscribableRecipientsSvc.getAllPossibleRecipientsNow(),currentUser,$scope.poster.userFriend,facebookSvc.getCurrentMe(),res);
+    $scope.$watch(function() { return $scope.poster.userFriend.ufContext;  }, function() {
+      $scope.posterCompatibleRecipients = boardPosterHelperSvc.getCompatibleRecipients($scope.poster);
     },true);
-
     // When text list changes : filter text list
     $scope.$watch(function() { return $scope.poster.fullTextList;},function() { filterPosterTextList(); },true);
-
     // When filters change : filter text list
     $scope.$watch(function() { return $scope.poster.filters;},function() { filterPosterTextList(); },true);
-
-    // Debug info
-    $scope.getUserFriendInfo = function() {
-      var valret = "";
-      valret ="";
-      valret += $scope.poster.filteredTextList.length;
-      valret += " / ";
-      valret += $scope.poster.fullTextList.length;
-      return valret;
-    };
 
   }]);
