@@ -1,6 +1,6 @@
 angular.module('app/userDashboard/BoardPosterController', [])
-.controller('BoardPosterController', ['$scope', 'HelperSvc', 'currentUserFriendSvc','DateHelperSvc','textsSvc','filterHelperSvc','facebookHelperSvc','currentUser','filteredTextsHelperSvc','facebookSvc','intentionsSvc','areasSvc','dashboardContextStyles','$modal','recipientsHelperSvc','subscribableRecipientsSvc','userFriendHelperSvc',
-  function ($scope, HelperSvc,  currentUserFriendSvc,DateHelperSvc,textsSvc,filterHelperSvc,facebookHelperSvc,currentUser,filteredTextsHelperSvc,facebookSvc,intentionsSvc,areasSvc,dashboardContextStyles,$modal,recipientsHelperSvc,subscribableRecipientsSvc,userFriendHelperSvc) {
+.controller('BoardPosterController', ['$scope',  'DateHelperSvc','currentUser','filteredTextsHelperSvc','facebookSvc','$modal','recipientsHelperSvc','subscribableRecipientsSvc','userFriendHelperSvc','boardPosterHelperSvc',
+  function ($scope,  DateHelperSvc,currentUser,filteredTextsHelperSvc,facebookSvc,$modal,recipientsHelperSvc,subscribableRecipientsSvc,userFriendHelperSvc,boardPosterHelperSvc) {
     // Date functions
     $scope.DateHelperSvc = DateHelperSvc;
     $scope.displayDate   = DateHelperSvc.localDisplayDateWithMonth(new Date());
@@ -14,26 +14,11 @@ angular.module('app/userDashboard/BoardPosterController', [])
       $scope.poster.userFriend.ufRecipientTypeId = id;
     };
     $scope.getRecipientTypeLabel = function(id) {
-      var valret = "";
-      if ( !! id ) {
-        var recipient = recipientsHelperSvc.getRecipientById(subscribableRecipientsSvc.getAllPossibleRecipientsNow(), id);
-        valret = !!recipient ? recipient.dashLabel : "";
-      }
-      return valret;
+      return boardPosterHelperSvc.getRecipientTypeLabel(id);
     };
 
-    var intentionSlug = $scope.poster.section.sectionType == 'intention' ? $scope.poster.section.sectionTargetId : 'none-for-the-time-being';
-        // In cacheSvc the texts are copied as in return angular.copy(value); = if the app gets slow we might want to send the original (not to be modified) list
-    textsSvc.getListForCurrentArea(intentionSlug).then(function (textList) {
-      $scope.poster.fullTextList = textList;
-      // Cache is quick but it might be stale. Check server for newer version in case
-      intentionsSvc.invalidateCacheIfNewerServerVersionExists(areasSvc.getCurrentName(),intentionSlug)
-        // If newer version, we might want to update current display right away
-        .then(function(shouldReload){  if (shouldReload)  { textsSvc.getListForCurrentArea(intentionSlug).then(function (newTextList) {
-//         $scope.posterFullTextList = newTextList;
-        $scope.poster.fullTextList = newTextList;
-      }); } });
-    });
+    // Get text list for poster intention from cache or server
+    boardPosterHelperSvc.setPosterTextList($scope.poster);
 
     $scope.showNextQuestion = function () {
       if (!$scope.poster.userFriend.ufContext)
@@ -57,27 +42,9 @@ angular.module('app/userDashboard/BoardPosterController', [])
       });
     };
 
-    // When user friend property change : update filters
+    // When poster user friend properties change : update poster filters
     $scope.$watch(function() { return $scope.poster.userFriend;},function(res) {
-      // When user friend property change, initialize poster filters
-      if ( ! $scope.poster.filters )
-        $scope.poster.filters = filterHelperSvc.createEmptyFilters();
-      if ( res ) {
-        // Set gender filter
-        if ( res.gender)
-          $scope.poster.filters.recipientGender = facebookHelperSvc.getCVDGenderFromFbGender(res.gender);
-        // Set context filter
-        if ( !! res.ufContext ) {
-          //var availableContextsStyles = dashboardContextStyles;
-          var contextStyle = dashboardContextStyles.stylesByName[res.ufContext];
-          filterHelperSvc.setContextTypeTag($scope.poster.filters, contextStyle);
-        }
-        if ( !! res.ufRecipientTypeId ) {
-          var recipient = recipientsHelperSvc.getRecipientById(subscribableRecipientsSvc.getAllPossibleRecipientsNow(), res.ufRecipientTypeId);
-          if ( recipient )
-            filterHelperSvc.setRecipientTypeTag($scope.poster.filters, recipient.RecipientTypeId);
-        }
-      }
+      boardPosterHelperSvc.setPosterFilters($scope.poster);
     },true);
 
     // Filter text list
