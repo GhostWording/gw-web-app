@@ -168,7 +168,7 @@ angular.module('app/recipients/subscribableRecipients', [])
     },
 
     // Can return undefined
-    getAllRecipientsNow: function() {
+    getAllPossibleRecipientsNow: function() {
       return _recipients;
     },
     // Can return undefined

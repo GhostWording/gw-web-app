@@ -93,6 +93,15 @@ angular.module('app/userFriend/userFriendHelperSvc', ['common/services/HelperSvc
         service.updateUFriendFilteredTextList (userFriend,currentUser);
       }
     },
+    setUFriendContextName : function (userFriend,contextName) {
+      if (! userFriend )
+        return;
+      // If we change context, reset recipient type
+      if ( contextName != userFriend.ufContext)
+        userFriend.ufRecipientTypeId = null;
+      userFriend.ufContext = contextName;
+    },
+
     setUFriendContextFilter : function (userFriend, contextName, availableContextsStyles,currentUser) {
       if ( !userFriend )
         return;
