@@ -1,6 +1,6 @@
 angular.module('app/userDashboard/BoardPosterController', [])
-.controller('BoardPosterController', ['$scope',  'DateHelperSvc','$modal', 'userFriendHelperSvc','boardPosterHelperSvc','currentBoardPosterSvc','dashboardContextStyles',
-  function ($scope, DateHelperSvc,$modal,userFriendHelperSvc,boardPosterHelperSvc,currentBoardPosterSvc,dashboardContextStyles) {
+.controller('BoardPosterController', ['$scope',  'DateHelperSvc','$modal', 'ufHelperSvc','boardPosterHelperSvc','currentBoardPosterSvc','dashboardContextStyles',
+  function ($scope, DateHelperSvc,$modal,ufHelperSvc,boardPosterHelperSvc,currentBoardPosterSvc,dashboardContextStyles) {
 
     // Initialize : most properties will be set by the $watch functions
     $scope.poster = {'fullTextList' : [], 'filteredTextList' : [], 'filters' : null, 'userFriend' : $scope.userFriend, 'section' : $scope.boardSection  };
@@ -22,7 +22,7 @@ angular.module('app/userDashboard/BoardPosterController', [])
 
     // Get / Set functions
     $scope.setContext = function(contextStyle) {
-      userFriendHelperSvc.setUFriendContextName($scope.poster.userFriend,contextStyle.name);
+      ufHelperSvc.setUFriendContextName($scope.poster.userFriend,contextStyle.name);
     };
     $scope.setRecipientTypeId = function(id) { $scope.poster.userFriend.ufRecipientTypeId = id; };
     $scope.getRecipientTypeLabel = function(id) { return boardPosterHelperSvc.getRecipientTypeLabel(id); };

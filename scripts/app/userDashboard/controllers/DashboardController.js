@@ -1,12 +1,12 @@
 angular.module('app/userDashboard/DashboardController', [])
-.controller('DashboardController', ['$scope', 'facebookSvc','DateHelperSvc','userFriendHelperSvc','userFriendsSvc',
-  function ($scope, facebookSvc,DateHelperSvc,userFriendHelperSvc,userFriendsSvc) {
-    // Date functions
-    $scope.displayDate              = DateHelperSvc.localDisplayDateWithMonth(new Date());
+.controller('DashboardController', ['$scope', 'facebookSvc','DateHelperSvc','ufHelperSvc','ufSvc',
+  function ($scope, facebookSvc,DateHelperSvc,ufHelperSvc,ufSvc) {
     // Login
     $scope.fbLogin = facebookSvc.fbLogin;
     // Display extra info during debug
     $scope.isDebug = true;
+    // Todays date
+    $scope.displayDate = DateHelperSvc.localDisplayDateWithMonth(new Date());
 
     // Sections can display one intention for several userFriends, or several intentions for one userFriend
     $scope.BoardSectionList =  [
@@ -22,14 +22,17 @@ angular.module('app/userDashboard/DashboardController', [])
     // Refresh user friends and birthday user friends when  facebook friend list arrives
     $scope.$watch(function() { return facebookSvc.getCurrentFriends(); }, function(res) {
       console.log("facebookSvc.getCurrentFriends() : " +res.length );
-      userFriendsSvc.setUFList(userFriendHelperSvc.createUFListFromFbFriends(res));
-      userFriendsSvc.setBirthdayUFList(userFriendHelperSvc.getNextBirthdayFriends(userFriendsSvc.getUFList(),3));
+      ufSvc.setUserFriends(ufHelperSvc.createUFListFromFbFriends(res));
+      var birthdayUF = ufHelperSvc.getNextBirthdayUserFriends( ufSvc.getUFList(),3 );
+      ufSvc.setBirthdayUserFriends(birthdayUF);
     },true);
 
     // Refresh familly user friends when facebook family list arrives
     $scope.$watch(function() { return facebookSvc.getCurrentFamily(); }, function(res) {
       console.log("facebookSvc.getCurrentFamily() : " +res.length );
-      userFriendHelperSvc.addFamilyMembersOrUpdateFamilialContext(res,userFriendsSvc.getUFList());
+      //ufHelperSvc.addFamilyMembersOrUpdateFamilialContext(res,ufSvc.getUFList());
+      ufHelperSvc.addFbFriendsToUserFriendsIfAbsent(res,ufSvc.getUFList());
+      ufHelperSvc.updateUserFriendContextIfPresentInFbList(res,ufSvc.getUFList(),'familialContext');
     },true);
 
   }]);

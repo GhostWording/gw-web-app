@@ -1,13 +1,13 @@
-angular.module('app/userFriend/userFriendsSvc', ['common/services/HelperSvc'])
+angular.module('app/userFriend/ufSvc', ['common/services/HelperSvc'])
 
-.factory('userFriendsSvc', ['HelperSvc',
+.factory('ufSvc', ['HelperSvc',
   function (HelperSvc) {
     var allUserFriends = [];
     var famillyUserFriends = [];
     var birthdayUserFriends = [];
 
     var service = {
-      setUFList: function (ufList) {
+      setUserFriends: function (ufList) {
         allUserFriends = ufList;
         console.log("allUserFriends length : " + allUserFriends.length);
       },
@@ -21,7 +21,7 @@ angular.module('app/userFriend/userFriendsSvc', ['common/services/HelperSvc'])
       getFamilyUserFriends: function () {
         return famillyUserFriends;
       },
-      setBirthdayUFList: function (ufList) {
+      setBirthdayUserFriends: function (ufList) {
         birthdayUserFriends = ufList;
         console.log("birthDayUserFriends length : " + birthdayUserFriends.length);
       },

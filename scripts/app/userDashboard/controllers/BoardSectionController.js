@@ -1,6 +1,6 @@
 angular.module('app/userDashboard/BoardSectionController', [])
-.controller('BoardSectionController', ['$scope', 'userFriendsSvc',
-  function ($scope, userFriendsSvc  ) {
+.controller('BoardSectionController', ['$scope', 'ufSvc',
+  function ($scope, ufSvc  ) {
 
     // A board poster will be displayed for each user friend in the section
     $scope.sectionUserFriends = {};
@@ -10,8 +10,8 @@ angular.module('app/userDashboard/BoardSectionController', [])
       // Special sourcing for birthdayfriends
       if ( $scope.boardSection.sectionTargetId == 'happy-birthday' ) {
         // If friends comme from facebook, watch when they arrive then convert them to user friends
-        $scope.$watch(function() { return userFriendsSvc.getBirthdayUserFriends(); }, function(res) {
-          console.log("userFriendsSvc.birthDayUserFriends : " +res.length );
+        $scope.$watch(function() { return ufSvc.getBirthdayUserFriends(); }, function(res) {
+          console.log("ufSvc.birthDayUserFriends : " +res.length );
           $scope.sectionUserFriends = res;
         },true);
       }
