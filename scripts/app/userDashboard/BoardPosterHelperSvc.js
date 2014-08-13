@@ -22,7 +22,7 @@ function (textsSvc,intentionsSvc,areasSvc,filterHelperSvc,recipientsHelperSvc,fa
         });
       });
     },
-    // Derive poster filters from poster userFriend properties
+    // Set value for poster filters depending on poser userFriend properties
     setPosterFilters: function(poster) {
       if ( ! poster.filters )
         poster.filters = filterHelperSvc.createEmptyFilters();
@@ -42,7 +42,12 @@ function (textsSvc,intentionsSvc,areasSvc,filterHelperSvc,recipientsHelperSvc,fa
         }
       }
     },
-
+    // calculate poster filtered list from full list and filters
+    updateFilteredList: function(poster) {
+      if ( poster.fullTextList.length > 0 && !! poster.filters )
+        poster.filteredTextList = filteredTextsHelperSvc.getFilteredAndOrderedList(poster.fullTextList, currentUser, poster.filters.preferredStyles, poster.filters);
+    },
+    // Find label for recipient type
     getRecipientTypeLabel: function (id) {
       var valret = "";
       if (!!id) {
@@ -51,10 +56,7 @@ function (textsSvc,intentionsSvc,areasSvc,filterHelperSvc,recipientsHelperSvc,fa
       }
       return valret;
     },
-    updateFilteredList: function(poster) {
-      if ( poster.fullTextList.length > 0 && !! poster.filters )
-        poster.filteredTextList = filteredTextsHelperSvc.getFilteredAndOrderedList(poster.fullTextList, currentUser, poster.filters.preferredStyles, poster.filters);
-    },
+    // Find recipient types compatible with context (familial, pro,...)
     getCompatibleRecipients: function(poster) {
       return recipientsHelperSvc.getCompatibleRecipients(subscribableRecipientsSvc.getAllPossibleRecipientsNow(),currentUser,poster.userFriend,facebookSvc.getCurrentMe(),poster.userFriend.ufContext);
     },

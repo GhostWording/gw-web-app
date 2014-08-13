@@ -3,7 +3,7 @@ angular.module('app/userDashboard/BoardPosterController', [])
   function ($scope, DateHelperSvc,$modal,userFriendHelperSvc,boardPosterHelperSvc,currentBoardPosterSvc) {
 
     // Initialize : most properties will be set by the $watch functions
-    $scope.poster = {'fullTextList' : [], 'filteredTextList' : [], 'filters' : null, 'userFriend' : $scope.userFriend, 'section' : $scope.section  };
+    $scope.poster = {'fullTextList' : [], 'filteredTextList' : [], 'filters' : null, 'userFriend' : $scope.userFriend, 'section' : $scope.boardSection  };
 
     // Fetch text list to display from cache or server
     boardPosterHelperSvc.setPosterTextList($scope.poster);

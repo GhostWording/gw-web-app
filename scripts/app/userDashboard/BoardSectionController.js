@@ -1,7 +1,8 @@
 angular.module('app/userDashboard/BoardSectionController', [])
-.controller('BoardSectionController', ['$scope', 'HelperSvc', 'userFriendHelperSvc','facebookSvc','textsSvc',
-  function ($scope, HelperSvc,  userFriendHelperSvc,facebookSvc,textsSvc) {
-    var thisSection = $scope.section;
+.controller('BoardSectionController', ['$scope', 'HelperSvc',
+  function ($scope, HelperSvc  ) {
+
+    var thisSection = $scope.boardSection;
 
     // To store information provided by user on his friends / recipients
     $scope.sectionUserFriends = {};

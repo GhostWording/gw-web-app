@@ -24,7 +24,7 @@ angular.module('app/userDashboard/DashboardController', [])
 
 
     // Sections can display one intention for several userFriends, or several intentions for one userFriend
-    $scope.sectionList =  [
+    $scope.BoardSectionList =  [
       // For birthday there is a special way of getting relevant userFriends
       { 'sectionLabel' : 'Anniversaires', 'sectionType' : 'intention', 'sectionTargetId' : 'happy-birthday', 'visible' : true },
       { 'sectionLabel' : "Connais-tu l'histoire", 'sectionType' : 'intention', 'sectionTargetId' : 'humour', 'friends' : ['507096389','1228231171' ] },
