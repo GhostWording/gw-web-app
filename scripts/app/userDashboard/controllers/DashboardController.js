@@ -52,9 +52,6 @@ angular.module('app/userDashboard/DashboardController', [])
   }]);
 
 
-// Il ne marche pas: un autre svp vs   // OK, envoyer
-// Not appropriate / doesnt work : get a better one vs  // Ok, send it
-
 
 //$scope.randomText = {};
 //$scope.getRandomTextFromList = function() {

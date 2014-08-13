@@ -40,15 +40,6 @@ angular.module('app/userFriend/userFriendHelperSvc', ['common/services/HelperSvc
       return valret;
     },
 
-    findUserFriendInList:  function (listName, ufriendList, fbId) {
-      var valret = null;
-      if (listName != 'birthdayList') {
-        console.log('not implemented !!!!!!');
-        return valret;
-      }
-      return ufriendList[service.makeUserFriendIdFromFbId(fbId)];
-    },
-
     // TODO : should create userFriend object, then watch for changes on context and on recipient type
     addFbFriendsToUserFriends : function(fbFriendList,uFriendList) {
       for (var i= 0; i < fbFriendList.length; i++ ) {
@@ -73,26 +64,6 @@ angular.module('app/userFriend/userFriendHelperSvc', ['common/services/HelperSvc
       }
     },
 
-    updateUFriendFilteredTextList : function(userFriend,currentUser) {
-      if (! userFriend )
-        return;
-      userFriend.filteredTextList = filteredTextsHelperSvc.getFilteredAndOrderedList(userFriend.textList, currentUser, userFriend.filters.preferredStyles, userFriend.filters);
-    },
-
-    setUFriendRecipientTypeFilter: function (userFriend, recipientTypeTag, currentUser) {
-      if (!userFriend)
-        return;
-      filterHelperSvc.setRecipientTypeTag(userFriend.filters, recipientTypeTag);
-      service.updateUFriendFilteredTextList(userFriend, currentUser);
-    },
-    setUFriendGenderFilter : function (userFriend,currentUser) {
-      if (! userFriend )
-        return;
-      if (!!userFriend.gender) {
-        userFriend.filters.recipientGender = facebookHelperSvc.getCVDGenderFromFbGender(userFriend.gender);
-        service.updateUFriendFilteredTextList (userFriend,currentUser);
-      }
-    },
     setUFriendContextName : function (userFriend,contextName) {
       if (! userFriend )
         return;
@@ -102,51 +73,7 @@ angular.module('app/userFriend/userFriendHelperSvc', ['common/services/HelperSvc
       userFriend.ufContext = contextName;
     },
 
-    setUFriendContextFilter : function (userFriend, contextName, availableContextsStyles,currentUser) {
-      if ( !userFriend )
-        return;
-      userFriend.ufContext = contextName;
-      var contextStyle = availableContextsStyles.stylesByName[userFriend.ufContext];
-      filterHelperSvc.setContextTypeTag(userFriend.filters, contextStyle);
-      service.updateUFriendFilteredTextList (userFriend,currentUser);
-    },
 
-    guessUFriendFamilialContextAndSetFilterFromFbFamilyList : function (userFriend, fbFamilyList, availableContextsStyles,currentUser) {
-      if (!userFriend || !fbFamilyList)
-        return;
-      if (facebookHelperSvc.friendListContainsFriend(fbFamilyList, userFriend.fbId)) {
-        console.log(userFriend.name + " is family");
-        service.setUFriendContextFilter(userFriend, "familialContext", availableContextsStyles,currentUser);
-      }
-    },
-    initializeTextListForUserFriends : function (userFriendList, textList,availableContextsStyles,fbFriendList,currentUser) {
-      for (var key in userFriendList) {
-        var userFriend = userFriendList[key];
-        // Initialize text list
-        // TODO : text list will go in poster
-        userFriend.textList = textList;
-        // Initialize filters
-        userFriend.filters = filterHelperSvc.createEmptyFilters();
-        // TODO : set filters from what we know
-        // Set gender filter
-        service.setUFriendGenderFilter(userFriend,currentUser);
-        // Set context filter to family if friend is in family list
-        service.guessUFriendFamilialContextAndSetFilterFromFbFamilyList(userFriend,fbFriendList,availableContextsStyles,currentUser);
-        // Do the filtering
-        service.updateUFriendFilteredTextList(userFriend,currentUser);
-      }
-    },
-//    initializeFiltersForUserFriends : function (userFriend, availableContextsStyles,fbFriendList,currentUser) {
-//      // Initialize filters
-//      userFriend.filters = filterHelperSvc.createEmptyFilters();
-//      // TODO : set filters from what we know
-//      // Set gender filter
-//      service.setUFriendGenderFilter(userFriend,currentUser);
-//      // Set context filter to family if friend is in family list
-//      service.guessUFriendFamilialContextFilterFromFbFamilyList(userFriend,fbFriendList,availableContextsStyles,currentUser);
-//      // Do the filtering
-//      service.updateUFriendFilteredTextList(userFriend,currentUser);
-//    }
 
   };
 
