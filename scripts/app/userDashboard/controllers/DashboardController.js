@@ -1,11 +1,7 @@
 angular.module('app/userDashboard/DashboardController', [])
-.controller('DashboardController', ['$scope', 'facebookSvc','HelperSvc','textsSvc','currentUser','contextStyles','filteredTextsHelperSvc','filterHelperSvc','DateHelperSvc','subscribableRecipientsSvc','recipientsHelperSvc','facebookHelperSvc','intentionsSvc','areasSvc','userFriendHelperSvc','currentUserFriendSvc','dashboardContextStyles',
-  function ($scope, facebookSvc,HelperSvc,textsSvc,currentUser,contextStyles,filteredTextsHelperSvc,filterHelperSvc,DateHelperSvc,subscribableRecipientsSvc,recipientsHelperSvc,facebookHelperSvc,intentionsSvc,areasSvc,userFriendHelperSvc,currentUserFriendSvc,dashboardContextStyles) {
+.controller('DashboardController', ['$scope', 'facebookSvc','DateHelperSvc','userFriendHelperSvc','userFriendsSvc',
+  function ($scope, facebookSvc,DateHelperSvc,userFriendHelperSvc,userFriendsSvc) {
     // Date functions
-//    $scope.fbBirthdayHasDayAndMonth = DateHelperSvc.fbBirthdayHasDayAndMonth;
-//    $scope.fbBirthdayHasYear        = DateHelperSvc.fbBirthdayHasYear;
-//    $scope.fbBirthdayToDisplay      = DateHelperSvc.fbBirthdayToDisplay;
-//    $scope.fbAgeToDisplay           = DateHelperSvc.fbAgeToDisplay;
     $scope.displayDate              = DateHelperSvc.localDisplayDateWithMonth(new Date());
     // Login
     $scope.fbLogin = facebookSvc.fbLogin;
@@ -23,30 +19,17 @@ angular.module('app/userDashboard/DashboardController', [])
       $scope.isConnected = facebookSvc.isConnected();
     },true);
 
-//    Refresh facebook birthday friends when  facebook service changes them
-//    $scope.$watch(function() { return facebookSvc.getSortedFriendsWithBirthday(); }, function(data) {
-//      console.log("facebookSvc.getSortedFriendsWithBirthDay() : " +data.length );
-//      $scope.apiFriendsWithBirthday = data;
-//
-//      var birthdayFriend =  facebookSvc.getNextBirthdayFriends(facebookSvc.getCurrentFriends(),3);
-//      $scope.apiNextBirthdayFriends = birthdayFriend;
-//      userFriendHelperSvc.addFbFriendsToUserFriends(birthdayFriend,userBirthdayFriends);
-//      prepareBirthdayTextLists();
-//    },true);
-
-    // Refresh user birthday friends when  facebook service changes them
+    // Refresh user friends and birthday user friends when  facebook friend list arrives
     $scope.$watch(function() { return facebookSvc.getCurrentFriends(); }, function(res) {
       console.log("facebookSvc.getCurrentFriends() : " +res.length );
-      $scope.allFbFriends =  res;
-      $scope.allUserFriends = {};
-      userFriendHelperSvc.addFbFriendsToUserFriends($scope.allFbFriends,$scope.allUserFriends);
-      $scope.birthDayUserFriends = userFriendHelperSvc.getNextBirthdayFriends($scope.allUserFriends,3);
-      //console.log($scope.birthDayUserFriends);
+      userFriendsSvc.setUFList(userFriendHelperSvc.createUFListFromFbFriends(res));
+      userFriendsSvc.setBirthdayUFList(userFriendHelperSvc.getNextBirthdayFriends(userFriendsSvc.getUFList(),3));
     },true);
 
+    // Refresh familly user friends when facebook family list arrives
     $scope.$watch(function() { return facebookSvc.getCurrentFamily(); }, function(res) {
       console.log("facebookSvc.getCurrentFamily() : " +res.length );
-      userFriendHelperSvc.addFamilyMembersOrUpdateFamilialContext(res,$scope.allUserFriends);
+      userFriendHelperSvc.addFamilyMembersOrUpdateFamilialContext(res,userFriendsSvc.getUFList());
     },true);
 
   }]);

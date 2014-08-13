@@ -46,17 +46,29 @@ angular.module('app/userFriend/userFriendHelperSvc', ['common/services/HelperSvc
         var fbFriend = fbFriendList[i];
         var key = service.makeUserFriendIdFromFbId(fbFriend.id);
         if ( !uFriendList[key] ) {
-          //uFriendList[key] = { 'userFriendId' : key, 'name' : fbFriend.name, 'gender' :  fbFriend.gender, 'birthday' : fbFriend.birthday, 'fbId' : fbFriend.id };
           uFriendList[key] = service.makeUserFriendFromFbFriend(fbFriend);
         }
       }
     },
+    createUFListFromFbFriends : function(fbFriendList) {
+      var uFriendList = {};
+      for (var i= 0; i < fbFriendList.length; i++ ) {
+        var fbFriend = fbFriendList[i];
+        var key = service.makeUserFriendIdFromFbId(fbFriend.id);
+        if ( !uFriendList[key] ) {
+          uFriendList[key] = service.makeUserFriendFromFbFriend(fbFriend);
+        }
+      }
+      return uFriendList;
+    },
+
     addFamilyMembersOrUpdateFamilialContext : function(fbFamily,uFriendList) {
       for (var i= 0; i < fbFamily.length; i++ ) {
         var fbFriend = fbFamily[i];
         var key = service.makeUserFriendIdFromFbId(fbFriend.id);
         if ( !uFriendList[key] ) {
           uFriendList[key] = service.makeUserFriendFromFbFriend(fbFriend);
+          uFriendList[key].ufContext = 'familialContext';
         }
         else {
           uFriendList[key].ufContext = 'familialContext';
@@ -72,7 +84,6 @@ angular.module('app/userFriend/userFriendHelperSvc', ['common/services/HelperSvc
         userFriend.ufRecipientTypeId = null;
       userFriend.ufContext = contextName;
     },
-
 
 
   };
