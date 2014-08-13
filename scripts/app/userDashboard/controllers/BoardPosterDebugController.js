@@ -1,5 +1,5 @@
-angular.module('app/userFriend/UserFriendTextListController', [])
-.controller('UserFriendTextListController', ['$scope', 'currentBoardPosterSvc',
+angular.module('app/userDashboard/BoardPosterDebugController', [])
+.controller('BoardPosterDebugController', ['$scope', 'currentBoardPosterSvc',
   function ($scope, currentBoardPosterSvc) {
 
     $scope.$watch(function() { return currentBoardPosterSvc.getCurrentPoster();}, function(poster) {

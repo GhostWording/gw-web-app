@@ -3,5 +3,6 @@ angular.module('app/userDashboard', [
   'app/userDashboard/BoardSectionController',
   'app/userDashboard/BoardPosterController',
   'app/userDashboard/boardPosterHelperSvc',
-  'app/userDashboard/currentBoardPosterSvc'
+  'app/userDashboard/currentBoardPosterSvc',
+  'app/userDashboard/BoardPosterDebugController'
 ]);

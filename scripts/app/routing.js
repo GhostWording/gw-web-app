@@ -74,19 +74,17 @@ angular.module('app/routing', ['ui.router'])
     })
   .state('area.dashboard', {
     url: '/dashboard',
-    templateUrl: 'views/dashboard.html',
-    controller: 'DashboardController',
     views: {
       '' : {
-        templateUrl: 'views/dashboard.html',
+        templateUrl: 'views/dashboard/dashboard.html',
         controller: 'DashboardController'
       },
       'boardSectionView@area.dashboard': {
-        templateUrl: 'views/partials/boardSection.html',
+        templateUrl: 'views/dashboard/boardSection.html',
         controller: 'BoardSectionController'
       },
       'boardPosterView@area.dashboard': {
-        templateUrl: 'views/partials/boardPoster.html',
+        templateUrl: 'views/dashboard/boardPoster.html',
         controller: 'BoardPosterController'
       }
     },

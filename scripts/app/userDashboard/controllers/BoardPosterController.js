@@ -30,11 +30,11 @@ angular.module('app/userDashboard/BoardPosterController', [])
       if (!$scope.poster.userFriend.ufContext) $scope.showContextFilters(); else $scope.showRecipientTypes();
     };
     $scope.showContextFilters = function() {
-      $modal.open({ templateUrl: 'views/partials/posterContextDialog.html', scope: $scope,controller: 'BoardPosterController'});
+      $modal.open({ templateUrl: 'views/dashboard/posterContextDialog.html', scope: $scope,controller: 'BoardPosterController'});
       currentBoardPosterSvc.setCurrentPoster($scope.poster);
     };
     $scope.showRecipientTypes = function () {
-      $modal.open({ templateUrl: 'views/partials/posterRecipientTypeDialog.html',scope: $scope,controller: 'BoardPosterController'});
+      $modal.open({ templateUrl: 'views/dashboard/posterRecipientTypeDialog.html',scope: $scope,controller: 'BoardPosterController'});
       currentBoardPosterSvc.setCurrentPoster($scope.poster);
     };
 

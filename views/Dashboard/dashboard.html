@@ -1,0 +1,75 @@
+<div action-location="Dashboard" style="margin-left: 10px; margin-right: 10px;">
+
+  <div class="row">
+    <div class="col-xs-12 text-center" style="margin-top: 0px; margin-bottom: 0px">
+      <h4 style="margin-bottom: 5px; margin-top: 5px;"><span translate>Opportunités du jour</span></h4>
+      <small class="text-info" style="margin-top: 0px;">{{ displayDate }}</small>
+    </div>
+
+    <div ng-show="isConnected == false" class="col-xs-12 text-center" style="margin-top: 20px; margin-bottom: 20px">
+      <button type="button" ng-click="fbLogin()"  class="btn btn-primary btn-lg">Login facebook</button>
+      <br>
+      <div style="margin-top: 10px">Pour accéder aux anniversaires de vos friends</div>
+    </div>
+
+    <div ng-repeat="boardSection in BoardSectionList">
+      <div ui-view="boardSectionView"></div>
+    </div>
+
+
+    <!--<div ng-show="isConnected == true" class="col-xs-12 text-center bg-info" style="margin-top: 10px; margin-bottom: 0px; padding-top: 8px; padding-bottom: 8px;" translate>-->
+      <!--Anniversaires-->
+    <!--</div>-->
+
+    <!--<div ng-repeat="friend in apiNextBirthdayFriends" class="col-xs-12 col-md-4 text-center" style="margin-top: 20px;">-->
+      <!--&lt;!&ndash; Name &ndash;&gt;-->
+      <!--<div>{{friend.name}}</div>-->
+      <!--&lt;!&ndash; Birthday and age &ndash;&gt;-->
+      <!--<div class="text-info">-->
+        <!--<span ng-show="DateHelperSvc.fbBirthdayHasDayAndMonth(friend.birthday)">{{fbBirthdayToDisplay(friend.birthday)}}</span>-->
+        <!--<span ng-show="DateHelperSvc.fbBirthdayHasDayAndMonth(friend.birthday) && DateHelperSvc.fbBirthdayHasYear(friend.birthday)"> - </span>-->
+        <!--<span ng-show="DateHelperSvc.fbBirthdayHasYear(friend.birthday)">{{fbAgeToDisplay(friend.birthday)}}</span>-->
+        <!--<span ng-show="DateHelperSvc.fbBirthdayHasYear(friend.birthday)"> </span>-->
+        <!--<span ng-show="DateHelperSvc.fbBirthdayHasYear(friend.birthday)" translate>ans</span>-->
+      <!--</div>-->
+      <!--<div ng-show="isDebug">{{ userFriendInfo[friend.id] }} texts</div>-->
+      <!--&lt;!&ndash; Message &ndash;&gt;-->
+      <!--<textarea ng-model="randomBirthdayTextList[friend.id]" style="width:100%; padding: 15px; background-color: #d9edf7" disabled rows="5"></textarea>-->
+      <!--&lt;!&ndash;<textarea ng-model="randomTextList('birthdayList',friend.id)" style="width:100%; padding: 15px; background-color: #d9edf7" disabled rows="6"></textarea>&ndash;&gt;-->
+      <!--<button type="button" ng-click="setCurrentFriend('birthdayList',friend)"  class="btn btn-primary btn-sm">Select</button>-->
+    <!--</div>-->
+  <!--</div>-->
+
+  <!--<div style="margin-top: 30px">Current friend : {{ currentBirthdayFriend.name }}</div>-->
+
+  <!--&lt;!&ndash; Context type &ndash;&gt;-->
+  <!--<div style="margin-top: 5px">Contexte :-->
+    <!--&lt;!&ndash; btn-group-vertical or btn-group-justified options&ndash;&gt;-->
+    <!--<div class="btn-group btn-group-sm">-->
+      <!--<button type="button" class ="btn btn-default" translate-->
+              <!--ng-repeat="style in contextStyles.stylesList"-->
+              <!--ng-if="style.visible"-->
+              <!--ng-class="{active: isCurrentContextStyle(style)}"-->
+              <!--ng-click="setContextFilterToThis(style)">-->
+        <!--{{ style.label }}-->
+      <!--</button>-->
+    <!--</div>-->
+  <!--</div>-->
+
+  <!--&lt;!&ndash; Recipient type &ndash;&gt;-->
+  <!--<div style="margin-top: 5px">Catégorie :-->
+    <!--&lt;!&ndash; btn-group-vertical or btn-group-justified options&ndash;&gt;-->
+    <!--<div class="btn-group btn-group-sm">-->
+      <!--<button type="button" class ="btn btn-default" translate-->
+              <!--ng-repeat="recipientType in recipients"-->
+              <!--ng-if=" true || style.visible"-->
+              <!--ng-class="{active: isCurrentRecipient(recipientStyle)}"-->
+              <!--ng-click="setRecipientTypeToThis(recipientType)">-->
+        <!--{{ recipientType.dashLabel }}-->
+      <!--</button>-->
+    <!--</div>-->
+  <!--</div>-->
+
+  <div ng-include="'views/dashboard/debugTextList.html'" style="margin-bottom: 20px;"></div>
+
+</div>
