@@ -1,6 +1,6 @@
 angular.module('app/userDashboard/BoardPosterController', [])
-.controller('BoardPosterController', ['$scope',  'DateHelperSvc','$modal', 'userFriendHelperSvc','boardPosterHelperSvc','currentBoardPosterSvc',
-  function ($scope, DateHelperSvc,$modal,userFriendHelperSvc,boardPosterHelperSvc,currentBoardPosterSvc) {
+.controller('BoardPosterController', ['$scope',  'DateHelperSvc','$modal', 'userFriendHelperSvc','boardPosterHelperSvc','currentBoardPosterSvc','dashboardContextStyles',
+  function ($scope, DateHelperSvc,$modal,userFriendHelperSvc,boardPosterHelperSvc,currentBoardPosterSvc,dashboardContextStyles) {
 
     // Initialize : most properties will be set by the $watch functions
     $scope.poster = {'fullTextList' : [], 'filteredTextList' : [], 'filters' : null, 'userFriend' : $scope.userFriend, 'section' : $scope.boardSection  };
@@ -16,6 +16,9 @@ angular.module('app/userDashboard/BoardPosterController', [])
     // Date functions
     $scope.DateHelperSvc = DateHelperSvc;
     $scope.displayDate   = DateHelperSvc.localDisplayDateWithMonth(new Date());
+
+    $scope.contextStyles = dashboardContextStyles;
+
 
     // Get / Set functions
     $scope.setContext = function(contextStyle) {
