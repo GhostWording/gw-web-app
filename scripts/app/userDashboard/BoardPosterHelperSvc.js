@@ -1,7 +1,7 @@
 angular.module('app/userDashboard/boardPosterHelperSvc', ['app/texts'])
 
-.factory('boardPosterHelperSvc', ['textsSvc','intentionsSvc','areasSvc','filterHelperSvc','recipientTypeHelperSvc','facebookSvc','facebookHelperSvc','recipientTypesSvc','dashboardContextStyles','filteredTextsHelperSvc','currentUser',
-function (textsSvc,intentionsSvc,areasSvc,filterHelperSvc,recipientTypeHelperSvc,facebookSvc,facebookHelperSvc,recipientTypesSvc,dashboardContextStyles,filteredTextsHelperSvc,currentUser) {
+.factory('boardPosterHelperSvc', ['textsSvc','intentionsSvc','areasSvc','filterHelperSvc','recipientTypeHelperSvc','facebookSvc','facebookHelperSvc','recipientTypesSvc','dashboardContextStyles','filteredTextsHelperSvc','currentUser','userAgesHelperSvc',
+function (textsSvc,intentionsSvc,areasSvc,filterHelperSvc,recipientTypeHelperSvc,facebookSvc,facebookHelperSvc,recipientTypesSvc,dashboardContextStyles,filteredTextsHelperSvc,currentUser,userAgesHelperSvc) {
 
   var service = {
     // Get poster text list from cache or server for the poster section intention
@@ -42,6 +42,12 @@ function (textsSvc,intentionsSvc,areasSvc,filterHelperSvc,recipientTypeHelperSvc
             filterHelperSvc.setRecipientTypeTag(poster.filters, recipient.RecipientTypeTag);
         }
         // Todo : add age filter
+        if ( !! poster.userFriend.ageRange ) {
+          var fake = userAgesHelperSvc.getTagForAgeRange(undefined);
+          var ageRangeTag = userAgesHelperSvc.getTagForAgeRange(poster.userFriend.ageRange);
+          //console.log(ageRangeTag);
+          filterHelperSvc.setAgeTag(poster.filters, ageRangeTag);
+        }
       }
     },
     // calculate poster filtered list from full list and filters
@@ -65,7 +71,7 @@ function (textsSvc,intentionsSvc,areasSvc,filterHelperSvc,recipientTypeHelperSvc
     getPosterDebugInfo: function (poster) {
       var valret = "";
       if ( poster.txtIndex !== null  )
-        valret += poster.txtIndex + " / ";
+        valret += "Text no " + poster.txtIndex + " / ";
       valret += poster.filteredTextList.length;
       valret += " / ";
       valret += poster.fullTextList.length;

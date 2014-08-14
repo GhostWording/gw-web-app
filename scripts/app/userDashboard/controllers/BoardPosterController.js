@@ -48,13 +48,6 @@ angular.module('app/userDashboard/BoardPosterController', [])
     };
 
 
-    // C2D9A4 <= 17
-    // 5D79C9 18 tp 39
-    // FC0342 40 to 64
-    // AE098F 65 or more
-
-
-    //$scope.currentProposition = "";
 
     function chooseRandomIndice(array) {
       var valret = -1;
@@ -101,6 +94,8 @@ angular.module('app/userDashboard/BoardPosterController', [])
     // When text list changes : filter text list
     $scope.$watch(function() { return $scope.poster.fullTextList;},function() { filterPosterTextList(); },true);
     // When filters change : filter text list
-    $scope.$watch(function() { return $scope.poster.filters;},function() { filterPosterTextList(); },true);
+    $scope.$watch(function() { return $scope.poster.filters;},function() {
+      $scope.poster.filters.useAgeTag = true; // TEMP !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      filterPosterTextList(); },true);
 
   }]);

@@ -1,27 +1,30 @@
 angular.module('app/userFriend/ufHelperSvc', ['common/services/helperSvc'])
 
-.factory('ufHelperSvc', ['helperSvc','facebookHelperSvc','dateHelperSvc','userAges',
-function (helperSvc,facebookHelperSvc,dateHelperSvc,userAges) {
+.factory('ufHelperSvc', ['helperSvc','facebookHelperSvc','dateHelperSvc','userAgesHelperSvc',
+function (helperSvc,facebookHelperSvc,dateHelperSvc,userAgesHelperSvc) {
 
   var service = {
     // Convert facebook id to our internan id format
     makeUserFriendIdFromFbId: function (fbId) {
       return "facebook:" + fbId;
     },
-    makeAgeRangeFromBirthday: function (birthday) {
+    // Convert facebook birhtday to user age range
+    makeUserAgeRangeFromBirthday: function (birthday) {
       var retval; // undefined by default
-
+      var age = dateHelperSvc.fbBirthdayAge(birthday);
+      retval = userAgesHelperSvc.convertAgeToAgeRange(age);
       return retval;
     },
-
+    // Convert facebook frien to user friend
     makeUserFriendFromFbFriend: function(fbFriend) {
       var key = service.makeUserFriendIdFromFbId(fbFriend.id);
       // TODO : agerange
-      var retval = { 'userFriendId' : key, 'name' : fbFriend.name, 'gender' :  fbFriend.gender, 'birthday' : fbFriend.birthday, 'fbId' : fbFriend.id };
+      var ageRange = service.makeUserAgeRangeFromBirthday(fbFriend.birthday);
+      var retval = { 'userFriendId' : key, 'name' : fbFriend.name, 'gender' :  fbFriend.gender, 'birthday' : fbFriend.birthday, 'ageRange' : ageRange, 'fbId' : fbFriend.id };
       return retval;
     },
 
-    // TODO : update user friends when they match a fb friends with new properties
+    // TODO : update user friends with fb friends properties that may have changed
 
     // Create user friend list from fb friend list : not an actual list, an object with properties !
     createUFListFromFbFriends : function(fbFriendList) {

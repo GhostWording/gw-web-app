@@ -41,8 +41,10 @@ angular.module('app/filters/filterHelperSvc', [
         filters.contexts.clear();
         filters.recipientTypeTag = null;
         filters.proximity = null;
+        filters.ageTag = null;
+        // TODO : remove switch to desactivate age range check
+        filters.useAgeTag = false; // !!!!!!!!!!!!!!!!!!
         console.log("filters reset");
-        // TODO : addAgeRange tag and a switch to desactivate age range check
       },
 
       createEmptyFilters: function () {
@@ -54,6 +56,9 @@ angular.module('app/filters/filterHelperSvc', [
           preferredStyles: new StyleCollection(),  // move texts that have these styles to the top of the list
           contexts: new StyleCollection(),         // If not empty, only show texts that match this context
           recipientTypeTag: null,
+          ageTag: null,
+          // TODO  Temporary, while not all texts are taggued
+          useAgeTag: false, // !!!!!!!!!!!!!!!!!!!
           proximity: null
         };
         return retval;
@@ -86,6 +91,19 @@ angular.module('app/filters/filterHelperSvc', [
         }
         return false;
       },
+      matchesAge: function(text,ageTag,useAgeTag) {
+        if (!ageTag)
+          return true;
+        if (!useAgeTag)
+          return true;
+        var i;
+        for (i = 0; i < text.TagIds.length; i++) {
+          if ( text.TagIds[i] == ageTag ) {
+            return true;
+          }
+        }
+        return false;
+      },
 
       // This is the main filtering function for each text
       textCompatible: function (text, sender,filters) {
@@ -95,7 +113,8 @@ angular.module('app/filters/filterHelperSvc', [
         service.proximityCompatible(text.Proximity, filters.proximity) &&
         service.matchesNoStyles(text, filters.excludedStyles) &&
         (service.matchesAStyle(text, filters.contexts) || filters.contexts.stylesList.length === 0) &&
-        service.matchesRecipient(text, filters.recipientTypeTag);
+        service.matchesRecipient(text, filters.recipientTypeTag) &&
+        service.matchesAge(text,filters.ageTag,filters.useAgeTag );
       },
 
       INVERT_GENDER_MAP : {
@@ -114,7 +133,11 @@ angular.module('app/filters/filterHelperSvc', [
       },
       setRecipientTypeTag: function(filters,recipientTypeTag) {
         filters.recipientTypeTag = recipientTypeTag;
-        console.log("recipient tag set to " + recipientTypeTag);
+//        console.log("recipient tag set to " + recipientTypeTag);
+      },
+      setAgeTag: function(filters,ageTag) {
+        filters.ageTag = ageTag;
+        console.log("ageTag set to " + ageTag);
       },
 
       // should be able to do the same with userFriends
