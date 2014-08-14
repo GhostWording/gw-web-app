@@ -2,7 +2,7 @@ angular.module('app/userDashboard/BoardPosterController', [])
 .controller('BoardPosterController', ['$scope', 'helperSvc', 'dateHelperSvc','$modal', 'ufHelperSvc','boardPosterHelperSvc','currentBoardPosterSvc','dashboardContextStyles',
   function ($scope, helperSvc, dateHelperSvc,$modal,ufHelperSvc,boardPosterHelperSvc,currentBoardPosterSvc,dashboardContextStyles) {
 
-    // Initialize : most properties will be set by the $watch functions
+    // Initialize : most properties will be set by $watch functions
     $scope.poster = {'fullTextList' : [], 'filteredTextList' : [], 'filters' : null, 'userFriend' : $scope.userFriend, 'section' : $scope.boardSection, 'postedText' : ''  };
 
     // Fetch text list to display from cache or server
@@ -47,6 +47,18 @@ angular.module('app/userDashboard/BoardPosterController', [])
       currentBoardPosterSvc.setCurrentPoster($scope.poster);
     };
 
+    $scope.recipientTypesQuestionVisible = function() {
+      var valret = true;
+      return valret;
+    };
+    $scope.moreQuestionsCanBeShown = function() {
+      var valret = true;
+      if ( $scope.poster.userFriend.ufRecipientTypeId )
+        return false;
+      if ( $scope.poster.userFriend.ufContext == 'professionalContext' )
+        return false;
+      return valret;
+    };
 
 
     function chooseRandomIndice(array) {

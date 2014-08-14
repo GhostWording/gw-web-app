@@ -1,4 +1,4 @@
-<div ng-click="setCurrentPoster()"  class="col-xs-12 col-md-4 text-center" style="margin-top: 20px;">
+<div ng-click="setCurrentPoster()"  class="col-xs-12 col-md-4 text-center" style="margin-top: 20px; height: 215px;">
   <!-- Name -->
   <div>
     {{poster.userFriend.name}}
@@ -20,10 +20,10 @@
   <!-- Debug info -->
   <div ng-show="isDebug">{{ getUserFriendInfo() }} texts</div>
   <!-- Message -->
-  <textarea ng-model="poster.postedText" style="width:100%; padding: 15px; margin-bottom: 5px; margin-top: 2px; background-color: #d9edf7" disabled rows="5"></textarea>
+  <textarea ng-model="poster.postedText" style="width:100%; padding: 12px; margin-bottom: 5px; margin-top: 2px; background-color: #d9edf7" disabled rows="5"></textarea>
   <!-- Buttons -->
   <div>
-  <button type="button" ng-click="showNextQuestion()" class="btn btn-primary btn-sm">{{ getMakeBetterLabel() | translate }}</button>
+  <button type="button" ng-show="moreQuestionsCanBeShown()" ng-click="showNextQuestion()" class="btn btn-primary btn-sm">{{ getMakeBetterLabel() | translate }}</button>
   <button type="button" ng-click="refresh()" class="btn btn-primary glyphicon glyphicon-refresh"></button>
   </div>
 </div>

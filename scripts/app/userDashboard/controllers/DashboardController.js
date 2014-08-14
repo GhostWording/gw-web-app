@@ -4,7 +4,7 @@ angular.module('app/userDashboard/DashboardController', [])
     // Login
     $scope.fbLogin = facebookSvc.fbLogin;
     // Display extra info during debug
-    $scope.isDebug = true;
+    $scope.isDebug = false;
     // Todays date
     $scope.displayDate = dateHelperSvc.localDisplayDateWithMonth(new Date());
 
