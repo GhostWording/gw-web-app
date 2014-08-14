@@ -71,10 +71,10 @@ angular.module('app/users/subscriptions',['app/recipients'])
           // For each active recipient, populate alerts with applicable intention subscriptions
           for (var i = subscribedRecipients.length - 1; i >= 0; i--) {
             var recipient = subscribedRecipients[i];
-            var recipientTypeId = recipient.RecipientTypeId;
+            var recipientTypeTag = recipient.RecipientTypeTag;
             var recipientId = recipient.Id;
             // Add what we already have if we have something
-            var subscribedRecipient = service.getSubscribedRecipient(recipientTypeId);
+            var subscribedRecipient = service.getSubscribedRecipient(recipientTypeTag);
             if (subscribedRecipient) {
               recipientsWithSubscriptions.push(subscribedRecipient);
             } else {
@@ -83,7 +83,7 @@ angular.module('app/users/subscriptions',['app/recipients'])
               recipient.alerts = [];
               for (var j = 0; j < possibleSubscriptions.length; j++) {
                 var possibleSubscription = possibleSubscriptions[j];
-                if (possibleSubscription.RecipientTypeId == recipientTypeId) {
+                if (possibleSubscription.RecipientTypeTag == recipientTypeTag) {
                   var alert = angular.copy(possibleSubscription);
                   // Check if user previously said he wants to subscribe to this intention for this recipient
                   alert.IsActive = service.getStateFromStorage(recipientId, possibleSubscription.IntentionId);

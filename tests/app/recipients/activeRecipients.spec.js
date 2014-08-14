@@ -31,7 +31,7 @@ describe("subscribedRecipientsSvc", function() {
 
   describe("getsubscribedRecipients", function () {
 
-    it("should return a promise to a list of active recipients", inject(function(subscribableRecipientsSvc, subscribedRecipientsSvc, $rootScope, $q) {
+    it("should return a promise to a list of active recipients", inject(function(recipientTypesSvc, subscribedRecipientsSvc, $rootScope, $q) {
       // Mock recipients array
       var dummyRecipients = [
             { "Id": "dummyF" },
@@ -44,7 +44,7 @@ describe("subscribedRecipientsSvc", function() {
             "dummyFriends": true
           },
           // Create required spies
-          getAllSpy = spyOn(subscribableRecipientsSvc, 'getAll').andReturn($q.when(dummyRecipients)),
+          getAllSpy = spyOn(recipientTypesSvc, 'getAll').andReturn($q.when(dummyRecipients)),
           alertStateSpy = spyOn(subscribedRecipientsSvc, 'getStateForRecipientTypeAlerts').andCallFake(function(id) {
             return dummyStates[id];
           });

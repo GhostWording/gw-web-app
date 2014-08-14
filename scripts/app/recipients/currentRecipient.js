@@ -1,7 +1,7 @@
 angular.module('app/recipients/currentRecipient', [])
 
-.factory('currentRecipientSvc', ['$q', '$stateChange', 'subscribableRecipientsSvc',
-      function($q, $stateChange, subscribableRecipientsSvc) {
+.factory('currentRecipientSvc', ['$q', '$stateChange', 'recipientTypesSvc',
+      function($q, $stateChange, recipientTypesSvc) {
 
   var service = {
 
@@ -21,18 +21,18 @@ angular.module('app/recipients/currentRecipient', [])
 
     getCurrentRecipient: function() {
       var currentRecipientId = service.getCurrentRecipientId();
-      return subscribableRecipientsSvc.getRecipients().then(function(subscribableRecipients) {
+      return recipientTypesSvc.getRecipients().then(function(recipientTypes) {
         if ( !currentRecipientId || currentRecipientId == service.nullRecipientId)
           return null;
-        if ( subscribableRecipients ) {
-          return  subscribableRecipientsSvc.getFromRecipients(subscribableRecipients,currentRecipientId);
+        if ( recipientTypes ) {
+          return  recipientTypesSvc.getFromRecipients(recipientTypes,currentRecipientId);
         } else
           return null;
       });
     },
 
     getCurrentRecipientNow: function() {
-      return subscribableRecipientsSvc.getThisOneNow(service.getCurrentRecipientId());
+      return recipientTypesSvc.getThisOneNow(service.getCurrentRecipientId());
     }
   };
 

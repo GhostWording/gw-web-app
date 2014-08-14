@@ -99,7 +99,7 @@ angular.module('app/routing', ['ui.router'])
     templateUrl: 'views/recipientList.html',
     controller: 'UsualRecipientsController',
     resolve: {
-      recipients: ['subscribableRecipientsSvc', function(subscribedRecipientsSvc) { return subscribedRecipientsSvc.getAll(); }]
+      recipients: ['recipientTypesSvc', function(subscribedRecipientsSvc) { return subscribedRecipientsSvc.getAll(); }]
     },
     showTabs: true
   })

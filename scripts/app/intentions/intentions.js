@@ -130,11 +130,11 @@ function($scope,  intentionsSvc, currentRecipientSvc,likelyIntentionsSvc,appUrlS
     currentRecipientSvc.getCurrentRecipient()
       // Get recipientTYPE Id (different from recipient id)
       .then(function (currentRecipient) {
-        return currentRecipient.RecipientTypeId;
+        return currentRecipient.RecipientTypeTag;
       })
       // Get LikelyIntentions for the RecipientType : we should directly get intentions from the server
-      .then(function(recipientTypeId) {
-        return likelyIntentionsSvc.getLikelyIntentionsforGivenRecipientType(recipientTypeId)
+      .then(function(recipientTypeTag) {
+        return likelyIntentionsSvc.getLikelyIntentionsforGivenRecipientType(recipientTypeTag)
           .then(function(likelyIntentions) {
              return likelyIntentions;});
       })

@@ -1,7 +1,7 @@
 angular.module('app/userDashboard/boardPosterHelperSvc', ['app/texts'])
 
-.factory('boardPosterHelperSvc', ['textsSvc','intentionsSvc','areasSvc','filterHelperSvc','recipientsHelperSvc','facebookSvc','facebookHelperSvc','subscribableRecipientsSvc','dashboardContextStyles','filteredTextsHelperSvc','currentUser',
-function (textsSvc,intentionsSvc,areasSvc,filterHelperSvc,recipientsHelperSvc,facebookSvc,facebookHelperSvc,subscribableRecipientsSvc,dashboardContextStyles,filteredTextsHelperSvc,currentUser) {
+.factory('boardPosterHelperSvc', ['textsSvc','intentionsSvc','areasSvc','filterHelperSvc','recipientTypeHelperSvc','facebookSvc','facebookHelperSvc','recipientTypesSvc','dashboardContextStyles','filteredTextsHelperSvc','currentUser',
+function (textsSvc,intentionsSvc,areasSvc,filterHelperSvc,recipientTypeHelperSvc,facebookSvc,facebookHelperSvc,recipientTypesSvc,dashboardContextStyles,filteredTextsHelperSvc,currentUser) {
 
   var service = {
     // Get poster text list from cache or server for the poster section intention
@@ -37,9 +37,9 @@ function (textsSvc,intentionsSvc,areasSvc,filterHelperSvc,recipientsHelperSvc,fa
         }
         // set recipient type filter
         if ( !! poster.userFriend.ufRecipientTypeId ) {
-          var recipient = recipientsHelperSvc.getRecipientById(subscribableRecipientsSvc.getAllPossibleRecipientsNow(), poster.userFriend.ufRecipientTypeId);
+          var recipient = recipientTypeHelperSvc.getRecipientById(recipientTypesSvc.getAllPossibleRecipientsNow(), poster.userFriend.ufRecipientTypeId);
           if ( recipient )
-            filterHelperSvc.setRecipientTypeTag(poster.filters, recipient.RecipientTypeId);
+            filterHelperSvc.setRecipientTypeTag(poster.filters, recipient.RecipientTypeTag);
         }
         // Todo : add age filter
       }
@@ -53,14 +53,14 @@ function (textsSvc,intentionsSvc,areasSvc,filterHelperSvc,recipientsHelperSvc,fa
     getRecipientTypeLabel: function (id) {
       var valret = "";
       if (!!id) {
-        var recipient = recipientsHelperSvc.getRecipientById(subscribableRecipientsSvc.getAllPossibleRecipientsNow(), id);
+        var recipient = recipientTypeHelperSvc.getRecipientById(recipientTypesSvc.getAllPossibleRecipientsNow(), id);
         valret = !!recipient ? recipient.dashLabel : "";
       }
       return valret;
     },
     // Find recipient types compatible with context (familial, pro,...)
     getCompatibleRecipients: function(poster) {
-      return recipientsHelperSvc.getCompatibleRecipients(subscribableRecipientsSvc.getAllPossibleRecipientsNow(),currentUser,poster.userFriend,facebookSvc.getCurrentMe(),poster.userFriend.ufContext);
+      return recipientTypeHelperSvc.getCompatibleRecipients(recipientTypesSvc.getAllPossibleRecipientsNow(),currentUser,poster.userFriend,facebookSvc.getCurrentMe(),poster.userFriend.ufContext);
     },
     getPosterDebugInfo: function (poster) {
       var valret = "";

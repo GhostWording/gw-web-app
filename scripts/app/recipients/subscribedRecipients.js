@@ -1,6 +1,6 @@
 angular.module('app/recipients/subscribedRecipients', ['common/services/cache'])
 
-.factory('subscribedRecipientsSvc', ['$q','localStorage','subscribableRecipientsSvc', function ($q, localStorage,subscribableRecipientsSvc) {
+.factory('subscribedRecipientsSvc', ['$q','localStorage','recipientTypesSvc', function ($q, localStorage,recipientTypesSvc) {
 	var service = {
     nbSubscribedRecipients : 0,
 
@@ -12,7 +12,7 @@ angular.module('app/recipients/subscribedRecipients', ['common/services/cache'])
 			return retval;
 		},
     countSubscribedRecipients : function() {
-      return subscribableRecipientsSvc.getAll().then(function(recipients){
+      return recipientTypesSvc.getAll().then(function(recipients){
         service.nbSubscribedRecipients  = 0;
         for (var i= 0; i < recipients.length; i++) {
           var recipient = recipients[i];
@@ -26,7 +26,7 @@ angular.module('app/recipients/subscribedRecipients', ['common/services/cache'])
     },
 
 		getsubscribedRecipients : function() {
-			return subscribableRecipientsSvc.getAll().then(function(recipients){
+			return recipientTypesSvc.getAll().then(function(recipients){
 				var retval = [];
 				for (var i= 0; i < recipients.length; i++) {
 					var recipient = recipients[i];
@@ -48,8 +48,8 @@ angular.module('app/recipients/subscribedRecipients', ['common/services/cache'])
 	return service;
 }])
 
-.controller('SubscribedRecipientsController', ['$scope', 'subscribableRecipientsSvc', 'subscribedRecipientsSvc','recipientsHelperSvc','currentUser',
-function ($scope, subscribableRecipientsSvc, subscribedRecipientsSvc,recipientsHelperSvc,currentUser) {
+.controller('SubscribedRecipientsController', ['$scope', 'recipientTypesSvc', 'subscribedRecipientsSvc','recipientTypeHelperSvc','currentUser',
+function ($scope, recipientTypesSvc, subscribedRecipientsSvc,recipientTypeHelperSvc,currentUser) {
 
   subscribedRecipientsSvc.countSubscribedRecipients();
 
@@ -57,8 +57,8 @@ function ($scope, subscribableRecipientsSvc, subscribedRecipientsSvc,recipientsH
     return subscribedRecipientsSvc.nbSubscribedRecipients > 0;
   };
 
-  subscribableRecipientsSvc.getAll().then(function (value) {
-    var compatibleRecipients = recipientsHelperSvc.getCompatibleRecipients(value,currentUser);
+  recipientTypesSvc.getAll().then(function (value) {
+    var compatibleRecipients = recipientTypeHelperSvc.getCompatibleRecipients(value,currentUser);
 
     $scope.recipients = compatibleRecipients;
   });

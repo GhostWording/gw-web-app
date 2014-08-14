@@ -75,7 +75,7 @@ function ($scope, currentTextList, currentIntention,  currentUser, filtersSvc, $
   };
 
   if ( currentRecipient ) {
-    filtersSvc.setRecipientTypeTag(currentRecipient.RecipientTypeId); // Shoud not be reinitialized when we come back from TextDetail view
+    filtersSvc.setRecipientTypeTag(currentRecipient.RecipientTypeTag); // Shoud not be reinitialized when we come back from TextDetail view
   }
 
   $scope.filteredTextList = filteredTextListSvc;
