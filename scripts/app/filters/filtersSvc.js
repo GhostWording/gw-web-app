@@ -42,6 +42,7 @@ angular.module('app/filters/filtersSvc', [
         filters.recipientTypeTag = null;
         filters.proximity = null;
         console.log("filters reset");
+        // TODO : addAgeRange tag and a switch to desactivate age range check
       },
 
       createEmptyFilters: function () {
@@ -115,7 +116,6 @@ angular.module('app/filters/filtersSvc', [
         filters.recipientTypeTag = recipientTypeTag;
         console.log("recipient tag set to " + recipientTypeTag);
       },
-
 
       // should be able to do the same with userFriends
       setFilterValuesForRecipient: function (recipient,filters) {

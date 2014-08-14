@@ -35,11 +35,13 @@ function (textsSvc,intentionsSvc,areasSvc,filterHelperSvc,recipientsHelperSvc,fa
           var contextStyle = dashboardContextStyles.stylesByName[poster.userFriend.ufContext];
           filterHelperSvc.setContextTypeTag(poster.filters, contextStyle);
         }
+        // set recipient type filter
         if ( !! poster.userFriend.ufRecipientTypeId ) {
           var recipient = recipientsHelperSvc.getRecipientById(subscribableRecipientsSvc.getAllPossibleRecipientsNow(), poster.userFriend.ufRecipientTypeId);
           if ( recipient )
             filterHelperSvc.setRecipientTypeTag(poster.filters, recipient.RecipientTypeId);
         }
+        // Todo : add age filter
       }
     },
     // calculate poster filtered list from full list and filters

@@ -9,23 +9,6 @@
         <li ng-class = '{selectionne: currentUser.gender=="F"}'>
             <a  targetType="Command" targetId="SenderGender" translate ng-click = "currentUser.gender = 'F'">Une femme</a></li>
     </ul>
-    <ul class="pager bmwQuestionButton">
-        <span translate>Je lis</span>
-        <li ng-class = '{selectionne: currentUser.readsAlot=="T"}'>
-            <a targetType="Command" targetId="UserReadsALot" translate ng-click = "currentUser.readsAlot = 'T'">Beaucoup</a></li>
-        <li ng-class = '{selectionne: currentUser.readsAlot=="F"}'>
-            <a targetType="Command" targetId="UserReadsALot" translate ng-click = "currentUser.readsAlot = 'F'">Modérément</a></li>
-    </ul>
-    <!--<ul class="pager bmwQuestionButton">-->
-        <!--<span translate> Age</span>-->
-        <!--<li ng-class = '{selectionne: currentUser.age==userAges.under25}'>-->
-            <!--<a targetType="Command" targetId="UserAge" translate ng-click = "currentUser.age = userAges.under25">- de 25</a></li>-->
-        <!--<li ng-class = '{selectionne: currentUser.age==userAges.between25and45}'>-->
-            <!--<a targetType="Command" targetId="UserAge" translate ng-click = "currentUser.age = userAges.between25and45">25 à 45</a></li>-->
-        <!--<li ng-class = '{selectionne: currentUser.age==userAges.over45}'>-->
-            <!--<a targetType="Command" targetId="UserAge" translate ng-click = "currentUser.age = userAges.over45">+ de 45</a></li>-->
-    <!--</ul>-->
-  <!-- Should change to facebook age ranges -->
   <ul class="pager bmwQuestionButton">
     <span translate> Age</span>
     <li ng-class = '{selectionne: currentUser.age==userAges.under18}'>
@@ -40,6 +23,13 @@
       <a targetType="Command" targetId="UserAge" translate ng-click = "currentUser.age = userAges.from65ToInfinity">{{ '65+' }}</a></li>
   </ul>
 
+  <ul class="pager bmwQuestionButton">
+    <span translate>Je lis</span>
+    <li ng-class = '{selectionne: currentUser.readsAlot=="T"}'>
+      <a targetType="Command" targetId="UserReadsALot" translate ng-click = "currentUser.readsAlot = 'T'">Beaucoup</a></li>
+    <li ng-class = '{selectionne: currentUser.readsAlot=="F"}'>
+      <a targetType="Command" targetId="UserReadsALot" translate ng-click = "currentUser.readsAlot = 'F'">Modérément</a></li>
+  </ul>
 
   <ul class="pager bmwQuestionButton">
         <span translate>Caractère</span>
