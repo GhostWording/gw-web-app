@@ -50,8 +50,8 @@ angular.module('cherryApp',  [
     version: 'v1.0'
   });
 }])
-.controller('CherryController', ['$scope',  'PostActionSvc','$rootScope','$location','currentLanguage','appUrlSvc','intentionsSvc','appVersionCheck','textsSvc','$window', '$state','HelperSvc','$translate','facebookSvc',
-  function ($scope,PostActionSvc,$rootScope,$location,currentLanguage,appUrlSvc,intentionsSvc,appVersionCheck,textsSvc,$window,$state,HelperSvc,$translate,facebookSvc) {
+.controller('CherryController', ['$scope',  'PostActionSvc','$rootScope','$location','currentLanguage','appUrlSvc','intentionsSvc','appVersionCheck','textsSvc','$window', '$state','helperSvc','$translate','facebookSvc',
+  function ($scope,PostActionSvc,$rootScope,$location,currentLanguage,appUrlSvc,intentionsSvc,appVersionCheck,textsSvc,$window,$state,helperSvc,$translate,facebookSvc) {
     $scope.app = {};
     $scope.app.appUrlSvc = appUrlSvc;
     $rootScope.pageTitle1 = "Comment vous dire. Les mots sur le bout de la langue, l'inspiration au bout des doigts";
@@ -134,9 +134,9 @@ angular.module('cherryApp',  [
         textsSvc.getCurrent().then(function (text) {
           if (text) {
             $rootScope.pageTitle1 = "";
-            if ( HelperSvc.isQuote(text)) {
-              var txt =  HelperSvc.replaceAngledQuotes(text.Content,"");
-              $rootScope.pageTitle2 = HelperSvc.insertAuthorInText(txt, text.Author,true);
+            if ( helperSvc.isQuote(text)) {
+              var txt =  helperSvc.replaceAngledQuotes(text.Content,"");
+              $rootScope.pageTitle2 = helperSvc.insertAuthorInText(txt, text.Author,true);
               $translate("Citation").then(function(value) {$rootScope.pageTitle2 += " - " + value;});
             }
             else
@@ -146,7 +146,7 @@ angular.module('cherryApp',  [
             intentionsSvc.getCurrent().then(function(intention) {
               $translate("Comment dire").then(function(translatedPrefix) {
                 $translate(intention.Label).then(function(translatedIntentionLable) {
-                  $rootScope.pageDescription = translatedPrefix + " " + HelperSvc.lowerFirstLetter(translatedIntentionLable);
+                  $rootScope.pageDescription = translatedPrefix + " " + helperSvc.lowerFirstLetter(translatedIntentionLable);
                   $rootScope.ogDescription = translatedIntentionLable;
                   console.log("ogDescription : " +$rootScope.ogDescription);
                 });

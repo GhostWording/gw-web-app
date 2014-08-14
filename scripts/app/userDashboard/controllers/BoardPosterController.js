@@ -1,6 +1,6 @@
 angular.module('app/userDashboard/BoardPosterController', [])
-.controller('BoardPosterController', ['$scope', 'HelperSvc', 'DateHelperSvc','$modal', 'ufHelperSvc','boardPosterHelperSvc','currentBoardPosterSvc','dashboardContextStyles',
-  function ($scope, HelperSvc, DateHelperSvc,$modal,ufHelperSvc,boardPosterHelperSvc,currentBoardPosterSvc,dashboardContextStyles) {
+.controller('BoardPosterController', ['$scope', 'helperSvc', 'dateHelperSvc','$modal', 'ufHelperSvc','boardPosterHelperSvc','currentBoardPosterSvc','dashboardContextStyles',
+  function ($scope, helperSvc, dateHelperSvc,$modal,ufHelperSvc,boardPosterHelperSvc,currentBoardPosterSvc,dashboardContextStyles) {
 
     // Initialize : most properties will be set by the $watch functions
     $scope.poster = {'fullTextList' : [], 'filteredTextList' : [], 'filters' : null, 'userFriend' : $scope.userFriend, 'section' : $scope.boardSection, 'postedText' : ''  };
@@ -11,8 +11,8 @@ angular.module('app/userDashboard/BoardPosterController', [])
     $scope.setCurrentPoster = function() {currentBoardPosterSvc.setCurrentPoster($scope.poster);};
 
     // Date functions
-    $scope.DateHelperSvc = DateHelperSvc;
-    $scope.displayDate   = DateHelperSvc.localDisplayDateWithMonth(new Date());
+    $scope.dateHelperSvc = dateHelperSvc;
+    $scope.displayDate   = dateHelperSvc.localDisplayDateWithMonth(new Date());
 
     // Get / Set functions
     $scope.nbInfoWasProvided = 0;
@@ -70,7 +70,7 @@ angular.module('app/userDashboard/BoardPosterController', [])
       var txtIndex = chooseRandomIndice($scope.poster.filteredTextList);
       $scope.poster.txtIndex = txtIndex;
       var txt = $scope.poster.filteredTextList[txtIndex];
-      $scope.poster.postedText = HelperSvc.isQuote(txt) ? HelperSvc.insertAuthorInText(txt.Content, txt.Author) : txt.Content ;
+      $scope.poster.postedText = helperSvc.isQuote(txt) ? helperSvc.insertAuthorInText(txt.Content, txt.Author) : txt.Content ;
     }
 
     $scope.refresh = function() {

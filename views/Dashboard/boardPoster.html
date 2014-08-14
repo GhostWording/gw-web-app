@@ -5,11 +5,11 @@
   </div>
   <!-- Birthday and age -->
   <div class="text-info">
-    <span ng-show="DateHelperSvc.fbBirthdayHasDayAndMonth(poster.userFriend.birthday)">{{DateHelperSvc.fbBirthdayToDisplay(poster.userFriend.birthday)}}</span>
-    <span ng-show="DateHelperSvc.fbBirthdayHasDayAndMonth(poster.userFriend.birthday) && DateHelperSvc.fbBirthdayHasYear(poster.userFriend.birthday)"> - </span>
-    <span ng-show="DateHelperSvc.fbBirthdayHasYear(poster.userFriend.birthday)">{{DateHelperSvc.fbAgeToDisplay(poster.userFriend.birthday)}}</span>
-    <span ng-show="DateHelperSvc.fbBirthdayHasYear(poster.userFriend.birthday)"> </span>
-    <span ng-show="DateHelperSvc.fbBirthdayHasYear(poster.userFriend.birthday)" translate>ans</span>
+    <span ng-show="dateHelperSvc.fbBirthdayHasDayAndMonth(poster.userFriend.birthday)">{{dateHelperSvc.fbBirthdayToDisplay(poster.userFriend.birthday)}}</span>
+    <span ng-show="dateHelperSvc.fbBirthdayHasDayAndMonth(poster.userFriend.birthday) && dateHelperSvc.fbBirthdayHasYear(poster.userFriend.birthday)"> - </span>
+    <span ng-show="dateHelperSvc.fbBirthdayHasYear(poster.userFriend.birthday)">{{dateHelperSvc.fbAgeToDisplay(poster.userFriend.birthday)}}</span>
+    <span ng-show="dateHelperSvc.fbBirthdayHasYear(poster.userFriend.birthday)"> </span>
+    <span ng-show="dateHelperSvc.fbBirthdayHasYear(poster.userFriend.birthday)" translate>ans</span>
     <!--<span class="label label-default" style="margin-left: 5px;" >{{ poster.userFriend.ufContext | translate }}</span>-->
     <button class="button btn btn-default btn-xs" ng-show = "poster.userFriend.ufContext" ng-click="showContextFilters()"
             style="margin-left: 5px;" >{{ poster.userFriend.ufContext | translate }}</button>

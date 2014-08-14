@@ -1,7 +1,7 @@
-angular.module('app/userFriend/currentUserFriendSvc', ['common/services/HelperSvc'])
+angular.module('app/userFriend/currentUserFriendSvc', ['common/services/helperSvc'])
 
-.factory('currentUserFriendSvc', ['HelperSvc',
-function (HelperSvc) {
+.factory('currentUserFriendSvc', ['helperSvc',
+function (helperSvc) {
   var currentUserFriend;
 
   var service = {

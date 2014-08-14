@@ -6,8 +6,8 @@ angular.module('app/filters/accordionSvc', [
 
 
 // This service keeps track of user choices that impact the filtering of texts
-.factory('accordionSvc', ['$rootScope', 'intentionsSvc', 'areasSvc', 'currentUser', 'currentLanguage', 'currentRecipientSvc','filtersSvc','textsSvc','generalStyles','HelperSvc',
-  function ($rootScope, intentionsSvc, areasSvc, currentUser, currentLanguage, currentRecipientSvc,filtersSvc,textsSvc,generalStyles,HelperSvc) {
+.factory('accordionSvc', ['$rootScope', 'intentionsSvc', 'areasSvc', 'currentUser', 'currentLanguage', 'currentRecipientSvc','filtersSvc','textsSvc','generalStyles','helperSvc',
+  function ($rootScope, intentionsSvc, areasSvc, currentUser, currentLanguage, currentRecipientSvc,filtersSvc,textsSvc,generalStyles,helperSvc) {
 
 
       var filters = filtersSvc.filters;
@@ -43,7 +43,7 @@ angular.module('app/filters/accordionSvc', [
         for (var i = 0; i < visibleStyleList.length; i++) {
           var style = visibleStyleList[i];
           var styleCount = textsSvc.getTextCountForTagId(style.id);
-          style.selectiveness  = HelperSvc.countTagSelelectiveness(style.id,styleCount,textsSvc.getLengthForTextCount());
+          style.selectiveness  = helperSvc.countTagSelelectiveness(style.id,styleCount,textsSvc.getLengthForTextCount());
           if ( style.selectiveness >=  minSelectiveness)
             selectiveStyleList.push(style);
         //  console.log(style.name + " -- " + styleCount + " -- " + style.selectiveness);

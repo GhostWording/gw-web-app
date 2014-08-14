@@ -46,7 +46,7 @@
     <!--<div class="listeTextes" ng-show="filtersWellDefined() || showTextsAnyway()">-->
     <div class="listeTextes" ng-show="true">
       <div ng-repeat="txt in filteredList">
-         <span ng-hide="HelperSvc.isQuote(txt)" ng-repeat="tagLabel in labelsThatShouldBeDisplayed (txt)" >
+         <span ng-hide="helperSvc.isQuote(txt)" ng-repeat="tagLabel in labelsThatShouldBeDisplayed (txt)" >
             <span class="label label-warning" translate>{{tagLabel}}</span>&nbsp
          </span>
 

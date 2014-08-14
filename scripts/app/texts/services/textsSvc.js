@@ -1,7 +1,7 @@
 angular.module('app/texts/textList', [])
 
-.factory('textsSvc', ['areasSvc', 'intentionsSvc', '$stateChange', 'cacheSvc', 'serverSvc','HelperSvc','currentLanguage','minSortOrderToBeRandomized',
-function(areasSvc, intentionsSvc, $stateChange, cacheSvc, serverSvc,HelperSvc,currentLanguage,minSortOrderToBeRandomized) {
+.factory('textsSvc', ['areasSvc', 'intentionsSvc', '$stateChange', 'cacheSvc', 'serverSvc','helperSvc','currentLanguage','minSortOrderToBeRandomized',
+function(areasSvc, intentionsSvc, $stateChange, cacheSvc, serverSvc,helperSvc,currentLanguage,minSortOrderToBeRandomized) {
 
   var styleCount = {};
   var nbTextsForStyleCount;
@@ -15,11 +15,11 @@ function(areasSvc, intentionsSvc, $stateChange, cacheSvc, serverSvc,HelperSvc,cu
   var service = {
 
     countTextsForStylesAndProperties : function (textList) {
-      styleCount = HelperSvc.countNbTextsPerStyle(textList);
+      styleCount = helperSvc.countNbTextsPerStyle(textList);
       nbTextsForStyleCount = textList.length;
 
       angular.forEach(propertyKeystoBeCounted, function (o) {
-        var c = HelperSvc.countNbTextsPerPropertyValue(textList, o.name, o.value);
+        var c = helperSvc.countNbTextsPerPropertyValue(textList, o.name, o.value);
         var key = o.name + '.' + o.value;
         propertyCount[key] = c;
       });
@@ -97,8 +97,8 @@ function(areasSvc, intentionsSvc, $stateChange, cacheSvc, serverSvc,HelperSvc,cu
         return -(text2.SortBy - text1.SortBy); //
       });
       // Keep the first texts sorted to display a few good ones but randomize the others to facilitate machine learning
-//      textList = HelperSvc.shuffleTextIfSortOrderNotLessThan(textList, service.minSortOrderToBeRandomized);
-      textList = HelperSvc.shuffleTextIfSortOrderNotLessThan(textList, minSortOrderToBeRandomized);
+//      textList = helperSvc.shuffleTextIfSortOrderNotLessThan(textList, service.minSortOrderToBeRandomized);
+      textList = helperSvc.shuffleTextIfSortOrderNotLessThan(textList, minSortOrderToBeRandomized);
       return textList;
     },
 

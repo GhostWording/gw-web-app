@@ -1,12 +1,12 @@
 angular.module('app/userDashboard/DashboardController', [])
-.controller('DashboardController', ['$scope', 'facebookSvc','DateHelperSvc','ufHelperSvc','ufSvc',
-  function ($scope, facebookSvc,DateHelperSvc,ufHelperSvc,ufSvc) {
+.controller('DashboardController', ['$scope', 'facebookSvc','dateHelperSvc','ufHelperSvc','ufSvc',
+  function ($scope, facebookSvc,dateHelperSvc,ufHelperSvc,ufSvc) {
     // Login
     $scope.fbLogin = facebookSvc.fbLogin;
     // Display extra info during debug
     $scope.isDebug = true;
     // Todays date
-    $scope.displayDate = DateHelperSvc.localDisplayDateWithMonth(new Date());
+    $scope.displayDate = dateHelperSvc.localDisplayDateWithMonth(new Date());
 
     // Sections can display one intention for several userFriends, or several intentions for one userFriend
     $scope.BoardSectionList =  [
@@ -41,7 +41,7 @@ angular.module('app/userDashboard/DashboardController', [])
 
 //$scope.randomText = {};
 //$scope.getRandomTextFromList = function() {
-//  var shuffledList = HelperSvc.shuffleTextIfSortOrderNotLessThan($scope.filteredMessageList,-1);
+//  var shuffledList = helperSvc.shuffleTextIfSortOrderNotLessThan($scope.filteredMessageList,-1);
 //  $scope.txtContent = '';
 //  if ( shuffledList.length > 0  ) {
 //    $scope.txtContent = angular.copy(shuffledList[0]).Content;
@@ -53,7 +53,7 @@ angular.module('app/userDashboard/DashboardController', [])
 
 //var getRandomTextFromThisList = function(textList) {
 //  // TODO : should not do that, should generate random index !!
-//  var shuffledList = HelperSvc.shuffleTextIfSortOrderNotLessThan(textList,-1);
+//  var shuffledList = helperSvc.shuffleTextIfSortOrderNotLessThan(textList,-1);
 //  var valret = '';
 //  if ( shuffledList.length > 0  ) {
 //    //valret = angular.copy(shuffledList[0]).Content;
@@ -71,7 +71,7 @@ angular.module('app/userDashboard/DashboardController', [])
 //    for (var i = 0; i < $scope.apiNextBirthdayFriends.length; i++ ) {
 //      var id = $scope.apiNextBirthdayFriends[i].id;
 //      var txt = getRandomTextFromThisList($scope.filteredMessageList);
-//      var content = HelperSvc.isQuote(txt) ? HelperSvc.insertAuthorInText(txt.Content, txt.Author) : txt.Content ;
+//      var content = helperSvc.isQuote(txt) ? helperSvc.insertAuthorInText(txt.Content, txt.Author) : txt.Content ;
 //    }
 //  }
 //};
@@ -80,6 +80,6 @@ angular.module('app/userDashboard/DashboardController', [])
 //    var filterUserFriendMessageList = function (userFriend) {
 //      userFriend.filteredTextList = filteredTextsHelperSvc.getFilteredAndOrderedList(userFriend.textList, currentUser, userFriend.filters.preferredStyles, userFriend.filters);
 //      var txt = getRandomTextFromThisList($scope.filteredMessageList);
-//      var content = HelperSvc.isQuote(txt) ? HelperSvc.insertAuthorInText(txt.Content, txt.Author) : txt.Content;
+//      var content = helperSvc.isQuote(txt) ? helperSvc.insertAuthorInText(txt.Content, txt.Author) : txt.Content;
 //      $scope.randomTextList[id] = content;
 //    };

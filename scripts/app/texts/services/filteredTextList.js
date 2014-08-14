@@ -40,8 +40,8 @@ angular.module('app/texts/filteredTextListSvc', [])
     return service;
   }])
 
-.factory('filteredTextListSvc', [ 'HelperSvc','filtersSvc','minSortOrderToBeRandomized','filteredTextsHelperSvc',
-function(  HelperSvc,filtersSvc,minSortOrderToBeRandomized,filteredTextsHelperSvc) {
+.factory('filteredTextListSvc', [ 'helperSvc','filtersSvc','minSortOrderToBeRandomized','filteredTextsHelperSvc',
+function(  helperSvc,filtersSvc,minSortOrderToBeRandomized,filteredTextsHelperSvc) {
   var filteredTextList = [];
   var styleCount = {};
   var propertyCount = {};
@@ -53,10 +53,10 @@ function(  HelperSvc,filtersSvc,minSortOrderToBeRandomized,filteredTextsHelperSv
   ] ;
 
   function countTextsForStylesAndProperties () {
-    styleCount = HelperSvc.countNbTextsPerStyle(filteredTextList);
+    styleCount = helperSvc.countNbTextsPerStyle(filteredTextList);
 
     angular.forEach(propertyKeystoBeCounted, function (o) {
-      var c = HelperSvc.countNbTextsPerPropertyValue(filteredTextList, o.name, o.value);
+      var c = helperSvc.countNbTextsPerPropertyValue(filteredTextList, o.name, o.value);
       var key = o.name + '.' + o.value;
       propertyCount[key] = c;
     });

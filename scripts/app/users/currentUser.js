@@ -1,11 +1,11 @@
 // Keeps track of our user's local profile and preferences stored through cookies
 angular.module('app/users/currentUser', [
   'common/services/deviceIdSvc',
-  'common/services/HelperSvc',
-  'common/services/DateHelperSvc',
+  'common/services/helperSvc',
+  'common/services/dateHelperSvc',
   'app/users/userAges'
 ])
-.factory('currentUser', ['$rootScope', '$cookieStore', 'HelperSvc','userAges','DateHelperSvc', function ($rootScope, $cookieStore,HelperSvc,userAges,DateHelperSvc) {
+.factory('currentUser', ['$rootScope', '$cookieStore', 'helperSvc','userAges','dateHelperSvc', function ($rootScope, $cookieStore,helperSvc,userAges,dateHelperSvc) {
 
   var currentUser = $cookieStore.get('users.currentUser') || {
     gender: null,
@@ -26,7 +26,7 @@ angular.module('app/users/currentUser', [
         that.gender = 'F';
     }
     if ( !(that.age) && me.birthday ) {
-      var fbAge = DateHelperSvc.fbBirthdayAge(me.birthday);
+      var fbAge = dateHelperSvc.fbBirthdayAge(me.birthday);
       if ( fbAge >= 13 && fbAge < 18 )
         that.age = userAges.under18;
       else if (fbAge >= 18 && fbAge < 40)

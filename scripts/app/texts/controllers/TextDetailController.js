@@ -3,8 +3,8 @@ angular.module('app/texts/TextDetailController', ['common/i18n', 'app/texts/alte
 // Display text with author, link to the source, usage recommandations or comments
 
 .controller('TextDetailController',
-['$scope','currentText', 'currentIntention',  'tagLabelsSvc', '$modal','currentRecipient', 'favouritesSvc','currentRecipientSvc','alternativeTextsSvc','currentLanguage','HelperSvc','currentAreaName','$rootScope','$location',
-function ($scope, currentText, currentIntention, tagLabelsSvc, $modal,currentRecipient, favouritesSvc,currentRecipientSvc,alternativeTextsSvc,currentLanguage,HelperSvc,currentAreaName,$rootScope,$location) {
+['$scope','currentText', 'currentIntention',  'tagLabelsSvc', '$modal','currentRecipient', 'favouritesSvc','currentRecipientSvc','alternativeTextsSvc','currentLanguage','helperSvc','currentAreaName','$rootScope','$location','filtersSvc',
+function ($scope, currentText, currentIntention, tagLabelsSvc, $modal,currentRecipient, favouritesSvc,currentRecipientSvc,alternativeTextsSvc,currentLanguage,helperSvc,currentAreaName,$rootScope,$location,filtersSvc) {
 
   // TODO : when may want to explicitly set og:title from here because facebook randomly picks the intention title instead
 
@@ -53,11 +53,11 @@ function ($scope, currentText, currentIntention, tagLabelsSvc, $modal,currentRec
   // TODO : move in helper
   function adaptTextContentToLanguage(text) {
     var valret = text.Content;
-    if (HelperSvc.isQuote(currentText)) {
+    if (helperSvc.isQuote(currentText)) {
       if (text.Culture != "fr-FR")
-        valret = HelperSvc.replaceAngledQuotes(text.Content, '"');
+        valret = helperSvc.replaceAngledQuotes(text.Content, '"');
       else
-        valret = HelperSvc.insertSpaceInsideAngledQuotes(text.Content);
+        valret = helperSvc.insertSpaceInsideAngledQuotes(text.Content);
     }
     return valret;
   }
@@ -68,7 +68,7 @@ function ($scope, currentText, currentIntention, tagLabelsSvc, $modal,currentRec
   $scope.authorButton = "active";
 
   $scope.isQuote = function(txt) {
-    return HelperSvc.isQuote(txt);
+    return helperSvc.isQuote(txt);
   };
 
   $scope.send = function() {
@@ -94,7 +94,7 @@ function ($scope, currentText, currentIntention, tagLabelsSvc, $modal,currentRec
 //    var toBeAdded = " (" + currentText.Author + ")";
 //    $scope.txt.Content += toBeAdded;
 //    $scope.currentText.Content += toBeAdded;
-    $scope.txt.Content = HelperSvc.insertAuthorInText($scope.txt.Content, currentText.Author);
+    $scope.txt.Content = helperSvc.insertAuthorInText($scope.txt.Content, currentText.Author);
     $scope.authorButton = "disabled";
   };
 
@@ -143,7 +143,8 @@ function ($scope, currentText, currentIntention, tagLabelsSvc, $modal,currentRec
     if ( textList != "null") {
       // For each orderedPresentationLanguages, prepare an array of available texts for the language, then chose the best ones according to sender, recipient and polite form
       var currentTextLanguageCode =   currentLanguage.getLanguageFromCulture(currentText.Culture);
-      $scope.languageTextGroups = alternativeTextsSvc.getAlternativeTexts(currentText,textList,currentTextLanguageCode);
+      var currentFilters = filtersSvc.getCurrentFilters();
+      $scope.languageTextGroups = alternativeTextsSvc.getAlternativeTexts(currentText,textList,currentTextLanguageCode,currentFilters);
     }
     else
       console.log("No alternative realization for " + currentText.TextId);

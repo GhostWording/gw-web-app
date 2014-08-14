@@ -1,7 +1,7 @@
-angular.module('app/userFriend/ufHelperSvc', ['common/services/HelperSvc'])
+angular.module('app/userFriend/ufHelperSvc', ['common/services/helperSvc'])
 
-.factory('ufHelperSvc', ['HelperSvc','facebookHelperSvc','DateHelperSvc','userAges',
-function (HelperSvc,facebookHelperSvc,DateHelperSvc,userAges) {
+.factory('ufHelperSvc', ['helperSvc','facebookHelperSvc','dateHelperSvc','userAges',
+function (helperSvc,facebookHelperSvc,dateHelperSvc,userAges) {
 
   var service = {
     // Convert facebook id to our internan id format
@@ -84,7 +84,7 @@ function (HelperSvc,facebookHelperSvc,DateHelperSvc,userAges) {
       }
       console.log("NbFriends with birthday= " + retval.length);
       retval.sort(function (friend1, friend2) {
-        return DateHelperSvc.fbCompareBirtdays(friend1, friend2);
+        return dateHelperSvc.fbCompareBirtdays(friend1, friend2);
       });
       return retval;
     },

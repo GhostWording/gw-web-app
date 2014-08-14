@@ -1,7 +1,7 @@
-angular.module('app/userFriend/ufSvc', ['common/services/HelperSvc'])
+angular.module('app/userFriend/ufSvc', ['common/services/helperSvc'])
 
-.factory('ufSvc', ['HelperSvc',
-  function (HelperSvc) {
+.factory('ufSvc', ['helperSvc',
+  function (helperSvc) {
     var allUserFriends = [];
     var famillyUserFriends = [];
     var birthdayUserFriends = [];

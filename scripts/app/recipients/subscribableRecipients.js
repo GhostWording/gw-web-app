@@ -1,7 +1,7 @@
 angular.module('app/recipients/subscribableRecipients', [])
 
 
-.factory('recipientsHelperSvc', [ 'DateHelperSvc', function (DateHelperSvc) {
+.factory('recipientsHelperSvc', [ 'dateHelperSvc', function (dateHelperSvc) {
 
   function recipientIsCompatibleWithCurrentUser(possibleRecipient,currentUser) {
     var valret = true;
@@ -27,8 +27,8 @@ angular.module('app/recipients/subscribableRecipients', [])
 
   function fbMeIsCompatibleWithFbTarget(fbMe,fbTargetUser, possibleRecipientId) {
     var valret = true;
-    var myAge = DateHelperSvc.fbBirthdayAge(fbMe.birthday);
-    var fbFriendAge = DateHelperSvc.fbBirthdayAge(fbTargetUser.birthday);
+    var myAge = dateHelperSvc.fbBirthdayAge(fbMe.birthday);
+    var fbFriendAge = dateHelperSvc.fbBirthdayAge(fbTargetUser.birthday);
 
     // Look for age incompatibilities
     if ( myAge > -1 && fbFriendAge > -1) {
