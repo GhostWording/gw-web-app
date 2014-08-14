@@ -1,12 +1,17 @@
 angular.module('app/userFriend/ufHelperSvc', ['common/services/HelperSvc'])
 
-.factory('ufHelperSvc', ['HelperSvc','facebookHelperSvc','DateHelperSvc',
-  function (HelperSvc,facebookHelperSvc,DateHelperSvc) {
+.factory('ufHelperSvc', ['HelperSvc','facebookHelperSvc','DateHelperSvc','userAges',
+function (HelperSvc,facebookHelperSvc,DateHelperSvc,userAges) {
 
   var service = {
     // Convert facebook id to our internan id format
     makeUserFriendIdFromFbId: function (fbId) {
       return "facebook:" + fbId;
+    },
+    makeAgeRangeFromBirthday: function (birthday) {
+      var retval; // undefined by default
+
+      return retval;
     },
 
     makeUserFriendFromFbFriend: function(fbFriend) {
@@ -48,6 +53,7 @@ angular.module('app/userFriend/ufHelperSvc', ['common/services/HelperSvc'])
         userFriend.ufRecipientTypeId = null;
       userFriend.ufContext = contextName;
     },
+
     // Update ufContext for all user friends that appear in a fb friend list
     updateUserFriendContextIfPresentInFbList : function(fbFriendList,ufList,ufContext) {
       for (var i= 0; i < fbFriendList.length; i++ ) {

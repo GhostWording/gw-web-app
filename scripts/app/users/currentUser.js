@@ -2,14 +2,9 @@
 angular.module('app/users/currentUser', [
   'common/services/deviceIdSvc',
   'common/services/HelperSvc',
+  'common/services/DateHelperSvc',
   'app/users/userAges'
 ])
-//.value('userAges', {
-//  under18: 'under18',
-//  between18and39: 'between18and39',
-//  between40and64: 'between40and64',
-//  from65ToInfinity: 'from65ToInfinity'
-//})
 .factory('currentUser', ['$rootScope', '$cookieStore', 'HelperSvc','userAges','DateHelperSvc', function ($rootScope, $cookieStore,HelperSvc,userAges,DateHelperSvc) {
 
   var currentUser = $cookieStore.get('users.currentUser') || {
