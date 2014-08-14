@@ -1,5 +1,6 @@
 angular.module('app/filters', [
   'app/filters/filtersSvc',
+  'app/filters/filterHelperSvc',
   'app/filters/styles',
   'app/filters/TextFiltersController',
   'app/filters/StyleBarController',
