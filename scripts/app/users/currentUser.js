@@ -3,16 +3,9 @@ angular.module('app/users/currentUser', [
   'common/services/deviceIdSvc',
   'common/services/HelperSvc'
 ])
-
-//.value('userAges', {
-//  under25: 'under25',
-//  between25and45: '25to45',
-//  over45: 'over45'
-//})
 .value('userAges', {
   under18: 'under18',
-  under21: 'under21',
-  between21and39: 'between21and39',
+  between18and39: 'between18and39',
   between40and64: 'between40and64',
   from65ToInfinity: 'from65ToInfinity'
 })
@@ -38,12 +31,14 @@ angular.module('app/users/currentUser', [
     }
     if ( !(that.age) && me.birthday ) {
       var fbAge = DateHelperSvc.fbBirthdayAge(me.birthday);
-      if ( fbAge > 13 && fbAge < 25 )
-        that.age = userAges.under25;
-      else if (fbAge >= 25 && fbAge <= 45)
-        that.age = userAges.between25and45;
-      else if ( fbAge > 45 )
-        that.age = userAges.over45;
+      if ( fbAge >= 13 && fbAge < 18 )
+        that.age = userAges.under18;
+      else if (fbAge >= 18 && fbAge < 40)
+        that.age = userAges.between18and39;
+      else if (fbAge >= 40 && fbAge < 65)
+        that.age = userAges.between40and64;
+      else if ( fbAge >= 65 )
+        that.age = userAges.from65ToInfinity;
     }
   };
 

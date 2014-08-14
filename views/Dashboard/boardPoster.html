@@ -19,6 +19,9 @@
   <!-- Debug info -->
   <div ng-show="isDebug">{{ getUserFriendInfo() }} texts</div>
   <!-- Message -->
-  <textarea ng-model="poster.fullTextList[0].Content" style="width:100%; padding: 15px; margin-bottom: 5px; background-color: #d9edf7" disabled rows="5"></textarea>
-  <button type="button" ng-click="showNextQuestion()" class="btn btn-primary btn-sm">Améliorer</button>
+  <textarea ng-model="poster.postedText" style="width:100%; padding: 15px; margin-bottom: 5px; background-color: #d9edf7" disabled rows="5"></textarea>
+  <!-- Buttons -->
+  <button type="button" ng-click="showNextQuestion()" class="btn btn-primary btn-sm">{{ getMakeBetterLabel() | translate }}</button>
+  <button type="button" ng-click="refresh()" class="btn btn-primary glyphicon glyphicon-refresh"></button>
+
 </div>

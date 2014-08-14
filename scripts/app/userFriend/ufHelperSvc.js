@@ -1,7 +1,7 @@
 angular.module('app/userFriend/ufHelperSvc', ['common/services/HelperSvc'])
 
-.factory('ufHelperSvc', ['HelperSvc','filterHelperSvc','filteredTextsHelperSvc','facebookHelperSvc','DateHelperSvc',
-  function (HelperSvc,filterHelperSvc,filteredTextsHelperSvc,facebookHelperSvc,DateHelperSvc) {
+.factory('ufHelperSvc', ['HelperSvc','facebookHelperSvc','DateHelperSvc',
+  function (HelperSvc,facebookHelperSvc,DateHelperSvc) {
 
   var service = {
 
@@ -61,20 +61,6 @@ angular.module('app/userFriend/ufHelperSvc', ['common/services/HelperSvc'])
       }
       return uFriendList;
     },
-
-//    addFamilyMembersOrUpdateFamilialContext : function(fbFamily,uFriendList) {
-//      for (var i= 0; i < fbFamily.length; i++ ) {
-//        var fbFriend = fbFamily[i];
-//        var key = service.makeUserFriendIdFromFbId(fbFriend.id);
-//        if ( !uFriendList[key] ) {
-//          uFriendList[key] = service.makeUserFriendFromFbFriend(fbFriend);
-//          uFriendList[key].ufContext = 'familialContext';
-//        }
-//        else {
-//          uFriendList[key].ufContext = 'familialContext';
-//        }
-//      }
-//    },
 
     addFbFriendsToUserFriendsIfAbsent : function(fbFamily,uFriendList) {
       for (var i= 0; i < fbFamily.length; i++ ) {

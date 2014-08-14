@@ -62,7 +62,8 @@ function (textsSvc,intentionsSvc,areasSvc,filterHelperSvc,recipientsHelperSvc,fa
     },
     getPosterDebugInfo: function (poster) {
       var valret = "";
-      valret = "";
+      if ( poster.txtIndex !== null  )
+        valret += poster.txtIndex + " / ";
       valret += poster.filteredTextList.length;
       valret += " / ";
       valret += poster.fullTextList.length;
