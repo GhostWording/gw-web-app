@@ -21,65 +21,22 @@ angular.module('app/userDashboard/DashboardController', [])
 
     // Refresh user friends and birthday user friends when  facebook friend list arrives
     $scope.$watch(function() { return facebookSvc.getCurrentFriends(); }, function(res) {
-      console.log("facebookSvc.getCurrentFriends() : " +res.length );
-      ufSvc.setUserFriends(ufHelperSvc.createUFListFromFbFriends(res));
+      if ( !res ) return;
+      console.log("facebookSvc.getCurrentFriends() ::: " +res.length );
+      // We should not create the list, only augment it, for it might have been initialized elsewhere, like for familly or frequent correspondents
+      //ufSvc.setUserFriends(ufHelperSvc.createUFListFromFbFriends(res));
+      var currentUserFriends = ufSvc.getUFList();
+      ufHelperSvc.addFbFriendsToUserFriendsIfAbsent(res,currentUserFriends);
       var birthdayUF = ufHelperSvc.getNextBirthdayUserFriends( ufSvc.getUFList(),3 );
       ufSvc.setBirthdayUserFriends(birthdayUF);
     },true);
 
     // Refresh familly user friends when facebook family list arrives
     $scope.$watch(function() { return facebookSvc.getCurrentFamily(); }, function(res) {
+      if ( !res ) return;
       console.log("facebookSvc.getCurrentFamily() : " +res.length );
-      //ufHelperSvc.addFamilyMembersOrUpdateFamilialContext(res,ufSvc.getUFList());
       ufHelperSvc.addFbFriendsToUserFriendsIfAbsent(res,ufSvc.getUFList());
       ufHelperSvc.updateUserFriendContextIfPresentInFbList(res,ufSvc.getUFList(),'familialContext');
     },true);
 
   }]);
-
-
-
-//$scope.randomText = {};
-//$scope.getRandomTextFromList = function() {
-//  var shuffledList = helperSvc.shuffleTextIfSortOrderNotLessThan($scope.filteredMessageList,-1);
-//  $scope.txtContent = '';
-//  if ( shuffledList.length > 0  ) {
-//    $scope.txtContent = angular.copy(shuffledList[0]).Content;
-//  }
-//  //console.log($scope.txtContent);
-//  return $scope.txtContent;
-//};
-
-
-//var getRandomTextFromThisList = function(textList) {
-//  // TODO : should not do that, should generate random index !!
-//  var shuffledList = helperSvc.shuffleTextIfSortOrderNotLessThan(textList,-1);
-//  var valret = '';
-//  if ( shuffledList.length > 0  ) {
-//    //valret = angular.copy(shuffledList[0]).Content;
-//    valret = shuffledList[0];
-//  }
-//  return valret;
-//};
-
-
-// Update birthday message filtering
-//$scope.filterMessageList = function () {
-//  // Avoid calling twice when view initializes
-//  $scope.filteredMessageList = filteredTextsHelperSvc.getFilteredAndOrderedList($scope.textList, currentUser, $scope.filters.preferredStyles,$scope.filters);
-//  if ( !! $scope.apiNextBirthdayFriends ) {
-//    for (var i = 0; i < $scope.apiNextBirthdayFriends.length; i++ ) {
-//      var id = $scope.apiNextBirthdayFriends[i].id;
-//      var txt = getRandomTextFromThisList($scope.filteredMessageList);
-//      var content = helperSvc.isQuote(txt) ? helperSvc.insertAuthorInText(txt.Content, txt.Author) : txt.Content ;
-//    }
-//  }
-//};
-
-
-//    var filterUserFriendMessageList = function (userFriend) {
-//      userFriend.filteredTextList = filteredTextsHelperSvc.getFilteredAndOrderedList(userFriend.textList, currentUser, userFriend.filters.preferredStyles, userFriend.filters);
-//      var txt = getRandomTextFromThisList($scope.filteredMessageList);
-//      var content = helperSvc.isQuote(txt) ? helperSvc.insertAuthorInText(txt.Content, txt.Author) : txt.Content;
-//      $scope.randomTextList[id] = content;
-//    };
