@@ -137,7 +137,7 @@ angular.module('app/filters/filterHelperSvc', [
       },
       setAgeTag: function(filters,ageTag) {
         filters.ageTag = ageTag;
-        console.log("ageTag set to " + ageTag);
+        //console.log("ageTag set to " + ageTag);
       },
 
       // should be able to do the same with userFriends
