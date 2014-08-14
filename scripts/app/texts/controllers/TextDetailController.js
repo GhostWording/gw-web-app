@@ -72,7 +72,7 @@ function ($scope, currentText, currentIntention, tagLabelsSvc, $modal,currentRec
   };
 
   $scope.send = function() {
-    //PostActionSvc.postActionInfo('Text',currentText.TextId, 'TexDetail','send');
+    //postActionSvc.postActionInfo('Text',currentText.TextId, 'TexDetail','send');
 
     $scope.sendDialog = $modal.open({
       templateUrl: 'views/partials/sendTextForm.html',

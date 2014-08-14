@@ -50,8 +50,8 @@ angular.module('cherryApp',  [
     version: 'v1.0'
   });
 }])
-.controller('CherryController', ['$scope',  'PostActionSvc','$rootScope','$location','currentLanguage','appUrlSvc','intentionsSvc','appVersionCheck','textsSvc','$window', '$state','helperSvc','$translate','facebookSvc',
-  function ($scope,PostActionSvc,$rootScope,$location,currentLanguage,appUrlSvc,intentionsSvc,appVersionCheck,textsSvc,$window,$state,helperSvc,$translate,facebookSvc) {
+.controller('CherryController', ['$scope',  'postActionSvc','$rootScope','$location','currentLanguage','appUrlSvc','intentionsSvc','appVersionCheck','textsSvc','$window', '$state','helperSvc','$translate','facebookSvc',
+  function ($scope,postActionSvc,$rootScope,$location,currentLanguage,appUrlSvc,intentionsSvc,appVersionCheck,textsSvc,$window,$state,helperSvc,$translate,facebookSvc) {
     $scope.app = {};
     $scope.app.appUrlSvc = appUrlSvc;
     $rootScope.pageTitle1 = "Comment vous dire. Les mots sur le bout de la langue, l'inspiration au bout des doigts";
@@ -72,7 +72,7 @@ angular.module('cherryApp',  [
       return currentLanguage.getLanguageCode();
     };
 
-    PostActionSvc.postActionInfo('Init', 'Init', 'App', 'Init');
+    postActionSvc.postActionInfo('Init', 'Init', 'App', 'Init');
     $scope.showSpinner = false;
     $scope.trackerIsActive = function () { return $rootScope.loadingTracker.active();};
 

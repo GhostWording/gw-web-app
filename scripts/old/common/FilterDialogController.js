@@ -1,6 +1,6 @@
 // Asks user about filters to be applied to the next query
-cherryApp.controller('FilterDialogController', ['$scope', 'HelperService','NormalTextFilters','PostActionSvc','FilterVisibilityHelperSvc','CurrentTextList','SelectedIntention',
-	function ($scope, HelperService, TextFilters,PostActionSvc,FilterVisibilityHelperSvc,CurrentTextList,SelectedIntention) {
+cherryApp.controller('FilterDialogController', ['$scope', 'HelperService','NormalTextFilters','postActionSvc','FilterVisibilityHelperSvc','CurrentTextList','SelectedIntention',
+	function ($scope, HelperService, TextFilters,postActionSvc,FilterVisibilityHelperSvc,CurrentTextList,SelectedIntention) {
         $scope.BasicFilters = TextFilters;
         $scope.ContextFilters = {};
 
@@ -37,7 +37,7 @@ cherryApp.controller('FilterDialogController', ['$scope', 'HelperService','Norma
         $scope.TogglePreferedStyle = function(key,scopeVariable) {
             var newValue = ! $scope[scopeVariable];
             TextFilters.setStyleToPrefer(key,newValue);
-            PostActionSvc.postActionInfo('Command',scopeVariable,'StyleDialog','click',newValue);
+            postActionSvc.postActionInfo('Command',scopeVariable,'StyleDialog','click',newValue);
         };
 
         $scope.displayNbFilteredTexts = CurrentTextList.hasTexts ;
@@ -57,7 +57,7 @@ cherryApp.controller('FilterDialogController', ['$scope', 'HelperService','Norma
         $scope.ToggleIncludeContext = function(key,scopeVariable) {
             var newValue = ! $scope.ContextFilters[scopeVariable];
             TextFilters.setContextToInclude(key,newValue);
-            PostActionSvc.postActionInfo('Command',key,'StyleDialog','click',newValue);
+            postActionSvc.postActionInfo('Command',key,'StyleDialog','click',newValue);
 
         };
 
