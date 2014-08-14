@@ -1,6 +1,6 @@
-angular.module('app/recipients/subscribedRecipients', ['common/services/cache'])
+angular.module('app/recipients/subscribedRecipientTypes', ['common/services/cache'])
 
-.factory('subscribedRecipientsSvc', ['$q','localStorage','recipientTypesSvc', function ($q, localStorage,recipientTypesSvc) {
+.factory('subscribedRecipientTypesSvc', ['$q','localStorage','recipientTypesSvc', function ($q, localStorage,recipientTypesSvc) {
 	var service = {
     nbSubscribedRecipients : 0,
 
@@ -48,13 +48,13 @@ angular.module('app/recipients/subscribedRecipients', ['common/services/cache'])
 	return service;
 }])
 
-.controller('SubscribedRecipientsController', ['$scope', 'recipientTypesSvc', 'subscribedRecipientsSvc','recipientTypeHelperSvc','currentUser',
-function ($scope, recipientTypesSvc, subscribedRecipientsSvc,recipientTypeHelperSvc,currentUser) {
+.controller('SubscribedRecipientsController', ['$scope', 'recipientTypesSvc', 'subscribedRecipientTypesSvc','recipientTypeHelperSvc','currentUser',
+function ($scope, recipientTypesSvc, subscribedRecipientTypesSvc,recipientTypeHelperSvc,currentUser) {
 
-  subscribedRecipientsSvc.countSubscribedRecipients();
+  subscribedRecipientTypesSvc.countSubscribedRecipients();
 
   $scope.hasSubscribedRecipients = function() {
-    return subscribedRecipientsSvc.nbSubscribedRecipients > 0;
+    return subscribedRecipientTypesSvc.nbSubscribedRecipients > 0;
   };
 
   recipientTypesSvc.getAll().then(function (value) {
@@ -62,8 +62,8 @@ function ($scope, recipientTypesSvc, subscribedRecipientsSvc,recipientTypeHelper
 
     $scope.recipients = compatibleRecipients;
   });
-  $scope.switchState = subscribedRecipientsSvc.switchStateForRecipientTypeAlerts;
-  $scope.getState = subscribedRecipientsSvc.getStateForRecipientTypeAlerts;
+  $scope.switchState = subscribedRecipientTypesSvc.switchStateForRecipientTypeAlerts;
+  $scope.getState = subscribedRecipientTypesSvc.getStateForRecipientTypeAlerts;
 
 
 }]);

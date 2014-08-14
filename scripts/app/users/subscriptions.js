@@ -1,10 +1,10 @@
 angular.module('app/users/subscriptions',['app/recipients'])
 
-.factory('subscriptionsSvc', ['$q','subscribedRecipientsSvc','likelyIntentionsSvc','$rootScope','localStorage',
-	function ($q, subscribedRecipientsSvc,likelyIntentionsSvc,$rootScope,localStorage) {
+.factory('subscriptionsSvc', ['$q','subscribedRecipientTypesSvc','likelyIntentionsSvc','$rootScope','localStorage',
+	function ($q, subscribedRecipientTypesSvc,likelyIntentionsSvc,$rootScope,localStorage) {
 		var service = {
       // An array of subscribed recipients to which subscribed intentions are attached
-      subscribedRecipients : [],
+      _subscribedRecipients : [],
 
       // We remember if user wants to desactivate subscription to and intention for a given recipient
       makeSubscriptionKey : function(recipientId, intentionId) {
@@ -36,10 +36,10 @@ angular.module('app/users/subscriptions',['app/recipients'])
       // ...........
       // Extract subscription line for a given recipient/intention
       getSubscription : function(recipientId, intentionId) {
-        if ( !service.subscribedRecipients )
+        if ( !service._subscribedRecipients )
           return null;
-        for (var i = service.subscribedRecipients.length - 1; i >= 0; i--) {
-          var recipient = service.subscribedRecipients[i];
+        for (var i = service._subscribedRecipients.length - 1; i >= 0; i--) {
+          var recipient = service._subscribedRecipients[i];
           if ( recipient.Id == recipientId) {
             for (var j = recipient.alerts.length-1; j >= 0; j--) {
               var subscription = recipient.alerts[j];
@@ -52,10 +52,10 @@ angular.module('app/users/subscriptions',['app/recipients'])
       },
       // Find a subscribed recipient
       getSubscribedRecipient : function(recipientId) {
-        if ( !service.subscribedRecipients )
+        if ( !service._subscribedRecipients )
           return null;
-        for (var i = service.subscribedRecipients.length - 1; i >= 0; i--) {
-          var recipient = service.subscribedRecipients[i];
+        for (var i = service._subscribedRecipients.length - 1; i >= 0; i--) {
+          var recipient = service._subscribedRecipients[i];
           if ( recipient.Id == recipientId) {
             return recipient;
           }
@@ -92,12 +92,12 @@ angular.module('app/users/subscriptions',['app/recipients'])
               }
             }
           }
-          service.subscribedRecipients = subscribedRecipients;
+          service._subscribedRecipients = subscribedRecipients;
           return subscribedRecipients;
         });
       },
       getRecipientsWithSubscriptions: function () {
-        return subscribedRecipientsSvc.getsubscribedRecipients()
+        return subscribedRecipientTypesSvc.getsubscribedRecipients()
         .then(function (subscribedRecipients) {
           return service.mergePossibleRecipientsWithPreviousSubscribedRecipients(subscribedRecipients);
         })

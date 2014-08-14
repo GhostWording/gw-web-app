@@ -53,7 +53,7 @@ describe("subscriptionsSvc", function() {
 
   describe("getAllRecipientsWithSubscriptions", function() {
 
-    it("should return a promise to subscriptions of active recipients", inject(function(subscribedRecipientsSvc, subscriptionsSvc, $q, $rootScope) {
+    it("should return a promise to subscriptions of active recipients", inject(function(subscribedRecipientTypesSvc, subscriptionsSvc, $q, $rootScope) {
       var dummysubscribedRecipients = [
            {"RecipientTypeTag": "9E2D23"},
            {"RecipientTypeTag": "87F524"},
@@ -63,7 +63,7 @@ describe("subscriptionsSvc", function() {
             {"RecipientTypeTag": "9E2D23", alerts:['a','b','c']},
             {"RecipientTypeTag": "87F524", alerts:['a']},
           ],
-          subscribedRecipientsSpy = spyOn(subscribedRecipientsSvc, "getsubscribedRecipients").andReturn($q.when(dummysubscribedRecipients)),
+          subscribedRecipientsSpy = spyOn(subscribedRecipientTypesSvc, "getsubscribedRecipients").andReturn($q.when(dummysubscribedRecipients)),
           subscriptionRecipientsSpy = spyOn(subscriptionsSvc, "mergePossibleRecipientsWithPreviousSubscribedRecipients").andReturn(dummyRecipientsSubscriptions);
           var resultRecipients;
           subscriptionsSvc.getRecipientsWithSubscriptions().then(function(_resultRecipients_) {
@@ -106,7 +106,7 @@ describe("SubscriptionController", function() {
     $controller('SubscriptionController', {
       $scope: $rootScope,
       subscriptionsSvc : mockSubscriptionsSvc,
-      subscribedRecipientsSvc: mockRecipientsSvc
+      subscribedRecipientTypesSvc: mockRecipientsSvc
     });
   }));
 
