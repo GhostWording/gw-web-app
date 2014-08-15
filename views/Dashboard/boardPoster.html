@@ -34,7 +34,7 @@
     <!--href="{{appUrlSvc.getRootPath()}}area/{{ currentAreaName }}/recipient/{{ recipientId }}/intention/{{ app.appUrlSvc.getIntentionSlug(currentIntention) }}/text/{{txt.TextId}}"-->
     <!--<a href="http://beta.commentvousdire.com/fr/area/Friends/recipient/none/intention/que-deviens-tu/text/A5A6E4" >-->
       <a ng-href="{{appUrlSvc.getRootPath()}}area/{{ currentAreaName }}/recipient/none/intention/{{ getPosterIntentionSlug() }}/text/{{ getPosterTextId() }}" >
-      <button type="button"  class="btn btn-default" translate>Envoyer</button>
+      <button type="button" ng-click="appUrlSvc.setTextDetailWasCalledFromDashboard(true)" class="btn btn-default" translate>Envoyer</button>
     </a>
   </div>
 </div>

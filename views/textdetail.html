@@ -3,15 +3,27 @@
     <!--<h3   ng-bind-html = "currentText.Abstract || currentIntention.Label" ></h3>-->
     <ul class="pager bmwQuestionButton" style="margin-top: 5px;  margin-bottom: 25px;">
       <li ng-class='{selectionne: false}'>
-        <a ng-show = "appUrlSvc.getTextDetailWasCalledFromTextList() == false"
-           ng-href="{{app.appUrlSvc.getFullPath('')}}area/{{ currentAreaName }}/recipient/{{ recipientId }}/intention/{{app.appUrlSvc.getIntentionSlug(currentIntention)}}/text"
+
+        <!-- User was allready in our app : just go back to previous page  -->
+        <a ng-show = "appUrlSvc.getTextDetailWasCalledFromTextList() || appUrlSvc.getTextDetailWasCalledFromDashboard()" ng-href="" historyback
            class="pull-left" role="button" targetId="Back">
           <img ng-src="./assets/arrow-left.png" class="stylepicto">
         </a>
-        <a ng-show = "appUrlSvc.getTextDetailWasCalledFromTextList() == true" ng-href="" historyback
+
+        <!-- Move to intention text list -->
+        <!--<a ng-show = "appUrlSvc.getTextDetailWasCalledFromTextList() == false"-->
+           <!--ng-href="{{app.appUrlSvc.getFullPath('')}}area/{{ currentAreaName }}/recipient/{{ recipientId }}/intention/{{app.appUrlSvc.getIntentionSlug(currentIntention)}}/text"-->
+           <!--class="pull-left" role="button" targetId="Back">-->
+          <!--<img ng-src="./assets/arrow-left.png" class="stylepicto">-->
+        <!--</a>-->
+
+        <!-- Move to dashboard -->
+        <a ng-hide = "appUrlSvc.getTextDetailWasCalledFromTextList() || appUrlSvc.getTextDetailWasCalledFromDashboard()"
+           ng-href="{{app.appUrlSvc.getFullPath('')}}area/{{ currentAreaName }}/dashboard"
            class="pull-left" role="button" targetId="Back">
           <img ng-src="./assets/arrow-left.png" class="stylepicto">
         </a>
+
         <h4 class="pull-left" style="margin-left: 10px;" translate>{{ currentIntention.Label }}</h4>
         <img style="margin-top:0px; margin-right: 10px;" width="50px" height="40px" src="./assets/TouchWordingCompressed.jpg" class="pull-right">
 
@@ -72,9 +84,12 @@
             targetId="{{ Id }}" targetType="Text" actionType="edit"
             ng-click="edit()" ng-hide="editText"></button>
     <!-- send  -->
-    <button style="margin-left: 10px" class="btn btn-default glyphicon glyphicon-envelope" translate
+    <!--<button style="margin-left: 10px" class="btn btn-default glyphicon glyphicon-envelope" translate-->
+            <!--targetId="{{ Id }}" targetType="Text" actionType="send"-->
+            <!--ng-click="send()"></button>-->
+    <button style="margin-left: 10px" class="btn btn-primary" translate
             targetId="{{ Id }}" targetType="Text" actionType="send"
-            ng-click="send()"></button>
+            ng-click="send()">Envoyer</button>
   </div>
 
     <br/>
@@ -101,7 +116,7 @@
 
         <a ng-href="{{app.appUrlSvc.getRootPath('')}}area/{{ currentAreaName }}/recipient/{{ recipientId }}/intention/{{ app.appUrlSvc.getIntentionSlug(currentIntention) }}/text/{{text.TextId}}"
            targetType="Text"  actionType="open"  targetId="{{txt.TextId}}">
-          <button class="btn btn-primary pull-right glyphicon glyphicon-ok" translate
+          <button class="btn btn-default pull-right glyphicon glyphicon-ok" translate
                   targetId="{{ Id }}" targetType="Text"></button>
          </a>
       </div>
