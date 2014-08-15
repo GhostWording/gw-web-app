@@ -1,8 +1,12 @@
 angular.module('app/userDashboard/DashboardController', [])
-.controller('DashboardController', ['$scope', 'facebookSvc','dateHelperSvc','ufHelperSvc','ufSvc','appUrlSvc','currentAreaName',
-  function ($scope, facebookSvc,dateHelperSvc,ufHelperSvc,ufSvc,appUrlSvc,currentAreaName) {
+.controller('DashboardController', ['$scope', 'facebookSvc','dateHelperSvc','ufHelperSvc','ufSvc','appUrlSvc','currentAreaName','textsSvc',
+  function ($scope, facebookSvc,dateHelperSvc,ufHelperSvc,ufSvc,appUrlSvc,currentAreaName,textsSvc) {
     $scope.appUrlSvc = appUrlSvc;
     $scope.currentAreaName = currentAreaName;
+    $scope.getCurrentTextId = function() {
+      return textsSvc.getCurrentId();
+    };
+
 
     // Login
     $scope.fbLogin = facebookSvc.fbLogin;

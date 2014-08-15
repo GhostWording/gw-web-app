@@ -15,7 +15,10 @@ function ($scope, currentText, currentIntention, tagLabelsSvc, $modal,currentRec
   $scope.currentIntention = currentIntention;
   $scope.currentText = currentText;
 
-  $rootScope.ogDescription = currentIntention.Label;
+  if ( !! currentIntention )
+    $rootScope.ogDescription = currentIntention.Label;
+  else
+    console.log("no current intention");
   //$rootScope.ogTitle = currentText.Content;
 
   $scope.Id = currentText.TextId;
@@ -23,31 +26,6 @@ function ($scope, currentText, currentIntention, tagLabelsSvc, $modal,currentRec
   // Copy the text Content so that if we edit it we are not editing the original "text".
   $scope.txt = {};
   $scope.txt.Content = currentText.Content; // has to be property of a full object to avoid prototypal inheritance problems
-
-
-//  $scope.fbShare = function () {
-//    var url = $location.absUrl();
-////    console.log(url);
-//    ezfb.ui(
-//    {
-//      method: 'feed',
-//      name: $rootScope.pageTitle1 + " " + $rootScope.pageTitle2,
-//      picture: 'http://www.commentvousdire.com/assets/TouchWordingCompressed.png',
-//      link: url,
-//      description: currentIntention.Label
-//    },function (res) {});
-//  };
-//
-//  $scope.fbSend = function () {
-//    var url = $location.absUrl();
-//    ezfb.ui({
-//      method: 'send',
-//      name: $rootScope.pageTitle1 + " " + $rootScope.pageTitle2,
-//      picture: 'http://www.commentvousdire.com/assets/TouchWordingCompressed.png',
-//      link: url,
-//      description: currentIntention.Label
-//    },function (res) { console.log(res);} );
-//  };
 
 
   // TODO : move in helper
@@ -103,7 +81,8 @@ function ($scope, currentText, currentIntention, tagLabelsSvc, $modal,currentRec
   };
 
   $scope.setFavourite = function() {
-    favouritesSvc.setFavourite(currentText, currentAreaName, currentIntention, $scope.isFavourite());
+    if ( currentIntention )
+      favouritesSvc.setFavourite(currentText, currentAreaName, currentIntention, $scope.isFavourite());
   };
 
   $scope.getSenderGenderVariationFromCurrentUser = function (text) {
@@ -150,9 +129,34 @@ function ($scope, currentText, currentIntention, tagLabelsSvc, $modal,currentRec
       console.log("No alternative realization for " + currentText.TextId);
   });
 
-  // Make sure social buttons are displayed
+
+}]);
+
+// Make sure social buttons are displayed
 //  $facebook.getLoginStatus().then(function(response) {
 //    FB.XFBML.parse(); // fb sdk must be initialised before FB can be mentionned
 //  } );
 
-}]);
+//  $scope.fbShare = function () {
+//    var url = $location.absUrl();
+////    console.log(url);
+//    ezfb.ui(
+//    {
+//      method: 'feed',
+//      name: $rootScope.pageTitle1 + " " + $rootScope.pageTitle2,
+//      picture: 'http://www.commentvousdire.com/assets/TouchWordingCompressed.png',
+//      link: url,
+//      description: currentIntention.Label
+//    },function (res) {});
+//  };
+//
+//  $scope.fbSend = function () {
+//    var url = $location.absUrl();
+//    ezfb.ui({
+//      method: 'send',
+//      name: $rootScope.pageTitle1 + " " + $rootScope.pageTitle2,
+//      picture: 'http://www.commentvousdire.com/assets/TouchWordingCompressed.png',
+//      link: url,
+//      description: currentIntention.Label
+//    },function (res) { console.log(res);} );
+//  };

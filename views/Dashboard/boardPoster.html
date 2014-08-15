@@ -1,3 +1,4 @@
+
 <!--<div ng-click="setCurrentPoster()"  class="col-xs-12 col-md-4 text-center" style="margin-top: 20px; height: 215px;">-->
 <div ng-click="setCurrentPoster()"  class="col-xs-12 col-md-4 text-center" style="margin-top: 15px; margin-bottom: 15px;">
   <!-- Name -->
@@ -25,16 +26,17 @@
   <textarea ng-model="poster.posterTextContent" style="width:100%; padding: 12px; margin-bottom: 5px; margin-top: 2px; background-color: #d9edf7" rows="5"></textarea>
   <!-- Buttons -->
   <div>
-  <!--<button type="button" ng-show="moreQuestionsCanBeShown()" ng-click="showNextQuestion()" class="btn btn-primary btn-sm">{{ getMakeBetterLabel() | translate }}</button>-->
-    <!--<button type="button" ng-show="moreQuestionsCanBeShown()" ng-click="showNextQuestion()" class="btn btn-default glyphicon glyphicon-thumbs-up"></button>-->
-    <button type="button" ng-click="showNextQuestion()" class="btn btn-primary">OK</button>
-    <button type="button" ng-show="moreQuestionsCanBeShown()" ng-click="showNextQuestion()" class="btn btn-default">{{ getMakeBetterLabel() | translate }}</button>
-  <button type="button"  ng-show=" moreQuestionsCanBeShown() === false && moreRefreshesAvailable()" ng-click="refresh()" class="btn btn-default" translate>Dernières tentatives</button>
-    <button type="button"  ng-show="moreQuestionsCanBeShown() === false && moreRefreshesAvailable() == false" ng-click="showInviteFriend()" class="btn btn-default" translate>Recommandations personnalisées</button>
-    <!--href="{{appUrlSvc.getRootPath()}}area/{{ currentAreaName }}/recipient/{{ recipientId }}/intention/{{ app.appUrlSvc.getIntentionSlug(currentIntention) }}/text/{{txt.TextId}}"-->
-    <!--<a href="http://beta.commentvousdire.com/fr/area/Friends/recipient/none/intention/que-deviens-tu/text/A5A6E4" >-->
-      <a ng-href="{{appUrlSvc.getRootPath()}}area/{{ currentAreaName }}/recipient/none/intention/{{ getPosterIntentionSlug() }}/text/{{ getPosterTextId() }}" >
-      <button type="button" ng-click="appUrlSvc.setTextDetailWasCalledFromDashboard(true)" class="btn btn-default" translate>Envoyer</button>
+    <a ng-href="{{appUrlSvc.getRootPath()}}area/{{ currentAreaName }}/dashboard/{{ getPosterIntentionSlug() }}/{{ getPosterTextId() }}">
+      <button type="button" ng-click="appUrlSvc.setTextDetailWasCalledFromDashboard(true)" class="btn btn-primary" translate>OK </button>
     </a>
+    <button type="button" ng-show="moreQuestionsCanBeShown()" ng-click="showNextQuestion()" class="btn btn-default">{{
+      getMakeBetterLabel() | translate }}
+    </button>
+    <button type="button" ng-show=" moreQuestionsCanBeShown() === false && moreRefreshesAvailable()"
+            ng-click="refresh()" class="btn btn-default" translate>Dernières tentatives
+    </button>
+    <button type="button" ng-show="moreQuestionsCanBeShown() === false && moreRefreshesAvailable() == false"
+            ng-click="showInviteFriend()" class="btn btn-default" translate>Recommandations personnalisées
+    </button>
   </div>
 </div>

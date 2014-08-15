@@ -1,4 +1,9 @@
-<div action-location="Dashboard" style="margin-left: 10px; margin-right: 10px;">
+
+<!-- TextDetail view: will be shown here when a text is selected : both views will be active at the same time-->
+<ui-view></ui-view>
+
+
+<div ng-show="getCurrentTextId() == undefined" action-location="Dashboard" style="margin-left: 10px; margin-right: 10px;">
 
   <div class="row">
     <div class="col-xs-12 text-center" style="margin-top: 0px; margin-bottom: 0px">

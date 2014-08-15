@@ -144,6 +144,10 @@ angular.module('cherryApp',  [
 
             // Modify the page description as well : Comment dire + intention label => How to say + translated intention label
             intentionsSvc.getCurrent().then(function(intention) {
+              if ( !intention ) {
+                console.log("no intention defined");
+                return;
+              }
               $translate("Comment dire").then(function(translatedPrefix) {
                 $translate(intention.Label).then(function(translatedIntentionLable) {
                   $rootScope.pageDescription = translatedPrefix + " " + helperSvc.lowerFirstLetter(translatedIntentionLable);

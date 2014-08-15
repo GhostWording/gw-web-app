@@ -46,7 +46,10 @@ angular.module('app/routing', ['ui.router'])
     .when('/area/:areaName/recipient/:recipientId/intention','/xx/area/:areaName/recipient/:recipientId/intention')
     .when('/area/:areaName/recipient/:recipientId/intention/:intentionId/text','/xx/area/:areaName/recipient/:recipientId/intention/:intentionId/text')
 
-    // French area shortcuts
+    .when('/area/:areaName/dashboard/:textId','/xx/area/:areaName/dashboard/:textId')
+
+
+  // French area shortcuts
     .when('/Amour',      '/fr/area/LoveLife/recipient/none/intention')
     .when('/Amis',       '/fr/area/Friends/recipient/none/intention')
     .when('/Famille',    '/fr/area/Family/recipient/none/intention')
@@ -88,10 +91,19 @@ angular.module('app/routing', ['ui.router'])
         controller: 'BoardPosterController'
       }
     },
-
-    resolve: {
-    },
+    resolve: { },
     showTabs: false
+  })
+  .state('area.dashboard.textDetail', {
+    //url: '/:textId',
+    url: '/:intentionId/:textId',
+    templateUrl: 'views/textdetail.html',
+    controller: 'TextDetailController',
+    resolve: {
+      currentText: ['currentBoardPosterSvc', function(currentBoardPosterSvc) { return currentBoardPosterSvc.getCurrentPoster().posterText; }],
+      currentIntention: ['currentBoardPosterSvc', function(currentBoardPosterSvc) { return currentBoardPosterSvc.getCurrentPoster().section.intention; }],
+      currentRecipient: ['currentRecipientSvc', function(currentRecipientSvc) { return undefined; }]
+    }
   })
     // We might want recipientList, intentionList and text list to be siblings
   .state('area.recipientList', {

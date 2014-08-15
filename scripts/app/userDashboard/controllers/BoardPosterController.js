@@ -31,8 +31,6 @@ angular.module('app/userDashboard/BoardPosterController', [])
     $scope.getRecipientTypeLabel = function(id) { return boardPosterHelperSvc.getRecipientTypeLabel(id); };
     $scope.getUserFriendInfo = function() { return boardPosterHelperSvc.getPosterDebugInfo($scope.poster); };
 
-
-
     $scope.getPosterIntentionSlug = function() {
       var retval;
       var intention = $scope.poster.section.intention;
@@ -98,10 +96,8 @@ angular.module('app/userDashboard/BoardPosterController', [])
       if ( !! array && array.length > 0 ) {
         valret = Math.floor(Math.random() * array.length);
       }
-      //console.log(" =====> " + valret);
       return valret;
     }
-
 
     function choosRandomText() {
       var txtIndex = chooseRandomIndice($scope.poster.filteredTextList);
@@ -125,10 +121,12 @@ angular.module('app/userDashboard/BoardPosterController', [])
     // Random text should be chosen bu poster when filteredTextList is set for the first time
     //makeNewTextProposition();
     $scope.$watch(function() { return $scope.poster.filteredTextList;},function() {
-      makeNewTextProposition(); },true);
+      makeNewTextProposition();
+    },false); // !!! Looks like text content might be modified in text detail view, so we might not want to look into those
 
     // Update poster filtered text list
-    function filterPosterTextList() { boardPosterHelperSvc.updateFilteredList($scope.poster); }
+    function filterPosterTextList() {
+      boardPosterHelperSvc.updateFilteredList($scope.poster); }
 
     // When poster user friend properties change : update poster filters
     $scope.$watch(function() { return $scope.poster.userFriend;},function() {
@@ -138,7 +136,9 @@ angular.module('app/userDashboard/BoardPosterController', [])
       $scope.posterCompatibleRecipients = boardPosterHelperSvc.getCompatibleRecipients($scope.poster);
     },true);
     // When text list changes : filter text list
-    $scope.$watch(function() { return $scope.poster.fullTextList;},function() { filterPosterTextList(); },true);
+    $scope.$watch(function() { return $scope.poster.fullTextList;},function() {
+      filterPosterTextList();
+    },false); // !!! Looks like text content might be modified in text detail view, so we might not want to look into those
     // When filters change : filter text list
     $scope.$watch(function() { return $scope.poster.filters;},function() {
       $scope.poster.filters.useAgeTag = true; // TEMP !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
