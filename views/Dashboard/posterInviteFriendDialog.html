@@ -1,12 +1,22 @@
 <div class="modal-content">
+  <div class="modal-header">
+    <button type="button" class="close" ng-click="$close()" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+    <h4 class="modal-title">Recommandations</h4>
+  </div>
+
   <div class="modal-body">
     <div translate>
       Les recommandations personnalisées sont accessibles pour les friends qui utilisent l'application.
     </div>
+    <br>
     <div>
-      <span translate>Elles s'activeront quand</span>&nbsp
+      <span translate>Quand</span>&nbsp
       <span>{{poster.userFriend.name}}</span>&nbsp
-      <span translate>aura utilisé l'application une première fois.</span>
+      <span translate>aura utilisé l'application une première fois, vous aurez des propositions plus ciblées.</span>
     </div>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" ng-click="$close()" class="btn btn-default" data-dismiss="modal" translate>Fermer</button>
   </div>
 </div>
