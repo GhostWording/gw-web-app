@@ -1,6 +1,9 @@
 angular.module('app/userDashboard/DashboardController', [])
-.controller('DashboardController', ['$scope', 'facebookSvc','dateHelperSvc','ufHelperSvc','ufSvc',
-  function ($scope, facebookSvc,dateHelperSvc,ufHelperSvc,ufSvc) {
+.controller('DashboardController', ['$scope', 'facebookSvc','dateHelperSvc','ufHelperSvc','ufSvc','appUrlSvc','currentAreaName',
+  function ($scope, facebookSvc,dateHelperSvc,ufHelperSvc,ufSvc,appUrlSvc,currentAreaName) {
+    $scope.appUrlSvc = appUrlSvc;
+    $scope.currentAreaName = currentAreaName;
+
     // Login
     $scope.fbLogin = facebookSvc.fbLogin;
     // Display extra info during debug

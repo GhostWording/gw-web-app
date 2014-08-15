@@ -9,6 +9,10 @@ angular.module('app/intentions', [
 .factory('intentionsSvc', ['$q', '$stateChange', 'areasSvc', 'cacheSvc', 'serverSvc','currentLanguage', function($q, $stateChange, areasSvc, cacheSvc, serverSvc,currentLanguage) {
   var service = {
 
+    getSlugOrId: function(intention) {
+      return intention.Slug ? intention.Slug : intention.IntentionId;
+    },
+
     getCurrentId: function() {
       return $stateChange.toParams && $stateChange.toParams.intentionId;
     },

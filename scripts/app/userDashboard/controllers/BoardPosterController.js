@@ -1,9 +1,8 @@
 angular.module('app/userDashboard/BoardPosterController', [])
-.controller('BoardPosterController', ['$scope', 'helperSvc', 'dateHelperSvc','$modal', 'ufHelperSvc','boardPosterHelperSvc','currentBoardPosterSvc','dashboardContextStyles',
-  function ($scope, helperSvc, dateHelperSvc,$modal,ufHelperSvc,boardPosterHelperSvc,currentBoardPosterSvc,dashboardContextStyles) {
-
+.controller('BoardPosterController', ['$scope', 'helperSvc', 'dateHelperSvc','$modal', 'ufHelperSvc','boardPosterHelperSvc','currentBoardPosterSvc','dashboardContextStyles','intentionsSvc',
+  function ($scope, helperSvc, dateHelperSvc,$modal,ufHelperSvc,boardPosterHelperSvc,currentBoardPosterSvc,dashboardContextStyles,intentionsSvc) {
     // Initialize : most properties will be set by $watch functions
-    $scope.poster = {'fullTextList' : [], 'filteredTextList' : [], 'filters' : null, 'userFriend' : $scope.userFriend, 'section' : $scope.boardSection, 'postedText' : ''  };
+    $scope.poster = {'fullTextList' : [], 'filteredTextList' : [], 'filters' : null, 'userFriend' : $scope.userFriend, 'section' : $scope.boardSection, 'posterTextContent' : '','posterText' : undefined  };
 
     // Fetch text list to display from cache or server
     boardPosterHelperSvc.setPosterTextList($scope.poster);
@@ -32,7 +31,28 @@ angular.module('app/userDashboard/BoardPosterController', [])
     $scope.getRecipientTypeLabel = function(id) { return boardPosterHelperSvc.getRecipientTypeLabel(id); };
     $scope.getUserFriendInfo = function() { return boardPosterHelperSvc.getPosterDebugInfo($scope.poster); };
 
-    // Show modal dialogs
+
+
+    $scope.getPosterIntentionSlug = function() {
+      var retval;
+      var intention = $scope.poster.section.intention;
+      if ( intention )
+        // This will be a localized slug, so its the preferred way
+        retval = intentionsSvc.getSlugOrId(intention);
+      else
+       // In other cases, we should have a valid intention id here
+        retval =  $scope.poster.section.sectionTargetId;
+      return retval;
+    };
+
+    $scope.getPosterTextId = function() {
+      var retval = '';
+      if ( $scope.poster.posterText )
+        retval = $scope.poster.posterText.TextId;
+      return retval;
+    };
+
+      // Show modal dialogs
     $scope.showNextQuestion = function () {
       if (!$scope.poster.userFriend.ufContext) $scope.showContextFilters(); else $scope.showRecipientTypes();
     };
@@ -87,7 +107,8 @@ angular.module('app/userDashboard/BoardPosterController', [])
       var txtIndex = chooseRandomIndice($scope.poster.filteredTextList);
       $scope.poster.txtIndex = txtIndex;
       var txt = $scope.poster.filteredTextList[txtIndex];
-      $scope.poster.postedText = helperSvc.isQuote(txt) ? helperSvc.insertAuthorInText(txt.Content, txt.Author) : txt.Content ;
+      $scope.poster.posterTextContent = helperSvc.isQuote(txt) ? helperSvc.insertAuthorInText(txt.Content, txt.Author) : txt.Content ;
+      $scope.poster.posterText = txt;
     }
 
     $scope.refresh = function() {
