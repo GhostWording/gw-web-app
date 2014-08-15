@@ -100,8 +100,11 @@ angular.module('app/routing', ['ui.router'])
     templateUrl: 'views/textdetail.html',
     controller: 'TextDetailController',
     resolve: {
-      currentText: ['currentBoardPosterSvc', function(currentBoardPosterSvc) { return currentBoardPosterSvc.getCurrentPoster().posterText; }],
-      currentIntention: ['currentBoardPosterSvc', function(currentBoardPosterSvc) { return currentBoardPosterSvc.getCurrentPoster().section.intention; }],
+      currentIntention: ['intentionsSvc', function(intentionsSvc) { return intentionsSvc.getCurrent(); }],
+      currentText: ['textsSvc', function(textsSvc) { return textsSvc.getCurrent(); }],
+      // That approach wil not work when text detail is reloaded from scratch
+      //currentText: ['currentBoardPosterSvc', function(currentBoardPosterSvc) { return currentBoardPosterSvc.getCurrentPoster().posterText; }],
+      //currentIntention: ['currentBoardPosterSvc', function(currentBoardPosterSvc) { return currentBoardPosterSvc.getCurrentPoster().section.intention; }],
       currentRecipient: ['currentRecipientSvc', function(currentRecipientSvc) { return undefined; }]
     }
   })
@@ -149,6 +152,7 @@ angular.module('app/routing', ['ui.router'])
     templateUrl: 'views/textdetail.html',
     controller: 'TextDetailController',
     resolve: {
+      // Current intention is inherited from parent state
       currentText: ['textsSvc', function(textsSvc) { return textsSvc.getCurrent(); }]
     }
   })
