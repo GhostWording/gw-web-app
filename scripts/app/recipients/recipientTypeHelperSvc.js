@@ -83,7 +83,7 @@ angular.module('app/recipients/recipientTypeHelperSvc', [])
   var CONTEXT_RECIPIENT_MAP = {
     'friendlyContext': {'CloseFriends':true,'LoveInterestF':true,'LoveInterestM':true,'LongLostFriends':true,'OtherFriends':true},
     'familialContext': { 'SweetheartF':true,'SweetheartM':true,'Mother':true,'Father':true,'Sister':true,'Brother':true,'DistantRelatives':true,'FamillyYoungsters':true},
-    'professionalContext' : { 'ProNetwork':true}
+    'proContext' : { 'ProNetwork':true}
   };
 
 

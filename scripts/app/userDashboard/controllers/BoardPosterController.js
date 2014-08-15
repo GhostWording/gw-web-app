@@ -40,25 +40,37 @@ angular.module('app/userDashboard/BoardPosterController', [])
     $scope.contextStyles = dashboardContextStyles;
     $scope.showContextFilters = function() {
       $modal.open({ templateUrl: 'views/dashboard/posterContextDialog.html', scope: $scope,controller: 'SimplePageController'});
-      currentBoardPosterSvc.setCurrentPoster($scope.poster);
+//      currentBoardPosterSvc.setCurrentPoster($scope.poster);
     };
     $scope.showRecipientTypes = function () {
       $modal.open({ templateUrl: 'views/dashboard/posterRecipientTypeDialog.html',scope: $scope,controller: 'SimplePageController'});
-      currentBoardPosterSvc.setCurrentPoster($scope.poster);
+//      currentBoardPosterSvc.setCurrentPoster($scope.poster);
+    };
+    $scope.showInviteFriend = function () {
+      $modal.open({ templateUrl: 'views/dashboard/posterInviteFriendDialog.html',scope: $scope,controller: 'SimplePageController'});
+//      currentBoardPosterSvc.setCurrentPoster($scope.poster);
     };
 
     $scope.recipientTypesQuestionVisible = function() {
       var valret = true;
       return valret;
     };
+    $scope.refreshCount = 0;
+    $scope.maxRefreshCount = 3;
+
     $scope.moreQuestionsCanBeShown = function() {
       var valret = true;
       if ( $scope.poster.userFriend.ufRecipientTypeId )
         return false;
-      if ( $scope.poster.userFriend.ufContext == 'professionalContext' )
+      if ( $scope.poster.userFriend.ufContext == 'proContext' )
         return false;
       return valret;
     };
+
+    $scope.moreRefreshesAvailable = function() {
+      return $scope.refreshCount < $scope.maxRefreshCount ;
+    };
+
 
 
     function chooseRandomIndice(array) {
@@ -80,6 +92,7 @@ angular.module('app/userDashboard/BoardPosterController', [])
 
     $scope.refresh = function() {
       choosRandomText();
+      $scope.refreshCount++;
     };
 
     function makeNewTextProposition () {

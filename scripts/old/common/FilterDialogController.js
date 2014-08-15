@@ -18,7 +18,7 @@ cherryApp.controller('FilterDialogController', ['$scope', 'HelperService','Norma
             var contexts = TextFilters.getContextsToInclude();
             $scope.ContextFilters.friendly = contexts.friendlyContext;
             $scope.ContextFilters.familial = contexts.familialContext;
-            $scope.ContextFilters.professional = contexts.professionalContext;
+            $scope.ContextFilters.professional = contexts.proContext;
             $scope.ContextFilters.administrative = contexts.administrativeContext;
             $scope.ContextFilters.couple = contexts.coupleContext;
             $scope.ContextFilters.inLove = contexts.romanticContext;

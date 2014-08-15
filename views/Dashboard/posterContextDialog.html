@@ -1,6 +1,6 @@
 <div class="modal-content">
   <div class="modal-body">
-    <span translate style="padding-bottom: 20px;">Contexte</span>
+    <div translate style="padding-bottom: 20px;">Contexte</div>
     <button ng-repeat="style in contextStyles.stylesList" ng-if="style.visible" ng-click="setContext(style); $close()" ng-class='{active: userFriend.ufContext == style.name}'
             class="btn btn-small btn-default" style="margin-left: 15px;" translate >{{ style.label }}</button>
   </div>
