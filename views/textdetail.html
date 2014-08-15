@@ -10,15 +10,15 @@
           <img ng-src="./assets/arrow-left.png" class="stylepicto">
         </a>
 
-        <!-- Move to intention text list -->
-        <!--<a ng-show = "appUrlSvc.getTextDetailWasCalledFromTextList() == false"-->
-           <!--ng-href="{{app.appUrlSvc.getFullPath('')}}area/{{ currentAreaName }}/recipient/{{ recipientId }}/intention/{{app.appUrlSvc.getIntentionSlug(currentIntention)}}/text"-->
-           <!--class="pull-left" role="button" targetId="Back">-->
-          <!--<img ng-src="./assets/arrow-left.png" class="stylepicto">-->
-        <!--</a>-->
+        <!-- Move explicitely to intention text list -->
+        <a ng-show = "appUrlSvc.getTextDetailWasCalledFromTextList() == false && appUrlSvc.isDashboardPath() == false"
+           ng-href="{{app.appUrlSvc.getFullPath('')}}area/{{ currentAreaName }}/recipient/{{ recipientId }}/intention/{{app.appUrlSvc.getIntentionSlug(currentIntention)}}/text"
+           class="pull-left" role="button" targetId="Back">
+          <img ng-src="./assets/arrow-left.png" class="stylepicto">
+        </a>
 
-        <!-- Move to dashboard -->
-        <a ng-hide = "appUrlSvc.getTextDetailWasCalledFromTextList() || appUrlSvc.getTextDetailWasCalledFromDashboard()"
+        <!-- Move explicitely to dashboard -->
+        <a ng-show = "appUrlSvc.getTextDetailWasCalledFromDashboard() == false && appUrlSvc.isDashboardPath() == true"
            ng-href="{{app.appUrlSvc.getFullPath('')}}area/{{ currentAreaName }}/dashboard"
            class="pull-left" role="button" targetId="Back">
           <img ng-src="./assets/arrow-left.png" class="stylepicto">
