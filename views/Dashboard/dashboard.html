@@ -5,11 +5,13 @@
 
 <div ng-show="getCurrentTextId() == undefined" action-location="Dashboard" style="margin-left: 10px; margin-right: 10px;">
 
+
   <div class="row">
     <div class="col-xs-12 text-center" style="margin-top: 0px; margin-bottom: 0px">
       <h4 style="margin-bottom: 5px; margin-top: 5px;"><span translate>Opportunités du jour</span></h4>
       <small class="text-info" style="margin-top: 0px;">{{ displayDate }}</small>
     </div>
+
 
     <div ng-show="isConnected == false" class="col-xs-12 text-center" style="margin-top: 20px; margin-bottom: 20px">
       <button type="button" ng-click="fbLogin()"  class="btn btn-primary btn-lg">Login facebook</button>
@@ -23,5 +25,9 @@
   </div>
 
   <div ng-include="'views/dashboard/posterDebug.html'" style="margin-bottom: 20px;"></div>
+
+  <div style="margin-top:25px; margin-bottom: 15px; text-align: center;">
+    <img height="120px;" src="./assets/pianoCat.jpg">
+  </div>
 
 </div>

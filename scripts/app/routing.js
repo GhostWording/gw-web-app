@@ -55,6 +55,12 @@ angular.module('app/routing', ['ui.router'])
     .when('/Famille',    '/fr/area/Family/recipient/none/intention')
     // French happy new year shortcup
     .when('/BonneAnnee', '/fr/area/Friends/recipient/none/intention/bonne-annee/text')
+    // French sashboard  shortcup
+    .when('/SauverLeChat',    '/fr/area/General/dashboard')
+    .when('/sauverlechat',    '/fr/area/General/dashboard')
+
+    .when('/SaveTheCat',    '/en/area/General/dashboard')
+    .when('/savethecat',    '/en/area/General/dashboard')
 
     // Allow shorter urls with no recipient
     .when('/:languageCode/area/:areaName/intention/:intentionId/text','/:languageCode/area/:areaName/recipient/none/intention/:intentionId/text')

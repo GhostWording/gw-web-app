@@ -18,6 +18,7 @@
       <button type="button" class="btn btn-default btn-xs" ng-show = "poster.userFriend.ufRecipientTypeId" ng-click="showRecipientTypes()"
               style="margin-left: 5px;" >{{ getRecipientTypeLabel(poster.userFriend.ufRecipientTypeId) | translate }}</button>
   </span>
+
   </div>
 
   <!-- Debug info -->
@@ -25,7 +26,7 @@
   <!-- Message -->
   <textarea ng-model="poster.posterTextContent" style="width:100%; padding: 12px; margin-bottom: 5px; margin-top: 2px; background-color: #d9edf7" rows="5"></textarea>
   <!-- Buttons -->
-  <div>
+  <div style="margin-top: 5px;">
     <a targetId="na" targetType="na" actionType="na" ng-href="{{appUrlSvc.getRootPath()}}area/{{ currentAreaName }}/dashboard/{{ getPosterIntentionSlug() }}/{{ getPosterTextId() }}">
       <button type="button" ng-click="appUrlSvc.setTextDetailWasCalledFromDashboard(true)"
               targetId="{{ getPosterTextId() }}" targetType="Text" actionType="open" class="btn btn-primary" translate>OK</button>
