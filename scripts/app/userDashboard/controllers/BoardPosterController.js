@@ -58,15 +58,12 @@ angular.module('app/userDashboard/BoardPosterController', [])
     $scope.contextStyles = dashboardContextStyles;
     $scope.showContextFilters = function() {
       $modal.open({ templateUrl: 'views/dashboard/posterContextDialog.html', scope: $scope,controller: 'SimplePageController'});
-//      currentBoardPosterSvc.setCurrentPoster($scope.poster);
     };
     $scope.showRecipientTypes = function () {
       $modal.open({ templateUrl: 'views/dashboard/posterRecipientTypeDialog.html',scope: $scope,controller: 'SimplePageController'});
-//      currentBoardPosterSvc.setCurrentPoster($scope.poster);
     };
     $scope.showInviteFriend = function () {
       $modal.open({ templateUrl: 'views/dashboard/posterInviteFriendDialog.html',scope: $scope,controller: 'SimplePageController'});
-//      currentBoardPosterSvc.setCurrentPoster($scope.poster);
     };
 
     $scope.recipientTypesQuestionVisible = function() {
