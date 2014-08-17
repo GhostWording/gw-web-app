@@ -3,10 +3,11 @@ angular.module('app/texts/TextDetailController', ['common/i18n', 'app/texts/alte
 // Display text with author, link to the source, usage recommandations or comments
 
 .controller('TextDetailController',
-['$scope','currentText', 'currentIntention',  'tagLabelsSvc', '$modal','currentRecipient', 'favouritesSvc','currentRecipientSvc','alternativeTextsSvc','currentLanguage','helperSvc','currentAreaName','$rootScope','$location','filtersSvc',
-function ($scope, currentText, currentIntention, tagLabelsSvc, $modal,currentRecipient, favouritesSvc,currentRecipientSvc,alternativeTextsSvc,currentLanguage,helperSvc,currentAreaName,$rootScope,$location,filtersSvc) {
-
+['$scope','currentText', 'currentIntention',  'tagLabelsSvc', '$modal','currentRecipient', 'favouritesSvc','currentRecipientSvc','alternativeTextsSvc','currentLanguage','helperSvc','currentAreaName','$rootScope','$location','filtersSvc','facebookHelperSvc',
+function ($scope, currentText, currentIntention, tagLabelsSvc, $modal,currentRecipient, favouritesSvc,currentRecipientSvc,alternativeTextsSvc,currentLanguage,helperSvc,currentAreaName,$rootScope,$location,filtersSvc,facebookHelperSvc) {
   // TODO : when may want to explicitly set og:title from here because facebook randomly picks the intention title instead
+
+  $scope.includeSocialPluginsOnTextPages = facebookHelperSvc.includeSocialPluginsOnTextPages;
 
   $scope.url = $location.url();
 
