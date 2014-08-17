@@ -1,13 +1,12 @@
 angular.module('app/userDashboard/DashboardController', [])
-.controller('DashboardController', ['$scope', 'facebookSvc','dateHelperSvc','ufHelperSvc','ufSvc','appUrlSvc','currentAreaName','textsSvc',
-  function ($scope, facebookSvc,dateHelperSvc,ufHelperSvc,ufSvc,appUrlSvc,currentAreaName,textsSvc) {
+.controller('DashboardController', ['$scope', 'facebookSvc','dateHelperSvc','ufHelperSvc','ufSvc','appUrlSvc','currentAreaName','textsSvc','postActionSvc',
+  function ($scope, facebookSvc,dateHelperSvc,ufHelperSvc,ufSvc,appUrlSvc,currentAreaName,textsSvc,postActionSvc) {
     $scope.appUrlSvc = appUrlSvc;
     $scope.currentAreaName = currentAreaName;
     $scope.getCurrentTextId = function() {
       return textsSvc.getCurrentId();
     };
-
-
+    postActionSvc.postActionInfo('Init','Page','Dashboard','Init');
     // Login
     $scope.fbLogin = facebookSvc.fbLogin;
     // Display extra info during debug
@@ -38,6 +37,7 @@ angular.module('app/userDashboard/DashboardController', [])
       ufHelperSvc.addFbFriendsToUserFriendsIfAbsent(fbFriends,currentUserFriends);
       var birthdayUF = ufHelperSvc.getNextBirthdayUserFriends( ufSvc.getUFList(),nbBirtdayFriends );
       ufSvc.setBirthdayUserFriends(birthdayUF);
+      postActionSvc.postActionInfo('fbFriends',fbFriends.length,'Dashboard','Count');
     },true);
 
     // Refresh familly user friends when facebook family list arrives
@@ -46,6 +46,10 @@ angular.module('app/userDashboard/DashboardController', [])
       //console.log("facebookSvc.getCurrentFamily() : " +res.length );
       ufHelperSvc.addFbFriendsToUserFriendsIfAbsent(fbFamily,ufSvc.getUFList());
       ufHelperSvc.updateUserFriendContextIfPresentInFbList(fbFamily,ufSvc.getUFList(),'familialContext');
+
+      //console.log(fbFamily.length);
+      postActionSvc.postActionInfo('fbFamily',fbFamily.length,'Dashboard','Count');
+
     },true);
 
   }]);

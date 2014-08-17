@@ -29,7 +29,7 @@
   <div style="margin-top: 5px;">
     <a targetId="na" targetType="na" actionType="na" ng-href="{{appUrlSvc.getRootPath()}}area/{{ currentAreaName }}/dashboard/{{ getPosterIntentionSlug() }}/{{ getPosterTextId() }}">
       <button type="button" ng-click="appUrlSvc.setTextDetailWasCalledFromDashboard(true)"
-              targetId="{{ getPosterTextId() }}" targetType="Text" actionType="open" class="btn btn-primary" translate>OK</button>
+              targetId="{{ getPosterTextId() }}" targetType="Text" actionType="open" class="btn btn-primary" translate>Envoyer</button>
     </a>
     <button type="button" ng-show="moreQuestionsCanBeShown()" ng-click="showNextQuestion()" targetId="{{ getPosterTextId() }}" targetType="Text" actionType="askPrecision" class="btn btn-default">{{
       getMakeBetterLabel() | translate }}
