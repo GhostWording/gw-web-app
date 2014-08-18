@@ -1,4 +1,4 @@
-angular.module('app/texts/TextDetailController', ['common/i18n', 'app/texts/alternativeTextList'])
+angular.module('app/texts/TextDetailController', ['common/i18n', 'app/texts/alternativeTextList','common/services/facebookHelperSvc'])
 
 // Display text with author, link to the source, usage recommandations or comments
 

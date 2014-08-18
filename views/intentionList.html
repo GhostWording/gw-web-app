@@ -1,16 +1,23 @@
 ﻿<div ng-show="true" action-location="IntentionList">
-    <!-- Page title -->
-    <ul ng-show="isForRecipient" style="vertical-align: middle;" class="pager bmwQuestionButton " ng-show = 'true' >
-      <li ng-show="true" >
-      <a
-          ng-href="{{app.appUrlSvc.getFullPath('')}}area/{{ currentAreaName }}/recipient"
+  <!-- Special case when we target specific recipient -->
+  <ul ng-show="isForRecipient" style="vertical-align: middle;" class="pager bmwQuestionButton " ng-show = 'true' >
+    <li ng-show="true" >
+      <a ng-href="{{app.appUrlSvc.getFullPath('')}}area/{{ currentAreaName }}/recipient"
           class="pull-left" role="button"  targetId="Back" ><img ng-src="./assets/arrow-left.png" class="stylepicto">
       </a>
-      </li>
-      <span class="pull-left" style="vertical-align: middle; font-size: 150%; padding-left: 10px; padding-top: 5px;" > {{ pageTitle | translate }}  {{ pageRecipient | translate }}</span>
-    </ul>
-    <h3 ng-show="!isForRecipient" class="intentionTitle" translate> {{ pageTitle }}</h3>
-    <!-- Intentions list as rows and columns -->
+    </li>
+    <span class="pull-left" style="vertical-align: middle; font-size: 150%; padding-left: 10px; padding-top: 5px;" > {{ pageTitle | translate }}  {{ pageRecipient | translate }}</span>
+  </ul>
+
+  <!-- Regular case title -->
+  <div ng-show="!isForRecipient"  style="vertical-align: middle;">
+    <h3 class="intentionTitle" style="vertical-align: middle;">
+      <a class="backArrow" style="margin-right: 5px" ng-href="/" role="button" targetId="Back"> <img ng-src="./assets/arrow-left.png" class="stylepicto"> </a>
+      <span translate>{{ pageTitle }}</span>
+    </h3>
+  </div>
+
+  <!-- Intentions list as rows and columns -->
     <div class="row" ng-repeat="row in groupedIntentions">
         <div ng-repeat="intention in row" class="col-md-4">
           <a ng-href="{{app.appUrlSvc.getFullPath('')}}area/{{currentAreaName}}/recipient/{{recipientId}}/intention/{{app.appUrlSvc.getIntentionSlug(intention)}}/text"
