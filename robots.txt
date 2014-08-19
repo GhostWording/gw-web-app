@@ -1,5 +1,6 @@
 User-agent: *
 Disallow: /bin/
+Disallow: /assets/
 Disallow: /fr/area/General/recipient/none/intention/
 Disallow: /fr/area/General/intention/
 Disallow: /area/General/intention/

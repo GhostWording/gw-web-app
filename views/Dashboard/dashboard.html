@@ -1,37 +1,64 @@
-
 <!-- TextDetail view: will be shown here when a text is selected : both views will be active at the same time-->
 <ui-view></ui-view>
 
-
 <div ng-show="getCurrentTextId() == undefined" action-location="Dashboard" style="margin-left: 10px; margin-right: 10px;">
 
+  <!--Facebook target pixel-->
+  <div ng-if="isConnected" class="fb_pixel_LoginFb"></div>
 
   <div class="row">
+    <!--Title-->
     <div class="col-xs-12 text-center" style="margin-top: 0px; margin-bottom: 0px">
       <h4 style="margin-bottom: 5px; margin-top: 5px;"><span translate>Opportunités du jour</span></h4>
       <small class="text-info" style="margin-top: 0px;">{{ displayDate }}</small>
     </div>
 
-
-    <div ng-show="isConnected == false" class="col-xs-12 text-center" style="margin-top: 20px; margin-bottom: 20px">
-      <button type="button" ng-click="fbLogin()" targetId="fbLogin" targetType="Command" actionType="click"  class="btn btn-primary btn-lg" translate>Connexion facebook</button>
-      <br>
-      <div style="margin-top: 20px" translate>Connectez-vous à facebook pour accéder à l'application !</div>
-    </div>
-
+    <!-- Dashboard content -->
     <div ng-repeat="boardSection in BoardSectionList">
       <div ui-view="boardSectionView"></div>
     </div>
+
   </div>
 
-  <div ng-include="'views/dashboard/posterDebug.html'" style="margin-bottom: 20px;"></div>
+  <!-- Show text list in debug mode -->
+  <div ng-include="'views/dashboard/posterDebug.html'" style="margin-bottom: 10px;"></div>
+
+  <!-- Facebook connection -->
+  <div ng-show="isConnected == false" class="col-xs-12 text-center" style="margin-top: 30px; margin-bottom: 20px">
+    <button type="button" ng-click="fbLogin()" targetId="fbLogin" targetType="Command" actionType="click"  class="btn btn-primary btn-lg" translate>Connexion facebook</button>
+    <br>
+    <div style="margin-top: 10px" translate>Connectez-vous à facebook pour accéder à l'application !</div>
+    <!--<div style="margin-top: 10px" translate>Les suggestions facebook requièrent un connexion facebook :-)</div>-->
+  </div>
+  <!-- Continue without facebook -->
+  <div ng-show="isConnected == false"  style="margin-bottom: 30px; margin-top: 40px;text-align: center; ">
+    <a class="btn btn-default btn-sm" id="toSubscriptions" ng-href="{{app.appUrlSvc.getFullPath('')}}favoriteRecipients" targetId="favoriteRecipients" translate>Continuer sans facebook</a>
+    <br>
+    <div style="margin-top: 10px" translate>Quel courage</div>
+  </div>
+  <!-- Got to subscriptions -->
+  <div ng-show="isConnected == true"  style="margin-bottom: 30px; margin-top: 20px;text-align: center; ">
+    <a class="btn btn-default" id="toSubscriptionsAnyway" ng-href="{{app.appUrlSvc.getFullPath('')}}favoriteRecipients" targetId="favoriteRecipients" translate>Voir la suite</a>
+  </div>
+
+  <!-- Switch language -->
   <div ng-include="'views/partials/languageBar.html'" style="margin-top: 20px; text-align: center" ></div>
 
+  <!-- Mozart  -->
   <div style="margin-top:25px; margin-bottom: 15px; text-align: center;">
     <img height="120px;" src="./assets/pianoCat.jpg">
   </div>
 
-  <div ng-include="'views/partials/pageLikePlugin.html'" style="margin-top: 20px; text-align: center" ></div>
+  <!-- Don't mess with Mozart / C'est Mozart qu'on assassine -->
+  <div class="row" style="text-align: center;">
+    <div class="col-md-4 col-sm-3 col-xs-1"></div>
+    <div class="col-md-4 col-sm-6 col-xs-10">
+      <div style="font-size: 80%;" translate>Quand vous oubliez</div>
+    </div>
+    <div class="col-md-4 col-sm-3 col-xs-1"></div>
+  </div>
 
+  <!-- Facebook plugin -->
+  <div ng-include="'views/partials/pageLikePlugin.html'" style="margin-top: 20px; text-align: center" ></div>
 
 </div>

@@ -15,8 +15,10 @@
 
     <ul class="pager bmwQuestionButton pull-left" >
         <li ng-class= '{selectionne: false}' >
-          <!--<a href="/" role="button"  targetId="Next"> <img ng-src="./assets/arrow-left.png" class="stylepicto"> </a>-->
-          <a ng-href="{{app.appUrlSvc.getFullPath('')}}" role="button"  targetId="Previous"> <img ng-src="./assets/arrow-left.png" class="stylepicto"> </a>
+          <!--<a ng-href="{{app.appUrlSvc.getFullPath('')}}" role="button"  targetId="Previous"> <img ng-src="./assets/arrow-left.png" class="stylepicto"> </a>-->
+          <a ng-href="{{app.appUrlSvc.getFullPath('')}}area/General/dashboard" role="button"  targetId="Previous"> <img ng-src="./assets/arrow-left.png" class="stylepicto"> </a>
+
+          <!--<a ng-href="" historyback role="button"  targetId="Previous"> <img ng-src="./assets/arrow-left.png" class="stylepicto"> </a>-->
         </li>
     </ul>
     <ul class="pager bmwQuestionButton" ng-show="hasSubscribedRecipients()">
