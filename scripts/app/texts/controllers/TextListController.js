@@ -3,14 +3,17 @@ angular.module('app/texts/TextListController', [])
 .controller('TextListController',
  ['$scope', 'currentTextList', 'currentIntention', 'currentUser', 'filtersSvc', '$modal', 'currentRecipient', 'favouritesSvc','appUrlSvc','currentLanguage','textsSvc','intentionsSvc','currentAreaName','postActionSvc','$window','filteredTextListSvc','tagLabelsSvc','helperSvc','questionBarSvc','accordionSvc',
 function ($scope, currentTextList, currentIntention,  currentUser, filtersSvc, $modal,currentRecipient, favouritesSvc,appUrlSvc,currentLanguage,textsSvc,intentionsSvc,currentAreaName,postActionSvc,$window,filteredTextListSvc,tagLabelsSvc,helperSvc,questionBarSvc,accordionSvc) {
+
   $scope.appUrlSvc = appUrlSvc;
   $scope.helperSvc = helperSvc;
   $scope.QuestionBar = questionBarSvc;
 
+  // We want an Init event even if no action takes place, in case user lands here from Google or facebook
+  postActionSvc.postActionInfo('intention',currentIntention.IntentionId,'IntentionList','Init');
+
   $scope.labelsThatShouldBeDisplayed = function(txt) {
     var stylesWeWant = filtersSvc.filters.preferredStyles;
     var idsWeWant = stylesWeWant.filterIds(txt.TagIds);
-//    return tagLabelsSvc.labelsFromStyleTagIds(txt.TagIds);
     return tagLabelsSvc.labelsFromStyleTagIds(idsWeWant);
   };
 
