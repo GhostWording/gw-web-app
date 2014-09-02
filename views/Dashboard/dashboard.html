@@ -9,8 +9,8 @@
   <div class="row">
     <!--Title-->
     <div class="col-xs-12 text-center" style="margin-top: 0px; margin-bottom: 0px">
-      <h4 style="margin-bottom: 5px; margin-top: 5px;"><span translate>Opportunités du jour</span></h4>
-      <small class="text-info" style="margin-top: 0px;">{{ displayDate }}</small>
+      <h3 style="margin-bottom: 5px; margin-top: 5px;"><span translate>Opportunités du jour</span></h3>
+      <small class="text-info brand" style="margin-top: 0px;">{{ displayDate }}</small>
     </div>
 
     <!-- Dashboard content -->
@@ -24,20 +24,20 @@
   <div ng-include="'views/dashboard/posterDebug.html'" style="margin-bottom: 10px;"></div>
 
   <!-- Facebook connection -->
-  <div ng-show="isConnected == false" class="col-xs-12 text-center" style="margin-top: 30px; margin-bottom: 20px">
-    <button type="button" ng-click="fbLogin()" targetId="fbLogin" targetType="Command" actionType="click"  class="btn btn-primary btn-lg" translate>Connexion facebook</button>
-    <br>
+  <div ng-show="isConnected == false" class="col-xs-12 text-center" style="margin-top: 20px; margin-bottom: 20px">
     <div style="margin-top: 10px" translate>Connectez-vous à facebook pour accéder à l'application !</div>
+    <br>
+    <button type="button" ng-click="fbLogin()" targetId="fbLogin" targetType="Command" actionType="click"  class="btn btn-primary btn-lg" translate>Connexion facebook</button>
     <!--<div style="margin-top: 10px" translate>Les suggestions facebook requièrent un connexion facebook :-)</div>-->
   </div>
   <!-- Continue without facebook -->
-  <div ng-show="isConnected == false"  style="margin-bottom: 30px; margin-top: 40px;text-align: center; ">
+  <div ng-show="isConnected == false"  style="margin-bottom: 40px; margin-top: 40px;text-align: center; ">
     <a class="btn btn-default btn-sm" id="toSubscriptions" ng-href="{{app.appUrlSvc.getFullPath('')}}favoriteRecipients" targetId="favoriteRecipients" translate>Continuer sans facebook</a>
     <br>
-    <div style="margin-top: 10px" translate>Quel courage</div>
+    <!--<div style="margin-top: 10px" translate>Quel courage</div>-->
   </div>
   <!-- Got to subscriptions -->
-  <div ng-show="isConnected == true"  style="margin-bottom: 30px; margin-top: 20px;text-align: center; ">
+  <div ng-show="isConnected == true"  style="margin-top: 35px; margin-bottom: 35px; text-align: center; ">
     <a class="btn btn-default" id="toSubscriptionsAnyway" ng-href="{{app.appUrlSvc.getFullPath('')}}favoriteRecipients" targetId="favoriteRecipients" translate>Voir la suite</a>
   </div>
 
