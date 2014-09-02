@@ -1,7 +1,7 @@
 angular.module('app/texts/cvdText', [])
 
 // This is a one-off, one-directional binding for textList items
-.directive('cvdText', ['HelperSvc',function(HelperSvc) {
+.directive('cvdText', ['helperSvc',function(helperSvc) {
   return {
 
     link: function(scope, element, attrs) {
@@ -9,7 +9,7 @@ angular.module('app/texts/cvdText', [])
       var txt = scope.$eval(attrs.cvdText);
 
 //      if ( !txt.IsQuote ) {
-        if ( !HelperSvc.isQuote(txt) ) {
+        if ( !helperSvc.isQuote(txt) ) {
 
         element.html(txt.shortContent);
         element.addClass("well well-small bmw-texte");

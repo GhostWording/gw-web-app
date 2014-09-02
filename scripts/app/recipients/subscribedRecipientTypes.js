@@ -1,6 +1,6 @@
-angular.module('app/recipients/subscribedRecipients', ['common/services/cache'])
+angular.module('app/recipients/subscribedRecipientTypes', ['common/services/cache'])
 
-.factory('subscribedRecipientsSvc', ['$q','localStorage','subscribableRecipientsSvc', function ($q, localStorage,subscribableRecipientsSvc) {
+.factory('subscribedRecipientTypesSvc', ['$q','localStorage','recipientTypesSvc', function ($q, localStorage,recipientTypesSvc) {
 	var service = {
     nbSubscribedRecipients : 0,
 
@@ -12,7 +12,7 @@ angular.module('app/recipients/subscribedRecipients', ['common/services/cache'])
 			return retval;
 		},
     countSubscribedRecipients : function() {
-      return subscribableRecipientsSvc.getAll().then(function(recipients){
+      return recipientTypesSvc.getAll().then(function(recipients){
         service.nbSubscribedRecipients  = 0;
         for (var i= 0; i < recipients.length; i++) {
           var recipient = recipients[i];
@@ -26,7 +26,7 @@ angular.module('app/recipients/subscribedRecipients', ['common/services/cache'])
     },
 
 		getsubscribedRecipients : function() {
-			return subscribableRecipientsSvc.getAll().then(function(recipients){
+			return recipientTypesSvc.getAll().then(function(recipients){
 				var retval = [];
 				for (var i= 0; i < recipients.length; i++) {
 					var recipient = recipients[i];
@@ -48,22 +48,22 @@ angular.module('app/recipients/subscribedRecipients', ['common/services/cache'])
 	return service;
 }])
 
-.controller('SubscribedRecipientsController', ['$scope', 'subscribableRecipientsSvc', 'subscribedRecipientsSvc','recipientsHelperSvc','currentUser',
-function ($scope, subscribableRecipientsSvc, subscribedRecipientsSvc,recipientsHelperSvc,currentUser) {
+.controller('SubscribedRecipientsController', ['$scope', 'recipientTypesSvc', 'subscribedRecipientTypesSvc','recipientTypeHelperSvc','currentUser',
+function ($scope, recipientTypesSvc, subscribedRecipientTypesSvc,recipientTypeHelperSvc,currentUser) {
 
-  subscribedRecipientsSvc.countSubscribedRecipients();
+  subscribedRecipientTypesSvc.countSubscribedRecipients();
 
   $scope.hasSubscribedRecipients = function() {
-    return subscribedRecipientsSvc.nbSubscribedRecipients > 0;
+    return subscribedRecipientTypesSvc.nbSubscribedRecipients > 0;
   };
 
-  subscribableRecipientsSvc.getAll().then(function (value) {
-    var compatibleRecipients = recipientsHelperSvc.getCompatibleRecipients(value,currentUser);
+  recipientTypesSvc.getAll().then(function (value) {
+    var compatibleRecipients = recipientTypeHelperSvc.getCompatibleRecipients(value,currentUser);
 
     $scope.recipients = compatibleRecipients;
   });
-  $scope.switchState = subscribedRecipientsSvc.switchStateForRecipientTypeAlerts;
-  $scope.getState = subscribedRecipientsSvc.getStateForRecipientTypeAlerts;
+  $scope.switchState = subscribedRecipientTypesSvc.switchStateForRecipientTypeAlerts;
+  $scope.getState = subscribedRecipientTypesSvc.getStateForRecipientTypeAlerts;
 
 
 }]);

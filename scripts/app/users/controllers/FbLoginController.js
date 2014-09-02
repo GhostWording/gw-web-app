@@ -26,7 +26,7 @@ function ($scope, ezfb,$rootScope,$location,$q,currentUserLocalData,facebookSvc)
   $scope.$watch(function() { return facebookSvc.getSortedFriendsWithBirthday();},function() {
     console.log("facebookSvc.getSortedFriendsWithBirthDay() : " +facebookSvc.getSortedFriendsWithBirthday().length );
     $scope.apiFriendsWithBirthday = facebookSvc.getSortedFriendsWithBirthday();
-    $scope.apiNextBirthdayFriends =  facebookSvc.getNextBirthdayFriend();
+    $scope.apiNextBirthdayFriends =  facebookSvc.getNextBirthdayFriends();
   },true);
 
 $scope.today = Date.now();

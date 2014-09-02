@@ -3,15 +3,27 @@
     <!--<h3   ng-bind-html = "currentText.Abstract || currentIntention.Label" ></h3>-->
     <ul class="pager bmwQuestionButton" style="margin-top: 5px;  margin-bottom: 25px;">
       <li ng-class='{selectionne: false}'>
-        <a ng-show = "appUrlSvc.getTextDetailWasCalledFromTextList() == false"
+
+        <!-- User was allready in our app : just go back to previous page  -->
+        <a ng-show = "appUrlSvc.getTextDetailWasCalledFromTextList() || appUrlSvc.getTextDetailWasCalledFromDashboard()" ng-href="" historyback
+           class="pull-left" role="button" targetId="Back">
+          <img ng-src="./assets/arrow-left.png" class="stylepicto">
+        </a>
+
+        <!-- Move explicitely to intention text list -->
+        <a ng-show = "appUrlSvc.getTextDetailWasCalledFromTextList() == false && appUrlSvc.isDashboardPath() == false"
            ng-href="{{app.appUrlSvc.getFullPath('')}}area/{{ currentAreaName }}/recipient/{{ recipientId }}/intention/{{app.appUrlSvc.getIntentionSlug(currentIntention)}}/text"
            class="pull-left" role="button" targetId="Back">
           <img ng-src="./assets/arrow-left.png" class="stylepicto">
         </a>
-        <a ng-show = "appUrlSvc.getTextDetailWasCalledFromTextList() == true" ng-href="" historyback
+
+        <!-- Move explicitely to dashboard -->
+        <a ng-show = "appUrlSvc.getTextDetailWasCalledFromDashboard() == false && appUrlSvc.isDashboardPath() == true"
+           ng-href="{{app.appUrlSvc.getFullPath('')}}area/{{ currentAreaName }}/dashboard"
            class="pull-left" role="button" targetId="Back">
           <img ng-src="./assets/arrow-left.png" class="stylepicto">
         </a>
+
         <h4 class="pull-left" style="margin-left: 10px;" translate>{{ currentIntention.Label }}</h4>
         <img style="margin-top:0px; margin-right: 10px;" width="50px" height="40px" src="./assets/TouchWordingCompressed.jpg" class="pull-right">
 
@@ -20,7 +32,7 @@
   </div>
 
 
-<div class="pull-right" style="margin-bottom: 5px; margin-top: 5px; margin-right: 5px;" >
+<div ng-if="includeSocialPluginsOnTextPages()" class="pull-right" style="margin-bottom: 5px; margin-top: 5px; margin-right: 5px;" >
   <!-- fb share  -->
   <div class="fb-share-button btn btn-default"></div>
 </div>
@@ -47,7 +59,7 @@
     <!--<button ng-click="fbSend()" class="btn hidden-xs" style="background: url(/assets/fbSend.png)  no-repeat; width: 70px; height: 25px;"></button>-->
     <!-- use the fb social button on mobiles : can take a few seconds to render, and will scrape what it can  -->
     <!--<div class="fb-send btn btn-default visible-xs"></div>-->
-    <div class="fb-send"></div>
+    <div ng-if="includeSocialPluginsOnTextPages()" class="fb-send"></div>
 
     <div ng-show="isQuote(currentText)" style="margin-bottom: 5px;" >
       <span class ="auteur hidden-xs " translate>Auteur</span>
@@ -55,9 +67,6 @@
 
       <span class ="auteur">{{currentText.Author}}</span>
       &nbsp
-      <!--<button class="btn btn-default glyphicon glyphicon-plus" ng-class = '{disabled: authorButton=="disabled"}'-->
-      <!--targetId="{{ Id }}" targetType="Text" actionType="edit"-->
-      <!--ng-click="addAuthor()">-->
       <button class="btn btn-sm btn-default " ng-class = '{disabled: authorButton=="disabled"}'
               targetId="{{ Id }}" targetType="Text" actionType="edit"
               ng-click="addAuthor()">+    </button>
@@ -72,9 +81,12 @@
             targetId="{{ Id }}" targetType="Text" actionType="edit"
             ng-click="edit()" ng-hide="editText"></button>
     <!-- send  -->
-    <button style="margin-left: 10px" class="btn btn-default glyphicon glyphicon-envelope" translate
+    <!--<button style="margin-left: 10px" class="btn btn-default glyphicon glyphicon-envelope" translate-->
+            <!--targetId="{{ Id }}" targetType="Text" actionType="send"-->
+            <!--ng-click="send()"></button>-->
+    <button style="margin-left: 10px" class="btn btn-primary" translate
             targetId="{{ Id }}" targetType="Text" actionType="send"
-            ng-click="send()"></button>
+            ng-click="send()">Envoyer</button>
   </div>
 
     <br/>
@@ -99,9 +111,9 @@
           <span translate>Ecrit</span> <span translate>{{getSenderGender(text)}}</span> <span translate>{{getRecipientGender(text)}}</span> <span translate>{{getTV(text)}}</span>
         </span>
 
-        <a ng-href="{{app.appUrlSvc.getRootPath('')}}area/{{ currentAreaName }}/recipient/{{ recipientId }}/intention/{{ app.appUrlSvc.getIntentionSlug(currentIntention) }}/text/{{text.TextId}}"
+        <a rel="nofollow" ng-href="{{app.appUrlSvc.getRootPath('')}}area/{{ currentAreaName }}/recipient/{{ recipientId }}/intention/{{ app.appUrlSvc.getIntentionSlug(currentIntention) }}/text/{{text.TextId}}"
            targetType="Text"  actionType="open"  targetId="{{txt.TextId}}">
-          <button class="btn btn-primary pull-right glyphicon glyphicon-ok" translate
+          <button class="btn btn-default pull-right glyphicon glyphicon-ok" translate
                   targetId="{{ Id }}" targetType="Text"></button>
          </a>
       </div>

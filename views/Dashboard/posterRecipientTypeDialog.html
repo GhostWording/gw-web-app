@@ -1,0 +1,7 @@
+<div class="modal-content" action-location="RecipientTypeModal">
+  <div class="modal-body">
+    <div translate style="padding-bottom: 20px;">Catégorie</div>
+    <button ng-repeat="recipientType in posterCompatibleRecipients" ng-click="setRecipientTypeId(recipientType.Id); $close()" ng-class='{active: userFriend.ufRecipientTypeId == recipientType.Id}'
+            class="btn btn-small btn-default" style="margin-left: 15px; margin-bottom: 20px;" targetId="{{ recipientType.Id }}" targetType="Command" actionType="click" translate >  {{ recipientType.dashLabel }} </button>
+  </div>
+</div>

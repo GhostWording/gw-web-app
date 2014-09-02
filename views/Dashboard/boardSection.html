@@ -1,0 +1,11 @@
+<div ng-if="boardSection.visible">
+    <!-- Section Title -->
+    <div ng-show="isConnected == true" class="col-xs-12 text-center bg-info" style="margin-top: 10px; margin-bottom: 0px; padding-top: 10px; padding-bottom: 10px;" translate>
+      {{ boardSection.sectionLabel }}
+    </div>
+  <!-- Section Posters -->
+    <div ng-repeat = "userFriend in sectionUserFriends">
+      <div ui-view = "boardPosterView">zzzz</div>
+    </div>
+  </div>
+</div>

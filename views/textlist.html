@@ -1,5 +1,5 @@
 ﻿
-<!-- Text detail  -->
+<!-- TextDetail view: will be shown here when a text is selected : both views will be active at the same time-->
 <ui-view></ui-view>
 
 <div ng-show="getCurrentTextId() == undefined" class="panneauTexte" action-location="TextList">
@@ -46,7 +46,7 @@
     <!--<div class="listeTextes" ng-show="filtersWellDefined() || showTextsAnyway()">-->
     <div class="listeTextes" ng-show="true">
       <div ng-repeat="txt in filteredList">
-         <span ng-hide="HelperSvc.isQuote(txt)" ng-repeat="tagLabel in labelsThatShouldBeDisplayed (txt)" >
+         <span ng-hide="helperSvc.isQuote(txt)" ng-repeat="tagLabel in labelsThatShouldBeDisplayed (txt)" >
             <span class="label label-warning" translate>{{tagLabel}}</span>&nbsp
          </span>
 
@@ -56,7 +56,7 @@
           class="pull-right envoyer"
           ng-click="send(txt)">
           <!--<a href="{{appUrlSvc.getRootPath()}}area/{{ currentArea.Name }}/intention/{{ app.appUrlSvc.getIntentionSlug(currentIntention) }}/recipient/{{ recipientId }}/text/{{txt.TextId}}"-->
-          <a href="{{appUrlSvc.getRootPath()}}area/{{ currentAreaName }}/recipient/{{ recipientId }}/intention/{{ app.appUrlSvc.getIntentionSlug(currentIntention) }}/text/{{txt.TextId}}"
+          <a ng-href="{{appUrlSvc.getRootPath()}}area/{{ currentAreaName }}/recipient/{{ recipientId }}/intention/{{ app.appUrlSvc.getIntentionSlug(currentIntention) }}/text/{{txt.TextId}}"
           targetType="Text"
           actionType="open"
           targetId="{{txt.TextId}}"

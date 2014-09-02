@@ -1,7 +1,7 @@
 angular.module('app/texts/SendTextFormController', [])
 
-.controller('SendTextFormController', ['$scope', '$modalInstance', '$window','HelperSvc', 'currentText','$translate',
-function($scope, $modalInstance, $window, HelperSvc, currentText,$translate) {
+.controller('SendTextFormController', ['$scope',  '$window','helperSvc', 'currentText','$translate',
+function($scope,  $window, helperSvc, currentText,$translate) {
 
   $scope.currentText = currentText;
   $scope.txt = {
@@ -9,25 +9,23 @@ function($scope, $modalInstance, $window, HelperSvc, currentText,$translate) {
   };
 
   $translate($scope.currentIntention.Label).then(function(value) {
-    $scope.mailToThis = HelperSvc.urlMailTo($scope.txt.editableText, value);
+    $scope.mailToThis = helperSvc.urlMailTo($scope.txt.editableText, value);
     return value;
   });
 
 	$scope.urlMailTo = function () {
 //  Probably some case of prototypal bizarrerie : modification to the text from the dialog are discarded if we dont use a proper object to carry the property
-    //var mailSubject = $scope.currentIntention.Label;
-    //var retval = HelperSvc.urlMailTo($scope.txt.editableText, mailSubject);
+    //var retval = helperSvc.urlMailTo($scope.txt.editableText, mailSubject);
     //return retval;
-    $translate($scope.currentIntention.Label).then(function(value) {
-      $scope.mailToThis = HelperSvc.urlMailTo($scope.txt.editableText, value);
-    });
-    // Should not really return the up to date value. Kind of does
+//    $translate($scope.currentIntention.Label).then(function(value) {
+//      $scope.mailToThis = helperSvc.urlMailTo($scope.txt.editableText, value);
+//    });
+//    // Should not really return the up to date value. Kind of does
     return $scope.mailToThis;
   };
 
-
   $scope.sms = function () {
-      $window.open(HelperSvc.urlSMSTo($scope.txt.editableText), '_blank');
+      $window.open(helperSvc.urlSMSTo($scope.txt.editableText), '_blank');
   };
 
 	$scope.canTweet = function () {
@@ -35,7 +33,7 @@ function($scope, $modalInstance, $window, HelperSvc, currentText,$translate) {
 	};
 
 	$scope.tweet = function () {
-      window.open(HelperSvc.urlTweetTo($scope.editableText), '_blank');
+      window.open(helperSvc.urlTweetTo($scope.editableText), '_blank');
   };
 
   $scope.mail = function () {

@@ -9,6 +9,10 @@ angular.module('app/intentions', [
 .factory('intentionsSvc', ['$q', '$stateChange', 'areasSvc', 'cacheSvc', 'serverSvc','currentLanguage', function($q, $stateChange, areasSvc, cacheSvc, serverSvc,currentLanguage) {
   var service = {
 
+    getSlugOrId: function(intention) {
+      return intention.Slug ? intention.Slug : intention.IntentionId;
+    },
+
     getCurrentId: function() {
       return $stateChange.toParams && $stateChange.toParams.intentionId;
     },
@@ -67,10 +71,6 @@ angular.module('app/intentions', [
             cacheSvc.reInitializeCacheEntry(cacheSvc.makeIntentionCacheKey(areaName, intentionIdOrSlug));
             // Invalidate cache description of text list for intention
             var culture = currentLanguage.currentCulture();
-            // HACK : while we don't have spanish texts, display english ones instead
-//            if (culture == "es-ES") {
-//              culture = "en-EN";
-//            }
             var textListCacheKey = cacheSvc.makeTextListCacheKey(areaName, intentionIdOrSlug, culture);
             cacheSvc.reInitializeCacheEntry(textListCacheKey);
             retval = true;
@@ -134,11 +134,11 @@ function($scope,  intentionsSvc, currentRecipientSvc,likelyIntentionsSvc,appUrlS
     currentRecipientSvc.getCurrentRecipient()
       // Get recipientTYPE Id (different from recipient id)
       .then(function (currentRecipient) {
-        return currentRecipient.RecipientTypeId;
+        return currentRecipient.RecipientTypeTag;
       })
       // Get LikelyIntentions for the RecipientType : we should directly get intentions from the server
-      .then(function(recipientTypeId) {
-        return likelyIntentionsSvc.getLikelyIntentionsforGivenRecipientType(recipientTypeId)
+      .then(function(recipientTypeTag) {
+        return likelyIntentionsSvc.getLikelyIntentionsforGivenRecipientType(recipientTypeTag)
           .then(function(likelyIntentions) {
              return likelyIntentions;});
       })

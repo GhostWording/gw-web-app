@@ -6,8 +6,8 @@ angular.module('app/filters/questionBarSvc', [
 
 
 // This service keeps track of user choices that impact the filtering of texts
-.factory('questionBarSvc', ['$rootScope', 'intentionsSvc', 'areasSvc', 'currentUser', 'currentLanguage', 'currentRecipientSvc','filtersSvc','filteredTextListSvc','generalStyles','HelperSvc',
-function ($rootScope, intentionsSvc, areasSvc, currentUser, currentLanguage, currentRecipientSvc,filtersSvc,filteredTextListSvc,generalStyles,HelperSvc) {
+.factory('questionBarSvc', ['$rootScope', 'intentionsSvc', 'areasSvc', 'currentUser', 'currentLanguage', 'currentRecipientSvc','filtersSvc','filteredTextListSvc','generalStyles','helperSvc',
+function ($rootScope, intentionsSvc, areasSvc, currentUser, currentLanguage, currentRecipientSvc,filtersSvc,filteredTextListSvc,generalStyles,helperSvc) {
 
   var filters = filtersSvc.filters;
   var mostSelectiveStyles;
@@ -40,7 +40,7 @@ function ($rootScope, intentionsSvc, areasSvc, currentUser, currentLanguage, cur
       for (var i = 0; i < visibleStyleList.length; i++) {
         var style = visibleStyleList[i];
         var styleCount = filteredTextListSvc.getTextCountForTagId(style.id);
-        style.selectiveness  = HelperSvc.countTagSelelectiveness(style.id,styleCount,filteredTextListSvc.getLength());
+        style.selectiveness  = helperSvc.countTagSelelectiveness(style.id,styleCount,filteredTextListSvc.getLength());
         //console.log(style.name + " -- " + style.selectiveness);
       }
       // Make a list with most selective styles first

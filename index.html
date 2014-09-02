@@ -9,6 +9,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="google-site-verification" content="Yancq9d1odgL9tS_cPdZuci56Rmh5J30ASqLN4Mk3Wk" />
 
+    <meta name="msvalidate.01" content="B3A7DA86CB037333C6DBD49A5CEE100C" />
+
     <title ng-bind-template="{{pageTitle1 | translate}} {{pageTitle2 | translate}}">Mots magiques pour belles occasions</title>
 
      <!--TODO : description could adapt to page and language as in http://stackoverflow.com/questions/20807761/angular-modify-meta-tag-->
@@ -91,14 +93,21 @@
     <!--<link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">-->
     <link rel="icon"   type="image/jpg"   href="assets/favicon-bmw-32.jpg">
     <link rel="shortcut icon"  href="assets/favicon-bmw-32.jpg">
+
+    <!-- Microsoft app Insights -->
+    <script type="text/javascript">
+      window.appInsights={queue:[],applicationInsightsId:null,accountId:null,appUserId:null,configUrl:null,start:function(n){function u(n){t[n]=function(){var i=arguments;t.queue.push(function(){t[n].apply(t,i)})}}function f(n,t){if(n){var u=r.createElement(i);u.type="text/javascript";u.src=n;u.async=!0;u.onload=t;u.onerror=t;r.getElementsByTagName(i)[0].parentNode.appendChild(u)}else t()}var r=document,t=this,i;t.applicationInsightsId=n;u("logEvent");u("logPageView");i="script";f(t.configUrl,function(){f("//az416426.vo.msecnd.net/scripts/a/ai.0.7.js")});t.start=function(){}}};
+      appInsights.start("9611fbb1-a172-426b-ba9b-c2d11638415c");
+      appInsights.logPageView();
+    </script>
   </head>
 
   <body  id="leCorps">
     <!-- facebook scripts -->
     <!--<div id="fb-root"></div>-->
 
-  <h4 ng-show="false">Comment dire les mots de l'amitié, de l'amour et de tous les jours</h4>
-  <h4 ng-show>How to say magic words to people you like and people you love</h4>
+  <h4 ng-show="false">Comment vous dire : ne laissez pas le temps au temps</h4>
+  <h4 ng-show>Touchwording helps you send better messsages</h4>
 
     <!-- Menu bar -->
     <nav class="navbar navbar-inverse navbar-static-top" role="navigation" ng-init="navCollapsed = true"
@@ -114,28 +123,28 @@
           <!--<span class="icon-bar"></span>-->
         <!--</button>-->
         <a class="navbar-brand hidden-xs" ng-href="/" TargetId="welcome" translate>CommentVousDire</a>
-        <a class="navbar-brand glyphicon glyphicon-home visible-xs" ng-href="/" ></a>
+        <a class="navbar-brand glyphicon glyphicon-home visible-xs" ng-href="/" TargetId="welcome" ></a>
         <div class="pull-right visible-xs">
           <!--<a href="" style="margin-right: 4px;" ng-class='{active: getLanguage()=="fr"}' ng-click="changeLanguage('fr')" class="navbar-brand flag flag-icon flag-icon-fr flag-icon-squared"></a>-->
           <!--<a href="" style="margin-right: 4px;" ng-class='{active: getLanguage()=="en"}' ng-click="changeLanguage('en')" class="navbar-brand flag flag-icon flag-icon-uk flag-icon-squared"></a>-->
           <!--<a href="" style="margin-right: 4px;" ng-class='{active: getLanguage()=="es"}'  ng-click="changeLanguage('es')" class="navbar-brand flag flag-icon flag-icon-es flag-icon-squared"></a>-->
-          <a href="" style="margin-right: 0px; padding-left: 0px; padding-right: 7px;" ng-class='{active: getLanguage()=="fr"}' ng-click="changeLanguage('fr')" class="navbar-brand ">fr</a>
-          <a href="" style="margin-right: 0px; padding-left: 0px; padding-right: 7px;" ng-class='{active: getLanguage()=="en"}' ng-click="changeLanguage('en')" class="navbar-brand ">en</a>
-          <a href="" style="margin-right: 0px; padding-left: 0px; padding-right: 7px;" ng-class='{active: getLanguage()=="es"}'  ng-click="changeLanguage('es')" class="navbar-brand">es</a>
+          <a href="" TargetId="fr" style="margin-right: 0px; padding-left: 0px; padding-right: 7px;" ng-class='{active: getLanguage()=="fr"}' ng-click="changeLanguage('fr')" class="navbar-brand ">fr</a>
+          <a href="" TargetId="en" style="margin-right: 0px; padding-left: 0px; padding-right: 7px;" ng-class='{active: getLanguage()=="en"}' ng-click="changeLanguage('en')" class="navbar-brand ">en</a>
+          <a href="" TargetId="es" style="margin-right: 0px; padding-left: 0px; padding-right: 7px;" ng-class='{active: getLanguage()=="es"}'  ng-click="changeLanguage('es')" class="navbar-brand">es</a>
 
           <!-- Recipient list  -->
-          <a ng-href="{{app.appUrlSvc.getFullPath('')}}recipientList" class="navbar-brand glyphicon glyphicon-user" translate></a>
+          <a ng-href="{{app.appUrlSvc.getFullPath('')}}recipientList" class="navbar-brand glyphicon glyphicon-user" TargetId="recipientList" translate></a>
           <!-- Subscriptions  -->
-          <a ng-href="{{app.appUrlSvc.getFullPath('')}}favoriteRecipients" class = "navbar-brand glyphicon glyphicon-bell" translate></a>
+          <a ng-href="{{app.appUrlSvc.getFullPath('')}}favoriteRecipients" class = "navbar-brand glyphicon glyphicon-bell" TargetId="favoriteRecipients" translate></a>
           <!-- Dashboard  -->
-          <a ng-href="{{app.appUrlSvc.getFullPath('')}}area/General/dashboard" class = "navbar-brand glyphicon glyphicon-play" translate></a>
+          <a ng-href="{{app.appUrlSvc.getFullPath('')}}area/General/dashboard" class = "navbar-brand glyphicon glyphicon-play" TargetId="dashboard" translate></a>
 
           <!--<a rel="nofollow" ng-href="{{app.appUrlSvc.getFullPath('')}}area/General/recipient/none/intention" ng-show="false" class ="navbar-brand glyphicon glyphicon-search" translate></a>-->
           <!-- Favourites  -->
           <!--<a ng-show = "hasFavourite()" ng-href="{{app.appUrlSvc.getFullPath('')}}favouriteTexts" class="navbar-brand glyphicon glyphicon-star"></a>-->
           <!-- Mon profil  -->
-          <a ng-href="{{app.appUrlSvc.getFullPath('')}}userprofile" class ="navbar-brand glyphicon glyphicon-cog" translate></a>
-          <a  class="navbar-brand" ng-href="{{app.appUrlSvc.getFullPath('')}}about" translate>?</a>
+          <a ng-href="{{app.appUrlSvc.getFullPath('')}}userprofile" class ="navbar-brand glyphicon glyphicon-cog" TargetId="userprofile" translate></a>
+          <a  class="navbar-brand" ng-href="{{app.appUrlSvc.getFullPath('')}}about" TargetId="about" translate>?</a>
         </div>
       </div>
 
@@ -146,26 +155,26 @@
           <!--<li style="margin-right: 12px;" ng-class='{active: getLanguage()=="fr"}' ng-click="changeLanguage('fr')"><a href="" class="flag flag-icon flag-icon-fr flag-icon-squared"></a></li>-->
           <!--<li style="margin-right: 12px;" ng-class='{active: getLanguage()=="en"}' ng-click="changeLanguage('en')"><a href="" class="flag flag-icon flag-icon-uk flag-icon-squared"></a></li>-->
           <!--<li style="margin-right: 12px;" ng-class='{active: getLanguage()=="es"}' ng-click="changeLanguage('es')"><a href="" class="flag flag-icon flag-icon-es flag-icon-squared"></a></li>-->
-          <li style="margin-right: 12px;" ng-class='{active: getLanguage()=="fr"}' ng-click="changeLanguage('fr')" ><a href="" >fr</a></li>
-          <li style="margin-right: 12px;" ng-class='{active: getLanguage()=="en"}' ng-click="changeLanguage('en')"><a href="" >en</a></li>
-          <li style="margin-right: 12px;" ng-class='{active: getLanguage()=="es"}' ng-click="changeLanguage('es')"><a href="" >es</a></li>
+          <li style="margin-right: 12px;" ng-class='{active: getLanguage()=="fr"}' ng-click="changeLanguage('fr')" ><a href="" TargetId="fr">fr</a></li>
+          <li style="margin-right: 12px;" ng-class='{active: getLanguage()=="en"}' ng-click="changeLanguage('en')"><a href=""  TargetId="en">en</a></li>
+          <li style="margin-right: 12px;" ng-class='{active: getLanguage()=="es"}' ng-click="changeLanguage('es')"><a href="" TargetId="es">es</a></li>
 
           <!-- Recipient list  -->
-          <li class="active"><a ng-href="{{app.appUrlSvc.getFullPath('')}}recipientList" class = "glyphicon glyphicon-user" translate></a></li>
+          <li class="active"><a ng-href="{{app.appUrlSvc.getFullPath('')}}recipientList" class = "glyphicon glyphicon-user" TargetId="recipientList" translate></a></li>
           <!-- Subscriptions  -->
-          <li class="active"><a ng-href="{{app.appUrlSvc.getFullPath('')}}favoriteRecipients" class = "glyphicon glyphicon-bell" translate></a></li>
+          <li class="active"><a ng-href="{{app.appUrlSvc.getFullPath('')}}favoriteRecipients" class = "glyphicon glyphicon-bell" TargetId="favoriteRecipients" translate></a></li>
           <!-- All texts  -->
           <!--<li class="active"><a  rel="nofollow" ng-href="{{app.appUrlSvc.getFullPath('')}}area/General/recipient/none/intention" class ="glyphicon glyphicon-search" translate></a></li>-->
           <!-- Favoris  -->
           <!--<li class="active" ng-show = "hasFavourite()"><a ng-href="{{app.appUrlSvc.getFullPath('')}}favouriteTexts" class="glyphicon glyphicon-star"></a></li>-->
 
-          <!-- fbLogin  -->
+          <!-- Dashboard  -->
           <!--<li class="active"><a ng-href="{{app.appUrlSvc.getFullPath('')}}fbLogin" ng-show="true" class ="glyphicon glyphicon-play"></a></li>-->
-          <li class="active"><a ng-href="{{app.appUrlSvc.getFullPath('')}}area/General/dashboard" ng-show="true" class ="glyphicon glyphicon-play"></a></li>
+          <li class="active"><a ng-href="{{app.appUrlSvc.getFullPath('')}}area/General/dashboard" ng-show="true" class ="glyphicon glyphicon-play" TargetId="dashboard"></a></li>
 
           <!-- Mon profil  -->
-          <li class="active"><a ng-href="{{app.appUrlSvc.getFullPath('')}}userprofile" class ="glyphicon glyphicon-cog" translate></a></li>
-          <li class="active"><a ng-href="{{app.appUrlSvc.getFullPath('')}}about" translate>A propos</a></li>
+          <li class="active"><a ng-href="{{app.appUrlSvc.getFullPath('')}}userprofile" class ="glyphicon glyphicon-cog" TargetId="userprofile" translate></a></li>
+          <li class="active"><a ng-href="{{app.appUrlSvc.getFullPath('')}}about" TargetId="about" translate>A propos</a></li>
         </ul>
       </div>
      </div>  <!--container-fluid-->

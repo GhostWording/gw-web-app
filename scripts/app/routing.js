@@ -46,12 +46,21 @@ angular.module('app/routing', ['ui.router'])
     .when('/area/:areaName/recipient/:recipientId/intention','/xx/area/:areaName/recipient/:recipientId/intention')
     .when('/area/:areaName/recipient/:recipientId/intention/:intentionId/text','/xx/area/:areaName/recipient/:recipientId/intention/:intentionId/text')
 
-    // French area shortcuts
+    .when('/area/:areaName/dashboard/:textId','/xx/area/:areaName/dashboard/:textId')
+
+
+  // French area shortcuts
     .when('/Amour',      '/fr/area/LoveLife/recipient/none/intention')
     .when('/Amis',       '/fr/area/Friends/recipient/none/intention')
     .when('/Famille',    '/fr/area/Family/recipient/none/intention')
     // French happy new year shortcup
     .when('/BonneAnnee', '/fr/area/Friends/recipient/none/intention/bonne-annee/text')
+    // French sashboard  shortcup
+    .when('/SauverLeChat',    '/fr/area/General/dashboard')
+    .when('/sauverlechat',    '/fr/area/General/dashboard')
+
+    .when('/SaveTheCat',    '/en/area/General/dashboard')
+    .when('/savethecat',    '/en/area/General/dashboard')
 
     // Allow shorter urls with no recipient
     .when('/:languageCode/area/:areaName/intention/:intentionId/text','/:languageCode/area/:areaName/recipient/none/intention/:intentionId/text')
@@ -74,20 +83,44 @@ angular.module('app/routing', ['ui.router'])
     })
   .state('area.dashboard', {
     url: '/dashboard',
-    templateUrl: 'views/dashboard.html',
-    controller: 'DashboardController',
-    resolve: {
+    views: {
+      '' : {
+        templateUrl: 'views/dashboard/dashboard.html',
+        controller: 'DashboardController'
+      },
+      'boardSectionView@area.dashboard': {
+        templateUrl: 'views/dashboard/boardSection.html',
+        controller: 'BoardSectionController'
+      },
+      'boardPosterView@area.dashboard': {
+        templateUrl: 'views/dashboard/boardPoster.html',
+        controller: 'BoardPosterController'
+      }
     },
+    resolve: { },
     showTabs: false
   })
-
+  .state('area.dashboard.textDetail', {
+    //url: '/:textId',
+    url: '/:intentionId/:textId',
+    templateUrl: 'views/textdetail.html',
+    controller: 'TextDetailController',
+    resolve: {
+      currentIntention: ['intentionsSvc', function(intentionsSvc) { return intentionsSvc.getCurrent(); }],
+      currentText: ['textsSvc', function(textsSvc) { return textsSvc.getCurrent(); }],
+      // That approach wil not work when text detail is reloaded from scratch
+      //currentText: ['currentBoardPosterSvc', function(currentBoardPosterSvc) { return currentBoardPosterSvc.getCurrentPoster().posterText; }],
+      //currentIntention: ['currentBoardPosterSvc', function(currentBoardPosterSvc) { return currentBoardPosterSvc.getCurrentPoster().section.intention; }],
+      currentRecipient: ['currentRecipientSvc', function(currentRecipientSvc) { return undefined; }]
+    }
+  })
     // We might want recipientList, intentionList and text list to be siblings
   .state('area.recipientList', {
     url: '/recipient',
     templateUrl: 'views/recipientList.html',
     controller: 'UsualRecipientsController',
     resolve: {
-      recipients: ['subscribableRecipientsSvc', function(subscribedRecipientsSvc) { return subscribedRecipientsSvc.getAll(); }]
+      recipients: ['recipientTypesSvc', function(subscribedRecipientTypesSvc) { return subscribedRecipientTypesSvc.getAll(); }]
     },
     showTabs: true
   })
@@ -125,6 +158,7 @@ angular.module('app/routing', ['ui.router'])
     templateUrl: 'views/textdetail.html',
     controller: 'TextDetailController',
     resolve: {
+      // Current intention is inherited from parent state
       currentText: ['textsSvc', function(textsSvc) { return textsSvc.getCurrent(); }]
     }
   })

@@ -25,7 +25,7 @@ function ($scope, contextStyles, generalStyles) {
     'familialContext': 'Familial',
     'romanticContext': 'Amoureux',
     'friendlyContext': 'Amical',
-    'professionalContext': 'Professionnel'
+    'proContext': 'Professionnel'
   };
 
   $scope.nbTextLabel = $scope.filteredList.length > 1 ? "textes" : "texte";

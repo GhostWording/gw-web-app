@@ -7,5 +7,7 @@ angular.module('app', [
   'app/texts',
   'app/users',
   'app/routing',
-  'app/favourites'
+  'app/favourites',
+  'app/userFriend',
+  'app/userDashboard'
 ]);

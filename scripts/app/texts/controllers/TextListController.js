@@ -1,10 +1,10 @@
 angular.module('app/texts/TextListController', [])
 // Displays a list of texts
 .controller('TextListController',
- ['$scope', 'currentTextList', 'currentIntention', 'currentUser', 'filtersSvc', '$modal', 'currentRecipient', 'favouritesSvc','appUrlSvc','currentLanguage','textsSvc','intentionsSvc','currentAreaName','PostActionSvc','$window','filteredTextListSvc','tagLabelsSvc','HelperSvc','questionBarSvc','accordionSvc',
-function ($scope, currentTextList, currentIntention,  currentUser, filtersSvc, $modal,currentRecipient, favouritesSvc,appUrlSvc,currentLanguage,textsSvc,intentionsSvc,currentAreaName,PostActionSvc,$window,filteredTextListSvc,tagLabelsSvc,HelperSvc,questionBarSvc,accordionSvc) {
+ ['$scope', 'currentTextList', 'currentIntention', 'currentUser', 'filtersSvc', '$modal', 'currentRecipient', 'favouritesSvc','appUrlSvc','currentLanguage','textsSvc','intentionsSvc','currentAreaName','postActionSvc','$window','filteredTextListSvc','tagLabelsSvc','helperSvc','questionBarSvc','accordionSvc',
+function ($scope, currentTextList, currentIntention,  currentUser, filtersSvc, $modal,currentRecipient, favouritesSvc,appUrlSvc,currentLanguage,textsSvc,intentionsSvc,currentAreaName,postActionSvc,$window,filteredTextListSvc,tagLabelsSvc,helperSvc,questionBarSvc,accordionSvc) {
   $scope.appUrlSvc = appUrlSvc;
-  $scope.HelperSvc = HelperSvc;
+  $scope.helperSvc = helperSvc;
   $scope.QuestionBar = questionBarSvc;
 
   $scope.labelsThatShouldBeDisplayed = function(txt) {
@@ -75,7 +75,7 @@ function ($scope, currentTextList, currentIntention,  currentUser, filtersSvc, $
   };
 
   if ( currentRecipient ) {
-    filtersSvc.setRecipientTypeTag(currentRecipient.RecipientTypeId); // Shoud not be reinitialized when we come back from TextDetail view
+    filtersSvc.setRecipientTypeTag(currentRecipient.RecipientTypeTag); // Shoud not be reinitialized when we come back from TextDetail view
   }
 
   $scope.filteredTextList = filteredTextListSvc;
@@ -97,7 +97,7 @@ function ($scope, currentTextList, currentIntention,  currentUser, filtersSvc, $
   $scope.$watch(function() { return filtersSvc.filters; }, $scope.filterList, true);
 
   $scope.send = function(text) {
-    PostActionSvc.postActionInfo('Text',text.TextId, 'TextList','send');
+    postActionSvc.postActionInfo('Text',text.TextId, 'TextList','send');
 
     $scope.sendDialog = $modal.open({
       templateUrl: 'views/partials/sendTextForm.html',

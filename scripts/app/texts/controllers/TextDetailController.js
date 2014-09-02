@@ -1,12 +1,13 @@
-angular.module('app/texts/TextDetailController', ['common/i18n', 'app/texts/alternativeTextList'])
+angular.module('app/texts/TextDetailController', ['common/i18n', 'app/texts/alternativeTextList','common/services/facebookHelperSvc'])
 
 // Display text with author, link to the source, usage recommandations or comments
 
 .controller('TextDetailController',
-['$scope','currentText', 'currentIntention',  'tagLabelsSvc', '$modal','currentRecipient', 'favouritesSvc','currentRecipientSvc','alternativeTextsSvc','currentLanguage','HelperSvc','currentAreaName','$rootScope','$location',
-function ($scope, currentText, currentIntention, tagLabelsSvc, $modal,currentRecipient, favouritesSvc,currentRecipientSvc,alternativeTextsSvc,currentLanguage,HelperSvc,currentAreaName,$rootScope,$location) {
-
+['$scope','currentText', 'currentIntention',  'tagLabelsSvc', '$modal','currentRecipient', 'favouritesSvc','currentRecipientSvc','alternativeTextsSvc','currentLanguage','helperSvc','currentAreaName','$rootScope','$location','filtersSvc','facebookHelperSvc',
+function ($scope, currentText, currentIntention, tagLabelsSvc, $modal,currentRecipient, favouritesSvc,currentRecipientSvc,alternativeTextsSvc,currentLanguage,helperSvc,currentAreaName,$rootScope,$location,filtersSvc,facebookHelperSvc) {
   // TODO : when may want to explicitly set og:title from here because facebook randomly picks the intention title instead
+
+  $scope.includeSocialPluginsOnTextPages = facebookHelperSvc.includeSocialPluginsOnTextPages;
 
   $scope.url = $location.url();
 
@@ -15,7 +16,10 @@ function ($scope, currentText, currentIntention, tagLabelsSvc, $modal,currentRec
   $scope.currentIntention = currentIntention;
   $scope.currentText = currentText;
 
-  $rootScope.ogDescription = currentIntention.Label;
+  if ( !! currentIntention )
+    $rootScope.ogDescription = currentIntention.Label;
+  else
+    console.log("no current intention");
   //$rootScope.ogTitle = currentText.Content;
 
   $scope.Id = currentText.TextId;
@@ -25,40 +29,15 @@ function ($scope, currentText, currentIntention, tagLabelsSvc, $modal,currentRec
   $scope.txt.Content = currentText.Content; // has to be property of a full object to avoid prototypal inheritance problems
 
 
-//  $scope.fbShare = function () {
-//    var url = $location.absUrl();
-////    console.log(url);
-//    ezfb.ui(
-//    {
-//      method: 'feed',
-//      name: $rootScope.pageTitle1 + " " + $rootScope.pageTitle2,
-//      picture: 'http://www.commentvousdire.com/assets/TouchWordingCompressed.png',
-//      link: url,
-//      description: currentIntention.Label
-//    },function (res) {});
-//  };
-//
-//  $scope.fbSend = function () {
-//    var url = $location.absUrl();
-//    ezfb.ui({
-//      method: 'send',
-//      name: $rootScope.pageTitle1 + " " + $rootScope.pageTitle2,
-//      picture: 'http://www.commentvousdire.com/assets/TouchWordingCompressed.png',
-//      link: url,
-//      description: currentIntention.Label
-//    },function (res) { console.log(res);} );
-//  };
-
-
+  // TODO : move in helper
   function adaptTextContentToLanguage(text) {
     var valret = text.Content;
-    if (HelperSvc.isQuote(currentText)) {
+    if (helperSvc.isQuote(currentText)) {
       if (text.Culture != "fr-FR")
-        valret = HelperSvc.replaceAngledQuotes(text.Content, '"');
+        valret = helperSvc.replaceAngledQuotes(text.Content, '"');
       else
-        valret = HelperSvc.insertSpaceInsideAngledQuotes(text.Content);
+        valret = helperSvc.insertSpaceInsideAngledQuotes(text.Content);
     }
-//    console.log(valret);
     return valret;
   }
   $scope.txt.Content = adaptTextContentToLanguage(currentText);
@@ -68,11 +47,11 @@ function ($scope, currentText, currentIntention, tagLabelsSvc, $modal,currentRec
   $scope.authorButton = "active";
 
   $scope.isQuote = function(txt) {
-    return HelperSvc.isQuote(txt);
+    return helperSvc.isQuote(txt);
   };
 
   $scope.send = function() {
-    //PostActionSvc.postActionInfo('Text',currentText.TextId, 'TexDetail','send');
+    //postActionSvc.postActionInfo('Text',currentText.TextId, 'TexDetail','send');
 
     $scope.sendDialog = $modal.open({
       templateUrl: 'views/partials/sendTextForm.html',
@@ -94,7 +73,7 @@ function ($scope, currentText, currentIntention, tagLabelsSvc, $modal,currentRec
 //    var toBeAdded = " (" + currentText.Author + ")";
 //    $scope.txt.Content += toBeAdded;
 //    $scope.currentText.Content += toBeAdded;
-    $scope.txt.Content = HelperSvc.insertAuthorInText($scope.txt.Content, currentText.Author);
+    $scope.txt.Content = helperSvc.insertAuthorInText($scope.txt.Content, currentText.Author);
     $scope.authorButton = "disabled";
   };
 
@@ -103,7 +82,8 @@ function ($scope, currentText, currentIntention, tagLabelsSvc, $modal,currentRec
   };
 
   $scope.setFavourite = function() {
-    favouritesSvc.setFavourite(currentText, currentAreaName, currentIntention, $scope.isFavourite());
+    if ( currentIntention )
+      favouritesSvc.setFavourite(currentText, currentAreaName, currentIntention, $scope.isFavourite());
   };
 
   $scope.getSenderGenderVariationFromCurrentUser = function (text) {
@@ -143,15 +123,41 @@ function ($scope, currentText, currentIntention, tagLabelsSvc, $modal,currentRec
     if ( textList != "null") {
       // For each orderedPresentationLanguages, prepare an array of available texts for the language, then chose the best ones according to sender, recipient and polite form
       var currentTextLanguageCode =   currentLanguage.getLanguageFromCulture(currentText.Culture);
-      $scope.languageTextGroups = alternativeTextsSvc.getAlternativeTexts(currentText,textList,currentTextLanguageCode);
+      var currentFilters = filtersSvc.getCurrentFilters();
+      $scope.languageTextGroups = alternativeTextsSvc.getAlternativeTexts(currentText,textList,currentTextLanguageCode,currentFilters);
     }
     else
       console.log("No alternative realization for " + currentText.TextId);
   });
 
-  // Make sure social buttons are displayed
+
+}]);
+
+// Make sure social buttons are displayed
 //  $facebook.getLoginStatus().then(function(response) {
 //    FB.XFBML.parse(); // fb sdk must be initialised before FB can be mentionned
 //  } );
 
-}]);
+//  $scope.fbShare = function () {
+//    var url = $location.absUrl();
+////    console.log(url);
+//    ezfb.ui(
+//    {
+//      method: 'feed',
+//      name: $rootScope.pageTitle1 + " " + $rootScope.pageTitle2,
+//      picture: 'http://www.commentvousdire.com/assets/TouchWordingCompressed.png',
+//      link: url,
+//      description: currentIntention.Label
+//    },function (res) {});
+//  };
+//
+//  $scope.fbSend = function () {
+//    var url = $location.absUrl();
+//    ezfb.ui({
+//      method: 'send',
+//      name: $rootScope.pageTitle1 + " " + $rootScope.pageTitle2,
+//      picture: 'http://www.commentvousdire.com/assets/TouchWordingCompressed.png',
+//      link: url,
+//      description: currentIntention.Label
+//    },function (res) { console.log(res);} );
+//  };

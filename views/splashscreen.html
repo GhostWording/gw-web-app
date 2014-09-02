@@ -9,14 +9,20 @@
     <!--<img class="" style="margin-left: -14px" src="./assets/TouchWordingCompressed.jpg">-->
   </a>
 
-  <h1 class="span4 splashTitle"  style="margin-top: 25px; margin-bottom: 25px; margin-left: 35px; margin-right: 45px;" translate>
-      Des mots pour
+  <h1 class="span4 splashTitle"  style="margin-top: 30px; margin-bottom: 15px; margin-left: 35px; margin-right: 45px;" translate>
+      Nouveau
   </h1>
 
-
-  <div style="margin-bottom: 30px;">
-    <a class="btn btn-primary btn-lg" id="toSubscription" ng-href="{{app.appUrlSvc.getFullPath('')}}favoriteRecipients" targetId="FavoriteRecipients" translate>Transformer votre quotidien</a>
-   <!--<button type="button" class="btn btn-primary btn-lg" translate>Transformer votre quotidien</button>-->
+  <div class="row" style="margin-top: 25px;">
+    <div class="col-md-3 col-xs-1"></div>
+    <div class="col-md-6 col-xs-10">
+      <div translate>Pas le temps</div>
+      <div translate>Difficile de se mettre en route ?</div>
+    </div>
+    <div class="col-md-3 col-xs-1"></div>
+  </div>
+  <div style="margin-top: 10px; margin-bottom: 25px;">
+    <a class="btn btn-primary btn-lg" id="toDashboard" ng-href="{{app.appUrlSvc.getFullPath('')}}area/General/dashboard" targetId="Dashboard" translate>Sauver le chat</a>
   </div>
   <div>
     <div style="margin-bottom: 20px;" translate>
@@ -33,20 +39,22 @@
     </div>
   </div>
 
-
+  <!-- Unlike in the partial, those are real links  -->
   <div style="margin-top:25px; margin-bottom: 30px;">
     <a href="/fr" class="frontpageLink" ng-class='{"active": getLanguage()=="fr"}'>Français</a>
     <a href="/en" class="frontpageLink" ng-class='{"active": getLanguage()=="en"}'>English</a>
     <a href="/es" class="frontpageLink" ng-class='{"active": getLanguage()=="es"}'>Español</a>
   </div>
 
-  <div  style="margin-bottom: 15px;" >
-    <div ng-show ="isFrench"  class="fb-like hidden-xs" data-href="https://www.facebook.com/MessagesAmusants" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>
-    <div ng-show ="!isFrench" class="fb-like hidden-xs" data-href="https://www.facebook.com/TouchWording" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>
-  </div>
-  <div class="visible-xs" style="margin-bottom: 15px;" >
-    <div ng-show ="isFrench"  class="fb-like" data-href="https://www.facebook.com/MessagesAmusants" data-layout="button_count" data-action="like" data-share="true"></div>
-    <div ng-hide ="isFrench" class="fb-like" data-href="https://www.facebook.com/TouchWording"     data-layout="button_count" data-action="like" data-share="true"></div>
+  <div ng-include="'views/partials/pageLikePlugin.html'" style="margin-top: 20px; text-align: center" ></div>
+
+  <!-- What the site is about -->
+  <div ng-if="false" class="row" style="text-align: center;">
+    <div class="col-md-4 col-sm-3 col-xs-1"></div>
+    <div class="col-md-4 col-sm-6 col-xs-10">
+      <div style="font-size: 80%;" translate>Pourquoi ce site</div>
+    </div>
+    <div class="col-md-4 col-sm-3 col-xs-1"></div>
   </div>
 
 </div>

@@ -1,0 +1,30 @@
+<div ng-controller="BoardPosterDebugController" ng-show="filteredMessageList && filteredMessageList.length && isDebug> 0">
+&nbsp
+  <div style="margin-top: 10px">
+    <div>
+      <span>Filtered list : {{ filteredMessageList.length }} textes</span>
+      ...
+      <span>Full list : {{ debugTextList.length }} textes</span>
+    </div>
+
+    <div class="text-center bg-info" style="margin-top: 10px; margin-bottom: 0px; padding-top: 10px; padding-bottom: 10px;">
+      <div>Filtered list : {{ filteredMessageList.length }} textes</div>
+    </div>
+    <div class="listeTextes" ng-show="true">
+      <div ng-repeat="txt in filteredMessageList">
+        <div cvd-text="txt" ng-class="{active: txt.TextId == selectedTextId}" style="white-space: pre-wrap"></div>
+      </div>
+    </div>
+
+    <div class="text-center bg-info"
+         style="margin-top: 10px; margin-bottom: 0px; padding-top: 30px; padding-bottom: 30px;">
+      <div>Full list : {{ debugTextList.length }} textes</div>
+    </div>
+    <div class="listeTextes" ng-show="true">
+      <div ng-repeat="txt in debugTextList">
+        <div cvd-text="txt" ng-class="{active: txt.TextId == selectedTextId}" style="white-space: pre-wrap"></div>
+      </div>
+    </div>
+  </div>
+
+</div>

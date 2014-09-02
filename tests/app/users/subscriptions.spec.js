@@ -23,17 +23,17 @@ describe("subscriptionsSvc", function() {
 
 		it("should return a promise to an array of alerts for each recipient", inject(function(likelyIntentionsSvc,subscriptionsSvc, $rootScope, $q) {
 			var dummySubscriptions = [
-				{"RecipientTypeId": "9E2D23"},
-				{"RecipientTypeId": "9E2D23"},
-				{"RecipientTypeId": "9E2D23"},
-				{"RecipientTypeId": "64C63D"},
-				{"RecipientTypeId": "64C63D"}
+				{"RecipientTypeTag": "9E2D23"},
+				{"RecipientTypeTag": "9E2D23"},
+				{"RecipientTypeTag": "9E2D23"},
+				{"RecipientTypeTag": "64C63D"},
+				{"RecipientTypeTag": "64C63D"}
 			],
 			dummyRecipients = [
-				{"RecipientTypeId": "9E2D23"},
-				{"RecipientTypeId": "87F524"},
-				{"RecipientTypeId": "64C63D"},
-				{"RecipientTypeId": "3B9BF2"}
+				{"RecipientTypeTag": "9E2D23"},
+				{"RecipientTypeTag": "87F524"},
+				{"RecipientTypeTag": "64C63D"},
+				{"RecipientTypeTag": "3B9BF2"}
 			],
 			getAllSubscriptionsSpy = spyOn(likelyIntentionsSvc, 'getIntentionsThatCanBeSubscribedForRecipients').andReturn($q.when(dummySubscriptions));
 
@@ -53,17 +53,17 @@ describe("subscriptionsSvc", function() {
 
   describe("getAllRecipientsWithSubscriptions", function() {
 
-    it("should return a promise to subscriptions of active recipients", inject(function(subscribedRecipientsSvc, subscriptionsSvc, $q, $rootScope) {
+    it("should return a promise to subscriptions of active recipients", inject(function(subscribedRecipientTypesSvc, subscriptionsSvc, $q, $rootScope) {
       var dummysubscribedRecipients = [
-           {"RecipientTypeId": "9E2D23"},
-           {"RecipientTypeId": "87F524"},
-           {"RecipientTypeId": "64C63D"}
+           {"RecipientTypeTag": "9E2D23"},
+           {"RecipientTypeTag": "87F524"},
+           {"RecipientTypeTag": "64C63D"}
           ],
           dummyRecipientsSubscriptions = [
-            {"RecipientTypeId": "9E2D23", alerts:['a','b','c']},
-            {"RecipientTypeId": "87F524", alerts:['a']},
+            {"RecipientTypeTag": "9E2D23", alerts:['a','b','c']},
+            {"RecipientTypeTag": "87F524", alerts:['a']},
           ],
-          subscribedRecipientsSpy = spyOn(subscribedRecipientsSvc, "getsubscribedRecipients").andReturn($q.when(dummysubscribedRecipients)),
+          subscribedRecipientsSpy = spyOn(subscribedRecipientTypesSvc, "getsubscribedRecipients").andReturn($q.when(dummysubscribedRecipients)),
           subscriptionRecipientsSpy = spyOn(subscriptionsSvc, "mergePossibleRecipientsWithPreviousSubscribedRecipients").andReturn(dummyRecipientsSubscriptions);
           var resultRecipients;
           subscriptionsSvc.getRecipientsWithSubscriptions().then(function(_resultRecipients_) {
@@ -106,7 +106,7 @@ describe("SubscriptionController", function() {
     $controller('SubscriptionController', {
       $scope: $rootScope,
       subscriptionsSvc : mockSubscriptionsSvc,
-      subscribedRecipientsSvc: mockRecipientsSvc
+      subscribedRecipientTypesSvc: mockRecipientsSvc
     });
   }));
 

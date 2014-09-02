@@ -1,11 +1,11 @@
-describe("subscribableRecipientsSvc", function() {
+describe("recipientTypesSvc", function() {
 	
 	beforeEach(module('app/recipients'));
 
 	describe("getAll", function() {
-		it("should return a promise to a list of recipients", inject(function($rootScope, subscribableRecipientsSvc) {
+		it("should return a promise to a list of recipients", inject(function($rootScope, recipientTypesSvc) {
 			var recipients;
-			subscribableRecipientsSvc.getAll().then(function(_recipients_) {
+			recipientTypesSvc.getAll().then(function(_recipients_) {
 				recipients = _recipients_;
 			});
 			// Trigger the promise to resolve

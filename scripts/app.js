@@ -50,15 +50,15 @@ angular.module('cherryApp',  [
     version: 'v1.0'
   });
 }])
-.controller('CherryController', ['$scope',  'PostActionSvc','$rootScope','$location','currentLanguage','appUrlSvc','intentionsSvc','appVersionCheck','textsSvc','$window', '$state','HelperSvc','$translate','facebookSvc',
-  function ($scope,PostActionSvc,$rootScope,$location,currentLanguage,appUrlSvc,intentionsSvc,appVersionCheck,textsSvc,$window,$state,HelperSvc,$translate,facebookSvc) {
+.controller('CherryController', ['$scope',  'postActionSvc','$rootScope','$location','currentLanguage','appUrlSvc','intentionsSvc','appVersionCheck','textsSvc','$window', '$state','helperSvc','$translate','facebookSvc',
+  function ($scope,postActionSvc,$rootScope,$location,currentLanguage,appUrlSvc,intentionsSvc,appVersionCheck,textsSvc,$window,$state,helperSvc,$translate,facebookSvc) {
     $scope.app = {};
     $scope.app.appUrlSvc = appUrlSvc;
     $rootScope.pageTitle1 = "Comment vous dire. Les mots sur le bout de la langue, l'inspiration au bout des doigts";
     $rootScope.pageTitle2 = "";
 
-    $rootScope.pageDescription = "Vos friends meritent de meilleurs messages";
-    $rootScope.ogDescription = "Vos friends meritent de meilleurs messages";
+    $rootScope.pageDescription = "Vos friends méritent de meilleurs messages";
+    $rootScope.ogDescription = "Vos friends méritent de meilleurs messages";
     //$rootScope.ogTitle = $rootScope.pageTitle1;
 
     console.log(navigator.userAgent);
@@ -72,7 +72,7 @@ angular.module('cherryApp',  [
       return currentLanguage.getLanguageCode();
     };
 
-    PostActionSvc.postActionInfo('Init', 'Init', 'App', 'Init');
+    postActionSvc.postActionInfo('Init', 'Init', 'App', 'Init');
     $scope.showSpinner = false;
     $scope.trackerIsActive = function () { return $rootScope.loadingTracker.active();};
 
@@ -134,9 +134,9 @@ angular.module('cherryApp',  [
         textsSvc.getCurrent().then(function (text) {
           if (text) {
             $rootScope.pageTitle1 = "";
-            if ( HelperSvc.isQuote(text)) {
-              var txt =  HelperSvc.replaceAngledQuotes(text.Content,"");
-              $rootScope.pageTitle2 = HelperSvc.insertAuthorInText(txt, text.Author,true);
+            if ( helperSvc.isQuote(text)) {
+              var txt =  helperSvc.replaceAngledQuotes(text.Content,"");
+              $rootScope.pageTitle2 = helperSvc.insertAuthorInText(txt, text.Author,true);
               $translate("Citation").then(function(value) {$rootScope.pageTitle2 += " - " + value;});
             }
             else
@@ -144,9 +144,13 @@ angular.module('cherryApp',  [
 
             // Modify the page description as well : Comment dire + intention label => How to say + translated intention label
             intentionsSvc.getCurrent().then(function(intention) {
+              if ( !intention ) {
+                console.log("no intention defined");
+                return;
+              }
               $translate("Comment dire").then(function(translatedPrefix) {
                 $translate(intention.Label).then(function(translatedIntentionLable) {
-                  $rootScope.pageDescription = translatedPrefix + " " + HelperSvc.lowerFirstLetter(translatedIntentionLable);
+                  $rootScope.pageDescription = translatedPrefix + " " + helperSvc.lowerFirstLetter(translatedIntentionLable);
                   $rootScope.ogDescription = translatedIntentionLable;
                   console.log("ogDescription : " +$rootScope.ogDescription);
                 });
@@ -219,22 +223,11 @@ angular.module('cherryApp',  [
 
 .controller('LanguageBarController', ['$scope', function ($scope) {
 }])
+.controller('PageLikeController', ['$scope','currentLanguage', function ($scope,currentLanguage) {
+  $scope.isFrench = currentLanguage.isFrenchVersion();
+}])
 
 .run(['$rootScope', 'intentionsSvc', 'filtersSvc','promiseTracker', function($rootScope, intentionsSvc, filtersSvc,promiseTracker) {
   // Promise tracker to display spinner when getting files
   $rootScope.loadingTracker = promiseTracker({ activationDelay: 300, minDuration: 400 });
-  // ngFacebook : Load the facebook SDK asynchronously
-//  (function(){
-//    // If we've already installed the SDK, we're done
-//    if (document.getElementById('facebook-jssdk')) {return;}
-//    // Get the first script element, which we'll use to find the parent node
-//    var firstScriptElement = document.getElementsByTagName('script')[0];
-//    // Create a new script element and set its id
-//    var facebookJS = document.createElement('script');
-//    facebookJS.id = 'facebook-jssdk';
-//    // Set the new script's source to the source of the Facebook JS SDK
-//    facebookJS.src = '//connect.facebook.net/en_US/all.js';
-//    // Insert the Facebook JS SDK into the DOM
-//    firstScriptElement.parentNode.insertBefore(facebookJS, firstScriptElement);
-//  }());
 }]);

@@ -1,15 +1,11 @@
 // Keeps track of our user's local profile and preferences stored through cookies
 angular.module('app/users/currentUser', [
   'common/services/deviceIdSvc',
-  'common/services/HelperSvc'
+  'common/services/helperSvc',
+  'common/services/dateHelperSvc',
+  'app/users/userAges'
 ])
-
-.value('userAges', {
-  under25: 'under25',
-  between25and45: '25to45',
-  over45: 'over45'
-})
-.factory('currentUser', ['$rootScope', '$cookieStore', 'HelperSvc','userAges', function ($rootScope, $cookieStore,HelperSvc,userAges) {
+.factory('currentUser', ['$rootScope', '$cookieStore', 'helperSvc','userAges','dateHelperSvc', function ($rootScope, $cookieStore,helperSvc,userAges,dateHelperSvc) {
 
   var currentUser = $cookieStore.get('users.currentUser') || {
     gender: null,
@@ -22,20 +18,23 @@ angular.module('app/users/currentUser', [
     if (!me)
       return;
     var fbGender = me.gender;
-    if ( !this.gender && !!fbGender ) {
+    var that = this;//////
+    if ( !that.gender && !!fbGender ) {
       if ( fbGender ==  'male')
-        this.gender = 'H';
+        that.gender = 'H';
       if ( fbGender ==  'female')
-        this.gender = 'F';
+        that.gender = 'F';
     }
-    if ( !this.age && me.birthday ) {
-      var fbAge = HelperSvc.fbBirthdayAge(me.birthday);
-      if ( fbAge > 13 && fbAge < 25 )
-        this.age = userAges.under25;
-      else if (fbAge >= 25 && fbAge <= 45)
-        this.age = userAges.between25and45;
-      else if ( fbAge > 45 )
-        this.age = userAges.over45;
+    if ( !(that.age) && me.birthday ) {
+      var fbAge = dateHelperSvc.fbBirthdayAge(me.birthday);
+      if ( fbAge >= 13 && fbAge < 18 )
+        that.age = userAges.under18;
+      else if (fbAge >= 18 && fbAge < 40)
+        that.age = userAges.between18and39;
+      else if (fbAge >= 40 && fbAge < 65)
+        that.age = userAges.between40and64;
+      else if ( fbAge >= 65 )
+        that.age = userAges.from65ToInfinity;
     }
   };
 

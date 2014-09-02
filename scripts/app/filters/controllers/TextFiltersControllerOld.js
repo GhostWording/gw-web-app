@@ -61,7 +61,7 @@ angular.module('app/filters/TextFiltersControllerOld', [])
 //  currentRecipientSvc.getCurrentRecipient().then(function(currentRecipient) {
 //    if (currentRecipient ) {
 //      filtersSvc.setFiltersForRecipient(currentRecipient);
-//      filtersSvc.setRecipientTypeTag(currentRecipient.RecipientTypeId);
+//      filtersSvc.setRecipientTypeTag(currentRecipient.RecipientTypeTag);
 //    }
 //  });
 
