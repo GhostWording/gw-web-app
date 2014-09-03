@@ -84,7 +84,7 @@
     <!--<button style="margin-left: 10px" class="btn btn-default glyphicon glyphicon-envelope" translate-->
             <!--targetId="{{ Id }}" targetType="Text" actionType="send"-->
             <!--ng-click="send()"></button>-->
-    <button style="margin-left: 10px" class="btn btn-primary" translate
+    <button style="margin-left: 10px" class="btn btn-default" translate
             targetId="{{ Id }}" targetType="Text" actionType="send"
             ng-click="send()">Envoyer</button>
   </div>
@@ -97,34 +97,74 @@
 
   <div style="margin-bottom:30px;"></div>
 
-  <div ng-show = "!appUrlSvc.getTextDetailWasCalledFromTextList() && !appUrlSvc.getTextDetailWasCalledFromDashboard()" style="margin-top: 10px; margin-bottom: 25px; text-align: left; ">
-    <span translate>Testez le prompteur</span>&nbsp
-    <a style="color:  #428bca" class="btn btn-default btn-lg" id="toDashboard" ng-href="{{app.appUrlSvc.getFullPath('')}}area/General/dashboard" targetId="Dashboard" translate>Sauver le chat</a>
+  <div ng-show = "!appUrlSvc.getTextDetailWasCalledFromTextList() && !appUrlSvc.getTextDetailWasCalledFromDashboard()" style="margin-top: 0px; margin-bottom: 25px; text-align: center; ">
+    <span translate>Testez le prompteur</span>
+    <br>
+    <!--style="color:  #428bca"-->
+    <a class="btn btn-primary btn-lg" id="toDashboard" ng-href="{{app.appUrlSvc.getFullPath('')}}area/General/dashboard" targetId="Dashboard" translate>Sauver le chat</a>
   </div>
 
 
-  <div ng-repeat="languageTextGroup in  languageTextGroups" style="padding-top: 20px;">
-    <h5 style="font-size: 120%; margin-top: 0px;" translate>{{ languageTextGroup.code }}</h5>
+  <!--<div ng-repeat="languageTextGroup in  languageTextGroups" style="padding-top: 20px;">-->
+    <!--<h5 style="font-size: 120%; margin-top: 0px;" translate>{{ languageTextGroup.code }}</h5>-->
 
-    <div ng-repeat="text in languageTextGroup.texts">
-      <div class="well well-lg" style="border-color: #428bca; margin-bottom: 5px; margin-top: 25px;">
-        <span ng-bind-html="text.Content"></span>
-        <!--<div cvd-text="text"></div>-->
-        <!--<favourite-toggle is-favourite="isFavourite()" on-change="setFavourite()"></favourite-toggle>-->
-      </div>
-      <div>
+    <!--<div ng-repeat="text in languageTextGroup.texts">-->
+      <!--<div class="well well-lg" style="border-color: #428bca; margin-bottom: 5px; margin-top: 25px;">-->
+        <!--<span ng-bind-html="text.Content"></span>-->
+        <!--&lt;!&ndash;<div cvd-text="text"></div>&ndash;&gt;-->
+        <!--&lt;!&ndash;<favourite-toggle is-favourite="isFavourite()" on-change="setFavourite()"></favourite-toggle>&ndash;&gt;-->
+      <!--</div>-->
+      <!--<div>-->
+        <!--<span ng-show="isVariationFormMorePrecise(text)" style="color: #428bca;">-->
+          <!--<span translate>Ecrit</span> <span translate>{{getSenderGender(text)}}</span> <span translate>{{getRecipientGender(text)}}</span> <span translate>{{getTV(text)}}</span>-->
+        <!--</span>-->
+
+        <!--<a rel="nofollow" ng-href="{{app.appUrlSvc.getRootPath('')}}area/{{ currentAreaName }}/recipient/{{ recipientId }}/intention/{{ app.appUrlSvc.getIntentionSlug(currentIntention) }}/text/{{text.TextId}}"-->
+           <!--targetType="Text"  actionType="open"  targetId="{{txt.TextId}}">-->
+          <!--<button class="btn btn-default pull-right glyphicon glyphicon-ok" translate-->
+                  <!--targetId="{{ Id }}" targetType="Text"></button>-->
+         <!--</a>-->
+      <!--</div>-->
+      <!--<div>&nbsp</div>-->
+    <!--</div>-->
+  <!--</div>-->
+
+  <br>
+  <accordion ng-show="languageTextGroups.length > 0">
+    <accordion-group is-open="theAccordionStatus.open" is-disabled="false">
+      <accordion-heading>
+        <i class="glyphicon" ng-class="{'glyphicon-plus': !theAccordionStatus.open, 'glyphicon-minus': theAccordionStatus.open}"></i>
+        <span translate class="brand">Traductions</span>
+        (
+        <span class="brand">{{languageTextGroups.length}}</span>
+        )
+      </accordion-heading>
+      <!-- Translations  -->
+      <div ng-repeat="languageTextGroup in  languageTextGroups" style="padding-top: 10px; padding-bottom: 20px;">
+        <h5 style="font-size: 120%; margin-top: 0px;" translate>{{ languageTextGroup.code }}</h5>
+
+        <div ng-repeat="text in languageTextGroup.texts">
+          <div class="well well-lg" style="border-color: #428bca; margin-bottom: 5px; margin-top: 25px;">
+            <span ng-bind-html="text.Content"></span>
+            <!--<div cvd-text="text"></div>-->
+            <!--<favourite-toggle is-favourite="isFavourite()" on-change="setFavourite()"></favourite-toggle>-->
+          </div>
+          <div>
         <span ng-show="isVariationFormMorePrecise(text)" style="color: #428bca;">
           <span translate>Ecrit</span> <span translate>{{getSenderGender(text)}}</span> <span translate>{{getRecipientGender(text)}}</span> <span translate>{{getTV(text)}}</span>
         </span>
 
-        <a rel="nofollow" ng-href="{{app.appUrlSvc.getRootPath('')}}area/{{ currentAreaName }}/recipient/{{ recipientId }}/intention/{{ app.appUrlSvc.getIntentionSlug(currentIntention) }}/text/{{text.TextId}}"
-           targetType="Text"  actionType="open"  targetId="{{txt.TextId}}">
-          <button class="btn btn-default pull-right glyphicon glyphicon-ok" translate
-                  targetId="{{ Id }}" targetType="Text"></button>
-         </a>
+            <a rel="nofollow" ng-href="{{app.appUrlSvc.getRootPath('')}}area/{{ currentAreaName }}/recipient/{{ recipientId }}/intention/{{ app.appUrlSvc.getIntentionSlug(currentIntention) }}/text/{{text.TextId}}"
+               targetType="Text"  actionType="open"  targetId="{{txt.TextId}}">
+              <button class="btn btn-default pull-right glyphicon glyphicon-ok" translate
+                      targetId="{{ Id }}" targetType="Text"></button>
+            </a>
+          </div>
+          <div>&nbsp</div>
+        </div>
       </div>
-      <div>&nbsp</div>
-    </div>
-  </div>
+    </accordion-group>
+  </accordion>
+
 
 </div>
