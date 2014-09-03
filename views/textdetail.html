@@ -1,4 +1,5 @@
 ﻿<div action-location="TextDetail">
+
   <div>
     <!--<h3   ng-bind-html = "currentText.Abstract || currentIntention.Label" ></h3>-->
     <ul class="pager bmwQuestionButton" style="margin-top: 5px;  margin-bottom: 25px;">
@@ -30,7 +31,6 @@
       </li>
     </ul>
   </div>
-
 
 <div ng-if="includeSocialPluginsOnTextPages()" class="pull-right" style="margin-bottom: 5px; margin-top: 5px; margin-right: 5px;" >
   <!-- fb share  -->
@@ -71,8 +71,8 @@
               targetId="{{ Id }}" targetType="Text" actionType="edit"
               ng-click="addAuthor()">+    </button>
     </div>
-
   </div>
+
 
 
   <div class="pull-right">
@@ -96,6 +96,12 @@
     </div>
 
   <div style="margin-bottom:30px;"></div>
+
+  <div ng-show = "!appUrlSvc.getTextDetailWasCalledFromTextList() && !appUrlSvc.getTextDetailWasCalledFromDashboard()" style="margin-top: 10px; margin-bottom: 25px; text-align: left; ">
+    <span translate>Testez le prompteur</span>&nbsp
+    <a style="color:  #428bca" class="btn btn-default btn-lg" id="toDashboard" ng-href="{{app.appUrlSvc.getFullPath('')}}area/General/dashboard" targetId="Dashboard" translate>Sauver le chat</a>
+  </div>
+
 
   <div ng-repeat="languageTextGroup in  languageTextGroups" style="padding-top: 20px;">
     <h5 style="font-size: 120%; margin-top: 0px;" translate>{{ languageTextGroup.code }}</h5>
