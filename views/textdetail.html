@@ -97,11 +97,12 @@
 
   <div style="margin-bottom:30px;"></div>
 
-  <div ng-show = "!appUrlSvc.getTextDetailWasCalledFromTextList() && !appUrlSvc.getTextDetailWasCalledFromDashboard()" style="margin-top: 0px; margin-bottom: 25px; text-align: center; ">
-    <span translate>Testez le prompteur</span>
-    <br>
+  <div></div>
+
+  <div ng-show = "!appUrlSvc.getTextDetailWasCalledFromTextList() && !appUrlSvc.getTextDetailWasCalledFromDashboard()" style="margin-top: 0px; margin-bottom: 15px; text-align: center; ">
+    <div translate style="margin-bottom: 10px;">Testez le prompteur</div>
     <!--style="color:  #428bca"-->
-    <a class="btn btn-primary btn-lg" id="toDashboard" ng-href="{{app.appUrlSvc.getFullPath('')}}area/General/dashboard" targetId="Dashboard" translate>Sauver le chat</a>
+    <a style="color:  #428bca" class="btn btn-default btn-lg" id="toDashboard" ng-href="{{app.appUrlSvc.getFullPath('')}}area/General/dashboard" targetId="Dashboard" translate>Retenez-les</a>
   </div>
 
 
