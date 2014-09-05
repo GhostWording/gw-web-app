@@ -4,6 +4,10 @@ Disallow: /assets/
 Disallow: /fr/area/General/recipient/none/intention/
 Disallow: /fr/area/General/intention/
 Disallow: /area/General/intention/
+Disallow: /fr/area/Addressee/
+Disallow: /en/area/Addressee/
+Disallow: /es/area/Addressee/
+Disallow: /area/Addressee/
 Disallow: /?_escaped_fragment_=/area/LoveLife/intention/
 Disallow: /?_escaped_fragment_=/area/Friends/intention/
 Disallow: /?_escaped_fragment_=/area/Family/intention/
