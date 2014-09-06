@@ -43,13 +43,20 @@ angular.module('app/recipients/subscribedRecipientTypes', ['common/services/cach
 			var newState = !currentState;
 			localStorage.set(service.makeCacheKey(recipientId),newState);
       service.countSubscribedRecipients();
-		}
+		},
+    setStateForRecipientTypeAlerts: function(recipientId,value) {
+      localStorage.set(service.makeCacheKey(recipientId),value);
+      service.countSubscribedRecipients();
+    }
+
 	};
 	return service;
 }])
 
-.controller('SubscribedRecipientsController', ['$scope', 'recipientTypesSvc', 'subscribedRecipientTypesSvc','recipientTypeHelperSvc','currentUser',
-function ($scope, recipientTypesSvc, subscribedRecipientTypesSvc,recipientTypeHelperSvc,currentUser) {
+.controller('SubscribedRecipientsController', ['$scope', 'recipientTypesSvc', 'subscribedRecipientTypesSvc','recipientTypeHelperSvc','currentUser','appUrlSvc',
+function ($scope, recipientTypesSvc, subscribedRecipientTypesSvc,recipientTypeHelperSvc,currentUser,appUrlSvc) {
+
+  $scope.appUrlSvc = appUrlSvc;
 
   subscribedRecipientTypesSvc.countSubscribedRecipients();
 
@@ -65,5 +72,6 @@ function ($scope, recipientTypesSvc, subscribedRecipientTypesSvc,recipientTypeHe
   $scope.switchState = subscribedRecipientTypesSvc.switchStateForRecipientTypeAlerts;
   $scope.getState = subscribedRecipientTypesSvc.getStateForRecipientTypeAlerts;
 
+  $scope.setSubscriptionState = subscribedRecipientTypesSvc.setStateForRecipientTypeAlerts;
 
 }]);

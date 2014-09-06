@@ -16,7 +16,7 @@ angular.module('app/users/subscriptions',['app/recipients'])
         var retval = disactivationWanted ? false : true;
         return retval;
       },
-      setStateFromStorage : function(recipientId, intentionId,subscription) {
+      setStateInStorage : function(recipientId, intentionId,subscription) {
         var key = service.makeSubscriptionKey(recipientId, intentionId);
         localStorage.set(key,!subscription.IsActive);
       },
@@ -30,7 +30,13 @@ angular.module('app/users/subscriptions',['app/recipients'])
         var subscription = service.getSubscription(recipientId, intentionId);
         if (subscription)
           subscription.IsActive = !subscription.IsActive;
-        service.setStateFromStorage(recipientId, intentionId,subscription);
+        service.setStateInStorage(recipientId, intentionId,subscription);
+      },
+      setState : function(recipientId, intentionId,value) {
+        var subscription = service.getSubscription(recipientId, intentionId);
+        if (subscription)
+          subscription.IsActive = value;
+        service.setStateInStorage(recipientId, intentionId,subscription);
       },
       // TODO : we should add get and set to read and update the required frequency for a recipient/intention subscription
       // ...........
