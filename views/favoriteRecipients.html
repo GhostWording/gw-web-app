@@ -1,8 +1,22 @@
 ﻿<div ng-show="true" style="text-align: center;" action-location="FavoriteRecipients">
+
+  <div style="margin-top: 10px; margin-bottom: 20px;margin-left: 10px; margin-right: 10px; " >
+    <h3 class="splashTitle" style="font-size: 140%; margin-bottom: 0px;" translate>Je suis</h3>
+    <ul style="margin-top: 20px; margin-bottom: 0px;" class="pager bmwQuestionButton" >
+      <!--<span translate>Je suis</span>-->
+      <li ng-class = '{selectionne: currentUser.gender=="H"}'>
+        <a  targetType="Command" targetId="SenderGender" translate  ng-click = 'currentUser.gender = "H"'>Un homme</a></li>
+      <li ng-class = '{selectionne: currentUser.gender=="F"}'>
+        <a  targetType="Command" targetId="SenderGender" translate ng-click = "currentUser.gender = 'F'">Une femme</a></li>
+    </ul>
+
+  </div>
+
+
   <!-- Title -->
   <div class="row" style="margin-top: 0px; margin-bottom: 30px;margin-left: 10px; margin-right: 10px; " >
     <h3 class="splashTitle" style="font-size: 140%; margin-bottom: 0px;" translate>Avec qui...</h3>
-    <span translate>(cliquez les destinataires applicables)</span>
+    <!--<span translate>(cliquez les destinataires applicables)</span>-->
   </div>
 
   <!--<div class = "listeTypeDestinataire" >-->

@@ -71,8 +71,8 @@ angular.module('app/recipients/likelyIntentionsForRecipientTypes', [])
         { "RecipientTypeTag": "87F524", "IntentionId": "2D4079", "IntentionLabel" : "J'ai besoin d'un service"},
         { "RecipientTypeTag": "87F524", "IntentionId": "F57DBD", "IntentionLabel" : "Pourquoi ce silence"},
         // Parents
-				{ "RecipientTypeTag": "64C63D", "IntentionId": "016E91", "IntentionLabel" : "Je pense à toi",    "Freq": "2-week", "FreqLabel":"3 par semaine"},
-				{ "RecipientTypeTag": "64C63D", "IntentionId": "D19840", "IntentionLabel" : "Venez dîner",       "Freq": "1-month", "FreqLabel":"1 par mois"},
+				{ "RecipientTypeTag": "64C63D", "IntentionId": "016E91", "IntentionLabel" : "Je pense à toi",    "Freq": "2-week", "FreqLabel":"2 par semaine"},
+				{ "RecipientTypeTag": "64C63D", "IntentionId": "D19840", "IntentionLabel" : "Venez dîner"},
 				{ "RecipientTypeTag": "64C63D", "IntentionId": "916FFC", "IntentionLabel" : "Prenons un café",   "Freq": "1-month", "FreqLabel":"1 par mois"},
 				{ "RecipientTypeTag": "64C63D", "IntentionId": "0B1EA1", "IntentionLabel" : "Un peu d'humour",   "Freq": "2-week", "FreqLabel":"2 par semaine"},
 				{ "RecipientTypeTag": "64C63D", "IntentionId": "1778B7", "IntentionLabel" : "Merci"},
