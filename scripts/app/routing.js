@@ -118,7 +118,7 @@ angular.module('app/routing', ['ui.router'])
   .state('area.recipientList', {
     url: '/recipient',
     templateUrl: 'views/recipientList.html',
-    controller: 'UsualRecipientsController',
+    controller: 'SelecteSingleRecipientTypeController',
     resolve: {
       recipients: ['recipientTypesSvc', function(subscribedRecipientTypesSvc) { return subscribedRecipientTypesSvc.getAll(); }]
     },
@@ -165,7 +165,7 @@ angular.module('app/routing', ['ui.router'])
   .state('favoriteRecipients', {
     url: '/:languageCode/favoriteRecipients',
     templateUrl: 'views/favoriteRecipients.html',
-    controller: 'SubscribedRecipientsController',
+    controller: 'SubscribedRecipientTypesController',
     showTabs: false
   })
   .state('subscriptions', {

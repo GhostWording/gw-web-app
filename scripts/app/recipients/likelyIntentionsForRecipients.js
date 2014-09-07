@@ -1,4 +1,4 @@
-angular.module('app/recipients/likelyIntentions', [])
+angular.module('app/recipients/likelyIntentionsForRecipientTypes', [])
 
 .factory('likelyIntentionsSvc', ['$q', function ($q) {
 
