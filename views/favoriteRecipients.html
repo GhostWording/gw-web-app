@@ -48,8 +48,8 @@
   <!--Previous step -->
   <ul class="pager bmwQuestionButton pull-left" >
       <li ng-class= '{selectionne: false}' >
-        <a ng-show = "appUrlSvc.getUserHasBeenOnSplashScreen()==false" ng-href="{{app.appUrlSvc.getFullPath('')}}area/General/dashboard" role="button"  targetId="Previous"> <img ng-src="./assets/arrow-left.png" class="stylepicto"> </a>
-        <a ng-show = "appUrlSvc.getUserHasBeenOnSplashScreen()" ng-href="" historyback role="button" targetId="Back"> <img ng-src="./assets/arrow-left.png" class="stylepicto"> </a>
+        <a ng-show = "true || appUrlSvc.getUserHasBeenOnSplashScreen()==false" ng-href="{{app.appUrlSvc.getFullPath('')}}" role="button"  targetId="Previous"> <img ng-src="./assets/arrow-left.png" class="stylepicto"> </a>
+        <!--<a ng-show = "appUrlSvc.getUserHasBeenOnSplashScreen()" ng-href="" historyback role="button" targetId="Back"> <img ng-src="./assets/arrow-left.png" class="stylepicto"> </a>-->
       </li>
   </ul>
 

@@ -15,4 +15,7 @@ angular.module('app/users/SubscriptionController',['app/recipients'])
     $scope.getSubscriptionState = subscriptionsSvc.getState;
 
     $scope.switchSubscriptionState = subscriptionsSvc.switchState;
+
+    $scope.setSubscriptionState = subscriptionsSvc.setState;
+
   }]);
