@@ -8,38 +8,47 @@
 
   <div class="row">
     <!--Title-->
-    <div class="col-xs-12 text-center" style="margin-top: 0px; margin-bottom: 0px">
+
+    <div class="col-xs-2">
+      <ul class="pager bmwQuestionButton" style="margin-top: 5px;  margin-bottom: 25px;">
+        <li ng-class='{selectionne: false}'>
+          <a  ng-href="" historyback  role="button" targetId="Back"> <img ng-src="./assets/arrow-left.png" class="stylepicto"> </a>
+        </li>
+      </ul>
+    </div>
+    <div class="col-xs-8 text-center" style="margin-top: 0px; margin-bottom: 0px; text-align: center">
       <h3 style="margin-bottom: 5px; margin-top: 5px;"><span translate>Opportunités du jour</span></h3>
       <small class="text-info brand" style="margin-top: 0px;">{{ displayDate }}</small>
     </div>
+    <div class="col-xs-2"></div>
+  </div>
 
+  <div class="row">
     <!-- Dashboard content -->
     <div ng-repeat="boardSection in BoardSectionList">
       <div ui-view="boardSectionView"></div>
     </div>
-
   </div>
 
   <!-- Show text list in debug mode -->
   <div ng-include="'views/dashboard/posterDebug.html'" style="margin-bottom: 10px;"></div>
 
   <!-- Facebook connection -->
-  <div ng-show="isConnected == false" class="col-xs-12 text-center" style="margin-top: 20px; margin-bottom: 20px">
+  <div ng-show="isConnected == false" class="col-xs-12 text-center" style="margin-top: 0px; margin-bottom: 30px">
     <div style="margin-top: 10px" translate>Connectez-vous à facebook pour accéder à l'application !</div>
     <br>
-    <button type="button" ng-click="fbLogin()" targetId="fbLogin" targetType="Command" actionType="click"  class="btn btn-primary btn-lg" translate>Connexion facebook</button>
+    <button type="button" ng-click="fbLogin()" targetId="fbLogin" targetType="Command" actionType="click"  class="btn btn-default btn-lg" translate>Connexion facebook</button>
     <!--<div style="margin-top: 10px" translate>Les suggestions facebook requièrent un connexion facebook :-)</div>-->
   </div>
-  <!-- Continue without facebook -->
-  <div ng-show="isConnected == false"  style="margin-bottom: 40px; margin-top: 40px;text-align: center; ">
-    <a class="btn btn-default btn-sm" id="toSubscriptions" ng-href="{{app.appUrlSvc.getFullPath('')}}favoriteRecipients" targetId="favoriteRecipients" translate>Continuer sans facebook</a>
-    <br>
-    <!--<div style="margin-top: 10px" translate>Quel courage</div>-->
-  </div>
-  <!-- Got to subscriptions -->
-  <div ng-show="isConnected == true"  style="margin-top: 35px; margin-bottom: 35px; text-align: center; ">
-    <a class="btn btn-default" id="toSubscriptionsAnyway" ng-href="{{app.appUrlSvc.getFullPath('')}}favoriteRecipients" targetId="favoriteRecipients" translate>Voir la suite</a>
-  </div>
+  <!--&lt;!&ndash; Continue without facebook &ndash;&gt;-->
+  <!--<div ng-show="isConnected == false"  style="margin-bottom: 40px; margin-top: 40px;text-align: center; ">-->
+    <!--<a class="btn btn-default btn-sm" id="toSubscriptions" ng-href="{{app.appUrlSvc.getFullPath('')}}favoriteRecipients" targetId="favoriteRecipients" translate>Continuer sans facebook</a>-->
+    <!--<br>-->
+  <!--</div>-->
+  <!--&lt;!&ndash; Got to subscriptions &ndash;&gt;-->
+  <!--<div ng-show="isConnected == true"  style="margin-top: 35px; margin-bottom: 35px; text-align: center; ">-->
+    <!--<a class="btn btn-default" id="toSubscriptionsAnyway" ng-href="{{app.appUrlSvc.getFullPath('')}}favoriteRecipients" targetId="favoriteRecipients" translate>Voir la suite</a>-->
+  <!--</div>-->
 
   <!-- Switch language -->
   <div ng-include="'views/partials/languageBar.html'" style="margin-top: 20px; text-align: center" ></div>
