@@ -9,23 +9,27 @@
     <!--<img class="" style="margin-left: -14px" src="./assets/TouchWordingCompressed.jpg">-->
   </a>
 
-  <h1 class="span4 splashTitle"  style="margin-top: 30px; margin-bottom: 10px; margin-left: 35px; margin-right: 45px;" translate>
-      Nouveau
-  </h1>
+  <div style="margin-top: 30px; margin-bottom: 10px; margin-left: 35px; margin-right: 45px;" >
+    <h1 style="margin-bottom: 0px;" class="span4 splashTitle" translate> Nouveau </h1>
+    <span style="font-size: 70%;" translate>Ce que le temps ne devrait pas emporter</span>
+    <!--<span style="font-size: 70%;" translate>Il y a des choses que le temps ne devrait pas emporter</span>-->
+    <!-- Thing should not fade with time. Some things should not fade to grey -->
+  </div>
 
-  <div class="row" style="margin-top: 5px;">
-    <div class="col-md-3 col-xs-1"></div>
-    <div class="col-md-6 col-xs-10">
-      <!--<div translate>Pas le temps</div>-->
-    </div>
-    <div class="col-md-3 col-xs-1"></div>
-  </div>
-  <div style="margin-top: 10px; ">
+  <!--<div class="row" style="margin-top: 5px;">-->
+    <!--<div class="col-md-3 col-xs-1"></div>-->
+    <!--<div class="col-md-6 col-xs-10">-->
+      <!--&lt;!&ndash;<div translate>Pas le temps</div>&ndash;&gt;-->
+    <!--</div>-->
+    <!--<div class="col-md-3 col-xs-1"></div>-->
+  <!--</div>-->
+
+  <div style="margin-top: 20px; ">
     <!-- style="color:  #428bca"  -->
-    <a  class="btn btn-default btn-lg" id="toDashboard" ng-href="{{app.appUrlSvc.getFullPath('')}}area/General/dashboard" targetId="Dashboard" translate>Sauver le chat</a>
+    <a  class="btn btn-primary btn-lg" id="toFavoriteRecipients" ng-href="{{app.appUrlSvc.getFullPath('')}}favoriteRecipients" targetId="favoriteRecipients" translate>Configurer</a>
   </div>
-  <div style="margin-top: 0px; margin-bottom: 25px; ">
-    <a style="margin-top: 15px;" class="btn btn-primary btn-lg" id="toFavoriteRecipients" ng-href="{{app.appUrlSvc.getFullPath('')}}favoriteRecipients" targetId="favoriteRecipients" translate>Configurer</a>
+  <div style="margin-bottom: 25px; margin-top: 20px;">
+    <a  class="btn btn-default btn-lg" id="toDashboard" ng-href="{{app.appUrlSvc.getFullPath('')}}area/General/dashboard" targetId="Dashboard" translate>Sauver le chat</a>
   </div>
   <div style="margin-top: 10px;">
     <div style="margin-bottom: 20px;" translate>
