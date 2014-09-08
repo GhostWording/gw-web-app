@@ -1,43 +1,45 @@
 <div ng-show="true" style="text-align: center;" action-location="UserEmail">
-    <div class="row" style="margin-top: 5px; margin-bottom: 30px; font-size: 16px;" >
-        <div class="col-xs-1"></div>
-      <!--Je recevrai les idées de messages à cette adresse-->
-      <!--Où pousseront mes idées de messages ?-->
-      <!--Où se déposeront les idées de messages ?-->
-        <div class="col-xs-10" translate>
-          Où seront déposées vos suggestions de messages ?
-        </div>
-        <div class="col-xs-1"></div>
-    </div>
+  <div class="row" style="margin-top: 5px; margin-bottom: 30px; font-size: 16px;" >
+      <div class="col-xs-1"></div>
+    <!--Je recevrai les idées de messages à cette adresse-->
+    <!--Où pousseront mes idées de messages ?-->
+    <!--Où se déposeront les idées de messages ?-->
+      <div class="col-xs-10" translate>
+        Où seront déposées vos suggestions de messages ?
+      </div>
+      <div class="col-xs-1"></div>
+  </div>
 
-    <div class="row" style="margin-top: 5px; margin-bottom: 10px; font-size: 16px; text-align: center; " >
-        <div class="col-sm-1"></div>
-        <div class="col-sm-10">
-            <form role="form" autocomplete="on">
-                <div class="form-group" >
-                    <!--<label >la&nbsp</label>-->
-                    <div>
-                      <input ng-model="user.email" name="email" autocomplete="on" style="vertical-align:middle; width: 250px;" ng-change="updateMail()" placeholder="{{'votre adresse mail' | translate}}" >
-                    </div>
-                  <br>
-                    <button type="button" targetType = "Command" targetId="MailValidation" class="btn btn-default" style="vertical-align:middle;" ng-click="sendMailToServer()" translate>Envoi</button>
-                </div>
-                <div ng-show="mailSent" translate>C'est parti !</div>
-                <div ng-show="mailSent" translate>Vous recevrez prochainement un message d'activation.</div>
-            </form>
+  <div class="row" style="margin-top: 5px; margin-bottom: 10px; font-size: 16px; text-align: center; " >
+    <div class="col-sm-1"></div>
+    <div class="col-sm-10">
+      <form name="userMail" role="form" autocomplete="on">
+        <div class="form-group" >
+          <!--<label >la&nbsp</label>-->
+          <div>
+          <input ng-model="user.email" type="email" name="input" required autocomplete="on" style="vertical-align:middle; width: 250px;" ng-change="updateMail()" placeholder="{{'votre adresse mail' | translate}}" >
+          </div>
+          <br>
+          <a ng-href="{{app.appUrlSvc.getFullPath('')}}userEMailValidation" role="button"  targetId="Next" ng-click="">
+            <button ng-disabled="userMail.input.$valid == false" type="button" targetType = "Command" targetId="MailValidation" targetParameters="{{user.email}}" class="btn btn-lg btn-primary" style="vertical-align:middle;" ng-click="sendMailToServer()" translate>Continuer</button>
+          </a>
         </div>
-        <div class="col-sm-1"></div>
+        <!--<div ng-show="mailSent" translate>C'est parti !</div>-->
+        <!--<div ng-show="mailSent" translate>Vous recevrez prochainement un message d'activation.</div>-->
+      </form>
     </div>
+    <div class="col-sm-1"></div>
+  </div>
 
-    <ul class="pager bmwQuestionButton pull-left" >
-        <li ng-class= '{selectionne: false}' >
-            <a ng-href="{{app.appUrlSvc.getFullPath('')}}subscriptions" role="button"  targetId="Previous" ng-click="sendMailToServer()"> <img ng-src="./assets/arrow-left.png" class="stylepicto"> </a>
-        </li>
-    </ul>
-    <ul class="pager bmwQuestionButton" >
-        <li ng-class= '{selectionne: false}' >
-            <a ng-href="{{app.appUrlSvc.getFullPath('')}}" role="button" class="pull-right" targetId="Next" ng-click="sendMailToServer()"><img ng-src="./assets/arrow-right.png" class="stylepicto"> </a>
-        </li>
-    </ul>
+  <ul class="pager bmwQuestionButton pull-left" >
+      <li ng-class= '{selectionne: false}' >
+          <a ng-href="{{app.appUrlSvc.getFullPath('')}}subscriptions" role="button"  targetId="Previous" ng-click="sendMailToServer()"> <img ng-src="./assets/arrow-left.png" class="stylepicto"> </a>
+      </li>
+  </ul>
+  <ul ng-show="false" class="pager bmwQuestionButton" >
+      <li ng-class= '{selectionne: false}'  >
+          <a ng-href="{{app.appUrlSvc.getFullPath('')}}" role="button" class="pull-right" targetId="Next" ng-click="sendMailToServer()"><img ng-src="./assets/arrow-right.png" class="stylepicto"> </a>
+      </li>
+  </ul>
 
 </div>

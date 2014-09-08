@@ -1,0 +1,33 @@
+<div ng-show="true" style="text-align: center;" action-location="UserRegistered">
+  <h3 class="splashTitle" style="text-align: center; margin-bottom: 30px; font-size: 140%;" translate>Validation de l'email</h3>
+
+
+  <div class="row" style="margin-top: 5px; margin-bottom: 10px; font-size: 16px; text-align: center; " >
+    <div class="col-sm-1"></div>
+    <div class="col-sm-10">
+      <div>
+        <span translate>Un mail a été envoyé à</span>&nbsp<span class="brand">{{ user.email }}</span>
+      </div>
+      <div style="margin-top: 20px;">
+        <span translate >Il ne reste plus qu'à cliquer sur son</span>&nbsp<span class="brandBlue" translate>lien d'activation</span>
+      </div>
+      <div class="bg-info" style="margin-top: 20px;" translate>
+        Vous recevrez prochainement un message d'activation.
+      </div>
+
+      <div style="margin-top: 30px;">
+        <a ng-href="{{app.appUrlSvc.getFullPath('')}}whatToDo" role="button"  targetId="Next" ng-click="">
+          <button ng-disabled="userMail.input.$valid == false" type="button" targetType = "Command" targetId="WhatToDo" targetParameters="{{user.email}}" class="btn btn-lg btn-primary" style="vertical-align:middle;" ng-click="sendMailToServer()" translate>C'est bon</button>
+        </a>
+      </div>
+    </div>
+    <div class="col-sm-1"></div>
+  </div>
+
+  <ul class="pager bmwQuestionButton pull-left" style="margin-top: 0px; padding-top: 0px;" >
+    <li ng-class= '{selectionne: false}' >
+      <a ng-href="{{app.appUrlSvc.getFullPath('')}}userEMail" role="button"  targetId="Previous" ng-click="sendMailToServer()"> <img ng-src="./assets/arrow-left.png" class="stylepicto"> </a>
+    </li>
+  </ul>
+
+</div>

@@ -93,6 +93,7 @@ angular.module('app/recipients/likelyIntentionsForRecipientTypes', [])
         { "RecipientTypeTag": "3B9BF2", "IntentionId": "D19840", "IntentionLabel" : "Venez dîner",       "default":false, "Freq": "2-month", "FreqLabel":"2 par mois"},
         { "RecipientTypeTag": "3B9BF2", "IntentionId": "9B2C8B", "IntentionLabel" : "Je suis en retard"},
         { "RecipientTypeTag": "3B9BF2", "IntentionId": "A730B4", "IntentionLabel" : "Bon anniversaire"},
+        { "RecipientTypeTag": "3B9BF2", "IntentionId": "03B6E4", "IntentionLabel" : "Je suis là pour toi"},
         // DistantRelatives
 				{ "RecipientTypeTag": "BCA601", "IntentionId": "F82B5C", "IntentionLabel" : "Que deviens-tu ?",  "default":true, "Freq": "1-week", "FreqLabel":"1 par semaine"},
         { "RecipientTypeTag": "BCA601", "IntentionId": "916FFC", "IntentionLabel" : "Prenons un verre"},

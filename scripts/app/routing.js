@@ -40,6 +40,9 @@ angular.module('app/routing', ['ui.router'])
     .when('/favoriteRecipients'       ,'/xx/favoriteRecipients')
     .when('/subscriptions'            ,'/xx/subscriptions')
     .when('/userEMail'                ,'/xx/userEMail')
+    .when('/userEMailvalidation'      ,'/xx/userEMailValidation')
+    .when('/whatToDo'                 ,'/xx/whatToDo')
+
     .when('/notimplemented'           ,'/xx/notimplemented')
     .when('/fbLogin'                  ,'/xx/fbLogin')
     .when('/area/:areaName/recipient' ,'/xx/area/:areaName/recipient')
@@ -178,6 +181,16 @@ angular.module('app/routing', ['ui.router'])
     url: '/:languageCode/userEMail',
     templateUrl: 'views/userEMail.html',
     controller: 'UserEMailController'
+  })
+  .state('userEmailValidation', {
+    url: '/:languageCode/userEMailValidation',
+    templateUrl: 'views/userEMailValidation.html',
+    controller: 'UserEMailValidationController'
+  })
+  .state('whatToDo', {
+    url: '/:languageCode/whatToDo',
+    templateUrl: 'views/whatToDo.html',
+    controller: 'WhatToDoController'
   })
   .state('notimplemented', {
     url: '/:languageCode/notimplemented',

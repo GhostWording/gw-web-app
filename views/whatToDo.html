@@ -1,0 +1,44 @@
+<div style="text-align: center;" action-location="WhatToDo">
+  <h3 class="splashTitle" style="text-align: center; margin-bottom: 30px; font-size: 140%;" translate>Et si vous disiez</h3>
+
+  <ul class="pager bmwQuestionButton" style="margin-top: 25px;">
+    <li>
+      <a  ng-href="{{app.appUrlSvc.getFullPath('')}}area/General/dashboard" translate>Joyeux Anniversaire à vos amis</a>
+    </li>
+  </ul>
+  <ul class="pager bmwQuestionButton" style="margin-top: 25px;">
+    <li>
+      <a  ng-href="{{app.appUrlSvc.getFullPath('')}}area/Addressee/recipient/Mother/intention/je-pense-a-toi/text" translate>Je pense à toi à votre maman</a>
+    </li>
+  </ul>
+  <ul class="pager bmwQuestionButton" style="margin-top: 25px;" >
+    <li>
+      <a  ng-href="{{app.appUrlSvc.getFullPath('')}}area/Addressee/recipient/CloseFriends/intention/humour/text" translate>Tu vas rire à un ami</a>
+    </li>
+  </ul>
+  <ul class="pager bmwQuestionButton" style="margin-top: 25px;" >
+    <li>
+      <a  ng-href="{{app.appUrlSvc.getFullPath('')}}area/Addressee/recipient/LongLostFriends/intention/que-deviens-tu/text" translate>Que deviens-tu à un ami perdu de vue</a>
+    </li>
+  </ul>
+  <ul class="pager bmwQuestionButton" style="margin-top: 25px;" >
+    <li>
+      <a  ng-href="{{app.appUrlSvc.getFullPath('')}}area/Addressee/recipient/CloseFriends/intention/je-suis-la-pour-toi/text" translate>Je suis là pour toi à un ami</a>
+    </li>
+  </ul>
+
+  <ul ng-show="user.gender=='H'" class="pager bmwQuestionButton" style="margin-top: 25px;">
+    <li>
+      <a  ng-href="{{app.appUrlSvc.getFullPath('')}}area/Addressee/recipient/LoveInterestF/intention/j-ai-envie-de-toi/text" translate>J'ai envie de toi à une femme qui vous plaît</a>
+    </li>
+  </ul>
+
+  <ul ng-show="user.gender=='F'" class="pager bmwQuestionButton" style="margin-top: 25px;">
+    <li>
+      <a  ng-href="{{app.appUrlSvc.getFullPath('')}}area/Addressee/recipient/LoveInterestH/intention/j-ai-envie-de-toi/text" translate>J'ai envie de toi à un homme qui vous plaît</a>
+    </li>
+  </ul>
+
+  <h1 style="margin-top: 25px;">?</h1>
+
+</div>
