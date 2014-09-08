@@ -52,15 +52,16 @@
     </textarea>
   </div>
 
-
   <div class="pull-left">
   <!--<div>-->
     <!-- fb send : use api version when possible, button shows right away and content of fb plugin looks less random, will not work on mobiles -->
     <!-- ......but it does not seem to work if the page has never been scrapped by fb before  -->
     <!--<button ng-click="fbSend()" class="btn hidden-xs" style="background: url(/assets/fbSend.png)  no-repeat; width: 70px; height: 25px;"></button>-->
+
     <!-- use the fb social button on mobiles : can take a few seconds to render, and will scrape what it can  -->
     <div class="fb-send btn btn-default"></div>
 
+    <!-- Author moved to another part for the time being -->
     <!--<div ng-show="isQuote(currentText)" style="margin-bottom: 5px;" >-->
       <!--<span class ="auteur hidden-xs " translate>Auteur</span>-->
       <!--<span class ="auteur hidden-xs" translate> : </span>-->
@@ -73,18 +74,12 @@
     <!--</div>-->
   </div>
 
-
-
   <div class="pull-right" style="vertical-align: middle; ">
-
     <!-- edit  -->
     <button style="margin-left: 10px" class="btn btn-default  glyphicon glyphicon-pencil" translate
             targetId="{{ Id }}" targetType="Text" actionType="edit"
             ng-click="edit()" ng-hide="editText"></button>
     <!-- send  -->
-    <!--<button style="margin-left: 10px" class="btn btn-default glyphicon glyphicon-envelope" translate-->
-            <!--targetId="{{ Id }}" targetType="Text" actionType="send"-->
-            <!--ng-click="send()"></button>-->
     <button style="margin-left: 10px" class="btn btn-default" translate
             targetId="{{ Id }}" targetType="Text" actionType="send"
             ng-click="send()">Envoyer</button>
@@ -104,46 +99,22 @@
             ng-click="addAuthor()">+</button>
   </div>
 
+  <div ng-show="currentText.ReferenceUrl">
+      Source : <a ng-href = "{{currentText.ReferenceUrl}}" >{{currentText.ReferenceUrl}}</a>
+  </div>
 
-
-    <div ng-show="currentText.ReferenceUrl">
-        Source : <a ng-href = "{{currentText.ReferenceUrl}}" >{{currentText.ReferenceUrl}}</a>
-    </div>
-
-  <div style="margin-bottom:30px;"></div>
+  <div style="margin-bottom:20px;"></div>
 
   <div></div>
 
+  <!-- When user has landed directly on this page, suggest a visit to the homepage  -->
   <div ng-show = "!appUrlSvc.getTextDetailWasCalledFromTextList() && !appUrlSvc.getTextDetailWasCalledFromDashboard()" style="margin-top: 0px; margin-bottom: 15px; text-align: center; ">
     <div translate style="margin-bottom: 10px;">Testez le prompteur</div>
     <!--style="color:  #428bca"-->
-    <a style="color:  #428bca" class="btn btn-default btn-lg" id="toDashboard" ng-href="{{app.appUrlSvc.getFullPath('')}}area/General/dashboard" targetId="Dashboard" translate>Retenez-les</a>
+    <!--<a style="color:  #428bca" class="btn btn-default btn-lg" id="toDashboard" ng-href="{{app.appUrlSvc.getFullPath('')}}area/General/dashboard" targetId="Dashboard" translate>Retenez-les</a>-->
+    <!--<a style="color:  #428bca" class="btn btn-default btn-lg" id="toDashboard" ng-href="{{app.appUrlSvc.getFullPath('')}}" targetId="Dashboard" translate>Retenez-les</a>-->
+    <a class="btn btn-primary btn-lg" id="discoverTheApp" ng-href="{{app.appUrlSvc.getFullPath('')}}" targetId="Dashboard" translate>Retenez-les</a>
   </div>
-
-
-  <!--<div ng-repeat="languageTextGroup in  languageTextGroups" style="padding-top: 20px;">-->
-    <!--<h5 style="font-size: 120%; margin-top: 0px;" translate>{{ languageTextGroup.code }}</h5>-->
-
-    <!--<div ng-repeat="text in languageTextGroup.texts">-->
-      <!--<div class="well well-lg" style="border-color: #428bca; margin-bottom: 5px; margin-top: 25px;">-->
-        <!--<span ng-bind-html="text.Content"></span>-->
-        <!--&lt;!&ndash;<div cvd-text="text"></div>&ndash;&gt;-->
-        <!--&lt;!&ndash;<favourite-toggle is-favourite="isFavourite()" on-change="setFavourite()"></favourite-toggle>&ndash;&gt;-->
-      <!--</div>-->
-      <!--<div>-->
-        <!--<span ng-show="isVariationFormMorePrecise(text)" style="color: #428bca;">-->
-          <!--<span translate>Ecrit</span> <span translate>{{getSenderGender(text)}}</span> <span translate>{{getRecipientGender(text)}}</span> <span translate>{{getTV(text)}}</span>-->
-        <!--</span>-->
-
-        <!--<a rel="nofollow" ng-href="{{app.appUrlSvc.getRootPath('')}}area/{{ currentAreaName }}/recipient/{{ recipientId }}/intention/{{ app.appUrlSvc.getIntentionSlug(currentIntention) }}/text/{{text.TextId}}"-->
-           <!--targetType="Text"  actionType="open"  targetId="{{txt.TextId}}">-->
-          <!--<button class="btn btn-default pull-right glyphicon glyphicon-ok" translate-->
-                  <!--targetId="{{ Id }}" targetType="Text"></button>-->
-         <!--</a>-->
-      <!--</div>-->
-      <!--<div>&nbsp</div>-->
-    <!--</div>-->
-  <!--</div>-->
 
   <br>
   <accordion ng-show="languageTextGroups.length > 0">
