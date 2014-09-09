@@ -77,6 +77,11 @@ a.backArrow:hover, a.backArrow:focus, a.backArrow:active  { background-color: rg
     display:none;
 }
 
+.fb_pixel_MailValidation{
+    background-image: url('https://www.facebook.com/offsite_event.php?id=6015677882794&amp;value=0&amp;currency=EUR');
+    display:none;
+}
+
 .flag-icon {
     position: relative;
     display: inline-block;
