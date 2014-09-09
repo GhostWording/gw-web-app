@@ -1,7 +1,7 @@
 ﻿<div ng-show="true" style="text-align: center;" action-location="FavoriteRecipients">
 
-  <div style="margin-top: 10px; margin-bottom: 20px;margin-left: 10px; margin-right: 10px; " >
-    <h3 class="splashTitle" style="font-size: 140%; margin-bottom: 0px;" translate>Je suis</h3>
+  <div style="margin-top: 0px; margin-bottom: 10px;margin-left: 10px; margin-right: 10px; " >
+    <h3 class="splashTitle" style="font-size: 140%; margin-bottom: 0px; "  translate>Je suis</h3>
     <ul style="margin-top: 20px; margin-bottom: 0px;" class="pager bmwQuestionButton" >
       <!--<span translate>Je suis</span>-->
       <li ng-class = '{selectionne: currentUser.gender=="H"}'>
@@ -28,10 +28,10 @@
        <!--</div>-->
   <!--</div>-->
   <div class = "listeTypeDestinataire" >
-    <div class="row" ng-repeat="qui in recipients" ng-show="qui.subscribableRecipient == true" style="vertical-align: middle; margin-bottom: 20px ">
+    <div class="row" ng-repeat="qui in recipients" ng-show="qui.subscribableRecipient == true" style="vertical-align: middle; margin-bottom: 10px;">
       <div class="col-xs-6 col-sm-5" translate style="text-align: right">{{ qui.LocalLabel }}</div>
       <div class="col-xs-6 col-sm-5">
-        <ul class="pager bmwQuestionButton">
+        <ul class="pager bmwQuestionButton" style="margin-bottom: 10px;">
           <li style="margin-right: 5px;" ng-class = '{selectionne: getState(qui.Id)}'>
             <a translate targetType="Command" targetId="{{qui.Id}}" targetParameters="true" ng-click = "setSubscriptionState(qui.Id,true)">Oui</a></li>
 
