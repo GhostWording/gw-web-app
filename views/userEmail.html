@@ -20,7 +20,7 @@
           <input ng-model="user.email" type="email" name="input" required autocomplete="on" style="vertical-align:middle; width: 250px;" ng-change="updateMail()" placeholder="{{'votre adresse mail' | translate}}" >
           </div>
           <br>
-          <a ng-href="{{app.appUrlSvc.getFullPath('')}}userEMailValidation" role="button"  targetId="Next" ng-click="">
+          <a ng-disabled="userMail.input.$valid == false" ng-href="{{app.appUrlSvc.getFullPath('')}}userEMailValidation" role="button"  targetId="Next" ng-click="">
             <button ng-disabled="userMail.input.$valid == false" type="button" targetType = "Command" targetId="MailValidation" targetParameters="{{user.email}}" class="btn btn-lg btn-primary" style="vertical-align:middle;" ng-click="sendMailToServer()" translate>Continuer</button>
           </a>
         </div>
