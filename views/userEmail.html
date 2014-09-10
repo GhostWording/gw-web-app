@@ -1,13 +1,11 @@
 <div ng-show="true" style="text-align: center;" action-location="UserEmail">
 
-  <!--<img src="./assets/TouchWordingCompressed.jpg" width="300px;">-->
-  <a class="hidden-xs" id="toLargeImageSubscription" ng-href="{{app.appUrlSvc.getFullPath('')}}favoriteRecipients" targetId="FavoriteRecipients">
+  <div class="hidden-xs"  >
     <img style="margin-top:15px" src="./assets/sendMailResized.jpg">
-  </a>
-  <a class="visible-xs" id="toSmallImageSubscription" ng-href="{{app.appUrlSvc.getFullPath('')}}favoriteRecipients" targetId="FavoriteRecipients">
+  </div>
+  <div class="visible-xs">
     <img class="" style="margin-left: -13px; margin-top: -17px;"  width="350px;" src="./assets/sendMailResized.jpg">
-    <!--<img class="" style="margin-left: -14px" src="./assets/TouchWordingCompressed.jpg">-->
-  </a>
+  </div>
 
   <div class="row" style="margin-top: 5px; margin-bottom: 30px; font-size: 16px;" >
       <div class="col-xs-1"></div>
@@ -41,14 +39,9 @@
     <div class="col-sm-1"></div>
   </div>
 
-  <ul class="pager bmwQuestionButton pull-left" >
+  <ul ng-show="false" class="pager bmwQuestionButton pull-left" >
       <li ng-class= '{selectionne: false}' >
           <a ng-href="{{app.appUrlSvc.getFullPath('')}}subscriptions" role="button"  targetId="Previous" ng-click="sendMailToServer()"> <img ng-src="./assets/arrow-left.png" class="stylepicto"> </a>
-      </li>
-  </ul>
-  <ul ng-show="false" class="pager bmwQuestionButton" >
-      <li ng-class= '{selectionne: false}'  >
-          <a ng-href="{{app.appUrlSvc.getFullPath('')}}" role="button" class="pull-right" targetId="Next" ng-click="sendMailToServer()"><img ng-src="./assets/arrow-right.png" class="stylepicto"> </a>
       </li>
   </ul>
 
