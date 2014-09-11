@@ -34,6 +34,11 @@
         </div>
         <!--<div ng-show="mailSent" translate>C'est parti !</div>-->
         <!--<div ng-show="mailSent" translate>Vous recevrez prochainement un message d'activation.</div>-->
+        <div ng-show="isConnected == false">
+          <div translate>ou</div>
+          <button style="margin-top: 5px;" type="button" ng-click="fbLogin()" targetId="fbLogin" targetType="Command" actionType="click"  class="btn btn-default" translate>Utiliser mon compte facebook</button>
+          <div translate style="font-size: 70%;">Inscription en 1 clic - CommentVousDire ne publie rien</div>
+        </div>
       </form>
     </div>
     <div class="col-sm-1"></div>
