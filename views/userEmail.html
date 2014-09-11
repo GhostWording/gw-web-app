@@ -34,10 +34,21 @@
         </div>
         <!--<div ng-show="mailSent" translate>C'est parti !</div>-->
         <!--<div ng-show="mailSent" translate>Vous recevrez prochainement un message d'activation.</div>-->
-        <div ng-show="isConnected == false">
-          <div translate>ou</div>
-          <button style="margin-top: 5px;" type="button" ng-click="fbLogin()" targetId="fbLogin" targetType="Command" actionType="click"  class="btn btn-default" translate>Utiliser mon compte facebook</button>
-          <div translate style="font-size: 70%;">Inscription en 1 clic - CommentVousDire ne publie rien</div>
+        <div ng-show="isConnected == false" style="margin-top: 20px;">
+          <!--<div translate style="font-size: 70%;">ou</div>-->
+          <!--<div translate style="font-size: 70%;">Autre option : j'ai la flemme de taper mon mail</div>-->
+          <!--<button style="margin-top: 0px;" type="button" ng-click="fbLogin()" targetId="fbLogin" targetType="Command" actionType="click"  class="btn btn-default" translate>Inscription facebook en 1 clic</button>-->
+          <button style="margin-top: 0px;" type="button" ng-click="fbLogin()" targetId="fbLogin" targetType="Command" actionType="click"  class="btn btn-default" translate>Continuer avec facebook</button>
+          <div translate style="font-size: 70%;">Taper votre mail vous fatigue ?</div>
+          <!--<div translate style="font-size: 70%;">Inscription en 1 clic</div>-->
+
+          <div class="brandBlue" style="margin-top: 20px;" translate>
+            Amusants, originaux, vitaminés : des messages pour inspirer votre communication !
+          </div>
+          <div class="brand" style="margin-top: 0px;" translate>
+            Notre mission : les améliorer au fur et à mesure
+          </div>
+
         </div>
       </form>
     </div>
