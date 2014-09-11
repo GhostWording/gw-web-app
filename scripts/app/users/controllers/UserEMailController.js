@@ -1,10 +1,13 @@
 angular.module('app/users/UserEMailController', [])
 
-.controller('UserEMailController', ['$scope', 'serverSvc','deviceIdSvc','currentUserLocalData','currentLanguage',  function ($scope, serverSvc,deviceIdSvc,currentUserLocalData,currentLanguage) {
+.controller('UserEMailController', ['$scope', 'serverSvc','deviceIdSvc','currentUserLocalData','currentLanguage','postActionSvc',  function ($scope, serverSvc,deviceIdSvc,currentUserLocalData,currentLanguage,postActionSvc) {
   console.log(deviceIdSvc.get());
   $scope.user = currentUserLocalData;
   $scope.mailChanged = false;
   $scope.mailSent = false;
+
+  postActionSvc.postActionInfo('Init','Page','UserEmail','Init');
+
 
   $scope.updateMail = function() {
     $scope.mailChanged = true;
