@@ -128,11 +128,12 @@
           <!-- Recipient list  -->
           <a ng-href="{{app.appUrlSvc.getFullPath('')}}recipientList" class="navbar-brand glyphicon glyphicon-user" TargetId="recipientList" translate></a>
           <!-- Subscriptions  -->
-          <a ng-href="{{app.appUrlSvc.getFullPath('')}}favoriteRecipients" class = "navbar-brand glyphicon glyphicon-bell" TargetId="favoriteRecipients" translate></a>
+          <!--<a ng-href="{{app.appUrlSvc.getFullPath('')}}favoriteRecipients" class = "navbar-brand glyphicon glyphicon-bell" TargetId="favoriteRecipients" translate></a>-->
           <!-- Dashboard  -->
           <!--<a ng-href="{{app.appUrlSvc.getFullPath('')}}area/General/dashboard" class = "navbar-brand glyphicon glyphicon-play" TargetId="dashboard" translate></a>-->
 
-          <!--<a rel="nofollow" ng-href="{{app.appUrlSvc.getFullPath('')}}area/General/recipient/none/intention" ng-show="false" class ="navbar-brand glyphicon glyphicon-search" translate></a>-->
+          <!-- Search -->
+          <a rel="nofollow" ng-href="{{app.appUrlSvc.getFullPath('')}}area/General/recipient/none/intention" class ="navbar-brand glyphicon glyphicon-search" translate></a>
           <!-- Favourites  -->
           <!--<a ng-show = "hasFavourite()" ng-href="{{app.appUrlSvc.getFullPath('')}}favouriteTexts" class="navbar-brand glyphicon glyphicon-star"></a>-->
           <!-- Mon profil  -->
@@ -155,15 +156,15 @@
           <!-- Recipient list  -->
           <li class="active"><a ng-href="{{app.appUrlSvc.getFullPath('')}}recipientList" class = "glyphicon glyphicon-user" TargetId="recipientList" translate></a></li>
           <!-- Subscriptions  -->
-          <li class="active"><a ng-href="{{app.appUrlSvc.getFullPath('')}}favoriteRecipients" class = "glyphicon glyphicon-bell" TargetId="favoriteRecipients" translate></a></li>
+          <!--<li class="active"><a ng-href="{{app.appUrlSvc.getFullPath('')}}favoriteRecipients" class = "glyphicon glyphicon-bell" TargetId="favoriteRecipients" translate></a></li>-->
           <!-- All texts  -->
-          <!--<li class="active"><a  rel="nofollow" ng-href="{{app.appUrlSvc.getFullPath('')}}area/General/recipient/none/intention" class ="glyphicon glyphicon-search" translate></a></li>-->
+          <li class="active"><a  rel="nofollow" ng-href="{{app.appUrlSvc.getFullPath('')}}area/General/recipient/none/intention" class ="glyphicon glyphicon-search" translate></a></li>
           <!-- Favoris  -->
           <!--<li class="active" ng-show = "hasFavourite()"><a ng-href="{{app.appUrlSvc.getFullPath('')}}favouriteTexts" class="glyphicon glyphicon-star"></a></li>-->
 
           <!-- Dashboard  -->
           <!--<li class="active"><a ng-href="{{app.appUrlSvc.getFullPath('')}}fbLogin" ng-show="true" class ="glyphicon glyphicon-play"></a></li>-->
-          <li class="active"><a ng-href="{{app.appUrlSvc.getFullPath('')}}area/General/dashboard" ng-show="true" class ="glyphicon glyphicon-play" TargetId="dashboard"></a></li>
+          <!--<li class="active"><a ng-href="{{app.appUrlSvc.getFullPath('')}}area/General/dashboard" ng-show="true" class ="glyphicon glyphicon-play" TargetId="dashboard"></a></li>-->
 
           <!-- Mon profil  -->
           <li class="active"><a ng-href="{{app.appUrlSvc.getFullPath('')}}userprofile" class ="glyphicon glyphicon-cog" TargetId="userprofile" translate></a></li>

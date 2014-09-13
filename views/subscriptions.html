@@ -2,10 +2,12 @@
 
   <div style="text-align: center;">
     <div class="hidden-xs" >
-      <img style="margin-top:15px" src="./assets/bear.jpg">
+      <img ng-show="!userHasModifiedSubscription" style="margin-top:15px" src="./assets/makeMyDay.jpg">
+      <img ng-show="userHasModifiedSubscription" style="margin-top:15px" src="./assets/catEyes.jpg">
     </div>
     <div class="visible-xs">
-      <img class="" style="margin-left: -13px; margin-top: -17px;"  width="400px;" src="./assets/bear.jpg">
+      <img ng-show="!userHasModifiedSubscription" style="margin-left: -13px; margin-top: -17px;"  width="350;" src="./assets/makeMyDay.jpg">
+      <img ng-show="userHasModifiedSubscription" style="margin-left: -13px; margin-top: -17px;"  width="350;" src="./assets/catEyes.jpg">
     </div>
   </div>
 
@@ -28,6 +30,7 @@
       <!--<div class="col-sm-2"></div>-->
   <!--</div>-->
 
+  <!-- Ask questions : what intention will be subscribed for each recipient type -->
   <div class = "row" ng-repeat="recipient in recipientsWithSubscriptions" style="padding-bottom:0x;">
     <div class="col-sm-2 col-md-3"></div>
     <div class="col-sm-8 col-md-6" >
@@ -36,9 +39,11 @@
         <div class ="col-xs-6" translate style="text-align: left; padding-top: 10px; ">{{ intent.IntentionLabel}}</div>
         <ul class="col-xs-6 pager bmwQuestionButton" style="padding-top: 0px; padding-bottom: 0px; margin-top: 5px; margin-bottom: 5px;">
           <li style="margin-right: 5px;" ng-class = '{selectionne: getSubscriptionState(recipient.Id,intent.IntentionId)}'>
-            <a translate targetType="Command" targetId="{{recipient.Id + '-' + intent.IntentionId+'-'+intent.IntentionLabel}}" targetParameters="true" ng-click = "setSubscriptionState(recipient.Id,intent.IntentionId,true)">Oui</a></li>
+            <a translate targetType="Command" targetId="{{recipient.Id + '-' + intent.IntentionId+'-'+intent.IntentionLabel}}" targetParameters="true"
+               ng-click = "setSubscriptionState(recipient.Id,intent.IntentionId,true); subscriptionModified();">Oui</a></li>
           <li ng-class = '{selectionne: !getSubscriptionState(recipient.Id,intent.IntentionId)}'>
-            <a translate targetType="Command" targetId="{{recipient.Id + '-' + intent.IntentionId+'-'+intent.IntentionLabel}}" targetParameters="false" ng-click = "setSubscriptionState(recipient.Id,intent.IntentionId,false)">Non</a></li>
+            <a translate targetType="Command" targetId="{{recipient.Id + '-' + intent.IntentionId+'-'+intent.IntentionLabel}}" targetParameters="false"
+               ng-click = "setSubscriptionState(recipient.Id,intent.IntentionId,false); subscriptionModified();">Non</a></li>
         </ul>
       </div>
     </div>
@@ -49,12 +54,12 @@
     <div  style="margin-top: 25px; margin-bottom: 0px; text-align: center" >
         <ul class="pager bmwQuestionButton pull-left" >
             <li ng-class= '{selectionne: false}' >
-                <a ng-href="{{app.appUrlSvc.getFullPath('')}}favoriteRecipients" role="button"  targetId="Previous" ng-click="sendSubscriptionsToServer()" > <img ng-src="./assets/arrow-left.png" class="stylepicto"> </a>
+                <a ng-href="{{app.appUrlSvc.getFullPath('')}}favoriteRecipients" role="button"  targetId="Previous" ng-click="sendSubscriptionsToServer(); " > <img ng-src="./assets/arrow-left.png" class="stylepicto"> </a>
             </li>
         </ul>
         <ul class="pager bmwQuestionButton pull-right" >
             <li ng-class= '{selectionne: false}' >
-                <a ng-href="{{app.appUrlSvc.getFullPath('')}}userEMail" role="button"  targetId="Next" ng-click="sendSubscriptionsToServer()"> <img ng-src="./assets/arrow-right.png" class="stylepicto"> </a>
+                <a ng-href="{{app.appUrlSvc.getFullPath('')}}userEMail" role="button"  targetId="Next" ng-click="sendSubscriptionsToServer();"> <img ng-src="./assets/arrow-right.png" class="stylepicto"> </a>
             </li>
         </ul>
     </div>
