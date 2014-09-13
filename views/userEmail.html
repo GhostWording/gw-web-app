@@ -28,19 +28,17 @@
           <input ng-model="user.email" type="email" name="input" required autocomplete="on" style="vertical-align:middle; width: 250px;" ng-change="updateMail()" placeholder="{{'votre adresse mail' | translate}}" >
           </div>
           <br>
-          <a ng-disabled="userMail.input.$valid == false" ng-href="{{app.appUrlSvc.getFullPath('')}}userEMailValidation" role="button"  targetId="Next" ng-click="">
+          <a ng-show="userMail.input.$valid == true" ng-disabled="userMail.input.$valid == false" ng-href="{{app.appUrlSvc.getFullPath('')}}userEMailValidation" role="button"  targetId="Next" ng-click="">
             <button ng-disabled="userMail.input.$valid == false" type="button" targetType = "Command" targetId="MailValidation" targetParameters="{{user.email}}" class="btn btn-lg btn-primary" style="vertical-align:middle;" ng-click="sendMailToServer()" translate>Continuer</button>
           </a>
+          <!-- Fake button when email not correct : disabling links does not work with firefox, so we switch button instead -->
+          <button ng-show="userMail.input.$valid == false" ng-disabled="true" type="button" class="btn btn-lg btn-primary" translate>Continuer</button>
         </div>
         <!--<div ng-show="mailSent" translate>C'est parti !</div>-->
         <!--<div ng-show="mailSent" translate>Vous recevrez prochainement un message d'activation.</div>-->
         <div ng-show="isConnected == false" style="margin-top: 20px;">
-          <!--<div translate style="font-size: 70%;">ou</div>-->
-          <!--<div translate style="font-size: 70%;">Autre option : j'ai la flemme de taper mon mail</div>-->
-          <!--<button style="margin-top: 0px;" type="button" ng-click="fbLogin()" targetId="fbLogin" targetType="Command" actionType="click"  class="btn btn-default" translate>Inscription facebook en 1 clic</button>-->
           <button style="margin-top: 0px;" type="button" ng-click="fbLogin()" targetId="fbLogin" targetType="Command" actionType="click"  class="btn btn-default" translate>Continuer avec facebook</button>
           <div translate style="font-size: 70%;">Taper votre mail vous fatigue ?</div>
-          <!--<div translate style="font-size: 70%;">Inscription en 1 clic</div>-->
         </div>
         <div>
           <div class="brandBlue" style="margin-top: 20px;" translate>
