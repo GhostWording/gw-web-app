@@ -34,9 +34,8 @@
           <!-- Fake button when email not correct : disabling links does not work with firefox, so we switch button instead -->
           <button ng-show="userMail.input.$valid == false" ng-disabled="true" type="button" class="btn btn-lg btn-primary" translate>Continuer</button>
         </div>
-        <!--<div ng-show="mailSent" translate>C'est parti !</div>-->
-        <!--<div ng-show="mailSent" translate>Vous recevrez prochainement un message d'activation.</div>-->
-        <div ng-show="isConnected == false" style="margin-top: 20px;">
+        <!-- People never use this :-(  -->
+        <div ng-show="false && isConnected == false" style="margin-top: 20px;">
           <button style="margin-top: 0px;" type="button" ng-click="fbLogin()" targetId="fbLogin" targetType="Command" actionType="click"  class="btn btn-default" translate>Continuer avec facebook</button>
           <div translate style="font-size: 70%;">Taper votre mail vous fatigue ?</div>
         </div>
