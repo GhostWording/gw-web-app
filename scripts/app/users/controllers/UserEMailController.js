@@ -40,21 +40,32 @@ angular.module('app/users/UserEMailController', [])
     }
 
     // Post new email to server
-    serverSvc.postInStore('mailStore', deviceIdSvc.get(), $scope.user.email).then(function (response) {
+    serverSvc.postInStore('mailStore', deviceIdSvc.get(), $scope.user.email)
+    .then(function (response) {
       $scope.mailSent = true;
       $scope.mailChanged = false;
-    });
+    })
+      // Ask server to send verification email
+    .then(function() {
+      serverSvc.postMailForVerification($scope.user.email);
+    })
+      // Send preferred culture to server
+    .then(function() {
+      serverSvc.postInStore('preferredCulture', deviceIdSvc.get(), currentLanguage.getCultureCode());
+    })
+
+    ;
 
 
     // Ask server to send verification email
-    serverSvc.postMailForVerification($scope.user.email)
-    .then(function (response) {
-      //console.log('mail envoyé : ' + $scope.user.email);
-    });
+//    serverSvc.postMailForVerification($scope.user.email)
+//    .then(function (response) {
+//      //console.log('mail envoyé : ' + $scope.user.email);
+//    });
     // Send preferred culture to server
-    serverSvc.postInStore('preferredCulture', deviceIdSvc.get(), currentLanguage.getCultureCode()).then(function (response) {
-      //console.log(response);
-    });
+//    serverSvc.postInStore('preferredCulture', deviceIdSvc.get(), currentLanguage.getCultureCode()).then(function (response) {
+//      //console.log(response);
+//    });
 
 //    console.log("$scope.userMail.input.$valid " + $scope.userMail.input.$valid);
 //    console.log("$scope.userMail.input.$error " + $scope.userMail.input.$error);

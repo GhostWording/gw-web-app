@@ -71,8 +71,10 @@ angular.module('cherryApp',  [
     $scope.getLanguage = function() {
       return currentLanguage.getLanguageCode();
     };
-
-    postActionSvc.postActionInfo('Init', 'Init', 'App', 'Init');
+    postActionSvc.postInitInfo().then(function() {
+      postActionSvc.postActionInfo('Init', 'Init', 'App', 'Init');
+    });
+    //postActionSvc.postActionInfo('Init', 'Init', 'App', 'Init');
     $scope.showSpinner = false;
     $scope.trackerIsActive = function () { return $rootScope.loadingTracker.active();};
 
