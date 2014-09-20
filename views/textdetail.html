@@ -1,7 +1,7 @@
 ﻿<div action-location="TextDetail">
 
+  <!-- Back button : behaviour will vary according to context -->
   <div>
-    <!--<h3   ng-bind-html = "currentText.Abstract || currentIntention.Label" ></h3>-->
     <ul class="pager bmwQuestionButton" style="margin-top: 5px;  margin-bottom: 25px;">
       <li ng-class='{selectionne: false}'>
 
@@ -32,18 +32,20 @@
     </ul>
   </div>
 
-<div ng-if="includeSocialPluginsOnTextPages()" class="pull-right" style="margin-bottom: 5px; margin-top: 5px; margin-right: 5px;" >
   <!-- fb share  -->
-  <div class="fb-share-button btn btn-default"></div>
-</div>
+  <div ng-if="includeSocialPluginsOnTextPages()" class="pull-right" style="margin-bottom: 5px; margin-top: 5px; margin-right: 5px;" >
+    <div class="fb-share-button btn btn-default"></div>
+  </div>
   <div></div>
 
+  <!-- Text -->
   <div class="well well-lg" ng-hide="editText" style="border-color: #428bca; margin-bottom: 5px; background-color: #FFFFFF;" >
     <span ng-bind-html="txt.Content" style="white-space: pre-wrap"></span>
     <!--<span cvd-text="currentText"></span>-->
     <!-- favourite star appears at random places  -->
     <!--<favourite-toggle is-favourite="isFavourite()" on-change="setFavourite()"></favourite-toggle>-->
   </div>
+  <!-- Text edition -->
   <div ng-show="editText">
     <textarea
         ng-model="txt.Content"
@@ -74,6 +76,7 @@
     <!--</div>-->
   </div>
 
+  <!-- Action buttons -->
   <div class="pull-right" style="vertical-align: middle; ">
     <!-- edit  -->
     <button style="margin-left: 10px" class="btn btn-default  glyphicon glyphicon-pencil" translate
@@ -88,6 +91,7 @@
   <br/>
   <br/>
 
+  <!-- Text author -->
   <div ng-show="isQuote(currentText)" style="margin-bottom: 5px;" >
     <span class ="auteur hidden-xs " translate>Auteur</span>
     <span class ="auteur hidden-xs" translate> : </span>
@@ -103,15 +107,25 @@
       Source : <a ng-href = "{{currentText.ReferenceUrl}}" >{{currentText.ReferenceUrl}}</a>
   </div>
 
-  <div style="margin-bottom:20px;"></div>
+  <div style="margin-bottom:10px;"></div>
 
   <div></div>
+
+  <!-- When user has landed directly on this page, suggest a visit to intention list  -->
+  <div ng-show = "!appUrlSvc.getTextDetailWasCalledFromTextList() && !appUrlSvc.getTextDetailWasCalledFromDashboard()" style="margin-top: 0px; margin-bottom: 15px; text-align: center; ">
+    <div translate style="margin-bottom: 10px;">Voir les meilleures façons de dire</div>
+    <!--style="color:  #428bca"-->
+    <a style="color:  #428bca" class="btn btn-default btn-lg" id="toDashboard"
+       ng-href="{{app.appUrlSvc.getFullPath('')}}area/{{ currentAreaName }}/recipient/{{ recipientId }}/intention/{{app.appUrlSvc.getIntentionSlug(currentIntention)}}/text"
+       targetId="Dashboard" translate>{{ currentIntention.Label }}</a>
+    <!--<a class="btn btn-primary btn-lg" id="discoverTheApp" ng-href="{{app.appUrlSvc.getFullPath('')}}" targetId="Welcome" translate>Retenez-les</a>-->
+  </div>
+
 
   <!-- When user has landed directly on this page, suggest a visit to the homepage  -->
   <div ng-show = "!appUrlSvc.getTextDetailWasCalledFromTextList() && !appUrlSvc.getTextDetailWasCalledFromDashboard()" style="margin-top: 0px; margin-bottom: 15px; text-align: center; ">
     <div translate style="margin-bottom: 10px;">Testez le prompteur</div>
     <!--style="color:  #428bca"-->
-    <!--<a style="color:  #428bca" class="btn btn-default btn-lg" id="toDashboard" ng-href="{{app.appUrlSvc.getFullPath('')}}area/General/dashboard" targetId="Dashboard" translate>Retenez-les</a>-->
     <!--<a style="color:  #428bca" class="btn btn-default btn-lg" id="toDashboard" ng-href="{{app.appUrlSvc.getFullPath('')}}" targetId="Dashboard" translate>Retenez-les</a>-->
     <a class="btn btn-primary btn-lg" id="discoverTheApp" ng-href="{{app.appUrlSvc.getFullPath('')}}" targetId="Welcome" translate>Retenez-les</a>
   </div>
@@ -153,6 +167,14 @@
       </div>
     </accordion-group>
   </accordion>
+
+  <!-- Switch language -->
+  <div ng-show = "!appUrlSvc.getTextDetailWasCalledFromTextList() && !appUrlSvc.getTextDetailWasCalledFromDashboard()" ng-include="'views/partials/languageBar.html'" style="margin-top: 20px; text-align: center" ></div>
+
+  <!-- Mozart  -->
+  <div ng-if = "!appUrlSvc.getTextDetailWasCalledFromTextList() && !appUrlSvc.getTextDetailWasCalledFromDashboard()" style="margin-top:25px; margin-bottom: 15px; text-align: center;">
+    <img height="120px;" src="./assets/pianoCat.jpg">
+  </div>
 
 
 </div>
