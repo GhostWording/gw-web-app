@@ -111,27 +111,9 @@
 
   <div></div>
 
-  <!-- When user has landed directly on this page, suggest a visit to intention list  -->
-  <div ng-show = "!appUrlSvc.getTextDetailWasCalledFromTextList() && !appUrlSvc.getTextDetailWasCalledFromDashboard()" style="margin-top: 0px; margin-bottom: 15px; text-align: center; ">
-    <div translate style="margin-bottom: 10px;">Voir les meilleures façons de dire</div>
-    <!--style="color:  #428bca"-->
-    <a style="color:  #428bca" class="btn btn-default btn-lg" id="toDashboard"
-       ng-href="{{app.appUrlSvc.getFullPath('')}}area/{{ currentAreaName }}/recipient/{{ recipientId }}/intention/{{app.appUrlSvc.getIntentionSlug(currentIntention)}}/text"
-       targetId="Dashboard" translate>{{ currentIntention.Label }}</a>
-    <!--<a class="btn btn-primary btn-lg" id="discoverTheApp" ng-href="{{app.appUrlSvc.getFullPath('')}}" targetId="Welcome" translate>Retenez-les</a>-->
-  </div>
-
-
-  <!-- When user has landed directly on this page, suggest a visit to the homepage  -->
-  <div ng-show = "!appUrlSvc.getTextDetailWasCalledFromTextList() && !appUrlSvc.getTextDetailWasCalledFromDashboard()" style="margin-top: 0px; margin-bottom: 15px; text-align: center; ">
-    <div translate style="margin-bottom: 10px;">Testez le prompteur</div>
-    <!--style="color:  #428bca"-->
-    <!--<a style="color:  #428bca" class="btn btn-default btn-lg" id="toDashboard" ng-href="{{app.appUrlSvc.getFullPath('')}}" targetId="Dashboard" translate>Retenez-les</a>-->
-    <a class="btn btn-primary btn-lg" id="discoverTheApp" ng-href="{{app.appUrlSvc.getFullPath('')}}" targetId="Welcome" translate>Retenez-les</a>
-  </div>
 
   <!-- Translations  -->
-  <br>
+  <!--<br>-->
   <accordion ng-show="languageTextGroups.length > 0">
     <accordion-group is-open="theAccordionStatus.open" is-disabled="false">
       <accordion-heading>
@@ -168,8 +150,23 @@
     </accordion-group>
   </accordion>
 
+  <!-- When user has landed directly on this page, suggest a visit to intention list  -->
+  <div ng-show = "!appUrlSvc.getTextDetailWasCalledFromTextList() && !appUrlSvc.getTextDetailWasCalledFromDashboard()" style="margin-top: 25px; margin-bottom: 15px; text-align: center; ">
+    <div translate style="margin-bottom: 10px;">Voir les meilleures façons de dire</div>
+    <a style="color:  #428bca" class="btn btn-default btn-lg" id="toDashboard"
+       ng-href="{{app.appUrlSvc.getFullPath('')}}area/{{ currentAreaName }}/recipient/{{ recipientId }}/intention/{{app.appUrlSvc.getIntentionSlug(currentIntention)}}/text"
+       targetId="Dashboard" translate>{{ currentIntention.Label }}</a>
+  </div>
+
+  <!-- When user has landed directly on this page, suggest a visit to homepage  -->
+  <div ng-show = "!appUrlSvc.getTextDetailWasCalledFromTextList() && !appUrlSvc.getTextDetailWasCalledFromDashboard()" style="margin-top: 20px; margin-bottom: 15px; text-align: center; ">
+    <div translate style="margin-bottom: 10px;">Testez le prompteur</div>
+    <a class="btn btn-primary btn-lg" id="discoverTheApp" ng-href="{{app.appUrlSvc.getFullPath('')}}" targetId="Welcome" translate>Retenez-les</a>
+  </div>
+
+
   <!-- Switch language -->
-  <div ng-show = "!appUrlSvc.getTextDetailWasCalledFromTextList() && !appUrlSvc.getTextDetailWasCalledFromDashboard()" ng-include="'views/partials/languageBar.html'" style="margin-top: 20px; text-align: center" ></div>
+  <div ng-show = "!appUrlSvc.getTextDetailWasCalledFromTextList() && !appUrlSvc.getTextDetailWasCalledFromDashboard()" ng-include="'views/partials/languageBar.html'" style="margin-top: 30px; text-align: center" ></div>
 
   <!-- Mozart  -->
   <div ng-if = "!appUrlSvc.getTextDetailWasCalledFromTextList() && !appUrlSvc.getTextDetailWasCalledFromDashboard()" style="margin-top:25px; margin-bottom: 15px; text-align: center;">
