@@ -1,8 +1,9 @@
 angular.module('app/recipients', [
+  'app/recipients/currentRecipient',
 	'app/recipients/recipientTypes',
   'app/recipients/recipientTypeHelperSvc',
-	'app/recipients/likelyIntentions',
+	'app/recipients/likelyIntentionsForRecipientTypes',
 	'app/recipients/subscribedRecipientTypes',
-  'app/recipients/currentRecipient',
-  'app/recipients/oneTimeRecipients'
+  'app/recipients/SelecteSingleRecipientTypeController',
+  'app/recipients/SubscribedRecipientTypesController'
 ]);

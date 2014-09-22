@@ -1,43 +1,65 @@
 <div ng-show="true" style="text-align: center;" action-location="UserEmail">
-    <div class="row" style="margin-top: 5px; margin-bottom: 30px; font-size: 16px;" >
-        <div class="col-xs-1"></div>
-      <!--Je recevrai les idées de messages à cette adresse-->
-      <!--Où pousseront mes idées de messages ?-->
-      <!--Où se déposeront les idées de messages ?-->
-        <div class="col-xs-10" translate>
-          Où seront déposées vos suggestions de messages ?
-        </div>
-        <div class="col-xs-1"></div>
-    </div>
 
-    <div class="row" style="margin-top: 5px; margin-bottom: 10px; font-size: 16px; text-align: center; " >
-        <div class="col-sm-1"></div>
-        <div class="col-sm-10">
-            <form role="form" autocomplete="on">
-                <div class="form-group" >
-                    <!--<label >la&nbsp</label>-->
-                    <div>
-                      <input ng-model="user.email" name="email" autocomplete="on" style="vertical-align:middle; width: 250px;" ng-change="updateMail()" placeholder="{{'votre adresse mail' | translate}}" >
-                    </div>
-                  <br>
-                    <button type="button" targetType = "Command" targetId="MailValidation" class="btn btn-default" style="vertical-align:middle;" ng-click="sendMailToServer()" translate>Envoi</button>
-                </div>
-                <div ng-show="mailSent" translate>C'est parti !</div>
-                <div ng-show="mailSent" translate>Vous recevrez prochainement un message d'activation.</div>
-            </form>
-        </div>
-        <div class="col-sm-1"></div>
-    </div>
+  <div class="hidden-xs"  >
+    <img style="margin-top:15px" src="./assets/sendMailResized.jpg">
+  </div>
+  <div class="visible-xs">
+    <img class="" style="margin-left: -13px; margin-top: -17px;"  width="350px;" src="./assets/sendMailResized.jpg">
+  </div>
 
-    <ul class="pager bmwQuestionButton pull-left" >
-        <li ng-class= '{selectionne: false}' >
-            <a ng-href="{{app.appUrlSvc.getFullPath('')}}subscriptions" role="button"  targetId="Previous" ng-click="sendMailToServer()"> <img ng-src="./assets/arrow-left.png" class="stylepicto"> </a>
-        </li>
-    </ul>
-    <ul class="pager bmwQuestionButton" >
-        <li ng-class= '{selectionne: false}' >
-            <a ng-href="{{app.appUrlSvc.getFullPath('')}}" role="button" class="pull-right" targetId="Next" ng-click="sendMailToServer()"><img ng-src="./assets/arrow-right.png" class="stylepicto"> </a>
-        </li>
-    </ul>
+  <div class="row" style="margin-top: 5px; margin-bottom: 30px; font-size: 16px;" >
+      <div class="col-xs-1"></div>
+    <!--Je recevrai les idées de messages à cette adresse-->
+    <!--Où pousseront mes idées de messages ?-->
+    <!--Où se déposeront les idées de messages ?-->
+      <div class="col-xs-10" translate>
+        Où seront déposées vos suggestions de messages ?
+      </div>
+      <div class="col-xs-1"></div>
+  </div>
+
+  <div class="row" style="margin-top: 5px; margin-bottom: 10px; font-size: 16px; text-align: center; " >
+    <div class="col-sm-1"></div>
+    <div class="col-sm-10">
+      <form name="userMail" role="form" autocomplete="on">
+        <div class="form-group" >
+          <!--<label >la&nbsp</label>-->
+          <div>
+          <input ng-model="user.email" type="email" name="input" required autocomplete="on" style="vertical-align:middle; width: 250px;" ng-change="updateMail()" placeholder="{{'votre adresse mail' | translate}}" >
+          </div>
+          <br>
+          <a ng-show="userMail.input.$valid == true" ng-disabled="userMail.input.$valid == false" ng-href="{{app.appUrlSvc.getFullPath('')}}userEMailValidation" role="button"  targetId="Next" ng-click="">
+            <button ng-disabled="userMail.input.$valid == false" type="button" targetType = "Command" targetId="MailValidation" targetParameters="{{user.email}}" class="btn btn-lg btn-primary" style="vertical-align:middle;" ng-click="sendMailToServer()" translate>Continuer</button>
+          </a>
+          <!-- Fake button when email not correct : disabling links does not work with firefox, so we switch button instead -->
+          <button ng-show="userMail.input.$valid == false" ng-disabled="true" type="button" class="btn btn-lg btn-primary" translate>Continuer</button>
+        </div>
+        <!-- People never use this :-(  -->
+        <div ng-show="false && isConnected == false" style="margin-top: 20px;">
+          <button style="margin-top: 0px;" type="button" ng-click="fbLogin()" targetId="fbLogin" targetType="Command" actionType="click"  class="btn btn-default" translate>Continuer avec facebook</button>
+          <div translate style="font-size: 70%;">Taper votre mail vous fatigue ?</div>
+        </div>
+        <div>
+          <div class="brandBlue" style="margin-top: 20px;" translate>
+            Amusants, originaux, vitaminés : des messages pour inspirer votre communication !
+          </div>
+          <div class="brand" style="margin-top: 0px;" translate>
+            Notre mission : les améliorer au fur et à mesure
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="col-sm-1"></div>
+  </div>
+
+  <ul ng-show="false" class="pager bmwQuestionButton pull-left" >
+      <li ng-class= '{selectionne: false}' >
+          <a ng-href="{{app.appUrlSvc.getFullPath('')}}subscriptions" role="button"  targetId="Previous" ng-click="sendMailToServer()"> <img ng-src="./assets/arrow-left.png" class="stylepicto"> </a>
+      </li>
+  </ul>
+
+  <!-- Facebook plugin -->
+  <div ng-include="'views/partials/pageLikePlugin.html'" style="margin-top: 20px; text-align: center" ></div>
+
 
 </div>

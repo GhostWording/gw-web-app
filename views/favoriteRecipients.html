@@ -1,30 +1,75 @@
-﻿<div ng-show="true" style="text-align: center;" action-location="FavoriteRecipients">
-    <div class="row" style="margin-top: 0px; margin-bottom: 30px;margin-left: 10px; margin-right: 10px; " >
-      <h3 class="splashTitle" style="font-size: 140%; margin-bottom: 0px;" translate>Avec qui...</h3>
-      <span translate>(cliquez les destinataires applicables)</span>
+﻿<div style="text-align: center;" action-location="FavoriteRecipients">
+  <div ng-show=" !currentUser || !currentUser.gender ">
+    <div class="hidden-xs" >
+      <img style="margin-top:15px" src="./assets/wolf.jpg">
     </div>
+    <div class="visible-xs">
+      <img class="" style="margin-left: -13px; margin-top: -17px;"  width="350px;" src="./assets/wolf.jpg">
+    </div>
+  </div>
 
-    <div class = "listeTypeDestinataire" >
-        <div class="row" ng-repeat="qui in recipients" ng-show="qui.subscribableRecipient == true" style="vertical-align: middle; margin-bottom: 20px ">
-            <div class="col-xs-1"></div>
-            <div class="col-xs-5" translate style="text-align: right">{{ qui.LocalLabel }}</div>
-            <div class="col-xs-2"><toggle-switch state="getState(qui.Id)" switchh="switchState(qui.Id) "></toggle-switch></div>
-            <div class="col-xs-4"></div>
-         </div>
-     </div>
+  <div ng-show=" currentUser.gender == 'F' ">
+    <div class="hidden-xs" >
+      <img style="margin-top:15px" src="./assets/woman.jpg">
+    </div>
+    <div class="visible-xs">
+      <img class="" style="margin-left: -13px; margin-top: -17px;"  width="350px;" src="./assets/woman.jpg">
+    </div>
+  </div>
 
-    <ul class="pager bmwQuestionButton pull-left" >
-        <li ng-class= '{selectionne: false}' >
-          <!--<a ng-href="{{app.appUrlSvc.getFullPath('')}}" role="button"  targetId="Previous"> <img ng-src="./assets/arrow-left.png" class="stylepicto"> </a>-->
-          <a ng-href="{{app.appUrlSvc.getFullPath('')}}area/General/dashboard" role="button"  targetId="Previous"> <img ng-src="./assets/arrow-left.png" class="stylepicto"> </a>
+  <div ng-show=" currentUser.gender == 'H' ">
+    <div class="hidden-xs" >
+      <img style="margin-top:15px" src="./assets/carry.jpg">
+    </div>
+    <div class="visible-xs">
+      <img class="" style="margin-left: -13px; margin-top: -17px;"  width="350px;" src="./assets/carry.jpg">
+    </div>
+  </div>
 
-          <!--<a ng-href="" historyback role="button"  targetId="Previous"> <img ng-src="./assets/arrow-left.png" class="stylepicto"> </a>-->
-        </li>
+
+  <!-- User gender -->
+  <div style="margin-top: 0px; margin-bottom: 10px;margin-left: 10px; margin-right: 10px; " >
+    <h3 class="splashTitle" style="font-size: 140%; margin-bottom: 0px; "  translate>Je suis</h3>
+    <ul style="margin-top: 20px; margin-bottom: 0px;" class="pager bmwQuestionButton" >
+      <li ng-class = '{selectionne: currentUser.gender=="H"}'>
+        <a  targetType="Command" targetId="SenderGender" translate  ng-click = 'currentUser.gender = "H"'>Un homme</a></li>
+      <li ng-class = '{selectionne: currentUser.gender=="F"}'>
+        <a  targetType="Command" targetId="SenderGender" translate ng-click = "currentUser.gender = 'F'">Une femme</a></li>
     </ul>
-    <ul class="pager bmwQuestionButton" ng-show="hasSubscribedRecipients()">
-        <li ng-class= '{selectionne: false}'>
-            <!--<a href="/subscriptions" role="button" class="pull-right" targetId="Next"> <img ng-src="./assets/arrow-right.png" class="stylepicto"> </a>-->
+  </div>
+
+  <!-- Favorite recipient types -->
+  <div class="row" style="margin-top: 0px; margin-bottom: 30px;margin-left: 10px; margin-right: 10px; " >
+    <h3 class="splashTitle" style="font-size: 140%; margin-bottom: 0px;" translate>Avec qui...</h3>
+  </div>
+
+  <div class = "listeTypeDestinataire" >
+    <div class="row" ng-repeat="qui in recipients" ng-show="qui.subscribableRecipient == true" style="vertical-align: middle; margin-bottom: 10px;">
+      <div class="col-xs-6 col-sm-5" translate style="text-align: right">{{ qui.LocalLabel }}</div>
+      <div class="col-xs-6 col-sm-5">
+        <ul class="pager bmwQuestionButton" style="margin-bottom: 10px;">
+          <li style="margin-right: 5px;" ng-class = '{selectionne: getState(qui.Id)}'>
+            <a translate targetType="Command" targetId="{{qui.Id}}" targetParameters="true" ng-click = "setSubscriptionState(qui.Id,true)">Oui</a></li>
+
+          <li ng-class = '{selectionne: !getState(qui.Id)}'>
+            <a translate targetType="Command" targetId="{{qui.Id}}" targetParameters="false" ng-click = "setSubscriptionState(qui.Id,false)">Non</a></li>
+        </ul>
+      </div>
+      <div class="col-sm-2"></div>
+    </div>
+  </div>
+
+  <!--Previous step -->
+  <ul class="pager bmwQuestionButton pull-left" >
+      <li ng-class= '{selectionne: false}' >
+        <a ng-show = "true || appUrlSvc.getUserHasBeenOnSplashScreen()==false" ng-href="{{app.appUrlSvc.getFullPath('')}}" role="button"  targetId="Previous"> <img ng-src="./assets/arrow-left.png" class="stylepicto"> </a>
+      </li>
+  </ul>
+
+  <!-- Next step -->
+  <ul class="pager bmwQuestionButton" ng-show="hasSubscribedRecipients()">
+       <li ng-class= '{selectionne: false}'>
           <a ng-href="{{app.appUrlSvc.getFullPath('subscriptions')}}" role="button" class="pull-right" targetId="Next"> <img ng-src="./assets/arrow-right.png" class="stylepicto"> </a>
-        </li>
-    </ul>
+       </li>
+   </ul>
 </div>

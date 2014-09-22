@@ -10,15 +10,22 @@ angular.module('app/users/subscriptions',['app/recipients'])
       makeSubscriptionKey : function(recipientId, intentionId) {
         return 'DesactivateSubscription.'+recipientId +'.' + intentionId;
       },
+      makeNewSubscriptionKey : function(recipientId, intentionId) {
+        return 'HasSubscription.'+recipientId +'.' + intentionId;
+      },
       // Storage remembers when user does NOT want to subscribe. If nothing is found, we initialize with true
       getStateFromStorage : function(recipientId, intentionId) {
-        var disactivationWanted = localStorage.get(service.makeSubscriptionKey(recipientId, intentionId));
-        var retval = disactivationWanted ? false : true;
-        return retval;
+//        var disactivationWanted = localStorage.get(service.makeSubscriptionKey(recipientId, intentionId));
+//        var retval = disactivationWanted ? false : true;
+        var activationWanted = localStorage.get(service.makeNewSubscriptionKey(recipientId, intentionId));
+        console.log("activationWanted : " + activationWanted);
+        return activationWanted;
       },
-      setStateFromStorage : function(recipientId, intentionId,subscription) {
-        var key = service.makeSubscriptionKey(recipientId, intentionId);
-        localStorage.set(key,!subscription.IsActive);
+      setStateInStorage : function(recipientId, intentionId,subscription) {
+//        var key = service.makeSubscriptionKey(recipientId, intentionId);
+//        localStorage.set(key,!subscription.IsActive);
+        var key = service.makeNewSubscriptionKey(recipientId, intentionId);
+        localStorage.set(key,subscription.IsActive);
       },
       // Read state from actual subscriptions
       getState : function(recipientId, intentionId) {
@@ -30,10 +37,15 @@ angular.module('app/users/subscriptions',['app/recipients'])
         var subscription = service.getSubscription(recipientId, intentionId);
         if (subscription)
           subscription.IsActive = !subscription.IsActive;
-        service.setStateFromStorage(recipientId, intentionId,subscription);
+        service.setStateInStorage(recipientId, intentionId,subscription);
+      },
+      setState : function(recipientId, intentionId,value) {
+        var subscription = service.getSubscription(recipientId, intentionId);
+        if (subscription)
+          subscription.IsActive = value;
+        service.setStateInStorage(recipientId, intentionId,subscription);
       },
       // TODO : we should add get and set to read and update the required frequency for a recipient/intention subscription
-      // ...........
       // Extract subscription line for a given recipient/intention
       getSubscription : function(recipientId, intentionId) {
         if ( !service._subscribedRecipients )
@@ -87,6 +99,8 @@ angular.module('app/users/subscriptions',['app/recipients'])
                   var alert = angular.copy(possibleSubscription);
                   // Check if user previously said he wants to subscribe to this intention for this recipient
                   alert.IsActive = service.getStateFromStorage(recipientId, possibleSubscription.IntentionId);
+                  if ( alert.IsActive === null  )
+                    alert.IsActive = alert.default;
                   recipient.alerts.push(alert);
                 }
               }

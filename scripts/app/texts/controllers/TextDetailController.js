@@ -1,10 +1,10 @@
-angular.module('app/texts/TextDetailController', ['common/i18n', 'app/texts/alternativeTextList','common/services/facebookHelperSvc'])
+angular.module('app/texts/TextDetailController', ['common/i18n', 'app/texts/alternativeTextList','common/services/facebookHelperSvc','common/services/postActionSvc'])
 
 // Display text with author, link to the source, usage recommandations or comments
 
 .controller('TextDetailController',
-['$scope','currentText', 'currentIntention',  'tagLabelsSvc', '$modal','currentRecipient', 'favouritesSvc','currentRecipientSvc','alternativeTextsSvc','currentLanguage','helperSvc','currentAreaName','$rootScope','$location','filtersSvc','facebookHelperSvc',
-function ($scope, currentText, currentIntention, tagLabelsSvc, $modal,currentRecipient, favouritesSvc,currentRecipientSvc,alternativeTextsSvc,currentLanguage,helperSvc,currentAreaName,$rootScope,$location,filtersSvc,facebookHelperSvc) {
+['$scope','currentText', 'currentIntention',  'tagLabelsSvc', '$modal','currentRecipient', 'favouritesSvc','currentRecipientSvc','alternativeTextsSvc','currentLanguage','helperSvc','currentAreaName','$rootScope','$location','filtersSvc','facebookHelperSvc','postActionSvc',
+function ($scope, currentText, currentIntention, tagLabelsSvc, $modal,currentRecipient, favouritesSvc,currentRecipientSvc,alternativeTextsSvc,currentLanguage,helperSvc,currentAreaName,$rootScope,$location,filtersSvc,facebookHelperSvc,postActionSvc) {
   // TODO : when may want to explicitly set og:title from here because facebook randomly picks the intention title instead
 
   $scope.includeSocialPluginsOnTextPages = facebookHelperSvc.includeSocialPluginsOnTextPages;
@@ -16,6 +16,7 @@ function ($scope, currentText, currentIntention, tagLabelsSvc, $modal,currentRec
   $scope.currentIntention = currentIntention;
   $scope.currentText = currentText;
 
+
   if ( !! currentIntention )
     $rootScope.ogDescription = currentIntention.Label;
   else
@@ -23,6 +24,11 @@ function ($scope, currentText, currentIntention, tagLabelsSvc, $modal,currentRec
   //$rootScope.ogTitle = currentText.Content;
 
   $scope.Id = currentText.TextId;
+
+
+  // We want an Init event even if no action takes place, in case user lands here from Google or facebook
+  postActionSvc.postActionInfo('Text',currentText.TextId,'TextDetail','Init');
+
 
   // Copy the text Content so that if we edit it we are not editing the original "text".
   $scope.txt = {};

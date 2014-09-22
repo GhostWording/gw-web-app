@@ -6,6 +6,7 @@ angular.module('app/userDashboard/DashboardController', [])
     $scope.getCurrentTextId = function() {
       return textsSvc.getCurrentId();
     };
+    // We want to track this page is loaded, event when no action occurs on its content
     postActionSvc.postActionInfo('Init','Page','Dashboard','Init');
     // Login
     $scope.fbLogin = facebookSvc.fbLogin;

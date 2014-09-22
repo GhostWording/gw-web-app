@@ -22,7 +22,9 @@
         <div ng-repeat="intention in row" class="col-md-4">
           <a ng-href="{{app.appUrlSvc.getFullPath('')}}area/{{currentAreaName}}/recipient/{{recipientId}}/intention/{{app.appUrlSvc.getIntentionSlug(intention)}}/text"
                targetType = "intention"
-               targetId = "{{intention.IntentionId}}" >
+               targetId = "{{intention.IntentionId}}"
+               targetParameters = "{{ recipientId }}">
+
                 <div class="well well-small bmw-intention" translate>{{intention.Label}}</div>
             </a>
         </div>
