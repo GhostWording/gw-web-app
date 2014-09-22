@@ -153,9 +153,9 @@
   <!-- When user has landed directly on this page, suggest a visit to intention list  -->
   <div ng-show = "!appUrlSvc.getTextDetailWasCalledFromTextList() && !appUrlSvc.getTextDetailWasCalledFromDashboard()" style="margin-top: 25px; margin-bottom: 15px; text-align: center; ">
     <div translate style="margin-bottom: 10px;">Voir les meilleures façons de dire</div>
-    <a style="color:  #428bca" class="btn btn-default btn-lg" id="toDashboard"
+    <a style="color:  #428bca" class="btn btn-default btn-lg" id="toTextList"
        ng-href="{{app.appUrlSvc.getFullPath('')}}area/{{ currentAreaName }}/recipient/{{ recipientId }}/intention/{{app.appUrlSvc.getIntentionSlug(currentIntention)}}/text"
-       targetId="Dashboard" translate>{{ currentIntention.Label }}</a>
+       targetId="TextList" translate>{{ currentIntention.Label }}</a>
   </div>
 
   <!-- When user has landed directly on this page, suggest a visit to homepage  -->
