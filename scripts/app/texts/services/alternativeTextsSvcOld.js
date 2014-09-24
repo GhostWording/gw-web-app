@@ -1,4 +1,4 @@
-angular.module('app/texts/alternativeTextList', [
+angular.module('app/texts/alternativeTextListOld', [
   'common/services/cache',
   'common/services/server',
   'common/services/helperSvc',

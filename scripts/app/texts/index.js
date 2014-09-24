@@ -1,6 +1,6 @@
 angular.module('app/texts', [
   //'app/texts/textsSvc',
-  'app/texts/alternativeTextList',
+//  'app/texts/alternativeTextList',
   'app/texts/TextListController',
   'app/texts/TextDetailController',
   'app/texts/SendTextFormController',
