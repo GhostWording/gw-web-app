@@ -1,5 +1,5 @@
 angular.module('app', [
-  'app/areas',
+  //'app/areas',
   'app/intentions',
   'app/filters',
   'app/recipients',

@@ -1,5 +1,5 @@
 angular.module('app/intentions/intentionsSvc', [
-  'app/areas',
+  'common/areas',
   'common/services/cache',
   'common/services/server'
 ])
