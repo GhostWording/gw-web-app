@@ -2,11 +2,7 @@ describe("subscriptionsSvc", function() {
 
 	beforeEach(module('common/recipients'));
   beforeEach(module('common/subscriptions'));
-
-  beforeEach(module('app/users'));
-  beforeEach(module('common/users/currentUser'));
-
-
+  beforeEach(module('common/users'));
   beforeEach(module('common/services/deviceIdSvc'));
 
 	describe("getLikelyIntentionsForRecipients", function() {
@@ -89,7 +85,7 @@ describe("SubscriptionController", function() {
       mockRecipientsSvc;
 
   beforeEach(module('app/users'));
-  beforeEach(module('common/users/currentUser'));
+  beforeEach(module('common/users'));
 
   beforeEach(module('common/recipients'));
 
@@ -144,7 +140,7 @@ describe("SubscriptionController", function() {
   beforeEach(module('common/subscriptions'));
 
   beforeEach(module('app/users'));
-  beforeEach(module('common/users/currentUser'));
+  beforeEach(module('common/users'));
 
   beforeEach(module('common/services/deviceIdSvc'));
   beforeEach(module('common/services/server'));
