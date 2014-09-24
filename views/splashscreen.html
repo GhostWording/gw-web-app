@@ -24,15 +24,8 @@
     <!--<div class="col-md-3 col-xs-1"></div>-->
   <!--</div>-->
 
-  <div style="margin-top: 20px; ">
-    <!-- style="color:  #428bca"  -->
-    <a  class="btn btn-primary btn-lg" id="toFavoriteRecipients" ng-href="{{app.appUrlSvc.getFullPath('')}}favoriteRecipients" targetId="favoriteRecipients" translate>Configurer</a>
-  </div>
-  <div style="margin-bottom: 25px; margin-top: 20px;">
-    <a  class="btn btn-default btn-lg" id="toDashboard" ng-href="{{app.appUrlSvc.getFullPath('')}}area/General/dashboard" targetId="Dashboard" translate>Sauver le chat</a>
-  </div>
-  <div style="margin-top: 10px;">
-    <div style="margin-bottom: 20px;" translate>
+  <div style="margin-top: 20px;">
+    <div style="margin-bottom: 20px;" class="brandBlue" translate>
       Trouver un message pour
     </div>
     <div style="margin-bottom: 20px;">
@@ -43,6 +36,18 @@
     </div>
     <div style="margin-bottom: 20px;">
       <a class="btn btn-default" id="toFamily" ng-href="{{ app.appUrlSvc.getFullPath('area/Family/recipient/none/intention') }}" targetId="Family" translate>Votre famille</a>
+    </div>
+  </div>
+  <div style="margin-top: 23px;">
+    <div style="margin-bottom: 20px;" class="brandBlue" translate>
+      Changez-vous la vie !
+    </div>
+    <div style="margin-top: 20px; ">
+      <!-- style="color:  #428bca"  -->
+      <a  class="btn btn-primary btn-lg" id="toFavoriteRecipients" ng-href="{{app.appUrlSvc.getFullPath('')}}favoriteRecipients" targetId="favoriteRecipients" translate>Configurer</a>
+    </div>
+    <div style="margin-bottom: 25px; margin-top: 20px;">
+      <a  class="btn btn-default btn-lg" id="toDashboard" ng-href="{{app.appUrlSvc.getFullPath('')}}area/General/dashboard" targetId="Dashboard" translate>Sauver le chat</a>
     </div>
   </div>
 
