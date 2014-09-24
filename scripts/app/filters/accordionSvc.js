@@ -1,5 +1,5 @@
 angular.module('app/filters/accordionSvc', [
-  'app/filters/filtersSvc',
+  'common/filters/filtersSvc',
   'common/filters/styles',
   'common/users/currentUser'
 ])

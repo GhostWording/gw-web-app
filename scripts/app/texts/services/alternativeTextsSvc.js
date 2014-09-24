@@ -2,7 +2,7 @@ angular.module('app/texts/alternativeTextList', [
   'common/services/cache',
   'common/services/server',
   'common/services/helperSvc',
-  'app/filters/filtersSvc',
+  'common/filters/filtersSvc',
   'app/filters/filterHelperSvc'
 ])
 
