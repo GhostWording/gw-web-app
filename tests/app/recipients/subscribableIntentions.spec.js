@@ -1,7 +1,7 @@
 describe("likelyIntentionsSvc", function() {
 
   //beforeEach(module('app/users'));
-  beforeEach(module('app/recipients'));
+  beforeEach(module('common/recipients'));
 
   describe("getLikelyIntentionsForRecipients", function() {
 

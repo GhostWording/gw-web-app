@@ -1,6 +1,6 @@
 describe("subscriptionsSvc", function() {
 
-	beforeEach(module('app/recipients'));
+	beforeEach(module('common/recipients'));
   beforeEach(module('app/users'));
   beforeEach(module('common/users/currentUser'));
 
@@ -89,7 +89,7 @@ describe("SubscriptionController", function() {
   beforeEach(module('app/users'));
   beforeEach(module('common/users/currentUser'));
 
-  beforeEach(module('app/recipients'));
+  beforeEach(module('common/recipients'));
 
   beforeEach(inject(function (_$rootScope_, $controller, $q) {
     $rootScope = _$rootScope_;
@@ -138,7 +138,7 @@ describe("SubscriptionController", function() {
 describe("SubscriptionController", function() {
   var $rootScope;
 
-  beforeEach(module('app/recipients'));
+  beforeEach(module('common/recipients'));
   beforeEach(module('app/users'));
   beforeEach(module('common/users/currentUser'));
 

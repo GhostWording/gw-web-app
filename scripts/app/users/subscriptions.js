@@ -1,4 +1,5 @@
-angular.module('app/users/subscriptions',['app/recipients'])
+//angular.module('app/users/subscriptions',['app/recipients'])
+angular.module('app/users/subscriptions',[])
 
 .factory('subscriptionsSvc', ['$q','subscribedRecipientTypesSvc','likelyIntentionsSvc','$rootScope','localStorage',
 	function ($q, subscribedRecipientTypesSvc,likelyIntentionsSvc,$rootScope,localStorage) {
