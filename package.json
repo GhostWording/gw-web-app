@@ -7,7 +7,7 @@
     "bower": "1.2.8",
     "express": "3.4.8",
     "glob": "^4.0.6",
-    "gulp": "~3.4.0",
+    "gulp": "^3.8.8",
     "gulp-clean": "~0.2.2",
     "gulp-concat": "~2.1.7",
     "gulp-footer": "~1.0.3",
