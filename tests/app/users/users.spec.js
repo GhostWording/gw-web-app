@@ -1,5 +1,7 @@
 describe("currentUser", function() {
   beforeEach(module('app/users'));
+  beforeEach(module('app/subscriptions'));
+
   beforeEach(module('common/users/currentUser'));
 
   beforeEach(module(function($provide) {
@@ -30,6 +32,8 @@ describe("UserProfileController", function() {
     });
   }));
   beforeEach(module('app/users'));
+  beforeEach(module('app/subscriptions'));
+
   beforeEach(module('common/users/currentUser'));
 
 

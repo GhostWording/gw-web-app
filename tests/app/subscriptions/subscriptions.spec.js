@@ -2,6 +2,7 @@ describe("subscriptionsSvc", function() {
 
 	beforeEach(module('common/recipients'));
   beforeEach(module('common/subscriptions'));
+  //beforeEach(module('app/subscriptions'));
   beforeEach(module('common/users'));
   beforeEach(module('common/services/deviceIdSvc'));
 
@@ -85,9 +86,11 @@ describe("SubscriptionController", function() {
       mockRecipientsSvc;
 
   beforeEach(module('app/users'));
-  beforeEach(module('common/users'));
+  beforeEach(module('app/subscriptions'));
 
+  beforeEach(module('common/users'));
   beforeEach(module('common/recipients'));
+
 
   beforeEach(inject(function (_$rootScope_, $controller, $q) {
     $rootScope = _$rootScope_;
@@ -140,6 +143,8 @@ describe("SubscriptionController", function() {
   beforeEach(module('common/subscriptions'));
 
   beforeEach(module('app/users'));
+  beforeEach(module('app/subscriptions'));
+
   beforeEach(module('common/users'));
 
   beforeEach(module('common/services/deviceIdSvc'));

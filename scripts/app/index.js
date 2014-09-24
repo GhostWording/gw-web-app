@@ -12,5 +12,6 @@ angular.module('app', [
   'app/routing',
   'app/favourites',
 //  'app/userFriend',
-  'app/userDashboard'
+  'app/userDashboard',
+  'app/subscriptions'
 ]);
