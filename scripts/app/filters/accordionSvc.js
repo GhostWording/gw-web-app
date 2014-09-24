@@ -1,7 +1,7 @@
 angular.module('app/filters/accordionSvc', [
   'app/filters/filtersSvc',
-  'app/filters/styles',
-  'app/users/currentUser'
+  'common/filters/styles',
+  'common/users/currentUser'
 ])
 
 

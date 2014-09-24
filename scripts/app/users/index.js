@@ -1,5 +1,5 @@
 angular.module('app/users', [
-  'app/users/currentUser',
+  //'app/users/currentUser',
   'app/users/subscriptions',
   'app/users/UserEMailController',
   'app/users/UserEMailValidationController',
@@ -8,5 +8,5 @@ angular.module('app/users', [
   'app/users/FbLoginController',
   'app/users/currentUserLocalData',
   'app/users/SubscriptionController',
-  'app/users/userAges'
+  //'app/users/userAges'
 ]);

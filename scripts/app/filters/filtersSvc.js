@@ -1,8 +1,7 @@
 angular.module('app/filters/filtersSvc', [
-  'app/filters/styles',
-  //'app/intentions',
-  'common/intentions/intentionsSvc',
-  'app/users/currentUser'
+  'common/filters/styles',
+  'common/intentions/intentionsSvc', // We watch the current intention to reset filters
+  'common/users/currentUser'            // We watch the current user to reset filters
 ])
 
 

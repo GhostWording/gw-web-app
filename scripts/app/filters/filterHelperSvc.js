@@ -1,7 +1,5 @@
 angular.module('app/filters/filterHelperSvc', [
-  'app/filters/styles',
-//  'app/intentions',
-  'app/users/currentUser'
+  'common/filters/styles',
 ])
 
 .factory('filterHelperSvc', [ 'StyleCollection',
