@@ -10,6 +10,7 @@ describe("intentionsSvc", function() {
   }));
 
   beforeEach(module('app/intentions'));
+  beforeEach(module('app/routing'));
 
 
   describe("getForArea", function() {
