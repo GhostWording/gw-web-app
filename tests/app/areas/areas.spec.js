@@ -3,7 +3,7 @@ describe("areasSvc", function() {
   // TODO: create a generic mock cacheSvc that simplifies these and other tests that use cacheSvc
 
   beforeEach(module('app/areas'));
-  beforeEach(module('app/routing'));
+//  beforeEach(module('app/routing'));
 
 
   describe("getAll", function() {

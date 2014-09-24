@@ -1,16 +1,16 @@
 describe("intentionsSvc", function() {
 
   // Mock out the $route to save us from having to load up the whole ngRoute
-  beforeEach(module(function($provide) {
-    $provide.value('$route', {
-      current: {
-        params: {}
-      }
-    });
-  }));
+//  beforeEach(module(function($provide) {
+//    $provide.value('$route', {
+//      current: {
+//        params: {}
+//      }
+//    });
+//  }));
 
   beforeEach(module('app/intentions'));
-  beforeEach(module('app/routing'));
+//  beforeEach(module('app/routing'));
 
 
   describe("getForArea", function() {
