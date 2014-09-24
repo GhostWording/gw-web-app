@@ -76,9 +76,6 @@ function ($scope, currentText, currentIntention, tagLabelsSvc, $modal,currentRec
   };
 
   $scope.addAuthor = function() {
-//    var toBeAdded = " (" + currentText.Author + ")";
-//    $scope.txt.Content += toBeAdded;
-//    $scope.currentText.Content += toBeAdded;
     $scope.txt.Content = helperSvc.insertAuthorInText($scope.txt.Content, currentText.Author);
     $scope.authorButton = "disabled";
   };

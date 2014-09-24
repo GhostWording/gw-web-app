@@ -1,6 +1,6 @@
 describe("areasSvc", function() {
 
-  beforeEach(module('common/areas'));
+  beforeEach(module('common/areas/areasSvc'));
 
   describe("getAll", function() {
 
