@@ -3,7 +3,7 @@ angular.module('app/texts/alternativeTextList', [
   'common/services/server',
   'common/services/helperSvc',
   'common/filters/filtersSvc',
-  'app/filters/filterHelperSvc'
+  'common/filters/filterHelperSvc'
 ])
 
 .factory('CultureCollection', function() {
