@@ -1,7 +1,7 @@
 angular.module('app/filters/filtersSvc', [
   'app/filters/styles',
   //'app/intentions',
-  'app/intentions/intentionsSvc',
+  'common/intentions/intentionsSvc',
   'app/users/currentUser'
 ])
 

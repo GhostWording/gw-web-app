@@ -1,7 +1,7 @@
 angular.module('app', [
   //'app/areas',
 //  'app/intentions',
-  'app/intentions/intentionsSvc',
+//  'app/intentions/intentionsSvc',
   'app/intentions/IntentionListController',
 
   'app/filters',

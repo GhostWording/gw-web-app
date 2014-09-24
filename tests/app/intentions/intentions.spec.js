@@ -2,7 +2,7 @@ describe("intentionsSvc", function() {
 
   //beforeEach(module('app/intentions'));
 
-  beforeEach(module('app/intentions/intentionsSvc'));
+  beforeEach(module('common/intentions/intentionsSvc'));
 
   describe("getForArea", function() {
 
