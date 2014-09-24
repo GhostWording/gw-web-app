@@ -1,6 +1,8 @@
 describe("subscriptionsSvc", function() {
 
 	beforeEach(module('common/recipients'));
+  beforeEach(module('common/subscriptions'));
+
   beforeEach(module('app/users'));
   beforeEach(module('common/users/currentUser'));
 
@@ -139,6 +141,8 @@ describe("SubscriptionController", function() {
   var $rootScope;
 
   beforeEach(module('common/recipients'));
+  beforeEach(module('common/subscriptions'));
+
   beforeEach(module('app/users'));
   beforeEach(module('common/users/currentUser'));
 
