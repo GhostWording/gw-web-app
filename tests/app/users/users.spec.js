@@ -1,5 +1,9 @@
 describe("currentUser", function() {
   beforeEach(module('app/users'));
+  beforeEach(module('app/subscriptions'));
+
+  beforeEach(module('common/users/currentUser'));
+
   beforeEach(module(function($provide) {
     $provide.value('$cookieStore', {
       get: jasmine.createSpy('$cookieStore.get'),
@@ -28,6 +32,10 @@ describe("UserProfileController", function() {
     });
   }));
   beforeEach(module('app/users'));
+  beforeEach(module('app/subscriptions'));
+
+  beforeEach(module('common/users/currentUser'));
+
 
   it("should attach the currentUser to the scope", inject(function($rootScope, $controller, currentUser) {
     $controller('UserProfileController', { $scope: $rootScope });

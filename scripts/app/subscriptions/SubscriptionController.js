@@ -1,4 +1,4 @@
-angular.module('app/users/SubscriptionController',['app/recipients'])
+angular.module('app/subscriptions/SubscriptionController',['app/recipients'])
 
 .controller('SubscriptionController', ['$scope', 'subscribedRecipientTypesSvc', 'subscriptionsSvc','serverSvc','currentUserLocalData','deviceIdSvc','recipientTypeHelperSvc','currentUser',
   function ($scope, subscribedRecipientTypesSvc, subscriptionsSvc,serverSvc,currentUserLocalData,deviceIdSvc,recipientTypeHelperSvc,currentUser) {

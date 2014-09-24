@@ -143,6 +143,10 @@ angular.module('app/routing', ['ui.router'])
 //    templateUrl: 'views/textList.html',
 //    controller: 'TextListController',
     resolve: {
+      currentIntentionId: ['$stateParams', 'intentionsSvc' , function ($stateParams, intentionsSvc) {
+        var intentionId = $stateParams.intentionId;
+        intentionsSvc.setIntentionId(intentionId);
+        return intentionId;  } ],
       currentIntention: ['intentionsSvc', function(intentionsSvc) { return intentionsSvc.getCurrent(); }],
       currentTextList: ['textsSvc', function(textsSvc) { return textsSvc.getCurrentList(); }],
       currentRecipient: ['currentRecipientSvc', function(currentRecipientSvc) { return currentRecipientSvc.getCurrentRecipient(); }]

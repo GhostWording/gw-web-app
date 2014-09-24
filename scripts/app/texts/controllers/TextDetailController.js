@@ -1,4 +1,4 @@
-angular.module('app/texts/TextDetailController', ['common/i18n', 'app/texts/alternativeTextList','common/services/facebookHelperSvc','common/services/postActionSvc'])
+angular.module('app/texts/TextDetailController', ['common/i18n', 'common/texts/alternativeTextList','common/services/facebookHelperSvc','common/services/postActionSvc'])
 
 // Display text with author, link to the source, usage recommandations or comments
 
@@ -76,9 +76,6 @@ function ($scope, currentText, currentIntention, tagLabelsSvc, $modal,currentRec
   };
 
   $scope.addAuthor = function() {
-//    var toBeAdded = " (" + currentText.Author + ")";
-//    $scope.txt.Content += toBeAdded;
-//    $scope.currentText.Content += toBeAdded;
     $scope.txt.Content = helperSvc.insertAuthorInText($scope.txt.Content, currentText.Author);
     $scope.authorButton = "disabled";
   };

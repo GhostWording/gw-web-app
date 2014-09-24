@@ -1,5 +1,5 @@
 // Chose one recipient type
-angular.module('app/recipients/SelecteSingleRecipientTypeController', ['app/areas'])
+angular.module('app/recipients/SelecteSingleRecipientTypeController', ['common/areas/areasSvc'])
 
 .controller('SelecteSingleRecipientTypeController', ['$scope','$filter', 'recipientTypesSvc','areasSvc','recipientTypeHelperSvc','currentUser',
   function ($scope, $filter, recipientTypesSvc,areasSvc,recipientTypeHelperSvc,currentUser) {

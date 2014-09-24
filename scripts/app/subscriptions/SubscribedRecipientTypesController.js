@@ -1,5 +1,5 @@
 // Chose several recipient types you want to subscribe
-angular.module('app/recipients/SubscribedRecipientTypesController', ['common/services/cache'])
+angular.module('app/subscriptions/SubscribedRecipientTypesController', ['common/services/cache','common/recipients'])
 .controller('SubscribedRecipientTypesController', ['$scope', 'recipientTypesSvc', 'subscribedRecipientTypesSvc','recipientTypeHelperSvc','currentUser','appUrlSvc',
   function ($scope, recipientTypesSvc, subscribedRecipientTypesSvc,recipientTypeHelperSvc,currentUser,appUrlSvc) {
 

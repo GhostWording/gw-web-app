@@ -1,6 +1,6 @@
 angular.module('app/users/FbLoginController', [])
-.controller('FbLoginController', ['$scope', 'ezfb','$rootScope','$location','$q','currentUserLocalData','facebookSvc',
-function ($scope, ezfb,$rootScope,$location,$q,currentUserLocalData,facebookSvc) {
+.controller('FbLoginController', ['$scope', '$rootScope','$location','$q','currentUserLocalData','facebookSvc',
+function ($scope, $rootScope,$location,$q,currentUserLocalData,facebookSvc) {
   $scope.pageAddress = $location.absUrl();
 
   $scope.$watch(function() { return facebookSvc.isConnected();},function() {
@@ -47,28 +47,9 @@ $scope.today = Date.now();
   facebookSvc.updateFamily().then(function(family) {
 //    $scope.apiFamily = family;
   });
-//  facebookSvc.updateFriends().then(function(friendList) {
-////    $scope.apiFriends = friendList;
-//  });
 
-//  function updateFamilyCall () {
-//    // For demo : wait for severa api calls to return
-//    console.log("Update Family Call");
-//      return ezfb.api('/me/family?fields=id,name,birthday,gender,relationship')
-//    .then(function (res) {
-//      //console.log(res);
-//      $scope.apiFamilyData = res.data;
-//    });
-//  }
 
-  // For generating better looking JSON results
-//  var autoToJSON = ['loginStatus', 'apiMe','apiFriendsData','apiFamilyData'];
-//  angular.forEach(autoToJSON, function (varName) {
-//    $scope.$watch(varName, function (val) {
-//      $scope[varName + 'JSON'] = JSON.stringify(val, null, 2);
-//      //$scope[varName] = val;
-//    }, true);
-//  });
+
 
   $scope.login = facebookSvc.fbLogin;
   $scope.logout = facebookSvc.fbLogout;
