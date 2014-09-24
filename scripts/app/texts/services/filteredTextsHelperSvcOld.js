@@ -1,4 +1,4 @@
-angular.module('app/texts/filteredTextsHelperSvc', [])
+angular.module('app/texts/filteredTextsHelperSvcOld', [])
 
 
 .factory('filteredTextsHelperSvc', ['minSortOrderToBeRandomized','filterHelperSvc',

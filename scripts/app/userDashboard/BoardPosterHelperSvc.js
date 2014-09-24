@@ -1,7 +1,7 @@
-angular.module('app/userDashboard/boardPosterHelperSvc', ['app/texts'])
-//angular.module('app/userDashboard/boardPosterHelperSvc', ['common/texts/textsSvc'])
+//angular.module('app/userDashboard/boardPosterHelperSvc', ['app/texts'])
 
-//angular.module('app/userDashboard/boardPosterHelperSvc', ['app/texts/textsSvc'])
+angular.module('app/userDashboard/boardPosterHelperSvc', ['common/texts'])
+
 
 .factory('boardPosterHelperSvc', ['textsSvc','intentionsSvc','areasSvc','filterHelperSvc','recipientTypeHelperSvc','facebookSvc','facebookHelperSvc','recipientTypesSvc','dashboardContextStyles','filteredTextsHelperSvc','currentUser','userAgesHelperSvc',
 function (textsSvc,intentionsSvc,areasSvc,filterHelperSvc,recipientTypeHelperSvc,facebookSvc,facebookHelperSvc,recipientTypesSvc,dashboardContextStyles,filteredTextsHelperSvc,currentUser,userAgesHelperSvc) {
