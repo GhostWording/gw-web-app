@@ -21,7 +21,7 @@ var shelljs = require('shelljs');
 var bower = require('bower'); // fails because Olivier cannot reinstall it on his machine
 
 var definitions = [];
-var columnSpace = "            ";
+var columnSpace = '            ';
 
 var define = function(name, desc){
     definitions.push({name:name , description:desc});
@@ -171,7 +171,7 @@ gulp.task('test', ['install'], function(cb) {
   var result = shelljs.exec(karma + ' start ' + configFile);
   if ( result.code ) {
     gUtil.beep();
-		gUtil.log(gUtil.colors.red("Karma tests failed"));
+		gUtil.log(gUtil.colors.red('Karma tests failed'));
   }
 });
 
@@ -200,10 +200,10 @@ gulp.task('e2etest:webdriver_update', gProtractor.webdriver_update);
 define('e2etest:run','run the e2e tests');
 /*************************************************************/
 gulp.task('e2etest:run', ['serve'], function(cb) {
-	gUtil.log(gUtil.colors.yellow("E2E TEST RUN -----------------------------------------"));
-	gulp.src(["./e2etests/**/*.spec.js"])
+	gUtil.log(gUtil.colors.yellow('E2E TEST RUN -----------------------------------------'));
+	gulp.src(['./e2etests/**/*.scenario.js'])
 		.pipe(gProtractor.protractor({
-			configFile: "protractor.conf.js",
+			configFile: 'protractor.conf.js',
 			args: ['--baseUrl', 'http://localhost:3000']
 		}))
 		.on('error', function(e) {
