@@ -25,9 +25,9 @@
          <ul class="pager bmwQuestionButton">
              <span translate>Vous êtes</span>
              <li ng-class = '{selectionne: currentUser.gender=="H"}'>
-                 <a translate targetType="Command" targetId="UserGender" ng-click = "currentUser.gender = 'H'">Un homme</a></li>
+                 <a class="filter-ug-male" translate targetType="Command" targetId="UserGender" ng-click = "currentUser.gender = 'H'">Un homme</a></li>
              <li ng-class = '{selectionne: currentUser.gender=="F"}'>
-                 <a translate targetType="Command" targetId="UserGender" ng-click = "currentUser.gender = 'F'">Une femme</a></li>
+                 <a class="filter-ug-female" translate targetType="Command" targetId="UserGender" ng-click = "currentUser.gender = 'F'">Une femme</a></li>
          </ul>
      </div>
 
@@ -36,17 +36,17 @@
          <ul class="pager bmwQuestionButton" style="margin-bottom: 15px;">
              <span translate>Destinataire</span>
              <li ng-class= '{selectionne: filters.recipientGender == "F"}' >
-                <a targetType="Command" targetId="RecipientGender" ng-click = "filters.recipientGender = 'F'">
+                <a class="filter-rg-female" targetType="Command" targetId="RecipientGender" ng-click = "filters.recipientGender = 'F'">
                     <img ng-src="./assets/femaleuser32.png" class="breadcrumbpicto">
                 </a>
             </li>
              <li ng-class= '{selectionne: filters.recipientGender=="H"}'>
-                <a targetType="Command" targetId="RecipientGender"  ng-click = "filters.recipientGender = 'H'">
+                <a class="filter-rg-male" targetType="Command" targetId="RecipientGender"  ng-click = "filters.recipientGender = 'H'">
                     <img ng-src="./assets/maleuser32.png" class="breadcrumbpicto">
                 </a>
             </li>
              <li ng-class= '{selectionne: filters.recipientGender == "P"}' ng-show="canHaveSeveralRecipientsforCurrentArea()" >
-                 <a targetType="Command" targetId="RecipientGender" ng-click = "filters.recipientGender = 'P'">
+                 <a class="filter-rg-mixed" targetType="Command" targetId="RecipientGender" ng-click = "filters.recipientGender = 'P'">
                     <img ng-src="./assets/several32.png" class="breadcrumbpicto">
                 </a>
             </li>
@@ -58,11 +58,11 @@
        <ul class="pager bmwQuestionButton" style="margin-bottom: 15px;">
          <span translate>Proche</span>
          <li ng-class= '{selectionne: filters.proximity=="P"}'>
-           <a translate targetType="Command" targetId="Proximity" ng-click = "filters.proximity = 'P'">oui</a></li>
+           <a class="filter-cl-yes" translate targetType="Command" targetId="Proximity" ng-click = "filters.proximity = 'P'">oui</a></li>
          <li ng-class= '{selectionne: filters.proximity=="D"}' >
-           <a translate targetType="Command" targetId="Proximity" ng-click = "filters.proximity = 'D'">non</a></li>
+           <a class="filter-cl-no" translate targetType="Command" targetId="Proximity" ng-click = "filters.proximity = 'D'">non</a></li>
          <li ng-class= '{selectionne: filters.proximity=="I"}' >
-           <a translate  targetType="Command" targetId="Proximity" ng-click = "filters.proximity = 'I'">+ ou -</a></li>
+           <a class="filter-cl-ish" translate targetType="Command" targetId="Proximity" ng-click = "filters.proximity = 'I'">+ ou -</a></li>
        </ul>
      </div>
 
@@ -71,9 +71,9 @@
          <ul class="pager bmwQuestionButton" style="margin-bottom: 5px;">
              <span translate>Lui dire</span>
              <li ng-class= '{selectionne: filters.tuOuVous=="T"}'>
-                 <a targetType="Command" targetId="TuOuVous" ng-click = "filters.tuOuVous = 'T'">Tu</a></li>
+                 <a class="filter-tv-tu" targetType="Command" targetId="TuOuVous" ng-click = "filters.tuOuVous = 'T'">Tu</a></li>
              <li ng-class= '{selectionne: filters.tuOuVous=="V"}' >
-                 <a targetType="Command" targetId="TuOuVous" ng-click = "filters.tuOuVous = 'V'">Vous</a></li>
+                 <a class="filter-tv-vous" targetType="Command" targetId="TuOuVous" ng-click = "filters.tuOuVous = 'V'">Vous</a></li>
          </ul>
      </div>
 
@@ -81,13 +81,13 @@
      <ul class="pager bmwQuestionButton" style="margin-bottom: 5px;">
        <span translate>{{style.name}}</span>
        <li ng-class= "{selectionne: accordionSvc.hasStyleChoice(style.name,'yes')}">
-         <a translate ng-click = "accordionSvc.setStyleChoice(style.name,'yes')"
+         <a class="filter-st-{{style.name}}-yes" translate ng-click = "accordionSvc.setStyleChoice(style.name,'yes')"
             targetType="Command" targetId="{{style.name}}"  targetParameters='yes' >oui</a></li>
        <li  ng-class= "{selectionne: accordionSvc.hasStyleChoice(style.name,'no')}">
-         <a translate ng-click = "accordionSvc.setStyleChoice(style.name,'no')"
+         <a class="filter-st-{{style.name}}-no" translate ng-click = "accordionSvc.setStyleChoice(style.name,'no')"
             targetType="Command" targetId="{{style.name}}"  targetParameters='no'>non</a></li>
        <li ng-class= "{selectionne: accordionSvc.hasStyleChoice(style.name,'maybe')}">
-         <a translate ng-click = "accordionSvc.setStyleChoice(style.name,'maybe')"
+         <a class="filter-st-{{style.name}}-maybe" translate ng-click = "accordionSvc.setStyleChoice(style.name,'maybe')"
             targetType="Command" targetId="{{style.name}}"  targetParameters='maybe'>peut-être</a></li>
      </ul>
    </div>

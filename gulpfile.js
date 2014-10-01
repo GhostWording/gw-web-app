@@ -5,8 +5,12 @@ var jshint = require('gulp-jshint');
 var concat = require('gulp-concat');
 var rimraf = require('gulp-rimraf');
 var uglify = require('gulp-uglify');
+var install = require('gulp-install');
 var path = require('path');
 var rename = require('gulp-rename');
+var gProtractor = require('gulp-protractor');
+var runSequence = require('run-sequence');
+var childProcess = require('child_process');
 //var karma = require('gulp-karma');
 //var refresh = require('gulp-livereload');
 //var footer = require('gulp-footer');
@@ -17,7 +21,7 @@ var shelljs = require('shelljs');
 var bower = require('bower'); // fails because Olivier cannot reinstall it on his machine
 
 var definitions = [];
-var columnSpace = "            ";
+var columnSpace = '            ';
 
 var define = function(name, desc){
     definitions.push({name:name , description:desc});
@@ -43,6 +47,24 @@ function srcFiles() {
  *  *   *   *   *   *   *   *   *   */
 
 /*************************************************************/
+define('serve','run a a simple express server with built files');
+/*************************************************************/
+var serveChildProcess = null;
+gulp.task('serve', function(cb) {
+	// Spawn server as a child process
+	serveChildProcess = childProcess.spawn('node', ['build/server.js'], {stdio:'inherit', stderr:'inherit'});
+	serveChildProcess.on('close', function (code) {
+		console.log('server exited');
+	});
+	// Kill child process on gulp exit
+	process.on('exit', function() {
+		serveChildProcess.kill();
+	});
+	// Done 
+	cb();
+});
+
+/*************************************************************/
 define('clean','clean up build folder by removing all files');
 /*************************************************************/
 gulp.task('clean', function() {
@@ -53,8 +75,6 @@ gulp.task('clean', function() {
   .pipe(rimraf());
 });
 
-
-
 /*************************************************************/
 define('jshint','Check the code for jshint errors');
 /*************************************************************/
@@ -63,7 +83,6 @@ gulp.task('jshint', function() {
   .pipe(jshint())
   .pipe(jshint.reporter('jshint-stylish'));
 });
-
 
 /*************************************************************/
 define('js','Concat the files into a single app.js');
@@ -74,7 +93,6 @@ gulp.task('js', function() {
   .pipe(gulp.dest('build/scripts'));
 });
 
-
 /*************************************************************/
 define('minify','Concat and minify the files into app.js');
 /*************************************************************/
@@ -84,7 +102,6 @@ gulp.task('minify', function() {
   .pipe(concat('build.js'))
   .pipe(gulp.dest('build/scripts'));
 });
-
 
 /*************************************************************/
 define('assets','Copy all the static assets to the build folder');
@@ -122,7 +139,6 @@ gulp.task('script-files',function(){
 });
 */
 
-
 /*************************************************************/
 define('inject-script-dev','inject one script tag for every script file unminified');
 /*************************************************************/
@@ -138,45 +154,76 @@ gulp.task('inject-scripts-dev', ['js'],function() {
 });
 
 /*************************************************************/
-define('bower','install bower dependencies');
+define('install','install npm/bower dependencies');
 /*************************************************************/
-gulp.task('bower', function() {
-  return bower.commands.install();
+gulp.task('install', function() {
+	return gulp.src(['./bower.json', './package.json'])
+		.pipe(install());
 });
 
 /*************************************************************/
 define('test','run karma unit tests (as defined in karma.conf)');
 /*************************************************************/
-gulp.task('test', ['bower'], function(cb) {
+gulp.task('test', ['install'], function(cb) {
   var karma = path.resolve('node_modules', '.bin', 'karma');
   var configFile = path.resolve('karma.conf.js');
 
   var result = shelljs.exec(karma + ' start ' + configFile);
   if ( result.code ) {
     gUtil.beep();
-    gUtil.log(gUtil.colors.red("Karma tests failed"));
+		gUtil.log(gUtil.colors.red('Karma tests failed'));
   }
 });
 
 /*************************************************************/
-define('serve','run a a simple express server with builded files');
+define('e2etest','ensure all dependencies, run the e2e tests');
 /*************************************************************/
-gulp.task('serve', function(cb) {
-  shelljs.exec('node ./build/server.js', cb);
+gulp.task('e2etest', ['e2etest:webdriver_update', 'default'], function(cb) {
+	runSequence('e2etest:run', function(e) {
+		cb();
+	});
 });
 
 /*************************************************************/
-define('default','run when gulp is call without argument, it calls clean,jshint, js, assets tasks');
+define('e2etest:watch','ensure all dependencies, run the e2e tests and re-run on file changes');
+/*************************************************************/
+gulp.task('e2etest:watch', ['e2etest'], function() {
+	gulp.watch(['scripts/**', 'assets/**', 'views/**', 'index.html', 'e2etests/**'], ['e2etest:run']);
+});
+
+/*************************************************************/
+define('e2etest:webdriver_update','updates the selenium server standalone jar file');
+/*************************************************************/
+gulp.task('e2etest:webdriver_update', gProtractor.webdriver_update);
+
+/*************************************************************/
+define('e2etest:run','run the e2e tests');
+/*************************************************************/
+gulp.task('e2etest:run', ['serve'], function(cb) {
+	gUtil.log(gUtil.colors.yellow('E2E TEST RUN -----------------------------------------'));
+	gulp.src(['./e2etests/**/*.scenario.js'])
+		.pipe(gProtractor.protractor({
+			configFile: 'protractor.conf.js',
+			args: ['--baseUrl', 'http://localhost:3000']
+		}))
+		.on('error', function(e) {
+			gUtil.beep();
+			serveChildProcess.kill();
+			cb();
+		}).on('end', function() {
+			serveChildProcess.kill();
+			cb();
+		});
+});
+
+/*************************************************************/
+define('default','run when gulp is called without argument, it calls install, clean, jshint, js, assets tasks');
 // We put 'clean' as a dependency so that it completes before
 // the other tasks are started
 /*************************************************************/
-gulp.task('default', ['clean'], function() {
-  // gulp.run will execute tasks concurrently
-  gulp.run( 'jshint', 'js', 'assets');
-
-  gulp.run('inject-scripts-dev');
+gulp.task('default', ['install', 'clean','jshint'], function(cb) {
+	runSequence(['js', 'assets'], 'inject-scripts-dev', cb);
 });
-
 
 /*************************************************************/
 define('release','prepares the build for production');
@@ -190,11 +237,9 @@ gulp.task('release', ['clean'], function() {
 define('watch','activate watch mode to run tests and serve on file changes');
 /*************************************************************/
 gulp.task('watch', function() {
-    //gulp.run('default','test','serve');
-
-      gulp.watch(['scripts/**', 'assets/**', 'views/**', 'index.html', 'tests/**'], function() {
-        gulp.run('default');
-      });
+	gulp.watch(['scripts/**', 'assets/**', 'views/**', 'index.html', 'tests/**'], function() {
+		gulp.run('default');
+	});
 });
 
 gulp.task('env',function(){
