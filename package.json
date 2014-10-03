@@ -3,6 +3,10 @@
   "version": "0.0.0",
   "description": "",
   "main": "gulpfile.js",
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/pourledire/cyrano-html-app.git"
+	},
   "devDependencies": {
     "bower": "1.2.8",
     "express": "3.4.8",
