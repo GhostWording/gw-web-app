@@ -123,22 +123,6 @@ gulp.task('assets', function() {
   .pipe(gulp.dest('build'));
 });
 
-              /*
-var es = require('event-stream');
-var cat = require('gulp-cat');
-
-gulp.task('script-files',function(){
-   var files = "";
-
-   return gulp.src(['scripts/* * /*.js']).pipe(
-       es.map(function(file,cb){
-           console.log(file.path.replace(file.cwd,''));
-       }));
-
-    gUtil.log(files);
-});
-*/
-
 /*************************************************************/
 define('inject-script-dev','inject one script tag for every script file unminified');
 /*************************************************************/
@@ -164,7 +148,7 @@ gulp.task('install', function() {
 /*************************************************************/
 define('test','run karma unit tests (as defined in karma.conf)');
 /*************************************************************/
-gulp.task('test', ['install'], function(cb) {
+gulp.task('test', function(cb) {
   var karma = path.resolve('node_modules', '.bin', 'karma');
   var configFile = path.resolve('karma.conf.js');
 
@@ -176,19 +160,10 @@ gulp.task('test', ['install'], function(cb) {
 });
 
 /*************************************************************/
-define('e2etest','ensure all dependencies, run the e2e tests');
+define('e2etest:run','ensure all dependencies, start the server and run the e2e tests');
 /*************************************************************/
-gulp.task('e2etest', ['e2etest:webdriver_update', 'default'], function(cb) {
-	runSequence('e2etest:run', function(e) {
-		cb();
-	});
-});
-
-/*************************************************************/
-define('e2etest:watch','ensure all dependencies, run the e2e tests and re-run on file changes');
-/*************************************************************/
-gulp.task('e2etest:watch', ['e2etest'], function() {
-	gulp.watch(['scripts/**', 'assets/**', 'views/**', 'index.html', 'e2etests/**'], ['e2etest:run']);
+gulp.task('e2etest:run', ['default'], function(cb) {
+	runSequence('e2etest', cb);
 });
 
 /*************************************************************/
@@ -197,9 +172,9 @@ define('e2etest:webdriver_update','updates the selenium server standalone jar fi
 gulp.task('e2etest:webdriver_update', gProtractor.webdriver_update);
 
 /*************************************************************/
-define('e2etest:run','run the e2e tests');
+define('e2etest','run the e2e tests (assumes app built and \'serve\' running)');
 /*************************************************************/
-gulp.task('e2etest:run', ['serve'], function(cb) {
+gulp.task('e2etest', ['e2etest:webdriver_update'], function(cb) {
 	gUtil.log(gUtil.colors.yellow('E2E TEST RUN -----------------------------------------'));
 	gulp.src(['./e2etests/**/*.scenario.js'])
 		.pipe(gProtractor.protractor({
@@ -207,22 +182,27 @@ gulp.task('e2etest:run', ['serve'], function(cb) {
 			args: ['--baseUrl', 'http://localhost:3000']
 		}))
 		.on('error', function(e) {
+			if(serveChildProcess) serveChildProcess.kill();
 			gUtil.beep();
-			serveChildProcess.kill();
 			cb();
 		}).on('end', function() {
-			serveChildProcess.kill();
+			if(serveChildProcess) serveChildProcess.kill();
 			cb();
 		});
 });
 
 /*************************************************************/
-define('default','run when gulp is called without argument, it calls install, clean, jshint, js, assets tasks');
-// We put 'clean' as a dependency so that it completes before
-// the other tasks are started
+define('build','build the app');
 /*************************************************************/
-gulp.task('default', ['install', 'clean','jshint'], function(cb) {
-	runSequence(['js', 'assets'], 'inject-scripts-dev', cb);
+gulp.task('build', function(cb) {
+	runSequence(['clean', 'jshint'], ['js', 'assets'], 'inject-scripts-dev', cb);
+});
+
+/*************************************************************/
+define('default','install, build and run the app');
+/*************************************************************/
+gulp.task('default', function(cb) {
+	runSequence('install', 'build', 'serve', cb);
 });
 
 /*************************************************************/
@@ -236,9 +216,9 @@ gulp.task('release', ['clean'], function() {
 /*************************************************************/
 define('watch','activate watch mode to run tests and serve on file changes');
 /*************************************************************/
-gulp.task('watch', function() {
+gulp.task('watch', ['install', 'build'], function() {
 	gulp.watch(['scripts/**', 'assets/**', 'views/**', 'index.html', 'tests/**'], function() {
-		gulp.run('default');
+		gulp.run('build');
 	});
 });
 
@@ -261,4 +241,3 @@ gulp.task('help',function(){
         gUtil.log(name + ' : ' + description);
     });
 });
-
