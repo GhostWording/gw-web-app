@@ -1,20 +1,22 @@
 ﻿<div action-location="currentUser">
-    <!-- Titre -->
-    <h4 translate>Mon profil</h4>
-    <br/>
-    <ul class="pager bmwQuestionButton" >
-        <span translate>Je suis</span>
-        <li ng-class = '{selectionne: currentUser.gender=="H"}'>
-            <a  targetType="Command" targetId="SenderGender" translate  ng-click = 'currentUser.gender = "H"'>Un homme</a></li>
-        <li ng-class = '{selectionne: currentUser.gender=="F"}'>
-            <a  targetType="Command" targetId="SenderGender" translate ng-click = "currentUser.gender = 'F'">Une femme</a></li>
-    </ul>
+  <!-- Title -->
+  <!--<h4 translate>Mon profil</h4>-->
+  <!--<br/>-->
+
+  <!-- Picture that changes according to user gender -->
+  <div ng-include="'views/partials/userGenderImage.html'" style="margin-bottom: 30px; text-align: center" ></div>
+
+  <ul class="pager bmwQuestionButton" >
+    <span translate>Je suis</span>
+    <li ng-class = '{selectionne: currentUser.gender=="H"}'>
+        <a  targetType="Command" targetId="SenderGender" translate  ng-click = 'currentUser.gender = "H"'>Un homme</a></li>
+    <li ng-class = '{selectionne: currentUser.gender=="F"}'>
+        <a  targetType="Command" targetId="SenderGender" translate ng-click = "currentUser.gender = 'F'">Une femme</a></li>
+  </ul>
   <ul class="pager bmwQuestionButton">
     <span translate> Age</span>
     <li ng-class = '{selectionne: currentUser.age==userAges.under18}'>
       <a targetType="Command" targetId="UserAge" translate ng-click = "currentUser.age = userAges.under18">{{ '17-' }}</a></li>
-    <!--<li ng-class = '{selectionne: currentUser.age==userAges.under21}'>-->
-      <!--<a targetType="Command" targetId="UserAge" translate ng-click = "currentUser.age = userAges.under21">{{ '18-20' }}</a></li>-->
     <li ng-class = '{selectionne: currentUser.age==userAges.between18and39}'>
       <a targetType="Command" targetId="UserAge" translate ng-click = "currentUser.age = userAges.between18and39">18-39</a></li>
     <li ng-class = '{selectionne: currentUser.age==userAges.between40and64}'>
@@ -22,7 +24,6 @@
     <li ng-class = '{selectionne: currentUser.age==userAges.from65ToInfinity}'>
       <a targetType="Command" targetId="UserAge" translate ng-click = "currentUser.age = userAges.from65ToInfinity">{{ '65+' }}</a></li>
   </ul>
-
   <ul class="pager bmwQuestionButton">
     <span translate>Je lis</span>
     <li ng-class = '{selectionne: currentUser.readsAlot=="T"}'>
@@ -30,18 +31,51 @@
     <li ng-class = '{selectionne: currentUser.readsAlot=="F"}'>
       <a targetType="Command" targetId="UserReadsALot" translate ng-click = "currentUser.readsAlot = 'F'">Modérément</a></li>
   </ul>
-
   <ul class="pager bmwQuestionButton">
-        <span translate>Caractère</span>
-        <li ng-class = '{selectionne: currentUser.isDemonstrative=="T"}'>
-            <a targetType="Command" targetId="UserIsDemonstrative" translate ng-click = "currentUser.isDemonstrative = 'T'">Démonstratif</a></li>
-        <li ng-class = '{selectionne: currentUser.isDemonstrative=="F"}'>
-            <a targetType="Command" targetId="UserIsDemonstrative" translate ng-click = "currentUser.isDemonstrative = 'F'">Réservé</a></li>
-    </ul>
-    <ul class="pager bmwQuestionButton">
-        <li ng-class= '{selectionne: false}' >
-            <a href="" role="button" historyback class="pull-left" targetId="Back"  > <img ng-src="./assets/arrow-left.png" class="stylepicto"> </a>
-        </li>
-      <div class="btn btn-default pull-right" translate ng-click="clearAll()">Tout supprimer</div>
-    </ul>
+    <span translate>Caractère</span>
+    <li ng-class = '{selectionne: currentUser.isDemonstrative=="T"}'>
+      <a targetType="Command" targetId="UserIsDemonstrative" translate ng-click = "currentUser.isDemonstrative = 'T'">Démonstratif</a></li>
+    <li ng-class = '{selectionne: currentUser.isDemonstrative=="F"}'>
+      <a targetType="Command" targetId="UserIsDemonstrative" translate ng-click = "currentUser.isDemonstrative = 'F'">Réservé</a></li>
+  </ul>
+
+  <div ng-show="false" style="text-align: center;">
+    <div class="hidden-xs" >
+      <img style="margin-top:15px" width="400;" src="./assets/dogLarge.jpg">
+    </div>
+    <div class="visible-xs">
+      <img style="margin-left: -13px; margin-top: 0px;"  width="200;" src="./assets/dogLarge.jpg">
+    </div>
+  </div>
+
+
+  <!-- User email  -->
+  <div class="row" style="margin-top: 35px; margin-bottom: 10px; font-size: 16px; text-align: center; " >
+    <div class="col-sm-1"></div>
+    <div class="col-sm-10">
+      <form name="userMail" role="form" autocomplete="on">
+        <div class="form-group" >
+          <div style="text-align: center;" translate>
+            Où seront déposées vos suggestions de messages ?
+          </div>
+          <div style="margin: 10px;">
+            <input ng-model="user.email" type="email" name="input" required autocomplete="on" style="vertical-align:middle; width: 250px;" ng-change="updateMail()" placeholder="{{'votre adresse mail' | translate}}" >
+          </div>
+          <button ng-disabled="false" type="button" class="btn btn-default"
+                  targetType = "Command" targetId="MailValidation" targetParameters="{{user.email}}" ng-click="sendMailToServer()" translate>Modifier</button>
+        </div>
+      </form>
+    </div>
+    <div class="col-sm-1"></div>
+  </div>
+
+  <!-- Back and delete all button  -->
+  <ul class="pager bmwQuestionButton">
+    <li ng-class= '{selectionne: false}' >
+      <a href="" role="button" historyback class="pull-left" targetId="Back"  > <img ng-src="./assets/arrow-left.png" class="stylepicto"> </a>
+    </li>
+    <div class="btn btn-default pull-right" translate ng-click="clearAll()">Tout supprimer</div>
+  </ul>
+
+
 </div> <!-- currentUser VIEW -->
