@@ -6,6 +6,38 @@ function ($scope, currentUser,currentUserLocalData, userAges,localStorage,device
   $scope.userAges = userAges;
   $scope.user = currentUserLocalData;
 
+  $scope.sendEmails = true;
+  $scope.mailDeleted = false;
+
+  $scope.userHasEmail = function() {
+    return !!$scope.user.email;
+  };
+
+  $scope.setEmailingStatus = function(value) {
+    $scope.sendEmails = value;
+    if (!!$scope.user.email) {
+      if (value)
+        serverSvc.changeSubscription($scope.user.email,'enable');
+      else
+        serverSvc.changeSubscription($scope.user.email,'disable ');
+    }
+
+  };
+  $scope.unsubscribe = function() {
+    $scope.sendEmails = false;
+    if (!!$scope.user.email)
+      serverSvc.changeSubscription($scope.user.email,'unsubscribe')
+      .then(function() {
+        console.log("done");
+        $scope.user.email = undefined;
+        currentUserLocalData.email = '';
+        $scope.mailDeleted = true;
+      });
+  };
+
+
+
+
   $scope.clearAll = function() {
     // We want to delete everything but the deviceId
     localStorage.clearAllExceptThis(deviceIdSvc.get());

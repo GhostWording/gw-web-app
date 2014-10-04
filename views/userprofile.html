@@ -39,31 +39,41 @@
       <a targetType="Command" targetId="UserIsDemonstrative" translate ng-click = "currentUser.isDemonstrative = 'F'">Réservé</a></li>
   </ul>
 
-  <div ng-show="false" style="text-align: center;">
+  <!-- Dog -->
+  <div ng-show="true" style="text-align: center; margin-top: 30px;">
     <div class="hidden-xs" >
-      <img style="margin-top:15px" width="400;" src="./assets/dogLarge.jpg">
+      <img style="margin-top:15px" src="./assets/sendMailResized.jpg">
     </div>
     <div class="visible-xs">
-      <img style="margin-left: -13px; margin-top: 0px;"  width="200;" src="./assets/dogLarge.jpg">
+      <img style="margin-left: -13px; margin-top: 0px;"  width="350;" src="./assets/sendMailResized.jpg">
     </div>
   </div>
 
 
   <!-- User email  -->
-  <div class="row" style="margin-top: 35px; margin-bottom: 10px; font-size: 16px; text-align: center; " >
+  <div class="row" style="margin-top: 30px; margin-bottom: 10px; font-size: 16px; text-align: center; " >
     <div class="col-sm-1"></div>
     <div class="col-sm-10">
       <form name="userMail" role="form" autocomplete="on">
         <div class="form-group" >
-          <div style="text-align: center;" translate>
-            Où seront déposées vos suggestions de messages ?
-          </div>
+          <div style="text-align: center;" translate>Où seront déposées vos suggestions de messages ?</div>
           <div style="margin: 10px;">
             <input ng-model="user.email" type="email" name="input" required autocomplete="on" style="vertical-align:middle; width: 250px;" ng-change="updateMail()" placeholder="{{'votre adresse mail' | translate}}" >
           </div>
           <button ng-disabled="false" type="button" class="btn btn-default"
                   targetType = "Command" targetId="MailValidation" targetParameters="{{user.email}}" ng-click="sendMailToServer()" translate>Modifier</button>
         </div>
+
+        <!-- Activate emailing or not -->
+
+        <div ng-disabled="!sendEmails" style="text-align: center; margin-top: 25px;  margin-bottom: 10px;" translate>Recevoir les email</div>
+        <button ng-disabled="!userHasEmail()" class="btn btn-default" ng-class="{active: !sendEmails}" ng-click="setEmailingStatus(false)" translate>Pas en ce moment</button>
+        <button ng-disabled="!userHasEmail()" ng-disabled="!userHasEmail()" class="btn btn-default" ng-class="{active: sendEmails}" ng-click="setEmailingStatus(true)" translate>Oui svp</button>
+        <!-- Unsubscribe -->
+        <div  style="text-align: center; margin-top: 25px;  margin-bottom: 10px;" translate>Supprimer votre email de la mailing list</div>
+        <button ng-disabled="!userHasEmail()" class="btn btn-default" ng-click="unsubscribe()" translate>Cliquer ici</button>
+        <div ng-show="!userHasEmail() && mailDeleted" class="text-primary"  style="text-align: center; margin-top: 2px;  margin-bottom: 0px;" translate>C'est fait</div>
+
       </form>
     </div>
     <div class="col-sm-1"></div>
