@@ -119,17 +119,21 @@ gulp.task('jshint', function() {
 define('appjs','process application javascript');
 /*************************************************************/
 gulp.task('appjs', function() {
-	if(release) {
-		var jsStream = gulp.src(appJSGlobs());
-		// Replace config values 
-		// TODO: get rid of this when gulp-replace supports regex replacement on streams
-		var configValues = config.getAll(deploy?'deploy':'release'); 
-		console.log(configValues);
+	// TODO: we can get rid of this function when gulp-replace supports regex replacement on streams (soon!)
+	function injectConfigStream(stream) {
+		var configValues = config.getAll(release?(deploy?'deploy':'release'):'debug'); 
 		for(var configValueKey in configValues) {
 			if (configValues.hasOwnProperty(configValueKey)) {
-				jsStream.pipe(replace('<<<' + configValueKey + '>>>', configValues[configValueKey]));
+				stream.pipe(replace('<<<' + configValueKey + '>>>', configValues[configValueKey]));
 			}
 		}
+	}
+	var jsStream;
+	if(release) {
+		jsStream = gulp.src(appJSGlobs());
+		// inject config values 
+		injectConfigStream(jsStream);
+		// Minify
 		jsStream.pipe(uglify());
 		// Convert views to js so they can be injected into angular templatecache on startup
 		var viewStream = gulp.src('views/**/*.html')
@@ -141,8 +145,10 @@ gulp.task('appjs', function() {
 			.pipe(rev())
 			.pipe(gulp.dest('build/assets'));
 	} else {
-		return gulp.src(appJSGlobs())
-			.pipe(gulp.dest('build/scripts'));
+		jsStream = gulp.src(appJSGlobs());
+		// inject config values 
+		injectConfigStream(jsStream);
+		jsStream.pipe(gulp.dest('build/scripts'));
 	}
 });
 
