@@ -5,49 +5,83 @@ var jshint = require('gulp-jshint');
 var concat = require('gulp-concat');
 var rimraf = require('gulp-rimraf');
 var uglify = require('gulp-uglify');
+var replace = require('gulp-replace');
 var install = require('gulp-install');
+var cssmin = require('gulp-cssmin');
+var rev = require('gulp-rev');
+var templateCache = require('gulp-angular-templatecache');
+var gIf = require('gulp-if');
 var path = require('path');
 var rename = require('gulp-rename');
 var gProtractor = require('gulp-protractor');
 var runSequence = require('run-sequence');
 var childProcess = require('child_process');
-//var karma = require('gulp-karma');
-//var refresh = require('gulp-livereload');
-//var footer = require('gulp-footer');
-//var lr = require('tiny-lr');
 var inject = require('gulp-inject');
-//var server = lr();
+var merge = require('merge-stream');
+var glob = require('glob');
 var shelljs = require('shelljs');
-var bower = require('bower'); // fails because Olivier cannot reinstall it on his machine
 
+var config = require('./config.js');
+
+// Release mode switch
+var release = gUtil.env.release?true:false;
+
+// Deploy mode switch
+var deploy = false;
+
+// For gulp help
 var definitions = [];
 var columnSpace = '            ';
-
 var define = function(name, desc){
     definitions.push({name:name , description:desc});
 };
 
-function srcFiles() {
-    // Rather than using gulp-ignore we can just provide multiple
-    // glob patterns, where the ! indicates that we should exclude
-    // the matching files
-    return [
-      'scripts/**/*.js',
-      '!scripts/old/**/*.js',
-      '!scripts/lib/**/*.js'
-    ];
+// App javascript glob patterns
+function appJSGlobs() {	
+	return [
+		'scripts/**/*.js',
+		'!scripts/old/**/*.js',
+		'!scripts/lib/**/*.js'
+	];
 }
 
+// Vendor javascript paths
+function vendorJSFiles(release) {
+	return [
+		'bower_components/angular/angular' + (release?'.min':'') + '.js',
+		'bower_components/angular-ui-router/release/angular-ui-router' + (release?'.min':'') + '.js',
+		'bower_components/angular-cookies/angular-cookies' + (release?'.min':'') + '.js',
+		'bower_components/angular-sanitize/angular-sanitize' + (release?'.min':'') + '.js',
+		'bower_components/angular-spinkit/build/angular-spinkit' + (release?'.min':'') + '.js',
+		'bower_components/angular-promise-tracker/promise-tracker.js',
+		'bower_components/angular-promise-tracker/promise-tracker-http-interceptor.js',
+		'bower_components/angular-translate/angular-translate' + (release?'.min':'') + '.js',
+		'bower_components/angular-easyfb/angular-easyfb' + (release?'.min':'') + '.js',
+		'scripts/lib/bootstrap-custom/ui-bootstrap-custom-tpls-0.10.0' + (release?'.min':'') + '.js',
+    'scripts/lib/fastclick.js'
+	];
+}
 
+// CSS file paths
+function cssFiles(release) {	
+	return [
+		'bower_components/bootstrap/dist/css/bootstrap' + (release?'.min':'') + '.css',
+		'assets/fonts/font-awesome-4.0.3/css/font-awesome' + (release?'.min':'') + '.css',
+		'assets/app.css'
+	];
+}
 
-/*  *   *   *   *   *   *   *   *   *
-
-    T   A   S   K   S
-
- *  *   *   *   *   *   *   *   *   */
+// Font file paths
+function fontFiles() {	
+	return [
+		'bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.woff',
+		'bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.ttf',
+		'bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.svg'
+	];
+}
 
 /*************************************************************/
-define('serve','run a a simple express server with built files');
+define('serve','run a simple express server with built files');
 /*************************************************************/
 var serveChildProcess = null;
 gulp.task('serve', function(cb) {
@@ -68,73 +102,166 @@ gulp.task('serve', function(cb) {
 define('clean','clean up build folder by removing all files');
 /*************************************************************/
 gulp.task('clean', function() {
-  // We indicate to gulp that this task is async by returning
-  // the stream - gulp can then wait for the stream to close before
-  // starting dependent tasks - see 'default' task below
   return gulp.src('build', { read: false })
-  .pipe(rimraf());
+		.pipe(rimraf());
 });
 
 /*************************************************************/
-define('jshint','Check the code for jshint errors');
+define('jshint','check the code for jshint errors');
 /*************************************************************/
 gulp.task('jshint', function() {
-  gulp.src(srcFiles())
-  .pipe(jshint())
-  .pipe(jshint.reporter('jshint-stylish'));
+  return gulp.src(appJSGlobs())
+		.pipe(jshint())
+		.pipe(jshint.reporter('jshint-stylish'));
 });
 
 /*************************************************************/
-define('js','Concat the files into a single app.js');
+define('appjs','process application javascript');
 /*************************************************************/
-gulp.task('js', function() {
-  return gulp.src(srcFiles())
-  //.pipe(concat('build.js'))
-  .pipe(gulp.dest('build/scripts'));
+gulp.task('appjs', function() {
+	if(release) {
+		var jsStream = gulp.src(appJSGlobs());
+		// Replace config values 
+		// TODO: get rid of this when gulp-replace supports regex replacement on streams
+		var configValues = config.getAll(deploy?'deploy':'release'); 
+		console.log(configValues);
+		for(var configValueKey in configValues) {
+			if (configValues.hasOwnProperty(configValueKey)) {
+				jsStream.pipe(replace('<<<' + configValueKey + '>>>', configValues[configValueKey]));
+			}
+		}
+		jsStream.pipe(uglify());
+		// Convert views to js so they can be injected into angular templatecache on startup
+		var viewStream = gulp.src('views/**/*.html')
+			// Rewrite asset url's in deploy builds
+			.pipe(gIf(deploy, replace('./assets/', config.get('CDN_URL') + 'assets/')))
+			.pipe(templateCache('templates.js', {root:'views', module:'cherryApp'}));
+		return merge(jsStream, viewStream)
+			.pipe(concat('app.js'))
+			.pipe(rev())
+			.pipe(gulp.dest('build/assets'));
+	} else {
+		return gulp.src(appJSGlobs())
+			.pipe(gulp.dest('build/scripts'));
+	}
 });
 
 /*************************************************************/
-define('minify','Concat and minify the files into app.js');
+define('vendorjs','process vendor javascript');
 /*************************************************************/
-gulp.task('minify', function() {
-  return gulp.src(srcFiles())
-  .pipe(uglify())
-  .pipe(concat('build.js'))
-  .pipe(gulp.dest('build/scripts'));
+gulp.task('vendorjs', function() {
+	if(release) {
+		return gulp.src(vendorJSFiles())
+			.pipe(uglify())
+			.pipe(concat('vendor.js'))
+			.pipe(rev())
+			.pipe(gulp.dest('build/assets'));
+	} else {
+		return gulp.src(vendorJSFiles(), {base: '.'})
+			.pipe(gulp.dest('build'));
+	}
 });
 
 /*************************************************************/
-define('assets','Copy all the static assets to the build folder');
+define('styles','process styles');
+/*************************************************************/
+gulp.task('styles', function() {
+	if(release) {
+		return gulp.src(cssFiles(true))
+			.pipe(cssmin({keepSpecialComments:0}))
+			// Rewrite asset url's in deploy builds
+			.pipe(gIf(deploy, replace('/assets/', config.get('CDN_URL') + 'assets/')))
+			.pipe(concat('style.css'))
+			.pipe(rev())
+			.pipe(gulp.dest('build/assets'));
+	} else {
+		return gulp.src(cssFiles(false), {base: '.'})
+			.pipe(gulp.dest('build'));
+	}
+});
+
+/*************************************************************/
+define('fonts','process fonts');
+/*************************************************************/
+gulp.task('fonts', function() {
+	return gulp.src(fontFiles())
+		.pipe(gulp.dest('build/assets/fonts'));
+});
+
+/*************************************************************/
+define('maps','process maps');
+/*************************************************************/
+gulp.task('maps', function(cb) {
+	if(release) { cb(); return; }
+	return gulp.src(['./bower_components/**/*.map','./scripts/lib/**/*.map'], {base: '.'})
+		.pipe(gulp.dest('build'));
+});
+
+/*************************************************************/
+define('views','process views');
+/*************************************************************/
+gulp.task('views', function(cb) {
+	// Dont copy views in release since we are bundling them into app.js
+	if(release) { cb(); return; }
+	return gulp.src(['views/**/*'])
+		.pipe(gulp.dest('build/views'));
+});
+
+/*************************************************************/
+define('server','process server');
+/*************************************************************/
+gulp.task('server', function() {
+  return gulp.src(['server.js'])
+		.pipe(gulp.dest('build'));
+});
+
+/*************************************************************/
+define('assets','process assets');
 /*************************************************************/
 gulp.task('assets', function() {
-  gulp.src(['assets/**/*', 'bower_components/**/*'])
-  .pipe(gulp.dest('build/assets'));
-
-  gulp.src(['scripts/lib/**/*.js'])
-  .pipe(gulp.dest('build/scripts/lib'));
-
-  gulp.src(['views/**/*'])
-  .pipe(gulp.dest('build/views'));
-
-  gulp.src(['index.html'])
-  .pipe(gulp.dest('build'));
-
-  gulp.src(['server.js'])
-  .pipe(gulp.dest('build'));
+  return gulp.src(['assets/**/*'])
+		.pipe(gulp.dest('build/assets'));
 });
 
 /*************************************************************/
-define('inject-script-dev','inject one script tag for every script file unminified');
+define('index','process index');
 /*************************************************************/
-gulp.task('inject-scripts-dev', ['js'],function() {
-    var conf =  {
-        addRootSlash: false,  // ensures proper relative paths
-        ignorePath: '/build/' // ensures proper relative paths
-    };
-    var rootFile = 'index.html';
-
-    return gulp.src(srcFiles(),{read: false})
-        .pipe(inject(rootFile,conf)).pipe(gulp.dest('build'));
+gulp.task('index', function(cb) {
+	if(release) {
+		// Find bundles (with their correct revision hashes)
+		var appBundle = glob.sync('build/assets/app-*.js')[0];
+		var vendorBundle = glob.sync('build/assets/vendor-*.js')[0];
+		var styleBundle = glob.sync('build/assets/style-*.css')[0];
+		if(!appBundle) { cb('app bundle not found'); return; } 
+		if(!vendorBundle) { cb('vendor bundle not found'); return; } 
+		if(!styleBundle) { cb('style bundle not found'); return; } 
+		appBundle = appBundle.replace('build/','');
+		vendorBundle = vendorBundle.replace('build/','');
+		styleBundle = styleBundle.replace('build/','');
+		if(deploy) {
+			var cdnUrl = config.get('CDN_URL'); 
+			appBundle = cdnUrl + appBundle;
+			vendorBundle = cdnUrl + vendorBundle;
+			styleBundle = cdnUrl + styleBundle;
+		}
+		return gulp.src('index.html')
+			// Replace app injection point with app bundle include
+			.pipe(replace('<!-- app:js --><!-- endinject -->','<script src="' + appBundle + '"></script>'))
+			// Replace vendor injection point with vendor bundle include
+			.pipe(replace('<!-- vendor:js --><!-- endinject -->','<script src="' + vendorBundle + '"></script>'))
+			// Replace style injection point with style bundle include
+			.pipe(replace('<!-- style:css --><!-- endinject -->','<link rel="stylesheet" href="' + styleBundle + '">'))
+			.pipe(gulp.dest('./build'));
+	} else {
+		return gulp.src('index.html')
+			// Inject app js files
+			.pipe(inject(gulp.src(appJSGlobs(), {read: false}), {name: 'app'}))
+			// Inject vendor js files
+			.pipe(inject(gulp.src(vendorJSFiles(), {read: false}), {name: 'vendor'}))
+			// Inject style css files
+			.pipe(inject(gulp.src(cssFiles(), {read: false}), {name: 'style'}))
+			.pipe(gulp.dest('./build'));
+		}
 });
 
 /*************************************************************/
@@ -151,7 +278,6 @@ define('test','run karma unit tests (as defined in karma.conf)');
 gulp.task('test', function(cb) {
   var karma = path.resolve('node_modules', '.bin', 'karma');
   var configFile = path.resolve('karma.conf.js');
-
   var result = shelljs.exec(karma + ' start ' + configFile);
   if ( result.code ) {
     gUtil.beep();
@@ -195,22 +321,28 @@ gulp.task('e2etest', ['e2etest:webdriver_update'], function(cb) {
 define('build','build the app');
 /*************************************************************/
 gulp.task('build', function(cb) {
-	runSequence(['clean', 'jshint'], ['js', 'assets'], 'inject-scripts-dev', cb);
+	runSequence(['clean', 'jshint'], ['appjs', 'vendorjs', 'assets', 'server', 'views', 'styles', 'fonts', 'maps'], 'index', cb);
 });
 
 /*************************************************************/
-define('default','install, build and run the app');
+define('release','create a local release build for testing');
 /*************************************************************/
-gulp.task('default', function(cb) {
-	runSequence('install', 'build', 'serve', cb);
+gulp.task('release', function(cb) {
+	release = true;
+	runSequence('build', cb);
 });
 
 /*************************************************************/
-define('release','prepares the build for production');
+define('deploy','deploy the app');
 /*************************************************************/
-// Build a release (minified version of the code)
-gulp.task('release', ['clean'], function() {
-  gulp.run('minify', 'assets');
+gulp.task('deploy', function(cb) {
+	release = true;
+	deploy = true;
+	// TODO: Git tag release
+	// TODO: Upload build to server
+	// TODO: Copy assets to CDN
+	// TODO: Bump package.json/bower.json versions
+	runSequence('build', cb);
 });
 
 /*************************************************************/
@@ -218,10 +350,13 @@ define('watch','activate watch mode to run tests and serve on file changes');
 /*************************************************************/
 gulp.task('watch', ['install', 'build'], function() {
 	gulp.watch(['scripts/**', 'assets/**', 'views/**', 'index.html', 'tests/**'], function() {
-		gulp.run('build');
+		runSequence('build');
 	});
 });
 
+/*************************************************************/
+define('env','show environment');
+/*************************************************************/
 gulp.task('env',function(){
    gUtil.log(process.env);
 });
@@ -233,7 +368,6 @@ gulp.task('help',function(){
     gUtil.log('----------------------------------------');
     gUtil.log('GULP Tasks: ');
     gUtil.log('----------------------------------------');
-
     Object.keys(definitions).map(function(key){
         var def = definitions[key];
         var name = gUtil.colors.yellow(def.name + columnSpace.substring(0,10 - def.name.length));
@@ -241,3 +375,15 @@ gulp.task('help',function(){
         gUtil.log(name + ' : ' + description);
     });
 });
+
+/*************************************************************/
+define('default','install, build and run the app');
+/*************************************************************/
+gulp.task('default', function(cb) {
+	runSequence('install', 'build', 'serve', cb);
+});
+
+// Self validation
+gulp.src('gulpfile.js')
+	.pipe(jshint())
+	.pipe(jshint.reporter('jshint-stylish'));
