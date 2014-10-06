@@ -66,7 +66,7 @@ function vendorJSFiles(release) {
 function cssFiles(release) {	
 	return [
 		'bower_components/bootstrap/dist/css/bootstrap' + (release?'.min':'') + '.css',
-		'assets/fonts/font-awesome-4.0.3/css/font-awesome' + (release?'.min':'') + '.css',
+		'bower_components/components-font-awesome/css/font-awesome' + (release?'.min':'') + '.css',
 		'assets/app.css'
 	];
 }
@@ -75,8 +75,13 @@ function cssFiles(release) {
 function fontFiles() {	
 	return [
 		'bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.woff',
+		'bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.svg',
+		'bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.eot',
 		'bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.ttf',
-		'bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.svg'
+		'bower_components/components-font-awesome/fonts/fontawesome-webfont.woff',
+		'bower_components/components-font-awesome/fonts/fontawesome-webfont.svg',
+		'bower_components/components-font-awesome/fonts/fontawesome-webfont.eot',
+		'bower_components/components-font-awesome/fonts/fontawesome-webfont.ttf'
 	];
 }
 
@@ -177,11 +182,15 @@ gulp.task('styles', function() {
 			.pipe(cssmin({keepSpecialComments:0}))
 			// Rewrite asset url's in deploy builds
 			.pipe(gIf(deploy, replace('/assets/', config.get('CDN_URL') + 'assets/')))
+			// Rewrite font paths
+			.pipe(replace('../fonts', '/assets/fonts'))
 			.pipe(concat('style.css'))
 			.pipe(rev())
 			.pipe(gulp.dest('build/assets'));
 	} else {
 		return gulp.src(cssFiles(false), {base: '.'})
+			// Rewrite font paths
+			.pipe(replace('../fonts', '/assets/fonts'))
 			.pipe(gulp.dest('build'));
 	}
 });
@@ -324,14 +333,14 @@ gulp.task('e2etest', ['e2etest:webdriver_update'], function(cb) {
 });
 
 /*************************************************************/
-define('build','build the app');
+define('build','create a local development build (unbundled/unminified)');
 /*************************************************************/
 gulp.task('build', function(cb) {
 	runSequence(['clean', 'jshint'], ['appjs', 'vendorjs', 'assets', 'server', 'views', 'styles', 'fonts', 'maps'], 'index', cb);
 });
 
 /*************************************************************/
-define('release','create a local release build for testing');
+define('release','create a local release build for pre-deployment testing');
 /*************************************************************/
 gulp.task('release', function(cb) {
 	release = true;
@@ -339,15 +348,15 @@ gulp.task('release', function(cb) {
 });
 
 /*************************************************************/
-define('deploy','deploy the app');
+define('deploy','create a deployment build');
 /*************************************************************/
 gulp.task('deploy', function(cb) {
 	release = true;
 	deploy = true;
-	// TODO: Git tag release
-	// TODO: Upload build to server
-	// TODO: Copy assets to CDN
 	// TODO: Bump package.json/bower.json versions
+	// TODO: Git tag release
+	// TODO: Upload build to server?
+	// TODO: Copy assets to CDN?
 	runSequence('build', cb);
 });
 
