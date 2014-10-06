@@ -13,6 +13,7 @@ var config =
 		}
 	};
 
+// TODO: move the following into another file so we can make this one pure json (and ideally share with backend)
 module.exports = {
 	get: function(key, target) {
 		if(!target) target = 'all';
