@@ -9,15 +9,21 @@ var replace = require('gulp-replace');
 var install = require('gulp-install');
 var cssmin = require('gulp-cssmin');
 var rev = require('gulp-rev');
-var templateCache = require('gulp-angular-templatecache');
-var gIf = require('gulp-if');
-var path = require('path');
+var buffer = require('gulp-buffer');
 var rename = require('gulp-rename');
+var tap = require('gulp-tap');
 var gProtractor = require('gulp-protractor');
+var templateCache = require('gulp-angular-templatecache');
+var naturalSort = require('gulp-natural-sort');
+var gIf = require('gulp-if');
+var inject = require('gulp-inject');
+var debug = require('gulp-debug');
+var path = require('path');
 var runSequence = require('run-sequence');
 var childProcess = require('child_process');
-var inject = require('gulp-inject');
 var merge = require('merge-stream');
+var sortStream = require('sort-stream');
+var streamQueue = require('streamqueue');
 var glob = require('glob');
 var shelljs = require('shelljs');
 
@@ -33,7 +39,7 @@ var deploy = false;
 var definitions = [];
 var columnSpace = '            ';
 var define = function(name, desc){
-    definitions.push({name:name , description:desc});
+	definitions.push({name:name , description:desc});
 };
 
 // App javascript glob patterns
@@ -45,19 +51,25 @@ function appJSGlobs() {
 	];
 }
 
-// Vendor javascript paths
-function vendorJSFiles(release) {
+// Vendor pre-minifed javascript file paths
+function vendorJSFilesMinified(release) {
 	return [
 		'bower_components/angular/angular' + (release?'.min':'') + '.js',
 		'bower_components/angular-ui-router/release/angular-ui-router' + (release?'.min':'') + '.js',
 		'bower_components/angular-cookies/angular-cookies' + (release?'.min':'') + '.js',
 		'bower_components/angular-sanitize/angular-sanitize' + (release?'.min':'') + '.js',
 		'bower_components/angular-spinkit/build/angular-spinkit' + (release?'.min':'') + '.js',
-		'bower_components/angular-promise-tracker/promise-tracker.js',
-		'bower_components/angular-promise-tracker/promise-tracker-http-interceptor.js',
 		'bower_components/angular-translate/angular-translate' + (release?'.min':'') + '.js',
 		'bower_components/angular-easyfb/angular-easyfb' + (release?'.min':'') + '.js',
-		'scripts/lib/bootstrap-custom/ui-bootstrap-custom-tpls-0.10.0' + (release?'.min':'') + '.js',
+		'scripts/lib/bootstrap-custom/ui-bootstrap-custom-tpls-0.10.0' + (release?'.min':'') + '.js'
+	];
+}
+
+// Vendor un-minified javascript file paths
+function vendorJSFiles() {
+	return [
+		'bower_components/angular-promise-tracker/promise-tracker.js',
+		'bower_components/angular-promise-tracker/promise-tracker-http-interceptor.js',
     'scripts/lib/fastclick.js'
 	];
 }
@@ -123,52 +135,58 @@ gulp.task('jshint', function() {
 /*************************************************************/
 define('appjs','process application javascript');
 /*************************************************************/
-gulp.task('appjs', function() {
-	// TODO: we can get rid of this function when gulp-replace supports regex replacement on streams (soon!)
-	function injectConfigStream(stream) {
-		var configValues = config.getAll(release?(deploy?'deploy':'release'):'debug'); 
-		for(var configValueKey in configValues) {
-			if (configValues.hasOwnProperty(configValueKey)) {
-				stream.pipe(replace('<<<' + configValueKey + '>>>', configValues[configValueKey]));
-			}
-		}
-	}
-	var jsStream;
+gulp.task('appjs', function(cb) {
 	if(release) {
-		jsStream = gulp.src(appJSGlobs());
-		// inject config values 
-		injectConfigStream(jsStream);
-		// Minify
-		jsStream.pipe(uglify());
-		// Convert views to js so they can be injected into angular templatecache on startup
-		var viewStream = gulp.src('views/**/*.html')
-			// Rewrite asset url's in deploy builds
-			.pipe(gIf(deploy, replace('./assets/', config.get('CDN_URL') + 'assets/')))
-			.pipe(templateCache('templates.js', {root:'views', module:'cherryApp'}));
-		return merge(jsStream, viewStream)
-			.pipe(concat('app.js'))
-			.pipe(rev())
-			.pipe(gulp.dest('build/assets'));
+		generateRevisionHash(appJSGlobs(), function(revision) {
+			// Appplication javascript stream
+			var jsStream = gulp.src(appJSGlobs())
+				// Inject configuration values 
+				.pipe(replace('http://api.cvd.io/', config.get('API_URL', deploy?'deploy':'release')))
+				.pipe(uglify());
+			// Convert views to js so they can be injected into angular templatecache on startup
+			var viewStream = gulp.src('views/**/*.html')
+				// Rewrite asset url's in deploy builds
+				.pipe(gIf(deploy, replace('./assets/', config.get('CDN_URL') + 'assets/')))
+				.pipe(templateCache('templates.js', {root:'views', module:'cherryApp'}));
+			// Merge the app js and view streams and concatinate
+			merge(jsStream, viewStream)
+				.pipe(concat('app-' + revision + '.js'))
+				.pipe(gulp.dest('build/assets'))
+				.pipe(tap(function() {
+					cb();
+				}));
+		});
 	} else {
-		jsStream = gulp.src(appJSGlobs());
-		// inject config values 
-		injectConfigStream(jsStream);
-		jsStream.pipe(gulp.dest('build/scripts'));
+		// Just copy the files over while preserving folder structure in development mode
+		return gulp.src(appJSGlobs())
+			.pipe(gulp.dest('build/scripts'));
 	}
 });
 
 /*************************************************************/
 define('vendorjs','process vendor javascript');
 /*************************************************************/
-gulp.task('vendorjs', function() {
+gulp.task('vendorjs', function(cb) {
 	if(release) {
-		return gulp.src(vendorJSFiles())
-			.pipe(uglify())
-			.pipe(concat('vendor.js'))
-			.pipe(rev())
-			.pipe(gulp.dest('build/assets'));
+		generateRevisionHash(vendorJSFilesMinified(true).concat(vendorJSFiles()), function(revision) {
+			// Minify the vendor js that doesn't come with minifed versions
+			var minifyStream = gulp.src(vendorJSFiles())
+				.pipe(uglify());
+			// Dont minify the vendor js that comes with minifed versions (just use them)
+			// TODO: could strip out the comment blocks at the top of the angular minifed versions here
+			var minifiedStream = gulp.src(vendorJSFilesMinified(true));
+			// Prepend the streams
+			streamQueue({objectMode: true}, minifiedStream, minifyStream)
+				.pipe(concat('vendor-' + revision + '.js'))
+				.pipe(gulp.dest('build/assets'))
+				.pipe(tap(function() {
+					cb();
+				}));
+		});
 	} else {
-		return gulp.src(vendorJSFiles(), {base: '.'})
+		// Just copy the files over while preserving folder structure in development mode
+		console.log(vendorJSFilesMinified(false).concat(vendorJSFiles()));
+		return gulp.src(vendorJSFilesMinified(false).concat(vendorJSFiles()), {base: '.'})
 			.pipe(gulp.dest('build'));
 	}
 });
@@ -176,18 +194,23 @@ gulp.task('vendorjs', function() {
 /*************************************************************/
 define('styles','process styles');
 /*************************************************************/
-gulp.task('styles', function() {
+gulp.task('styles', function(cb) {
 	if(release) {
-		return gulp.src(cssFiles(true))
-			.pipe(cssmin({keepSpecialComments:0}))
-			// Rewrite asset url's in deploy builds
-			.pipe(gIf(deploy, replace('/assets/', config.get('CDN_URL') + 'assets/')))
-			// Rewrite font paths
-			.pipe(replace('../fonts', '/assets/fonts'))
-			.pipe(concat('style.css'))
-			.pipe(rev())
-			.pipe(gulp.dest('build/assets'));
+		generateRevisionHash(cssFiles(true), function(revision) {
+			gulp.src(cssFiles(true))
+				.pipe(cssmin({keepSpecialComments:0}))
+				// Rewrite asset url's in deploy builds
+				.pipe(gIf(deploy, replace('/assets/', config.get('CDN_URL') + 'assets/')))
+				// Rewrite font paths
+				.pipe(replace('../fonts', '/assets/fonts'))
+				.pipe(concat('style-' + revision + '.css'))
+				.pipe(gulp.dest('build/assets'))
+				.pipe(tap(function() {
+					cb();
+				}));
+		});
 	} else {
+		// Just copy the files over while preserving folder structure in development mode
 		return gulp.src(cssFiles(false), {base: '.'})
 			// Rewrite font paths
 			.pipe(replace('../fonts', '/assets/fonts'))
@@ -234,7 +257,7 @@ gulp.task('server', function() {
 define('assets','process assets');
 /*************************************************************/
 gulp.task('assets', function() {
-  return gulp.src(['assets/**/*'])
+  return gulp.src(['assets/**/*', '!assets/app.css'])
 		.pipe(gulp.dest('build/assets'));
 });
 
@@ -272,7 +295,7 @@ gulp.task('index', function(cb) {
 			// Inject app js files
 			.pipe(inject(gulp.src(appJSGlobs(), {read: false}), {name: 'app'}))
 			// Inject vendor js files
-			.pipe(inject(gulp.src(vendorJSFiles(), {read: false}), {name: 'vendor'}))
+			.pipe(inject(gulp.src(vendorJSFilesMinified().concat(vendorJSFiles()), {read: false}), {name: 'vendor'}))
 			// Inject style css files
 			.pipe(inject(gulp.src(cssFiles(), {read: false}), {name: 'style'}))
 			.pipe(gulp.dest('./build'));
@@ -333,7 +356,7 @@ gulp.task('e2etest', ['e2etest:webdriver_update'], function(cb) {
 });
 
 /*************************************************************/
-define('build','create a local development build (unbundled/unminified)');
+define('build:development','create a local development build (unbundled/unminified)');
 /*************************************************************/
 gulp.task('build', function(cb) {
 	runSequence(['clean', 'jshint'], ['appjs', 'vendorjs', 'assets', 'server', 'views', 'styles', 'fonts', 'maps'], 'index', cb);
@@ -402,3 +425,19 @@ gulp.task('default', function(cb) {
 gulp.src('gulpfile.js')
 	.pipe(jshint())
 	.pipe(jshint.reporter('jshint-stylish'));
+
+// Compute a revision hash from a set of globbed file contents
+function generateRevisionHash(globs, cb) {
+	var jsStream = gulp.src(globs)
+		// Required because globbing file order is non-deterministic, which is not good for revision hashing..
+		.pipe(naturalSort())
+		.pipe(concat('rev'))
+		// Need to convert stream to buffer because gulp-rev doesn't work with streams
+		.pipe(buffer())
+		.pipe(rev())
+		.pipe(tap(function(file) {
+			var revision = path.basename(file.path);
+			revision = revision.replace('rev-','');
+			cb(revision);
+		}));
+}
