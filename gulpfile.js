@@ -5,49 +5,100 @@ var jshint = require('gulp-jshint');
 var concat = require('gulp-concat');
 var rimraf = require('gulp-rimraf');
 var uglify = require('gulp-uglify');
+var replace = require('gulp-replace');
 var install = require('gulp-install');
-var path = require('path');
+var cssmin = require('gulp-cssmin');
+var rev = require('gulp-rev');
+var buffer = require('gulp-buffer');
 var rename = require('gulp-rename');
+var tap = require('gulp-tap');
 var gProtractor = require('gulp-protractor');
+var templateCache = require('gulp-angular-templatecache');
+var naturalSort = require('gulp-natural-sort');
+var gIf = require('gulp-if');
+var inject = require('gulp-inject');
+var debug = require('gulp-debug');
+var path = require('path');
 var runSequence = require('run-sequence');
 var childProcess = require('child_process');
-//var karma = require('gulp-karma');
-//var refresh = require('gulp-livereload');
-//var footer = require('gulp-footer');
-//var lr = require('tiny-lr');
-var inject = require('gulp-inject');
-//var server = lr();
+var merge = require('merge-stream');
+var sortStream = require('sort-stream');
+var streamQueue = require('streamqueue');
+var glob = require('glob');
 var shelljs = require('shelljs');
-var bower = require('bower'); // fails because Olivier cannot reinstall it on his machine
 
+var config = require('./config.js');
+
+// Release mode switch
+var release = gUtil.env.release?true:false;
+
+// Deploy mode switch
+var deploy = false;
+
+// For gulp help
 var definitions = [];
 var columnSpace = '            ';
-
 var define = function(name, desc){
-    definitions.push({name:name , description:desc});
+	definitions.push({name:name , description:desc});
 };
 
-function srcFiles() {
-    // Rather than using gulp-ignore we can just provide multiple
-    // glob patterns, where the ! indicates that we should exclude
-    // the matching files
-    return [
-      'scripts/**/*.js',
-      '!scripts/old/**/*.js',
-      '!scripts/lib/**/*.js'
-    ];
+// App javascript glob patterns
+function appJSGlobs() {	
+	return [
+		'scripts/**/*.js',
+		'!scripts/old/**/*.js',
+		'!scripts/lib/**/*.js'
+	];
 }
 
+// Vendor pre-minifed javascript file paths
+function vendorJSFilesMinified(release) {
+	return [
+		'bower_components/angular/angular' + (release?'.min':'') + '.js',
+		'bower_components/angular-ui-router/release/angular-ui-router' + (release?'.min':'') + '.js',
+		'bower_components/angular-cookies/angular-cookies' + (release?'.min':'') + '.js',
+		'bower_components/angular-sanitize/angular-sanitize' + (release?'.min':'') + '.js',
+		'bower_components/angular-spinkit/build/angular-spinkit' + (release?'.min':'') + '.js',
+		'bower_components/angular-translate/angular-translate' + (release?'.min':'') + '.js',
+		'bower_components/angular-easyfb/angular-easyfb' + (release?'.min':'') + '.js',
+		'scripts/lib/bootstrap-custom/ui-bootstrap-custom-tpls-0.10.0' + (release?'.min':'') + '.js'
+	];
+}
 
+// Vendor un-minified javascript file paths
+function vendorJSFiles() {
+	return [
+		'bower_components/angular-promise-tracker/promise-tracker.js',
+		'bower_components/angular-promise-tracker/promise-tracker-http-interceptor.js',
+    'scripts/lib/fastclick.js'
+	];
+}
 
-/*  *   *   *   *   *   *   *   *   *
+// CSS file paths
+function cssFiles(release) {	
+	return [
+		'bower_components/bootstrap/dist/css/bootstrap' + (release?'.min':'') + '.css',
+		'bower_components/components-font-awesome/css/font-awesome' + (release?'.min':'') + '.css',
+		'assets/app.css'
+	];
+}
 
-    T   A   S   K   S
-
- *  *   *   *   *   *   *   *   *   */
+// Font file paths
+function fontFiles() {	
+	return [
+		'bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.woff',
+		'bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.svg',
+		'bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.eot',
+		'bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.ttf',
+		'bower_components/components-font-awesome/fonts/fontawesome-webfont.woff',
+		'bower_components/components-font-awesome/fonts/fontawesome-webfont.svg',
+		'bower_components/components-font-awesome/fonts/fontawesome-webfont.eot',
+		'bower_components/components-font-awesome/fonts/fontawesome-webfont.ttf'
+	];
+}
 
 /*************************************************************/
-define('serve','run a a simple express server with built files');
+define('serve','run a simple express server with built files');
 /*************************************************************/
 var serveChildProcess = null;
 gulp.task('serve', function(cb) {
@@ -68,89 +119,186 @@ gulp.task('serve', function(cb) {
 define('clean','clean up build folder by removing all files');
 /*************************************************************/
 gulp.task('clean', function() {
-  // We indicate to gulp that this task is async by returning
-  // the stream - gulp can then wait for the stream to close before
-  // starting dependent tasks - see 'default' task below
   return gulp.src('build', { read: false })
-  .pipe(rimraf());
+		.pipe(rimraf());
 });
 
 /*************************************************************/
-define('jshint','Check the code for jshint errors');
+define('jshint','check the code for jshint errors');
 /*************************************************************/
 gulp.task('jshint', function() {
-  gulp.src(srcFiles())
-  .pipe(jshint())
-  .pipe(jshint.reporter('jshint-stylish'));
+  return gulp.src(appJSGlobs())
+		.pipe(jshint())
+		.pipe(jshint.reporter('jshint-stylish'));
 });
 
 /*************************************************************/
-define('js','Concat the files into a single app.js');
+define('appjs','process application javascript');
 /*************************************************************/
-gulp.task('js', function() {
-  return gulp.src(srcFiles())
-  //.pipe(concat('build.js'))
-  .pipe(gulp.dest('build/scripts'));
+gulp.task('appjs', function(cb) {
+	if(release) {
+		generateRevisionHash(appJSGlobs(), function(revision) {
+			// Appplication javascript stream
+			var jsStream = gulp.src(appJSGlobs())
+				// Inject configuration values 
+				.pipe(replace('http://api.cvd.io/', config.get('API_URL', deploy?'deploy':'release')))
+				.pipe(uglify());
+			// Convert views to js so they can be injected into angular templatecache on startup
+			var viewStream = gulp.src('views/**/*.html')
+				// Rewrite asset url's in deploy builds
+				.pipe(gIf(deploy, replace('./assets/', config.get('CDN_URL') + 'assets/')))
+				.pipe(templateCache('templates.js', {root:'views', module:'cherryApp'}));
+			// Merge the app js and view streams and concatinate
+			merge(jsStream, viewStream)
+				.pipe(concat('app-' + revision + '.js'))
+				.pipe(gulp.dest('build/assets'))
+				.pipe(tap(function() {
+					cb();
+				}));
+		});
+	} else {
+		// Just copy the files over while preserving folder structure in development mode
+		return gulp.src(appJSGlobs())
+			.pipe(gulp.dest('build/scripts'));
+	}
 });
 
 /*************************************************************/
-define('minify','Concat and minify the files into app.js');
+define('vendorjs','process vendor javascript');
 /*************************************************************/
-gulp.task('minify', function() {
-  return gulp.src(srcFiles())
-  .pipe(uglify())
-  .pipe(concat('build.js'))
-  .pipe(gulp.dest('build/scripts'));
+gulp.task('vendorjs', function(cb) {
+	if(release) {
+		generateRevisionHash(vendorJSFilesMinified(true).concat(vendorJSFiles()), function(revision) {
+			// Minify the vendor js that doesn't come with minifed versions
+			var minifyStream = gulp.src(vendorJSFiles())
+				.pipe(uglify());
+			// Dont minify the vendor js that comes with minifed versions (just use them)
+			// TODO: could strip out the comment blocks at the top of the angular minifed versions here
+			var minifiedStream = gulp.src(vendorJSFilesMinified(true));
+			// Prepend the streams
+			streamQueue({objectMode: true}, minifiedStream, minifyStream)
+				.pipe(concat('vendor-' + revision + '.js'))
+				.pipe(gulp.dest('build/assets'))
+				.pipe(tap(function() {
+					cb();
+				}));
+		});
+	} else {
+		// Just copy the files over while preserving folder structure in development mode
+		return gulp.src(vendorJSFilesMinified(false).concat(vendorJSFiles()), {base: '.'})
+			.pipe(gulp.dest('build'));
+	}
 });
 
 /*************************************************************/
-define('assets','Copy all the static assets to the build folder');
+define('styles','process styles');
+/*************************************************************/
+gulp.task('styles', function(cb) {
+	if(release) {
+		generateRevisionHash(cssFiles(true), function(revision) {
+			gulp.src(cssFiles(true))
+				.pipe(cssmin({keepSpecialComments:0}))
+				// Rewrite asset url's in deploy builds
+				.pipe(gIf(deploy, replace('/assets/', config.get('CDN_URL') + 'assets/')))
+				// Rewrite font paths
+				.pipe(replace('../fonts', '/assets/fonts'))
+				.pipe(concat('style-' + revision + '.css'))
+				.pipe(gulp.dest('build/assets'))
+				.pipe(tap(function() {
+					cb();
+				}));
+		});
+	} else {
+		// Just copy the files over while preserving folder structure in development mode
+		return gulp.src(cssFiles(false), {base: '.'})
+			// Rewrite font paths
+			.pipe(replace('../fonts', '/assets/fonts'))
+			.pipe(gulp.dest('build'));
+	}
+});
+
+/*************************************************************/
+define('fonts','process fonts');
+/*************************************************************/
+gulp.task('fonts', function() {
+	return gulp.src(fontFiles())
+		.pipe(gulp.dest('build/assets/fonts'));
+});
+
+/*************************************************************/
+define('maps','process maps');
+/*************************************************************/
+gulp.task('maps', function(cb) {
+	if(release) { cb(); return; }
+	return gulp.src(['./bower_components/**/*.map','./scripts/lib/**/*.map'], {base: '.'})
+		.pipe(gulp.dest('build'));
+});
+
+/*************************************************************/
+define('views','process views');
+/*************************************************************/
+gulp.task('views', function(cb) {
+	// Dont copy views in release since we are bundling them into app.js
+	if(release) { cb(); return; }
+	return gulp.src(['views/**/*'])
+		.pipe(gulp.dest('build/views'));
+});
+
+/*************************************************************/
+define('server','process server');
+/*************************************************************/
+gulp.task('server', function() {
+  return gulp.src(['server.js'])
+		.pipe(gulp.dest('build'));
+});
+
+/*************************************************************/
+define('assets','process assets');
 /*************************************************************/
 gulp.task('assets', function() {
-  gulp.src(['assets/**/*', 'bower_components/**/*'])
-  .pipe(gulp.dest('build/assets'));
-
-  gulp.src(['scripts/lib/**/*.js'])
-  .pipe(gulp.dest('build/scripts/lib'));
-
-  gulp.src(['views/**/*'])
-  .pipe(gulp.dest('build/views'));
-
-  gulp.src(['index.html'])
-  .pipe(gulp.dest('build'));
-
-  gulp.src(['server.js'])
-  .pipe(gulp.dest('build'));
+  return gulp.src(['assets/**/*', '!assets/app.css'])
+		.pipe(gulp.dest('build/assets'));
 });
 
-              /*
-var es = require('event-stream');
-var cat = require('gulp-cat');
-
-gulp.task('script-files',function(){
-   var files = "";
-
-   return gulp.src(['scripts/* * /*.js']).pipe(
-       es.map(function(file,cb){
-           console.log(file.path.replace(file.cwd,''));
-       }));
-
-    gUtil.log(files);
-});
-*/
-
 /*************************************************************/
-define('inject-script-dev','inject one script tag for every script file unminified');
+define('index','process index');
 /*************************************************************/
-gulp.task('inject-scripts-dev', ['js'],function() {
-    var conf =  {
-        addRootSlash: false,  // ensures proper relative paths
-        ignorePath: '/build/' // ensures proper relative paths
-    };
-    var rootFile = 'index.html';
-
-    return gulp.src(srcFiles(),{read: false})
-        .pipe(inject(rootFile,conf)).pipe(gulp.dest('build'));
+gulp.task('index', function(cb) {
+	if(release) {
+		// Find bundles (with their correct revision hashes)
+		var appBundle = glob.sync('build/assets/app-*.js')[0];
+		var vendorBundle = glob.sync('build/assets/vendor-*.js')[0];
+		var styleBundle = glob.sync('build/assets/style-*.css')[0];
+		if(!appBundle) { cb('app bundle not found'); return; } 
+		if(!vendorBundle) { cb('vendor bundle not found'); return; } 
+		if(!styleBundle) { cb('style bundle not found'); return; } 
+		appBundle = appBundle.replace('build/','');
+		vendorBundle = vendorBundle.replace('build/','');
+		styleBundle = styleBundle.replace('build/','');
+		if(deploy) {
+			var cdnUrl = config.get('CDN_URL'); 
+			appBundle = cdnUrl + appBundle;
+			vendorBundle = cdnUrl + vendorBundle;
+			styleBundle = cdnUrl + styleBundle;
+		}
+		return gulp.src('index.html')
+			// Replace app injection point with app bundle include
+			.pipe(replace('<!-- app:js --><!-- endinject -->','<script src="' + appBundle + '"></script>'))
+			// Replace vendor injection point with vendor bundle include
+			.pipe(replace('<!-- vendor:js --><!-- endinject -->','<script src="' + vendorBundle + '"></script>'))
+			// Replace style injection point with style bundle include
+			.pipe(replace('<!-- style:css --><!-- endinject -->','<link rel="stylesheet" href="' + styleBundle + '">'))
+			.pipe(gulp.dest('./build'));
+	} else {
+		return gulp.src('index.html')
+			// Inject app js files
+			.pipe(inject(gulp.src(appJSGlobs(), {read: false}), {name: 'app'}))
+			// Inject vendor js files
+			.pipe(inject(gulp.src(vendorJSFilesMinified().concat(vendorJSFiles()), {read: false}), {name: 'vendor'}))
+			// Inject style css files
+			.pipe(inject(gulp.src(cssFiles(), {read: false}), {name: 'style'}))
+			.pipe(gulp.dest('./build'));
+		}
 });
 
 /*************************************************************/
@@ -162,12 +310,39 @@ gulp.task('install', function() {
 });
 
 /*************************************************************/
+define('build','create a local development build (unbundled/unminified)');
+/*************************************************************/
+gulp.task('build', function(cb) {
+	runSequence(['clean', 'jshint'], ['appjs', 'vendorjs', 'assets', 'server', 'views', 'styles', 'fonts', 'maps'], 'index', cb);
+});
+
+/*************************************************************/
+define('release','create a local release build for pre-deployment testing');
+/*************************************************************/
+gulp.task('release', function(cb) {
+	release = true;
+	runSequence('build', cb);
+});
+
+/*************************************************************/
+define('deploy','create a deployment build');
+/*************************************************************/
+gulp.task('deploy', function(cb) {
+	release = true;
+	deploy = true;
+	// TODO: Bump package.json/bower.json versions
+	// TODO: Git tag release
+	// TODO: Upload build to server?
+	// TODO: Copy assets to CDN?
+	runSequence('build', cb);
+});
+
+/*************************************************************/
 define('test','run karma unit tests (as defined in karma.conf)');
 /*************************************************************/
-gulp.task('test', ['install'], function(cb) {
+gulp.task('test', function(cb) {
   var karma = path.resolve('node_modules', '.bin', 'karma');
   var configFile = path.resolve('karma.conf.js');
-
   var result = shelljs.exec(karma + ' start ' + configFile);
   if ( result.code ) {
     gUtil.beep();
@@ -176,19 +351,10 @@ gulp.task('test', ['install'], function(cb) {
 });
 
 /*************************************************************/
-define('e2etest','ensure all dependencies, run the e2e tests');
+define('e2etest:run','ensure all dependencies, start the server and run the e2e tests');
 /*************************************************************/
-gulp.task('e2etest', ['e2etest:webdriver_update', 'default'], function(cb) {
-	runSequence('e2etest:run', function(e) {
-		cb();
-	});
-});
-
-/*************************************************************/
-define('e2etest:watch','ensure all dependencies, run the e2e tests and re-run on file changes');
-/*************************************************************/
-gulp.task('e2etest:watch', ['e2etest'], function() {
-	gulp.watch(['scripts/**', 'assets/**', 'views/**', 'index.html', 'e2etests/**'], ['e2etest:run']);
+gulp.task('e2etest:run', ['default'], function(cb) {
+	runSequence('e2etest', cb);
 });
 
 /*************************************************************/
@@ -197,9 +363,9 @@ define('e2etest:webdriver_update','updates the selenium server standalone jar fi
 gulp.task('e2etest:webdriver_update', gProtractor.webdriver_update);
 
 /*************************************************************/
-define('e2etest:run','run the e2e tests');
+define('e2etest','run the e2e tests (assumes app built and \'serve\' running)');
 /*************************************************************/
-gulp.task('e2etest:run', ['serve'], function(cb) {
+gulp.task('e2etest', ['e2etest:webdriver_update'], function(cb) {
 	gUtil.log(gUtil.colors.yellow('E2E TEST RUN -----------------------------------------'));
 	gulp.src(['./e2etests/**/*.scenario.js'])
 		.pipe(gProtractor.protractor({
@@ -207,41 +373,27 @@ gulp.task('e2etest:run', ['serve'], function(cb) {
 			args: ['--baseUrl', 'http://localhost:3000']
 		}))
 		.on('error', function(e) {
+			if(serveChildProcess) serveChildProcess.kill();
 			gUtil.beep();
-			serveChildProcess.kill();
 			cb();
 		}).on('end', function() {
-			serveChildProcess.kill();
+			if(serveChildProcess) serveChildProcess.kill();
 			cb();
 		});
 });
 
 /*************************************************************/
-define('default','run when gulp is called without argument, it calls install, clean, jshint, js, assets tasks');
-// We put 'clean' as a dependency so that it completes before
-// the other tasks are started
-/*************************************************************/
-gulp.task('default', ['install', 'clean','jshint'], function(cb) {
-	runSequence(['js', 'assets'], 'inject-scripts-dev', cb);
-});
-
-/*************************************************************/
-define('release','prepares the build for production');
-/*************************************************************/
-// Build a release (minified version of the code)
-gulp.task('release', ['clean'], function() {
-  gulp.run('minify', 'assets');
-});
-
-/*************************************************************/
 define('watch','activate watch mode to run tests and serve on file changes');
 /*************************************************************/
-gulp.task('watch', function() {
+gulp.task('watch', ['install', 'build'], function() {
 	gulp.watch(['scripts/**', 'assets/**', 'views/**', 'index.html', 'tests/**'], function() {
-		gulp.run('default');
+		runSequence('build');
 	});
 });
 
+/*************************************************************/
+define('env','show environment');
+/*************************************************************/
 gulp.task('env',function(){
    gUtil.log(process.env);
 });
@@ -253,7 +405,6 @@ gulp.task('help',function(){
     gUtil.log('----------------------------------------');
     gUtil.log('GULP Tasks: ');
     gUtil.log('----------------------------------------');
-
     Object.keys(definitions).map(function(key){
         var def = definitions[key];
         var name = gUtil.colors.yellow(def.name + columnSpace.substring(0,10 - def.name.length));
@@ -262,3 +413,30 @@ gulp.task('help',function(){
     });
 });
 
+/*************************************************************/
+define('default','install, build and run the app');
+/*************************************************************/
+gulp.task('default', function(cb) {
+	runSequence('install', 'build', 'serve', cb);
+});
+
+// Self validation
+gulp.src('gulpfile.js')
+	.pipe(jshint())
+	.pipe(jshint.reporter('jshint-stylish'));
+
+// Compute a revision hash from a set of globbed file contents
+function generateRevisionHash(globs, cb) {
+	var jsStream = gulp.src(globs)
+		// Required because globbing file order is non-deterministic, which is not good for revision hashing..
+		.pipe(naturalSort())
+		.pipe(concat('rev'))
+		// Need to convert stream to buffer because gulp-rev doesn't work with streams
+		.pipe(buffer())
+		.pipe(rev())
+		.pipe(tap(function(file) {
+			var revision = path.basename(file.path);
+			revision = revision.replace('rev-','');
+			cb(revision);
+		}));
+}

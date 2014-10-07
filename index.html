@@ -16,7 +16,6 @@
      <!--TODO : description could adapt to page and language as in http://stackoverflow.com/questions/20807761/angular-modify-meta-tag-->
     <meta name="description" content="{{ pageDescription | translate }}">
 
-
     <meta property="og:title" content="{{pageTitle1 | translate}} {{pageTitle2 | translate}}"/>
     <!--<meta property="og:title" content="{{ogTitle}}"/>-->
     <meta property="og:image" content="http://www.commentvousdire.com/assets/TouchWording.jpg"/>
@@ -26,36 +25,18 @@
     <meta property="fb:app_id" content="582577148493403">
     <!--582577148493403 ou 679461192138331 pour test-->
 
+    <!-- This may be slowing down page activation quite a bit  -->
+    <!--<script src="http://api.cvd.io/userevent?ActionLocation=Header&ActionType=Load&AreaId=na&ClientTime=&TargetId=na"></script>-->
+	
+		<!-- VENDOR JS INJECTION POINT -->
+    <!-- vendor:js --><!-- endinject -->
 
     <!--Prevent 300 ms delay on Android-->
-    <script src="scripts/lib/fastclick.js"></script>
     <script type="application/javascript">
       window.addEventListener('load', function () {
         FastClick.attach(document.body);
       }, false);
     </script>
-
-    <!-- This may be slowing down page activation quite a bit  -->
-    <!--<script src="http://api.cvd.io/userevent?ActionLocation=Header&ActionType=Load&AreaId=na&ClientTime=&TargetId=na"></script>-->
-
-    <!--Angular and Bootstrap -->
-    <script src="assets/angular/angular.min.js"></script>
-    <!--<script src="assets/angular/angular.js"></script>-->
-    <script src="assets/angular-ui-router/release/angular-ui-router.min.js"></script>
-    <script src="assets/angular-cookies/angular-cookies.min.js"></script>
-    <script src="assets/angular-sanitize/angular-sanitize.min.js"></script>
-    <script src="assets/angular-spinkit/build/angular-spinkit.min.js"></script>
-    <script src="assets/angular-promise-tracker/promise-tracker.js"></script>
-    <script src="assets/angular-promise-tracker/promise-tracker-http-interceptor.js"></script>
-    <script src="assets/angular-translate/angular-translate.min.js"></script>
-    <!--<script src="assets/ng-facebook/ngFacebook.js"></script>-->
-    <script src="assets/angular-easyfb/angular-easyfb.js"></script>
-
-
-
-    <script src="scripts/lib/bootstrap-custom/ui-bootstrap-custom-tpls-0.10.0.js"></script>
-    <!--<script src="scripts/lib/bootstrap-custom/ui-bootstrap-tpls-0.11.0.js"></script>-->
-
 
     <!--Google scripts-->
     <script>
@@ -84,10 +65,9 @@
 
     <!--CSS -->
     <!-- Is is better to load css before js ? -->
-    <link href="assets/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="assets/fonts/font-awesome-4.0.3/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="assets/app.css">
 
+		<!-- CSS INJECTION POINT -->
+		<!-- style:css --><!-- endinject -->
 
     <!-- Fav and touch icons -->
     <!--<link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">-->
@@ -195,9 +175,8 @@
 
     </div>
 
-    <!-- inject:js -->
-    <script src="scripts/build.js"></script>
-    <!-- endinject -->
+		<!-- APP JS INJECTION POINT -->
+    <!-- app:js --><!-- endinject -->
 
   </body>
 </html>
