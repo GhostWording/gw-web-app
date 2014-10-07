@@ -185,7 +185,6 @@ gulp.task('vendorjs', function(cb) {
 		});
 	} else {
 		// Just copy the files over while preserving folder structure in development mode
-		console.log(vendorJSFilesMinified(false).concat(vendorJSFiles()));
 		return gulp.src(vendorJSFilesMinified(false).concat(vendorJSFiles()), {base: '.'})
 			.pipe(gulp.dest('build'));
 	}
@@ -311,6 +310,34 @@ gulp.task('install', function() {
 });
 
 /*************************************************************/
+define('build','create a local development build (unbundled/unminified)');
+/*************************************************************/
+gulp.task('build', function(cb) {
+	runSequence(['clean', 'jshint'], ['appjs', 'vendorjs', 'assets', 'server', 'views', 'styles', 'fonts', 'maps'], 'index', cb);
+});
+
+/*************************************************************/
+define('release','create a local release build for pre-deployment testing');
+/*************************************************************/
+gulp.task('release', function(cb) {
+	release = true;
+	runSequence('build', cb);
+});
+
+/*************************************************************/
+define('deploy','create a deployment build');
+/*************************************************************/
+gulp.task('deploy', function(cb) {
+	release = true;
+	deploy = true;
+	// TODO: Bump package.json/bower.json versions
+	// TODO: Git tag release
+	// TODO: Upload build to server?
+	// TODO: Copy assets to CDN?
+	runSequence('build', cb);
+});
+
+/*************************************************************/
 define('test','run karma unit tests (as defined in karma.conf)');
 /*************************************************************/
 gulp.task('test', function(cb) {
@@ -353,34 +380,6 @@ gulp.task('e2etest', ['e2etest:webdriver_update'], function(cb) {
 			if(serveChildProcess) serveChildProcess.kill();
 			cb();
 		});
-});
-
-/*************************************************************/
-define('build:development','create a local development build (unbundled/unminified)');
-/*************************************************************/
-gulp.task('build', function(cb) {
-	runSequence(['clean', 'jshint'], ['appjs', 'vendorjs', 'assets', 'server', 'views', 'styles', 'fonts', 'maps'], 'index', cb);
-});
-
-/*************************************************************/
-define('release','create a local release build for pre-deployment testing');
-/*************************************************************/
-gulp.task('release', function(cb) {
-	release = true;
-	runSequence('build', cb);
-});
-
-/*************************************************************/
-define('deploy','create a deployment build');
-/*************************************************************/
-gulp.task('deploy', function(cb) {
-	release = true;
-	deploy = true;
-	// TODO: Bump package.json/bower.json versions
-	// TODO: Git tag release
-	// TODO: Upload build to server?
-	// TODO: Copy assets to CDN?
-	runSequence('build', cb);
 });
 
 /*************************************************************/
