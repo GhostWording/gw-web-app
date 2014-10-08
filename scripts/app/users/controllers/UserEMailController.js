@@ -39,23 +39,28 @@ angular.module('app/users/UserEMailController', [])
       return;
     }
 
-    // Post new email to server
-    serverSvc.postInStore('mailStore', deviceIdSvc.get(), $scope.user.email)
+//    // Post new email to server
+//    serverSvc.postInStore('mailStore', deviceIdSvc.get(), $scope.user.email)
+//      // Send preferred culture to server
+//    .then(function() {
+//      serverSvc.postInStore('preferredCulture', deviceIdSvc.get(), currentLanguage.getCultureCode());
+//    })
+//      // Ask server to send verification email
+//    .then(function() {
+//      serverSvc.postMailForVerification($scope.user.email);
+//    })
+//    .then(function (response) {
+//      $scope.mailSent = true;
+//      $scope.mailChanged = false;
+//    })
+//    ;
+
+    serverSvc.sendCultureAndMailToServer(deviceIdSvc.get(), $scope.user.email, currentLanguage.getCultureCode())
     .then(function (response) {
       $scope.mailSent = true;
       $scope.mailChanged = false;
     })
-      // Ask server to send verification email
-    .then(function() {
-      serverSvc.postMailForVerification($scope.user.email);
-    })
-      // Send preferred culture to server
-    .then(function() {
-      serverSvc.postInStore('preferredCulture', deviceIdSvc.get(), currentLanguage.getCultureCode());
-    })
-
     ;
-
 
     // Ask server to send verification email
 //    serverSvc.postMailForVerification($scope.user.email)

@@ -181,7 +181,7 @@ angular.module('app/routing', ['ui.router'])
     controller: 'SubscriptionController',
     showTabs: false
   })
-  .state('userEmail', {
+  .state('userEMail', {
     url: '/:languageCode/userEMail',
     templateUrl: 'views/userEMail.html',
     controller: 'UserEMailController'

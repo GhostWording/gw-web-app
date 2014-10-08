@@ -35,9 +35,6 @@ function ($scope, currentUser,currentUserLocalData, userAges,localStorage,device
       });
   };
 
-
-
-
   $scope.clearAll = function() {
     // We want to delete everything but the deviceId
     localStorage.clearAllExceptThis(deviceIdSvc.get());
@@ -49,21 +46,19 @@ function ($scope, currentUser,currentUserLocalData, userAges,localStorage,device
     currentUser.clear();
   };
 
-
   $scope.sendMailToServer = function () {
 
-    // Should move that in a service and share with userEmail
-    serverSvc.postInStore('mailStore', deviceIdSvc.get(), $scope.user.email)
-    .then(function (response) {
-    })
-      // Ask server to send verification email
-    .then(function () {
-      serverSvc.postMailForVerification($scope.user.email);
-    })
-      // Send preferred culture to server
-    .then(function () {
-      serverSvc.postInStore('preferredCulture', deviceIdSvc.get(), currentLanguage.getCultureCode());
-    });
+//    serverSvc.postInStore('mailStore', deviceIdSvc.get(), $scope.user.email)
+//      // Send preferred culture to server
+//    .then(function () {
+//      serverSvc.postInStore('preferredCulture', deviceIdSvc.get(), currentLanguage.getCultureCode());
+//    })
+//      // Ask server to send verification email
+//    .then(function () {
+//      serverSvc.postMailForVerification($scope.user.email);
+//    })
+//    ;
+    serverSvc.sendCultureAndMailToServer(deviceIdSvc.get(), $scope.user.email, currentLanguage.getCultureCode());
 
   };
 }]);

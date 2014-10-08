@@ -15,7 +15,8 @@ angular.module('app/subscriptions/SubscriptionController',['app/recipients'])
     });
 
     $scope.sendSubscriptionsToServer = function () {
-      serverSvc.postInStore('subscriptionStore', deviceIdSvc.get(), currentUserLocalData.subcriptions);
+      //serverSvc.postInStore('subscriptionStore', deviceIdSvc.get(), currentUserLocalData.subcriptions);
+      serverSvc.postUserSubscriptions(deviceIdSvc.get(), currentUserLocalData.subcriptions);
     };
 
     $scope.getSubscriptionState = subscriptionsSvc.getState;
