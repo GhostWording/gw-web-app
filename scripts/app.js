@@ -172,7 +172,8 @@ angular.module('cherryApp',  [
 
 
       // If current text is defined, set the title using to current text content
-      if (!!textsSvc.getCurrentId())
+//      if (!!textsSvc.getCurrentId())
+      if (!!textsSvc.getCurrentTextId())
         setTitleFromCurrentText();
       // else set the title using current intention label
       else

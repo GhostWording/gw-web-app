@@ -1,10 +1,12 @@
 angular.module('app/userDashboard/DashboardController', [])
-.controller('DashboardController', ['$scope', 'facebookSvc','dateHelperSvc','ufHelperSvc','ufSvc','appUrlSvc','currentAreaName','textsSvc','postActionSvc',
-  function ($scope, facebookSvc,dateHelperSvc,ufHelperSvc,ufSvc,appUrlSvc,currentAreaName,textsSvc,postActionSvc) {
+.controller('DashboardController', ['$scope', 'facebookSvc','dateHelperSvc','ufHelperSvc','ufSvc','appUrlSvc','currentAreaName','textsSvc','postActionSvc','$stateChange',
+  function ($scope, facebookSvc,dateHelperSvc,ufHelperSvc,ufSvc,appUrlSvc,currentAreaName,textsSvc,postActionSvc,$stateChange) {
     $scope.appUrlSvc = appUrlSvc;
     $scope.currentAreaName = currentAreaName;
     $scope.getCurrentTextId = function() {
-      return textsSvc.getCurrentId();
+      //console.log(currentTextId+ " " + nextTextId);
+      var nextTextId = $stateChange.toParams.textId;
+      return nextTextId;
     };
     // We want to track this page is loaded, event when no action occurs on its content
     postActionSvc.postActionInfo('Init','Page','Dashboard','Init');

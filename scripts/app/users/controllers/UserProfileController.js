@@ -47,18 +47,6 @@ function ($scope, currentUser,currentUserLocalData, userAges,localStorage,device
   };
 
   $scope.sendMailToServer = function () {
-
-//    serverSvc.postInStore('mailStore', deviceIdSvc.get(), $scope.user.email)
-//      // Send preferred culture to server
-//    .then(function () {
-//      serverSvc.postInStore('preferredCulture', deviceIdSvc.get(), currentLanguage.getCultureCode());
-//    })
-//      // Ask server to send verification email
-//    .then(function () {
-//      serverSvc.postMailForVerification($scope.user.email);
-//    })
-//    ;
     serverSvc.sendCultureAndMailToServer(deviceIdSvc.get(), $scope.user.email, currentLanguage.getCultureCode());
-
   };
 }]);

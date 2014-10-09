@@ -13,5 +13,6 @@ angular.module('app', [
   'app/favourites',
 //  'app/userFriend',
   'app/userDashboard',
-  'app/subscriptions'
+  'app/subscriptions',
+  'app/appUrl/appUrlSvc'
 ]);
