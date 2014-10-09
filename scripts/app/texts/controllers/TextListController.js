@@ -1,8 +1,8 @@
 angular.module('app/texts/TextListController', [])
 // Displays a list of texts
 .controller('TextListController',
- ['$scope', 'currentTextList', 'currentIntention', 'currentUser', 'filtersSvc', '$modal', 'currentRecipient', 'favouritesSvc','appUrlSvc','currentLanguage','textsSvc','intentionsSvc','currentAreaName','postActionSvc','$window','filteredTextListSvc','tagLabelsSvc','helperSvc','questionBarSvc','accordionSvc',
-function ($scope, currentTextList, currentIntention,  currentUser, filtersSvc, $modal,currentRecipient, favouritesSvc,appUrlSvc,currentLanguage,textsSvc,intentionsSvc,currentAreaName,postActionSvc,$window,filteredTextListSvc,tagLabelsSvc,helperSvc,questionBarSvc,accordionSvc) {
+ ['$scope', 'currentTextList', 'currentIntention', 'currentUser', 'filtersSvc', '$modal', 'currentRecipient', 'favouritesSvc','appUrlSvc','currentLanguage','textsSvc','intentionsSvc','currentAreaName','postActionSvc','$window','filteredTextListSvc','tagLabelsSvc','helperSvc','questionBarSvc','accordionSvc','$stateChange',
+function ($scope, currentTextList, currentIntention,  currentUser, filtersSvc, $modal,currentRecipient, favouritesSvc,appUrlSvc,currentLanguage,textsSvc,intentionsSvc,currentAreaName,postActionSvc,$window,filteredTextListSvc,tagLabelsSvc,helperSvc,questionBarSvc,accordionSvc,$stateChange) {
 
   $scope.appUrlSvc = appUrlSvc;
   $scope.helperSvc = helperSvc;
@@ -17,14 +17,14 @@ function ($scope, currentTextList, currentIntention,  currentUser, filtersSvc, $
     return tagLabelsSvc.labelsFromStyleTagIds(idsWeWant);
   };
 
-
   // Some phone browser do not initialise the view correctly
   //  $location.hash('leCorps');
   //  $anchorScroll(); // url does not look nice with that
   $window.scrollTo(0,0);
 
   $scope.getCurrentTextId = function() {
-    var valret = textsSvc.getCurrentId();
+    //var valret = textsSvc.getCurrentTextId();
+    var valret = $stateChange.toParams.textId;
     return valret;
   };
 

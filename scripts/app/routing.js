@@ -100,7 +100,12 @@ angular.module('app/routing', ['ui.router'])
         controller: 'BoardPosterController'
       }
     },
-    resolve: { },
+    resolve: {
+      currentTextId: ['textsSvc' , function ( textsSvc) {
+        return undefined;
+      }]
+
+    },
     showTabs: false
   })
   .state('area.dashboard.textDetail', {
@@ -109,7 +114,25 @@ angular.module('app/routing', ['ui.router'])
     templateUrl: 'views/textdetail.html',
     controller: 'TextDetailController',
     resolve: {
-      currentIntention: ['intentionsSvc', function(intentionsSvc) { return intentionsSvc.getCurrent(); }],
+
+      currentTextId: ['$stateParams','$stateChange', 'textsSvc' , function ($stateParams,$stateChange, textsSvc) {
+        var textId = $stateParams.textId;
+        var nexTextId = $stateChange.toParams.textId;
+        console.log(textId + " --- " + nexTextId);
+        if ( !!textId )
+          textsSvc.setCurrentTextId(textId);
+        return textId;
+      }],
+
+      currentIntentionId: ['$stateParams', 'intentionsSvc' , function ($stateParams, intentionsSvc) {
+        var intentionId = $stateParams.intentionId;
+        intentionsSvc.setIntentionId(intentionId);
+        return intentionId;
+      }],
+
+      currentIntention: ['intentionsSvc', function(intentionsSvc) {
+        return intentionsSvc.getCurrent();
+      }],
       currentText: ['textsSvc', function(textsSvc) { return textsSvc.getCurrent(); }],
       // That approach wil not work when text detail is reloaded from scratch
       //currentText: ['currentBoardPosterSvc', function(currentBoardPosterSvc) { return currentBoardPosterSvc.getCurrentPoster().posterText; }],
@@ -133,6 +156,10 @@ angular.module('app/routing', ['ui.router'])
     templateUrl: 'views/intentionList.html',
     controller: 'IntentionListController',
     resolve: {
+      currentTextId: ['textsSvc' , function (textsSvc) {
+        textsSvc.setCurrentTextId(undefined);
+        return undefined; }
+      ],
       currentRecipient: ['currentRecipientSvc', function(currentRecipientSvc) { return currentRecipientSvc.getCurrentRecipient(); }],
     },
     showTabs: true
@@ -146,7 +173,8 @@ angular.module('app/routing', ['ui.router'])
       currentIntentionId: ['$stateParams', 'intentionsSvc' , function ($stateParams, intentionsSvc) {
         var intentionId = $stateParams.intentionId;
         intentionsSvc.setIntentionId(intentionId);
-        return intentionId;  } ],
+        return intentionId;  }
+      ],
       currentIntention: ['intentionsSvc', function(intentionsSvc) { return intentionsSvc.getCurrent(); }],
       currentTextList: ['textsSvc', function(textsSvc) { return textsSvc.getCurrentList(); }],
       currentRecipient: ['currentRecipientSvc', function(currentRecipientSvc) { return currentRecipientSvc.getCurrentRecipient(); }]
@@ -165,6 +193,13 @@ angular.module('app/routing', ['ui.router'])
     templateUrl: 'views/textdetail.html',
     controller: 'TextDetailController',
     resolve: {
+      currentTextId: ['$stateParams', 'textsSvc' , function ($stateParams, textsSvc) {
+        var textId = $stateParams.textId;
+
+        if ( !!textId )
+          textsSvc.setCurrentTextId(textId);
+        return textId; }
+      ],
       // Current intention is inherited from parent state
       currentText: ['textsSvc', function(textsSvc) { return textsSvc.getCurrent(); }]
     }
