@@ -3,62 +3,68 @@ angular.module('app/texts/TextListController', [])
 .controller('TextListController',
  ['$scope', 'currentTextList', 'currentIntention', 'currentUser', 'filtersSvc', '$modal', 'currentRecipient', 'favouritesSvc','appUrlSvc','currentLanguage','textsSvc','intentionsSvc','currentAreaName','postActionSvc','$window','filteredTextListSvc','tagLabelsSvc','helperSvc','questionBarSvc','accordionSvc','$stateChange',
 function ($scope, currentTextList, currentIntention,  currentUser, filtersSvc, $modal,currentRecipient, favouritesSvc,appUrlSvc,currentLanguage,textsSvc,intentionsSvc,currentAreaName,postActionSvc,$window,filteredTextListSvc,tagLabelsSvc,helperSvc,questionBarSvc,accordionSvc,$stateChange) {
-
-  $scope.appUrlSvc = appUrlSvc;
-  $scope.helperSvc = helperSvc;
-  $scope.QuestionBar = questionBarSvc;
-
   // We want an Init event even if no action takes place, in case user lands here from Google or facebook
   postActionSvc.postActionInfo('intention',currentIntention.IntentionId,'IntentionList','Init');
-
-  $scope.labelsThatShouldBeDisplayed = function(txt) {
-    var stylesWeWant = filtersSvc.filters.preferredStyles;
-    var idsWeWant = stylesWeWant.filterIds(txt.TagIds);
-    return tagLabelsSvc.labelsFromStyleTagIds(idsWeWant);
-  };
-
-  // Some phone browser do not initialise the view correctly
-  //  $location.hash('leCorps');
-  //  $anchorScroll(); // url does not look nice with that
+  // Some phone browser do not initialise the view correctly with  $location.hash('leCorps') and url does not look nice with   $anchorScroll()
   $window.scrollTo(0,0);
 
-  $scope.getCurrentTextId = function() {
-    //var valret = textsSvc.getCurrentTextId();
-    var valret = $stateChange.toParams.textId;
-    return valret;
-  };
-
+  // Used by view to build urls
   $scope.currentAreaName = currentAreaName;
-
   $scope.currentIntention = currentIntention;
-  $scope.textList = currentTextList;
-  $scope.filteredList = [];
+  $scope.recipientId = $scope.currentRecipient ? $scope.currentRecipient.Id : 'none';
 
-  $scope.theAccordionStatus = accordionSvc.theAccordionStatus;
-
-  $scope.openAccordion = function() {
-    $scope.theAccordionStatus.open = true;
-  };
-
+  // Give visibility to services
+  $scope.appUrlSvc = appUrlSvc;
+  $scope.helperSvc = helperSvc;
+  $scope.questionBarSvc = questionBarSvc;
+  $scope.filteredTextListSvc = filteredTextListSvc;
   $scope.filters = filtersSvc.filters;
   $scope.filtersWellDefined = filtersSvc.wellDefined;
-  //$scope.recipientId = currentRecipientSvc.getIdOfRecipient(currentRecipient);
-  //$scope.currentRecipient = currentRecipientSvc.getCurrentRecipientNow();
   $scope.currentRecipient = currentRecipient;
-  $scope.recipientId = $scope.currentRecipient ? $scope.currentRecipient.Id : 'none';
   $scope.currentRecipientLabel = "";
   if ( $scope.currentRecipient )
     $scope.currentRecipientLabel =  $scope.currentRecipient.LocalLabel;
 
-  function prepareAndDisplayTextList() {
+  // Read current text id from url : will switch display between text list and text detail view
+  $scope.getCurrentTextId = function() {
+    var valret = $stateChange.toParams.textId;
+    textsSvc.setCurrentTextId(valret);
+    return valret;
+  };
+
+  // Unfiltered text list
+  var unfilteredTextList  = currentTextList;
+  // The filtered text list actualy displayed
+  $scope.filteredList = [];
+
+  // Prepare the filtered text list to be displayed. On initialisation, do it with resolved text list
+  var firstWatchCall = true;
+  $scope.filterList = function () {
+    // Optimization : setFilteredAndOrderedList should not be called two times when view initializes. So we dont call it the first time
+    if ( !firstWatchCall ) {
+      filteredTextListSvc.setFilteredAndOrderedList(unfilteredTextList, currentUser, filtersSvc.filters.preferredStyles);
+    }
+    $scope.filteredList = filteredTextListSvc.getFilteredTextList();
+    firstWatchCall = false;
+  };
+
+  // Ask for new text list, count properties displayable to user, then filter list
+  var prepareAndDisplayTextList = function() {
     textsSvc.getCurrentList().then(function(textList) {
-      $scope.textList =textList;
+      unfilteredTextList =textList;
       textsSvc.countTextsForStylesAndProperties(textList);
       accordionSvc.calculateMostSelectiveStyles();
-      $scope.filterList();});
-  }
-  $scope.$watch(function() { return currentLanguage.getLanguageCode(); },prepareAndDisplayTextList(),true);
+      $scope.filterList();}
+    );
+  };
 
+  // Get new list and filter when language changes
+  $scope.$watch(function() { return currentLanguage.getLanguageCode(); },prepareAndDisplayTextList(),true);
+  // Filter when user gender changes
+  $scope.$watch(function() { return currentUser.gender; }, $scope.filterList, true);
+  // Filter when filters change
+  $scope.$watch(function() { return filtersSvc.filters; }, $scope.filterList, true);
+  // Get new list and filter if server cache says it is stale
   var intentionId = (!! currentIntention ) ? currentIntention.Slug : intentionsSvc.getCurrentId();
   intentionsSvc.invalidateCacheIfNewerServerVersionExists(currentAreaName,intentionId)
     .then(function(shouldReload){
@@ -66,42 +72,27 @@ function ($scope, currentTextList, currentIntention,  currentUser, filtersSvc, $
           prepareAndDisplayTextList();
         });
 
-   $scope.showTextsAnyway = function() {
-    return currentAreaName == 'General';
-  };
-
-  $scope.isFavourite = function(txt) {
-    return favouritesSvc.isExisting(txt);
-  };
-  $scope.setFavourite = function(txt, isFav) {
-    favouritesSvc.setFavourite(txt, currentAreaName, currentIntention, isFav);
-  };
-
+  // Update filters with current recipient type : should be watched if it can change (current does not : set in the view url)
   if ( currentRecipient ) {
     filtersSvc.setRecipientTypeTag(currentRecipient.RecipientTypeTag); // Shoud not be reinitialized when we come back from TextDetail view
   }
 
-  $scope.filteredTextList = filteredTextListSvc;
-
-  var firstWatchCall = true;
-  $scope.filterList = function () {
-    //$scope.filteredList.length = 0;
-    // TODO : This should not be called two times when view initializes
-    if ( !firstWatchCall ) {
-      filteredTextListSvc.setFilteredAndOrderedList($scope.textList, currentUser, filtersSvc.filters.preferredStyles);
-    }
-    $scope.filteredList = filteredTextListSvc.getFilteredTextList();
-    firstWatchCall = false;
+  $scope.theAccordionStatus = accordionSvc.theAccordionStatus;
+  $scope.openAccordion = function() {
+    $scope.theAccordionStatus.open = true;
   };
 
-  // Watch user gender and update filtered text list if they change
-  $scope.$watch(function() { return currentUser.gender; }, $scope.filterList, true);
-  // Watch the filters and update filtered text list if they change
-  $scope.$watch(function() { return filtersSvc.filters; }, $scope.filterList, true);
+  // Get displayable style names for the text (imaginative, poetic,..)
+  $scope.labelsThatShouldBeDisplayed = function(txt) {
+    var stylesWeWant = filtersSvc.filters.preferredStyles;
+    var idsWeWant = stylesWeWant.filterIds(txt.TagIds);
+    return tagLabelsSvc.labelsFromStyleTagIds(idsWeWant);
+  };
 
+
+  // Open send text dialog
   $scope.send = function(text) {
     postActionSvc.postActionInfo('Text',text.TextId, 'TextList','send');
-
     $scope.sendDialog = $modal.open({
       templateUrl: 'views/partials/sendTextForm.html',
       scope: $scope,
