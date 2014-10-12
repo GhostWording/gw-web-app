@@ -204,39 +204,9 @@ angular.module('cherryApp',  [
   }
 ])
 
-.controller('NavBarController',  ['$scope','appUrlSvc','currentLanguage','favouritesSvc', function($scope,appUrlSvc,currentLanguage,favouritesSvc) {
-  if ( !$scope.app) {
-    $scope.app = {};
-    $scope.app.appUrlSvc = appUrlSvc;
-  }
 
-  $scope.changeLanguage = function (langKey) {
-    currentLanguage.setLanguageCode(langKey);
-  };
 
-  $scope.getLanguage = function() {
-    var l =currentLanguage.getLanguageCode();
-    return currentLanguage.getLanguageCode();
-  };
-
-  $scope.hasFavourite = function()  {
-    return favouritesSvc.hasFavourite();
-  };
-}])
-
-.controller('FilterDialogController', ['$scope', function($scope) {
-}])
-
-.controller('SelectedTextController', ['$scope', function($scope) {
-}])
-
-.controller('LanguageBarController', ['$scope', function ($scope) {
-}])
-.controller('PageLikeController', ['$scope','currentLanguage', function ($scope,currentLanguage) {
-  $scope.isFrench = currentLanguage.isFrenchVersion();
-}])
-
-.run(['$rootScope', 'intentionsSvc', 'filtersSvc','promiseTracker', function($rootScope, intentionsSvc, filtersSvc,promiseTracker) {
+.run(['$rootScope', 'promiseTracker', function($rootScope,  promiseTracker) {
   // Promise tracker to display spinner when getting files
   $rootScope.loadingTracker = promiseTracker({ activationDelay: 300, minDuration: 400 });
 }]);
