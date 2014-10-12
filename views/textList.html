@@ -4,15 +4,15 @@
 
 <div ng-show="getCurrentTextId() == undefined" class="panneauTexte" action-location="TextList">
 
-  <div ng-hide="true || filtersWellDefined()" style="padding-top: 0px; margin-top: 0px; margin-bottom: 5px; ">
-    <span ng-show="textList.length">
-      <span class="nombreTextes">{{ filteredList.length }}</span>&nbsp
-      <span class="labelTextes" translate>façons de dire</span>
-    </span>
-    <span ng-hide="textList.length">
-      <span class="labelTextes" translate>Aucun texte pour dire</span>
-    </span>
-  </div>
+  <!--<div ng-hide="true || filtersWellDefined()" style="padding-top: 0px; margin-top: 0px; margin-bottom: 5px; ">-->
+    <!--<span ng-show="textList.length">-->
+      <!--<span class="nombreTextes">{{ filteredList.length }}</span>&nbsp-->
+      <!--<span class="labelTextes" translate>façons de dire</span>-->
+    <!--</span>-->
+    <!--<span ng-hide="textList.length">-->
+      <!--<span class="labelTextes" translate>Aucun texte pour dire</span>-->
+    <!--</span>-->
+  <!--</div>-->
 
   <div style="vertical-align: middle;">
     <h4 class="intentionCourante " style="  vertical-align: middle;">
@@ -33,7 +33,7 @@
           <i class="glyphicon" ng-class="{'glyphicon-plus': !theAccordionStatus.open, 'glyphicon-minus': theAccordionStatus.open}"></i>
           <span translate class="brand">Filtrer</span>
           (
-          <span class="brand">{{filteredTextList.getLength()}}</span>
+          <span class="brand">{{filteredTextListSvc.getLength()}}</span>
           )
         </accordion-heading>
         <!-- Filtering options  -->
@@ -43,7 +43,6 @@
   </div>
 
     <!-- Text list  -->
-    <!--<div class="listeTextes" ng-show="filtersWellDefined() || showTextsAnyway()">-->
     <div class="listeTextes" ng-show="true">
       <div ng-repeat="txt in filteredList">
          <span ng-hide="helperSvc.isQuote(txt)" ng-repeat="tagLabel in labelsThatShouldBeDisplayed (txt)" >
@@ -74,18 +73,18 @@
   <div  ng-show="false" ng-include="'views/partials/languageBar.html'" style="margin-top: 30px; text-align: center" ></div>
 
   <!-- Fixed position question view -->
-  <div ui-view="questionBarView@" ng-show="QuestionBar.hasMoreQuestions()== true && theAccordionStatus.open == false"
+  <div ui-view="questionBarView@" ng-show="questionBarSvc.hasMoreQuestions()== true && theAccordionStatus.open == false"
         style="position:fixed; border: solid rgb(247,133,40) ; background-color: #ffffff; text-align:center; z-index:3;
         left: 50%; width: 316px; margin-left: -158px; border-width: 3px;  bottom:1px; padding: 0px; margin-bottom: 0px;" class="alert alert-info">
   </div>
-  <div ng-show="QuestionBar.hasMoreQuestions()== true && theAccordionStatus.open == false"
+  <div ng-show="questionBarSvc.hasMoreQuestions()== true && theAccordionStatus.open == false"
        style="position:fixed; background-color: #ffffff; margin-left: -23px;  text-align:center;   left: 50%; ; width: 50px; bottom:62px; z-index:5; font-size: 100%">
-    <a href="" scroll-to="" ng-click="openAccordion()"  class="fa fa-envelope-o">&nbsp{{filteredTextList.getLength()}}</a>
+    <a href="" scroll-to="" ng-click="openAccordion()"  class="fa fa-envelope-o">&nbsp{{filteredTextListSvc.getLength()}}</a>
   </div>
 
-  <div ng-show="QuestionBar.hasMoreQuestions()== false || theAccordionStatus.open == true"
+  <div ng-show="questionBarSvc.hasMoreQuestions()== false || theAccordionStatus.open == true"
        style="position:fixed; background-color: #ffffff; margin-left: -38px;  text-align:center;   left: 50%; ; width: 70px; bottom:0px; z-index:5; font-size: 130% ">
-    <a href="" scroll-to="" ng-click="openAccordion()"  class="questionChoice fa fa-envelope-o">&nbsp{{filteredTextList.getLength()}}</a>
+    <a href="" scroll-to="" ng-click="openAccordion()"  class="questionChoice fa fa-envelope-o">&nbsp{{filteredTextListSvc.getLength()}}</a>
   </div>
 
 

@@ -1,9 +1,5 @@
 angular.module('app', [
-  //'app/areas',
-//  'app/intentions',
-//  'app/intentions/intentionsSvc',
   'app/intentions/IntentionListController',
-
   'app/filters',
   'app/recipients',
   'app/splash',
@@ -11,8 +7,8 @@ angular.module('app', [
   'app/users',
   'app/routing',
   'app/favourites',
-//  'app/userFriend',
   'app/userDashboard',
   'app/subscriptions',
-  'app/appUrl/appUrlSvc'
+  'app/appUrl',
+  'app/controllers'
 ]);
