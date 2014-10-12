@@ -1,31 +1,26 @@
 ﻿<html ng-app='cherryApp' lang="en">
   <head>
-
     <meta charset="utf-8">
     <meta name="fragment" content="!">
     <base href="/">
 
-    <!--<meta name="viewport" content="initial-scale=1.0, user-scalable=no">-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <meta name="google-site-verification" content="Yancq9d1odgL9tS_cPdZuci56Rmh5J30ASqLN4Mk3Wk" />
 
+    <meta name="google-site-verification" content="Yancq9d1odgL9tS_cPdZuci56Rmh5J30ASqLN4Mk3Wk" />
     <meta name="msvalidate.01" content="B3A7DA86CB037333C6DBD49A5CEE100C" />
 
+    <!-- Could use directive like in http://stackoverflow.com/questions/20807761/angular-modify-meta-tag-->
     <title ng-bind-template="{{pageTitle1 | translate}} {{pageTitle2 | translate}}">Mots magiques pour belles occasions</title>
-
-     <!--TODO : description could adapt to page and language as in http://stackoverflow.com/questions/20807761/angular-modify-meta-tag-->
     <meta name="description" content="{{ pageDescription | translate }}">
 
     <meta property="og:title" content="{{pageTitle1 | translate}} {{pageTitle2 | translate}}"/>
-    <!--<meta property="og:title" content="{{ogTitle}}"/>-->
     <meta property="og:image" content="http://www.commentvousdire.com/assets/TouchWording.jpg"/>
     <meta property="og:description" content="{{ ogDescription | translate }}">
     <meta property="og:url" content="{{ ogUrl }}">
     <meta property="og:type" content="website">
-    <meta property="fb:app_id" content="582577148493403">
-    <!--582577148493403 ou 679461192138331 pour test-->
+    <meta property="fb:app_id" content="582577148493403">     <!--679461192138331 for test id -->
 
-    <!-- This may be slowing down page activation quite a bit  -->
+    <!-- This may slow down page activation a bit  -->
     <!--<script src="http://api.cvd.io/userevent?ActionLocation=Header&ActionType=Load&AreaId=na&ClientTime=&TargetId=na"></script>-->
 	
 		<!-- VENDOR JS INJECTION POINT -->
@@ -45,11 +40,9 @@
                 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
         })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-        //ga('create', 'UA-47718196-1', 'commentvousdire.com');
         ga('create', 'UA-47718196-1', 'auto'); // 22/07/2014
-
         //ga('require', 'linkid', 'linkid.js'); // improves accuracy. might cause loading delay
-        //ga('send', 'pageview'); // done for all pages on $stateChangeSuccess
+        //ga('send', 'pageview'); // called on $stateChangeSuccess
     </script>
 
     <!-- WEINRE debuguer-->
@@ -57,35 +50,28 @@
 
     <!--Reminder : include Respond.js for IE8 support with bootstrap 3.0 -->
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
     <!--<script src="./scripts/lib/html5shiv.js"></script>-->
     <!--<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>-->
     <![endif]-->
 
-    <!--CSS -->
-    <!-- Is is better to load css before js ? -->
-
 		<!-- CSS INJECTION POINT -->
 		<!-- style:css --><!-- endinject -->
 
-    <!-- Fav and touch icons -->
+    <!-- TODO : add tags to optimize viewing on iPhones -->
     <!--<link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">-->
     <link rel="icon"   type="image/jpg"   href="assets/favicon-bmw-32.jpg">
     <link rel="shortcut icon"  href="assets/favicon-bmw-32.jpg">
 
-    <!-- Microsoft app Insights -->
-    <script type="text/javascript">
-      window.appInsights={queue:[],applicationInsightsId:null,accountId:null,appUserId:null,configUrl:null,start:function(n){function u(n){t[n]=function(){var i=arguments;t.queue.push(function(){t[n].apply(t,i)})}}function f(n,t){if(n){var u=r.createElement(i);u.type="text/javascript";u.src=n;u.async=!0;u.onload=t;u.onerror=t;r.getElementsByTagName(i)[0].parentNode.appendChild(u)}else t()}var r=document,t=this,i;t.applicationInsightsId=n;u("logEvent");u("logPageView");i="script";f(t.configUrl,function(){f("//az416426.vo.msecnd.net/scripts/a/ai.0.7.js")});t.start=function(){}}};
-      appInsights.start("9611fbb1-a172-426b-ba9b-c2d11638415c");
-      appInsights.logPageView();
-    </script>
+    <!-- Microsoft app Insights : might not be very useful -->
+    <!--<script type="text/javascript">-->
+      <!--window.appInsights={queue:[],applicationInsightsId:null,accountId:null,appUserId:null,configUrl:null,start:function(n){function u(n){t[n]=function(){var i=arguments;t.queue.push(function(){t[n].apply(t,i)})}}function f(n,t){if(n){var u=r.createElement(i);u.type="text/javascript";u.src=n;u.async=!0;u.onload=t;u.onerror=t;r.getElementsByTagName(i)[0].parentNode.appendChild(u)}else t()}var r=document,t=this,i;t.applicationInsightsId=n;u("logEvent");u("logPageView");i="script";f(t.configUrl,function(){f("//az416426.vo.msecnd.net/scripts/a/ai.0.7.js")});t.start=function(){}}};-->
+      <!--appInsights.start("9611fbb1-a172-426b-ba9b-c2d11638415c");-->
+      <!--appInsights.logPageView();-->
+    <!--</script>-->
   </head>
 
   <body  id="leCorps">
-    <!-- facebook scripts -->
-    <!--<div id="fb-root"></div>-->
-
   <h4 ng-show="false">Comment vous dire : ne laissez pas le temps au temps</h4>
   <h4 ng-show>Touchwording helps you send better messsages</h4>
 
@@ -98,9 +84,6 @@
         <a class="navbar-brand hidden-xs" ng-href="/" TargetId="welcome" translate>CommentVousDire</a>
         <a class="navbar-brand glyphicon glyphicon-home visible-xs" ng-href="/" TargetId="welcome" ></a>
         <div class="pull-right visible-xs">
-          <!--<a href="" style="margin-right: 4px;" ng-class='{active: getLanguage()=="fr"}' ng-click="changeLanguage('fr')" class="navbar-brand flag flag-icon flag-icon-fr flag-icon-squared"></a>-->
-          <!--<a href="" style="margin-right: 4px;" ng-class='{active: getLanguage()=="en"}' ng-click="changeLanguage('en')" class="navbar-brand flag flag-icon flag-icon-uk flag-icon-squared"></a>-->
-          <!--<a href="" style="margin-right: 4px;" ng-class='{active: getLanguage()=="es"}'  ng-click="changeLanguage('es')" class="navbar-brand flag flag-icon flag-icon-es flag-icon-squared"></a>-->
           <a href="" TargetId="fr" style="margin-right: 0px; padding-left: 0px; padding-right: 7px;" ng-class='{active: getLanguage()=="fr"}' ng-click="changeLanguage('fr')" class="navbar-brand ">fr</a>
           <a href="" TargetId="en" style="margin-right: 0px; padding-left: 0px; padding-right: 7px;" ng-class='{active: getLanguage()=="en"}' ng-click="changeLanguage('en')" class="navbar-brand ">en</a>
           <a href="" TargetId="es" style="margin-right: 0px; padding-left: 0px; padding-right: 7px;" ng-class='{active: getLanguage()=="es"}'  ng-click="changeLanguage('es')" class="navbar-brand">es</a>
@@ -123,8 +106,6 @@
       </div>
 
       <div class="collapse navbar-collapse hidden-xs"  ng-class="!navCollapsed && 'in'" ng-click="navCollapsed=true">
-      <!--<div data-no-collapse="true" >-->
-
         <ul class="nav navbar-nav pull-right">
           <!--<li style="margin-right: 12px;" ng-class='{active: getLanguage()=="fr"}' ng-click="changeLanguage('fr')"><a href="" class="flag flag-icon flag-icon-fr flag-icon-squared"></a></li>-->
           <!--<li style="margin-right: 12px;" ng-class='{active: getLanguage()=="en"}' ng-click="changeLanguage('en')"><a href="" class="flag flag-icon flag-icon-uk flag-icon-squared"></a></li>-->
@@ -151,6 +132,7 @@
           <li class="active"><a ng-href="{{app.appUrlSvc.getFullPath('')}}about" TargetId="about" translate>A propos</a></li>
         </ul>
       </div>
+
      </div>  <!--container-fluid-->
     </nav>
 
@@ -167,6 +149,7 @@
           </ul>
         </div>
       </div>
+
       <!-- Spinner -->
       <div ng-show="showSpinner || trackerIsActive()" style="position:fixed;top:-20px;left:300px; z-index:3;"><circle-spinner></circle-spinner></div>
 
