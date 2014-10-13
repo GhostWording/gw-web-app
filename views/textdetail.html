@@ -6,20 +6,20 @@
       <li ng-class='{selectionne: false}'>
 
         <!-- User was allready in our app : just go back to previous page  -->
-        <a ng-show = "appUrlSvc.getTextDetailWasCalledFromTextList() || appUrlSvc.getTextDetailWasCalledFromDashboard()" ng-href="" historyback
+        <a ng-show = "app.appUrlSvc.getTextDetailWasCalledFromTextList() || app.appUrlSvc.getTextDetailWasCalledFromDashboard()" ng-href="" historyback
            class="pull-left" role="button" targetId="Back">
           <img ng-src="./assets/arrow-left.png" class="stylepicto">
         </a>
 
         <!-- Move explicitely to intention text list -->
-        <a ng-show = "appUrlSvc.getTextDetailWasCalledFromTextList() == false && appUrlSvc.isDashboardPath() == false"
+        <a ng-show = "app.appUrlSvc.getTextDetailWasCalledFromTextList() == false && app.appUrlSvc.isDashboardPath() == false"
            ng-href="{{app.appUrlSvc.getFullPath('')}}area/{{ currentAreaName }}/recipient/{{ recipientId }}/intention/{{app.appUrlSvc.getIntentionSlug(currentIntention)}}/text"
            class="pull-left" role="button" targetId="Back">
           <img ng-src="./assets/arrow-left.png" class="stylepicto">
         </a>
 
         <!-- Move explicitely to dashboard -->
-        <a ng-show = "appUrlSvc.getTextDetailWasCalledFromDashboard() == false && appUrlSvc.isDashboardPath() == true"
+        <a ng-show = "app.appUrlSvc.getTextDetailWasCalledFromDashboard() == false && app.appUrlSvc.isDashboardPath() == true"
            ng-href="{{app.appUrlSvc.getFullPath('')}}area/{{ currentAreaName }}/dashboard"
            class="pull-left" role="button" targetId="Back">
           <img ng-src="./assets/arrow-left.png" class="stylepicto">
@@ -151,7 +151,7 @@
   </accordion>
 
   <!-- When user has landed directly on this page, suggest a visit to intention list  -->
-  <div ng-show = "!appUrlSvc.getTextDetailWasCalledFromTextList() && !appUrlSvc.getTextDetailWasCalledFromDashboard()" style="margin-top: 25px; margin-bottom: 15px; text-align: center; ">
+  <div ng-show = "!app.appUrlSvc.getTextDetailWasCalledFromTextList() && !app.appUrlSvc.getTextDetailWasCalledFromDashboard()" style="margin-top: 25px; margin-bottom: 15px; text-align: center; ">
     <div translate style="margin-bottom: 10px;">Voir les meilleures façons de dire</div>
     <a style="color:  #428bca" class="btn btn-default btn-lg" id="toTextList"
        ng-href="{{app.appUrlSvc.getFullPath('')}}area/{{ currentAreaName }}/recipient/{{ recipientId }}/intention/{{app.appUrlSvc.getIntentionSlug(currentIntention)}}/text"
@@ -159,17 +159,17 @@
   </div>
 
   <!-- When user has landed directly on this page, suggest a visit to homepage  -->
-  <div ng-show = "!appUrlSvc.getTextDetailWasCalledFromTextList() && !appUrlSvc.getTextDetailWasCalledFromDashboard()" style="margin-top: 20px; margin-bottom: 15px; text-align: center; ">
+  <div ng-show = "!app.appUrlSvc.getTextDetailWasCalledFromTextList() && !app.appUrlSvc.getTextDetailWasCalledFromDashboard()" style="margin-top: 20px; margin-bottom: 15px; text-align: center; ">
     <div translate style="margin-bottom: 10px;">Testez le prompteur</div>
     <a class="btn btn-primary btn-lg" id="discoverTheApp" ng-href="{{app.appUrlSvc.getFullPath('')}}" targetId="Welcome" translate>Retenez-les</a>
   </div>
 
 
   <!-- Switch language -->
-  <div ng-show = "!appUrlSvc.getTextDetailWasCalledFromTextList() && !appUrlSvc.getTextDetailWasCalledFromDashboard()" ng-include="'views/partials/languageBar.html'" style="margin-top: 30px; text-align: center" ></div>
+  <div ng-show = "!app.appUrlSvc.getTextDetailWasCalledFromTextList() && !app.appUrlSvc.getTextDetailWasCalledFromDashboard()" ng-include="'views/partials/languageBar.html'" style="margin-top: 30px; text-align: center" ></div>
 
   <!-- Mozart  -->
-  <div ng-if = "!appUrlSvc.getTextDetailWasCalledFromTextList() && !appUrlSvc.getTextDetailWasCalledFromDashboard()" style="margin-top:25px; margin-bottom: 15px; text-align: center;">
+  <div ng-if = "!app.appUrlSvc.getTextDetailWasCalledFromTextList() && !app.appUrlSvc.getTextDetailWasCalledFromDashboard()" style="margin-top:25px; margin-bottom: 15px; text-align: center;">
     <img height="120px;" src="./assets/pianoCat.jpg">
   </div>
 
