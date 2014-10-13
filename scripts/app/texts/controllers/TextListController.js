@@ -34,38 +34,42 @@ function ($scope, currentTextList, currentIntention,  currentUser, filtersSvc, $
     return valret;
   };
 
-  // Unfiltered text list
+  // Unfiltered text list : initialize with resolved text list from router
   var unfilteredTextList  = currentTextList;
   // The filtered text list actualy displayed
   $scope.filteredList = [];
 
   // Prepare the filtered text list to be displayed. On initialisation, do it with resolved text list
   var firstWatchCall = true;
-  $scope.filterList = function () {
+  var filterList = function (textListToFilter) {
     // Optimization : setFilteredAndOrderedList should not be called two times when view initializes. So we dont call it the first time
-    if ( !firstWatchCall ) {
-      filteredTextListSvc.setFilteredAndOrderedList(unfilteredTextList, currentUser, filtersSvc.filters.preferredStyles);
-    }
-    $scope.filteredList = filteredTextListSvc.getFilteredTextList();
+    if ( !firstWatchCall )
+      filteredTextListSvc.setFilteredAndOrderedList(textListToFilter, currentUser, filtersSvc.filters.preferredStyles);
     firstWatchCall = false;
+    $scope.filteredList = filteredTextListSvc.getFilteredTextList();
+    return $scope.filteredList;
   };
 
   // Ask for new text list, count properties displayable to user, then filter list
   var prepareAndDisplayTextList = function(culture) {
     textsSvc.getCurrentTextList(culture).then(function(textList) {
       unfilteredTextList =textList;
-      textsSvc.countTextsForStylesAndProperties(textList);
+      //textsSvc.countTextsForStylesAndProperties(textList);
       accordionSvc.calculateMostSelectiveStyles();
-      $scope.filterList();}
+      filterList(unfilteredTextList);}
     );
   };
 
   // Get new list and filter when language changes
   $scope.$watch(function() { return currentLanguage.getLanguageCode(); },prepareAndDisplayTextList( currentLanguage.currentCulture() ),true);
   // Filter when user gender changes
-  $scope.$watch(function() { return currentUser.gender; }, $scope.filterList, true);
+  $scope.$watch(function() { return currentUser.gender; },
+      function() {filterList(unfilteredTextList);},
+  true);
   // Filter when filters change
-  $scope.$watch(function() { return filtersSvc.filters; }, $scope.filterList, true);
+  $scope.$watch(function() { return filtersSvc.filters; },
+      function() {filterList(unfilteredTextList);},
+  true);
   // Get new list and filter if server cache says it is stale
   var intentionId = (!! currentIntention ) ? currentIntention.Slug : intentionsSvc.getCurrentId();
   intentionsSvc.invalidateCacheIfNewerServerVersionExists(currentAreaName,intentionId)
@@ -74,7 +78,7 @@ function ($scope, currentTextList, currentIntention,  currentUser, filtersSvc, $
           prepareAndDisplayTextList( currentLanguage.currentCulture() );
         });
 
-  // Update filters with current recipient type : should be watched if it can change (current does not : set in the view url)
+  // Update filters with current recipient type : should be watched if it can change (currently does not change, it is read from the view url)
   if ( currentRecipient ) {
     filtersSvc.setRecipientTypeTag(currentRecipient.RecipientTypeTag); // Shoud not be reinitialized when we come back from TextDetail view
   }
