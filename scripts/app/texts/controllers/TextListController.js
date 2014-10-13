@@ -21,9 +21,11 @@ function ($scope, currentTextList, currentIntention,  currentUser, filtersSvc, $
   $scope.filters = filtersSvc.filters;
   $scope.filtersWellDefined = filtersSvc.wellDefined;
   $scope.currentRecipient = currentRecipient;
-  $scope.currentRecipientLabel = "";
-  if ( $scope.currentRecipient )
-    $scope.currentRecipientLabel =  $scope.currentRecipient.LocalLabel;
+  $scope.currentRecipientLabel = $scope.currentRecipient ?  $scope.currentRecipient.LocalLabel :  "";
+  $scope.theAccordionStatus = accordionSvc.theAccordionStatus;
+  $scope.openAccordion = function() {
+    $scope.theAccordionStatus.open = true;
+  };
 
   // Read current text id from url : will switch display between text list and text detail view
   $scope.getCurrentTextId = function() {
@@ -49,8 +51,8 @@ function ($scope, currentTextList, currentIntention,  currentUser, filtersSvc, $
   };
 
   // Ask for new text list, count properties displayable to user, then filter list
-  var prepareAndDisplayTextList = function() {
-    textsSvc.getCurrentList().then(function(textList) {
+  var prepareAndDisplayTextList = function(culture) {
+    textsSvc.getCurrentTextList(culture).then(function(textList) {
       unfilteredTextList =textList;
       textsSvc.countTextsForStylesAndProperties(textList);
       accordionSvc.calculateMostSelectiveStyles();
@@ -59,7 +61,7 @@ function ($scope, currentTextList, currentIntention,  currentUser, filtersSvc, $
   };
 
   // Get new list and filter when language changes
-  $scope.$watch(function() { return currentLanguage.getLanguageCode(); },prepareAndDisplayTextList(),true);
+  $scope.$watch(function() { return currentLanguage.getLanguageCode(); },prepareAndDisplayTextList( currentLanguage.currentCulture() ),true);
   // Filter when user gender changes
   $scope.$watch(function() { return currentUser.gender; }, $scope.filterList, true);
   // Filter when filters change
@@ -69,7 +71,7 @@ function ($scope, currentTextList, currentIntention,  currentUser, filtersSvc, $
   intentionsSvc.invalidateCacheIfNewerServerVersionExists(currentAreaName,intentionId)
     .then(function(shouldReload){
         if (shouldReload)
-          prepareAndDisplayTextList();
+          prepareAndDisplayTextList( currentLanguage.currentCulture() );
         });
 
   // Update filters with current recipient type : should be watched if it can change (current does not : set in the view url)
@@ -77,10 +79,6 @@ function ($scope, currentTextList, currentIntention,  currentUser, filtersSvc, $
     filtersSvc.setRecipientTypeTag(currentRecipient.RecipientTypeTag); // Shoud not be reinitialized when we come back from TextDetail view
   }
 
-  $scope.theAccordionStatus = accordionSvc.theAccordionStatus;
-  $scope.openAccordion = function() {
-    $scope.theAccordionStatus.open = true;
-  };
 
   // Get displayable style names for the text (imaginative, poetic,..)
   $scope.labelsThatShouldBeDisplayed = function(txt) {

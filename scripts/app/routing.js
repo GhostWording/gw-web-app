@@ -133,7 +133,7 @@ angular.module('app/routing', ['ui.router'])
       currentIntention: ['intentionsSvc', function(intentionsSvc) {
         return intentionsSvc.getCurrent();
       }],
-      currentText: ['textsSvc', function(textsSvc) { return textsSvc.getCurrent(); }],
+      currentText: ['textsSvc', function(textsSvc) { return textsSvc.getCurrentText(); }],
       // That approach wil not work when text detail is reloaded from scratch
       //currentText: ['currentBoardPosterSvc', function(currentBoardPosterSvc) { return currentBoardPosterSvc.getCurrentPoster().posterText; }],
       //currentIntention: ['currentBoardPosterSvc', function(currentBoardPosterSvc) { return currentBoardPosterSvc.getCurrentPoster().section.intention; }],
@@ -176,7 +176,7 @@ angular.module('app/routing', ['ui.router'])
         return intentionId;  }
       ],
       currentIntention: ['intentionsSvc', function(intentionsSvc) { return intentionsSvc.getCurrent(); }],
-      currentTextList: ['textsSvc', function(textsSvc) { return textsSvc.getCurrentList(); }],
+      currentTextList: ['textsSvc','currentLanguage', function(textsSvc,currentLanguage) { return textsSvc.getCurrentTextList( currentLanguage.currentCulture() ); }],
       currentRecipient: ['currentRecipientSvc', function(currentRecipientSvc) { return currentRecipientSvc.getCurrentRecipient(); }]
     },
     showTabs: true,
@@ -201,7 +201,7 @@ angular.module('app/routing', ['ui.router'])
         return textId; }
       ],
       // Current intention is inherited from parent state
-      currentText: ['textsSvc', function(textsSvc) { return textsSvc.getCurrent(); }]
+      currentText: ['textsSvc','currentLanguage', function(textsSvc,currentLanguage) { return textsSvc.getCurrentText(currentLanguage.currentCulture()); }]
     }
   })
   .state('favoriteRecipients', {

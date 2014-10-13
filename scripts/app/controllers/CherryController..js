@@ -42,11 +42,11 @@ angular.module('app/controllers/CherryController', [])
     intentionsSvc.getForArea('General',skipTracker);
 
     // Preload text lists
-    textsSvc.getTextList('Friends', 'joyeux-anniversaire',skipTracker);
-    textsSvc.getTextList('LoveLife', 'j-aimerais-vous-revoir',skipTracker);
-    textsSvc.getTextList('LoveLife', 'je-pense-a-toi',skipTracker);
-    textsSvc.getTextList('LoveLife', 'je-t-aime',skipTracker);
-    textsSvc.getTextList('LoveLife', 'j-ai-envie-de-toi',skipTracker);
+    textsSvc.getTextList('Friends', 'joyeux-anniversaire', currentLanguage.currentCulture(), skipTracker);
+    textsSvc.getTextList('LoveLife', 'j-aimerais-vous-revoir', currentLanguage.currentCulture(),skipTracker);
+    textsSvc.getTextList('LoveLife', 'je-pense-a-toi',currentLanguage.currentCulture(),skipTracker);
+    textsSvc.getTextList('LoveLife', 'je-t-aime',currentLanguage.currentCulture(), skipTracker);
+    textsSvc.getTextList('LoveLife', 'j-ai-envie-de-toi',currentLanguage.currentCulture(),skipTracker);
 
     // Display spinner when route change starts
     $rootScope.$on("$stateChangeStart",function (event, toState, toParams, fromState, fromParams) {
@@ -79,7 +79,7 @@ angular.module('app/controllers/CherryController', [])
       }
       // Set title and description for facebook bot
       function setTitleFromCurrentText() {
-        textsSvc.getCurrent().then(function (text) {
+        textsSvc.getCurrentText(currentLanguage.currentCulture()).then(function (text) {
           if (text) {
             $rootScope.pageTitle1 = "";
             if ( helperSvc.isQuote(text)) {

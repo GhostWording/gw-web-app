@@ -1,11 +1,11 @@
 angular.module('app/userDashboard/BoardPosterController', [])
-.controller('BoardPosterController', ['$scope', 'helperSvc', 'dateHelperSvc','$modal', 'ufHelperSvc','boardPosterHelperSvc','currentBoardPosterSvc','dashboardContextStyles','intentionsSvc',
-  function ($scope, helperSvc, dateHelperSvc,$modal,ufHelperSvc,boardPosterHelperSvc,currentBoardPosterSvc,dashboardContextStyles,intentionsSvc) {
+.controller('BoardPosterController', ['$scope', 'helperSvc', 'dateHelperSvc','$modal', 'ufHelperSvc','boardPosterHelperSvc','currentBoardPosterSvc','dashboardContextStyles','intentionsSvc','currentLanguage',
+  function ($scope, helperSvc, dateHelperSvc,$modal,ufHelperSvc,boardPosterHelperSvc,currentBoardPosterSvc,dashboardContextStyles,intentionsSvc,currentLanguage) {
     // Initialize : most properties will be set by $watch functions
     $scope.poster = {'fullTextList' : [], 'filteredTextList' : [], 'filters' : null, 'userFriend' : $scope.userFriend, 'section' : $scope.boardSection, 'posterTextContent' : '','posterText' : undefined  };
 
     // Fetch text list to display from cache or server
-    boardPosterHelperSvc.setPosterTextList($scope.poster);
+    boardPosterHelperSvc.setPosterTextList($scope.poster,currentLanguage.currentCulture());
 
     $scope.setCurrentPoster = function() {currentBoardPosterSvc.setCurrentPoster($scope.poster);};
 
