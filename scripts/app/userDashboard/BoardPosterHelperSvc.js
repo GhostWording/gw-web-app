@@ -5,17 +5,17 @@ function (textsSvc,intentionsSvc,areasSvc,filterHelperSvc,recipientTypeHelperSvc
 
   var service = {
     // Get poster text list from cache or server for the poster section intention
-    setPosterTextList: function (poster) {
+    setPosterTextList: function (poster,culture) {
       var intentionSlug = poster.section.sectionType == 'intention' ? poster.section.sectionTargetId : 'none-for-the-time-being';
       // In cacheSvc the texts are copied as in return angular.copy(value); = if the app gets slow we might want to send the original (not to be modified) list
-      textsSvc.getListForCurrentArea(intentionSlug).then(function (textList) {
+      textsSvc.getListForCurrentArea(intentionSlug,culture).then(function (textList) {
         poster.fullTextList = textList;
         // Cache is quick but it might be stale. Check server for newer version in case
         intentionsSvc.invalidateCacheIfNewerServerVersionExists(areasSvc.getCurrentName(), intentionSlug)
           // If newer version, we might want to update current display right away
         .then(function (shouldReload) {
           if (shouldReload) {
-            textsSvc.getListForCurrentArea(intentionSlug).then(function (reloadedTextList) {
+            textsSvc.getListForCurrentArea(intentionSlug,culture).then(function (reloadedTextList) {
               poster.fullTextList = reloadedTextList;
             });
           }

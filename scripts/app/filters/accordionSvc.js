@@ -9,7 +9,6 @@ angular.module('app/filters/accordionSvc', [
 .factory('accordionSvc', ['$rootScope', 'intentionsSvc', 'areasSvc', 'currentUser', 'currentLanguage', 'currentRecipientSvc','filtersSvc','textsSvc','generalStyles','helperSvc',
   function ($rootScope, intentionsSvc, areasSvc, currentUser, currentLanguage, currentRecipientSvc,filtersSvc,textsSvc,generalStyles,helperSvc) {
 
-
       var filters = filtersSvc.filters;
       var mostSelectiveStyles;
 
@@ -33,7 +32,6 @@ angular.module('app/filters/accordionSvc', [
         getMostSelectiveStyles: function() {
           return mostSelectiveStyles;
         },
-
 
       calculateMostSelectiveStyles: function() {
         // Add a selectiveness property to the styles, relative to the current filtered text list

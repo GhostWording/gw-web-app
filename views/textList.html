@@ -33,7 +33,7 @@
           <i class="glyphicon" ng-class="{'glyphicon-plus': !theAccordionStatus.open, 'glyphicon-minus': theAccordionStatus.open}"></i>
           <span translate class="brand">Filtrer</span>
           (
-          <span class="brand">{{filteredTextListSvc.getLength()}}</span>
+          <span class="brand">{{filteredList.length}}</span>
           )
         </accordion-heading>
         <!-- Filtering options  -->
@@ -45,7 +45,7 @@
     <!-- Text list  -->
     <div class="listeTextes" ng-show="true">
       <div ng-repeat="txt in filteredList">
-         <span ng-hide="helperSvc.isQuote(txt)" ng-repeat="tagLabel in labelsThatShouldBeDisplayed (txt)" >
+         <span ng-hide="theHelperSvc.isQuote(txt)" ng-repeat="tagLabel in labelsThatShouldBeDisplayed (txt)" >
             <span class="label label-warning" translate>{{tagLabel}}</span>&nbsp
          </span>
 
@@ -55,11 +55,11 @@
           class="pull-right envoyer"
           ng-click="send(txt)">
           <!--<a href="{{appUrlSvc.getRootPath()}}area/{{ currentArea.Name }}/intention/{{ app.appUrlSvc.getIntentionSlug(currentIntention) }}/recipient/{{ recipientId }}/text/{{txt.TextId}}"-->
-          <a ng-href="{{appUrlSvc.getRootPath()}}area/{{ currentAreaName }}/recipient/{{ recipientId }}/intention/{{ app.appUrlSvc.getIntentionSlug(currentIntention) }}/text/{{txt.TextId}}"
+          <a ng-href="{{app.appUrlSvc.getRootPath()}}area/{{ currentAreaName }}/recipient/{{ recipientId }}/intention/{{ app.appUrlSvc.getIntentionSlug(currentIntention) }}/text/{{txt.TextId}}"
           targetType="Text"
           actionType="open"
           targetId="{{txt.TextId}}"
-          ng-click="appUrlSvc.setTextDetailWasCalledFromTextList(true)"
+          ng-click="app.appUrlSvc.setTextDetailWasCalledFromTextList(true)"
           >
           <div cvd-text="txt" ng-class="{active: txt.TextId == selectedTextId}" style="white-space: pre-wrap"></div>
               <span ng-repeat="tagLabel in currentText.TagLabels" >
@@ -73,18 +73,18 @@
   <div  ng-show="false" ng-include="'views/partials/languageBar.html'" style="margin-top: 30px; text-align: center" ></div>
 
   <!-- Fixed position question view -->
-  <div ui-view="questionBarView@" ng-show="questionBarSvc.hasMoreQuestions()== true && theAccordionStatus.open == false"
+  <div ui-view="questionBarView@" ng-show="theQuestionBarSvc.hasMoreQuestions()== true && theAccordionStatus.open == false"
         style="position:fixed; border: solid rgb(247,133,40) ; background-color: #ffffff; text-align:center; z-index:3;
         left: 50%; width: 316px; margin-left: -158px; border-width: 3px;  bottom:1px; padding: 0px; margin-bottom: 0px;" class="alert alert-info">
   </div>
-  <div ng-show="questionBarSvc.hasMoreQuestions()== true && theAccordionStatus.open == false"
+  <div ng-show="theQuestionBarSvc.hasMoreQuestions()== true && theAccordionStatus.open == false"
        style="position:fixed; background-color: #ffffff; margin-left: -23px;  text-align:center;   left: 50%; ; width: 50px; bottom:62px; z-index:5; font-size: 100%">
-    <a href="" scroll-to="" ng-click="openAccordion()"  class="fa fa-envelope-o">&nbsp{{filteredTextListSvc.getLength()}}</a>
+    <a href="" scroll-to="" ng-click="openAccordion()"  class="fa fa-envelope-o">&nbsp{{filteredList.length}}</a>
   </div>
 
-  <div ng-show="questionBarSvc.hasMoreQuestions()== false || theAccordionStatus.open == true"
+  <div ng-show="theQuestionBarSvc.hasMoreQuestions()== false || theAccordionStatus.open == true"
        style="position:fixed; background-color: #ffffff; margin-left: -38px;  text-align:center;   left: 50%; ; width: 70px; bottom:0px; z-index:5; font-size: 130% ">
-    <a href="" scroll-to="" ng-click="openAccordion()"  class="questionChoice fa fa-envelope-o">&nbsp{{filteredTextListSvc.getLength()}}</a>
+    <a href="" scroll-to="" ng-click="openAccordion()"  class="questionChoice fa fa-envelope-o">&nbsp{{filteredList.length}}</a>
   </div>
 
 
