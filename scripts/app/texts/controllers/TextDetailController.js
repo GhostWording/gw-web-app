@@ -50,11 +50,6 @@ function ($scope, currentText, currentIntention,currentRecipient, currentAreaNam
     $scope.authorButton = "disabled";
   };
 
-  // Sender gender of this text, if defined
-  $scope.getSenderGenderVariationFromCurrentUser = function (text) {
-    return alternativeTextsSvc.getSenderGenderVariationFromCurrentUser(text);
-  };
-
   $scope.getSenderGenderMessage = alternativeTextsSvc.getSenderGenderMessage;
   $scope.getRecipientGenderMessage = alternativeTextsSvc.getRecipientGenderMessage;
   $scope.getTVMessage = alternativeTextsSvc.getTVMessage;
@@ -65,18 +60,15 @@ function ($scope, currentText, currentIntention,currentRecipient, currentAreaNam
 
   // For each orderedPresentationLanguages, prepare an array of available texts for the language, then chose the best ones according to sender, recipient and polite form
   alternativeTextsSvc.getRealizationList(currentAreaName,currentText.PrototypeId).then(function(textList) {
+    if ( !textList )
+      return;
     // Adapt text Content formating to culture
     for (var i = 0; i < textList.length; i++) {
       var t = textList[i];
       t.Content = helperSvc.adaptTextContentToLanguage(t);
     }
-    if ( textList != "null") {
-      var currentTextLanguageCode =   currentLanguage.getLanguageFromCulture(currentText.Culture);
-      var currentFilters = filtersSvc.getCurrentFilters();
-      $scope.languageTextGroups = alternativeTextsSvc.getAlternativeTexts(currentText,textList,currentTextLanguageCode,currentFilters);
-    }
-    else
-      console.log("No alternative realization for " + currentText.TextId);
+    // Make groups of best equivalents
+    $scope.languageTextGroups = alternativeTextsSvc.getAlternativeTexts(currentText,textList,currentLanguage.getLanguageFromCulture(currentText.Culture),filtersSvc.getCurrentFilters());
   });
 
   $scope.send = function() {
@@ -101,6 +93,11 @@ function ($scope, currentText, currentIntention,currentRecipient, currentAreaNam
 //      valret += " " + recipientWarning;
 //    return valret;
 //  };
+
+// Sender gender of this text, if defined
+//$scope.getSenderGenderVariationFromCurrentUser = function (text) {
+//  return alternativeTextsSvc.getSenderGenderVariationFromCurrentUser(text);
+//};
 
 
 //  $scope.isFavourite = function() {
