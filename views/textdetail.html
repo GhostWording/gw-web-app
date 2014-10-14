@@ -135,7 +135,7 @@
           </div>
           <div>
         <span ng-show="isVariationFormMorePrecise(text)" style="color: #428bca;">
-          <span translate>Ecrit</span> <span translate>{{getSenderGender(text)}}</span> <span translate>{{getRecipientGender(text)}}</span> <span translate>{{getTV(text)}}</span>
+          <span translate>Ecrit</span> <span translate>{{getSenderGenderMessage(text)}}</span> <span translate>{{getRecipientGenderMessage(text)}}</span> <span translate>{{getTVMessage(text)}}</span>
         </span>
 
             <a rel="nofollow" ng-href="{{app.appUrlSvc.getRootPath('')}}area/{{ currentAreaName }}/recipient/{{ recipientId }}/intention/{{ app.appUrlSvc.getIntentionSlug(currentIntention) }}/text/{{text.TextId}}"

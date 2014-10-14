@@ -6,8 +6,8 @@ angular.module('app/texts/TextDetailController',[
 
 // Display text with alternative versions in other languages
 .controller('TextDetailController',
-['$scope','currentText', 'currentIntention','currentRecipient', 'currentAreaName',  'tagLabelsSvc', '$modal', 'favouritesSvc','currentRecipientSvc','alternativeTextsSvc','currentLanguage','helperSvc','$rootScope','$location','filtersSvc','facebookHelperSvc','postActionSvc',
-function ($scope, currentText, currentIntention,currentRecipient, currentAreaName, tagLabelsSvc, $modal, favouritesSvc,currentRecipientSvc,alternativeTextsSvc,currentLanguage,helperSvc,$rootScope,$location,filtersSvc,facebookHelperSvc,postActionSvc) {
+['$scope','currentText', 'currentIntention','currentRecipient', 'currentAreaName',  'tagLabelsSvc',  'currentRecipientSvc','alternativeTextsSvc','currentLanguage','helperSvc','$rootScope','$location','filtersSvc','facebookHelperSvc','postActionSvc','$modal',
+function ($scope, currentText, currentIntention,currentRecipient, currentAreaName, tagLabelsSvc, currentRecipientSvc,alternativeTextsSvc,currentLanguage,helperSvc,$rootScope,$location,filtersSvc,facebookHelperSvc,postActionSvc, $modal) {
 
   // We want an Init event even if no action takes place, in case user lands here from Google or facebook
   postActionSvc.postActionInfo('Text',currentText.TextId,'TextDetail','Init');
@@ -30,7 +30,6 @@ function ($scope, currentText, currentIntention,currentRecipient, currentAreaNam
   $scope.Id = currentText.TextId;
   $scope.authorButton = "active";
 
-
   // Copy the text Content so that if we edit it we are not editing the original "text".
   $scope.txt = {};
   // Content has to be property of a full object to avoid prototypal inheritance problems
@@ -38,16 +37,13 @@ function ($scope, currentText, currentIntention,currentRecipient, currentAreaNam
   $scope.txt.Content = helperSvc.adaptTextContentToLanguage(currentText);
 
   $scope.recipientId = currentRecipientSvc.getIdOfRecipient(currentRecipient);
+  $scope.isQuote = function(txt) { return helperSvc.isQuote(txt); };
 
-  $scope.isQuote = function(txt) {
-    return helperSvc.isQuote(txt);
-  };
-
+  // Allows user to edit text content in an alternative controll
   $scope.editText = false;
   $scope.edit = function() {
     $scope.editText = true;
   };
-
   // When text is quotation, insert author name after the closing quotation mark
   $scope.addAuthor = function() {
     $scope.txt.Content = helperSvc.insertAuthorInText($scope.txt.Content, currentText.Author);
@@ -58,37 +54,23 @@ function ($scope, currentText, currentIntention,currentRecipient, currentAreaNam
   $scope.getSenderGenderVariationFromCurrentUser = function (text) {
     return alternativeTextsSvc.getSenderGenderVariationFromCurrentUser(text);
   };
-  // Returns a message when text alternative is written for recipient with a different gender
-  $scope.getVariationWarning = function (text) {
-    var recipientWarning =  alternativeTextsSvc.getRecipientGenderVariationFromOriginal(currentText.Content,text);
-    var valret = "Ecrit par " + alternativeTextsSvc.getGenderString(text.Sender);
-    if ( recipientWarning !== "" )
-      valret += " " + recipientWarning;
-    return valret;
-  };
-  $scope.getSenderGender = function(text) {
-    return "par " + text.Sender;
-  };
-  $scope.getRecipientGender = function(text) {
-    return "à " + text.Target;
-  };
-  $scope.getTV = function(text) {
-    return "en disant " + text.PoliteForm;
-  };
+
+  $scope.getSenderGenderMessage = alternativeTextsSvc.getSenderGenderMessage;
+  $scope.getRecipientGenderMessage = alternativeTextsSvc.getRecipientGenderMessage;
+  $scope.getTVMessage = alternativeTextsSvc.getTVMessage;
 
   $scope.isVariationFormMorePrecise = function(text) {
     return alternativeTextsSvc.isVariationFormMorePrecise(currentText,text);
   };
 
+  // For each orderedPresentationLanguages, prepare an array of available texts for the language, then chose the best ones according to sender, recipient and polite form
   alternativeTextsSvc.getRealizationList(currentAreaName,currentText.PrototypeId).then(function(textList) {
     // Adapt text Content formating to culture
     for (var i = 0; i < textList.length; i++) {
       var t = textList[i];
       t.Content = helperSvc.adaptTextContentToLanguage(t);
     }
-
     if ( textList != "null") {
-      // For each orderedPresentationLanguages, prepare an array of available texts for the language, then chose the best ones according to sender, recipient and polite form
       var currentTextLanguageCode =   currentLanguage.getLanguageFromCulture(currentText.Culture);
       var currentFilters = filtersSvc.getCurrentFilters();
       $scope.languageTextGroups = alternativeTextsSvc.getAlternativeTexts(currentText,textList,currentTextLanguageCode,currentFilters);
@@ -110,6 +92,15 @@ function ($scope, currentText, currentIntention,currentRecipient, currentAreaNam
   };
 
 }]);
+
+// Returns a message when text alternative is written for recipient with a different gender
+//  $scope.getVariationWarning = function (text) {
+//    var recipientWarning =  alternativeTextsSvc.getRecipientGenderVariationFromOriginal(currentText.Content,text);
+//    var valret = "Ecrit par " + alternativeTextsSvc.getGenderString(text.Sender);
+//    if ( recipientWarning !== "" )
+//      valret += " " + recipientWarning;
+//    return valret;
+//  };
 
 
 //  $scope.isFavourite = function() {
