@@ -1,62 +1,46 @@
-angular.module('app/texts/TextDetailController',
-['common/i18n', 'common/texts/alternativeTextList','common/services/facebookHelperSvc','common/services/postActionSvc'])
+angular.module('app/texts/TextDetailController',[
+                 'common/i18n',
+                 'common/texts/alternativeTextList',
+                 'common/services/facebookHelperSvc',
+                 'common/services/postActionSvc'])
 
 // Display text with alternative versions in other languages
 .controller('TextDetailController',
 ['$scope','currentText', 'currentIntention','currentRecipient', 'currentAreaName',  'tagLabelsSvc', '$modal', 'favouritesSvc','currentRecipientSvc','alternativeTextsSvc','currentLanguage','helperSvc','$rootScope','$location','filtersSvc','facebookHelperSvc','postActionSvc',
 function ($scope, currentText, currentIntention,currentRecipient, currentAreaName, tagLabelsSvc, $modal, favouritesSvc,currentRecipientSvc,alternativeTextsSvc,currentLanguage,helperSvc,$rootScope,$location,filtersSvc,facebookHelperSvc,postActionSvc) {
+
   // We want an Init event even if no action takes place, in case user lands here from Google or facebook
   postActionSvc.postActionInfo('Text',currentText.TextId,'TextDetail','Init');
 
+  // Facebook tags
+  // When may want to explicitly set og:title from here because facebook sometime picks the intention title instead
+  //$rootScope.ogTitle = currentText.Content;
+  if ( !! currentIntention )
+    $rootScope.ogDescription = currentIntention.Label;
+
+  // Add labels to router resolved currentText
+  currentText.TagLabels = tagLabelsSvc.labelsFromStyleTagIds(currentText.TagIds);
+
+  // Give visibility
   $scope.includeSocialPluginsOnTextPages = facebookHelperSvc.includeSocialPluginsOnTextPages;
   $scope.url = $location.url();
   $scope.currentAreaName = currentAreaName;
   $scope.currentIntention = currentIntention;
   $scope.currentText = currentText;
   $scope.Id = currentText.TextId;
+  $scope.authorButton = "active";
 
-  currentText.TagLabels = tagLabelsSvc.labelsFromStyleTagIds(currentText.TagIds);
-
-  // When may want to explicitly set og:title from here because facebook sometime picks the intention title instead
-  //$rootScope.ogTitle = currentText.Content;
-  if ( !! currentIntention )
-    $rootScope.ogDescription = currentIntention.Label;
 
   // Copy the text Content so that if we edit it we are not editing the original "text".
   $scope.txt = {};
   // Content has to be property of a full object to avoid prototypal inheritance problems
-  $scope.txt.Content = currentText.Content;
+  // adaptTextContentToLanguage will adapt quote formatting to text culture
+  $scope.txt.Content = helperSvc.adaptTextContentToLanguage(currentText);
 
-  // TODO : move in helper
-  function adaptTextContentToLanguage(text) {
-    var valret = text.Content;
-    if (helperSvc.isQuote(currentText)) {
-      if (text.Culture != "fr-FR")
-        valret = helperSvc.replaceAngledQuotes(text.Content, '"');
-      else
-        valret = helperSvc.insertSpaceInsideAngledQuotes(text.Content);
-    }
-    return valret;
-  }
-  $scope.txt.Content = adaptTextContentToLanguage(currentText);
   $scope.recipientId = currentRecipientSvc.getIdOfRecipient(currentRecipient);
-  $scope.authorButton = "active";
 
   $scope.isQuote = function(txt) {
     return helperSvc.isQuote(txt);
-  };
-
-  $scope.send = function() {
-    //postActionSvc.postActionInfo('Text',currentText.TextId, 'TexDetail','send');
-    $scope.sendDialog = $modal.open({
-      templateUrl: 'views/partials/sendTextForm.html',
-      scope: $scope,
-      controller: 'SendTextFormController',
-      resolve: {
-        //currentText: function() { return $scope.currentText; }
-        currentText: function() { return $scope.txt; }
-      }
-    });
   };
 
   $scope.editText = false;
@@ -100,8 +84,7 @@ function ($scope, currentText, currentIntention,currentRecipient, currentAreaNam
     // Adapt text Content formating to culture
     for (var i = 0; i < textList.length; i++) {
       var t = textList[i];
-      //console.log(t);
-      t.Content = adaptTextContentToLanguage(t);
+      t.Content = helperSvc.adaptTextContentToLanguage(t);
     }
 
     if ( textList != "null") {
@@ -113,6 +96,18 @@ function ($scope, currentText, currentIntention,currentRecipient, currentAreaNam
     else
       console.log("No alternative realization for " + currentText.TextId);
   });
+
+  $scope.send = function() {
+    //postActionSvc.postActionInfo('Text',currentText.TextId, 'TexDetail','send');
+    $scope.sendDialog = $modal.open({
+      templateUrl: 'views/partials/sendTextForm.html',
+      scope: $scope,
+      controller: 'SendTextFormController',
+      resolve: {
+        currentText: function() { return $scope.txt; }
+      }
+    });
+  };
 
 }]);
 
