@@ -27,14 +27,12 @@ function ($scope, currentTextList, currentAreaName,  currentUser, currentRecipie
   // Used by view to build urls, resolved from routing
   $scope.currentAreaName  = currentAreaName;
   $scope.theIntentionSlugOrId = currentIntentionSlugOrId;
+
   $scope.theIntentionLabel = currentIntentionLabel;
+  $scope.theRecipientId      = currentRecipientId;
+  $scope.theRecipientLabel = currentRecipientLabel;
 
   // Recipient currently resolved from url
-  //$scope.currentRecipient = currentRecipient;
-  //$scope.recipientId      = $scope.currentRecipient ? $scope.currentRecipient.Id : 'none';
-  $scope.recipientId      = currentRecipientId;
-  //$scope.currentRecipientLabel = $scope.currentRecipient ?  $scope.currentRecipient.LocalLabel :  "";
-  $scope.currentRecipientLabel = currentRecipientLabel;
   // Services visible from the view
   $scope.theQuestionBarSvc = questionBarSvc;
   $scope.filtersWellDefined = filtersSvc.wellDefined;
@@ -68,7 +66,7 @@ function ($scope, currentTextList, currentAreaName,  currentUser, currentRecipie
     );
   };
 
-  // Update filters with current recipient type. Will be watched along with the filters
+  // Update filters with current recipient type. Will be watched along with the filters. Should we do this in the routing ?
   if ( currentRecipient )
     filtersSvc.setRecipientTypeTag(currentRecipient.RecipientTypeTag);
   // Get and filter list when language changes
