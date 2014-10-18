@@ -136,14 +136,7 @@ angular.module('app/routing', ['ui.router'])
           return  currentIntention ? currentIntention.Label :   "Undefined";
         });
       }],
-
-      currentIntention: ['intentionsSvc', function(intentionsSvc) {
-        return intentionsSvc.getCurrent();
-      }],
       currentText: ['textsSvc', function(textsSvc) { return textsSvc.getCurrentText(); }],
-      // That approach wil not work when text detail is reloaded from scratch
-      //currentText: ['currentBoardPosterSvc', function(currentBoardPosterSvc) { return currentBoardPosterSvc.getCurrentPoster().posterText; }],
-      //currentIntention: ['currentBoardPosterSvc', function(currentBoardPosterSvc) { return currentBoardPosterSvc.getCurrentPoster().section.intention; }],
       currentRecipient: ['currentRecipientSvc', function(currentRecipientSvc) { return undefined; }]
     }
   })
