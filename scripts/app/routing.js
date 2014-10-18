@@ -109,7 +109,6 @@ angular.module('app/routing', ['ui.router'])
     showTabs: false
   })
   .state('area.dashboard.textDetail', {
-    //url: '/:textId',
     url: '/:intentionSlug/:textId',
     templateUrl: 'views/textdetail.html',
     controller: 'TextDetailController',
@@ -123,18 +122,18 @@ angular.module('app/routing', ['ui.router'])
           textsSvc.setCurrentTextId(textId);
         return textId;
       }],
+      // We define what the current intention is
+      setCurrentIntentionSlug: ['$stateParams', 'intentionsSvc' , function ($stateParams, intentionsSvc) {
+        intentionsSvc.setIntentionSlug($stateParams.intentionSlug);
+      }],
 
       currentIntentionSlugOrId: ['$stateParams', 'intentionsSvc' , function ($stateParams, intentionsSvc) {
         var intentionSlug = $stateParams.intentionSlug;
         intentionsSvc.setIntentionSlug(intentionSlug);
         return intentionSlug;
       }],
-      currentIntentionLabel: ['$stateParams','intentionsSvc', function($stateParams,intentionsSvc) {
-        var intentionSlug = $stateParams.intentionSlug;
-        intentionsSvc.setIntentionSlug(intentionSlug);
-        return intentionsSvc.getCurrent().then(function(currentIntention) {
-          return  currentIntention ? currentIntention.Label :   "Undefined";
-        });
+      currentIntentionLabel: ['currentAreaName','intentionsSvc','$stateParams', function(currentAreaName,intentionsSvc,$stateParams) {
+        return intentionsSvc.getIntentionLabel(currentAreaName,$stateParams.intentionSlug);
       }],
       currentText: ['textsSvc', function(textsSvc) { return textsSvc.getCurrentText(); }],
       currentRecipient: ['currentRecipientSvc', function(currentRecipientSvc) { return undefined; }]
@@ -168,18 +167,18 @@ angular.module('app/routing', ['ui.router'])
   .state('area.textList', {
     url: '/recipient/:recipientId/intention/:intentionSlug/text',
     resolve: {
+      // When entering a state that defines the current intention, we set the current intention
+      setCurrentIntentionSlug: ['$stateParams', 'intentionsSvc' , function ($stateParams, intentionsSvc) {
+        intentionsSvc.setIntentionSlug($stateParams.intentionSlug);
+      }],
       currentIntentionSlugOrId: ['$stateParams', 'intentionsSvc' , function ($stateParams, intentionsSvc) {
         var intentionSlug = $stateParams.intentionSlug;
         intentionsSvc.setIntentionSlug(intentionSlug);
         return intentionSlug;  }
       ],
-//      currentIntention: ['intentionsSvc', function(intentionsSvc) { return intentionsSvc.getCurrent(); }],
-      currentIntentionLabel: ['$stateParams','intentionsSvc', function($stateParams,intentionsSvc) {
-        var intentionSlug = $stateParams.intentionSlug;
-        intentionsSvc.setIntentionSlug(intentionSlug);
-        return intentionsSvc.getCurrent().then(function(currentIntention) {
-          return  currentIntention ? currentIntention.Label :   "Undefined";
-        });
+      // currentAreaName is resolved by parent state
+      currentIntentionLabel: ['currentAreaName','intentionsSvc','$stateParams', function(currentAreaName,intentionsSvc,$stateParams) {
+        return intentionsSvc.getIntentionLabel(currentAreaName,$stateParams.intentionSlug);
       }],
       currentTextList: ['textsSvc','currentLanguage', function(textsSvc,currentLanguage) { return textsSvc.getCurrentTextList( currentLanguage.currentCulture() ); }],
       currentRecipient: ['currentRecipientSvc', function(currentRecipientSvc) { return currentRecipientSvc.getCurrentRecipient(); }]
@@ -200,7 +199,6 @@ angular.module('app/routing', ['ui.router'])
     resolve: {
       currentTextId: ['$stateParams', 'textsSvc' , function ($stateParams, textsSvc) {
         var textId = $stateParams.textId;
-
         if ( !!textId )
           textsSvc.setCurrentTextId(textId);
         return textId; }

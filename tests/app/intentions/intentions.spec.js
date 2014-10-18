@@ -4,7 +4,7 @@ describe("intentionsSvc", function() {
 
   beforeEach(module('common/intentions/intentionsSvc'));
 
-  describe("getForArea", function() {
+  describe("getIntentionsForArea", function() {
 
     it("should request the intentions from the cacheSvc", inject(function(cacheSvc, $q, $rootScope, intentionsSvc) {
       var dummyIntentions = [],
@@ -14,7 +14,7 @@ describe("intentionsSvc", function() {
       spyOn(cacheSvc, 'get').andReturn($q.when(dummyIntentions));
 
       // Get the intentions. When the promise fulfills, store it for checking later
-      intentionsSvc.getForArea('dummyAreaName').then(function(_intentions_) {
+      intentionsSvc.getIntentionsForArea('dummyAreaName').then(function(_intentions_) {
         intentions = _intentions_;
       });
       // Trigger the promise to resolve
@@ -31,7 +31,7 @@ describe("intentionsSvc", function() {
       spyOn(cacheSvc, 'get');
 
       // Get the intentions.
-      intentionsSvc.getForArea('dummyArea');
+      intentionsSvc.getIntentionsForArea('dummyArea');
 
       // Check that the getFn will call make a server request
       $httpBackend.expectGET('http://api.cvd.io/dummyArea/intentions').respond([]);

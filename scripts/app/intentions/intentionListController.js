@@ -51,7 +51,7 @@ angular.module('app/intentions/IntentionListController', [])
       })
         // Using intentionId property in likelyIntentions, get the full intentions from the intention list
       .then(function (likelyIntentions) {
-        return intentionsSvc.getForArea(currentAreaName)
+        return intentionsSvc.getIntentionsForArea(currentAreaName)
         .then(function (intentions) {
           return likelyIntentionsSvc.getFullIntentionObjectsFromLikelyIntentions(intentions, likelyIntentions);});
       })
@@ -63,7 +63,7 @@ angular.module('app/intentions/IntentionListController', [])
     }
     else
     // Get intentions for the current area
-      intentionsSvc.getForArea(currentAreaName)
+      intentionsSvc.getIntentionsForArea(currentAreaName)
       .then(function(intentions) {
         $scope.groupedIntentions = intentionsSvc.groupItems(intentions, ITEMS_PER_ROW);
       });

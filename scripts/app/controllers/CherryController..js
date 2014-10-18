@@ -1,7 +1,7 @@
 angular.module('app/controllers/CherryController', [])
 
-.controller('CherryController', ['$scope',  'postActionSvc','$rootScope','$location','currentLanguage','appUrlSvc','intentionsSvc','appVersionCheck','textsSvc','$window', '$state','helperSvc','$translate','facebookSvc',
-  function ($scope,postActionSvc,$rootScope,$location,currentLanguage,appUrlSvc,intentionsSvc,appVersionCheck,textsSvc,$window,$state,helperSvc,$translate,facebookSvc) {
+.controller('CherryController', ['$scope',  'postActionSvc','$rootScope','$location','currentLanguage','appUrlSvc','intentionsSvc','appVersionCheck','textsSvc','$window', '$state','helperSvc','$translate',
+  function ($scope,postActionSvc,$rootScope,$location,currentLanguage,appUrlSvc,intentionsSvc,appVersionCheck,textsSvc,$window,$state,helperSvc,$translate) {
     $scope.app = {};
     $scope.app.appUrlSvc = appUrlSvc;
 
@@ -36,10 +36,10 @@ angular.module('app/controllers/CherryController', [])
     var skipTracker =  true;
 
     // Preload intentions
-    intentionsSvc.getForArea('Friends',skipTracker);
-    intentionsSvc.getForArea('LoveLife',skipTracker);
-    intentionsSvc.getForArea('Family',skipTracker);
-    intentionsSvc.getForArea('General',skipTracker);
+    intentionsSvc.getIntentionsForArea('Friends',skipTracker);
+    intentionsSvc.getIntentionsForArea('LoveLife',skipTracker);
+    intentionsSvc.getIntentionsForArea('Family',skipTracker);
+    intentionsSvc.getIntentionsForArea('General',skipTracker);
 
     // Preload text lists
     textsSvc.getTextList('Friends', 'joyeux-anniversaire', currentLanguage.currentCulture(), skipTracker);
