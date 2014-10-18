@@ -155,6 +155,10 @@ angular.module('app/routing', ['ui.router'])
     templateUrl: 'views/intentionList.html',
     controller: 'IntentionListController',
     resolve: {
+      // When entering a state that defines the current recipient, we set the current recipient id
+      setRecipientId: ['$stateParams', 'currentRecipientSvc' , function ($stateParams, currentRecipientSvc) {
+        currentRecipientSvc.setCurrentRecipientId($stateParams.recipientId);
+      }],
       currentTextId: ['textsSvc' , function (textsSvc) {
         textsSvc.setCurrentTextId(undefined);
         return undefined; }
@@ -167,6 +171,10 @@ angular.module('app/routing', ['ui.router'])
   .state('area.textList', {
     url: '/recipient/:recipientId/intention/:intentionSlug/text',
     resolve: {
+      // When entering a state that defines the current recipient, we set the current recipient id
+      setRecipientId: ['$stateParams', 'currentRecipientSvc' , function ($stateParams, currentRecipientSvc) {
+        currentRecipientSvc.setCurrentRecipientId($stateParams.recipientId);
+      }],
       // When entering a state that defines the current intention, we set the current intention
       setCurrentIntentionSlug: ['$stateParams', 'intentionsSvc' , function ($stateParams, intentionsSvc) {
         intentionsSvc.setIntentionSlug($stateParams.intentionSlug);

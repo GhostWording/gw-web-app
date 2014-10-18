@@ -37,7 +37,7 @@ angular.module('app/intentions/IntentionListController', [])
     $scope.recipientId = recipientId;
     // Get intentions for the current recipient : all this will be replaced by a call to server when  the APIs serve recipients
     // Should be moved to a service in the mean time
-    if ( recipientId && recipientId != currentRecipientSvc.nullRecipientId && recipientId !== '' ) {
+    if ( recipientId && recipientId != currentRecipientSvc.getNullRecipientId() && recipientId !== '' ) {
       currentRecipientSvc.getCurrentRecipient()
         // Get recipientTYPE Id (different from recipient id)
       .then(function (currentRecipient) {
