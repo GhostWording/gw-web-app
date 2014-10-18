@@ -1,7 +1,6 @@
 describe("serverSvc", function() {
   beforeEach(module('common/services/server'));
 
-
   describe("get", function() {
 
     it("should make a request to the server", inject(function($httpBackend, apiUrl, serverSvc) {
