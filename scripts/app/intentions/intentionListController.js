@@ -5,9 +5,9 @@ angular.module('app/intentions/IntentionListController', [])
     $scope.appUrlSvc = appUrlSvc;
     $scope.currentAreaName = currentAreaName;
 
-    // not in routing resolves : we allow this to happen after intentions are diplayed
+    // Ask server if intention list for this area is stale
+    // We should then redisplay intentions if a change has been detected
     areasSvc.invalidateCacheIfNewerServerVersionExists(currentAreaName);
-    // There should be a then to redisplay intentions if change has been detected
 
     // Choose title according to areaId : TODO : move to localisation service
     var AREA_PAGE_TITLE = {

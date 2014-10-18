@@ -6,10 +6,10 @@ angular.module('app/texts/TextDetailController',[
 
 // Display text with alternative versions in other languages
 .controller('TextDetailController',
-['$scope','currentText', 'currentRecipient', 'currentAreaName', 'currentIntentionSlugOrId','currentIntentionLabel',
-          'tagLabelsSvc',  'currentRecipientSvc','alternativeTextsSvc','currentLanguage','helperSvc','$rootScope','$location','filtersSvc','facebookHelperSvc','postActionSvc','$modal',
-function ($scope, currentText, currentRecipient, currentAreaName, currentIntentionSlugOrId,currentIntentionLabel,
-          tagLabelsSvc, currentRecipientSvc,alternativeTextsSvc,currentLanguage,helperSvc,$rootScope,$location,filtersSvc,facebookHelperSvc,postActionSvc, $modal) {
+['$scope','currentText', 'currentAreaName', 'currentIntentionSlugOrId','currentIntentionLabel','currentRecipientId',
+          'tagLabelsSvc',  'alternativeTextsSvc','currentLanguage','helperSvc','$rootScope','$location','filtersSvc','facebookHelperSvc','postActionSvc','$modal',
+function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,currentIntentionLabel, currentRecipientId,// those variables are resolved in routing.js
+          tagLabelsSvc, alternativeTextsSvc,currentLanguage,helperSvc,$rootScope,$location,filtersSvc,facebookHelperSvc,postActionSvc, $modal) {
 
   // We want an Init event even if no action takes place, in case user lands here from Google or facebook
   postActionSvc.postActionInfo('Text',currentText.TextId,'TextDetail','Init');
@@ -39,7 +39,9 @@ function ($scope, currentText, currentRecipient, currentAreaName, currentIntenti
   // adaptTextContentToLanguage will adapt quote formatting to text culture
   $scope.txt.Content = helperSvc.adaptTextContentToLanguage(currentText);
 
-  $scope.recipientId = currentRecipientSvc.getIdOfRecipient(currentRecipient);
+  //$scope.recipientId = currentRecipientSvc.getIdOfRecipient(currentRecipient);
+  $scope.recipientId = currentRecipientId;
+
   $scope.isQuote = function(txt) { return helperSvc.isQuote(txt); };
 
   // Allows user to edit text content in an alternative controll

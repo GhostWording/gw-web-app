@@ -113,11 +113,10 @@ angular.module('app/routing', ['ui.router'])
     templateUrl: 'views/textdetail.html',
     controller: 'TextDetailController',
     resolve: {
-
       currentTextId: ['$stateParams','$stateChange', 'textsSvc' , function ($stateParams,$stateChange, textsSvc) {
         var textId = $stateParams.textId;
-        var nexTextId = $stateChange.toParams.textId;
-        console.log(textId + " --- " + nexTextId);
+        //var nexTextId = $stateChange.toParams.textId;
+        //console.log(textId + " --- " + nexTextId);
         if ( !!textId )
           textsSvc.setCurrentTextId(textId);
         return textId;
@@ -157,13 +156,17 @@ angular.module('app/routing', ['ui.router'])
     resolve: {
       // When entering a state that defines the current recipient, we set the current recipient id
       setRecipientId: ['$stateParams', 'currentRecipientSvc' , function ($stateParams, currentRecipientSvc) {
-        currentRecipientSvc.setCurrentRecipientId($stateParams.recipientId);
+        currentRecipientSvc.setCurrentRecipientId($stateParams.recipientId); // 'none' will mean no current recipient
       }],
       currentTextId: ['textsSvc' , function (textsSvc) {
         textsSvc.setCurrentTextId(undefined);
-        return undefined; }
-      ],
+        return undefined;
+      }],
       currentRecipient: ['currentRecipientSvc', function(currentRecipientSvc) { return currentRecipientSvc.getCurrentRecipient(); }],
+      currentRecipientLabel: ['currentRecipientSvc', function(currentRecipientSvc) {
+        //return currentRecipientSvc.getCurrentRecipient().then(function(rec) {return rec.LocalLabel});
+        return currentRecipientSvc.getCurrentRecipientLabel();
+      }]
     },
     showTabs: true
   })
@@ -173,7 +176,10 @@ angular.module('app/routing', ['ui.router'])
     resolve: {
       // When entering a state that defines the current recipient, we set the current recipient id
       setRecipientId: ['$stateParams', 'currentRecipientSvc' , function ($stateParams, currentRecipientSvc) {
-        currentRecipientSvc.setCurrentRecipientId($stateParams.recipientId);
+        currentRecipientSvc.setCurrentRecipientId($stateParams.recipientId); // 'none' will mean no current recipient
+      }],
+      currentRecipientId: ['$stateParams',  function ($stateParams) {
+        return $stateParams.recipientId;
       }],
       // When entering a state that defines the current intention, we set the current intention
       setCurrentIntentionSlug: ['$stateParams', 'intentionsSvc' , function ($stateParams, intentionsSvc) {
@@ -189,7 +195,12 @@ angular.module('app/routing', ['ui.router'])
         return intentionsSvc.getIntentionLabel(currentAreaName,$stateParams.intentionSlug);
       }],
       currentTextList: ['textsSvc','currentLanguage', function(textsSvc,currentLanguage) { return textsSvc.getCurrentTextList( currentLanguage.currentCulture() ); }],
-      currentRecipient: ['currentRecipientSvc', function(currentRecipientSvc) { return currentRecipientSvc.getCurrentRecipient(); }]
+      currentRecipient: ['currentRecipientSvc', function(currentRecipientSvc) { return currentRecipientSvc.getCurrentRecipient(); }],
+      currentRecipientLabel: ['currentRecipientSvc', function(currentRecipientSvc) {
+        //return currentRecipientSvc.getCurrentRecipient().then(function(rec) {return rec.LocalLabel});
+        return currentRecipientSvc.getCurrentRecipientLabel();
+      }]
+
     },
     showTabs: true,
     views: {
