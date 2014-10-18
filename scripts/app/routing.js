@@ -125,7 +125,12 @@ angular.module('app/routing', ['ui.router'])
       setCurrentIntentionSlug: ['$stateParams', 'intentionsSvc' , function ($stateParams, intentionsSvc) {
         intentionsSvc.setIntentionSlug($stateParams.intentionSlug);
       }],
-
+      setRecipientId: ['currentRecipientSvc' , function ( currentRecipientSvc) {
+        currentRecipientSvc.setCurrentRecipientId(currentRecipientSvc.getNullRecipientId()); // 'none' will mean no current recipient
+      }],
+      currentRecipientId: ['currentRecipientSvc' , function ( currentRecipientSvc) {
+        return currentRecipientSvc.getNullRecipientId();
+      }],
       currentIntentionSlugOrId: ['$stateParams', 'intentionsSvc' , function ($stateParams, intentionsSvc) {
         var intentionSlug = $stateParams.intentionSlug;
         intentionsSvc.setIntentionSlug(intentionSlug);
