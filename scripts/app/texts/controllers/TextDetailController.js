@@ -29,7 +29,6 @@ function ($scope, currentText, currentRecipient, currentAreaName, currentIntenti
   $scope.includeSocialPluginsOnTextPages = facebookHelperSvc.includeSocialPluginsOnTextPages;
   $scope.url = $location.url();
   $scope.currentAreaName = currentAreaName;
-  //$scope.currentIntention = currentIntention;
   $scope.currentText = currentText;
   $scope.Id = currentText.TextId;
   $scope.authorButton = "active";

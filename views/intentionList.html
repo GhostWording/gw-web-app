@@ -21,7 +21,6 @@
   <!-- Intentions list as rows and columns -->
     <div class="row" ng-repeat="row in groupedIntentions">
         <div ng-repeat="intention in row" class="col-md-4">
-          theIntentionSlugOrId
           <a ng-href="{{app.appUrlSvc.getFullPath('')}}area/{{currentAreaName}}/recipient/{{recipientId}}/intention/{{app.appUrlSvc.getIntentionSlug(intention)}}/text"
                targetType = "intention"
                targetId = "{{intention.IntentionId}}"
