@@ -45,7 +45,7 @@
     <!-- Text list  -->
     <div class="listeTextes" ng-show="true">
       <div ng-repeat="txt in filteredList">
-         <span ng-hide="theHelperSvc.isQuote(txt)" ng-repeat="tagLabel in labelsThatShouldBeDisplayed (txt)" >
+         <span ng-hide="isThisAQuote(txt)" ng-repeat="tagLabel in labelsThatShouldBeDisplayed (txt)" >
             <span class="label label-warning" translate>{{tagLabel}}</span>&nbsp
          </span>
 

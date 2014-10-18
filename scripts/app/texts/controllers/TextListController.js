@@ -1,8 +1,8 @@
 angular.module('app/texts/TextListController', [])
 // Displays a list of texts
 .controller('TextListController',
- ['$scope', 'currentTextList', 'currentAreaName', 'currentIntention', 'currentUser', 'currentRecipient', 'currentLanguage', 'filtersSvc', 'textsSvc','intentionsSvc','postActionSvc','filteredTextListSvc','tagLabelsSvc','helperSvc','questionBarSvc','accordionSvc','$stateChange','$modal','$window',
-function ($scope, currentTextList, currentAreaName, currentIntention,  currentUser, currentRecipient, currentLanguage, filtersSvc, textsSvc,intentionsSvc,postActionSvc,filteredTextListSvc,tagLabelsSvc,helperSvc,questionBarSvc,accordionSvc,$stateChange,$modal,$window) {
+ ['$scope', 'currentTextList', 'currentAreaName', 'currentIntention', 'currentUser', 'currentRecipient', 'currentLanguage', 'filtersSvc', 'textsSvc','intentionsSvc','postActionSvc','filteredTextListSvc','tagLabelsSvc','questionBarSvc','accordionSvc','$stateChange','$modal','$window',
+function ($scope, currentTextList, currentAreaName, currentIntention,  currentUser, currentRecipient, currentLanguage, filtersSvc, textsSvc,intentionsSvc,postActionSvc,filteredTextListSvc,tagLabelsSvc,questionBarSvc,accordionSvc,$stateChange,$modal,$window) {
 
   // currentTextList might initialy come from the cache. Check server for stale cache. If stale, require a new text list : will update content showed to user
   intentionsSvc.invalidateCacheIfNewerServerVersionExists(currentAreaName,(!!currentIntention ) ? currentIntention.Slug : intentionsSvc.getCurrentId())
@@ -30,13 +30,14 @@ function ($scope, currentTextList, currentAreaName, currentIntention,  currentUs
   $scope.recipientId      = $scope.currentRecipient ? $scope.currentRecipient.Id : 'none';
   $scope.currentRecipientLabel = $scope.currentRecipient ?  $scope.currentRecipient.LocalLabel :  "";
   // Services visible from the view
-  $scope.theHelperSvc = helperSvc;
   $scope.theQuestionBarSvc = questionBarSvc;
   $scope.filtersWellDefined = filtersSvc.wellDefined;
   $scope.theAccordionStatus = accordionSvc.theAccordionStatus;
   $scope.openAccordion = function() {
     $scope.theAccordionStatus.open = true;
   };
+
+  $scope.isThisAQuote = textsSvc.isQuote;
 
   // Unfiltered text list : initialize with resolved text list from routing
   var unfilteredTextList  = currentTextList;
