@@ -6,9 +6,9 @@ angular.module('app/texts/TextDetailController',[
 
 // Display text with alternative versions in other languages
 .controller('TextDetailController',
-['$scope','currentText', 'currentIntention','currentRecipient', 'currentAreaName', 'currentIntentionSlugOrId','currentIntentionLabel',
+['$scope','currentText', 'currentRecipient', 'currentAreaName', 'currentIntentionSlugOrId','currentIntentionLabel',
           'tagLabelsSvc',  'currentRecipientSvc','alternativeTextsSvc','currentLanguage','helperSvc','$rootScope','$location','filtersSvc','facebookHelperSvc','postActionSvc','$modal',
-function ($scope, currentText, currentIntention,currentRecipient, currentAreaName, currentIntentionSlugOrId,currentIntentionLabel,
+function ($scope, currentText, currentRecipient, currentAreaName, currentIntentionSlugOrId,currentIntentionLabel,
           tagLabelsSvc, currentRecipientSvc,alternativeTextsSvc,currentLanguage,helperSvc,$rootScope,$location,filtersSvc,facebookHelperSvc,postActionSvc, $modal) {
 
   // We want an Init event even if no action takes place, in case user lands here from Google or facebook
@@ -17,8 +17,7 @@ function ($scope, currentText, currentIntention,currentRecipient, currentAreaNam
   // Facebook tags
   // When may want to explicitly set og:title from here because facebook sometime picks the intention title instead
   //$rootScope.ogTitle = currentText.Content;
-  if ( !! currentIntention )
-    $rootScope.ogDescription = currentIntention.Label;
+  $rootScope.ogDescription = currentIntentionLabel;
 
   // Add labels to router resolved currentText
   currentText.TagLabels = tagLabelsSvc.labelsFromStyleTagIds(currentText.TagIds);
@@ -27,11 +26,10 @@ function ($scope, currentText, currentIntention,currentRecipient, currentAreaNam
   $scope.theIntentionSlugOrId = currentIntentionSlugOrId;
   $scope.theIntentionLabel = currentIntentionLabel;
 
-
   $scope.includeSocialPluginsOnTextPages = facebookHelperSvc.includeSocialPluginsOnTextPages;
   $scope.url = $location.url();
   $scope.currentAreaName = currentAreaName;
-  $scope.currentIntention = currentIntention;
+  //$scope.currentIntention = currentIntention;
   $scope.currentText = currentText;
   $scope.Id = currentText.TextId;
   $scope.authorButton = "active";

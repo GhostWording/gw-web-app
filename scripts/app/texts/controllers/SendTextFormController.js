@@ -8,7 +8,7 @@ function($scope,  $window, helperSvc, currentText,$translate) {
     editableText: currentText.Content
   };
 
-  $translate($scope.currentIntention.Label).then(function(value) {
+  $translate($scope.theIntentionLabel).then(function(value) {
     $scope.mailToThis = helperSvc.urlMailTo($scope.txt.editableText, value);
     return value;
   });
