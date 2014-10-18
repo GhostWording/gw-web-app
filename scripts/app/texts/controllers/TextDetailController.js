@@ -6,8 +6,10 @@ angular.module('app/texts/TextDetailController',[
 
 // Display text with alternative versions in other languages
 .controller('TextDetailController',
-['$scope','currentText', 'currentIntention','currentRecipient', 'currentAreaName',  'tagLabelsSvc',  'currentRecipientSvc','alternativeTextsSvc','currentLanguage','helperSvc','$rootScope','$location','filtersSvc','facebookHelperSvc','postActionSvc','$modal',
-function ($scope, currentText, currentIntention,currentRecipient, currentAreaName, tagLabelsSvc, currentRecipientSvc,alternativeTextsSvc,currentLanguage,helperSvc,$rootScope,$location,filtersSvc,facebookHelperSvc,postActionSvc, $modal) {
+['$scope','currentText', 'currentIntention','currentRecipient', 'currentAreaName', 'currentIntentionSlugOrId','currentIntentionLabel',
+          'tagLabelsSvc',  'currentRecipientSvc','alternativeTextsSvc','currentLanguage','helperSvc','$rootScope','$location','filtersSvc','facebookHelperSvc','postActionSvc','$modal',
+function ($scope, currentText, currentIntention,currentRecipient, currentAreaName, currentIntentionSlugOrId,currentIntentionLabel,
+          tagLabelsSvc, currentRecipientSvc,alternativeTextsSvc,currentLanguage,helperSvc,$rootScope,$location,filtersSvc,facebookHelperSvc,postActionSvc, $modal) {
 
   // We want an Init event even if no action takes place, in case user lands here from Google or facebook
   postActionSvc.postActionInfo('Text',currentText.TextId,'TextDetail','Init');
@@ -22,6 +24,10 @@ function ($scope, currentText, currentIntention,currentRecipient, currentAreaNam
   currentText.TagLabels = tagLabelsSvc.labelsFromStyleTagIds(currentText.TagIds);
 
   // Give visibility
+  $scope.theIntentionSlugOrId = currentIntentionSlugOrId;
+  $scope.theIntentionLabel = currentIntentionLabel;
+
+
   $scope.includeSocialPluginsOnTextPages = facebookHelperSvc.includeSocialPluginsOnTextPages;
   $scope.url = $location.url();
   $scope.currentAreaName = currentAreaName;

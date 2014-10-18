@@ -1,19 +1,17 @@
 angular.module('app/texts/TextListController', [])
 // Displays a list of texts
 .controller('TextListController',
- ['$scope', 'currentTextList', 'currentAreaName', 'currentIntention', 'currentUser', 'currentRecipient', 'currentLanguage', 'currentIntentionSlugOrId',
+ ['$scope', 'currentTextList', 'currentAreaName', 'currentUser', 'currentRecipient', 'currentLanguage', 'currentIntentionSlugOrId','currentIntentionLabel',
             'filtersSvc', 'textsSvc','intentionsSvc','postActionSvc','filteredTextListSvc','tagLabelsSvc','questionBarSvc','accordionSvc','$stateChange','$modal','$window',
-function ($scope, currentTextList, currentAreaName, currentIntention,  currentUser, currentRecipient, currentLanguage, currentIntentionSlugOrId, // variables resolved in routing.js
+function ($scope, currentTextList, currentAreaName,  currentUser, currentRecipient, currentLanguage, currentIntentionSlugOrId, currentIntentionLabel, // variables resolved in routing.js
              filtersSvc, textsSvc,intentionsSvc,postActionSvc,filteredTextListSvc,tagLabelsSvc,questionBarSvc,accordionSvc,$stateChange,$modal,$window) {
 
   // currentTextList might initialy come from the cache. Check server for stale cache. If stale, require a new text list : will update content showed to user
-
-//  intentionsSvc.invalidateCacheIfNewerServerVersionExists(currentAreaName,(!!currentIntention ) ? currentIntention.Slug : intentionsSvc.getCurrentId())
   intentionsSvc.invalidateCacheIfNewerServerVersionExists(currentAreaName,currentIntentionSlugOrId)
     .then(function(shouldReload){if (shouldReload)getAndFilterTextList( currentLanguage.currentCulture() );});
 
   // We want an Init event even if no action takes place, in case user lands here from Google or facebook link
-  postActionSvc.postActionInfo('intention',currentIntention.IntentionId,'IntentionList','Init');
+  postActionSvc.postActionInfo('intention',currentIntentionSlugOrId,'TextList','Init');
   // Some phone browser do not initialise the view correctly with  $location.hash('leCorps') and url does not look nice with   $anchorScroll()
   $window.scrollTo(0,0);
 
@@ -28,8 +26,9 @@ function ($scope, currentTextList, currentAreaName, currentIntention,  currentUs
 
   // Used by view to build urls, resolved from routing
   $scope.currentAreaName  = currentAreaName;
-  $scope.currentIntention = currentIntention;
   $scope.theIntentionSlugOrId = currentIntentionSlugOrId;
+  $scope.theIntentionLabel = currentIntentionLabel;
+
   // Recipient currently resolved from url
   $scope.currentRecipient = currentRecipient;
   $scope.recipientId      = $scope.currentRecipient ? $scope.currentRecipient.Id : 'none';

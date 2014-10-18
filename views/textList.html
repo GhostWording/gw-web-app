@@ -19,7 +19,9 @@
       <a class="backArrow" style="margin-right: 5px"
          ng-href="{{app.appUrlSvc.getFullPath('')}}area/{{ currentAreaName }}/recipient/{{ recipientId }}/intention"
          role="button"  targetId="Back" > <img ng-src="./assets/arrow-left.png" class="stylepicto"> </a>
-      <span translate>{{ currentIntention.Label }}</span>
+      <!--<span translate>{{ currentIntention.Label }}</span>-->
+      <span translate>{{ theIntentionLabel }}</span>
+
       <span ng-show="currentRecipient !== null"> - </span>
       <span translate>{{ currentRecipientLabel }}</span>
     </h4>

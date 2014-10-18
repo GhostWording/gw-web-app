@@ -126,7 +126,7 @@ angular.module('app/routing', ['ui.router'])
 
       currentIntentionSlugOrId: ['$stateParams', 'intentionsSvc' , function ($stateParams, intentionsSvc) {
         var intentionId = $stateParams.intentionId;
-        intentionsSvc.setIntentionId(intentionId);
+        intentionsSvc.setIntentionSlug(intentionId);
         return intentionId;
       }],
 
@@ -167,23 +167,18 @@ angular.module('app/routing', ['ui.router'])
   // Text list for an intention, and a recipient. Recipient can be 'none'
   .state('area.textList', {
     url: '/recipient/:recipientId/intention/:intentionId/text',
-//    templateUrl: 'views/textList.html',
-//    controller: 'TextListController',
     resolve: {
       currentIntentionSlugOrId: ['$stateParams', 'intentionsSvc' , function ($stateParams, intentionsSvc) {
         var intentionId = $stateParams.intentionId;
-        intentionsSvc.setIntentionId(intentionId);
+        intentionsSvc.setIntentionSlug(intentionId);
         return intentionId;  }
       ],
       currentIntention: ['intentionsSvc', function(intentionsSvc) { return intentionsSvc.getCurrent(); }],
-//      currentIntentionSlugOrId: ['intentionsSvc', function(intentionsSvc) {
-//        var tt = intentionsSvc.getCurrent().then(function(currentIntention) {
-//          if ( currentIntention )
-//            return intentionsSvc.getSlugOrId(currentIntention);
-//          else
-//            return intentionsSvc.getCurrentId();
-//        });
-//      }],
+      currentIntentionLabel: ['intentionsSvc', function(intentionsSvc) {
+        return intentionsSvc.getCurrent().then(function(currentIntention) {
+          return  currentIntention ? currentIntention.Label :   "Undefined";
+        });
+      }],
       currentTextList: ['textsSvc','currentLanguage', function(textsSvc,currentLanguage) { return textsSvc.getCurrentTextList( currentLanguage.currentCulture() ); }],
       currentRecipient: ['currentRecipientSvc', function(currentRecipientSvc) { return currentRecipientSvc.getCurrentRecipient(); }]
     },
