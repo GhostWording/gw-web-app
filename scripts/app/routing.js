@@ -124,7 +124,7 @@ angular.module('app/routing', ['ui.router'])
         return textId;
       }],
 
-      currentIntentionId: ['$stateParams', 'intentionsSvc' , function ($stateParams, intentionsSvc) {
+      currentIntentionSlugOrId: ['$stateParams', 'intentionsSvc' , function ($stateParams, intentionsSvc) {
         var intentionId = $stateParams.intentionId;
         intentionsSvc.setIntentionId(intentionId);
         return intentionId;
@@ -170,12 +170,20 @@ angular.module('app/routing', ['ui.router'])
 //    templateUrl: 'views/textList.html',
 //    controller: 'TextListController',
     resolve: {
-      currentIntentionId: ['$stateParams', 'intentionsSvc' , function ($stateParams, intentionsSvc) {
+      currentIntentionSlugOrId: ['$stateParams', 'intentionsSvc' , function ($stateParams, intentionsSvc) {
         var intentionId = $stateParams.intentionId;
         intentionsSvc.setIntentionId(intentionId);
         return intentionId;  }
       ],
       currentIntention: ['intentionsSvc', function(intentionsSvc) { return intentionsSvc.getCurrent(); }],
+//      currentIntentionSlugOrId: ['intentionsSvc', function(intentionsSvc) {
+//        var tt = intentionsSvc.getCurrent().then(function(currentIntention) {
+//          if ( currentIntention )
+//            return intentionsSvc.getSlugOrId(currentIntention);
+//          else
+//            return intentionsSvc.getCurrentId();
+//        });
+//      }],
       currentTextList: ['textsSvc','currentLanguage', function(textsSvc,currentLanguage) { return textsSvc.getCurrentTextList( currentLanguage.currentCulture() ); }],
       currentRecipient: ['currentRecipientSvc', function(currentRecipientSvc) { return currentRecipientSvc.getCurrentRecipient(); }]
     },

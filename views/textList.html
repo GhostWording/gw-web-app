@@ -54,8 +54,7 @@
           src="./assets/e-mail64.png"
           class="pull-right envoyer"
           ng-click="send(txt)">
-          <!--<a href="{{appUrlSvc.getRootPath()}}area/{{ currentArea.Name }}/intention/{{ app.appUrlSvc.getIntentionSlug(currentIntention) }}/recipient/{{ recipientId }}/text/{{txt.TextId}}"-->
-          <a ng-href="{{app.appUrlSvc.getRootPath()}}area/{{ currentAreaName }}/recipient/{{ recipientId }}/intention/{{ app.appUrlSvc.getIntentionSlug(currentIntention) }}/text/{{txt.TextId}}"
+          <a ng-href="{{app.appUrlSvc.getRootPath()}}area/{{ currentAreaName }}/recipient/{{ recipientId }}/intention/{{ theIntentionSlugOrId }}/text/{{txt.TextId}}"
           targetType="Text"
           actionType="open"
           targetId="{{txt.TextId}}"

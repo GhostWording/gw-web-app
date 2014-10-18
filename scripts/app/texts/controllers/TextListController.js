@@ -1,12 +1,16 @@
 angular.module('app/texts/TextListController', [])
 // Displays a list of texts
 .controller('TextListController',
- ['$scope', 'currentTextList', 'currentAreaName', 'currentIntention', 'currentUser', 'currentRecipient', 'currentLanguage', 'filtersSvc', 'textsSvc','intentionsSvc','postActionSvc','filteredTextListSvc','tagLabelsSvc','questionBarSvc','accordionSvc','$stateChange','$modal','$window',
-function ($scope, currentTextList, currentAreaName, currentIntention,  currentUser, currentRecipient, currentLanguage, filtersSvc, textsSvc,intentionsSvc,postActionSvc,filteredTextListSvc,tagLabelsSvc,questionBarSvc,accordionSvc,$stateChange,$modal,$window) {
+ ['$scope', 'currentTextList', 'currentAreaName', 'currentIntention', 'currentUser', 'currentRecipient', 'currentLanguage', 'currentIntentionSlugOrId',
+            'filtersSvc', 'textsSvc','intentionsSvc','postActionSvc','filteredTextListSvc','tagLabelsSvc','questionBarSvc','accordionSvc','$stateChange','$modal','$window',
+function ($scope, currentTextList, currentAreaName, currentIntention,  currentUser, currentRecipient, currentLanguage, currentIntentionSlugOrId, // variables resolved in routing.js
+             filtersSvc, textsSvc,intentionsSvc,postActionSvc,filteredTextListSvc,tagLabelsSvc,questionBarSvc,accordionSvc,$stateChange,$modal,$window) {
 
   // currentTextList might initialy come from the cache. Check server for stale cache. If stale, require a new text list : will update content showed to user
-  intentionsSvc.invalidateCacheIfNewerServerVersionExists(currentAreaName,(!!currentIntention ) ? currentIntention.Slug : intentionsSvc.getCurrentId())
-  .then(function(shouldReload){if (shouldReload)getAndFilterTextList( currentLanguage.currentCulture() );});
+
+//  intentionsSvc.invalidateCacheIfNewerServerVersionExists(currentAreaName,(!!currentIntention ) ? currentIntention.Slug : intentionsSvc.getCurrentId())
+  intentionsSvc.invalidateCacheIfNewerServerVersionExists(currentAreaName,currentIntentionSlugOrId)
+    .then(function(shouldReload){if (shouldReload)getAndFilterTextList( currentLanguage.currentCulture() );});
 
   // We want an Init event even if no action takes place, in case user lands here from Google or facebook link
   postActionSvc.postActionInfo('intention',currentIntention.IntentionId,'IntentionList','Init');
@@ -25,6 +29,7 @@ function ($scope, currentTextList, currentAreaName, currentIntention,  currentUs
   // Used by view to build urls, resolved from routing
   $scope.currentAreaName  = currentAreaName;
   $scope.currentIntention = currentIntention;
+  $scope.theIntentionSlugOrId = currentIntentionSlugOrId;
   // Recipient currently resolved from url
   $scope.currentRecipient = currentRecipient;
   $scope.recipientId      = $scope.currentRecipient ? $scope.currentRecipient.Id : 'none';
