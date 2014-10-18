@@ -110,7 +110,7 @@ angular.module('app/routing', ['ui.router'])
   })
   .state('area.dashboard.textDetail', {
     //url: '/:textId',
-    url: '/:intentionId/:textId',
+    url: '/:intentionSlug/:textId',
     templateUrl: 'views/textdetail.html',
     controller: 'TextDetailController',
     resolve: {
@@ -125,9 +125,16 @@ angular.module('app/routing', ['ui.router'])
       }],
 
       currentIntentionSlugOrId: ['$stateParams', 'intentionsSvc' , function ($stateParams, intentionsSvc) {
-        var intentionId = $stateParams.intentionId;
-        intentionsSvc.setIntentionSlug(intentionId);
-        return intentionId;
+        var intentionSlug = $stateParams.intentionSlug;
+        intentionsSvc.setIntentionSlug(intentionSlug);
+        return intentionSlug;
+      }],
+      currentIntentionLabel: ['$stateParams','intentionsSvc', function($stateParams,intentionsSvc) {
+        var intentionSlug = $stateParams.intentionSlug;
+        intentionsSvc.setIntentionSlug(intentionSlug);
+        return intentionsSvc.getCurrent().then(function(currentIntention) {
+          return  currentIntention ? currentIntention.Label :   "Undefined";
+        });
       }],
 
       currentIntention: ['intentionsSvc', function(intentionsSvc) {
@@ -166,15 +173,17 @@ angular.module('app/routing', ['ui.router'])
   })
   // Text list for an intention, and a recipient. Recipient can be 'none'
   .state('area.textList', {
-    url: '/recipient/:recipientId/intention/:intentionId/text',
+    url: '/recipient/:recipientId/intention/:intentionSlug/text',
     resolve: {
       currentIntentionSlugOrId: ['$stateParams', 'intentionsSvc' , function ($stateParams, intentionsSvc) {
-        var intentionId = $stateParams.intentionId;
-        intentionsSvc.setIntentionSlug(intentionId);
-        return intentionId;  }
+        var intentionSlug = $stateParams.intentionSlug;
+        intentionsSvc.setIntentionSlug(intentionSlug);
+        return intentionSlug;  }
       ],
-      currentIntention: ['intentionsSvc', function(intentionsSvc) { return intentionsSvc.getCurrent(); }],
-      currentIntentionLabel: ['intentionsSvc', function(intentionsSvc) {
+//      currentIntention: ['intentionsSvc', function(intentionsSvc) { return intentionsSvc.getCurrent(); }],
+      currentIntentionLabel: ['$stateParams','intentionsSvc', function($stateParams,intentionsSvc) {
+        var intentionSlug = $stateParams.intentionSlug;
+        intentionsSvc.setIntentionSlug(intentionSlug);
         return intentionsSvc.getCurrent().then(function(currentIntention) {
           return  currentIntention ? currentIntention.Label :   "Undefined";
         });
