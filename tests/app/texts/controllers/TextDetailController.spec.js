@@ -46,44 +46,8 @@ beforeEach(module('app/texts/TextDetailController'));
 		});
 	}));
 
-	xit('should have the correct text details attached to the scope', function() {
-		expect($rootScope.currentIntention).toEqual({IntentionId: '456',Label: 'mockCurrentIntention'});
-		expect($rootScope.currentText).toEqual({TextId: '789', Content: 'mockCurrentText'});
-		expect($rootScope.txt.Content).toEqual('mockCurrentText');
-	});
 
-	xit('should call the method to attach tags based on labels', inject(function(tagLabelsSvc) {
-		expect(tagLabelsSvc.labelsFromStyleTagIds).toHaveBeenCalled();
-	}));
 
-	xit('should attach the correct value of recipient id to the scope', inject(function(currentRecipient) {
-//		expect($rootScope.recipientId).toEqual('333');
-    expect($rootScope.recipientId).toEqual(undefined);
-
-    currentRecipient = null;
-		$controller('TextDetailController', {$scope: $rootScope, currentRecipient: currentRecipient});
-//    expect($rootScope.recipientId).toEqual('');
-		expect($rootScope.recipientId).toEqual(undefined);
-	}));
-
-	describe('edit', function() {
-
-		xit('should change edit text flag to true', function() {
-			expect($rootScope.editText).toBe(false);
-			$rootScope.edit();
-			expect($rootScope.editText).toBe(true);
-		});
-
-	});
-
-	describe('send', function() {
-
-		xit('shoud attach an open modal dialog to the scope', inject(function($modal) {
-			$rootScope.send();
-			expect($modal.open).toHaveBeenCalled();
-		}));
-
-	});
 
 	describe('setFavourite', function() {
 

@@ -6,8 +6,10 @@ angular.module('app/texts/TextDetailController',[
 
 // Display text with alternative versions in other languages
 .controller('TextDetailController',
-['$scope','currentText', 'currentIntention','currentRecipient', 'currentAreaName',  'tagLabelsSvc',  'currentRecipientSvc','alternativeTextsSvc','currentLanguage','helperSvc','$rootScope','$location','filtersSvc','facebookHelperSvc','postActionSvc','$modal',
-function ($scope, currentText, currentIntention,currentRecipient, currentAreaName, tagLabelsSvc, currentRecipientSvc,alternativeTextsSvc,currentLanguage,helperSvc,$rootScope,$location,filtersSvc,facebookHelperSvc,postActionSvc, $modal) {
+['$scope','currentText', 'currentAreaName', 'currentIntentionSlugOrId','currentIntentionLabel','currentRecipientId',
+          'tagLabelsSvc',  'alternativeTextsSvc','currentLanguage','helperSvc','$rootScope','$location','filtersSvc','facebookHelperSvc','postActionSvc','$modal',
+function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,currentIntentionLabel, currentRecipientId,// those variables are resolved in routing.js
+          tagLabelsSvc, alternativeTextsSvc,currentLanguage,helperSvc,$rootScope,$location,filtersSvc,facebookHelperSvc,postActionSvc, $modal) {
 
   // We want an Init event even if no action takes place, in case user lands here from Google or facebook
   postActionSvc.postActionInfo('Text',currentText.TextId,'TextDetail','Init');
@@ -15,17 +17,18 @@ function ($scope, currentText, currentIntention,currentRecipient, currentAreaNam
   // Facebook tags
   // When may want to explicitly set og:title from here because facebook sometime picks the intention title instead
   //$rootScope.ogTitle = currentText.Content;
-  if ( !! currentIntention )
-    $rootScope.ogDescription = currentIntention.Label;
+  $rootScope.ogDescription = currentIntentionLabel;
 
   // Add labels to router resolved currentText
   currentText.TagLabels = tagLabelsSvc.labelsFromStyleTagIds(currentText.TagIds);
 
   // Give visibility
+  $scope.theIntentionSlugOrId = currentIntentionSlugOrId;
+  $scope.theIntentionLabel = currentIntentionLabel;
+
   $scope.includeSocialPluginsOnTextPages = facebookHelperSvc.includeSocialPluginsOnTextPages;
   $scope.url = $location.url();
   $scope.currentAreaName = currentAreaName;
-  $scope.currentIntention = currentIntention;
   $scope.currentText = currentText;
   $scope.Id = currentText.TextId;
   $scope.authorButton = "active";
@@ -36,7 +39,9 @@ function ($scope, currentText, currentIntention,currentRecipient, currentAreaNam
   // adaptTextContentToLanguage will adapt quote formatting to text culture
   $scope.txt.Content = helperSvc.adaptTextContentToLanguage(currentText);
 
-  $scope.recipientId = currentRecipientSvc.getIdOfRecipient(currentRecipient);
+  //$scope.recipientId = currentRecipientSvc.getIdOfRecipient(currentRecipient);
+  $scope.recipientId = currentRecipientId;
+
   $scope.isQuote = function(txt) { return helperSvc.isQuote(txt); };
 
   // Allows user to edit text content in an alternative controll

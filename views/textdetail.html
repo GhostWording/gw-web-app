@@ -11,9 +11,10 @@
           <img ng-src="./assets/arrow-left.png" class="stylepicto">
         </a>
 
-        <!-- Move explicitely to intention text list -->
+        <!-- Move explicitely to  text list url -->
         <a ng-show = "app.appUrlSvc.getTextDetailWasCalledFromTextList() == false && app.appUrlSvc.isDashboardPath() == false"
-           ng-href="{{app.appUrlSvc.getFullPath('')}}area/{{ currentAreaName }}/recipient/{{ recipientId }}/intention/{{app.appUrlSvc.getIntentionSlug(currentIntention)}}/text"
+            ng-href="{{app.appUrlSvc.getFullPath('')}}area/{{ currentAreaName }}/recipient/{{ recipientId }}/intention/{{theIntentionSlugOrId}}/text"
+
            class="pull-left" role="button" targetId="Back">
           <img ng-src="./assets/arrow-left.png" class="stylepicto">
         </a>
@@ -25,7 +26,7 @@
           <img ng-src="./assets/arrow-left.png" class="stylepicto">
         </a>
 
-        <h4 class="pull-left" style="margin-left: 10px;" translate>{{ currentIntention.Label }}</h4>
+        <h4 class="pull-left" style="margin-left: 10px;" translate>{{ theIntentionLabel }}</h4>
         <img style="margin-top:0px; margin-right: 10px;" width="50px" height="40px" src="./assets/TouchWordingCompressed.jpg" class="pull-right">
 
       </li>
@@ -138,7 +139,7 @@
           <span translate>Ecrit</span> <span translate>{{getSenderGenderMessage(text)}}</span> <span translate>{{getRecipientGenderMessage(text)}}</span> <span translate>{{getTVMessage(text)}}</span>
         </span>
 
-            <a rel="nofollow" ng-href="{{app.appUrlSvc.getRootPath('')}}area/{{ currentAreaName }}/recipient/{{ recipientId }}/intention/{{ app.appUrlSvc.getIntentionSlug(currentIntention) }}/text/{{text.TextId}}"
+            <a rel="nofollow" ng-href="{{app.appUrlSvc.getRootPath('')}}area/{{ currentAreaName }}/recipient/{{ recipientId }}/intention/{{ theIntentionSlugOrId }}/text/{{text.TextId}}"
                targetType="Text"  actionType="open"  targetId="{{txt.TextId}}">
               <button class="btn btn-default pull-right glyphicon glyphicon-ok" translate
                       targetId="{{ Id }}" targetType="Text"></button>
@@ -154,8 +155,8 @@
   <div ng-show = "!app.appUrlSvc.getTextDetailWasCalledFromTextList() && !app.appUrlSvc.getTextDetailWasCalledFromDashboard()" style="margin-top: 25px; margin-bottom: 15px; text-align: center; ">
     <div translate style="margin-bottom: 10px;">Voir les meilleures façons de dire</div>
     <a style="color:  #428bca" class="btn btn-default btn-lg" id="toTextList"
-       ng-href="{{app.appUrlSvc.getFullPath('')}}area/{{ currentAreaName }}/recipient/{{ recipientId }}/intention/{{app.appUrlSvc.getIntentionSlug(currentIntention)}}/text"
-       targetId="TextList" translate>{{ currentIntention.Label }}</a>
+       ng-href="{{app.appUrlSvc.getFullPath('')}}area/{{ currentAreaName }}/recipient/{{ recipientId }}/intention/{{theIntentionSlugOrId}}/text"
+       targetId="TextList" translate>{{ theIntentionLabel }}</a>
   </div>
 
   <!-- When user has landed directly on this page, suggest a visit to homepage  -->

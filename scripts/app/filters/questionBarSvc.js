@@ -176,7 +176,7 @@ function ($rootScope, intentionsSvc, areasSvc, currentUser, currentLanguage, cur
     }
   };
 
-  $rootScope.$watch(function() { return intentionsSvc.getCurrentId(); }, function(intentionId) {
+  $rootScope.$watch(function() { return intentionsSvc.getCurrentSlug(); }, function(intentionId) {
     if ( intentionId )
       intializeQuestions();
   }, true);

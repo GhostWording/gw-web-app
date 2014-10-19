@@ -5,9 +5,9 @@ angular.module('app/intentions/IntentionListController', [])
     $scope.appUrlSvc = appUrlSvc;
     $scope.currentAreaName = currentAreaName;
 
-    // not in routing resolves : we allow this to happen after intentions are diplayed
+    // Ask server if intention list for this area is stale
+    // We should then redisplay intentions if a change has been detected
     areasSvc.invalidateCacheIfNewerServerVersionExists(currentAreaName);
-    // There should be a then to redisplay intentions if change has been detected
 
     // Choose title according to areaId : TODO : move to localisation service
     var AREA_PAGE_TITLE = {
@@ -37,7 +37,7 @@ angular.module('app/intentions/IntentionListController', [])
     $scope.recipientId = recipientId;
     // Get intentions for the current recipient : all this will be replaced by a call to server when  the APIs serve recipients
     // Should be moved to a service in the mean time
-    if ( recipientId && recipientId != currentRecipientSvc.nullRecipientId && recipientId !== '' ) {
+    if ( recipientId && recipientId != currentRecipientSvc.getNullRecipientId() && recipientId !== '' ) {
       currentRecipientSvc.getCurrentRecipient()
         // Get recipientTYPE Id (different from recipient id)
       .then(function (currentRecipient) {
@@ -51,7 +51,7 @@ angular.module('app/intentions/IntentionListController', [])
       })
         // Using intentionId property in likelyIntentions, get the full intentions from the intention list
       .then(function (likelyIntentions) {
-        return intentionsSvc.getForArea(currentAreaName)
+        return intentionsSvc.getIntentionsForArea(currentAreaName)
         .then(function (intentions) {
           return likelyIntentionsSvc.getFullIntentionObjectsFromLikelyIntentions(intentions, likelyIntentions);});
       })
@@ -63,7 +63,7 @@ angular.module('app/intentions/IntentionListController', [])
     }
     else
     // Get intentions for the current area
-      intentionsSvc.getForArea(currentAreaName)
+      intentionsSvc.getIntentionsForArea(currentAreaName)
       .then(function(intentions) {
         $scope.groupedIntentions = intentionsSvc.groupItems(intentions, ITEMS_PER_ROW);
       });
