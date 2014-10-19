@@ -1,11 +1,13 @@
 {
-  "name": "cyrano-html-app-rhwy",
-  "version": "0.0.0",
-  "homepage": "https://github.com/rhwy/cyrano-html-app",
+  "name": "gw-web-app",
+  "version": "0.1.0",
+  "homepage": "https://github.com/GhostWording/gw-web-app",
   "authors": [
-    "Rui Carvalho <github@rui.fr>"
+    "Olivier Bourdin <olivier.bourdin@gmail.com>",
+    "Rui Carvalho <github@rui.fr>",
+    "Sam Kuhn <dev@samkuhn.net>"
   ],
-  "description": "cyrano client app html5",
+  "description": "GhostWording Web App",
   "main": "index.html",
   "license": "MIT",
   "private": true,
