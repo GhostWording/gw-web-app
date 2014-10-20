@@ -412,7 +412,7 @@ gulp.task('e2etest', ['e2etest:webdriver_update'], function(cb) {
 define('watch','activate watch mode to run tests and serve on file changes');
 /*************************************************************/
 gulp.task('watch', ['install', 'build'], function() {
-	gulp.watch(['scripts/**', 'assets/**', 'views/**', 'index.html', 'tests/**'], function() {
+	gulp.watch(['scripts/**','bower_components/gw-common/**', 'assets/**', 'views/**', 'index.html', 'tests/**'], function() {
 		runSequence('build');
 	});
 });
