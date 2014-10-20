@@ -44,7 +44,7 @@ Testing
 **unit** 
 ```gulp test```
 
-**E2E** 
+**e2e** 
 ```gulp e2etest:run``` or ```gulp e2etest``` (if already serving)
 
 Linking With Common
@@ -61,8 +61,10 @@ cd ../gw-web-app
 bower link gw-common
 ```
 
-Then gw-common code can be edited/committed from either:
+After which gw-common code can be edited/committed from both:
 
 gw-common 
--or-
+
+**and**
+
 gw-web-app/bower_components/gw-common
