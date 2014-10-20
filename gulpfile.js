@@ -51,6 +51,13 @@ function appJSGlobs() {
 	];
 }
 
+// Common javascript glob patterns
+function commonJSGlobs() {	
+	return [
+		'bower_components/gw-common/**/*.js'
+	];
+}
+
 // Vendor pre-minifed javascript file paths
 function vendorJSFilesMinified(release) {
 	return [
@@ -133,13 +140,30 @@ gulp.task('jshint', function() {
 });
 
 /*************************************************************/
+define('copyappjs','copy application javascript to build folder');
+/*************************************************************/
+gulp.task('copyappjs', function() {
+  return gulp.src(appJSGlobs())
+    .pipe(gulp.dest('build/scripts/app'));
+});
+
+/*************************************************************/
+define('copycommonjs','copy common javascript to build folder');
+/*************************************************************/
+gulp.task('copycommonjs', function() {
+  return gulp.src(commonJSGlobs())
+    .pipe(gulp.dest('build/scripts/common'));
+});
+
+/*************************************************************/
 define('appjs','process application javascript');
 /*************************************************************/
 gulp.task('appjs', function(cb) {
 	if(release) {
-		generateRevisionHash(appJSGlobs(), function(revision) {
+    var appAndCommonJSGlobs = appJSGlobs().concat(commonJSGlobs());
+		generateRevisionHash(appAndCommonJSGlobs, function(revision) {
 			// Appplication javascript stream
-			var jsStream = gulp.src(appJSGlobs())
+			var jsStream = gulp.src(appAndCommonJSGlobs)
 				// Inject configuration values 
 				.pipe(replace('http://api.cvd.io/', config.get('API_URL', deploy?'deploy':'release')))
 				.pipe(uglify());
@@ -157,9 +181,8 @@ gulp.task('appjs', function(cb) {
 				}));
 		});
 	} else {
-		// Just copy the files over while preserving folder structure in development mode
-		return gulp.src(appJSGlobs())
-			.pipe(gulp.dest('build/scripts'));
+    // Copy app/common javascript to build folder in development mode
+    runSequence(['copyappjs', 'copycommonjs'], cb);
 	}
 });
 
@@ -292,11 +315,14 @@ gulp.task('index', function(cb) {
 	} else {
 		return gulp.src('index.html')
 			// Inject app js files
-			.pipe(inject(gulp.src(appJSGlobs(), {read: false}), {name: 'app'}))
+			.pipe(inject(gulp.src('scripts/app/**/*.js', {cwd:'build', read: false}), {name: 'app'}))
+			// Inject common js files
+			.pipe(inject(gulp.src('scripts/common/**/*.js', {cwd:'build', read: false}), {name: 'common'}))
 			// Inject vendor js files
 			.pipe(inject(gulp.src(vendorJSFilesMinified().concat(vendorJSFiles()), {read: false}), {name: 'vendor'}))
 			// Inject style css files
 			.pipe(inject(gulp.src(cssFiles(), {read: false}), {name: 'style'}))
+      // Output to build folder
 			.pipe(gulp.dest('./build'));
 		}
 });
