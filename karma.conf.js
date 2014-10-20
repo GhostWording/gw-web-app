@@ -15,11 +15,17 @@ module.exports = function(config) {
       'bower_components/angular/angular.js',
       'bower_components/angular-mocks/angular-mocks.js',
       'bower_components/angular-translate/angular-translate.js',
+		  'bower_components/angular-sanitize/angular-sanitize.js',
+		  'bower_components/angular-spinkit/build/angular-spinkit.js',
       'bower_components/angular-ui-router/release/angular-ui-router.js',
       'bower_components/angular-cookies/angular-cookies.js',
-      'scripts/**/*.js',
-      'bower_components/gw-common/**/*.js',
-      'tests/app/**/*.spec.js',
+  		'bower_components/angular-promise-tracker/promise-tracker.js',
+  		'bower_components/angular-easyfb/angular-easyfb.js',
+      'scripts/**/!(*.spec).js',
+      'bower_components/gw-common/**/!(*.spec).js',
+      'scripts/**/*.spec.js',
+      'tests/**/*.spec.js',
+      'bower_components/gw-common/**/*.spec.js'
     ],
 
     // list of files to exclude
