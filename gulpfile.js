@@ -134,7 +134,7 @@ gulp.task('clean', function() {
 define('jshint','check the code for jshint errors');
 /*************************************************************/
 gulp.task('jshint', function() {
-  return gulp.src(appJSGlobs())
+  return gulp.src(appJSGlobs().concat(commonJSGlobs()))
 		.pipe(jshint())
 		.pipe(jshint.reporter('jshint-stylish'));
 });
