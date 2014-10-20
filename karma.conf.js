@@ -21,6 +21,7 @@ module.exports = function(config) {
       'bower_components/angular-ui-router/release/angular-ui-router.js',
       'bower_components/angular-cookies/angular-cookies.js',
       'scripts/**/*.js',
+      'bower_components/gw-common/**/*.js',
       'tests/app/**/*.spec.js',
       'tests/common/**/*.spec.js'
 //      'tests/**/*.spec.js'
