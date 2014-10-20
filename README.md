@@ -34,15 +34,7 @@ gulp serve
 automatic development rebuild
 -----------------------------
 
-```sh
-gulp serve
-```
-
-and
-
-```sh
-gulp watch
-```
+```gulp serve``` and ```gulp watch```
 
 local release build
 -------------------
@@ -55,38 +47,25 @@ gulp serve
 deployment build
 ----------------
 
-```sh
-gulp deploy
-```
+```gulp deploy```
 
 testing
 -------
 
-```sh
-gulp test
-```
+```gulp test```
 
 E2E testing
 -----------
 
-```sh
-gulp e2etest:run
-```
-
-or
-
-```sh
-gulp e2etest
-```
-
-(if already serving)
+```gulp e2etest:run``` or ```gulp e2etest``` if already serving
 
 linking with common
 -------------------
 
-Allowing simultaneous development of gw-web-app and gw-common
+Simultaneous development of gw-web-app and gw-common
 
 ```sh
+cd ..
 git clone git@github.com:GhostWording/gw-common.git
 cd gw-common
 bower link
