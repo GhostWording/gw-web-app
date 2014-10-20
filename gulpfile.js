@@ -46,6 +46,7 @@ var define = function(name, desc){
 function appJSGlobs() {	
 	return [
 		'scripts/**/*.js',
+    '!scripts/**/*.spec.js',
 		'!scripts/old/**/*.js',
 		'!scripts/lib/**/*.js'
 	];
@@ -54,7 +55,8 @@ function appJSGlobs() {
 // Common javascript glob patterns
 function commonJSGlobs() {	
 	return [
-		'bower_components/gw-common/**/*.js'
+		'bower_components/gw-common/**/*.js',
+    '!bower_components/gw-common/**/*.spec.js'
 	];
 }
 
