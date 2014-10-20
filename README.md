@@ -26,12 +26,15 @@ bower install
 Building
 -----------------
 
-**develiopment**
+**development**
 ```gulp build``` then ```gulp serve```
+
 **development watch**
 ```gulp serve``` and ```gulp watch```
+
 **local release** 
 ```gulp release``` then ```gulp serve```
+
 **deployment** 
 ```gulp deploy```
 
@@ -40,6 +43,7 @@ Testing
 
 **unit** 
 ```gulp test```
+
 **E2E** 
 ```gulp e2etest:run``` or ```gulp e2etest``` (if already serving)
 
