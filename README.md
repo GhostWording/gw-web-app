@@ -1,7 +1,7 @@
 GhostWording Web Application
 ============================
 
-prerequisites
+Prerequisites
 -------------
 
 #### node.js
@@ -13,7 +13,7 @@ prerequisites
 #### gulp
 ```npm install -g gulp```
 
-installation
+Installation
 ------------
 
 ```sh
@@ -23,43 +23,21 @@ npm install
 bower install
 ```
 
-development build
+Building
 -----------------
 
-```sh
-gulp build
-gulp serve
-```
+**develiopment** ```gulp build``` then ```gulp serve
+**development watch** ```gulp serve``` and ```gulp watch```
+**local release** ```gulp release``` then ```gulp serve```
+**deployment** ```gulp deploy```
 
-automatic development rebuild
------------------------------
-
-```gulp serve``` and ```gulp watch```
-
-local release build
--------------------
-
-```sh
-gulp release
-gulp serve
-```
-
-deployment build
-----------------
-
-```gulp deploy```
-
-testing
+Testing
 -------
 
-```gulp test```
+**unit** ```gulp test```
+**E2E** ```gulp e2etest:run``` or ```gulp e2etest``` (if already serving)
 
-E2E testing
------------
-
-```gulp e2etest:run``` or ```gulp e2etest``` if already serving
-
-linking with common
+Linking With Common
 -------------------
 
 Simultaneous development of gw-web-app and gw-common
