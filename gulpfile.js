@@ -46,9 +46,7 @@ var define = function(name, desc){
 function appJSGlobs() {	
 	return [
 		'scripts/**/*.js',
-    '!scripts/**/*.spec.js',
-		'!scripts/old/**/*.js',
-		'!scripts/lib/**/*.js'
+    '!scripts/**/*.spec.js'
 	];
 }
 
