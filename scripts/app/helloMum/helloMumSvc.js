@@ -1,6 +1,7 @@
 angular.module('app/helloMum/helloMumSvc', ['common/services/randomHelperSvc'])
 
-.factory('helloMumSvc', ['randomHelperSvc','textsSvc', function (randomHelperSvc,textsSvc) {
+.factory('helloMumSvc', ['randomHelperSvc','textsSvc','filterHelperSvc','currentUser',
+function (randomHelperSvc,textsSvc,filterHelperSvc,currentUser) {
 
   var service = {
 
@@ -39,7 +40,7 @@ angular.module('app/helloMum/helloMumSvc', ['common/services/randomHelperSvc'])
       }
       return textListPromises;
     },
-    PickOneArrayOfTextArrays: function (arr) {
+    pickOneArrayOfTextArrays: function (arr) {
       // Add size information to each text list
       for (var i = 0; i < arr.length; i++) {
         arr[i].size = arr[i].texts.length;
@@ -49,8 +50,19 @@ angular.module('app/helloMum/helloMumSvc', ['common/services/randomHelperSvc'])
       var chosenArray = randomHelperSvc.weightedRandom(arr);
       return chosenArray;
     },
-    PickOneTextInArray:function(textArray) {
+    pickOneTextInArray:function(textArray) {
       return randomHelperSvc.weightedRandom(textArray);
+    },
+    createMotherFilter: function() {
+      var filters = filterHelperSvc.createEmptyFilters();
+      filterHelperSvc.setRecipientTypeTag(filters,'64C63D');
+      // set recipient gender
+      return filters;
+    },
+    filterTexts: function(texts) {
+      var filters = service.createMotherFilter();
+      var filteredTextList2 = filteredTextsHelperSvc.getFilteredAndOrderedList(textList, currentUser, preferredStyles,filtersSvc.getCurrentFilters());
+
     }
 
 
