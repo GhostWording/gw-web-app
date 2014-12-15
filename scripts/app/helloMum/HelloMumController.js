@@ -14,19 +14,24 @@ function($scope, currentLanguage,$q,helloMumSvc) {
   // Get promises for each text list (from cache if previously queried)
   // TODO : add mechanism to check for cache staleness
   var culture = currentLanguage.currentCulture(); // could just use 'en-GB' instead
-  var arrayOfPromises = helloMumSvc.getTextArrayPromises(arrayOfIntentionsWithTexts,culture);
+  var arrayOfPromises = helloMumSvc.getPromisesForTextLists(arrayOfIntentionsWithTexts,culture);
 
   // When all promises are resolved
-  $q.all(arrayOfPromises).then(function (resolvedTextArrays) {
+  $q.all(arrayOfPromises).then(function (resolvedTextLists) {
 
+    //helloMumSvc.setUserGender('H'); // you would do that if you learn that recipient gender is Male
+
+    var nbFilteredTexts = 0;  var nbTextsForIntentions = 0;
     for (var i = 0; i < arrayOfIntentionsWithTexts.length; i++) {
-      // Get resolved promises
-      arrayOfIntentionsWithTexts[i].texts = resolvedTextArrays[i];
+      // Keep texts with relationType == Parent, recipientGender == F
+      var texts = resolvedTextLists[i];
+      var filteredText = helloMumSvc.filterTextsForMother(texts);
+      arrayOfIntentionsWithTexts[i].texts = filteredText;
 
-      // TODO : only keep texts matching relation type == Parent, recipient gender == F
-      // currentUser will have all properties to default unless you set one.
-
+      console.log(arrayOfIntentionsWithTexts[i].name + ' ' + texts.length + ' ' + filteredText.length);
+      nbFilteredTexts += filteredText.length;   nbTextsForIntentions += texts.length;
     }
+    console.log("------ TOTAL : " + nbTextsForIntentions);  console.log("------ TOTAL FILTERED : " + nbFilteredTexts);
 
     // TODO : also filter for sender gender and closeness
 
