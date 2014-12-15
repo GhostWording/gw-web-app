@@ -42,6 +42,7 @@ angular.module('app/routing', ['ui.router'])
     .when('/userEMail'                ,'/xx/userEMail')
     .when('/userEMailvalidation'      ,'/xx/userEMailValidation')
     .when('/whatToDo'                 ,'/xx/whatToDo')
+    .when('/mum'                      ,'/xx/mum')
 
     .when('/notimplemented'           ,'/xx/notimplemented')
     .when('/fbLogin'                  ,'/xx/fbLogin')
@@ -70,6 +71,13 @@ angular.module('app/routing', ['ui.router'])
     .when('/:languageCode/area/:areaName/intention/:intentionId/text/:textId','/:languageCode/area/:areaName/recipient/none/intention/:intentionId/text/:textId');
 
   $stateProvider
+
+  .state('helloMum', {
+    url: '/:languageCode/mum',
+    templateUrl: 'views/helloMum.html',
+    controller: 'HelloMumController'
+  })
+
   .state('area', {
     abstract: true,
     template: '<ui-view/>',
@@ -199,7 +207,7 @@ angular.module('app/routing', ['ui.router'])
       currentIntentionLabel: ['currentAreaName','intentionsSvc','$stateParams', function(currentAreaName,intentionsSvc,$stateParams) {
         return intentionsSvc.getIntentionLabel(currentAreaName,$stateParams.intentionSlug);
       }],
-      currentTextList: ['textsSvc','currentLanguage', function(textsSvc,currentLanguage) { return textsSvc.getCurrentTextList( currentLanguage.currentCulture() ); }],
+      currentTextList: ['textsSvc','currentLanguage', function(textsSvc,currentLanguage) { return textsSvc.getCurrentTextList( currentLanguage.currentCulture(),true ); }],
       currentRecipient: ['currentRecipientSvc', function(currentRecipientSvc) { return currentRecipientSvc.getCurrentRecipient(); }],
       currentRecipientLabel: ['currentRecipientSvc', function(currentRecipientSvc) {
         //return currentRecipientSvc.getCurrentRecipient().then(function(rec) {return rec.LocalLabel});
@@ -294,7 +302,9 @@ angular.module('app/routing', ['ui.router'])
     url: '/:languageCode',
     templateUrl: 'views/splashscreen.html',
     controller: 'SplashScreenController'
-  });
+  })
+
+  ;
 
  $urlRouterProvider.otherwise('/');
 

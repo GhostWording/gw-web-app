@@ -60,7 +60,7 @@ function ($scope, currentTextList, currentAreaName,  currentUser, currentRecipie
 
   // Get text list for area, intention and culture, then filter it
   var getAndFilterTextList = function(culture) {
-    textsSvc.getCurrentTextList(culture).then(function(textList) {
+    textsSvc.getCurrentTextList(culture,true).then(function(textList) {
       unfilteredTextList = textList;
       $scope.filteredList = filterList(unfilteredTextList);}
     );

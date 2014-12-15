@@ -42,11 +42,12 @@ angular.module('app/controllers/CherryController', [])
     intentionsSvc.getIntentionsForArea('General',skipTracker);
 
     // Preload text lists
-    textsSvc.getTextList('Friends', 'joyeux-anniversaire', currentLanguage.currentCulture(), skipTracker);
-    textsSvc.getTextList('LoveLife', 'j-aimerais-vous-revoir', currentLanguage.currentCulture(),skipTracker);
-    textsSvc.getTextList('LoveLife', 'je-pense-a-toi',currentLanguage.currentCulture(),skipTracker);
-    textsSvc.getTextList('LoveLife', 'je-t-aime',currentLanguage.currentCulture(), skipTracker);
-    textsSvc.getTextList('LoveLife', 'j-ai-envie-de-toi',currentLanguage.currentCulture(),skipTracker);
+    var makeShortVersionAndSort =  true;
+    textsSvc.getTextList('Friends', 'joyeux-anniversaire', currentLanguage.currentCulture(), skipTracker,makeShortVersionAndSort);
+    textsSvc.getTextList('LoveLife', 'j-aimerais-vous-revoir', currentLanguage.currentCulture(),skipTracker,makeShortVersionAndSort);
+    textsSvc.getTextList('LoveLife', 'je-pense-a-toi',currentLanguage.currentCulture(),skipTracker,makeShortVersionAndSort);
+    textsSvc.getTextList('LoveLife', 'je-t-aime',currentLanguage.currentCulture(), skipTracker,makeShortVersionAndSort);
+    textsSvc.getTextList('LoveLife', 'j-ai-envie-de-toi',currentLanguage.currentCulture(),skipTracker,makeShortVersionAndSort);
 
     // Display spinner when route change starts
     $rootScope.$on("$stateChangeStart",function (event, toState, toParams, fromState, fromParams) {
