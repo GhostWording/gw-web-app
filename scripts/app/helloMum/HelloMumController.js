@@ -21,30 +21,47 @@ function($scope, currentLanguage,$q,helloMumSvc,helloMumTextsSvc,helperSvc) {
 
     $scope.choices = [];
 
-  // Filter and pick texts
+  // When all texts have been fetched
   $q.all(textListPromises).then(function (resolvedTextLists) {
+    // Associate texts lists with weighted intentions
     helloMumTextsSvc.attachFilteredTextListsToWeightedIntentions(weightedIntentions,resolvedTextLists);
-
-    //$scope.mumTexts=[];
-    var nbTextsToDisplay =  8;
-    for (var i = 0; i < nbTextsToDisplay;  i++  ) {
+    // Pick 8 texts
+    for (var i = 0; i < 8;  i++  ) {
+      // Will randomly choose an intention then a text
       var choice = chooseText(weightedIntentions);
+        // Texts may look better without quotation marks
         choice.text.Content = helperSvc.replaceAngledQuotes(choice.text.Content," ");
         $scope.choices.push(choice);
     }
   });
 
+  // Will try to pick a random text until satisfied
   var chooseText = function(weightedIntentions) {
-    // TODO : if chosen text is burnt, require another one instead
-    var choice = helloMumSvc.pickOneTextFromWeightedIntentionArray(weightedIntentions);
+    var choice;
+    var happyWithChoice = true;
+    do {
+       choice = helloMumSvc.pickOneTextFromWeightedIntentionArray(weightedIntentions);
+    } while (happyWithText(choice.text) === false);
     console.log(choice.text.SortBy + ' ** ' + choice.text.Content);
+    console.log(choice.text);
     return choice;
   };
+
+  // Let us say that 'burnt' texts are texts disliked + texts already sent
+  // We don't want them
+
+  // TODO : if chosen text is burnt, express deep sadness
+  var happyWithText = function(pickedText) {
+    // TODO : check that text has not been picked during this session
+    // if matching text Id in $scope.choices, return false
+    // TODO : check that text has not been disliked previously
+    // TODO : check that text has not already been sent
+    return true;
+  };
+
   $scope.isQuote = function(txt) { return helperSvc.isQuote(txt); };
 
-
+  // TODO : we also want to check that the number of burnt text is not too large
+  // as compared to the number of available texts (for example nbBurnt < available * 0.80)
 }]);
 
-// Let us says 'burnt' texts = texts disliked + texts already sent
-// We want to check that the number of burnt text is too large (for example nbBurnt < available * 0.80)
-// if so we could recycle texts already sent or suggest user to buy more
