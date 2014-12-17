@@ -1,5 +1,10 @@
 <div>
   <h4>Say hello to mum</h4>
 
+  <div ng-repeat="choice in choices" style="margin-top: 20px; margin-bottom: 20px;">
+    <div>{{ choice.intention.label}}</div>
+    <div>{{ choice.text.Content }} <span ng-show="isQuote(choice.text)"> - {{ choice.text.Author }} </span></div>
+  </div>
+
 
 </div>
