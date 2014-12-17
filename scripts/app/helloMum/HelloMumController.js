@@ -42,8 +42,8 @@ function($scope, currentLanguage,$q,helloMumSvc,helloMumTextsSvc,helperSvc) {
     do {
        choice = helloMumSvc.pickOneTextFromWeightedIntentionArray(weightedIntentions);
     } while (happyWithText(choice.text) === false);
-    console.log(choice.text.SortBy + ' ** ' + choice.text.Content);
-    console.log(choice.text);
+    //console.log(choice.text.SortBy + ' ** ' + choice.text.Content);
+    //console.log(choice.text);
     return choice;
   };
 
