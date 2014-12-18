@@ -6,4 +6,6 @@ angular.module('app/controllers', [
   'app/controllers/TabController',
   'app/controllers/SimplePageController',
   'app/controllers/NotImplementedController',
+//  'app/controllers/HelloMumController',
+
 ]);

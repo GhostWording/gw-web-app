@@ -10,5 +10,6 @@ angular.module('app', [
   'app/userDashboard',
   'app/subscriptions',
   'app/appUrl',
-  'app/controllers'
+  'app/controllers',
+  'app/helloMum'
 ]);
