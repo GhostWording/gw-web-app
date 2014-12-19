@@ -1,6 +1,12 @@
 angular.module('app/helloMum/HelloMumController', [])
 .controller('HelloMumController', ['$scope','currentLanguage','$q','helloMumSvc','helloMumTextsSvc','helperSvc',
 function($scope, currentLanguage,$q,helloMumSvc,helloMumTextsSvc,helperSvc) {
+
+  helloMumTextsSvc.getWelcomeTextList('HelloMum','en-EN').then(function(textList) {
+    $scope.welcomeTexts = textList;
+  });
+
+
   // TODO : if we know the user gender, we should set it before calling filtering functions (or use a watch to refilter)
   //helloMumSvc.setUserGender('H'); // you would do that if you learn that recipient gender is Male
   // TODO : add mechanism to check for cache staleness somewhere in the app
@@ -59,7 +65,8 @@ function($scope, currentLanguage,$q,helloMumSvc,helloMumTextsSvc,helperSvc) {
     return true;
   };
 
-  $scope.isQuote = function(txt) { return helperSvc.isQuote(txt); };
+  $scope.isQuote = function(txt) {
+    return helperSvc.isQuote(txt); };
 
   // TODO : we also want to check that the number of burnt text is not too large
   // as compared to the number of available texts (for example nbBurnt < available * 0.80)
