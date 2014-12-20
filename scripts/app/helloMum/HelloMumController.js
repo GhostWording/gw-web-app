@@ -1,11 +1,21 @@
 angular.module('app/helloMum/HelloMumController', [])
-.controller('HelloMumController', ['$scope','currentLanguage','$q','helloMumSvc','helloMumTextsSvc','helperSvc',
+.controller('HelloMumController', ['$scope','currentLanguage','$q','helloMumSvc','helloMumTextsSvc','helperSvc','currentUser','currentUserLocalData',
 function($scope, currentLanguage,$q,helloMumSvc,helloMumTextsSvc,helperSvc) {
 
-  helloMumTextsSvc.getWelcomeTextList('HelloMum','en-EN').then(function(textList) {
-    $scope.welcomeTexts = textList;
-  });
 
+
+  helloMumTextsSvc.getWelcomeTextList('HelloMum','en-EN','53A0E1').then(function(texts) {
+    // does not work :
+//    $scope.welcomeTexts = helloMumTextsSvc.filterTextsForHelloMum(texts);
+
+    var selectedTexts = helloMumTextsSvc.pickWelcomeTexts(texts,8);
+
+//    $scope.welcomeTexts = texts;
+    $scope.welcomeTexts = selectedTexts;
+
+//    for (var i =0; i< texts.length; i++)
+//      console.log(texts[i]);
+  });
 
   // TODO : if we know the user gender, we should set it before calling filtering functions (or use a watch to refilter)
   //helloMumSvc.setUserGender('H'); // you would do that if you learn that recipient gender is Male
@@ -29,6 +39,7 @@ function($scope, currentLanguage,$q,helloMumSvc,helloMumTextsSvc,helperSvc) {
 
   // When all texts have been fetched
   $q.all(textListPromises).then(function (resolvedTextLists) {
+
     // Associate texts lists with weighted intentions
     helloMumTextsSvc.attachFilteredTextListsToWeightedIntentions(weightedIntentions,resolvedTextLists);
     // Pick 8 texts
