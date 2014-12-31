@@ -15,7 +15,15 @@ function($scope, currentLanguage,$q,helloMumSvc,helloMumTextsSvc,helperSvc) {
   var weightedIntentions = helloMumSvc.intentionDefaultWeights();
 
   // TODO : adjust intention userWeight properties according to user choice (none, few, many)
-  // .....
+  // Example this will only keep the first intention (how-are-you?)
+  //  function setFakeWeights(weightedIntentions) {
+  //    for (var i = 0; i < weightedIntentions.length; i++) {
+  //      if (i > 0) {
+  //        weightedIntentions[i].userWeight = 0;
+  //      }
+  //    }
+  //  }
+  //  setFakeWeights(weightedIntentions);
 
   // Set intention weights = defaultWeight * userWeight
   helloMumSvc.setIntentionWeights(weightedIntentions);
