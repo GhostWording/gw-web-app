@@ -7,7 +7,7 @@ angular.module('app/controllers/NavBarController', [])
   }
 
   $scope.changeLanguage = function (langKey) {
-    currentLanguage.setLanguageCode(langKey);
+    currentLanguage.setLanguageCode(langKey,true);
   };
 
   $scope.getLanguage = function() {

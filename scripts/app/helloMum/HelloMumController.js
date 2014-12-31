@@ -22,7 +22,7 @@ function($scope, currentLanguage,$q,helloMumSvc,helloMumTextsSvc,helperSvc) {
 
   // Get text list promises for the intentions (from cache if previously queried)
 
-  currentLanguage.setLanguageCode('en',true); // Should be set when app initialize, or use 'en-EN'
+  currentLanguage.setLanguageCode('en',false); // Should be set when app initialize, or use 'en-EN'
   var textListPromises = helloMumTextsSvc.textListPromises(weightedIntentions,currentLanguage.currentCulture()); // 'en-EN' can be used as hard coded culture
 
     $scope.choices = [];
