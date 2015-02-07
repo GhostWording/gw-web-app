@@ -59,6 +59,10 @@ angular.module('app/routing', ['ui.router'])
     .when('/Famille',    '/fr/area/Family/recipient/none/intention')
     // French happy new year shortcup
     .when('/BonneAnnee', '/fr/area/Friends/recipient/none/intention/bonne-annee/text')
+    .when('/HappyNewYear', 'en/area/Friends/recipient/none/intention/happy-new-year/text')
+    .when('/happynewyear', 'en/area/Friends/recipient/none/intention/happy-new-year/text')
+
+
     // French sashboard  shortcup
     .when('/SauverLeChat',    '/fr/area/General/dashboard')
     .when('/sauverlechat',    '/fr/area/General/dashboard')

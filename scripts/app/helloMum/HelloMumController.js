@@ -15,14 +15,22 @@ function($scope, currentLanguage,$q,helloMumSvc,helloMumTextsSvc,helperSvc) {
   var weightedIntentions = helloMumSvc.intentionDefaultWeights();
 
   // TODO : adjust intention userWeight properties according to user choice (none, few, many)
-  // .....
+  // Example this will only keep the first intention (how-are-you?)
+  //  function setFakeWeights(weightedIntentions) {
+  //    for (var i = 0; i < weightedIntentions.length; i++) {
+  //      if (i > 0) {
+  //        weightedIntentions[i].userWeight = 0;
+  //      }
+  //    }
+  //  }
+  //  setFakeWeights(weightedIntentions);
 
   // Set intention weights = defaultWeight * userWeight
   helloMumSvc.setIntentionWeights(weightedIntentions);
 
   // Get text list promises for the intentions (from cache if previously queried)
 
-  currentLanguage.setLanguageCode('en',true); // Should be set when app initialize, or use 'en-EN'
+  currentLanguage.setLanguageCode('en',false); // Should be set when app initialize, or use 'en-EN'
   var textListPromises = helloMumTextsSvc.textListPromises(weightedIntentions,currentLanguage.currentCulture()); // 'en-EN' can be used as hard coded culture
 
     $scope.choices = [];

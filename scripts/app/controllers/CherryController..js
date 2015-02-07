@@ -24,7 +24,7 @@ angular.module('app/controllers/CherryController', [])
     // Try to guess language from current url
     currentLanguage.setLanguageForHostName($location.$$host);
     $scope.changeLanguage = function (langKey) {
-      currentLanguage.setLanguageCode(langKey);
+      currentLanguage.setLanguageCode(langKey,true);
     };
     $scope.getLanguage = function() {
       return currentLanguage.getLanguageCode();
@@ -127,7 +127,7 @@ angular.module('app/controllers/CherryController', [])
       // Set language form url if present
       var languageCode = toParams.languageCode;
       if ( languageCode &&  languageCode!== undefined) {
-        currentLanguage.setLanguageCode(languageCode);
+        currentLanguage.setLanguageCode(languageCode,true);
       }
 
       // Add language code to url if absent
