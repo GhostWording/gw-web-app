@@ -1,6 +1,6 @@
 angular.module('app/helloMum/HelloMumController', [])
-.controller('HelloMumController', ['$scope','currentLanguage','$q','helloMumSvc','helloMumTextsSvc','helperSvc','currentUser','currentUserLocalData',
-function($scope, currentLanguage,$q,helloMumSvc,helloMumTextsSvc,helperSvc) {
+.controller('HelloMumController', ['$scope','currentLanguage','$q','helloMumTextsSvc','helperSvc','intentionPonderationSvc','weightedTextRandomPickSvc',
+function($scope, currentLanguage,$q,helloMumTextsSvc,helperSvc,intentionPonderationSvc,weightedTextRandomPickSvc) {
 
 
 
@@ -22,7 +22,7 @@ function($scope, currentLanguage,$q,helloMumSvc,helloMumTextsSvc,helperSvc) {
   // TODO : add mechanism to check for cache staleness somewhere in the app
 
   // Get slugs and default weights for hello mum intentions (
-  var weightedIntentions = helloMumSvc.intentionDefaultWeights();
+  var weightedIntentions = intentionPonderationSvc.intentionDefaultWeights();
 
   // TODO : adjust intention userWeight properties according to user choice (none, few, many)
   // Example this will only keep the first intention (how-are-you?)
@@ -36,7 +36,7 @@ function($scope, currentLanguage,$q,helloMumSvc,helloMumTextsSvc,helperSvc) {
   //  setFakeWeights(weightedIntentions);
 
   // Set intention weights = defaultWeight * userWeight
-  helloMumSvc.setIntentionWeights(weightedIntentions);
+  intentionPonderationSvc.setIntentionWeights(weightedIntentions);
 
   // Get text list promises for the intentions (from cache if previously queried)
 
@@ -65,7 +65,7 @@ function($scope, currentLanguage,$q,helloMumSvc,helloMumTextsSvc,helperSvc) {
     var choice;
     var happyWithChoice = true;
     do {
-       choice = helloMumSvc.pickOneTextFromWeightedIntentionArray(weightedIntentions);
+       choice = weightedTextRandomPickSvc.pickOneTextFromWeightedIntentionArray(weightedIntentions);
     } while (happyWithText(choice.text) === false);
     //console.log(choice.text.SortBy + ' ** ' + choice.text.Content);
     //console.log(choice.text);
