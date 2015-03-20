@@ -1,14 +1,46 @@
 angular.module('app/helloMum/HelloMumController', [])
-.controller('HelloMumController', ['$scope','currentLanguage','$q','helloMumTextsSvc','helperSvc','intentionPonderationSvc','weightedTextRandomPickSvc',
-function($scope, currentLanguage,$q,helloMumTextsSvc,helperSvc,intentionPonderationSvc,weightedTextRandomPickSvc) {
+.controller('HelloMumController', ['$scope','currentLanguage','$q','helloMumTextsSvc','helperSvc','intentionPonderationSvc','weightedTextRandomPickSvc','textsSvc','welcomeGroupTextSelectionSvc',
+function($scope, currentLanguage,$q,helloMumTextsSvc,helperSvc,intentionPonderationSvc,weightedTextRandomPickSvc,textsSvc,welcomeGroupTextSelectionSvc) {
 
 
 
-  helloMumTextsSvc.getWelcomeTextList('HelloMum','en-EN','53A0E1').then(function(texts) {
+  var getMumWelcomeTextList =  function (areaName, culture, groupId) {
+
+    // Find welcome group depending of language code of culture
+    function findGroupIdForCulture(culture) {
+      var groupId = '53A0E1';
+      var languageCode = 'en';
+      if (culture.length >= 2)
+        languageCode = culture.substring(0, 2);
+
+      switch (languageCode) {
+        case 'fr':
+          groupId = '774EE7';
+          break;
+        default:
+          groupId = '53A0E1';
+          break;
+      }
+      return groupId;
+    }
+
+    if (!groupId) {
+      groupId = findGroupIdForCulture(culture);
+    }
+
+    var texts = textsSvc.getTextListForGroup(areaName, groupId, culture, true, true);
+    return texts;
+  };
+
+
+  getMumWelcomeTextList('HelloMum','en-EN','53A0E1').then(function(texts) {
     // does not work :
 //    $scope.welcomeTexts = helloMumTextsSvc.filterTextsForHelloMum(texts);
 
-    var selectedTexts = helloMumTextsSvc.pickWelcomeTexts(texts,8);
+    //var selectedTexts = helloMumTextsSvc.pickWelcomeTexts(texts,8);
+    var selectedTexts = welcomeGroupTextSelectionSvc.pickWelcomeTexts(texts,8);
+
+
 
 //    $scope.welcomeTexts = texts;
     $scope.welcomeTexts = selectedTexts;
@@ -47,6 +79,8 @@ function($scope, currentLanguage,$q,helloMumTextsSvc,helperSvc,intentionPonderat
 
   // When all texts have been fetched
   $q.all(textListPromises).then(function (resolvedTextLists) {
+
+    //var filteredTextLists = helloMumTextsSvc.filterTextsForHelloMum(resolvedTextLists);
 
     // Associate texts lists with weighted intentions
     helloMumTextsSvc.attachFilteredTextListsToWeightedIntentions(weightedIntentions,resolvedTextLists);
