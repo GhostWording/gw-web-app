@@ -1,7 +1,13 @@
-angular.module('app/helloMum/helloMumClientSvc', ['common/texts/textsSvc'])
+angular.module('app/helloMum/helloMumClientSvc', [
+  'common/texts/textsSvc',
+  'common/textSelection/weightedTextRandomPickSvc',
+  'common/filters/filterHelperSvc',
+  'common/users/currentUser',
+  'common/i18n/currentLanguage'
+])
 
-.factory('helloMumClientSvc',  ['currentLanguage','weightedTextRandomPickSvc','textsSvc',
-function( currentLanguage,weightedTextRandomPickSvc,textsSvc) {
+.factory('helloMumClientSvc',  ['currentLanguage','weightedTextRandomPickSvc','textsSvc','currentUser','filterHelperSvc',
+function( currentLanguage,weightedTextRandomPickSvc,textsSvc,currentUser,filterHelperSvc) {
 
   var service = {
 
@@ -27,7 +33,6 @@ function( currentLanguage,weightedTextRandomPickSvc,textsSvc) {
       return false;
     },
 
-
     // From which intentions should we pick the texts and with what probability ?
     intentionsToDisplay: function () {
       // defaultWeight : 1 by default, between 0 and 1 if we feel an intention contains too many texts
@@ -48,6 +53,37 @@ function( currentLanguage,weightedTextRandomPickSvc,textsSvc) {
       return arr;
     },
 
+    filterTextsForThisApp: function (texts,relationTypeId,recipientGender,userGender) {
+      var filters = filterHelperSvc.createEmptyFilters();
+      // Set relation type
+      filterHelperSvc.setRecipientTypeTag(filters, relationTypeId);
+      // Set recipient gender
+      filterHelperSvc.setRecipientGender(filters, recipientGender); // or 'H' for man
+      // Set polite verbal form if required
+      filterHelperSvc.setPoliteVerbalForm(filters,'T');
+      // Set user gender if we know it
+      if (userGender == 'F' || userGender == 'H') // H for Homme = Male
+        currentUser.gender = userGender;
+
+      return  filterHelperSvc.getFilteredList(texts, currentUser, filters);
+    },
+
+    attachFilteredTextListsToIntentions: function (weightedIntentions, resolvedTextLists,relationTypeId,recipientGender,userGender) {
+      var nbFilteredTexts = 0;
+      var nbTextsForIntentions = 0;
+      for (var i = 0; i < weightedIntentions.length; i++) {
+        var texts = resolvedTextLists[i];
+        // Filter texts !!
+        var filteredText = service.filterTextsForThisApp(texts,relationTypeId,recipientGender,userGender);
+        console.log(weightedIntentions[i].name + ' ' + texts.length + ' ' + filteredText.length);
+        weightedIntentions[i].texts = filteredText;
+        nbFilteredTexts += filteredText.length;
+        nbTextsForIntentions += texts.length;
+      }
+      console.log("------ TOTAL : " + nbTextsForIntentions);
+      console.log("------ TOTAL FILTERED : " + nbFilteredTexts);
+    },
+
     // Pick a random text until satisfied
     chooseText : function(weightedIntentions) {
       var choice;
@@ -60,7 +96,6 @@ function( currentLanguage,weightedTextRandomPickSvc,textsSvc) {
     happyWithText : function(pickedText) {
       return true;
     }
-
 
   };
 
