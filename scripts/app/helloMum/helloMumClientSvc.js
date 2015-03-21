@@ -2,19 +2,18 @@ angular.module('app/helloMum/helloMumClientSvc', [
   'common/texts/textsSvc',
   'common/textSelection/weightedTextRandomPickSvc',
   'common/filters/filterHelperSvc',
-  'common/users/currentUser',
-  'common/i18n/currentLanguage'
+  'common/users/currentUser'
 ])
 
-.factory('helloMumClientSvc',  ['currentLanguage','weightedTextRandomPickSvc','textsSvc','currentUser','filterHelperSvc',
-function( currentLanguage,weightedTextRandomPickSvc,textsSvc,currentUser,filterHelperSvc) {
+.factory('helloMumClientSvc',  ['weightedTextRandomPickSvc','textsSvc','currentUser','filterHelperSvc',
+function( weightedTextRandomPickSvc,textsSvc,currentUser,filterHelperSvc) {
 
   var service = {
 
     // Get welcome text groups for mums : a list of texts that will be displayed when the app launches for the first time
-    getMumWelcomeTextList: function () {
+    getMumWelcomeTextList: function (areaName,languageCode,cultureCode) {
       var groupId;
-      switch (currentLanguage.getLanguageCode()) {
+      switch (languageCode) {
         case 'fr':
           groupId = '774EE7';
           break;
@@ -22,7 +21,7 @@ function( currentLanguage,weightedTextRandomPickSvc,textsSvc,currentUser,filterH
           groupId = '53A0E1';
           break;
       }
-      return textsSvc.getTextListForGroup('HelloMum', groupId, currentLanguage.getCultureCode(), true, true);
+      return textsSvc.getTextListForGroup(areaName, groupId, cultureCode, true, true);
     },
 
     // For mums, we do not want the first texts to be is Jokes, facebook status, positive thoughts, or other impersonal texts

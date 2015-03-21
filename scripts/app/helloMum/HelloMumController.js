@@ -1,12 +1,7 @@
-angular.module('app/helloMum/HelloMumController', [])
+angular.module('app/helloMum/HelloMumController', ['common/i18n/currentLanguage'])
 
-.controller('HelloMumController', ['$scope','currentLanguage','$q','helloMumTextsSvc','helperSvc','intentionPonderationSvc','welcomeGroupTextSelectionSvc','helloMumClientSvc','getTextsForRecipientSvc',
-function($scope, currentLanguage,$q,helloMumTextsSvc,helperSvc,intentionPonderationSvc,welcomeGroupTextSelectionSvc,helloMumClientSvc,getTextsForRecipientSvc) {
-
-  // Get the WELCOME TEXT LIST for mums then pick a few for display
-  helloMumClientSvc.getMumWelcomeTextList().then(function(texts) {
-    $scope.welcomeTexts = welcomeGroupTextSelectionSvc.pickWelcomeTexts(texts,8,helloMumClientSvc.excludeTextFromFirstPositionOfMumTextList);
-  });
+.controller('HelloMumController', ['$scope','currentLanguage','$q','helperSvc','intentionPonderationSvc','welcomeGroupTextSelectionSvc','helloMumClientSvc','getTextsForRecipientSvc',
+function($scope, currentLanguage,$q,helperSvc,intentionPonderationSvc,welcomeGroupTextSelectionSvc,helloMumClientSvc,getTextsForRecipientSvc) {
 
   var areaName = 'HelloMum';
   // Recipient is parent
@@ -15,6 +10,14 @@ function($scope, currentLanguage,$q,helloMumTextsSvc,helperSvc,intentionPonderat
   var recipientGender = 'F';
   // Let us assume the app user is a man (H = Homme = Male), we should ask the user for this information
   var userGender = 'H';
+
+  var languageCode = currentLanguage.getLanguageCode();
+  var cultureCode = currentLanguage.getCultureCode();
+  // Get the WELCOME TEXT LIST for mums then pick a few for display
+  helloMumClientSvc.getMumWelcomeTextList(areaName,languageCode,cultureCode).then(function(texts) {
+    $scope.welcomeTexts = welcomeGroupTextSelectionSvc.pickWelcomeTexts(texts,8,helloMumClientSvc.excludeTextFromFirstPositionOfMumTextList);
+  });
+
 
   // Define THE INTENTIONS that will be used by the app, using their slug as id
   var weightedIntentions = helloMumClientSvc.intentionsToDisplay();
