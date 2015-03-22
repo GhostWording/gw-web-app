@@ -3,11 +3,12 @@ angular.module('app/helloFb/HelloFbController', ['common/i18n/currentLanguage'])
 .controller('HelloFbController', ['$scope','currentLanguage','$q','helperSvc','intentionPonderationSvc','welcomeGroupTextSelectionSvc','helloFbClientSvc','getTextsForRecipientSvc',
 function($scope, currentLanguage,$q,helperSvc,intentionPonderationSvc,welcomeGroupTextSelectionSvc,helloFbClientSvc,getTextsForRecipientSvc) {
 
-  var areaName = 'HelloFb';
-  // Recipient is parent
-  var relationTypeId = '64C63D';
-  // Recipient is Female
-  var recipientGender = 'F';
+  var areaName = 'FbFriendsDaily';
+  // Relation type is other friends
+  var relationTypeId = '6E7DFB';
+  // We do not know recipient gender + we want texts that do not address a specific recipient : EI for Explicitly Indifferent
+  var recipientGender = 'EI';
+//  var recipientGender = 'H';
   // Let us assume the app user is a man (H = Homme = Male), we should ask the user for this information
   var userGender = 'H';
 

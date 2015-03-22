@@ -37,17 +37,14 @@ function( weightedTextRandomPickSvc,textsSvc,currentUser,filterHelperSvc) {
       // defaultWeight : 1 by default, between 0 and 1 if we feel an intention contains too many texts
       // userWeight    : (0, 1 or 4) <=> (none, few,  many)
       var arr = [
-        { name: 'how-are-you', defaultWeight: 1, userWeight: 1 },
-        { name: 'I-think-of-you', defaultWeight: 1, userWeight: 1 },
-        { name: 'jokes', defaultWeight: 0.4, userWeight: 1, label: "Joke of the day" },
-        { name: 'thank-you', defaultWeight: 1, userWeight: 1 },
-        { name: 'a-few-words-for-you', defaultWeight: 1, userWeight: 1 },
-        { name: 'I-love-you', defaultWeight: 1, userWeight: 1 },
-        { name: 'I-miss-you', defaultWeight: 1, userWeight: 1 },
-        { name: 'I-am-here-for-you', defaultWeight: 0.5, userWeight: 1 },
-        { name: 'facebook-status', defaultWeight: 0.4, userWeight: 1, label: "Thought of the day" },
-        { name: 'positive-thoughts', defaultWeight: 0.6, userWeight: 1, label: "Thought of the day"  },
-        { name: 'would-you-care-for-a-drink', defaultWeight: 0.5, userWeight: 1 },
+        { name: 'jokes',               defaultWeight: 0.4, userWeight: 1, label: "Joke of the day" },
+        { name: 'a-few-words-for-you', defaultWeight: 1,   userWeight: 1, label: "A few words" },
+        { name: 'facebook-status',     defaultWeight: 1,   userWeight: 1, label: "Status" },
+        { name: 'positive-thoughts',   defaultWeight: 1,   userWeight: 1, label: "Thought of the day"  },
+        { name: 'stop-the-world',      defaultWeight: 0.3,  userWeight: 1, label: "Stop the world"  },
+        { name: 'humorous-insults',    defaultWeight: 0.1,  userWeight: 1, label: "Grrrrr"},
+
+
       ];
       return arr;
     },
