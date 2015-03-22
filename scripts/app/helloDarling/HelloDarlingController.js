@@ -9,13 +9,14 @@ function($scope, currentLanguage,$q,helperSvc,intentionPonderationSvc,welcomeGro
   // We would have to ask for recipient gender (F for Femme or H for Homme)
   var recipientGender = 'F';
   // In an app, we would ask the user for that information
-  var userGender = currentUser.gender;
+  //var userGender = currentUser.gender;
+  var userGender = 'H';
   var languageCode = currentLanguage.getLanguageCode();
   var cultureCode = currentLanguage.getCultureCode();
 
   // Get the WELCOME TEXT LIST for mums then pick a few for display
   helloDarlingClientSvc.getWelcomeTextList(areaName,cultureCode,relationTypeId, recipientGender,userGender).then(function(texts) {
-    $scope.welcomeTexts = welcomeGroupTextSelectionSvc.pickWelcomeTexts(texts,8,helloDarlingClientSvc.excludeTextFromFirstPositionOfFbTextList,helloDarlingClientSvc.excludeTextFromList);
+    $scope.welcomeTexts = welcomeGroupTextSelectionSvc.pickWelcomeTexts(texts,8,helloDarlingClientSvc.excludeTextFromFirstPositionOfWelcomeTextList,helloDarlingClientSvc.excludeTextFromWelcomeList);
   });
 
 

@@ -12,6 +12,9 @@ function( weightedTextRandomPickSvc,textsSvc,currentUser,filterHelperSvc,getText
 
     // Get welcome text groups for mums : a list of texts that will be displayed when the app launches for the first time
     getWelcomeTextList: function (areaName,cultureCode,relationTypeId, recipientGender,userGender) {
+      // TODO : we would be better off with a customized welcome group when there is one, instead of just picking from one intention
+      // Server apis could tell us if there is a welcome group for areaName + culture
+
       var retval = getTextsForRecipientSvc.textPromisesForSingleIntentionSlug(areaName,'I-think-of-you', cultureCode, relationTypeId, recipientGender).then(function(texts) {
         console.log("getHelloDarlingWelcomeTextList count : " + texts.length);
         var filteredText = service.filterTextsForThisApp(texts,relationTypeId,recipientGender,userGender);
@@ -22,11 +25,11 @@ function( weightedTextRandomPickSvc,textsSvc,currentUser,filterHelperSvc,getText
     },
 
     // For facebook status,  no reason to exclude texts from first positions
-    excludeTextFromFirstPositionOfFbTextList: function (text) {
+    excludeTextFromFirstPositionOfWelcomeTextList: function (text) {
       return false;
     },
     // For the welcome group, we only want to pick some of the good ones
-    excludeTextFromList: function (text) {
+    excludeTextFromWelcomeList: function (text) {
       return text.SortBy >= 30;
     },
 
@@ -34,6 +37,8 @@ function( weightedTextRandomPickSvc,textsSvc,currentUser,filterHelperSvc,getText
     intentionsToDisplay: function () {
       // defaultWeight : 1 by default, between 0 and 1 if we feel an intention contains too many texts
       // userWeight    : (0, 1 or 4) <=> (none, few,  many)
+      // we could ask the server to provide us this list for areaName now that we have a Weighting Coefficient
+      // client apps would override this coefficient when needed
       var arr = [
         { name: 'jokes',               defaultWeight: 0.2, userWeight: 1, label: "Joke of the day" },
         { name: 'a-few-words-for-you', defaultWeight: 1,   userWeight: 1, label: "A few words for you" },
@@ -45,6 +50,8 @@ function( weightedTextRandomPickSvc,textsSvc,currentUser,filterHelperSvc,getText
         { name: 'thank-you',           defaultWeight: 0.2, userWeight: 1, label: "Thank you"},
         { name: 'there-is-something-missing',  defaultWeight: 0.2, userWeight: 1, label: "There is something missing"},
         { name: 'surprise-me',         defaultWeight: 0.3, userWeight: 1, label: "Surprise me"},
+        { name: 'I-want-you',         defaultWeight: 0.8, userWeight: 1, label: "I want you"},
+
       ];
       return arr;
     },
