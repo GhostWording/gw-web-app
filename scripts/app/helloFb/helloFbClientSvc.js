@@ -24,9 +24,13 @@ function( weightedTextRandomPickSvc,textsSvc,currentUser,filterHelperSvc,getText
 
     },
 
-    // For mums, we do not want the first texts to be is Jokes, facebook status, positive thoughts, or other impersonal texts
+    // For facebook status,  no reason to exclude texts from first positions
     excludeTextFromFirstPositionOfFbTextList: function (text) {
       return false;
+    },
+    // For the welcome group, we only want to pick some of the good ones
+    excludeTextFromList: function (text) {
+      return text.SortBy >= 30;
     },
 
     // From which intentions should we pick the texts and with what probability ?
@@ -39,9 +43,7 @@ function( weightedTextRandomPickSvc,textsSvc,currentUser,filterHelperSvc,getText
         { name: 'facebook-status',     defaultWeight: 1,   userWeight: 1, label: "Status" },
         { name: 'positive-thoughts',   defaultWeight: 1,   userWeight: 1, label: "Thought of the day"  },
         { name: 'stop-the-world',      defaultWeight: 0.3,  userWeight: 1, label: "Stop the world"  },
-        { name: 'humorous-insults',    defaultWeight: 0.1,  userWeight: 1, label: "Grrrrr"},
-
-
+        { name: 'humorous-insults',    defaultWeight: 0.2,  userWeight: 1, label: "Grrrrr"},
       ];
       return arr;
     },

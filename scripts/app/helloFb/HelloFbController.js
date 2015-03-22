@@ -17,7 +17,7 @@ function($scope, currentLanguage,$q,helperSvc,intentionPonderationSvc,welcomeGro
 
 //  helloFbClientSvc.getFbWelcomeTextList(areaName,languageCode,cultureCode).then(function(texts) {
   helloFbClientSvc.getFbWelcomeTextList(areaName,cultureCode,relationTypeId, recipientGender,userGender).then(function(texts) {
-    $scope.welcomeTexts = welcomeGroupTextSelectionSvc.pickWelcomeTexts(texts,8,helloFbClientSvc.excludeTextFromFirstPositionOfFbTextList);
+    $scope.welcomeTexts = welcomeGroupTextSelectionSvc.pickWelcomeTexts(texts,8,helloFbClientSvc.excludeTextFromFirstPositionOfFbTextList,helloFbClientSvc.excludeTextFromList);
   });
 
 
