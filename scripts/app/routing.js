@@ -44,6 +44,7 @@ angular.module('app/routing', ['ui.router'])
     .when('/whatToDo'                 ,'/xx/whatToDo')
     .when('/mum'                      ,'/xx/mum')
     .when('/fb'                       ,'/xx/fb')
+    .when('/darling'                  ,'/xx/darling')
 
     .when('/notimplemented'           ,'/xx/notimplemented')
     .when('/fbLogin'                  ,'/xx/fbLogin')
@@ -86,6 +87,11 @@ angular.module('app/routing', ['ui.router'])
     url: '/:languageCode/fb',
     templateUrl: 'views/helloFb.html',
     controller: 'HelloFbController'
+  })
+  .state('helloDarling', {
+    url: '/:languageCode/darling',
+    templateUrl: 'views/helloDarling.html',
+    controller: 'HelloDarlingController'
   })
   .state('area', {
     abstract: true,

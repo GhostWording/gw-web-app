@@ -1,33 +1,35 @@
-angular.module('app/helloFb/helloFbClientSvc', [
+angular.module('app/helloDarling/helloDarlingClientSvc', [
   'common/texts/textsSvc',
   'common/textSelection/weightedTextRandomPickSvc',
   'common/filters/filterHelperSvc',
   'common/users/currentUser'
 ])
 
-.factory('helloFbClientSvc',  ['weightedTextRandomPickSvc','textsSvc','currentUser','filterHelperSvc','getTextsForRecipientSvc',
+.factory('helloDarlingClientSvc',  ['weightedTextRandomPickSvc','textsSvc','currentUser','filterHelperSvc','getTextsForRecipientSvc',
 function( weightedTextRandomPickSvc,textsSvc,currentUser,filterHelperSvc,getTextsForRecipientSvc) {
 
   var service = {
 
     // Get welcome text groups for mums : a list of texts that will be displayed when the app launches for the first time
-    getFbWelcomeTextList: function (areaName,cultureCode,relationTypeId, recipientGender,userGender) {
-      var retval = getTextsForRecipientSvc.textPromisesForSingleIntentionSlug(areaName,'facebook-status', cultureCode, relationTypeId, recipientGender).then(function(texts) {
-        console.log("getFbWelcomeTextList count : " + texts.length);
+    getWelcomeTextList: function (areaName,cultureCode,relationTypeId, recipientGender,userGender) {
+      // TODO : we would be better off with a customized welcome group when there is one, instead of just picking from one intention
+      // Server apis could tell us if there is a welcome group for areaName + culture
+
+      var retval = getTextsForRecipientSvc.textPromisesForSingleIntentionSlug(areaName,'I-think-of-you', cultureCode, relationTypeId, recipientGender).then(function(texts) {
+        console.log("getHelloDarlingWelcomeTextList count : " + texts.length);
         var filteredText = service.filterTextsForThisApp(texts,relationTypeId,recipientGender,userGender);
         console.log("filteredText count : " + filteredText.length);
         return filteredText;
       });
       return retval;
-
     },
 
     // For facebook status,  no reason to exclude texts from first positions
-    excludeTextFromFirstPositionOfFbTextList: function (text) {
+    excludeTextFromFirstPositionOfWelcomeTextList: function (text) {
       return false;
     },
     // For the welcome group, we only want to pick some of the good ones
-    excludeTextFromList: function (text) {
+    excludeTextFromWelcomeList: function (text) {
       return text.SortBy >= 30;
     },
 
@@ -35,13 +37,21 @@ function( weightedTextRandomPickSvc,textsSvc,currentUser,filterHelperSvc,getText
     intentionsToDisplay: function () {
       // defaultWeight : 1 by default, between 0 and 1 if we feel an intention contains too many texts
       // userWeight    : (0, 1 or 4) <=> (none, few,  many)
+      // we could ask the server to provide us this list for areaName now that we have a Weighting Coefficient
+      // client apps would override this coefficient when needed
       var arr = [
-        { name: 'jokes',               defaultWeight: 0.4, userWeight: 1, label: "Joke of the day" },
-        { name: 'a-few-words-for-you', defaultWeight: 1,   userWeight: 1, label: "A few words" },
-        { name: 'facebook-status',     defaultWeight: 1,   userWeight: 1, label: "Status" },
-        { name: 'positive-thoughts',   defaultWeight: 1,   userWeight: 1, label: "Thought of the day"  },
-        { name: 'stop-the-world',      defaultWeight: 0.3,  userWeight: 1, label: "Stop the world"  },
-        { name: 'humorous-insults',    defaultWeight: 0.2,  userWeight: 1, label: "Grrrrr"},
+        { name: 'jokes',               defaultWeight: 0.2, userWeight: 1, label: "Joke of the day" },
+        { name: 'a-few-words-for-you', defaultWeight: 1,   userWeight: 1, label: "A few words for you" },
+        { name: 'facebook-status',     defaultWeight: 0.1, userWeight: 1, label: "Thought of the day" },
+        { name: 'positive-thoughts',   defaultWeight: 0.3, userWeight: 1, label: "Thought of the day" },
+        { name: 'I-think-of-you',      defaultWeight: 1,   userWeight: 1, label: "I think of you"},
+        { name: 'I-love-you',          defaultWeight: 1,   userWeight: 1, label: "I love you"},
+        { name: 'I-miss-you',          defaultWeight: 1,   userWeight: 1, label: "I miss you"},
+        { name: 'thank-you',           defaultWeight: 0.2, userWeight: 1, label: "Thank you"},
+        { name: 'there-is-something-missing',  defaultWeight: 0.2, userWeight: 1, label: "There is something missing"},
+        { name: 'surprise-me',         defaultWeight: 0.3, userWeight: 1, label: "Surprise me"},
+        { name: 'I-want-you',         defaultWeight: 0.8, userWeight: 1, label: "I want you"},
+
       ];
       return arr;
     },
@@ -52,8 +62,8 @@ function( weightedTextRandomPickSvc,textsSvc,currentUser,filterHelperSvc,getText
       filterHelperSvc.setRecipientTypeTag(filters, relationTypeId);
       // Set recipient gender
       filterHelperSvc.setRecipientGender(filters, recipientGender);
-      // Set polite verbal form if required
-      //filterHelperSvc.setPoliteVerbalForm(filters,'T');
+      // Set polite verbal form if required : most people would use familiar verbal form for their sweetheart
+      filterHelperSvc.setPoliteVerbalForm(filters,'T');
       // Set user gender if we know it
       if (userGender == 'F' || userGender == 'H') // H for Homme = Male
         currentUser.gender = userGender;
