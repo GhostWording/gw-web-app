@@ -43,6 +43,7 @@ angular.module('app/routing', ['ui.router'])
     .when('/userEMailvalidation'      ,'/xx/userEMailValidation')
     .when('/whatToDo'                 ,'/xx/whatToDo')
     .when('/mum'                      ,'/xx/mum')
+    .when('/fb'                       ,'/xx/fb')
 
     .when('/notimplemented'           ,'/xx/notimplemented')
     .when('/fbLogin'                  ,'/xx/fbLogin')
@@ -81,7 +82,11 @@ angular.module('app/routing', ['ui.router'])
     templateUrl: 'views/helloMum.html',
     controller: 'HelloMumController'
   })
-
+  .state('helloFb', {
+    url: '/:languageCode/fb',
+    templateUrl: 'views/helloFb.html',
+    controller: 'HelloFbController'
+  })
   .state('area', {
     abstract: true,
     template: '<ui-view/>',
