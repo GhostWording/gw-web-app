@@ -12,11 +12,11 @@ function( weightedTextRandomPickSvc,textsSvc,currentUser,filterHelperSvc,getText
 
     // Get welcome text groups for mums : a list of texts that will be displayed when the app launches for the first time
     getWelcomeTextList: function (areaName,cultureCode,relationTypeId, recipientGender,userGender) {
-      var retval = getTextsForRecipientSvc.textPromisesForSingleIntentionSlug(areaName,'facebook-status', cultureCode, relationTypeId, recipientGender).then(function(texts) {
-        console.log("getFbWelcomeTextList count : " + texts.length);
+      var retval = getTextsForRecipientSvc.textPromisesForSingleIntentionSlug(areaName,'I-think-of-you', cultureCode, relationTypeId, recipientGender).then(function(texts) {
+        console.log("getHelloDarlingWelcomeTextList count : " + texts.length);
         var filteredText = service.filterTextsForThisApp(texts,relationTypeId,recipientGender,userGender);
         console.log("filteredText count : " + filteredText.length);
-        return texts;
+        return filteredText;
       });
       return retval;
     },
@@ -55,8 +55,8 @@ function( weightedTextRandomPickSvc,textsSvc,currentUser,filterHelperSvc,getText
       filterHelperSvc.setRecipientTypeTag(filters, relationTypeId);
       // Set recipient gender
       filterHelperSvc.setRecipientGender(filters, recipientGender);
-      // Set polite verbal form if required
-      //filterHelperSvc.setPoliteVerbalForm(filters,'T');
+      // Set polite verbal form if required : most people would use familiar verbal form for their sweetheart
+      filterHelperSvc.setPoliteVerbalForm(filters,'T');
       // Set user gender if we know it
       if (userGender == 'F' || userGender == 'H') // H for Homme = Male
         currentUser.gender = userGender;

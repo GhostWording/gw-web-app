@@ -16,7 +16,7 @@ function( weightedTextRandomPickSvc,textsSvc,currentUser,filterHelperSvc,getText
         console.log("getFbWelcomeTextList count : " + texts.length);
         var filteredText = service.filterTextsForThisApp(texts,relationTypeId,recipientGender,userGender);
         console.log("filteredText count : " + filteredText.length);
-        return texts;
+        return filteredText;
       });
       return retval;
 
