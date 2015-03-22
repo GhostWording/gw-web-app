@@ -1,0 +1,16 @@
+<div>
+  <h4>Facebook daily suggestions</h4>
+
+  <div ng-repeat="choice in choices" style="margin-top: 20px; margin-bottom: 20px;">
+    <!-- instead of choice.intention.label, choice.text.IntentionId could be used to display a label before the text  -->
+    <div>{{ choice.intention.label}}</div>
+    <div>{{ choice.text.Content }} <span ng-show="isQuote(choice.text)"> - {{ choice.text.Author }} </span></div>
+  </div>
+
+  <h4 style="margin-top: 25px;">Facebook initial list ({{ welcomeTexts.length }})</h4>
+
+  <div ng-repeat="text in welcomeTexts" style="margin-top: 20px; margin-bottom: 20px;">
+    <div>{{ text.Content }} <span ng-show="isQuote(text)"> - {{ text.Author }} </span></div>
+  </div>
+
+</div>
