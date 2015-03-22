@@ -1,22 +1,23 @@
 angular.module('app/helloFb/HelloFbController', ['common/i18n/currentLanguage'])
 
-.controller('HelloFbController', ['$scope','currentLanguage','$q','helperSvc','intentionPonderationSvc','welcomeGroupTextSelectionSvc','helloFbClientSvc','getTextsForRecipientSvc',
-function($scope, currentLanguage,$q,helperSvc,intentionPonderationSvc,welcomeGroupTextSelectionSvc,helloFbClientSvc,getTextsForRecipientSvc) {
+.controller('HelloFbController', ['$scope','currentLanguage','$q','helperSvc','intentionPonderationSvc','welcomeGroupTextSelectionSvc','helloFbClientSvc','getTextsForRecipientSvc','currentUser',
+function($scope, currentLanguage,$q,helperSvc,intentionPonderationSvc,welcomeGroupTextSelectionSvc,helloFbClientSvc,getTextsForRecipientSvc,currentUser) {
 
   var areaName = 'FbFriendsDaily';
   // Relation type is other friends
   var relationTypeId = '6E7DFB';
   // We do not know recipient gender + we want texts that do not address a specific recipient : EI for Explicitly Indifferent
   var recipientGender = 'EI';
-//  var recipientGender = 'H';
-  // Let us assume the app user is a man (H = Homme = Male), we should ask the user for this information
-  var userGender = 'H';
-
+  // In an app, we would ask the user for that information
+  var userGender = currentUser.gender;
   var languageCode = currentLanguage.getLanguageCode();
   var cultureCode = currentLanguage.getCultureCode();
+
   // Get the WELCOME TEXT LIST for mums then pick a few for display
-  helloFbClientSvc.getMumWelcomeTextList(areaName,languageCode,cultureCode).then(function(texts) {
-    $scope.welcomeTexts = welcomeGroupTextSelectionSvc.pickWelcomeTexts(texts,8,helloFbClientSvc.excludeTextFromFirstPositionOfMumTextList);
+
+//  helloFbClientSvc.getFbWelcomeTextList(areaName,languageCode,cultureCode).then(function(texts) {
+  helloFbClientSvc.getFbWelcomeTextList(areaName,cultureCode,relationTypeId, recipientGender,userGender).then(function(texts) {
+    $scope.welcomeTexts = welcomeGroupTextSelectionSvc.pickWelcomeTexts(texts,8,helloFbClientSvc.excludeTextFromFirstPositionOfFbTextList);
   });
 
 

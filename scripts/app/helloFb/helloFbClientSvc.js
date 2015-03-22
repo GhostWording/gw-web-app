@@ -5,30 +5,27 @@ angular.module('app/helloFb/helloFbClientSvc', [
   'common/users/currentUser'
 ])
 
-.factory('helloFbClientSvc',  ['weightedTextRandomPickSvc','textsSvc','currentUser','filterHelperSvc',
-function( weightedTextRandomPickSvc,textsSvc,currentUser,filterHelperSvc) {
+.factory('helloFbClientSvc',  ['weightedTextRandomPickSvc','textsSvc','currentUser','filterHelperSvc','getTextsForRecipientSvc',
+function( weightedTextRandomPickSvc,textsSvc,currentUser,filterHelperSvc,getTextsForRecipientSvc) {
 
   var service = {
 
     // Get welcome text groups for mums : a list of texts that will be displayed when the app launches for the first time
-    getMumWelcomeTextList: function (areaName,languageCode,cultureCode) {
-      var groupId;
-      switch (languageCode) {
-        case 'fr':
-          groupId = '774EE7';
-          break;
-        default:
-          groupId = '53A0E1';
-          break;
-      }
-      return textsSvc.getTextListForGroup(areaName, groupId, cultureCode, true, true);
+    getFbWelcomeTextList: function (areaName,cultureCode,relationTypeId, recipientGender,userGender) {
+
+//      var retval = getTextsForRecipientSvc.textPromisesForSingleIntentionSlug(areaName,'facebook-status', cultureCode, relationTypeId, recipientGender);
+      var retval = getTextsForRecipientSvc.textPromisesForSingleIntentionSlug(areaName,'facebook-status', cultureCode, relationTypeId, recipientGender).then(function(texts) {
+        console.log("getFbWelcomeTextList count : " + texts.length);
+        var filteredText = service.filterTextsForThisApp(texts,relationTypeId,recipientGender,userGender);
+        console.log("filteredText count : " + filteredText.length);
+        return texts;
+      });
+      return retval;
+
     },
 
     // For mums, we do not want the first texts to be is Jokes, facebook status, positive thoughts, or other impersonal texts
-    excludeTextFromFirstPositionOfMumTextList: function (text) {
-      var intentionId = text.IntentionId;
-      if (intentionId == "0B1EA1" || intentionId == "2E2986" || intentionId == "A64962" || intentionId == "67CC40")
-        return true;
+    excludeTextFromFirstPositionOfFbTextList: function (text) {
       return false;
     },
 
@@ -54,9 +51,9 @@ function( weightedTextRandomPickSvc,textsSvc,currentUser,filterHelperSvc) {
       // Set relation type
       filterHelperSvc.setRecipientTypeTag(filters, relationTypeId);
       // Set recipient gender
-      filterHelperSvc.setRecipientGender(filters, recipientGender); // or 'H' for man
+      filterHelperSvc.setRecipientGender(filters, recipientGender);
       // Set polite verbal form if required
-      filterHelperSvc.setPoliteVerbalForm(filters,'T');
+      //filterHelperSvc.setPoliteVerbalForm(filters,'T');
       // Set user gender if we know it
       if (userGender == 'F' || userGender == 'H') // H for Homme = Male
         currentUser.gender = userGender;
