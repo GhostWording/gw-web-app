@@ -12,8 +12,6 @@ function( weightedTextRandomPickSvc,textsSvc,currentUser,filterHelperSvc,getText
 
     // Get welcome text groups for mums : a list of texts that will be displayed when the app launches for the first time
     getFbWelcomeTextList: function (areaName,cultureCode,relationTypeId, recipientGender,userGender) {
-
-//      var retval = getTextsForRecipientSvc.textPromisesForSingleIntentionSlug(areaName,'facebook-status', cultureCode, relationTypeId, recipientGender);
       var retval = getTextsForRecipientSvc.textPromisesForSingleIntentionSlug(areaName,'facebook-status', cultureCode, relationTypeId, recipientGender).then(function(texts) {
         console.log("getFbWelcomeTextList count : " + texts.length);
         var filteredText = service.filterTextsForThisApp(texts,relationTypeId,recipientGender,userGender);

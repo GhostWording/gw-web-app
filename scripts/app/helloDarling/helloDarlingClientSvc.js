@@ -11,9 +11,7 @@ function( weightedTextRandomPickSvc,textsSvc,currentUser,filterHelperSvc,getText
   var service = {
 
     // Get welcome text groups for mums : a list of texts that will be displayed when the app launches for the first time
-    getFbWelcomeTextList: function (areaName,cultureCode,relationTypeId, recipientGender,userGender) {
-
-//      var retval = getTextsForRecipientSvc.textPromisesForSingleIntentionSlug(areaName,'facebook-status', cultureCode, relationTypeId, recipientGender);
+    getWelcomeTextList: function (areaName,cultureCode,relationTypeId, recipientGender,userGender) {
       var retval = getTextsForRecipientSvc.textPromisesForSingleIntentionSlug(areaName,'facebook-status', cultureCode, relationTypeId, recipientGender).then(function(texts) {
         console.log("getFbWelcomeTextList count : " + texts.length);
         var filteredText = service.filterTextsForThisApp(texts,relationTypeId,recipientGender,userGender);
@@ -21,7 +19,6 @@ function( weightedTextRandomPickSvc,textsSvc,currentUser,filterHelperSvc,getText
         return texts;
       });
       return retval;
-
     },
 
     // For facebook status,  no reason to exclude texts from first positions
@@ -38,12 +35,16 @@ function( weightedTextRandomPickSvc,textsSvc,currentUser,filterHelperSvc,getText
       // defaultWeight : 1 by default, between 0 and 1 if we feel an intention contains too many texts
       // userWeight    : (0, 1 or 4) <=> (none, few,  many)
       var arr = [
-        { name: 'jokes',               defaultWeight: 0.4, userWeight: 1, label: "Joke of the day" },
-        { name: 'a-few-words-for-you', defaultWeight: 1,   userWeight: 1, label: "A few words" },
-        { name: 'facebook-status',     defaultWeight: 1,   userWeight: 1, label: "Status" },
-        { name: 'positive-thoughts',   defaultWeight: 1,   userWeight: 1, label: "Thought of the day"  },
-        { name: 'stop-the-world',      defaultWeight: 0.3,  userWeight: 1, label: "Stop the world"  },
-        { name: 'humorous-insults',    defaultWeight: 0.2,  userWeight: 1, label: "Grrrrr"},
+        { name: 'jokes',               defaultWeight: 0.2, userWeight: 1, label: "Joke of the day" },
+        { name: 'a-few-words-for-you', defaultWeight: 1,   userWeight: 1, label: "A few words for you" },
+        { name: 'facebook-status',     defaultWeight: 0.1, userWeight: 1, label: "Thought of the day" },
+        { name: 'positive-thoughts',   defaultWeight: 0.3, userWeight: 1, label: "Thought of the day" },
+        { name: 'I-think-of-you',      defaultWeight: 1,   userWeight: 1, label: "I think of you"},
+        { name: 'I-love-you',          defaultWeight: 1,   userWeight: 1, label: "I love you"},
+        { name: 'I-miss-you',          defaultWeight: 1,   userWeight: 1, label: "I miss you"},
+        { name: 'thank-you',           defaultWeight: 0.2, userWeight: 1, label: "Thank you"},
+        { name: 'there-is-something-missing',  defaultWeight: 0.2, userWeight: 1, label: "There is something missing"},
+        { name: 'surprise-me',         defaultWeight: 0.3, userWeight: 1, label: "Surprise me"},
       ];
       return arr;
     },
