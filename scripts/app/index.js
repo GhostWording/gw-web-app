@@ -12,5 +12,6 @@ angular.module('app', [
   'app/appUrl',
   'app/controllers',
   'app/helloMum',
-  'app/helloFb'
+  'app/helloFb',
+  'app/helloDarling'
 ]);
