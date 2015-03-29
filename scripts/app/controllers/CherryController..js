@@ -12,6 +12,8 @@ angular.module('app/controllers/CherryController', [])
     $rootScope.ogDescription = "Vos friends méritent de meilleurs messages";
     //$rootScope.ogTitle = $rootScope.pageTitle1;
 
+    $rootScope.ogImage = "http://www.commentvousdire.com/assets/TouchWording.jpg";
+
     console.log(navigator.userAgent);
 
     // Send initialization event to server

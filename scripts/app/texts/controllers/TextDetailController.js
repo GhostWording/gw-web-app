@@ -100,6 +100,7 @@ function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,curren
     // On first display, if the query parameter requires a specific image, this is what we want
     if ( firstDisplayOfPicture && !! imageUrl ) {
       $scope.imagePath = staticSitePrefix + '/' + imageUrl;
+      $rootScope.ogImage = $scope.imagePath;
       firstDisplayOfPicture = false;
       return $scope.imagePath;
     }
@@ -111,6 +112,7 @@ function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,curren
       $location.search('imageUrl',imagePathEnd);
       // Build full image url
       $scope.imagePath = staticSitePrefix + '/' + imagePathEnd;
+      $rootScope.ogImage = $scope.imagePath;
       return $scope.imagePath;
     });
   };
