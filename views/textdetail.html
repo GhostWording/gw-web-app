@@ -2,7 +2,7 @@
 
   <!-- Back button : behaviour will vary according to context -->
   <div>
-    <ul class="pager bmwQuestionButton" style="margin-top: 5px;  margin-bottom: 25px;">
+    <ul class="pager bmwQuestionButton" style="margin-top: 5px;  margin-bottom: 20px;">
       <li ng-class='{selectionne: false}'>
 
         <!-- User was allready in our app : just go back to previous page  -->
@@ -33,8 +33,11 @@
     </ul>
   </div>
 
-  <div style="text-align: center">
-    <img style="margin-top:0px; margin-bottom: 15px;" width="400px;" ng-src="{{imagePath}}">
+  <div class="visible-xs"  style="text-align: center">
+    <img style="margin-top:0px; margin-bottom: 15px;" width="330px;" ng-src="{{imagePath}}">
+  </div>
+  <div class="hidden-xs"  style="text-align: center">
+    <img style=" margin-top:0px; margin-bottom: 15px;" width="500px;" ng-src="{{imagePath}}">
   </div>
   <br>
 
