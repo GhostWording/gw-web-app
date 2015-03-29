@@ -92,22 +92,24 @@ function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,curren
   };
 
   var getImageForText = function() {
-    var retval = "http://gw-static.azurewebsites.net/cvd/sweetheart/stocklove/small/10624691_581498388628102_7259835679150402181_n.jpg";
-
+    //var retval = "http://gw-static.azurewebsites.net/cvd/sweetheart/stocklove/small/10624691_581498388628102_7259835679150402181_n.jpg";
     var requete = "gw-static.azurewebsites.net/container/randomfile/cvd?size=small";
-    //var requete = "gw-static.azurewebsites.net/container/randomfile/cvd";
-//    serverSvc.get(requete, null).then( function (chemin) {
-//      console.log(chemin);
-//    });
+
     return getStatic(requete, undefined,true).then(function(response) {
-      //$scope.imagePath = retval;
       console.log(response);
       $scope.imagePath = "http://gw-static.azurewebsites.net" + response;
+      return $scope.imagePath;
     });
-    //return retval;
   };
 
   getImageForText();
+  //$scope.$digest();
+
+  $scope.changeImage = function() {
+//    $scope.$digest();
+    getImageForText();
+  };
+
 
   // For each orderedPresentationLanguages, prepare an array of available texts for the language, then chose the best ones according to sender, recipient and polite form
   alternativeTextsSvc.getRealizationList(currentAreaName,currentText.PrototypeId).then(function(textList) {
