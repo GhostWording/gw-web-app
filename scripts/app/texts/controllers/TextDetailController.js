@@ -7,9 +7,9 @@ angular.module('app/texts/TextDetailController',[
 // Display text with alternative versions in other languages
 .controller('TextDetailController',
 ['$scope','currentText', 'currentAreaName', 'currentIntentionSlugOrId','currentIntentionLabel','currentRecipientId','imageUrl',
-          'tagLabelsSvc',  'alternativeTextsSvc','currentLanguage','helperSvc','$rootScope','$location','filtersSvc','facebookHelperSvc','postActionSvc','$modal','serverSvc','$http',
+          'tagLabelsSvc',  'alternativeTextsSvc','currentLanguage','helperSvc','$rootScope','$location','filtersSvc','facebookHelperSvc','postActionSvc','$modal','serverSvc','$http','currentUserLocalData',
 function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,currentIntentionLabel, currentRecipientId, imageUrl,// those variables are resolved in routing.js
-          tagLabelsSvc, alternativeTextsSvc,currentLanguage,helperSvc,$rootScope,$location,filtersSvc,facebookHelperSvc,postActionSvc, $modal,serverSvc,$http) {
+          tagLabelsSvc, alternativeTextsSvc,currentLanguage,helperSvc,$rootScope,$location,filtersSvc,facebookHelperSvc,postActionSvc, $modal,serverSvc,$http,currentUserLocalData) {
 
   // We want an Init event even if no action takes place, in case user lands here from Google or facebook
   postActionSvc.postActionInfo('Text',currentText.TextId,'TextDetail','Init');
@@ -17,7 +17,12 @@ function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,curren
   // Facebook tags
   // When may want to explicitly set og:title from here because facebook sometime picks the intention title instead
   //$rootScope.ogTitle = currentText.Content;
-  $rootScope.ogDescription = currentIntentionLabel;
+
+  console.log("==" + currentIntentionSlugOrId);
+  if ( currentIntentionSlugOrId == "facebook-status" )
+    $rootScope.ogDescription = currentText.Content;
+  else
+    $rootScope.ogDescription = currentIntentionLabel;
 
   // Add labels to router resolved currentText
   currentText.TagLabels = tagLabelsSvc.labelsFromStyleTagIds(currentText.TagIds);
@@ -121,6 +126,13 @@ function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,curren
 
   $scope.changeImage = function() {
     getImageForText();
+  };
+
+  $scope.userEmailIsEmpty = function() {
+    var valret = true;
+    if ( !!currentUserLocalData && !!(currentUserLocalData.email) && currentUserLocalData.email != '')
+      valret = false;
+    return valret;
   };
 
 

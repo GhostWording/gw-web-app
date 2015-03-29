@@ -173,7 +173,9 @@
   </div>
 
   <!-- When user has landed directly on this page, suggest a visit to homepage  -->
-  <div ng-show = "!app.appUrlSvc.getTextDetailWasCalledFromTextList() && !app.appUrlSvc.getTextDetailWasCalledFromDashboard()" style="margin-top: 20px; margin-bottom: 15px; text-align: center; ">
+  <!--<div ng-show = "!app.appUrlSvc.getTextDetailWasCalledFromTextList() && !app.appUrlSvc.getTextDetailWasCalledFromDashboard()" style="margin-top: 20px; margin-bottom: 15px; text-align: center; ">-->
+  <div ng-show = "userEmailIsEmpty()" style="margin-top: 20px; margin-bottom: 15px; text-align: center; ">
+
     <div translate style="margin-bottom: 10px;">Testez le prompteur</div>
     <a class="btn btn-primary btn-lg" id="discoverTheApp" ng-href="{{app.appUrlSvc.getFullPath('')+'favoriteRecipients'}}" targetId="Welcome" translate>Retenez-les</a>
   </div>
