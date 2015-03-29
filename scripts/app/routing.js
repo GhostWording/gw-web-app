@@ -166,7 +166,13 @@ angular.module('app/routing', ['ui.router'])
         return intentionsSvc.getIntentionLabel(currentAreaName,$stateParams.intentionSlug);
       }],
       currentText: ['textsSvc', function(textsSvc) { return textsSvc.getCurrentText(); }],
-      currentRecipient: ['currentRecipientSvc', function(currentRecipientSvc) { return undefined; }]
+      currentRecipient: ['currentRecipientSvc', function(currentRecipientSvc) { return undefined;
+      }],
+      imageUrl: ['$location', function($location) {
+        var queryParams = $location.search();
+        return queryParams.imageUrl; }
+      ]
+
     }
   })
     // We might want recipientList, intentionList and text list to be siblings
@@ -254,7 +260,15 @@ angular.module('app/routing', ['ui.router'])
         return textId; }
       ],
       // Current intention is inherited from parent state
-      currentText: ['textsSvc','currentLanguage', function(textsSvc,currentLanguage) { return textsSvc.getCurrentText(currentLanguage.currentCulture()); }]
+      currentText: ['textsSvc','currentLanguage', function(textsSvc,currentLanguage) {
+        return textsSvc.getCurrentText(currentLanguage.currentCulture()); }
+      ],
+      imageUrl: ['$location', function($location) {
+        var queryParams = $location.search();
+        return queryParams.imageUrl; }
+      ]
+
+
     }
   })
   .state('favoriteRecipients', {

@@ -6,9 +6,9 @@ angular.module('app/texts/TextDetailController',[
 
 // Display text with alternative versions in other languages
 .controller('TextDetailController',
-['$scope','currentText', 'currentAreaName', 'currentIntentionSlugOrId','currentIntentionLabel','currentRecipientId',
+['$scope','currentText', 'currentAreaName', 'currentIntentionSlugOrId','currentIntentionLabel','currentRecipientId','imageUrl',
           'tagLabelsSvc',  'alternativeTextsSvc','currentLanguage','helperSvc','$rootScope','$location','filtersSvc','facebookHelperSvc','postActionSvc','$modal','serverSvc','$http',
-function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,currentIntentionLabel, currentRecipientId,// those variables are resolved in routing.js
+function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,currentIntentionLabel, currentRecipientId, imageUrl,// those variables are resolved in routing.js
           tagLabelsSvc, alternativeTextsSvc,currentLanguage,helperSvc,$rootScope,$location,filtersSvc,facebookHelperSvc,postActionSvc, $modal,serverSvc,$http) {
 
   // We want an Init event even if no action takes place, in case user lands here from Google or facebook
@@ -91,22 +91,33 @@ function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,curren
     );
   };
 
-  var getImageForText = function() {
-    //var retval = "http://gw-static.azurewebsites.net/cvd/sweetheart/stocklove/small/10624691_581498388628102_7259835679150402181_n.jpg";
-    var requete = "gw-static.azurewebsites.net/container/randomfile/cvd?size=small";
 
-    return getStatic(requete, undefined,true).then(function(response) {
-      console.log(response);
-      $scope.imagePath = "http://gw-static.azurewebsites.net" + response;
+  var staticSitePrefix = "http://gw-static.azurewebsites.net";
+  var staticSiteQuery = "gw-static.azurewebsites.net/container/randomfile/cvd?size=small";
+
+  var firstDisplayOfPicture = true;
+  var getImageForText = function() {
+    // On first display, if the query parameter requires a specific image, this is what we want
+    if ( firstDisplayOfPicture && !! imageUrl ) {
+      $scope.imagePath = staticSitePrefix + '/' + imageUrl;
+      firstDisplayOfPicture = false;
+      return $scope.imagePath;
+    }
+    // else get one from the server
+    return getStatic(staticSiteQuery, undefined,true).then(function(response) {
+      // Get rid of first '/' if present
+      var imagePathEnd = response.charAt(0) == '/' ? response.substr(1) : response;
+      // Set url query parameters to new image path
+      $location.search('imageUrl',imagePathEnd);
+      // Build full image url
+      $scope.imagePath = staticSitePrefix + '/' + imagePathEnd;
       return $scope.imagePath;
     });
   };
 
   getImageForText();
-  //$scope.$digest();
 
   $scope.changeImage = function() {
-//    $scope.$digest();
     getImageForText();
   };
 
