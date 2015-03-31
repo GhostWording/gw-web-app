@@ -24,6 +24,15 @@ function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,curren
   else
     $rootScope.ogDescription = currentIntentionLabel;
 
+  var setCurrentImageForPage = function($scope,$rootScope,imageUrl) {
+    $scope.imageUrl = imageUrl;
+    $rootScope.ogImage = imageUrl;
+  };
+
+
+  if ( !!imageUrl )
+    setCurrentImageForPage ($scope,$rootScope,imageUrl);
+
   // Add labels to router resolved currentText
   currentText.TagLabels = tagLabelsSvc.labelsFromStyleTagIds(currentText.TagIds);
 
@@ -68,17 +77,13 @@ function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,curren
     return alternativeTextsSvc.isVariationFormMorePrecise(currentText,text);
   };
 
-  var setCurrentImageForPage = function($scope,$rootScope,imageUrl) {
-    $scope.imageUrl = imageUrl;
-    $rootScope.ogImage = imageUrl;
-  };
-
   var firstDisplayOfPicture = true;
-  var setImageFromContext = function(currentRecipientId, currentIntentionSlugOrId,requiredImagePath) {
+  var setImageFromContext = function(currentRecipientId, currentIntentionSlugOrId,requiredImageUrl) {
     // On first display, if the query parameter requires a specific image, this is what we want
-    if ( !! requiredImagePath && firstDisplayOfPicture ) {
+    if ( !! requiredImageUrl && firstDisplayOfPicture ) {
       firstDisplayOfPicture = false;
-      setCurrentImageForPage ($scope,$rootScope,serverSvc.makeImageUrlFromPath(requiredImagePath));
+      if (!($scope.imageUrl))
+        setCurrentImageForPage ($scope,$rootScope,requiredImageUrl);
     } else
     // else get one from the server
     return serverSvc.getStaticResource(serverSvc.staticSiteQuery(currentRecipientId, currentIntentionSlugOrId), undefined,true)

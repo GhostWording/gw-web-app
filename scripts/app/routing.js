@@ -263,9 +263,15 @@ angular.module('app/routing', ['ui.router'])
       currentText: ['textsSvc','currentLanguage', function(textsSvc,currentLanguage) {
         return textsSvc.getCurrentText(currentLanguage.currentCulture()); }
       ],
-      imageUrl: ['$location', function($location) {
-        var queryParams = $location.search();
-        return queryParams.imageUrl; }
+      imageUrl: ['$location','currentText','serverSvc', function($location,currentText,serverSvc) {
+          var queryParams = $location.search();
+          if ( queryParams && queryParams.imageUrl ) {
+            var url = serverSvc.makeImageUrlFromPath(queryParams.imageUrl);
+            return url;
+          }
+          else if ( currentText && currentText.ImageUrl )
+            return currentText.ImageUrl;
+        }
       ]
 
 
