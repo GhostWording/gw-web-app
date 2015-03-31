@@ -74,35 +74,41 @@ function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,curren
   var staticSiteQuery = function(recipientId, intentionSlug) {
     return staticSiteRoot+"/container/randomfile/cvd?size=small";
   };
+  var makeImageUrlFromPath = function(imagePath) {
+    // Get rid of first '/' if present
+    imagePath = imagePath.charAt(0) == '/' ? imagePath.substr(1) : imagePath;
+    return staticSitePrefix + '/' + imagePath;
+  };
+
+  var setCurrentImageForPage = function($scope,$rootScope,imageUrl) {
+    $scope.imageUrl = imageUrl;
+    $rootScope.ogImage = imageUrl;
+  };
 
   var firstDisplayOfPicture = true;
-  var getImageForText = function() {
+  var setImageFromContext = function(currentRecipientId, currentIntentionSlugOrId,requiredImagePath) {
     // On first display, if the query parameter requires a specific image, this is what we want
-    if ( firstDisplayOfPicture && !! imageUrl ) {
-      $scope.imagePath = staticSitePrefix + '/' + imageUrl;
-      $rootScope.ogImage = $scope.imagePath;
+    if ( !! requiredImagePath && firstDisplayOfPicture ) {
       firstDisplayOfPicture = false;
-      return $scope.imagePath;
-    }
+      setCurrentImageForPage ($scope,$rootScope,makeImageUrlFromPath(requiredImagePath));
+    } else
     // else get one from the server
     return serverSvc.getStaticResource(staticSiteQuery(currentRecipientId, currentIntentionSlugOrId), undefined,true)
-      .then(function(response) {
+      .then(function(imagePathWithSlash) {
         // Get rid of first '/' if present
-        var imagePathEnd = response.charAt(0) == '/' ? response.substr(1) : response;
-        // Set url query parameters to new image path
-        $location.search('imageUrl',imagePathEnd);
-        // Build full image url
-        $scope.imagePath = staticSitePrefix + '/' + imagePathEnd;
-        $rootScope.ogImage = $scope.imagePath;
-        return $scope.imagePath;
+        var imagePath = imagePathWithSlash.charAt(0) == '/' ? imagePathWithSlash.substr(1) : imagePathWithSlash;
+          // Set url query parameters to new image path
+        $location.search('imageUrl',imagePath);
+        // Build image url and set as current
+        setCurrentImageForPage ($scope,$rootScope,makeImageUrlFromPath(imagePath));
         }
       );
   };
 
-  getImageForText();
+  setImageFromContext(currentRecipientId, currentIntentionSlugOrId,imageUrl);
 
   $scope.changeImage = function() {
-    getImageForText();
+    setImageFromContext(currentRecipientId, currentIntentionSlugOrId,undefined);
   };
 
   $scope.userEmailIsEmpty = function() {
