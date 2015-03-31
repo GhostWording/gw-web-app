@@ -68,18 +68,6 @@ function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,curren
     return alternativeTextsSvc.isVariationFormMorePrecise(currentText,text);
   };
 
-  var staticSiteRoot = "gw-static.azurewebsites.net";
-  var staticSitePrefix = "http://"+staticSiteRoot;
-
-  var staticSiteQuery = function(recipientId, intentionSlug) {
-    return staticSiteRoot+"/container/randomfile/cvd?size=small";
-  };
-  var makeImageUrlFromPath = function(imagePath) {
-    // Get rid of first '/' if present
-    imagePath = imagePath.charAt(0) == '/' ? imagePath.substr(1) : imagePath;
-    return staticSitePrefix + '/' + imagePath;
-  };
-
   var setCurrentImageForPage = function($scope,$rootScope,imageUrl) {
     $scope.imageUrl = imageUrl;
     $rootScope.ogImage = imageUrl;
@@ -90,17 +78,17 @@ function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,curren
     // On first display, if the query parameter requires a specific image, this is what we want
     if ( !! requiredImagePath && firstDisplayOfPicture ) {
       firstDisplayOfPicture = false;
-      setCurrentImageForPage ($scope,$rootScope,makeImageUrlFromPath(requiredImagePath));
+      setCurrentImageForPage ($scope,$rootScope,serverSvc.makeImageUrlFromPath(requiredImagePath));
     } else
     // else get one from the server
-    return serverSvc.getStaticResource(staticSiteQuery(currentRecipientId, currentIntentionSlugOrId), undefined,true)
+    return serverSvc.getStaticResource(serverSvc.staticSiteQuery(currentRecipientId, currentIntentionSlugOrId), undefined,true)
       .then(function(imagePathWithSlash) {
         // Get rid of first '/' if present
         var imagePath = imagePathWithSlash.charAt(0) == '/' ? imagePathWithSlash.substr(1) : imagePathWithSlash;
           // Set url query parameters to new image path
         $location.search('imageUrl',imagePath);
         // Build image url and set as current
-        setCurrentImageForPage ($scope,$rootScope,makeImageUrlFromPath(imagePath));
+        setCurrentImageForPage ($scope,$rootScope,serverSvc.makeImageUrlFromPath(imagePath));
         }
       );
   };
