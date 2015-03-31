@@ -68,37 +68,12 @@ function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,curren
     return alternativeTextsSvc.isVariationFormMorePrecise(currentText,text);
   };
 
+  var staticSiteRoot = "gw-static.azurewebsites.net";
+  var staticSitePrefix = "http://"+staticSiteRoot;
 
-  var getStatic = function(path, params, skipTracker, optionalCulture) {
-    var culture = optionalCulture !== undefined ? optionalCulture : currentLanguage.currentCulture();
-    return $http({
-      method: 'GET',
-      url : "http://" + path,
-      headers: {
-        'Accept-Language': culture,
-        'Ghost-Language': culture,
-        'Content-Type': 'application/json'
-      },
-      cache: false,
-      params: params,
-      // Not all http get activate the tracker (reporting users actions and pre-fetching data should not activate a spinner)
-      tracker: skipTracker !== true ? $rootScope.loadingTracker : null
-    }).then(
-    function (response) {
-      console.log('Request for "' + path + '" responded with ' + response.status + ' for culture ' + culture);
-      return response.data;
-    },
-    function (error) {
-      console.log("error");
-      //return $q.reject(path + 'rejected in serverSvc : ');
-    }
-
-    );
+  var staticSiteQuery = function(recipientId, intentionSlug) {
+    return staticSiteRoot+"/container/randomfile/cvd?size=small";
   };
-
-
-  var staticSitePrefix = "http://gw-static.azurewebsites.net";
-  var staticSiteQuery = "gw-static.azurewebsites.net/container/randomfile/cvd?size=small";
 
   var firstDisplayOfPicture = true;
   var getImageForText = function() {
@@ -110,16 +85,18 @@ function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,curren
       return $scope.imagePath;
     }
     // else get one from the server
-    return getStatic(staticSiteQuery, undefined,true).then(function(response) {
-      // Get rid of first '/' if present
-      var imagePathEnd = response.charAt(0) == '/' ? response.substr(1) : response;
-      // Set url query parameters to new image path
-      $location.search('imageUrl',imagePathEnd);
-      // Build full image url
-      $scope.imagePath = staticSitePrefix + '/' + imagePathEnd;
-      $rootScope.ogImage = $scope.imagePath;
-      return $scope.imagePath;
-    });
+    return serverSvc.getStaticResource(staticSiteQuery(currentRecipientId, currentIntentionSlugOrId), undefined,true)
+      .then(function(response) {
+        // Get rid of first '/' if present
+        var imagePathEnd = response.charAt(0) == '/' ? response.substr(1) : response;
+        // Set url query parameters to new image path
+        $location.search('imageUrl',imagePathEnd);
+        // Build full image url
+        $scope.imagePath = staticSitePrefix + '/' + imagePathEnd;
+        $rootScope.ogImage = $scope.imagePath;
+        return $scope.imagePath;
+        }
+      );
   };
 
   getImageForText();
@@ -130,7 +107,7 @@ function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,curren
 
   $scope.userEmailIsEmpty = function() {
     var valret = true;
-    if ( !!currentUserLocalData && !!(currentUserLocalData.email) && currentUserLocalData.email != '')
+    if ( !!currentUserLocalData && !!(currentUserLocalData.email) && currentUserLocalData.email !== '')
       valret = false;
     return valret;
   };
