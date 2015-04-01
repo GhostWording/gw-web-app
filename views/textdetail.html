@@ -2,7 +2,7 @@
 
   <!-- Back button : behaviour will vary according to context -->
   <div>
-    <ul class="pager bmwQuestionButton" style="margin-top: 5px;  margin-bottom: 25px;">
+    <ul class="pager bmwQuestionButton" style="margin-top: 5px;  margin-bottom: 20px;">
       <li ng-class='{selectionne: false}'>
 
         <!-- User was allready in our app : just go back to previous page  -->
@@ -27,11 +27,22 @@
         </a>
 
         <h4 class="pull-left" style="margin-left: 10px;" translate>{{ theIntentionLabel }}</h4>
-        <img style="margin-top:0px; margin-right: 10px;" width="50px" height="40px" src="./assets/TouchWordingCompressed.jpg" class="pull-right">
+        <!--<img style="margin-top:0px; margin-right: 10px;" width="50px" height="40px" src="./assets/TouchWordingCompressed.jpg" class="pull-right">-->
+        <!--<a>-->
+          <button ng-click="changeImage()" class="btn btn-default btn-lg pull-right glyphicon glyphicon-refresh" targetType="Photo"  actionType="refresh"  targetId="{{imageUrl}}" ></button>
+        <!--</a>-->
 
       </li>
     </ul>
   </div>
+
+  <div class="visible-xs"  style="text-align: center">
+    <img style="margin-top:0px; margin-bottom: 15px;" width="330px;" ng-src="{{imageUrl}}">
+  </div>
+  <div class="hidden-xs"  style="text-align: center">
+    <img style=" margin-top:0px; margin-bottom: 15px;" width="500px;" ng-src="{{imageUrl}}">
+  </div>
+  <br>
 
   <!-- fb share  -->
   <div ng-if="includeSocialPluginsOnTextPages()" class="pull-right" style="margin-bottom: 5px; margin-top: 5px; margin-right: 5px;" >
@@ -160,9 +171,11 @@
   </div>
 
   <!-- When user has landed directly on this page, suggest a visit to homepage  -->
-  <div ng-show = "!app.appUrlSvc.getTextDetailWasCalledFromTextList() && !app.appUrlSvc.getTextDetailWasCalledFromDashboard()" style="margin-top: 20px; margin-bottom: 15px; text-align: center; ">
+  <!--<div ng-show = "!app.appUrlSvc.getTextDetailWasCalledFromTextList() && !app.appUrlSvc.getTextDetailWasCalledFromDashboard()" style="margin-top: 20px; margin-bottom: 15px; text-align: center; ">-->
+  <div ng-show = "userEmailIsEmpty()" style="margin-top: 20px; margin-bottom: 15px; text-align: center; ">
+
     <div translate style="margin-bottom: 10px;">Testez le prompteur</div>
-    <a class="btn btn-primary btn-lg" id="discoverTheApp" ng-href="{{app.appUrlSvc.getFullPath('')}}" targetId="Welcome" translate>Retenez-les</a>
+    <a class="btn btn-primary btn-lg" id="discoverTheApp" ng-href="{{app.appUrlSvc.getFullPath('')+'favoriteRecipients'}}" targetId="Welcome" translate>Retenez-les</a>
   </div>
 
 

@@ -6,10 +6,10 @@ angular.module('app/texts/TextDetailController',[
 
 // Display text with alternative versions in other languages
 .controller('TextDetailController',
-['$scope','currentText', 'currentAreaName', 'currentIntentionSlugOrId','currentIntentionLabel','currentRecipientId',
-          'tagLabelsSvc',  'alternativeTextsSvc','currentLanguage','helperSvc','$rootScope','$location','filtersSvc','facebookHelperSvc','postActionSvc','$modal',
-function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,currentIntentionLabel, currentRecipientId,// those variables are resolved in routing.js
-          tagLabelsSvc, alternativeTextsSvc,currentLanguage,helperSvc,$rootScope,$location,filtersSvc,facebookHelperSvc,postActionSvc, $modal) {
+['$scope','currentText', 'currentAreaName', 'currentIntentionSlugOrId','currentIntentionLabel','currentRecipientId','imageUrl',
+          'tagLabelsSvc',  'alternativeTextsSvc','currentLanguage','helperSvc','$rootScope','$location','filtersSvc','facebookHelperSvc','postActionSvc','$modal','serverSvc','$http','currentUserLocalData','imagesSvc',
+function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,currentIntentionLabel, currentRecipientId, imageUrl,// those variables are resolved in routing.js
+          tagLabelsSvc, alternativeTextsSvc,currentLanguage,helperSvc,$rootScope,$location,filtersSvc,facebookHelperSvc,postActionSvc, $modal,serverSvc,$http,currentUserLocalData,imagesSvc) {
 
   // We want an Init event even if no action takes place, in case user lands here from Google or facebook
   postActionSvc.postActionInfo('Text',currentText.TextId,'TextDetail','Init');
@@ -17,7 +17,21 @@ function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,curren
   // Facebook tags
   // When may want to explicitly set og:title from here because facebook sometime picks the intention title instead
   //$rootScope.ogTitle = currentText.Content;
-  $rootScope.ogDescription = currentIntentionLabel;
+
+  console.log("==" + currentIntentionSlugOrId);
+  if ( currentIntentionSlugOrId == "facebook-status" )
+    $rootScope.ogDescription = currentText.Content;
+  else
+    $rootScope.ogDescription = currentIntentionLabel;
+
+  var setCurrentImageForPage = function($scope,$rootScope,imageUrl) {
+    $scope.imageUrl = imageUrl;
+    $rootScope.ogImage = imageUrl;
+  };
+
+
+  if ( !!imageUrl )
+    setCurrentImageForPage ($scope,$rootScope,imageUrl);
 
   // Add labels to router resolved currentText
   currentText.TagLabels = tagLabelsSvc.labelsFromStyleTagIds(currentText.TagIds);
@@ -62,6 +76,45 @@ function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,curren
   $scope.isVariationFormMorePrecise = function(text) {
     return alternativeTextsSvc.isVariationFormMorePrecise(currentText,text);
   };
+
+  var firstDisplayOfPicture = true;
+  var setImageFromContext = function(currentRecipientId, currentIntentionSlugOrId,requiredImageUrl) {
+    // On first display, if the query parameter requires a specific image, this is what we want
+    if ( !! requiredImageUrl && firstDisplayOfPicture ) {
+      firstDisplayOfPicture = false;
+      if (!($scope.imageUrl))
+        setCurrentImageForPage ($scope,$rootScope,requiredImageUrl);
+    } else {
+      // else get one from the server
+      var imageUrl = serverSvc.getStaticSiteRoot() + imagesSvc.staticSiteQuery(currentRecipientId, currentIntentionSlugOrId);
+      //return serverSvc.getStaticResource(serverSvc.staticSiteQuery(currentRecipientId, currentIntentionSlugOrId), undefined,true)
+      return serverSvc.getStaticResource(imageUrl, undefined,true)
+        .then(function(imagePathWithSlash) {
+          // Get rid of first '/' if present
+          var imagePath = imagePathWithSlash.charAt(0) == '/' ? imagePathWithSlash.substr(1) : imagePathWithSlash;
+          // Set url query parameters to new image path
+          $location.search('imageUrl',imagePath);
+          // Build image url and set as current
+          setCurrentImageForPage ($scope,$rootScope,serverSvc.makeImageUrlFromPath(imagePath));
+        }
+      );
+
+    }
+  };
+
+  setImageFromContext(currentRecipientId, currentIntentionSlugOrId,imageUrl);
+
+  $scope.changeImage = function() {
+    setImageFromContext(currentRecipientId, currentIntentionSlugOrId,undefined);
+  };
+
+  $scope.userEmailIsEmpty = function() {
+    var valret = true;
+    if ( !!currentUserLocalData && !!(currentUserLocalData.email) && currentUserLocalData.email !== '')
+      valret = false;
+    return valret;
+  };
+
 
   // For each orderedPresentationLanguages, prepare an array of available texts for the language, then chose the best ones according to sender, recipient and polite form
   alternativeTextsSvc.getRealizationList(currentAreaName,currentText.PrototypeId).then(function(textList) {

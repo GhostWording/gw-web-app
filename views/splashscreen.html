@@ -3,17 +3,19 @@
   <!--<img src="./assets/TouchWordingCompressed.jpg" width="300px;">-->
   <a class="hidden-xs" id="toLargeImageSubscription" ng-href="{{app.appUrlSvc.getFullPath('')}}favoriteRecipients" targetId="FavoriteRecipients">
     <img style="margin-top:15px" src="./assets/TouchWordingCompressed.jpg">
+    <!--<img style="margin-left: -25px; margin-top:-13px;" src="./assets/FunnyFacebookStatus.jpg">-->
+
   </a>
   <a class="visible-xs" id="toSmallImageSubscription" ng-href="{{app.appUrlSvc.getFullPath('')}}favoriteRecipients" targetId="FavoriteRecipients">
     <img class="" style="margin-left: -13px; margin-top: -17px;"  width="350px;" src="./assets/TouchWordingCompressed.jpg">
+    <!--<img class=""  style="margin-left: -13px; margin-top: -17px;"  width="350px;" src="./assets/FunnyFacebookStatusCompressed.jpg">-->
+
     <!--<img class="" style="margin-left: -14px" src="./assets/TouchWordingCompressed.jpg">-->
   </a>
 
-  <div style="margin-top: 30px; margin-bottom: 10px; margin-left: 35px; margin-right: 45px;" >
+  <div style="margin-top: 30px; margin-bottom: 0px; margin-left: 35px; margin-right: 45px;" >
     <h1 style="margin-bottom: 0px;" class="span4 splashTitle" translate> Nouveau </h1>
-    <span style="font-size: 70%;" translate>Ce que le temps ne devrait pas emporter</span>
-    <!--<span style="font-size: 70%;" translate>Il y a des choses que le temps ne devrait pas emporter</span>-->
-    <!-- Thing should not fade with time. Some things should not fade to grey -->
+    <span ng-include="false" style="font-size: 70%;" translate>Ce que le temps ne devrait pas emporter</span>
   </div>
 
   <!--<div class="row" style="margin-top: 5px;">-->
@@ -24,22 +26,9 @@
     <!--<div class="col-md-3 col-xs-1"></div>-->
   <!--</div>-->
 
+  <div style="margin-top: 0px;">
   <div style="margin-top: 20px;">
-    <div style="margin-bottom: 20px;" class="brandBlue" translate>
-      Trouver un message pour
-    </div>
-    <div style="margin-bottom: 20px;">
-      <a class="btn btn-default" id="toFriends" ng-href="{{app.appUrlSvc.getFullPath('')}}area/Friends/recipient/none/intention" targetId="Friends" translate>Vos amis</a>
-    </div>
-    <div style="margin-bottom: 20px;">
-      <a class="btn btn-default" id="toLoveLife" ng-href="{{  app.appUrlSvc.getFullPath('area/LoveLife/recipient/none/intention') }}" targetId="LoveLife" translate>Vos amours</a>
-    </div>
-    <div style="margin-bottom: 20px;">
-      <a class="btn btn-default" id="toFamily" ng-href="{{ app.appUrlSvc.getFullPath('area/Family/recipient/none/intention') }}" targetId="Family" translate>Votre famille</a>
-    </div>
-  </div>
-  <div style="margin-top: 23px;">
-    <div style="margin-bottom: 20px;" class="brandBlue" translate>
+    <div style="margin-bottom: 10px;" class="brandBlue" translate>
       Changez-vous la vie !
     </div>
     <div style="margin-top: 20px; ">
@@ -49,6 +38,25 @@
     <div style="margin-bottom: 25px; margin-top: 20px;">
       <a  class="btn btn-default btn-lg" id="toDashboard" ng-href="{{app.appUrlSvc.getFullPath('')}}area/General/dashboard" targetId="Dashboard" translate>Sauver le chat</a>
     </div>
+    <div style="margin-bottom: 20px;" class="brandBlue" translate>
+      Trouver un message pour
+    </div>
+    <div style="margin-bottom: 20px;">
+      <a class="btn btn-default" id="toLoveLife" ng-href="{{  app.appUrlSvc.getFullPath('area/LoveLife/recipient/none/intention') }}" targetId="LoveLife" translate>Vos amours</a>
+    </div>
+    <div style="margin-bottom: 20px;">
+      <a class="btn btn-default" id="toFriends" ng-href="{{app.appUrlSvc.getFullPath('')}}area/Friends/recipient/none/intention" targetId="Friends" translate>Vos amis</a>
+    </div>
+    <div style="margin-bottom: 20px;">
+      <a class="btn btn-default" id="toFamily" ng-href="{{ app.appUrlSvc.getFullPath('area/Family/recipient/none/intention') }}" targetId="Family" translate>Votre famille</a>
+    </div>
+    <div style="margin-bottom: 20px;">
+      <a class="btn btn-default" id="toFamily" ng-href="{{ app.appUrlSvc.getFullPath('area/Addressee/recipient/OtherFriends/intention/facebook-status/text') }}" targetId="FacebookStatus" translate>Votre statut facebook</a>
+    </div>
+
+
+  </div>
+
   </div>
 
   <!-- Unlike in the partial, those are real links  -->
