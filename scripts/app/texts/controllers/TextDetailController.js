@@ -7,9 +7,9 @@ angular.module('app/texts/TextDetailController',[
 // Display text with alternative versions in other languages
 .controller('TextDetailController',
 ['$scope','currentText', 'currentAreaName', 'currentIntentionSlugOrId','currentIntentionLabel','currentRecipientId','imageUrl',
-          'tagLabelsSvc',  'alternativeTextsSvc','currentLanguage','helperSvc','$rootScope','$location','filtersSvc','facebookHelperSvc','postActionSvc','$modal','serverSvc','$http','currentUserLocalData',
+          'tagLabelsSvc',  'alternativeTextsSvc','currentLanguage','helperSvc','$rootScope','$location','filtersSvc','facebookHelperSvc','postActionSvc','$modal','serverSvc','$http','currentUserLocalData','imagesSvc',
 function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,currentIntentionLabel, currentRecipientId, imageUrl,// those variables are resolved in routing.js
-          tagLabelsSvc, alternativeTextsSvc,currentLanguage,helperSvc,$rootScope,$location,filtersSvc,facebookHelperSvc,postActionSvc, $modal,serverSvc,$http,currentUserLocalData) {
+          tagLabelsSvc, alternativeTextsSvc,currentLanguage,helperSvc,$rootScope,$location,filtersSvc,facebookHelperSvc,postActionSvc, $modal,serverSvc,$http,currentUserLocalData,imagesSvc) {
 
   // We want an Init event even if no action takes place, in case user lands here from Google or facebook
   postActionSvc.postActionInfo('Text',currentText.TextId,'TextDetail','Init');
@@ -84,18 +84,22 @@ function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,curren
       firstDisplayOfPicture = false;
       if (!($scope.imageUrl))
         setCurrentImageForPage ($scope,$rootScope,requiredImageUrl);
-    } else
-    // else get one from the server
-    return serverSvc.getStaticResource(serverSvc.staticSiteQuery(currentRecipientId, currentIntentionSlugOrId), undefined,true)
-      .then(function(imagePathWithSlash) {
-        // Get rid of first '/' if present
-        var imagePath = imagePathWithSlash.charAt(0) == '/' ? imagePathWithSlash.substr(1) : imagePathWithSlash;
+    } else {
+      // else get one from the server
+      var imageUrl = serverSvc.getStaticSiteRoot() + imagesSvc.staticSiteQuery(currentRecipientId, currentIntentionSlugOrId);
+      //return serverSvc.getStaticResource(serverSvc.staticSiteQuery(currentRecipientId, currentIntentionSlugOrId), undefined,true)
+      return serverSvc.getStaticResource(imageUrl, undefined,true)
+        .then(function(imagePathWithSlash) {
+          // Get rid of first '/' if present
+          var imagePath = imagePathWithSlash.charAt(0) == '/' ? imagePathWithSlash.substr(1) : imagePathWithSlash;
           // Set url query parameters to new image path
-        $location.search('imageUrl',imagePath);
-        // Build image url and set as current
-        setCurrentImageForPage ($scope,$rootScope,serverSvc.makeImageUrlFromPath(imagePath));
+          $location.search('imageUrl',imagePath);
+          // Build image url and set as current
+          setCurrentImageForPage ($scope,$rootScope,serverSvc.makeImageUrlFromPath(imagePath));
         }
       );
+
+    }
   };
 
   setImageFromContext(currentRecipientId, currentIntentionSlugOrId,imageUrl);
