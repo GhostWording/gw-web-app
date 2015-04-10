@@ -54,7 +54,6 @@ angular.module('app/routing', ['ui.router'])
 
     .when('/area/:areaName/dashboard/:textId','/xx/area/:areaName/dashboard/:textId')
 
-
   // French area shortcuts
     .when('/Amour',      '/fr/area/LoveLife/recipient/none/intention')
     .when('/Amis',       '/fr/area/Friends/recipient/none/intention')
@@ -65,15 +64,14 @@ angular.module('app/routing', ['ui.router'])
     .when('/happynewyear', 'en/area/Friends/recipient/none/intention/happy-new-year/text')
 
 
-    // French sashboard  shortcup
+    // Birthday dashboard  shortcuts
     .when('/SauverLeChat',    '/fr/area/General/dashboard')
     .when('/sauverlechat',    '/fr/area/General/dashboard')
-
     .when('/SaveTheCat',    '/en/area/General/dashboard')
     .when('/savethecat',    '/en/area/General/dashboard')
 
+    // Subscription wizard shortcut
     .when('/go',    '/favoriteRecipients')
-
 
     // Allow shorter urls with no recipient
     .when('/:languageCode/area/:areaName/intention/:intentionId/text','/:languageCode/area/:areaName/recipient/none/intention/:intentionId/text')
