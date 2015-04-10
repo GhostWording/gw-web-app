@@ -76,7 +76,7 @@ angular.module('app/routing', ['ui.router'])
     // Allow shorter urls with no recipient
     .when('/:languageCode/area/:areaName/intention/:intentionId/text','/:languageCode/area/:areaName/recipient/none/intention/:intentionId/text')
     .when('/:languageCode/area/:areaName/intention/:intentionId/text/:textId','/:languageCode/area/:areaName/recipient/none/intention/:intentionId/text/:textId');
- 
+
   $stateProvider
 
   .state('helloMum', {
