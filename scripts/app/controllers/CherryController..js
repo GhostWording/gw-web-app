@@ -10,6 +10,10 @@ angular.module('app/controllers/CherryController', [])
     $rootScope.pageTitle2 = "";
     $rootScope.pageDescription = "Vos friends méritent de meilleurs messages";
     $rootScope.ogDescription = "Vos friends méritent de meilleurs messages";
+
+
+    // Is that changes, the translations must change
+    $rootScope.pageKeywords = "Statuts facebook amusants";
     //$rootScope.ogTitle = $rootScope.pageTitle1;
 
     $rootScope.ogImage = "http://www.commentvousdire.com/assets/TouchWording.jpg";
