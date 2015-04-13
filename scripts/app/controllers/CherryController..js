@@ -41,6 +41,9 @@ angular.module('app/controllers/CherryController', [])
     $scope.trackerIsActive = function () { return $rootScope.loadingTracker.active();};
     var skipTracker =  true;
 
+    // Inform prerender that the page is all set for prerendering
+    $window.prerenderReady = true;
+
     // Preload intentions
     intentionsSvc.getIntentionsForArea('Friends',skipTracker);
     intentionsSvc.getIntentionsForArea('LoveLife',skipTracker);
