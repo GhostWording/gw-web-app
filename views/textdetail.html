@@ -94,10 +94,18 @@
     <button style="margin-left: 10px" class="btn btn-default  glyphicon glyphicon-pencil" translate
             targetId="{{ Id }}" targetType="Text" actionType="edit"
             ng-click="edit()" ng-hide="editText"></button>
+    <!--Send by mail-->
+    <a style="margin-left: 10px"  targetType="Text"
+        targetId="{{Id}}"
+        actionType="sendMail"
+        ng-href="{{mailToThis}}"
+        class="btn btn-primary">
+      email
+    </a>
     <!-- send  -->
-    <button style="margin-left: 10px" class="btn btn-default" translate
-            targetId="{{ Id }}" targetType="Text" actionType="send"
-            ng-click="send()">Envoyer</button>
+    <!--<button style="margin-left: 10px" class="btn btn-default" translate-->
+            <!--targetId="{{ Id }}" targetType="Text" actionType="send"-->
+            <!--ng-click="send()">Envoyer</button>-->
   </div>
 
   <br/>
