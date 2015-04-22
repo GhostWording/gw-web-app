@@ -168,8 +168,8 @@ angular.module('app/routing', ['ui.router'])
       }],
       imageUrl: ['$location', function($location) {
         var queryParams = $location.search();
-        return queryParams.imageUrl; }
-      ]
+        return queryParams.imageUrl;
+      }]
 
     }
   })
@@ -263,11 +263,13 @@ angular.module('app/routing', ['ui.router'])
       ],
       imageUrl: ['$location','currentText','serverSvc', function($location,currentText,serverSvc) {
           var queryParams = $location.search();
+          if ( queryParams && queryParams.imagePath && queryParams.imageExtension ) {
+            return  serverSvc.makeImageUrlFromPath(queryParams.imagePath + '.' + queryParams.imageExtension);
+          } else
           if ( queryParams && queryParams.imageUrl ) {
-            var url = serverSvc.makeImageUrlFromPath(queryParams.imageUrl);
-            return url;
-          }
-          else if ( currentText && currentText.ImageUrl )
+            return  serverSvc.makeImageUrlFromPath(queryParams.imageUrl);
+          } else
+          if ( currentText && currentText.ImageUrl )
             return currentText.ImageUrl;
         }
       ]

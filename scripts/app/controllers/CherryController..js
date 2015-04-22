@@ -68,8 +68,33 @@ angular.module('app/controllers/CherryController', [])
       // Stop showing spinner
       $scope.showSpinner = false;
 
+
+      var fullUrl = $location.absUrl();
+      var urlNoExtension = fullUrl;
+      var urlNoQueryParam = fullUrl;
+
+      if ( fullUrl.match(/\.(jpg|jpeg|png|gif|JPG|JPEG)$/) )  {
+        var dotIndex = fullUrl.lastIndexOf('.');
+        var ext = fullUrl.substring(dotIndex);
+        urlNoExtension = fullUrl.substring(0,dotIndex);
+        console.log("OR : " + urlNoExtension );
+      }
+      var queryIndex = fullUrl.lastIndexOf('?');
+      if ( queryIndex >= 0 ) {
+        urlNoQueryParam = fullUrl.substring(0,queryIndex);
+        console.log("NOPARAM : " + urlNoQueryParam );
+      }
+
       // Set facebook open graph og:url property
-      $rootScope.ogUrl = $location.absUrl();
+      //$rootScope.ogUrl = urlNoExtension;
+      $rootScope.ogUrl = urlNoQueryParam;
+
+
+      //$rootScope.ogUrl = $location.absUrl();
+
+//      console.log("URL : " + $rootScope.ogUrl);
+//      console.log("OR : " + $location.host()+$location.path());
+//      console.log("OR : " + pre + ' ' + ext );
 
       function chooseTitleFromIntentionOrSiteDefault(intention) {
         if (intention) {

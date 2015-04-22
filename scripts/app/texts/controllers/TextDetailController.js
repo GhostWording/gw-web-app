@@ -91,11 +91,18 @@ function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,curren
       return serverSvc.getStaticResource(imageUrl, undefined,true)
         .then(function(imagePathWithSlash) {
           // Get rid of first '/' if present
-          var imagePath = imagePathWithSlash.charAt(0) == '/' ? imagePathWithSlash.substr(1) : imagePathWithSlash;
+          var imageUrl = imagePathWithSlash.charAt(0) == '/' ? imagePathWithSlash.substr(1) : imagePathWithSlash;
+          var dotIndex = imageUrl.lastIndexOf('.');
+          var extNoDot = imageUrl.substring(dotIndex+1);
+          var urlNoExtension = imageUrl.substring(0,dotIndex);
+
           // Set url query parameters to new image path
-          $location.search('imageUrl',imagePath);
+          //$location.search('imageUrl',imageUrl);
+          $location.search('imagePath',urlNoExtension);
+          $location.search('imageExtension',extNoDot);
+
           // Build image url and set as current
-          setCurrentImageForPage ($scope,$rootScope,serverSvc.makeImageUrlFromPath(imagePath));
+          setCurrentImageForPage ($scope,$rootScope,serverSvc.makeImageUrlFromPath(imageUrl));
         }
       );
 
