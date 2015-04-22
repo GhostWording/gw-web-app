@@ -6,13 +6,14 @@
       <li ng-class='{selectionne: false}'>
 
         <!-- User was allready in our app : just go back to previous page  -->
-        <a ng-show = "app.appUrlSvc.getTextDetailWasCalledFromTextList() || app.appUrlSvc.getTextDetailWasCalledFromDashboard()" ng-href="" historyback
-           class="pull-left" role="button" targetId="Back">
-          <img ng-src="./assets/arrow-left.png" class="stylepicto">
-        </a>
+        <!--<a ng-show = "app.appUrlSvc.getTextDetailWasCalledFromTextList() || app.appUrlSvc.getTextDetailWasCalledFromDashboard()" ng-href="" historyback-->
+           <!--class="pull-left" role="button" targetId="Back">-->
+          <!--<img ng-src="./assets/arrow-left.png" class="stylepicto">-->
+        <!--</a>-->
 
         <!-- Move explicitely to  text list url -->
-        <a ng-show = "app.appUrlSvc.getTextDetailWasCalledFromTextList() == false && app.appUrlSvc.isDashboardPath() == false"
+        <!--<a ng-show = "app.appUrlSvc.getTextDetailWasCalledFromTextList() == false && app.appUrlSvc.isDashboardPath() == false"-->
+        <a ng-show = "app.appUrlSvc.isDashboardPath() == false"
             ng-href="{{app.appUrlSvc.getFullPath('')}}area/{{ currentAreaName }}/recipient/{{ recipientId }}/intention/{{theIntentionSlugOrId}}/text"
 
            class="pull-left" role="button" targetId="Back">

@@ -24,9 +24,22 @@ function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,curren
   else
     $rootScope.ogDescription = currentIntentionLabel;
 
-  var setCurrentImageForPage = function($scope,$rootScope,imageUrl) {
-    $scope.imageUrl = imageUrl;
-    $rootScope.ogImage = imageUrl;
+  // Copy the text Content so that if we edit it we are not editing the original "text".
+  $scope.txt = {};
+  // Content has to be property of a full object to avoid prototypal inheritance problems
+  // adaptTextContentToLanguage will adapt quote formatting to text culture
+  $scope.txt.Content = helperSvc.adaptTextContentToLanguage(currentText);
+
+
+  function setMailTo(content,imgUrl) {
+    $scope.mailToThis = helperSvc.urlMailTo(content + '%0D%0A' + '%0D%0A' + imgUrl, '');
+  }
+
+
+  var setCurrentImageForPage = function($scope,$rootScope,imgUrl) {
+    $scope.imageUrl = imgUrl;
+    $rootScope.ogImage = imgUrl;
+    setMailTo($scope.txt.Content,imgUrl);
   };
 
 
@@ -47,11 +60,6 @@ function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,curren
   $scope.Id = currentText.TextId;
   $scope.authorButton = "active";
 
-  // Copy the text Content so that if we edit it we are not editing the original "text".
-  $scope.txt = {};
-  // Content has to be property of a full object to avoid prototypal inheritance problems
-  // adaptTextContentToLanguage will adapt quote formatting to text culture
-  $scope.txt.Content = helperSvc.adaptTextContentToLanguage(currentText);
 
   //$scope.recipientId = currentRecipientSvc.getIdOfRecipient(currentRecipient);
   $scope.recipientId = currentRecipientId;
@@ -122,6 +130,8 @@ function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,curren
     return valret;
   };
 
+  setMailTo($scope.txt.Content,imageUrl);
+
 
   // For each orderedPresentationLanguages, prepare an array of available texts for the language, then chose the best ones according to sender, recipient and polite form
   alternativeTextsSvc.getRealizationList(currentAreaName,currentText.PrototypeId).then(function(textList) {
@@ -156,7 +166,7 @@ function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,curren
 //  };
   //$scope.mail();
   //$scope.mailToThis = helperSvc.urlMailTo($scope.txt.Content + '%0D%0A' + '%0D%0A' + imageUrl, $scope.theIntentionLabel);
-  $scope.mailToThis = helperSvc.urlMailTo($scope.txt.Content + '%0D%0A' + '%0D%0A' + imageUrl, '');
+
 
 }]);
 
