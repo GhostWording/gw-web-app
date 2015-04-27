@@ -1,4 +1,19 @@
 ﻿<div action-location="About">
+
+  <div>
+    <ul class="pager bmwQuestionButton pull-left" style="padding-top: 10px;">
+      <li ng-class='{selectionne: false}'>
+        <a href="" role="button" historyback class="pull-left" targetId="Back"> <img ng-src="./assets/arrow-left.png" class="stylepicto"> </a>
+      </li>
+    </ul>
+    <div class="btn-group pull-right" style="margin-right: 20px">
+      <button type="button" class="btn btn-default" ng-class='{"btn-primary": getLanguage()=="fr"}' ng-click="changeLanguage('fr')"><img src="./assets/FlagFrance.png"></button>
+      <button type="button" class="btn btn-default" ng-class='{"btn-primary": getLanguage()=="en"}' ng-click="changeLanguage('en')"><img src="./assets/FlagUK.png"></button>
+      <button type="button" class="btn btn-default" ng-class='{"btn-primary": getLanguage()=="es"}' ng-click="changeLanguage('es')"><img src="./assets/FlagSpain.png"></button>
+    </div>
+  </div>
+  <div><br/><br/><br/></div>
+
   <!--<h4>{{ 'A propos' | translate }}</h4>-->
   <h4 translate>A propos</h4>
 
@@ -40,16 +55,8 @@
     <small><span translate>Suggestions et questions</span>&nbsp: <cite title="Envoyez aussi vos propositions de textes" translate>idees@commentvousdire.com</cite>
     </small>
   </blockquote>
-  <div>
-    <ul class="pager bmwQuestionButton pull-left" style="padding-top: 10px;">
-      <li ng-class='{selectionne: false}'>
-        <a href="" role="button" historyback class="pull-left" targetId="Back"> <img ng-src="./assets/arrow-left.png" class="stylepicto"> </a>
-      </li>
-    </ul>
-    <div class="btn-group pull-right" style="margin-right: 20px">
-      <button type="button" class="btn btn-default" ng-class='{"btn-primary": getLanguage()=="fr"}' ng-click="changeLanguage('fr')"><img src="./assets/FlagFrance.png"></button>
-      <button type="button" class="btn btn-default" ng-class='{"btn-primary": getLanguage()=="en"}' ng-click="changeLanguage('en')"><img src="./assets/FlagUK.png"></button>
-      <button type="button" class="btn btn-default" ng-class='{"btn-primary": getLanguage()=="es"}' ng-click="changeLanguage('es')"><img src="./assets/FlagSpain.png"></button>
-    </div>
-  </div>
 </div>
+
+<h4 translate style="margin-top: 30px;">PRIVACY TITLE</h4>
+
+<div translate style="font-style: italic; font-size: small;"> PRIVACY POLICY</div>
