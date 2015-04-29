@@ -3,8 +3,9 @@ angular.module('app/texts', [
 //  'app/texts/alternativeTextList',
   'app/texts/TextListController',
   'app/texts/TextDetailController',
+  'app/texts/TextAndImageController',
   'app/texts/SendTextFormController',
-  'app/texts/cvdText',
+  'app/texts/cvdText'
 //  'app/texts/filteredTextsHelperSvc',
 //  'app/texts/filteredTextListSvc',
 //  'app/texts/minSortOrderToBeRandomized'

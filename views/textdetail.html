@@ -38,21 +38,25 @@
   </div>
 
   <div class="visible-xs"  style="text-align: center">
-    <img style="margin-top:0px; margin-bottom: 15px;" width="330px;" ng-src="{{imageUrl}}">
+    <img style="margin-top:0px; margin-bottom: 0px;" width="330px;" ng-src="{{imageUrl}}">
   </div>
   <div class="hidden-xs"  style="text-align: center">
-    <img style=" margin-top:0px; margin-bottom: 15px;" width="500px;" ng-src="{{imageUrl}}">
+    <img style=" margin-top:0px; margin-bottom: 10px;" width="500px;" ng-src="{{imageUrl}}">
   </div>
   <br>
 
   <!-- fb share  -->
-  <div ng-if="includeSocialPluginsOnTextPages()" class="pull-right" style="margin-bottom: 5px; margin-top: 5px; margin-right: 5px;" >
-    <div class="fb-share-button btn btn-default"></div>
-  </div>
-  <div></div>
+  <!--<div ng-if="includeSocialPluginsOnTextPages()" class="pull-right" style="margin-bottom: 5px; margin-top: 5px; margin-right: 5px;" >-->
+    <!--<div class="fb-share-button btn btn-default"></div>-->
+  <!--</div>-->
+  <!--<div></div>-->
 
   <!-- Text -->
-  <div class="well well-lg" ng-hide="editText" style="border-color: #428bca; margin-bottom: 5px; background-color: #FFFFFF;" >
+  <!--<div class="well well-lg" ng-hide="editText" style="border-color: #428bca; margin-bottom: 5px; background-color: #FFFFFF;" >-->
+  <div style="text-align: center; margin-left: 40px; margin-right: 40px; margin-top: 0px; font-size: 16px; font-family: 'Open Sans', Arial, Helvetica, sans-serif; "  ng-hide="editText"  >
+
+    <!--  style="border-color: #428bca; margin-bottom: 30px; background-color: #FFFFFF;"    font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+            font-weight: 100; -->
     <span ng-bind-html="txt.Content" style="white-space: pre-wrap"></span>
     <!--<span cvd-text="currentText"></span>-->
     <!-- favourite star appears at random places  -->
@@ -63,11 +67,16 @@
     <textarea
         ng-model="txt.Content"
         id="currentText"
-        style="width:100%;" rows="10">
+        style="width:100%;" rows="8">
     </textarea>
   </div>
+  <div style="margin-bottom: 20px; "></div>
 
   <div class="pull-left">
+    <div ng-if="includeSocialPluginsOnTextPages()" style="margin-bottom: 5px; margin-top: 5px; margin-right: 5px;" >
+      <div class="fb-share-button btn btn-default"></div>
+    </div>
+
   <!--<div>-->
     <!-- fb send : use api version when possible, button shows right away and content of fb plugin looks less random, will not work on mobiles -->
     <!-- ......but it does not seem to work if the page has never been scrapped by fb before  -->

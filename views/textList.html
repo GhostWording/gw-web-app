@@ -2,7 +2,8 @@
 <!-- TextDetail view: will be shown here when a text is selected : both views will be active at the same time-->
 <ui-view></ui-view>
 
-<div ng-show="getCurrentTextId() == undefined" class="panneauTexte" action-location="TextList">
+<!--<div ng-show="getCurrentTextId() == undefined" class="panneauTexte" action-location="TextList">-->
+<div ng-if="getCurrentTextId() == undefined" class="panneauTexte" action-location="TextList">
 
   <!--<div ng-hide="true || filtersWellDefined()" style="padding-top: 0px; margin-top: 0px; margin-bottom: 5px; ">-->
     <!--<span ng-show="textList.length">-->

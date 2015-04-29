@@ -45,6 +45,7 @@ angular.module('app/routing', ['ui.router'])
     .when('/mum'                      ,'/xx/mum')
     .when('/fb'                       ,'/xx/fb')
     .when('/darling'                  ,'/xx/darling')
+    .when('/darling'                  ,'/xx/houba')
 
     .when('/notimplemented'           ,'/xx/notimplemented')
     .when('/fbLogin'                  ,'/xx/fbLogin')
@@ -75,9 +76,20 @@ angular.module('app/routing', ['ui.router'])
 
     // Allow shorter urls with no recipient
     .when('/:languageCode/area/:areaName/intention/:intentionId/text','/:languageCode/area/:areaName/recipient/none/intention/:intentionId/text')
-    .when('/:languageCode/area/:areaName/intention/:intentionId/text/:textId','/:languageCode/area/:areaName/recipient/none/intention/:intentionId/text/:textId');
+    .when('/:languageCode/area/:areaName/intention/:intentionId/text/:textId','/:languageCode/area/:areaName/recipient/none/intention/:intentionId/text/:textId')
+    .when('/:languageCode/area/:areaName/intention/:intentionId/text/:textId/image/:imageId','/:languageCode/area/:areaName/recipient/none/intention/:intentionId/text/:textId/image/:imageId');
 
   $stateProvider
+
+  .state('houba', {
+    url: '/:languageCode/houba',
+//    templateUrl: 'views/helloMum.html',
+    templateUrl: 'views/textdetail.html',
+
+//    controller: 'HelloMumController'
+    controller: 'TextAndImageController'
+
+  })
 
   .state('helloMum', {
     url: '/:languageCode/mum',
@@ -246,10 +258,12 @@ angular.module('app/routing', ['ui.router'])
       'questionBarView@': { templateUrl: 'views/partials/questionBar.html', controller: 'QuestionBarController' }
     }
   })
+
   .state('area.textList.textDetail', {
     url: '/:textId',
     templateUrl: 'views/textdetail.html',
     controller: 'TextDetailController',
+//    controller: 'TextAndImageController',
     resolve: {
       currentTextId: ['$stateParams', 'textsSvc' , function ($stateParams, textsSvc) {
         var textId = $stateParams.textId;
@@ -273,10 +287,63 @@ angular.module('app/routing', ['ui.router'])
             return currentText.ImageUrl;
         }
       ]
-
-
     }
   })
+
+  .state('area.textList.image', {
+    url: '/:textId/image/:imageId',
+//    templateUrl: 'views/textdetail.html',
+    templateUrl: 'views/textandimage.html',
+    controller: 'TextAndImageController',
+//    controller: 'TextDetailController',
+
+    resolve: {
+      currentTextId: ['$stateParams', 'textsSvc' , function ($stateParams, textsSvc) {
+        var textId = $stateParams.textId;
+        if ( !!textId )
+          textsSvc.setCurrentTextId(textId);
+        return textId; }
+      ],
+      // Current intention is inherited from parent state
+      currentText: ['textsSvc','currentLanguage', function(textsSvc,currentLanguage) {
+        return textsSvc.getCurrentText(currentLanguage.currentCulture()); }
+      ],
+      imageUrl: ['$location','currentText','serverSvc', function($location,currentText,serverSvc) {
+        var queryParams = $location.search();
+        if ( queryParams && queryParams.imagePath && queryParams.imageExtension ) {
+          return  serverSvc.makeImageUrlFromPath(queryParams.imagePath + '.' + queryParams.imageExtension);
+        } else
+        if ( queryParams && queryParams.imageUrl ) {
+          return  serverSvc.makeImageUrlFromPath(queryParams.imageUrl);
+        } else
+        if ( currentText && currentText.ImageUrl )
+          return currentText.ImageUrl;
+      }
+      ],
+      imageName:['$stateParams','$location','$window','localStorage',function($stateParams,$location,$window,localStorage) {
+        //$location.url("http://www.google.com");
+        //$window.location = "http://www.google.com";
+        //$location.path('/someNewPath');
+//        $location.replace();
+        //$window.history.replaceState("/");
+        console.log($window.history.length);
+        // TODO : use timer or have target page write 'back' in localstorage
+        var nb = localStorage.get('history');
+        if ( !nb || nb < 3 ) {
+          localStorage.set('history',$window.history.length);
+          $window.location.href = "http://www.google.com";
+      } else {
+          localStorage.set('history',null);
+          //$window.history.back();
+        }
+
+        //$location.replace();
+//        $window.location.path("http://www.google.com").replace();
+        return $stateParams.imageId;
+      }]
+    }
+  })
+
   .state('favoriteRecipients', {
     url: '/:languageCode/favoriteRecipients',
     templateUrl: 'views/favoriteRecipients.html',
