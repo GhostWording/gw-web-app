@@ -87,7 +87,7 @@
 
     <div class="pull-left">
       <div ng-if="includeSocialPluginsOnTextPages()" style="margin-bottom: 5px; margin-top: 5px; margin-right: 5px;" >
-        <div class="fb-share-button btn btn-default"></div>
+        <div class="fb-share-button btn btn-default btn-lg"></div>
       </div>
     </div>
 
@@ -95,16 +95,15 @@
     <!-- Action buttons -->
     <div class="pull-right" style="vertical-align: middle; ">
       <!-- edit  -->
-      <button style="margin-left: 10px" class="btn btn-default  glyphicon glyphicon-pencil" translate
-              targetId="{{ Id }}" targetType="Text" actionType="edit"
-              ng-click="edit()" ng-hide="editText"></button>
+      <!--<button style="margin-left: 10px" class="btn btn-default  glyphicon glyphicon-pencil" translate-->
+              <!--targetId="{{ Id }}" targetType="Text" actionType="edit"-->
+              <!--ng-click="edit()" ng-hide="editText"></button>-->
       <!--Send by mail-->
       <a style="margin-left: 10px"  targetType="Text"
           targetId="{{Id}}"
           actionType="sendMail"
           ng-href="{{mailToThis}}"
-          class="btn btn-primary">
-        email
+          class="btn btn-primary btn-lg  glyphicon glyphicon-send">
       </a>
     </div>
 
@@ -115,19 +114,20 @@
         Source : <a ng-href = "{{currentText.ReferenceUrl}}" >{{currentText.ReferenceUrl}}</a>
     </div>
 
-    <div style="margin-bottom:20px;"></div>
+    <div style="margin-bottom:30px;"></div>
 
     <div></div>
 
 
     <!-- Translations  -->
-    <accordion style="margin-top: 30px;"  ng-show="languageTextGroups.length > 0">
+    <accordion style="margin-top: 40px; margin-bottom: 20px; vertical-align: middle;"  ng-show="languageTextGroups.length > 0">
       <accordion-group is-open="theAccordionStatus.open" is-disabled="false">
-        <accordion-heading>
-          <i class="glyphicon" aria-hidden="true" ng-class="{'glyphicon-plus': !theAccordionStatus.open, 'glyphicon-minus': theAccordionStatus.open}"></i>
-          <span style="font-size: 100%" translate >Traductions</span>
+        <accordion-heading >
+          <!--<i class="glyphicon" aria-hidden="true" ng-class="{'glyphicon-plus': !theAccordionStatus.open, 'glyphicon-minus': theAccordionStatus.open}"></i>-->
+          <span style="font-size: 80%;" class="glyphicon" aria-hidden="true" ng-class="{'glyphicon-plus': !theAccordionStatus.open, 'glyphicon-minus': theAccordionStatus.open}"></span>
+          <span style="font-size: 90%; vertical-align: middle;" translate >Traductions</span>
           (
-          <span >{{languageTextGroups.length}}</span>
+          <span style="font-size: 80%;">{{languageTextGroups.length}}</span>
           )
         </accordion-heading>
         <!-- Translations  -->
@@ -160,18 +160,25 @@
   </div>
   <!-- When user has landed directly on this page, suggest a visit to intention list  -->
   <div ng-show = "!app.appUrlSvc.getTextDetailWasCalledFromTextList() && !app.appUrlSvc.getTextDetailWasCalledFromDashboard()" style="margin-top: 25px; margin-bottom: 15px; text-align: center; ">
-    <div translate style="margin-bottom: 10px;">Voir les meilleures façons de dire</div>
-    <a style="color:  #428bca" class="btn btn-default" id="toTextList"
-       ng-href="{{app.appUrlSvc.getFullPath('')}}area/{{ currentAreaName }}/recipient/{{ recipientId }}/intention/{{theIntentionSlugOrId}}/text"
-       targetId="TextList" translate>{{ theIntentionLabel }}</a>
+    <div style="margin-bottom: 10px;">
+      <span translate >Voir les meilleures façons de dire</span>
+      <a style="color: #428bca; text-decoration: underline" id="toTextList"
+         ng-href="{{app.appUrlSvc.getFullPath('')}}area/{{ currentAreaName }}/recipient/{{ recipientId }}/intention/{{theIntentionSlugOrId}}/text"
+         targetId="TextList" translate>{{ theIntentionLabel }}
+      </a>
+    </div>
+    <!--<a style="color:  #428bca"  id="toTextList"-->
+    <!--<a style="color:  #428bca" class="btn btn-default" id="toTextList"-->
+       <!--ng-href="{{app.appUrlSvc.getFullPath('')}}area/{{ currentAreaName }}/recipient/{{ recipientId }}/intention/{{theIntentionSlugOrId}}/text"-->
+       <!--targetId="TextList" translate>{{ theIntentionLabel }}-->
+    <!--</a>-->
   </div>
 
   <!-- When user has landed directly on this page, suggest a visit to homepage  -->
   <!--<div ng-show = "!app.appUrlSvc.getTextDetailWasCalledFromTextList() && !app.appUrlSvc.getTextDetailWasCalledFromDashboard()" style="margin-top: 20px; margin-bottom: 15px; text-align: center; ">-->
   <div ng-show = "userEmailIsEmpty()" style="margin-top: 20px; margin-bottom: 15px; text-align: center; ">
-
-    <div translate style="margin-bottom: 10px;">Testez le prompteur</div>
-    <a class="btn btn-primary" id="discoverTheApp" ng-href="{{app.appUrlSvc.getFullPath('')+'favoriteRecipients'}}" targetId="Welcome" translate>Retenez-les</a>
+    <!--<div translate style="margin-bottom: 10px;">Testez le prompteur</div>-->
+    <a class="btn btn-default" id="discoverTheApp" ng-href="{{app.appUrlSvc.getFullPath('')+'favoriteRecipients'}}" targetId="Welcome" translate>Retenez-les</a>
   </div>
 
 
