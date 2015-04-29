@@ -37,31 +37,28 @@
     </ul>
   </div>
 
-  <div class="visible-xs"  style="text-align: center">
-    <img style="margin-top:0px; margin-bottom: 0px;" width="330px;" ng-src="{{imageUrl}}">
-  </div>
   <div class="hidden-xs"  style="text-align: center">
     <img style=" margin-top:0px; margin-bottom: 10px;" width="500px;" ng-src="{{imageUrl}}">
   </div>
   <br>
+  <div class="visible-xs"  style="text-align: center">
+    <img style="margin-top:0px; margin-bottom: 10px;" width="330px;" ng-src="{{imageUrl}}">
+  </div>
 
-  <!-- fb share  -->
-  <!--<div ng-if="includeSocialPluginsOnTextPages()" class="pull-right" style="margin-bottom: 5px; margin-top: 5px; margin-right: 5px;" >-->
-    <!--<div class="fb-share-button btn btn-default"></div>-->
-  <!--</div>-->
-  <!--<div></div>-->
 
   <!-- Text -->
   <!--<div class="well well-lg" ng-hide="editText" style="border-color: #428bca; margin-bottom: 5px; background-color: #FFFFFF;" >-->
-  <div style="text-align: center; margin-left: 40px; margin-right: 40px; margin-top: 0px; font-size: 16px; font-family: 'Open Sans', Arial, Helvetica, sans-serif; "  ng-hide="editText"  >
-
-    <!--  style="border-color: #428bca; margin-bottom: 30px; background-color: #FFFFFF;"    font-family: 'Open Sans', Arial, Helvetica, sans-serif;
-            font-weight: 100; -->
-    <span ng-bind-html="txt.Content" style="white-space: pre-wrap"></span>
-    <!--<span cvd-text="currentText"></span>-->
-    <!-- favourite star appears at random places  -->
-    <!--<favourite-toggle is-favourite="isFavourite()" on-change="setFavourite()"></favourite-toggle>-->
+  <!--<div style="text-align: center; margin-left: 40px; margin-right: 40px; margin-top: 0px; font-size: 16px; font-family: 'Open Sans', Arial, Helvetica, sans-serif; "  ng-hide="editText"  >-->
+  <div ng-hide="editText" style="text-align: center; font-family: 'Open Sans', Arial, Helvetica, sans-serif;">
+    <div class="hidden-xs" style="margin-top: 0px; margin-left: 20%; margin-right: 20%; font-size: 16px;"    >
+      <span ng-bind-html="txt.Content" style="white-space: pre-wrap; "></span>
+    </div>
+    <div class="visible-xs" style="margin-left: 15%; margin-right: 15%; margin-top: 5px; font-size: 14px; font-family: 'Open Sans', Arial, Helvetica, sans-serif; "  >
+      <span ng-bind-html="txt.Content" style="white-space: pre-wrap; "></span>
+    </div>
   </div>
+  <!--<span cvd-text="currentText"></span>-->
+
   <!-- Text edition -->
   <div ng-show="editText">
     <textarea
@@ -70,121 +67,101 @@
         style="width:100%;" rows="8">
     </textarea>
   </div>
-  <div style="margin-bottom: 20px; "></div>
-
-  <div class="pull-left">
-    <div ng-if="includeSocialPluginsOnTextPages()" style="margin-bottom: 5px; margin-top: 5px; margin-right: 5px;" >
-      <div class="fb-share-button btn btn-default"></div>
-    </div>
-
-  <!--<div>-->
-    <!-- fb send : use api version when possible, button shows right away and content of fb plugin looks less random, will not work on mobiles -->
-    <!-- ......but it does not seem to work if the page has never been scrapped by fb before  -->
-    <!--<button ng-click="fbSend()" class="btn hidden-xs" style="background: url(/assets/fbSend.png)  no-repeat; width: 70px; height: 25px;"></button>-->
-
-    <!-- use the fb social button on mobiles : can take a few seconds to render, and will scrape what it can  -->
-    <!-- Disabled because often does not show the right text or the right photo  -->
-    <!--<div class="fb-send btn btn-default"></div>-->
-
-    <!-- Author moved to another part for the time being -->
-    <!--<div ng-show="isQuote(currentText)" style="margin-bottom: 5px;" >-->
-      <!--<span class ="auteur hidden-xs " translate>Auteur</span>-->
-      <!--<span class ="auteur hidden-xs" translate> : </span>-->
-
-      <!--<span class ="auteur">{{currentText.Author}}</span>-->
-      <!--&nbsp-->
-      <!--<button class="btn btn-xs btn-default " ng-class = '{disabled: authorButton=="disabled"}'-->
-              <!--targetId="{{ Id }}" targetType="Text" actionType="edit"-->
-              <!--ng-click="addAuthor()">+</button>-->
-    <!--</div>-->
-  </div>
-
-  <!-- Action buttons -->
-  <div class="pull-right" style="vertical-align: middle; ">
-    <!-- edit  -->
-    <button style="margin-left: 10px" class="btn btn-default  glyphicon glyphicon-pencil" translate
-            targetId="{{ Id }}" targetType="Text" actionType="edit"
-            ng-click="edit()" ng-hide="editText"></button>
-    <!--Send by mail-->
-    <a style="margin-left: 10px"  targetType="Text"
-        targetId="{{Id}}"
-        actionType="sendMail"
-        ng-href="{{mailToThis}}"
-        class="btn btn-primary">
-      email
-    </a>
-    <!-- send  -->
-    <!--<button style="margin-left: 10px" class="btn btn-default" translate-->
-            <!--targetId="{{ Id }}" targetType="Text" actionType="send"-->
-            <!--ng-click="send()">Envoyer</button>-->
-  </div>
-
-  <br/>
-  <br/>
-
   <!-- Text author -->
-  <div ng-show="isQuote(currentText)" style="margin-bottom: 5px;" >
-    <span class ="auteur hidden-xs " translate>Auteur</span>
-    <span class ="auteur hidden-xs" translate> : </span>
+  <div ng-show="isQuote(currentText) && authorButton!='disabled'" style="margin-top: 10px; text-align: center;" >
+    <!--<span class ="auteur hidden-xs " translate>Auteur</span>-->
+    <!--<span class ="auteur hidden-xs" translate> : </span>-->
 
     <span class ="auteur">{{currentText.Author}}</span>
-    &nbsp
-    <button class="btn btn-xs btn-default " ng-class = '{disabled: authorButton=="disabled"}'
-            targetId="{{ Id }}" targetType="Text" actionType="edit"
-            ng-click="addAuthor()">+</button>
+    <!--&nbsp-->
+    <!--<button class="btn btn-xs btn-default " ng-class = '{disabled: authorButton=="disabled"}'-->
+            <!--targetId="{{ Id }}" targetType="Text" actionType="edit"-->
+            <!--ng-click="addAuthor()">+</button>-->
   </div>
 
-  <div ng-show="currentText.ReferenceUrl">
-      Source : <a ng-href = "{{currentText.ReferenceUrl}}" >{{currentText.ReferenceUrl}}</a>
-  </div>
-
-  <div style="margin-bottom:10px;"></div>
-
-  <div></div>
+  <div style="margin-bottom: 20px; "></div>
 
 
-  <!-- Translations  -->
-  <!--<br>-->
-  <accordion ng-show="languageTextGroups.length > 0">
-    <accordion-group is-open="theAccordionStatus.open" is-disabled="false">
-      <accordion-heading>
-        <i class="glyphicon" ng-class="{'glyphicon-plus': !theAccordionStatus.open, 'glyphicon-minus': theAccordionStatus.open}"></i>
-        <span translate class="brand">Traductions</span>
-        (
-        <span class="brand">{{languageTextGroups.length}}</span>
-        )
-      </accordion-heading>
-      <!-- Translations  -->
-      <div ng-repeat="languageTextGroup in  languageTextGroups" style="padding-top: 10px; padding-bottom: 20px;">
-        <h5 style="font-size: 120%; margin-top: 0px;" translate>{{ languageTextGroup.code }}</h5>
+  <!-- Actions and translations  -->
+  <div style="margin-left: 10%;margin-right: 10%">
 
-        <div ng-repeat="text in languageTextGroup.texts">
-          <div class="well well-lg" style="border-color: #428bca; margin-bottom: 5px; margin-top: 25px;">
-            <span ng-bind-html="text.Content"></span>
-            <!--<div cvd-text="text"></div>-->
-            <!--<favourite-toggle is-favourite="isFavourite()" on-change="setFavourite()"></favourite-toggle>-->
-          </div>
-          <div>
-        <span ng-show="isVariationFormMorePrecise(text)" style="color: #428bca;">
-          <span translate>Ecrit</span> <span translate>{{getSenderGenderMessage(text)}}</span> <span translate>{{getRecipientGenderMessage(text)}}</span> <span translate>{{getTVMessage(text)}}</span>
-        </span>
-
-            <a rel="nofollow" ng-href="{{app.appUrlSvc.getRootPath('')}}area/{{ currentAreaName }}/recipient/{{ recipientId }}/intention/{{ theIntentionSlugOrId }}/text/{{text.TextId}}"
-               targetType="Text"  actionType="open"  targetId="{{txt.TextId}}">
-              <button class="btn btn-default pull-right glyphicon glyphicon-ok" translate
-                      targetId="{{ Id }}" targetType="Text"></button>
-            </a>
-          </div>
-          <div>&nbsp</div>
-        </div>
+    <div class="pull-left">
+      <div ng-if="includeSocialPluginsOnTextPages()" style="margin-bottom: 5px; margin-top: 5px; margin-right: 5px;" >
+        <div class="fb-share-button btn btn-default"></div>
       </div>
-    </accordion-group>
-  </accordion>
+    </div>
 
+
+    <!-- Action buttons -->
+    <div class="pull-right" style="vertical-align: middle; ">
+      <!-- edit  -->
+      <button style="margin-left: 10px" class="btn btn-default  glyphicon glyphicon-pencil" translate
+              targetId="{{ Id }}" targetType="Text" actionType="edit"
+              ng-click="edit()" ng-hide="editText"></button>
+      <!--Send by mail-->
+      <a style="margin-left: 10px"  targetType="Text"
+          targetId="{{Id}}"
+          actionType="sendMail"
+          ng-href="{{mailToThis}}"
+          class="btn btn-primary">
+        email
+      </a>
+    </div>
+
+    <br/>
+    <br/>
+
+    <div ng-show="currentText.ReferenceUrl">
+        Source : <a ng-href = "{{currentText.ReferenceUrl}}" >{{currentText.ReferenceUrl}}</a>
+    </div>
+
+    <div style="margin-bottom:20px;"></div>
+
+    <div></div>
+
+
+    <!-- Translations  -->
+    <accordion style="margin-top: 30px;"  ng-show="languageTextGroups.length > 0">
+      <accordion-group is-open="theAccordionStatus.open" is-disabled="false">
+        <accordion-heading>
+          <i class="glyphicon" aria-hidden="true" ng-class="{'glyphicon-plus': !theAccordionStatus.open, 'glyphicon-minus': theAccordionStatus.open}"></i>
+          <span style="font-size: 100%" translate >Traductions</span>
+          (
+          <span >{{languageTextGroups.length}}</span>
+          )
+        </accordion-heading>
+        <!-- Translations  -->
+        <div ng-repeat="languageTextGroup in  languageTextGroups" style="padding-top: 10px; padding-bottom: 20px;">
+          <h5 style="font-size: 120%; margin-top: 0px;" translate>{{ languageTextGroup.code }}</h5>
+
+          <div ng-repeat="text in languageTextGroup.texts">
+            <div class="well well-lg" style="border-color: #428bca; margin-bottom: 5px; margin-top: 25px;">
+              <span ng-bind-html="text.Content"></span>
+              <!--<div cvd-text="text"></div>-->
+              <!--<favourite-toggle is-favourite="isFavourite()" on-change="setFavourite()"></favourite-toggle>-->
+            </div>
+            <div>
+          <span ng-show="isVariationFormMorePrecise(text)" style="color: #428bca;">
+            <span translate>Ecrit</span> <span translate>{{getSenderGenderMessage(text)}}</span> <span translate>{{getRecipientGenderMessage(text)}}</span> <span translate>{{getTVMessage(text)}}</span>
+          </span>
+
+              <a rel="nofollow" ng-href="{{app.appUrlSvc.getRootPath('')}}area/{{ currentAreaName }}/recipient/{{ recipientId }}/intention/{{ theIntentionSlugOrId }}/text/{{text.TextId}}"
+                 targetType="Text"  actionType="open"  targetId="{{txt.TextId}}">
+                <button class="btn btn-default pull-right glyphicon glyphicon-ok" translate
+                        targetId="{{ Id }}" targetType="Text"></button>
+              </a>
+            </div>
+            <div>&nbsp</div>
+          </div>
+        </div>
+      </accordion-group>
+    </accordion>
+
+  </div>
   <!-- When user has landed directly on this page, suggest a visit to intention list  -->
   <div ng-show = "!app.appUrlSvc.getTextDetailWasCalledFromTextList() && !app.appUrlSvc.getTextDetailWasCalledFromDashboard()" style="margin-top: 25px; margin-bottom: 15px; text-align: center; ">
     <div translate style="margin-bottom: 10px;">Voir les meilleures façons de dire</div>
-    <a style="color:  #428bca" class="btn btn-default btn-lg" id="toTextList"
+    <a style="color:  #428bca" class="btn btn-default" id="toTextList"
        ng-href="{{app.appUrlSvc.getFullPath('')}}area/{{ currentAreaName }}/recipient/{{ recipientId }}/intention/{{theIntentionSlugOrId}}/text"
        targetId="TextList" translate>{{ theIntentionLabel }}</a>
   </div>
@@ -194,7 +171,7 @@
   <div ng-show = "userEmailIsEmpty()" style="margin-top: 20px; margin-bottom: 15px; text-align: center; ">
 
     <div translate style="margin-bottom: 10px;">Testez le prompteur</div>
-    <a class="btn btn-primary btn-lg" id="discoverTheApp" ng-href="{{app.appUrlSvc.getFullPath('')+'favoriteRecipients'}}" targetId="Welcome" translate>Retenez-les</a>
+    <a class="btn btn-primary" id="discoverTheApp" ng-href="{{app.appUrlSvc.getFullPath('')+'favoriteRecipients'}}" targetId="Welcome" translate>Retenez-les</a>
   </div>
 
 
@@ -202,9 +179,28 @@
   <div ng-show = "!app.appUrlSvc.getTextDetailWasCalledFromTextList() && !app.appUrlSvc.getTextDetailWasCalledFromDashboard()" ng-include="'views/partials/languageBar.html'" style="margin-top: 30px; text-align: center" ></div>
 
   <!-- Mozart  -->
-  <div ng-if = "!app.appUrlSvc.getTextDetailWasCalledFromTextList() && !app.appUrlSvc.getTextDetailWasCalledFromDashboard()" style="margin-top:25px; margin-bottom: 15px; text-align: center;">
-    <img height="120px;" src="./assets/pianoCat.jpg">
-  </div>
+  <!--<div ng-if = "!app.appUrlSvc.getTextDetailWasCalledFromTextList() && !app.appUrlSvc.getTextDetailWasCalledFromDashboard()" style="margin-top:25px; margin-bottom: 15px; text-align: center;">-->
+    <!--<img height="120px;" src="./assets/pianoCat.jpg">-->
+  <!--</div>-->
 
 
 </div>
+
+<!-- send  -->
+<!--<button style="margin-left: 10px" class="btn btn-default" translate-->
+<!--targetId="{{ Id }}" targetType="Text" actionType="send"-->
+<!--ng-click="send()">Envoyer</button>-->
+
+<!-- fb share  -->
+<!--<div ng-if="includeSocialPluginsOnTextPages()" class="pull-right" style="margin-bottom: 5px; margin-top: 5px; margin-right: 5px;" >-->
+<!--<div class="fb-share-button btn btn-default"></div>-->
+<!--</div>-->
+<!--<div></div>-->
+
+
+<!-- fb send : use api version when possible, button shows right away and content of fb plugin looks less random, will not work on mobiles -->
+<!-- ......but it does not seem to work if the page has never been scrapped by fb before  -->
+<!--<button ng-click="fbSend()" class="btn hidden-xs" style="background: url(/assets/fbSend.png)  no-repeat; width: 70px; height: 25px;"></button>-->
+<!-- use the fb social button on mobiles : can take a few seconds to render, and will scrape what it can  -->
+<!-- Disabled because often does not show the right text or the right photo  -->
+<!--<div class="fb-send btn btn-default"></div>-->

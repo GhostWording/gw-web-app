@@ -45,7 +45,6 @@ angular.module('app/routing', ['ui.router'])
     .when('/mum'                      ,'/xx/mum')
     .when('/fb'                       ,'/xx/fb')
     .when('/darling'                  ,'/xx/darling')
-    .when('/darling'                  ,'/xx/houba')
 
     .when('/notimplemented'           ,'/xx/notimplemented')
     .when('/fbLogin'                  ,'/xx/fbLogin')
@@ -80,17 +79,6 @@ angular.module('app/routing', ['ui.router'])
     .when('/:languageCode/area/:areaName/intention/:intentionId/text/:textId/image/:imageId','/:languageCode/area/:areaName/recipient/none/intention/:intentionId/text/:textId/image/:imageId');
 
   $stateProvider
-
-  .state('houba', {
-    url: '/:languageCode/houba',
-//    templateUrl: 'views/helloMum.html',
-    templateUrl: 'views/textdetail.html',
-
-//    controller: 'HelloMumController'
-    controller: 'TextAndImageController'
-
-  })
-
   .state('helloMum', {
     url: '/:languageCode/mum',
     templateUrl: 'views/helloMum.html',

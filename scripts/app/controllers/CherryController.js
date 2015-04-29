@@ -1,7 +1,7 @@
 angular.module('app/controllers/CherryController', [])
 
-.controller('CherryController', ['$scope',  'postActionSvc','$rootScope','$location','currentLanguage','appUrlSvc','intentionsSvc','appVersionCheck','textsSvc','$window', '$state','helperSvc','$translate',
-  function ($scope,postActionSvc,$rootScope,$location,currentLanguage,appUrlSvc,intentionsSvc,appVersionCheck,textsSvc,$window,$state,helperSvc,$translate) {
+.controller('CherryController', ['$scope',  'postActionSvc','$rootScope','$location','currentLanguage','appUrlSvc','intentionsSvc','appVersionCheck','textsSvc','$window', '$state','helperSvc','$translate','availableLanguages',
+  function ($scope,postActionSvc,$rootScope,$location,currentLanguage,appUrlSvc,intentionsSvc,appVersionCheck,textsSvc,$window,$state,helperSvc,$translate,availableLanguages) {
     $scope.app = {};
     $scope.app.appUrlSvc = appUrlSvc;
 
@@ -160,6 +160,8 @@ angular.module('app/controllers/CherryController', [])
 
       // Set language form url if present
       var languageCode = toParams.languageCode;
+      if ( !!languageCode && !availableLanguages.languageCodeExists(languageCode))
+        languageCode = 'en';
       if ( languageCode &&  languageCode!== undefined) {
         currentLanguage.setLanguageCode(languageCode,true);
       }
