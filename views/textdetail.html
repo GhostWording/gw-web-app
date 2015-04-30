@@ -2,7 +2,7 @@
 
   <!-- Back button : behaviour will vary according to context -->
   <div>
-    <ul class="pager bmwQuestionButton" style="margin-top: 5px;  margin-bottom: 20px;">
+    <ul class="pager bmwQuestionButton" style="margin-top: 5px;  margin-bottom: 10px;">
       <li ng-class='{selectionne: false}'>
 
         <!-- User was allready in our app : just go back to previous page  -->
@@ -27,8 +27,8 @@
           <img ng-src="./assets/arrow-left.png" class="stylepicto">
         </a>
 
-        <h4 class="pull-left" style="margin-left: 10px;" translate>{{ theIntentionLabel }}</h4>
-        <!--<img style="margin-top:0px; margin-right: 10px;" width="50px" height="40px" src="./assets/TouchWordingCompressed.jpg" class="pull-right">-->
+        <!-- Page title -->
+        <h4 class="pull-left" style="margin-left: 10px; font-size: 120%;" translate>{{ theIntentionLabel }}</h4>
         <!--<a>-->
           <button ng-click="changeImage()" class="btn btn-default btn-lg pull-right glyphicon glyphicon-refresh" targetType="Photo"  actionType="refresh"  targetId="{{imageUrl}}" ></button>
         <!--</a>-->
@@ -38,7 +38,7 @@
   </div>
 
   <div class="hidden-xs"  style="text-align: center">
-    <img style=" margin-top:0px; margin-bottom: 10px;" width="500px;" ng-src="{{imageUrl}}">
+    <img style=" margin-top:10px; margin-bottom: 10px;" width="500px;" ng-src="{{imageUrl}}">
   </div>
   <br>
   <div class="visible-xs"  style="text-align: center">
@@ -85,6 +85,7 @@
   <!-- Actions and translations  -->
   <div style="margin-left: 15%;margin-right: 15%">
 
+    <!-- Share -->
     <div class="pull-left">
       <div ng-if="includeSocialPluginsOnTextPages()" style="margin-bottom: 5px; margin-top: 5px; margin-right: 5px;" >
         <div class="fb-share-button btn btn-default btn-lg"></div>
