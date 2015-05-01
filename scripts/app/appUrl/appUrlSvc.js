@@ -1,7 +1,7 @@
-angular.module('app/appUrl/appUrlSvc', [])
+angular.module('app/appUrl/appUrlSvc', ['common/i18n/availableLanguages','common/i18n/slugTranslations'])
 
 // This is mostly used by the web app to create urls and track entry points
-.factory('appUrlSvc', ['$location','currentLanguage', function ($location,currentLanguage) {
+.factory('appUrlSvc', ['$location','currentLanguage','availableLanguages','slugTranslations', function ($location,currentLanguage,availableLanguages,slugTranslations) {
   var fullrootPath = "/";
   var siterootPath = "/"; // or just "", to be tested
   var useHashBang = false;
@@ -9,7 +9,87 @@ angular.module('app/appUrl/appUrlSvc', [])
 
   var service = {};
 
-  // text detail page may be the first page the user sees if he comes form another web site
+  var domains  = ['commentvousdire.com','touchwording.com','localhost'];
+
+  var pivotName = 'PIVOT';
+
+  service.findLanguageInPath = function () {
+    var languageFound;
+    var languages = availableLanguages.orderedAppLanguages();
+    for (var i = 0; i < languages.length; i++) {
+      var pos = $location.path().indexOf('/' + languages[i] + '/');
+      if (pos > -1 && pos < 2) {
+        languageFound = languages[i];
+        break;
+      }
+    }
+    return languageFound;
+  };
+
+
+  service.makePivotUrl = function () {
+    var urlPivot = $location.absUrl();
+
+    //var path = $location.path();
+
+    var pathNoLanguage = $location.path();
+    //var retval = urlToReduce;
+    var possibleLanguages = availableLanguages.orderedAppLanguages();
+    for (var i = 0; i < possibleLanguages.length; i++) {
+      pathNoLanguage = pathNoLanguage.replace('/' + possibleLanguages[i] + '/', '/');
+    }
+    console.log("path-language : " + pathNoLanguage);
+    urlPivot = urlPivot.replace($location.path(), pathNoLanguage);
+    console.log("urlToReduce : " + urlPivot);
+
+    var strHost = $location.host();
+    console.log("host : " + strHost);
+    urlPivot = urlPivot.replace(strHost, pivotName);
+    console.log("urlToReduce : " + urlPivot);
+
+    return urlPivot;
+  };
+
+  // Replace domain in url according language in path
+  service.makeCanonicalUrl = function() {
+    var canonicalUrl = $location.absUrl();
+    var languageInPath = service.findLanguageInPath();
+    console.log("languageInPath : " + languageInPath);
+    var strHost = $location.host();
+    // If we explicitly have a language in the path, choose canonical domain name accordingly
+    if ( !!languageInPath ) {
+      if ( languageInPath == 'fr' )
+        canonicalUrl = canonicalUrl.replace(strHost,"www.commentvousdire.com");
+      else
+        canonicalUrl = canonicalUrl.replace(strHost,"www.touchwording.com");
+    }
+    console.log("canonicalUrl : " + canonicalUrl);
+    return canonicalUrl;
+  };
+
+  // Remove language from url and replace commentvousdire by touchwording to have language neutral url
+  service.makeLanguageNeutralUrl = function() {
+     var pivotUrl = service.makePivotUrl();
+     pivotUrl = pivotUrl.replace(pivotName,"www.touchwording.com");
+
+
+    var strBeforeSlug = "intention/";
+    var strAfterSlug = "/text";
+    var posBefore = pivotUrl.lastIndexOf(strBeforeSlug);
+    var posAfter = pivotUrl.lastIndexOf(strAfterSlug);
+    var slug;
+    if ( posBefore >= 0 && posAfter >= 0) {
+      console.log("SLUG  ===> " + slug);
+      slug = pivotUrl.substring(posBefore+strBeforeSlug.length,posAfter);
+      var englishSlug = slugTranslations.translateSlugToEnglish(slug);
+      console.log("englishSlug  ===> " + englishSlug);
+      pivotUrl = pivotUrl.replace(slug,englishSlug);
+    }
+    console.log($location.absUrl() + " ===> " + pivotUrl);
+    return pivotUrl;
+  };
+
+    // text detail page may be the first page the user sees if he comes form another web site
   var textDetailWasCalledFromTextList = false;
   var textDetailWasCalledFromDashboard = false;
   var userHasBeenOnSplashScreen = false;
@@ -35,6 +115,7 @@ angular.module('app/appUrl/appUrlSvc', [])
   service.setUserHasBeenOnSplashScreen = function(value) {
     userHasBeenOnSplashScreen = value;
   };
+
 
   // Calling this all the time does seem to slow the app a little
   service.getRootPath = function () {
