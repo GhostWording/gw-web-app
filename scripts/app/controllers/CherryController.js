@@ -159,23 +159,28 @@ angular.module('app/controllers/CherryController', [])
         $window.ga('send', 'pageview', { page: path });
       }
 
-      // Set language form url if present
-      var languageCode = toParams.languageCode;
-      if ( !!languageCode && !availableLanguages.languageCodeExists(languageCode))
-        languageCode = 'en';
-      if ( languageCode &&  languageCode!== undefined) {
-        currentLanguage.setLanguageCode(languageCode,true);
-      }
+      // Look for language changes in url
+      var languageCodeFromParam = toParams.languageCode;
 
-      // Add language code to url if absent
-      var includeLanguageInUrl = true;
-      if (includeLanguageInUrl) {
-        // Url states that we don't know the language code. Inject the current language code in the url instead of xx
-        if (languageCode == 'xx') {
-          currentLanguage.includeLanguageCodeInUrl(languageCode, currentLanguage.getLanguageCode());
+      // If there is xx in place of the language, replace it by current language
+      if (languageCodeFromParam == 'xx') {
+        currentLanguage.includeLanguageCodeInUrl(languageCodeFromParam, currentLanguage.getLanguageCode());
+      }
+      // else see if we need to update current language
+      else {
+        // the language code is set in the url
+        if ( !!languageCodeFromParam  )  {
+          // the language code in the url is valid and different from the current one
+          if ( availableLanguages.languageCodeExists(languageCodeFromParam) &&  languageCodeFromParam != currentLanguage.getLanguageCode()) {
+            currentLanguage.setLanguageCode(languageCodeFromParam,true);
+          }
+          // Language code defined in url but not valid, replace by current language
+          if ( !availableLanguages.languageCodeExists(languageCodeFromParam) ) {
+            currentLanguage.includeLanguageCodeInUrl(languageCodeFromParam, currentLanguage.getLanguageCode());
+          }
         }
-        // To be donne last : we like user urls to be prefixed by the language code in any cases
-        if ( !languageCode )
+        // optional : insert current language if there is none in the url
+        if ( !languageCodeFromParam )
           currentLanguage.insertCurrentLanguageCodeInUrlIfAbsent();
       }
 
