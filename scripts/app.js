@@ -39,7 +39,7 @@ angular.module('cherryApp',  [
     //status     : true,
     // With xfbml set to true, the SDK will parse your page's DOM to find and initialize any social plugins that have been added using XFBML.
     // If you're not using social plugins on the page, setting xfbml to false will improve page load times.
-      xfbml      : true,
+      xfbml      : false,
     //version: 'v1.0'
     version: 'v2.3'
   });
