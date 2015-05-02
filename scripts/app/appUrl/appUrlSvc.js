@@ -11,8 +11,6 @@ angular.module('app/appUrl/appUrlSvc', ['common/i18n/availableLanguages','common
 
   var domains  = ['commentvousdire.com','touchwording.com','localhost'];
 
-  var pivotName = 'PIVOT';
-
   service.findLanguageInPath = function () {
     var languageFound;
     var languages = availableLanguages.orderedAppLanguages();
@@ -26,19 +24,17 @@ angular.module('app/appUrl/appUrlSvc', ['common/i18n/availableLanguages','common
     return languageFound;
   };
 
+  // Remove language from path if present
   service.getPathWithNoLanguage = function (thePath) {
-    var urlPivot = $location.absUrl();
-
-    // Remove language from path if present
     var pathNoLanguage = thePath;
     var possibleLanguages = availableLanguages.orderedAppLanguages();
     for (var i = 0; i < possibleLanguages.length; i++) {
       pathNoLanguage = pathNoLanguage.replace('/' + possibleLanguages[i] + '/', '/');
     }
-
     return pathNoLanguage;
   };
 
+  // Change host name in url according to language
   service.changeUrlToTargetLanguageDomain = function(sourceUrl, theHost, theLanguage) {
     var canonicalUrl = sourceUrl;
     if ( !!theLanguage ) {
