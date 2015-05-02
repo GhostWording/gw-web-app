@@ -83,7 +83,7 @@ angular.module('app/controllers/CherryController', [])
       var queryIndex = fullUrl.lastIndexOf('?');
       if ( queryIndex >= 0 ) {
         urlNoQueryParam = fullUrl.substring(0,queryIndex);
-        console.log("NOPARAM : " + urlNoQueryParam );
+        //console.log("NOPARAM : " + urlNoQueryParam );
       }
       // Set facebook open graph og:url property to full url without parameters : text detail pages could override that
       $rootScope.ogUrl = urlNoQueryParam;
@@ -116,7 +116,7 @@ angular.module('app/controllers/CherryController', [])
       function getCurrentIntentionThenSetTitle() {
         intentionsSvc.getCurrent().then(function(intention) {
           chooseTitleFromIntentionOrSiteDefault(intention);
-          console.log("TITLE : " + $rootScope.pageTitle1 + " " + $rootScope.pageTitle2);
+          //console.log("TITLE : " + $rootScope.pageTitle1 + " " + $rootScope.pageTitle2);
         });
       }
       // Set title and description for facebook bot

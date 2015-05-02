@@ -18,7 +18,7 @@ function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,curren
   // When may want to explicitly set og:title from here because facebook sometime picks the intention title instead
   //$rootScope.ogTitle = currentText.Content;
 
-  console.log("==" + currentIntentionSlugOrId);
+  //console.log("==" + currentIntentionSlugOrId);
   if ( currentIntentionSlugOrId == "facebook-status" )
     $rootScope.ogDescription = currentText.Content;
   else
@@ -95,15 +95,19 @@ function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,curren
     } else {
       // else get one from the server
       var imageUrl = serverSvc.getStaticSiteRoot() + imagesSvc.staticSiteQuery(currentRecipientId, currentIntentionSlugOrId);
+      //console.log("URLA : " + imageUrl);
       //return serverSvc.getStaticResource(serverSvc.staticSiteQuery(currentRecipientId, currentIntentionSlugOrId), undefined,true)
       return serverSvc.getStaticResource(imageUrl, undefined,true)
         .then(function(imagePathWithSlash) {
+        //console.log("imagePathWithSlash : " + imagePathWithSlash);
+
           // Get rid of first '/' if present
           var imageUrl = imagePathWithSlash.charAt(0) == '/' ? imagePathWithSlash.substr(1) : imagePathWithSlash;
           var dotIndex = imageUrl.lastIndexOf('.');
           var extNoDot = imageUrl.substring(dotIndex+1);
           var urlNoExtension = imageUrl.substring(0,dotIndex);
 
+          //console.log("URLB : " + imageUrl);
           // Set url query parameters to new image path
           //$location.search('imageUrl',imageUrl);
           $location.search('imagePath',urlNoExtension);

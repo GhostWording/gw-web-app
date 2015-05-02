@@ -43,14 +43,14 @@ angular.module('app/appUrl/appUrlSvc', ['common/i18n/availableLanguages','common
       else
         canonicalUrl = canonicalUrl.replace(theHost,"www.touchwording.com");
     }
-    console.log("canonicalUrl : " + canonicalUrl);
+    //console.log("canonicalUrl : " + canonicalUrl);
     return canonicalUrl;
   };
 
   // Replace domain in url according language in path
   service.makeCanonicalUrl = function() {
     var canonicalUrl = service.changeUrlToTargetLanguageDomain($location.absUrl(),$location.host(),service.findLanguageInPath());
-    console.log("canonicalUrl : " + canonicalUrl);
+    //console.log("canonicalUrl : " + canonicalUrl);
     return canonicalUrl;
   };
 
@@ -67,7 +67,7 @@ angular.module('app/appUrl/appUrlSvc', ['common/i18n/availableLanguages','common
     var currentPath = $location.path();
     var pathWithNoLanguage =  service.getPathWithNoLanguage(currentPath);
     var pathWithTargetLanguage = '/' + targetLanguage + pathWithNoLanguage;
-    console.log("------------- " + pathWithTargetLanguage);
+    //console.log("------------- " + pathWithTargetLanguage);
     altUrl = altUrl.replace(currentPath,pathWithTargetLanguage);
 
     // We should be able to do that for all languages but we first to download proper lookup tables from the server
@@ -86,10 +86,10 @@ angular.module('app/appUrl/appUrlSvc', ['common/i18n/availableLanguages','common
     var posAfter = urlToChange.lastIndexOf(strAfterSlug);
     var slug;
     if ( posBefore >= 0 && posAfter >= 0) {
-      console.log("SLUG  ===> " + slug);
+      //console.log("SLUG  ===> " + slug);
       slug = urlToChange.substring(posBefore+strBeforeSlug.length,posAfter);
       var englishSlug = slugTranslations.translateSlugToEnglish(slug);
-      console.log("englishSlug  ===> " + englishSlug);
+      //console.log("englishSlug  ===> " + englishSlug);
       retval = urlToChange.replace(slug,englishSlug);
     }
     return retval;
@@ -105,7 +105,7 @@ angular.module('app/appUrl/appUrlSvc', ['common/i18n/availableLanguages','common
     // Change host to touchwording
     languageNeutralUrl = languageNeutralUrl.replace($location.host(),"www.touchwording.com");
     languageNeutralUrl = service.changeSlugToEnglish(languageNeutralUrl);
-    console.log($location.absUrl() + " ===> " + languageNeutralUrl);
+    //console.log($location.absUrl() + " ===> " + languageNeutralUrl);
     return languageNeutralUrl;
   };
 
@@ -118,14 +118,14 @@ angular.module('app/appUrl/appUrlSvc', ['common/i18n/availableLanguages','common
 
   service.setTextDetailWasCalledFromTextList = function(value) {
     textDetailWasCalledFromTextList = value;
-    console.log("setTextDetailWasCalledFromTextList to " + value);
+    //console.log("setTextDetailWasCalledFromTextList to " + value);
   };
   service.getTextDetailWasCalledFromTextList = function() {
     return textDetailWasCalledFromTextList;
   };
   service.setTextDetailWasCalledFromDashboard = function(value) {
     textDetailWasCalledFromDashboard = value;
-    console.log("textDetailWasCalledFromTextList to " + value);
+    //console.log("textDetailWasCalledFromTextList to " + value);
   };
   service.getTextDetailWasCalledFromDashboard = function() {
     return textDetailWasCalledFromDashboard;
