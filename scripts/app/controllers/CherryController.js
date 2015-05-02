@@ -90,9 +90,17 @@ angular.module('app/controllers/CherryController', [])
       $rootScope.canonicalUrl = appUrlSvc.makeCanonicalUrl();
       $rootScope.languageNeutralUrl = appUrlSvc.makeLanguageNeutralUrl();
 
+      $rootScope.canonicalUrlForThisLanguage = appUrlSvc.makeAltUrlForLanguage(currentLanguage.getLanguageCode());
+      $rootScope.isEnglish = currentLanguage.getLanguageCode() == 'en';
+      $rootScope.thisLanguage = currentLanguage.getLanguageCode();
+      $rootScope.enAltUrl = appUrlSvc.makeAltUrlForLanguage('en');
+//      We should add alternative links for all languages but we would need to know proper slug equivalences
+//      $rootScope.frAltUrl = appUrlSvc.makeAltUrlForLanguage('fr');
+//      $rootScope.esAltUrl = appUrlSvc.makeAltUrlForLanguage('es');
+
 
 //      console.log("URL : " + $rootScope.ogUrl);
-      console.log("OR : " + $location.host()+$location.path() + " " + $location.host() +  " " + $location.path());
+//      console.log("OR : " + $location.host()+$location.path() + " " + $location.host() +  " " + $location.path());
 //      console.log("OR : " + pre + ' ' + ext );
 
       function chooseTitleFromIntentionOrSiteDefault(intention) {
@@ -181,10 +189,6 @@ angular.module('app/controllers/CherryController', [])
         if ( !languageCodeFromParam )
           currentLanguage.insertCurrentLanguageCodeInUrlIfAbsent();
       }
-
-      // Create alternate urls for Google index
-      appUrlSvc.makePivotUrl();
-      appUrlSvc.makeCanonicalUrl();
 
     });
   }

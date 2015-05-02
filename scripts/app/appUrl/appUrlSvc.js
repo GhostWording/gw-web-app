@@ -26,68 +26,94 @@ angular.module('app/appUrl/appUrlSvc', ['common/i18n/availableLanguages','common
     return languageFound;
   };
 
-
-  service.makePivotUrl = function () {
+  service.getPathWithNoLanguage = function (thePath) {
     var urlPivot = $location.absUrl();
 
-    //var path = $location.path();
-
-    var pathNoLanguage = $location.path();
-    //var retval = urlToReduce;
+    // Remove language from path if present
+    var pathNoLanguage = thePath;
     var possibleLanguages = availableLanguages.orderedAppLanguages();
     for (var i = 0; i < possibleLanguages.length; i++) {
       pathNoLanguage = pathNoLanguage.replace('/' + possibleLanguages[i] + '/', '/');
     }
-    console.log("path-language : " + pathNoLanguage);
-    urlPivot = urlPivot.replace($location.path(), pathNoLanguage);
-    console.log("urlToReduce : " + urlPivot);
 
-    var strHost = $location.host();
-    console.log("host : " + strHost);
-    urlPivot = urlPivot.replace(strHost, pivotName);
-    console.log("urlToReduce : " + urlPivot);
-
-    return urlPivot;
+    return pathNoLanguage;
   };
 
-  // Replace domain in url according language in path
-  service.makeCanonicalUrl = function() {
-    var canonicalUrl = $location.absUrl();
-    var languageInPath = service.findLanguageInPath();
-    console.log("languageInPath : " + languageInPath);
-    var strHost = $location.host();
-    // If we explicitly have a language in the path, choose canonical domain name accordingly
-    if ( !!languageInPath ) {
-      if ( languageInPath == 'fr' )
-        canonicalUrl = canonicalUrl.replace(strHost,"www.commentvousdire.com");
+  service.changeUrlToTargetLanguageDomain = function(sourceUrl, theHost, theLanguage) {
+    var canonicalUrl = sourceUrl;
+    if ( !!theLanguage ) {
+      if ( theLanguage == 'fr' )
+        canonicalUrl = canonicalUrl.replace(theHost,"www.commentvousdire.com");
       else
-        canonicalUrl = canonicalUrl.replace(strHost,"www.touchwording.com");
+        canonicalUrl = canonicalUrl.replace(theHost,"www.touchwording.com");
     }
     console.log("canonicalUrl : " + canonicalUrl);
     return canonicalUrl;
   };
 
-  // Remove language from url and replace commentvousdire by touchwording to have language neutral url
-  service.makeLanguageNeutralUrl = function() {
-     var pivotUrl = service.makePivotUrl();
-     pivotUrl = pivotUrl.replace(pivotName,"www.touchwording.com");
+  // Replace domain in url according language in path
+  service.makeCanonicalUrl = function() {
+    var canonicalUrl = service.changeUrlToTargetLanguageDomain($location.absUrl(),$location.host(),service.findLanguageInPath());
+    console.log("canonicalUrl : " + canonicalUrl);
+    return canonicalUrl;
+  };
 
 
+  service.makeAltUrlForLanguage = function(targetLanguage) {
+    // If there is a language code in path and it is the targetLanguage we are ok, still we may want to point to the official domain for the language
+//    var languageInPath = service.findLanguageInPath();
+//    if ( languageInPath == targetLanguage )
+//      return $location.absUrl();
+
+    // Make url with proper domain for current language
+    var altUrl  = service.changeUrlToTargetLanguageDomain($location.absUrl(),$location.host(),targetLanguage);
+
+    var currentPath = $location.path();
+    var pathWithNoLanguage =  service.getPathWithNoLanguage(currentPath);
+    var pathWithTargetLanguage = '/' + targetLanguage + pathWithNoLanguage;
+    console.log("------------- " + pathWithTargetLanguage);
+    altUrl = altUrl.replace(currentPath,pathWithTargetLanguage);
+
+    // We should be able to do that for all languages but we first to download proper lookup tables from the server
+    if ( targetLanguage == 'en' )
+      altUrl = service.changeSlugToEnglish(altUrl);
+    return altUrl;
+
+  };
+
+  service.changeSlugToEnglish = function(urlToChange) {
+    var retval = urlToChange;
+    // Change slug to english
     var strBeforeSlug = "intention/";
     var strAfterSlug = "/text";
-    var posBefore = pivotUrl.lastIndexOf(strBeforeSlug);
-    var posAfter = pivotUrl.lastIndexOf(strAfterSlug);
+    var posBefore = urlToChange.lastIndexOf(strBeforeSlug);
+    var posAfter = urlToChange.lastIndexOf(strAfterSlug);
     var slug;
     if ( posBefore >= 0 && posAfter >= 0) {
       console.log("SLUG  ===> " + slug);
-      slug = pivotUrl.substring(posBefore+strBeforeSlug.length,posAfter);
+      slug = urlToChange.substring(posBefore+strBeforeSlug.length,posAfter);
       var englishSlug = slugTranslations.translateSlugToEnglish(slug);
       console.log("englishSlug  ===> " + englishSlug);
-      pivotUrl = pivotUrl.replace(slug,englishSlug);
+      retval = urlToChange.replace(slug,englishSlug);
     }
-    console.log($location.absUrl() + " ===> " + pivotUrl);
-    return pivotUrl;
+    return retval;
   };
+
+  service.makeLanguageNeutralUrl = function() {
+    var languageNeutralUrl = $location.absUrl();
+    var originalPath = $location.path();
+    var pathNoLanguage = service.getPathWithNoLanguage(originalPath);
+
+    // Remove language from path
+    languageNeutralUrl = languageNeutralUrl.replace(originalPath,  pathNoLanguage);
+    // Change host to touchwording
+    languageNeutralUrl = languageNeutralUrl.replace($location.host(),"www.touchwording.com");
+    languageNeutralUrl = service.changeSlugToEnglish(languageNeutralUrl);
+    console.log($location.absUrl() + " ===> " + languageNeutralUrl);
+    return languageNeutralUrl;
+  };
+
+
 
     // text detail page may be the first page the user sees if he comes form another web site
   var textDetailWasCalledFromTextList = false;
