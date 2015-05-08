@@ -32,34 +32,74 @@
 
         <!-- Button to switch image -->
         <!--<a>-->
-          <button ng-click="changeImage()" class="btn btn-default btn-lg pull-right glyphicon glyphicon-refresh" targetType="Photo"  actionType="refresh"  targetId="{{imageUrl}}" ></button>
+          <button ng-if="false" ng-click="changeImage()" class="btn btn-default btn-lg pull-right glyphicon glyphicon-refresh" targetType="Photo"  actionType="refresh"  targetId="{{imageUrl}}" ></button>
         <!--</a>-->
 
       </li>
     </ul>
   </div>
 
-  <div class="hidden-xs"  style="text-align: center">
-    <img style=" margin-top:10px; margin-bottom: 10px;" width="500px;" ng-src="{{imageUrl}}">
+  <!--<div class="hidden-xs"  style="text-align: center">-->
+    <!--<img style=" margin-top:10px; margin-bottom: 10px;" width="500px;" ng-src="{{imageUrl}}"  usemap="#largeMap">-->
+    <!--<map name = "largeMap">-->
+      <!--<area shape="rect" coords="0,0,200,600" ng-click="changeImage()" />-->
+      <!--<area shape="rect" coords="300,0,500,600" ng-click="changeImage()" />-->
+    <!--</map>-->
+  <!--</div>-->
+  <!--<br>-->
+  <!--<div class="visible-xs"  style="text-align: center">-->
+    <!--<img style="margin-top:0px; margin-bottom: 10px;" width="330px;" ng-src="{{imageUrl}}" usemap="#smallMap">-->
+    <!--<map name = "smallMap">-->
+      <!--<area shape="rect" coords="0,0,100,600" ng-click="changeImage()" />-->
+      <!--<area shape="rect" coords="230,0,330,600" ng-click="changeImage()" />-->
+    <!--</map>-->
+  <!--</div>-->
+
+<!-- IMAGE -->
+  <div class="row text-center" style="vertical-align: middle; margin-top: 25px;"  >
+    <div class="col-xs-1 col-sm-2 col-md-3 col-lg-3" style="text-align: right; vertical-align: middle;"  ng-click="changeImage()">
+      <span style="margin-top: 50px; margin-right: -50px; z-index: 100;" class="btn btn-default btn-lg glyphicon glyphicon-chevron-left"></span>
+    </div>
+    <div class="col-xs-10 col-sm-8 col-md-6 col-lg-6" style="text-align: center;">
+      <div  style="text-align: center; vertical-align: middle; ">
+        <img style="text-align: center;" class="img-responsive center-block" style=""  ng-src="{{imageUrl}}"  usemap="#largeMap">
+        <map name = "largeMap">
+          <area shape="rect" coords="0,0,200,600" ng-click="changeImage()" />
+          <area shape="rect" coords="300,0,500,600" ng-click="changeImage()" />
+        </map>
+      </div>
+      <br>
+    </div>
+    <div class="col-xs-1 col-sm-2 col-md-3 col-lg-3" style="text-align: left;"  ng-click="changeImage()">
+      <span style="margin-top: 50px; margin-left: -50px; z-index: 100;" class="btn btn-default btn-lg glyphicon glyphicon-chevron-right"></span>
+    </div>
   </div>
-  <br>
-  <div class="visible-xs"  style="text-align: center">
-    <img style="margin-top:0px; margin-bottom: 10px;" width="330px;" ng-src="{{imageUrl}}">
+
+<!-- TEXT -->
+  <div class="row" style="vertical-align: middle; margin-top: 25px;"  >
+    <div class="col-xs-1 col-sm-2 col-md-3 col-lg-3" style="text-align: right; vertical-align: middle;"  ng-click="changeImage()">
+      <span style="margin-top: 5px; margin-right: -50px; z-index: 100;" class="btn btn-default btn-lg glyphicon glyphicon-chevron-left"></span>
+    </div>
+    <div class="col-xs-10 col-sm-8 col-md-6 col-lg-6" style="text-align: center;">
+      <div style=" margin-left: 20%; margin-right: 20%; font-size: 16px; text-align: center;"    >
+        <span ng-bind-html="txt.Content" style="white-space: pre-wrap;  font-family: 'Open Sans', Arial, Helvetica, sans-serif; "></span>
+      </div>
+    </div>
+    <div class="col-xs-1 col-sm-2 col-md-3 col-lg-3" style="text-align: left;"  ng-click="changeImage()">
+      <span style="margin-top: 5px; margin-left: -50px; z-index: 100;" class="btn  btn-default btn-lg  glyphicon glyphicon-chevron-right"></span>
+    </div>
   </div>
 
 
   <!-- Text -->
-  <!--<div class="well well-lg" ng-hide="editText" style="border-color: #428bca; margin-bottom: 5px; background-color: #FFFFFF;" >-->
-  <!--<div style="text-align: center; margin-left: 40px; margin-right: 40px; margin-top: 0px; font-size: 16px; font-family: 'Open Sans', Arial, Helvetica, sans-serif; "  ng-hide="editText"  >-->
-  <div ng-hide="editText" style="text-align: center; font-family: 'Open Sans', Arial, Helvetica, sans-serif;">
-    <div class="hidden-xs" style="margin-top: 0px; margin-left: 20%; margin-right: 20%; font-size: 16px;"    >
-      <span ng-bind-html="txt.Content" style="white-space: pre-wrap; "></span>
-    </div>
-    <div class="visible-xs" style="margin-left: 15%; margin-right: 15%; margin-top: 5px; font-size: 14px; font-family: 'Open Sans', Arial, Helvetica, sans-serif; "  >
-      <span ng-bind-html="txt.Content" style="white-space: pre-wrap; "></span>
-    </div>
-  </div>
-  <!--<span cvd-text="currentText"></span>-->
+  <!--<div ng-hide="editText" style="text-align: center; font-family: 'Open Sans', Arial, Helvetica, sans-serif;">-->
+    <!--<div class="hidden-xs" style="margin-top: 0px; margin-left: 20%; margin-right: 20%; font-size: 16px;"    >-->
+      <!--<span ng-bind-html="txt.Content" style="white-space: pre-wrap; "></span>-->
+    <!--</div>-->
+    <!--<div class="visible-xs" style="margin-left: 15%; margin-right: 15%; margin-top: 5px; font-size: 14px; font-family: 'Open Sans', Arial, Helvetica, sans-serif; "  >-->
+      <!--<span ng-bind-html="txt.Content" style="white-space: pre-wrap; "></span>-->
+    <!--</div>-->
+  <!--</div>-->
 
   <!-- Text edition -->
   <div ng-show="editText">
@@ -81,88 +121,146 @@
             <!--ng-click="addAuthor()">+</button>-->
   </div>
 
-  <div style="margin-bottom: 20px; "></div>
-
-
-  <!-- Actions and translations  -->
-  <div style="margin-left: 15%;margin-right: 15%">
-
-    <!-- Share -->
-    <div class="pull-left">
-      <div ng-if="includeSocialPluginsOnTextPages()" style="margin-bottom: 5px; margin-top: 5px; margin-right: 5px;" >
-        <div class="fb-share-button btn btn-default btn-lg"></div>
+  <!-- Actions -->
+  <div class="row" style="vertical-align: middle; margin-top: 25px;"  >
+    <div class="col-xs-1 col-sm-2 col-md-3 col-lg-3"></div>
+    <div class="col-xs-10 col-sm-18 col-md-6 col-lg-6" style="text-align: center; vertical-align: middle;">
+      <!-- Share -->
+      <div class="" >
+        <button style="" ng-if="theIntentionSlugOrId != 'fake'" ng-click="fbShare()" ng-show="true" type="button" class="btn btn-primary btn-lg glyphicon glyphicon-share" ng-click="fbShare"></button>
+      <!-- Send -->
+        <a style="margin-left: 10px"  targetType="Text"
+           targetId="{{Id}}"
+           actionType="sendMail"
+           ng-href="{{mailToThis}}"
+           class="btn btn-primary btn-lg  glyphicon glyphicon-send">
+        </a>
       </div>
     </div>
+    <div class="col-xs-1 col-sm-2 col-md-3 col-lg-3"></div>
+  </div>
 
+  <!-- Actions and translations  -->
+  <!--<div style="margin-left: 15%;margin-right: 15%">-->
 
-    <!-- Action buttons -->
-    <div class="pull-right" style="vertical-align: middle; ">
-      <!-- edit  -->
-      <!--<button style="margin-left: 10px" class="btn btn-default  glyphicon glyphicon-pencil" translate-->
-              <!--targetId="{{ Id }}" targetType="Text" actionType="edit"-->
-              <!--ng-click="edit()" ng-hide="editText"></button>-->
-      <!--Send by mail-->
-      <a style="margin-left: 10px"  targetType="Text"
-          targetId="{{Id}}"
-          actionType="sendMail"
-          ng-href="{{mailToThis}}"
-          class="btn btn-primary btn-lg  glyphicon glyphicon-send">
-      </a>
-    </div>
+    <!--&lt;!&ndash; Share &ndash;&gt;-->
+    <!--<div class="pull-left">-->
+      <!--<div ng-if="includeSocialPluginsOnTextPages()" style="margin-bottom: 5px; margin-top: 5px; margin-right: 5px;" >-->
+        <!--<div class="fb-share-button btn btn-default btn-lg"></div>-->
+      <!--</div>-->
+    <!--</div>-->
+
+    <!--&lt;!&ndash; Action buttons &ndash;&gt;-->
+    <!--<div class="pull-right" style="vertical-align: middle; ">-->
+
+    <!--<button ng-if="theIntentionSlugOrId != 'fake'" ng-click="fbShare()" ng-show="true" type="button" class="btn btn-primary " ng-click="fbShare">share</button>-->
+
+      <!--&lt;!&ndash;Send by mail&ndash;&gt;-->
+      <!--<a style="margin-left: 10px"  targetType="Text"-->
+          <!--targetId="{{Id}}"-->
+          <!--actionType="sendMail"-->
+          <!--ng-href="{{mailToThis}}"-->
+          <!--class="btn btn-primary btn-lg  glyphicon glyphicon-send">-->
+      <!--</a>-->
+    <!--</div>-->
 
     <br/>
     <br/>
+
+    <!-- edit  -->
+    <!--<button style="margin-left: 10px" class="btn btn-default  glyphicon glyphicon-pencil" translate-->
+    <!--targetId="{{ Id }}" targetType="Text" actionType="edit"-->
+    <!--ng-click="edit()" ng-hide="editText"></button>-->
 
     <div ng-show="currentText.ReferenceUrl">
         Source : <a ng-href = "{{currentText.ReferenceUrl}}" >{{currentText.ReferenceUrl}}</a>
     </div>
 
-    <div style="margin-bottom:30px;"></div>
+  <!-- Translations  -->
+  <div class="row" style="margin-top: 0px; text-align: left;"  >
+    <div class="col-xs-1 col-sm-1 col-md-3 col-lg-3"></div>
+    <div class="col-xs-10 col-sm-10 col-md-6 col-lg-6" style="text-align: left; vertical-align: middle;">
+      <accordion style="margin-top: 40px; margin-bottom: 10px; vertical-align: middle;"  ng-show="languageTextGroups.length > 0">
+        <accordion-group is-open="theAccordionStatus.open" is-disabled="false">
+          <accordion-heading >
+            <!--<i class="glyphicon" aria-hidden="true" ng-class="{'glyphicon-plus': !theAccordionStatus.open, 'glyphicon-minus': theAccordionStatus.open}"></i>-->
+            <span style="font-size: 80%;" class="glyphicon" aria-hidden="true" ng-class="{'glyphicon-plus': !theAccordionStatus.open, 'glyphicon-minus': theAccordionStatus.open}"></span>
+            <span style="font-size: 90%; vertical-align: middle;" translate >Traductions</span>
+            (
+            <span style="font-size: 80%;">{{languageTextGroups.length}}</span>
+            )
+          </accordion-heading>
+          <!-- Translations  -->
+          <div ng-repeat="languageTextGroup in  languageTextGroups" style="padding-top: 10px; padding-bottom: 20px;">
+            <h5 style="font-size: 120%; margin-top: 0px;" translate>{{ languageTextGroup.code }}</h5>
 
-    <div></div>
-
-
-    <!-- Translations  -->
-    <accordion style="margin-top: 40px; margin-bottom: 20px; vertical-align: middle;"  ng-show="languageTextGroups.length > 0">
-      <accordion-group is-open="theAccordionStatus.open" is-disabled="false">
-        <accordion-heading >
-          <!--<i class="glyphicon" aria-hidden="true" ng-class="{'glyphicon-plus': !theAccordionStatus.open, 'glyphicon-minus': theAccordionStatus.open}"></i>-->
-          <span style="font-size: 80%;" class="glyphicon" aria-hidden="true" ng-class="{'glyphicon-plus': !theAccordionStatus.open, 'glyphicon-minus': theAccordionStatus.open}"></span>
-          <span style="font-size: 90%; vertical-align: middle;" translate >Traductions</span>
-          (
-          <span style="font-size: 80%;">{{languageTextGroups.length}}</span>
-          )
-        </accordion-heading>
-        <!-- Translations  -->
-        <div ng-repeat="languageTextGroup in  languageTextGroups" style="padding-top: 10px; padding-bottom: 20px;">
-          <h5 style="font-size: 120%; margin-top: 0px;" translate>{{ languageTextGroup.code }}</h5>
-
-          <div ng-repeat="text in languageTextGroup.texts">
-            <div class="well well-lg" style="border-color: #428bca; margin-bottom: 5px; margin-top: 25px;">
-              <span ng-bind-html="text.Content"></span>
-              <!--<div cvd-text="text"></div>-->
-              <!--<favourite-toggle is-favourite="isFavourite()" on-change="setFavourite()"></favourite-toggle>-->
-            </div>
-            <div>
+            <div ng-repeat="text in languageTextGroup.texts">
+              <div class="well well-lg" style="border-color: #428bca; margin-bottom: 5px; margin-top: 25px;">
+                <span ng-bind-html="text.Content"></span>
+                <!--<div cvd-text="text"></div>-->
+                <!--<favourite-toggle is-favourite="isFavourite()" on-change="setFavourite()"></favourite-toggle>-->
+              </div>
+              <div>
           <span ng-show="isVariationFormMorePrecise(text)" style="color: #428bca;">
             <span translate>Ecrit</span> <span translate>{{getSenderGenderMessage(text)}}</span> <span translate>{{getRecipientGenderMessage(text)}}</span> <span translate>{{getTVMessage(text)}}</span>
           </span>
 
-              <a rel="nofollow" ng-href="{{app.appUrlSvc.getRootPath('')}}area/{{ currentAreaName }}/recipient/{{ recipientId }}/intention/{{ theIntentionSlugOrId }}/text/{{text.TextId}}"
-                 targetType="Text"  actionType="open"  targetId="{{txt.TextId}}">
-                <button class="btn btn-default pull-right glyphicon glyphicon-ok" translate
-                        targetId="{{ Id }}" targetType="Text"></button>
-              </a>
+                <a rel="nofollow" ng-href="{{app.appUrlSvc.getRootPath('')}}area/{{ currentAreaName }}/recipient/{{ recipientId }}/intention/{{ theIntentionSlugOrId }}/text/{{text.TextId}}"
+                   targetType="Text"  actionType="open"  targetId="{{txt.TextId}}">
+                  <button class="btn btn-default pull-right glyphicon glyphicon-ok" translate
+                          targetId="{{ Id }}" targetType="Text"></button>
+                </a>
+              </div>
+              <div>&nbsp</div>
             </div>
-            <div>&nbsp</div>
           </div>
-        </div>
-      </accordion-group>
-    </accordion>
-
+        </accordion-group>
+      </accordion>
+    </div>
+    <div class="col-xs-1 col-sm-1 col-md-3 col-lg-3"></div>
   </div>
+
+    <!-- Translations  -->
+    <!--<accordion style="margin-top: 40px; margin-bottom: 20px; vertical-align: middle;"  ng-show="languageTextGroups.length > 0">-->
+      <!--<accordion-group is-open="theAccordionStatus.open" is-disabled="false">-->
+        <!--<accordion-heading >-->
+          <!--&lt;!&ndash;<i class="glyphicon" aria-hidden="true" ng-class="{'glyphicon-plus': !theAccordionStatus.open, 'glyphicon-minus': theAccordionStatus.open}"></i>&ndash;&gt;-->
+          <!--<span style="font-size: 80%;" class="glyphicon" aria-hidden="true" ng-class="{'glyphicon-plus': !theAccordionStatus.open, 'glyphicon-minus': theAccordionStatus.open}"></span>-->
+          <!--<span style="font-size: 90%; vertical-align: middle;" translate >Traductions</span>-->
+          <!--(-->
+          <!--<span style="font-size: 80%;">{{languageTextGroups.length}}</span>-->
+          <!--)-->
+        <!--</accordion-heading>-->
+        <!--&lt;!&ndash; Translations  &ndash;&gt;-->
+        <!--<div ng-repeat="languageTextGroup in  languageTextGroups" style="padding-top: 10px; padding-bottom: 20px;">-->
+          <!--<h5 style="font-size: 120%; margin-top: 0px;" translate>{{ languageTextGroup.code }}</h5>-->
+
+          <!--<div ng-repeat="text in languageTextGroup.texts">-->
+            <!--<div class="well well-lg" style="border-color: #428bca; margin-bottom: 5px; margin-top: 25px;">-->
+              <!--<span ng-bind-html="text.Content"></span>-->
+              <!--&lt;!&ndash;<div cvd-text="text"></div>&ndash;&gt;-->
+              <!--&lt;!&ndash;<favourite-toggle is-favourite="isFavourite()" on-change="setFavourite()"></favourite-toggle>&ndash;&gt;-->
+            <!--</div>-->
+            <!--<div>-->
+          <!--<span ng-show="isVariationFormMorePrecise(text)" style="color: #428bca;">-->
+            <!--<span translate>Ecrit</span> <span translate>{{getSenderGenderMessage(text)}}</span> <span translate>{{getRecipientGenderMessage(text)}}</span> <span translate>{{getTVMessage(text)}}</span>-->
+          <!--</span>-->
+
+              <!--<a rel="nofollow" ng-href="{{app.appUrlSvc.getRootPath('')}}area/{{ currentAreaName }}/recipient/{{ recipientId }}/intention/{{ theIntentionSlugOrId }}/text/{{text.TextId}}"-->
+                 <!--targetType="Text"  actionType="open"  targetId="{{txt.TextId}}">-->
+                <!--<button class="btn btn-default pull-right glyphicon glyphicon-ok" translate-->
+                        <!--targetId="{{ Id }}" targetType="Text"></button>-->
+              <!--</a>-->
+            <!--</div>-->
+            <!--<div>&nbsp</div>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</accordion-group>-->
+    <!--</accordion>-->
+
+  <!--</div>-->
   <!-- When user has landed directly on this page, suggest a visit to intention list  -->
-  <div ng-show = "!app.appUrlSvc.getTextDetailWasCalledFromTextList() && !app.appUrlSvc.getTextDetailWasCalledFromDashboard()" style="margin-top: 25px; margin-bottom: 15px; text-align: center; ">
+  <div ng-show = "!app.appUrlSvc.getTextDetailWasCalledFromTextList() && !app.appUrlSvc.getTextDetailWasCalledFromDashboard()" style="margin-top: 10px; margin-bottom: 15px; text-align: center; ">
     <div style="margin-bottom: 10px;">
       <span translate >Voir les meilleures façons de dire</span>
       <a style="color: #428bca; text-decoration: underline" id="toTextList"

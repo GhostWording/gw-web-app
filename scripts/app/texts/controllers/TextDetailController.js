@@ -7,9 +7,9 @@ angular.module('app/texts/TextDetailController',[
 // Display text with alternative versions in other languages
 .controller('TextDetailController',
 ['$scope','currentText', 'currentAreaName', 'currentIntentionSlugOrId','currentIntentionLabel','currentRecipientId','imageUrl',
-          'tagLabelsSvc',  'alternativeTextsSvc','currentLanguage','helperSvc','$rootScope','$location','filtersSvc','facebookHelperSvc','postActionSvc','$modal','serverSvc','$http','currentUserLocalData','imagesSvc','$translate',
+          'tagLabelsSvc',  'alternativeTextsSvc','currentLanguage','helperSvc','$rootScope','$location','filtersSvc','facebookHelperSvc','postActionSvc','$modal','serverSvc','$http','currentUserLocalData','imagesSvc','ezfb',
 function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,currentIntentionLabel, currentRecipientId, imageUrl,// those variables are resolved in routing.js
-          tagLabelsSvc, alternativeTextsSvc,currentLanguage,helperSvc,$rootScope,$location,filtersSvc,facebookHelperSvc,postActionSvc, $modal,serverSvc,$http,currentUserLocalData,imagesSvc,$translate) {
+          tagLabelsSvc, alternativeTextsSvc,currentLanguage,helperSvc,$rootScope,$location,filtersSvc,facebookHelperSvc,postActionSvc, $modal,serverSvc,$http,currentUserLocalData,imagesSvc,ezfb) {
 
   // We want an Init event even if no action takes place, in case user lands here from Google or facebook
   postActionSvc.postActionInfo('Text',currentText.TextId,'TextDetail','Init');
@@ -127,6 +127,29 @@ function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,curren
     setImageFromContext(currentRecipientId, currentIntentionSlugOrId,undefined);
   };
 
+
+  var fbUISend = function (textToPost,imageUrl, pageUrl) {
+    var textIsShort = textToPost.length <= 155;
+    var postName = textIsShort ? textToPost : '. .'; // `-`
+    var postDescription = textIsShort ? ':o)' : textToPost;
+    ezfb.ui({
+      method: 'feed',
+      name: postName,
+      picture: imageUrl,
+      link: pageUrl,
+      description: postDescription
+    },
+    function (res) {
+      console.log("fb error : " + res);
+    });
+
+  };
+  
+  $scope.fbShare = function () {
+    //console.log("fbShare");
+    fbUISend(currentText.Content,$rootScope.ogImage, $location.absUrl());
+  };
+
   $scope.userEmailIsEmpty = function() {
     var valret = true;
     if ( !!currentUserLocalData && !!(currentUserLocalData.email) && currentUserLocalData.email !== '')
@@ -161,6 +184,8 @@ function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,curren
       }
     });
   };
+
+
 //  $scope.mail = function() {
 //    // Problem : is not always ready on time
 //    $translate($scope.theIntentionLabel).then(function(value) {
