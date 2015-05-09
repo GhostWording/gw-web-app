@@ -19,13 +19,16 @@ angular.module('app/appUrl/appUrlSvc', ['common/i18n/availableLanguages','common
     return retval;
   };
 
-
   service.findLanguageInPath = function () {
     var languageFound;
     var languages = availableLanguages.orderedAppLanguages();
     for (var i = 0; i < languages.length; i++) {
-      var pos = $location.path().indexOf('/' + languages[i] + '/');
-      if (pos > -1 && pos < 2) {
+      // /xx/ or /xx
+      var AA = $location.path().match(new RegExp('\/' + languages[i] + '($|/)')) ;
+      //console.log("AA : " + AA + " FOR " + $location.path() + " AND " + languages[i]);
+      //var pos = $location.path().indexOf('/' + languages[i] + '/');
+      //if (pos > -1 && pos < 2) {
+      if ( AA ) {
         languageFound = languages[i];
         break;
       }
@@ -37,21 +40,26 @@ angular.module('app/appUrl/appUrlSvc', ['common/i18n/availableLanguages','common
   service.getPathWithNoLanguage = function (thePath) {
     var pathNoLanguage = thePath;
     var possibleLanguages = availableLanguages.orderedAppLanguages();
+    //console.log("BEFORE : " + pathNoLanguage);
     for (var i = 0; i < possibleLanguages.length; i++) {
+      // Replace by / if /xx/ in middle of string
       pathNoLanguage = pathNoLanguage.replace('/' + possibleLanguages[i] + '/', '/');
+      // Replace by nothing if /xx at end of string
+      pathNoLanguage = pathNoLanguage.replace(new RegExp('\/' + possibleLanguages[i] + '$'), '');
     }
+    //console.log("AFTER : " + pathNoLanguage);
     return pathNoLanguage;
   };
 
   // Change host name in url according to language
   service.changeUrlToTargetLanguageDomain = function(sourceUrl, theHost, theLanguage) {
     var canonicalUrl = sourceUrl;
-    if ( !!theLanguage ) {
-      if ( theLanguage == 'fr' )
-        canonicalUrl = canonicalUrl.replace(theHost,"www.commentvousdire.com");
-      else
-        canonicalUrl = canonicalUrl.replace(theHost,"www.touchwording.com");
-    }
+//    if ( !!theLanguage ) {
+//      if ( theLanguage == 'fr' )
+//        canonicalUrl = canonicalUrl.replace(theHost,"www.commentvousdire.com");
+//      else
+//        canonicalUrl = canonicalUrl.replace(theHost,"www.touchwording.com");
+//    }
     //console.log("canonicalUrl : " + canonicalUrl);
     return canonicalUrl;
   };

@@ -47,12 +47,12 @@ angular.module('app/controllers/CherryController', [])
     intentionsSvc.getIntentionsForArea('Friends',skipTracker);
     intentionsSvc.getIntentionsForArea('LoveLife',skipTracker);
     intentionsSvc.getIntentionsForArea('Family',skipTracker);
-    intentionsSvc.getIntentionsForArea('General',skipTracker);
+    //intentionsSvc.getIntentionsForArea('General',skipTracker);
 
     // Preload text lists
     var makeShortVersionAndSort =  true;
     textsSvc.getTextList('Friends', 'joyeux-anniversaire', currentLanguage.currentCulture(), skipTracker,makeShortVersionAndSort);
-    textsSvc.getTextList('LoveLife', 'j-aimerais-vous-revoir', currentLanguage.currentCulture(),skipTracker,makeShortVersionAndSort);
+    //textsSvc.getTextList('LoveLife', 'j-aimerais-vous-revoir', currentLanguage.currentCulture(),skipTracker,makeShortVersionAndSort);
     textsSvc.getTextList('LoveLife', 'je-pense-a-toi',currentLanguage.currentCulture(),skipTracker,makeShortVersionAndSort);
     textsSvc.getTextList('LoveLife', 'je-t-aime',currentLanguage.currentCulture(), skipTracker,makeShortVersionAndSort);
     textsSvc.getTextList('LoveLife', 'j-ai-envie-de-toi',currentLanguage.currentCulture(),skipTracker,makeShortVersionAndSort);
@@ -77,13 +77,11 @@ angular.module('app/controllers/CherryController', [])
 //        urlNoExtension = fullUrl.substring(0,dotIndex);
 //        console.log("OR : " + urlNoExtension );
 //      }
-      //$rootScope.ogUrl = urlNoExtension;
 
       var urlNoQueryParam = fullUrl;
       var queryIndex = fullUrl.lastIndexOf('?');
       if ( queryIndex >= 0 ) {
         urlNoQueryParam = fullUrl.substring(0,queryIndex);
-        //console.log("NOPARAM : " + urlNoQueryParam );
       }
       // Set facebook open graph og:url property to full url without parameters : text detail pages could override that
       $rootScope.ogUrl = urlNoQueryParam;

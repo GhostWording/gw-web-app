@@ -211,13 +211,13 @@
 
   <!-- When user has landed directly on this page, suggest a visit to homepage  -->
   <!--<div ng-show = "!app.appUrlSvc.getTextDetailWasCalledFromTextList() && !app.appUrlSvc.getTextDetailWasCalledFromDashboard()" style="margin-top: 20px; margin-bottom: 15px; text-align: center; ">-->
-  <div ng-show = "userEmailIsEmpty()" style="margin-top: 15px; margin-bottom: 15px; text-align: center; ">
+  <div style="margin-top: 15px; margin-bottom: 15px; text-align: center; ">
     <!--<div translate style="margin-bottom: 10px;">Testez le prompteur</div>-->
 
     <a style="margin-left: 10px"  type="button" ng-href="{{app.appUrlSvc.getFullPath('')}}" class="btn btn-default btn-lg glyphicon glyphicon-home"></a>
     <!--<a style="margin-left: 10px"  type="button" ng-href="http://localhost:3000/fr" class="btn btn-default btn-lg glyphicon glyphicon-home"></a>-->
     <!--<a style="margin-left: 10px" class="btn btn-default" id="discoverTheApp" ng-href="{{app.appUrlSvc.getFullPath('')+'favoriteRecipients'}}" targetId="Welcome" translate>Retenez-les</a>-->
-    <a style="margin-left: 10px" class="btn btn-default btn-lg  glyphicon glyphicon-off" id="discoverTheApp" ng-href="{{app.appUrlSvc.getFullPath('favoriteRecipients')}}" targetId="Welcome"></a>
+    <a ng-show = "userEmailIsEmpty()" style="margin-left: 10px" class="btn btn-default btn-lg  glyphicon glyphicon-off" id="discoverTheApp" ng-href="{{app.appUrlSvc.getFullPath('favoriteRecipients')}}" targetId="Welcome"></a>
 
   </div>
 

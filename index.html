@@ -105,9 +105,13 @@
         <a class="navbar-brand hidden-xs" ng-href="{{app.appUrlSvc.getFullPath('')}}" TargetId="welcome" translate>CommentVousDire</a>
         <a class="navbar-brand glyphicon glyphicon-home visible-xs" ng-href="/" TargetId="welcome" ></a>
         <div class="pull-right visible-xs">
-          <a href="" TargetId="fr" style="margin-right: 0px; padding-left: 0px; padding-right: 7px;" ng-class='{active: getLanguage()=="fr"}' ng-click="changeLanguage('fr')" class="navbar-brand ">fr</a>
-          <a href="" TargetId="en" style="margin-right: 0px; padding-left: 0px; padding-right: 7px;" ng-class='{active: getLanguage()=="en"}' ng-click="changeLanguage('en')" class="navbar-brand ">en</a>
-          <a href="" TargetId="es" style="margin-right: 0px; padding-left: 0px; padding-right: 7px;" ng-class='{active: getLanguage()=="es"}'  ng-click="changeLanguage('es')" class="navbar-brand">es</a>
+          <!--<a href="" TargetId="fr" style="margin-right: 0px; padding-left: 0px; padding-right: 7px;" ng-class='{active: getLanguage()=="fr"}' ng-click="changeLanguage('fr')" class="navbar-brand ">fr</a>-->
+          <!--<a href="" TargetId="en" style="margin-right: 0px; padding-left: 0px; padding-right: 7px;" ng-class='{active: getLanguage()=="en"}' ng-click="changeLanguage('en')" class="navbar-brand ">en</a>-->
+          <!--<a href="" TargetId="es" style="margin-right: 0px; padding-left: 0px; padding-right: 7px;" ng-class='{active: getLanguage()=="es"}'  ng-click="changeLanguage('es')" class="navbar-brand">es</a>-->
+
+          <a ng-href="{{app.appUrlSvc.makeAltUrlForLanguage('fr')}}" hreflang="fr" lang="fr"  TargetId="fr" style="margin-right: 0px; padding-left: 0px; padding-right: 7px;" ng-class='{active: getLanguage()=="fr"}' class="navbar-brand ">fr</a>
+          <a ng-href="{{app.appUrlSvc.makeAltUrlForLanguage('en')}}" hreflang="en" lang="en"  TargetId="en" style="margin-right: 0px; padding-left: 0px; padding-right: 7px;" ng-class='{active: getLanguage()=="en"}' class="navbar-brand ">en</a>
+          <a ng-href="{{app.appUrlSvc.makeAltUrlForLanguage('es')}}" hreflang="es" lang="es"  TargetId="es" style="margin-right: 0px; padding-left: 0px; padding-right: 7px;" ng-class='{active: getLanguage()=="es"}' class="navbar-brand ">es</a>
 
           <!-- Recipient list  -->
           <a ng-href="{{app.appUrlSvc.getFullPath('recipientList')}}" class="navbar-brand glyphicon glyphicon-user" TargetId="recipientList" translate></a>
@@ -131,9 +135,16 @@
           <!--<li style="margin-right: 12px;" ng-class='{active: getLanguage()=="fr"}' ng-click="changeLanguage('fr')"><a href="" class="flag flag-icon flag-icon-fr flag-icon-squared"></a></li>-->
           <!--<li style="margin-right: 12px;" ng-class='{active: getLanguage()=="en"}' ng-click="changeLanguage('en')"><a href="" class="flag flag-icon flag-icon-uk flag-icon-squared"></a></li>-->
           <!--<li style="margin-right: 12px;" ng-class='{active: getLanguage()=="es"}' ng-click="changeLanguage('es')"><a href="" class="flag flag-icon flag-icon-es flag-icon-squared"></a></li>-->
-          <li style="margin-right: 12px;" ng-class='{active: getLanguage()=="fr"}' ng-click="changeLanguage('fr')" ><a href="" TargetId="fr">fr</a></li>
-          <li style="margin-right: 12px;" ng-class='{active: getLanguage()=="en"}' ng-click="changeLanguage('en')"><a href=""  TargetId="en">en</a></li>
-          <li style="margin-right: 12px;" ng-class='{active: getLanguage()=="es"}' ng-click="changeLanguage('es')"><a href="" TargetId="es">es</a></li>
+          <!--<li style="margin-right: 12px;" ng-class='{active: getLanguage()=="fr"}' ng-click="changeLanguage('fr')" ><a href="" TargetId="fr">fr</a></li>-->
+          <!--<li style="margin-right: 12px;" ng-class='{active: getLanguage()=="en"}' ng-click="changeLanguage('en')"><a href=""  TargetId="en">en</a></li>-->
+          <!--<li style="margin-right: 12px;" ng-class='{active: getLanguage()=="es"}' ng-click="changeLanguage('es')"><a href="" TargetId="es">es</a></li>-->
+
+          <li style="margin-right: 12px;" ng-class='{active: getLanguage()=="fr"}' ><a ng-href="{{app.appUrlSvc.makeAltUrlForLanguage('fr')}}" hreflang="fr" lang="fr" TargetId="fr">fr</a></li>
+          <li style="margin-right: 12px;" ng-class='{active: getLanguage()=="en"}' ><a ng-href="{{app.appUrlSvc.makeAltUrlForLanguage('en')}}" hreflang="en" lang="en" TargetId="en">es</a></li>
+          <li style="margin-right: 12px;" ng-class='{active: getLanguage()=="es"}' ><a ng-href="{{app.appUrlSvc.makeAltUrlForLanguage('es')}}" hreflang="es" lang="es" TargetId="es">es</a></li>
+
+
+          <!--ng-href="{{app.appUrlSvc.makeAltUrlForLanguage('es')}}" hreflang="es" lang="es"-->
 
           <!-- Recipient list  -->
           <li class="active"><a ng-href="{{app.appUrlSvc.getFullPath('recipientList')}}" class = "glyphicon glyphicon-user" TargetId="recipientList" translate></a></li>
