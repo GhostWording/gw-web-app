@@ -11,6 +11,30 @@ angular.module('app/appUrl/appUrlSvc', ['common/i18n/availableLanguages','common
 
   var domains  = ['commentvousdire.com','touchwording.com','localhost'];
 
+
+  service.isMobile = {
+    Android: function () {
+      return navigator.userAgent.match(/Android/i);
+    },
+    BlackBerry: function () {
+      return navigator.userAgent.match(/BlackBerry/i);
+    },
+    iOS: function () {
+      return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+    },
+    Opera: function () {
+      return navigator.userAgent.match(/Opera Mini/i);
+    },
+    Windows: function () {
+      return navigator.userAgent.match(/IEMobile/i);
+    },
+    any: function () {
+      return (service.isMobile.Android() || service.isMobile.BlackBerry() || service.isMobile.iOS() || service.isMobile.Opera() || service.isMobile.Windows());
+    }
+  };
+
+  console.log ("Is MOBILE : " + service.isMobile.any());
+
   service.removeTrailingSlash = function (thePath) {
     var retval = thePath;
     if (!! thePath  ) {

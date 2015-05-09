@@ -127,7 +127,8 @@
     <div class="col-xs-10 col-sm-8 col-md-6 col-lg-6" style="text-align: center; vertical-align: middle;">
       <div class="" >
         <!-- fb Send -->
-        <button style="" ng-if="theIntentionSlugOrId != 'fake'" ng-click="fbSend()" ng-show="true" type="button" class="btn btn-default btn-lg glyphicon glyphicon-flash" ng-click="fbShare"></button>
+        <button ng-if="!app.appUrlSvc.isMobile.any()" ng-click="fbSend()" ng-show="true" type="button" class="btn btn-default btn-lg glyphicon glyphicon-flash" ng-click="fbShare"></button>
+        <!--<button ng-if="true" ng-click="fbSend()" ng-show="true" type="button" class="btn btn-default btn-lg glyphicon glyphicon-flash" ng-click="fbShare"></button>-->
         <!-- fb Share -->
         <button style="margin-left: 10px" ng-if="theIntentionSlugOrId != 'fake'" ng-click="fbShare()" ng-show="true" type="button" class="btn btn-primary btn-lg glyphicon glyphicon-share" ng-click="fbShare"></button>
       <!-- Send -->
