@@ -11,6 +11,15 @@ angular.module('app/appUrl/appUrlSvc', ['common/i18n/availableLanguages','common
 
   var domains  = ['commentvousdire.com','touchwording.com','localhost'];
 
+  service.removeTrailingSlash = function (thePath) {
+    var retval = thePath;
+    if (!! thePath  ) {
+      retval = retval.replace(/\/$/, "");
+    }
+    return retval;
+  };
+
+
   service.findLanguageInPath = function () {
     var languageFound;
     var languages = availableLanguages.orderedAppLanguages();
@@ -151,7 +160,11 @@ angular.module('app/appUrl/appUrlSvc', ['common/i18n/availableLanguages','common
     return retval;
   };
   service.getFullPath = function (url) {
-    return service.getRootPath() + url;
+    var retval = service.getRootPath() + url;
+    // We don't want a trailing slash if we only have a
+    if (!url)
+      retval = service.removeTrailingSlash(retval);
+    return retval;
   };
 
   service.isDashboardPath = function() {

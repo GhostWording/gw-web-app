@@ -8,7 +8,7 @@
       <li ng-repeat="item in intention.items | orderBy:predicate:reverse" class="well well-small bmw-texte" ng-if="!!item.favouriteText">
         <!--<a href="/area/{{item.favouriteArea}}/intention/{{item.IntentionId}}/recipient/{{item.RecipientId}}/text/{{item.TextId}}">{{item.favouriteText}}</a>-->
         <!--<a ng-href="{{appUrlSvc.getFullPath('area/{{item.favouriteArea}}/intention/{{item.IntentionId}}/recipient/{{item.RecipientId}}/text/{{item.TextId}}')}}" >{{item.favouriteText}}</a>-->
-        <a ng-href="{{app.appUrlSvc.getFullPath('')}}area/{{item.favouriteArea}}/intention/{{item.IntentionId}}/recipient/{{item.RecipientId}}/text/{{item.TextId}}" >{{item.favouriteText}}</a>
+        <a ng-href="{{app.appUrlSvc.getFullPath('')}}/area/{{item.favouriteArea}}/intention/{{item.IntentionId}}/recipient/{{item.RecipientId}}/text/{{item.TextId}}" >{{item.favouriteText}}</a>
         <remove-item on-remove="removeFavourite(item)"></remove-item>
       </li>
     </ul>

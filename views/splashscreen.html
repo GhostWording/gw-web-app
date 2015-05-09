@@ -1,12 +1,12 @@
 ﻿<div class="splash" style="text-align: center;" action-location="Welcome">
 
   <!--<img src="./assets/TouchWordingCompressed.jpg" width="300px;">-->
-  <a class="hidden-xs" id="toLargeImageSubscription" ng-href="{{app.appUrlSvc.getFullPath('')}}favoriteRecipients" targetId="FavoriteRecipients">
+  <a class="hidden-xs" id="toLargeImageSubscription" ng-href="{{app.appUrlSvc.getFullPath('favoriteRecipients')}}" targetId="FavoriteRecipients">
     <img style="margin-top:15px" src="./assets/TouchWordingCompressed.jpg">
     <!--<img style="margin-left: -25px; margin-top:-13px;" src="./assets/FunnyFacebookStatus.jpg">-->
 
   </a>
-  <a class="visible-xs" id="toSmallImageSubscription" ng-href="{{app.appUrlSvc.getFullPath('')}}favoriteRecipients" targetId="FavoriteRecipients">
+  <a class="visible-xs" id="toSmallImageSubscription" ng-href="{{app.appUrlSvc.getFullPath('favoriteRecipients')}}" targetId="FavoriteRecipients">
     <!--<img class="" style="margin-left: -0px; margin-top: -17px;"  width="320px;" src="./assets/TouchWordingCompressed.jpg">-->
     <img class="" style="margin-left: -13px; margin-top: -17px;"  width="350px;" src="./assets/TouchWordingCompressed.jpg">
     <!--<img class=""  style="margin-left: -13px; margin-top: -17px;"  width="350px;" src="./assets/FunnyFacebookStatusCompressed.jpg">-->
@@ -34,10 +34,10 @@
     </div>
     <div style="margin-top: 20px; ">
       <!-- style="color:  #428bca"  -->
-      <a  class="btn btn-primary btn-lg" id="toFavoriteRecipients" ng-href="{{app.appUrlSvc.getFullPath('')}}favoriteRecipients" targetId="favoriteRecipients" translate>Configurer</a>
+      <a  class="btn btn-primary btn-lg" id="toFavoriteRecipients" ng-href="{{app.appUrlSvc.getFullPath('favoriteRecipients')}}" targetId="favoriteRecipients" translate>Configurer</a>
     </div>
     <!--<div style="margin-bottom: 25px; margin-top: 20px;">-->
-      <!--<a  class="btn btn-default btn-lg" id="toDashboard" ng-href="{{app.appUrlSvc.getFullPath('')}}area/General/dashboard" targetId="Dashboard" translate>Sauver le chat</a>-->
+      <!--<a  class="btn btn-default btn-lg" id="toDashboard" ng-href="{{app.appUrlSvc.getFullPath('area/General/dashboard')}}" targetId="Dashboard" translate>Sauver le chat</a>-->
     <!--</div>-->
     <div style="margin-bottom: 20px; margin-top: 20px;" class="brandBlue" translate>
       Trouver un message pour
@@ -46,7 +46,7 @@
       <a class="btn btn-default" id="toLoveLife" ng-href="{{  app.appUrlSvc.getFullPath('area/LoveLife/recipient/none/intention') }}" targetId="LoveLife" translate>Vos amours</a>
     </div>
     <div style="margin-bottom: 20px;">
-      <a class="btn btn-default" id="toFriends" ng-href="{{app.appUrlSvc.getFullPath('')}}area/Friends/recipient/none/intention" targetId="Friends" translate>Vos amis</a>
+      <a class="btn btn-default" id="toFriends" ng-href="{{app.appUrlSvc.getFullPath('area/Friends/recipient/none/intention')}}" targetId="Friends" translate>Vos amis</a>
     </div>
     <div style="margin-bottom: 20px;">
       <a class="btn btn-default" id="toFamily" ng-href="{{ app.appUrlSvc.getFullPath('area/Family/recipient/none/intention') }}" targetId="Family" translate>Votre famille</a>

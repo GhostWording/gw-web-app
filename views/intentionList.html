@@ -2,7 +2,7 @@
   <!-- Special case when we target specific recipient -->
   <ul ng-show="isForRecipient" style="vertical-align: middle;" class="pager bmwQuestionButton " ng-show = 'true' >
     <li ng-show="true" >
-      <a ng-href="{{app.appUrlSvc.getFullPath('')}}area/{{ currentAreaName }}/recipient"
+      <a ng-href="{{app.appUrlSvc.getFullPath('')}}/area/{{ currentAreaName }}/recipient"
           class="pull-left" role="button"  targetId="Back" ><img ng-src="./assets/arrow-left.png" class="stylepicto">
       </a>
     </li>
@@ -19,7 +19,7 @@
   <!-- Intentions list as rows and columns -->
     <div class="row" ng-repeat="row in groupedIntentions">
         <div ng-repeat="intention in row" class="col-md-4">
-          <a ng-href="{{app.appUrlSvc.getFullPath('')}}area/{{currentAreaName}}/recipient/{{recipientId}}/intention/{{app.appUrlSvc.getIntentionSlug(intention)}}/text"
+          <a ng-href="{{app.appUrlSvc.getFullPath('')}}/area/{{currentAreaName}}/recipient/{{recipientId}}/intention/{{app.appUrlSvc.getIntentionSlug(intention)}}/text"
                targetType = "intention"
                targetId = "{{intention.IntentionId}}"
                targetParameters = "{{ recipientId }}">

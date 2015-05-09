@@ -158,6 +158,10 @@ function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,curren
     fbUIShare(currentText.Content,$rootScope.ogImage, $location.absUrl());
   };
 
+  $scope.fbSend = function () {
+    fbUISend($location.absUrl());
+  };
+
   $scope.userEmailIsEmpty = function() {
     var valret = true;
     if ( !!currentUserLocalData && !!(currentUserLocalData.email) && currentUserLocalData.email !== '')

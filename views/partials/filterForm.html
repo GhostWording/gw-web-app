@@ -4,7 +4,7 @@
      <ul class="breadcrumb"  ng-show = "false && showBreadcrumbs()">
          <li>
            <!--User -->
-            <a ng-href="{{app.appUrlSvc.getFullPath('')}}userprofile" translate >Moi </a> &nbsp
+            <a ng-href="{{app.appUrlSvc.getFullPath('userprofile')}}" translate >Moi </a> &nbsp
             <img ng-src="./assets/arrow-right.png" class="breadcrumbpicto"> &nbsp
            <!-- Recipient gender -->
             <a href="" ng-show="recipientGenderIsDefined()" ng-click = "resetRecipientGender()">

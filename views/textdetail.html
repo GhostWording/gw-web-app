@@ -14,7 +14,7 @@
         <!-- Move explicitely to  text list url -->
         <!--<a ng-show = "app.appUrlSvc.getTextDetailWasCalledFromTextList() == false && app.appUrlSvc.isDashboardPath() == false"-->
         <a ng-show = "app.appUrlSvc.isDashboardPath() == false"
-            ng-href="{{app.appUrlSvc.getFullPath('')}}area/{{ currentAreaName }}/recipient/{{ recipientId }}/intention/{{theIntentionSlugOrId}}/text"
+            ng-href="{{app.appUrlSvc.getFullPath('')}}/area/{{ currentAreaName }}/recipient/{{ recipientId }}/intention/{{theIntentionSlugOrId}}/text"
 
            class="pull-left" role="button" targetId="Back">
           <img ng-src="./assets/arrow-left.png" class="stylepicto">
@@ -22,7 +22,7 @@
 
         <!-- Move explicitely to dashboard -->
         <a ng-show = "app.appUrlSvc.getTextDetailWasCalledFromDashboard() == false && app.appUrlSvc.isDashboardPath() == true"
-           ng-href="{{app.appUrlSvc.getFullPath('')}}area/{{ currentAreaName }}/dashboard"
+           ng-href="{{app.appUrlSvc.getFullPath('')}}/area/{{ currentAreaName }}/dashboard"
            class="pull-left" role="button" targetId="Back">
           <img ng-src="./assets/arrow-left.png" class="stylepicto">
         </a>
@@ -58,7 +58,7 @@
 <!-- IMAGE -->
   <div class="row text-center" style="vertical-align: middle; margin-top: 25px;"  >
     <div class="col-xs-1 col-sm-2 col-md-3 col-lg-3" style="text-align: right; vertical-align: middle;"  ng-click="changeImage()">
-      <button style="margin-top: 50px; margin-right: -50px; z-index: 100;" class="btn btn-default btn-lg glyphicon glyphicon-chevron-left" targetType="Photo"  actionType="refresh"  targetId="{{imageUrl}}"></button>
+      <button style="margin-top: 50px; margin-right: -55px; z-index: 100;" class="btn btn-default btn-lg glyphicon glyphicon-chevron-left" targetType="Photo"  actionType="refresh"  targetId="{{imageUrl}}"></button>
     </div>
     <div class="col-xs-10 col-sm-8 col-md-6 col-lg-6" style="text-align: center;">
       <div  style="text-align: center; vertical-align: middle; ">
@@ -71,17 +71,17 @@
       <br>
     </div>
     <div class="col-xs-1 col-sm-2 col-md-3 col-lg-3" style="text-align: left;"  ng-click="changeImage()">
-      <button style="margin-top: 50px; margin-left: -50px; z-index: 100;" class="btn btn-default btn-lg glyphicon glyphicon-chevron-right" targetType="Photo"  actionType="refresh"  targetId="{{imageUrl}}"></button>
+      <button style="margin-top: 50px; margin-left: -55px; margin-right: 0px; z-index: 100;" class="btn btn-default btn-lg glyphicon glyphicon-chevron-right" targetType="Photo"  actionType="refresh"  targetId="{{imageUrl}}"></button>
     </div>
   </div>
 
 <!-- TEXT -->
-  <div class="row" style="vertical-align: middle; margin-top: 25px;"  >
+  <div class="row" style="vertical-align: middle; margin-top: 10px;"  >
     <div class="col-xs-1 col-sm-2 col-md-3 col-lg-3" style="text-align: right; vertical-align: middle;"  ng-click="changeImage()">
       <!--<button style="margin-top: 5px; margin-right: -50px; z-index: 100;" class="btn btn-default btn-lg glyphicon glyphicon-chevron-left" targetType="Text"  actionType="refresh"  targetId="{{Id}}"></button>-->
     </div>
     <div class="col-xs-10 col-sm-8 col-md-6 col-lg-6" style="text-align: center;">
-      <div style=" margin-left: 20%; margin-right: 20%; font-size: 16px; text-align: center;"    >
+      <div style=" margin-left: 10%; margin-right:10%; font-size: 110%; text-align: center;"    >
         <span ng-bind-html="txt.Content" style="white-space: pre-wrap;  font-family: 'Open Sans', Arial, Helvetica, sans-serif; "></span>
       </div>
     </div>
@@ -121,14 +121,14 @@
             <!--ng-click="addAuthor()">+</button>-->
   </div>
 
-  <!-- Actions -->
+  <!-- ACTIONS -->
   <div class="row" style="vertical-align: middle; margin-top: 25px;"  >
     <div class="col-xs-1 col-sm-2 col-md-3 col-lg-3"></div>
     <div class="col-xs-10 col-sm-8 col-md-6 col-lg-6" style="text-align: center; vertical-align: middle;">
-      <!-- Share -->
       <div class="" >
-
-        <button style="" ng-if="theIntentionSlugOrId != 'fake'" ng-click="fbShare()" ng-show="true" type="button" class="btn btn-default btn-lg glyphicon glyphicon-flash" ng-click="fbShare"></button>
+        <!-- fb Send -->
+        <button style="" ng-if="theIntentionSlugOrId != 'fake'" ng-click="fbSend()" ng-show="true" type="button" class="btn btn-default btn-lg glyphicon glyphicon-flash" ng-click="fbShare"></button>
+        <!-- fb Share -->
         <button style="margin-left: 10px" ng-if="theIntentionSlugOrId != 'fake'" ng-click="fbShare()" ng-show="true" type="button" class="btn btn-primary btn-lg glyphicon glyphicon-share" ng-click="fbShare"></button>
       <!-- Send -->
         <a style="margin-left: 10px"  targetType="Text"
@@ -142,37 +142,9 @@
     <div class="col-xs-1 col-sm-2 col-md-3 col-lg-3"></div>
   </div>
 
-  <!-- Actions and translations  -->
-  <!--<div style="margin-left: 15%;margin-right: 15%">-->
-
-    <!--&lt;!&ndash; Share &ndash;&gt;-->
-    <!--<div class="pull-left">-->
-      <!--<div ng-if="includeSocialPluginsOnTextPages()" style="margin-bottom: 5px; margin-top: 5px; margin-right: 5px;" >-->
-        <!--<div class="fb-share-button btn btn-default btn-lg"></div>-->
-      <!--</div>-->
-    <!--</div>-->
-
-    <!--&lt;!&ndash; Action buttons &ndash;&gt;-->
-    <!--<div class="pull-right" style="vertical-align: middle; ">-->
-
-    <!--<button ng-if="theIntentionSlugOrId != 'fake'" ng-click="fbShare()" ng-show="true" type="button" class="btn btn-primary " ng-click="fbShare">share</button>-->
-
-      <!--&lt;!&ndash;Send by mail&ndash;&gt;-->
-      <!--<a style="margin-left: 10px"  targetType="Text"-->
-          <!--targetId="{{Id}}"-->
-          <!--actionType="sendMail"-->
-          <!--ng-href="{{mailToThis}}"-->
-          <!--class="btn btn-primary btn-lg  glyphicon glyphicon-send">-->
-      <!--</a>-->
-    <!--</div>-->
-
     <br/>
     <br/>
 
-    <!-- edit  -->
-    <!--<button style="margin-left: 10px" class="btn btn-default  glyphicon glyphicon-pencil" translate-->
-    <!--targetId="{{ Id }}" targetType="Text" actionType="edit"-->
-    <!--ng-click="edit()" ng-hide="editText"></button>-->
 
     <div ng-show="currentText.ReferenceUrl">
         Source : <a ng-href = "{{currentText.ReferenceUrl}}" >{{currentText.ReferenceUrl}}</a>
@@ -222,45 +194,6 @@
     <div class="col-xs-1 col-sm-1 col-md-3 col-lg-3"></div>
   </div>
 
-    <!-- Translations  -->
-    <!--<accordion style="margin-top: 40px; margin-bottom: 20px; vertical-align: middle;"  ng-show="languageTextGroups.length > 0">-->
-      <!--<accordion-group is-open="theAccordionStatus.open" is-disabled="false">-->
-        <!--<accordion-heading >-->
-          <!--&lt;!&ndash;<i class="glyphicon" aria-hidden="true" ng-class="{'glyphicon-plus': !theAccordionStatus.open, 'glyphicon-minus': theAccordionStatus.open}"></i>&ndash;&gt;-->
-          <!--<span style="font-size: 80%;" class="glyphicon" aria-hidden="true" ng-class="{'glyphicon-plus': !theAccordionStatus.open, 'glyphicon-minus': theAccordionStatus.open}"></span>-->
-          <!--<span style="font-size: 90%; vertical-align: middle;" translate >Traductions</span>-->
-          <!--(-->
-          <!--<span style="font-size: 80%;">{{languageTextGroups.length}}</span>-->
-          <!--)-->
-        <!--</accordion-heading>-->
-        <!--&lt;!&ndash; Translations  &ndash;&gt;-->
-        <!--<div ng-repeat="languageTextGroup in  languageTextGroups" style="padding-top: 10px; padding-bottom: 20px;">-->
-          <!--<h5 style="font-size: 120%; margin-top: 0px;" translate>{{ languageTextGroup.code }}</h5>-->
-
-          <!--<div ng-repeat="text in languageTextGroup.texts">-->
-            <!--<div class="well well-lg" style="border-color: #428bca; margin-bottom: 5px; margin-top: 25px;">-->
-              <!--<span ng-bind-html="text.Content"></span>-->
-              <!--&lt;!&ndash;<div cvd-text="text"></div>&ndash;&gt;-->
-              <!--&lt;!&ndash;<favourite-toggle is-favourite="isFavourite()" on-change="setFavourite()"></favourite-toggle>&ndash;&gt;-->
-            <!--</div>-->
-            <!--<div>-->
-          <!--<span ng-show="isVariationFormMorePrecise(text)" style="color: #428bca;">-->
-            <!--<span translate>Ecrit</span> <span translate>{{getSenderGenderMessage(text)}}</span> <span translate>{{getRecipientGenderMessage(text)}}</span> <span translate>{{getTVMessage(text)}}</span>-->
-          <!--</span>-->
-
-              <!--<a rel="nofollow" ng-href="{{app.appUrlSvc.getRootPath('')}}area/{{ currentAreaName }}/recipient/{{ recipientId }}/intention/{{ theIntentionSlugOrId }}/text/{{text.TextId}}"-->
-                 <!--targetType="Text"  actionType="open"  targetId="{{txt.TextId}}">-->
-                <!--<button class="btn btn-default pull-right glyphicon glyphicon-ok" translate-->
-                        <!--targetId="{{ Id }}" targetType="Text"></button>-->
-              <!--</a>-->
-            <!--</div>-->
-            <!--<div>&nbsp</div>-->
-          <!--</div>-->
-        <!--</div>-->
-      <!--</accordion-group>-->
-    <!--</accordion>-->
-
-  <!--</div>-->
   <!-- When user has landed directly on this page, suggest a visit to intention list  -->
   <div ng-show = "!app.appUrlSvc.getTextDetailWasCalledFromTextList() && !app.appUrlSvc.getTextDetailWasCalledFromDashboard()" style="margin-top: 5px; margin-bottom: 15px; text-align: center; ">
     <div style="margin-bottom: 10px;">
@@ -270,7 +203,6 @@
          targetId="TextList" translate>{{ theIntentionLabel }}
       </a>
     </div>
-    <!--<a style="color:  #428bca"  id="toTextList"-->
     <!--<a style="color:  #428bca" class="btn btn-default" id="toTextList"-->
        <!--ng-href="{{app.appUrlSvc.getFullPath('')}}area/{{ currentAreaName }}/recipient/{{ recipientId }}/intention/{{theIntentionSlugOrId}}/text"-->
        <!--targetId="TextList" translate>{{ theIntentionLabel }}-->
@@ -279,14 +211,20 @@
 
   <!-- When user has landed directly on this page, suggest a visit to homepage  -->
   <!--<div ng-show = "!app.appUrlSvc.getTextDetailWasCalledFromTextList() && !app.appUrlSvc.getTextDetailWasCalledFromDashboard()" style="margin-top: 20px; margin-bottom: 15px; text-align: center; ">-->
-  <div ng-show = "userEmailIsEmpty()" style="margin-top: 20px; margin-bottom: 15px; text-align: center; ">
+  <div ng-show = "userEmailIsEmpty()" style="margin-top: 15px; margin-bottom: 15px; text-align: center; ">
     <!--<div translate style="margin-bottom: 10px;">Testez le prompteur</div>-->
-    <a class="btn btn-default" id="discoverTheApp" ng-href="{{app.appUrlSvc.getFullPath('')+'favoriteRecipients'}}" targetId="Welcome" translate>Retenez-les</a>
+
+    <a style="margin-left: 10px"  type="button" ng-href="{{app.appUrlSvc.getFullPath('')}}" class="btn btn-default btn-lg glyphicon glyphicon-home"></a>
+    <!--<a style="margin-left: 10px"  type="button" ng-href="http://localhost:3000/fr" class="btn btn-default btn-lg glyphicon glyphicon-home"></a>-->
+    <!--<a style="margin-left: 10px" class="btn btn-default" id="discoverTheApp" ng-href="{{app.appUrlSvc.getFullPath('')+'favoriteRecipients'}}" targetId="Welcome" translate>Retenez-les</a>-->
+    <a style="margin-left: 10px" class="btn btn-default btn-lg  glyphicon glyphicon-off" id="discoverTheApp" ng-href="{{app.appUrlSvc.getFullPath('favoriteRecipients')}}" targetId="Welcome"></a>
+
   </div>
 
 
-  <!-- Switch language -->
-  <div ng-show = "!app.appUrlSvc.getTextDetailWasCalledFromTextList() && !app.appUrlSvc.getTextDetailWasCalledFromDashboard()" ng-include="'views/partials/languageBar.html'" style="margin-top: 20px; text-align: center" ></div>
+  <!-- Switch language : we can show it some of the time or all of the time -->
+  <!--<div ng-show = "!app.appUrlSvc.getTextDetailWasCalledFromTextList() && !app.appUrlSvc.getTextDetailWasCalledFromDashboard()" ng-include="'views/partials/languageBar.html'" style="margin-top: 20px; text-align: center" ></div>-->
+  <div ng-include="'views/partials/languageBar.html'" style="margin-top: 20px; text-align: center" ></div>
 
   <!-- Mozart  -->
   <!--<div ng-if = "!app.appUrlSvc.getTextDetailWasCalledFromTextList() && !app.appUrlSvc.getTextDetailWasCalledFromDashboard()" style="margin-top:25px; margin-bottom: 15px; text-align: center;">-->
@@ -295,6 +233,12 @@
 
 
 </div>
+
+<!-- edit  -->
+<!--<button style="margin-left: 10px" class="btn btn-default  glyphicon glyphicon-pencil" translate-->
+<!--targetId="{{ Id }}" targetType="Text" actionType="edit"-->
+<!--ng-click="edit()" ng-hide="editText"></button>-->
+
 
 <!-- send  -->
 <!--<button style="margin-left: 10px" class="btn btn-default" translate-->
