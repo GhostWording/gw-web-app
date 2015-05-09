@@ -6,19 +6,14 @@ angular.module('app/texts/TextDetailController',[
 
 // Display text with alternative versions in other languages
 .controller('TextDetailController',
-['$scope','currentText', 'currentAreaName', 'currentIntentionSlugOrId','currentIntentionLabel','currentRecipientId','imageUrl',
+['$scope','currentText', 'currentAreaName', 'currentIntentionSlugOrId','currentIntentionLabel','currentRecipientId','imageUrl','currentTextList',
           'tagLabelsSvc',  'alternativeTextsSvc','currentLanguage','helperSvc','$rootScope','$location','filtersSvc','facebookHelperSvc','postActionSvc','$modal','serverSvc','$http','currentUserLocalData','imagesSvc','ezfb',
-function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,currentIntentionLabel, currentRecipientId, imageUrl,// those variables are resolved in routing.js
+function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,currentIntentionLabel, currentRecipientId, imageUrl,currentTextList,// those variables are resolved in routing.js
           tagLabelsSvc, alternativeTextsSvc,currentLanguage,helperSvc,$rootScope,$location,filtersSvc,facebookHelperSvc,postActionSvc, $modal,serverSvc,$http,currentUserLocalData,imagesSvc,ezfb) {
 
   // We want an Init event even if no action takes place, in case user lands here from Google or facebook
   postActionSvc.postActionInfo('Text',currentText.TextId,'TextDetail','Init');
 
-  // Facebook tags
-  // When may want to explicitly set og:title from here because facebook sometime picks the intention title instead
-  //$rootScope.ogTitle = currentText.Content;
-
-  //console.log("==" + currentIntentionSlugOrId);
   if ( currentIntentionSlugOrId == "facebook-status" )
     $rootScope.ogDescription = currentText.Content;
   else
@@ -27,13 +22,16 @@ function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,curren
   // Copy the text Content so that if we edit it we are not editing the original "text".
   $scope.txt = {};
   // Content has to be property of a full object to avoid prototypal inheritance problems
-  // adaptTextContentToLanguage will adapt quote formatting to text culture
-  $scope.txt.Content = helperSvc.adaptTextContentToLanguage(currentText);
+  $scope.txt.Content = helperSvc.adaptTextContentToLanguage(currentText); // adapts quote formatting
 
 
   function setMailTo(content,imgUrl) {
-    $scope.mailToThis = helperSvc.urlMailTo(content + '%0D%0A' + '%0D%0A' + imgUrl, '');
+    var textToSend = content;
+    if ( !!imageUrl )
+      textToSend += '%0D%0A' + '%0D%0A' + imgUrl;
+    $scope.mailToThis = helperSvc.urlMailTo(textToSend, '');
   }
+  setMailTo($scope.txt.Content,imageUrl);
 
 
   var setCurrentImageForPage = function($scope,$rootScope,imgUrl) {
@@ -128,7 +126,7 @@ function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,curren
   };
 
 
-  var fbUISend = function (textToPost,imageUrl, pageUrl) {
+  var fbUIShare = function (textToPost,imageUrl, pageUrl) {
     var textIsShort = textToPost.length <= 155;
     var postName = textIsShort ? textToPost : '. .'; // `-`
     var postDescription = textIsShort ? ':o)' : textToPost;
@@ -142,12 +140,22 @@ function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,curren
     function (res) {
       console.log("fb error : " + res);
     });
-
   };
-  
+
+  var fbUISend = function (pageUrl) {
+    ezfb.ui({
+      method: 'send',
+      link: pageUrl
+    },
+    function (res) {
+      console.log("fb error : " + res);
+    });
+  };
+
+
   $scope.fbShare = function () {
     //console.log("fbShare");
-    fbUISend(currentText.Content,$rootScope.ogImage, $location.absUrl());
+    fbUIShare(currentText.Content,$rootScope.ogImage, $location.absUrl());
   };
 
   $scope.userEmailIsEmpty = function() {

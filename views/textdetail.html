@@ -58,7 +58,7 @@
 <!-- IMAGE -->
   <div class="row text-center" style="vertical-align: middle; margin-top: 25px;"  >
     <div class="col-xs-1 col-sm-2 col-md-3 col-lg-3" style="text-align: right; vertical-align: middle;"  ng-click="changeImage()">
-      <span style="margin-top: 50px; margin-right: -50px; z-index: 100;" class="btn btn-default btn-lg glyphicon glyphicon-chevron-left"></span>
+      <button style="margin-top: 50px; margin-right: -50px; z-index: 100;" class="btn btn-default btn-lg glyphicon glyphicon-chevron-left" targetType="Photo"  actionType="refresh"  targetId="{{imageUrl}}"></button>
     </div>
     <div class="col-xs-10 col-sm-8 col-md-6 col-lg-6" style="text-align: center;">
       <div  style="text-align: center; vertical-align: middle; ">
@@ -71,14 +71,14 @@
       <br>
     </div>
     <div class="col-xs-1 col-sm-2 col-md-3 col-lg-3" style="text-align: left;"  ng-click="changeImage()">
-      <span style="margin-top: 50px; margin-left: -50px; z-index: 100;" class="btn btn-default btn-lg glyphicon glyphicon-chevron-right"></span>
+      <button style="margin-top: 50px; margin-left: -50px; z-index: 100;" class="btn btn-default btn-lg glyphicon glyphicon-chevron-right" targetType="Photo"  actionType="refresh"  targetId="{{imageUrl}}"></button>
     </div>
   </div>
 
 <!-- TEXT -->
   <div class="row" style="vertical-align: middle; margin-top: 25px;"  >
     <div class="col-xs-1 col-sm-2 col-md-3 col-lg-3" style="text-align: right; vertical-align: middle;"  ng-click="changeImage()">
-      <span style="margin-top: 5px; margin-right: -50px; z-index: 100;" class="btn btn-default btn-lg glyphicon glyphicon-chevron-left"></span>
+      <!--<button style="margin-top: 5px; margin-right: -50px; z-index: 100;" class="btn btn-default btn-lg glyphicon glyphicon-chevron-left" targetType="Text"  actionType="refresh"  targetId="{{Id}}"></button>-->
     </div>
     <div class="col-xs-10 col-sm-8 col-md-6 col-lg-6" style="text-align: center;">
       <div style=" margin-left: 20%; margin-right: 20%; font-size: 16px; text-align: center;"    >
@@ -86,7 +86,7 @@
       </div>
     </div>
     <div class="col-xs-1 col-sm-2 col-md-3 col-lg-3" style="text-align: left;"  ng-click="changeImage()">
-      <span style="margin-top: 5px; margin-left: -50px; z-index: 100;" class="btn  btn-default btn-lg  glyphicon glyphicon-chevron-right"></span>
+      <!--<button style="margin-top: 5px; margin-left: -50px; z-index: 100;" class="btn  btn-default btn-lg  glyphicon glyphicon-chevron-right" targetType="Text"  actionType="refresh"  targetId="{{Id}}"></button>-->
     </div>
   </div>
 
@@ -124,16 +124,18 @@
   <!-- Actions -->
   <div class="row" style="vertical-align: middle; margin-top: 25px;"  >
     <div class="col-xs-1 col-sm-2 col-md-3 col-lg-3"></div>
-    <div class="col-xs-10 col-sm-18 col-md-6 col-lg-6" style="text-align: center; vertical-align: middle;">
+    <div class="col-xs-10 col-sm-8 col-md-6 col-lg-6" style="text-align: center; vertical-align: middle;">
       <!-- Share -->
       <div class="" >
-        <button style="" ng-if="theIntentionSlugOrId != 'fake'" ng-click="fbShare()" ng-show="true" type="button" class="btn btn-primary btn-lg glyphicon glyphicon-share" ng-click="fbShare"></button>
+
+        <button style="" ng-if="theIntentionSlugOrId != 'fake'" ng-click="fbShare()" ng-show="true" type="button" class="btn btn-default btn-lg glyphicon glyphicon-flash" ng-click="fbShare"></button>
+        <button style="margin-left: 10px" ng-if="theIntentionSlugOrId != 'fake'" ng-click="fbShare()" ng-show="true" type="button" class="btn btn-primary btn-lg glyphicon glyphicon-share" ng-click="fbShare"></button>
       <!-- Send -->
         <a style="margin-left: 10px"  targetType="Text"
            targetId="{{Id}}"
            actionType="sendMail"
            ng-href="{{mailToThis}}"
-           class="btn btn-primary btn-lg  glyphicon glyphicon-send">
+           class="btn btn-default btn-lg  glyphicon glyphicon-send">
         </a>
       </div>
     </div>
@@ -177,9 +179,9 @@
     </div>
 
   <!-- Translations  -->
-  <div class="row" style="margin-top: 0px; text-align: left;"  >
+  <div class="row" style="margin-top: 0px;"  >
     <div class="col-xs-1 col-sm-1 col-md-3 col-lg-3"></div>
-    <div class="col-xs-10 col-sm-10 col-md-6 col-lg-6" style="text-align: left; vertical-align: middle;">
+    <div class="col-xs-10 col-sm-10 col-md-6 col-lg-6" style="text-align: center; vertical-align: middle;">
       <accordion style="margin-top: 40px; margin-bottom: 10px; vertical-align: middle;"  ng-show="languageTextGroups.length > 0">
         <accordion-group is-open="theAccordionStatus.open" is-disabled="false">
           <accordion-heading >
@@ -260,7 +262,7 @@
 
   <!--</div>-->
   <!-- When user has landed directly on this page, suggest a visit to intention list  -->
-  <div ng-show = "!app.appUrlSvc.getTextDetailWasCalledFromTextList() && !app.appUrlSvc.getTextDetailWasCalledFromDashboard()" style="margin-top: 10px; margin-bottom: 15px; text-align: center; ">
+  <div ng-show = "!app.appUrlSvc.getTextDetailWasCalledFromTextList() && !app.appUrlSvc.getTextDetailWasCalledFromDashboard()" style="margin-top: 5px; margin-bottom: 15px; text-align: center; ">
     <div style="margin-bottom: 10px;">
       <span translate >Voir les meilleures façons de dire</span>
       <a style="color: #428bca; text-decoration: underline" id="toTextList"
@@ -284,7 +286,7 @@
 
 
   <!-- Switch language -->
-  <div ng-show = "!app.appUrlSvc.getTextDetailWasCalledFromTextList() && !app.appUrlSvc.getTextDetailWasCalledFromDashboard()" ng-include="'views/partials/languageBar.html'" style="margin-top: 30px; text-align: center" ></div>
+  <div ng-show = "!app.appUrlSvc.getTextDetailWasCalledFromTextList() && !app.appUrlSvc.getTextDetailWasCalledFromDashboard()" ng-include="'views/partials/languageBar.html'" style="margin-top: 20px; text-align: center" ></div>
 
   <!-- Mozart  -->
   <!--<div ng-if = "!app.appUrlSvc.getTextDetailWasCalledFromTextList() && !app.appUrlSvc.getTextDetailWasCalledFromDashboard()" style="margin-top:25px; margin-bottom: 15px; text-align: center;">-->
