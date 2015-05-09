@@ -143,9 +143,15 @@ function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,curren
   };
 
   var fbUISend = function (pageUrl) {
+    console.log($location.$$host+":"+$location.$$port);
+    var hostwithport = $location.$$port ? $location.$$host+":"+$location.$$port : $location.$$host;
+    //var urlToLinkTo = pageUrl.replace($location.$$host+":"+$location.$$port,"www.commentvousdire.com/webapp");
+    var urlToLinkTo = pageUrl.replace(hostwithport,"www.commentvousdire.com/webapp");
+    urlToLinkTo = urlToLinkTo.replace("imagePath=","imagePath=/");
+    console.log(urlToLinkTo);
     ezfb.ui({
       method: 'send',
-      link: pageUrl
+      link: urlToLinkTo
     },
     function (res) {
       console.log("fb error : " + res);
