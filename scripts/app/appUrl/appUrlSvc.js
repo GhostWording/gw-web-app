@@ -43,6 +43,21 @@ angular.module('app/appUrl/appUrlSvc', ['common/i18n/availableLanguages','common
     return retval;
   };
 
+  service.getFileName = function(path) {
+    // The file name is the 8th bit of this pattern
+    return path.match(/^((http[s]?|ftp):\/)?\/?([^:\/\s]+)(:([^\/]*))?((\/[\w/-]+)*\/)([\w\-\.]+[^#?\s]+)(\?([^#]*))?(#(.*))?$/i)[8];
+  };
+
+  service.getPathFromUrl = function(anUrl) {
+    var a = document.createElement('a');
+    a.href = anUrl;
+    return a.pathname;
+  //      ['href','protocol','host','hostname','port','pathname','search','hash'].forEach(function(k) {
+  //        console.log(k+':', a[k]);
+  //      });
+  };
+
+
   service.findLanguageInPath = function () {
     var languageFound;
     var languages = availableLanguages.orderedAppLanguages();
