@@ -9,7 +9,7 @@ angular.module('app/appUrl/appUrlSvc', ['common/i18n/availableLanguages','common
 
   var service = {};
 
-  var domains  = ['commentvousdire.com','touchwording.com','localhost'];
+  //var domains  = ['commentvousdire.com','touchwording.com','localhost'];
 
 
   service.isMobile = {
@@ -131,10 +131,15 @@ angular.module('app/appUrl/appUrlSvc', ['common/i18n/availableLanguages','common
     var altUrl  = service.changeUrlToTargetLanguageDomain($location.absUrl(),$location.host(),targetLanguage);
 
     var currentPath = $location.path();
-    var pathWithNoLanguage =  service.getPathWithNoLanguage(currentPath);
-    var pathWithTargetLanguage = '/' + targetLanguage + pathWithNoLanguage;
-    //console.log("------------- " + pathWithTargetLanguage);
-    altUrl = altUrl.replace(currentPath,pathWithTargetLanguage);
+
+    if ( currentPath == '/')
+      altUrl = altUrl + targetLanguage;
+    else {
+      var pathWithNoLanguage =  service.getPathWithNoLanguage(currentPath);
+      var pathWithTargetLanguage = '/' + targetLanguage + pathWithNoLanguage;
+      //console.log("------------- " + pathWithTargetLanguage);
+      altUrl = altUrl.replace(currentPath,pathWithTargetLanguage);
+    }
 
     // We should be able to do that for all languages but we first to download proper lookup tables from the server
     if ( targetLanguage == 'en' )
