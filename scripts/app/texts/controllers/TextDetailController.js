@@ -8,12 +8,14 @@ angular.module('app/texts/TextDetailController',[
 // Display text with alternative versions in other languages
 .controller('TextDetailController',
 ['$scope','currentText', 'currentAreaName', 'currentIntentionSlugOrId','currentIntentionLabel','currentRecipientId','imageUrl','currentTextList',
-          'tagLabelsSvc',  'alternativeTextsSvc','currentLanguage','helperSvc','$rootScope','$location','filtersSvc','facebookHelperSvc','postActionSvc','$modal','serverSvc','$http','currentUserLocalData','imagesSvc','ezfb','$window','stackedMap','appUrlSvc','facebookSvc',
+          'tagLabelsSvc',  'alternativeTextsSvc','currentLanguage','helperSvc','$rootScope','$location','filtersSvc','facebookHelperSvc','postActionSvc','$modal','serverSvc','$http','currentUserLocalData','imagesSvc','ezfb','$window','stackedMap','appUrlSvc','facebookSvc','weightedTextRandomPickSvc',
 function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,currentIntentionLabel, currentRecipientId, imageUrl,currentTextList,// those variables are resolved in routing.js
-          tagLabelsSvc, alternativeTextsSvc,currentLanguage,helperSvc,$rootScope,$location,filtersSvc,facebookHelperSvc,postActionSvc, $modal,serverSvc,$http,currentUserLocalData,imagesSvc,ezfb,$window,stackedMap,appUrlSvc,facebookSvc) {
+          tagLabelsSvc, alternativeTextsSvc,currentLanguage,helperSvc,$rootScope,$location,filtersSvc,facebookHelperSvc,postActionSvc, $modal,serverSvc,$http,currentUserLocalData,imagesSvc,ezfb,$window,stackedMap,appUrlSvc,facebookSvc,weightedTextRandomPickSvc) {
 
-  // We want an Init event even if no action takes place, in case user lands here from Google or facebook
-  postActionSvc.postActionInfo('Text',currentText.TextId,'TextDetail','Init',appUrlSvc.getFileName(imageUrl));
+
+// TODO : pick random text in same intention, check that not in stack, memorize in stack, replace text id with new id in url
+//  var sampleText = weightedTextRandomPickSvc.pickOneTextFromTextList(currentTextList);
+//  console.log(sampleText);
 
   $scope.screenWidth = function() {
     return $window.innerWidth;
@@ -35,8 +37,6 @@ function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,curren
       textToSend += '%0D%0A' + '%0D%0A' + imgUrl;
     $scope.mailToThis = helperSvc.urlMailTo(textToSend, '');
   }
-  setMailTo($scope.txt.Content,imageUrl);
-
 
   var setCurrentImageForPage = function($scope,$rootScope,imgUrl) {
     $scope.imageUrl = imgUrl;
@@ -46,6 +46,15 @@ function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,curren
 
   if ( !!imageUrl )
     setCurrentImageForPage ($scope,$rootScope,imageUrl);
+
+  $scope.getImageFileName = function() {
+    if ( !$scope.imageUrl )
+      return '';
+    return appUrlSvc.getFileName($scope.imageUrl);
+  };
+
+  // We want an Init event even if no action takes place, in case user lands here from Google or facebook
+  postActionSvc.postActionInfo('Text',currentText.TextId,'TextDetail','Init',$scope.getImageFileName());
 
   // Add labels to router resolved currentText
   currentText.TagLabels = tagLabelsSvc.labelsFromStyleTagIds(currentText.TagIds);
@@ -86,29 +95,21 @@ function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,curren
     return alternativeTextsSvc.isVariationFormMorePrecise(currentText,text);
   };
 
-  var firstDisplayOfPicture = true;
-
-  $scope.getFileName = function(path) {
-    return appUrlSvc.getFileName(path);
-  };
 
   var setQueryParameters = function(imageUrl) {
-    var imageName= imageUrl;
-    // TODO : if starts with http, then find text after the third slash
-    if ( imageUrl.lastIndexOf('/') > 0  ) {
-        imageName = appUrlSvc.getPathFromUrl(imageUrl);
-        console.log(imageName);
-    }
-
+    // Extract image name from url
+    var imageName= appUrlSvc.getPathFromUrl(imageUrl);
+    // Separate image file extension from image name
     var dotIndex = imageName.lastIndexOf('.');
     var extNoDot = imageName.substring(dotIndex+1);
     var urlNoExtension = imageName.substring(0,dotIndex);
-    // Set url query parameters for image path and extension
+    // Set url query parameters for image name and image file extension
     $location.search('imagePath',urlNoExtension);
     $location.search('imageExtension',extNoDot);
   };
 
 
+  var firstDisplayOfPicture = true;
   var setImageFromContext = function(currentRecipientId, currentIntentionSlugOrId,requiredImageUrl) {
     // On first display, if the query parameter requires a specific image, this is what we want
     if ( !! requiredImageUrl && firstDisplayOfPicture ) {
@@ -122,7 +123,7 @@ function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,curren
         .then(function(imagePathWithSlash) {
           // Get rid of first '/' if present
           var imageUrl = imagePathWithSlash.charAt(0) == '/' ? imagePathWithSlash.substr(1) : imagePathWithSlash;
-          // Separate image path from image extension
+          // Separate image path from image extension and set to parameters
           setQueryParameters (imageUrl);
           // Build image url and set as current
           setCurrentImageForPage ($scope,$rootScope,serverSvc.makeImageUrlFromPath(imageUrl));
@@ -161,9 +162,13 @@ function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,curren
 
 
   $scope.fbShare = function () {
+//    console.log($rootScope.ogImage);
+//    console.log($location.absUrl());
     facebookSvc.fbUIShare(currentText.Content,$rootScope.ogImage, $location.absUrl());
   };
 
+  // Does not work well if facebook can access current page and finds something different
+  // We could try to set og:url to alternative links ?
   $scope.fbSend = function () {
     var pageUrl = $location.absUrl();
     var hostwithport = $location.$$port ? $location.$$host+":"+$location.$$port : $location.$$host;
@@ -180,8 +185,6 @@ function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,curren
     return valret;
   };
 
-  setMailTo($scope.txt.Content,imageUrl);
-
   // For each orderedPresentationLanguages, prepare an array of available texts for the language, then chose the best ones according to sender, recipient and polite form
   alternativeTextsSvc.getRealizationList(currentAreaName,currentText.PrototypeId).then(function(textList) {
     if ( !textList )
@@ -195,19 +198,20 @@ function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,curren
     $scope.languageTextGroups = alternativeTextsSvc.getAlternativeTexts(currentText,textList,currentLanguage.getLanguageFromCulture(currentText.Culture),filtersSvc.getCurrentFilters());
   });
 
-  $scope.send = function() {
-    $scope.sendDialog = $modal.open({
-      templateUrl: 'views/partials/sendTextForm.html',
-      scope: $scope,
-      controller: 'SendTextFormController',
-      resolve: {
-        currentText: function() { return $scope.txt; }
-      }
-    });
-  };
-
 }]);
 
+
+// Popup send window
+//$scope.send = function() {
+//  $scope.sendDialog = $modal.open({
+//    templateUrl: 'views/partials/sendTextForm.html',
+//    scope: $scope,
+//    controller: 'SendTextFormController',
+//    resolve: {
+//      currentText: function() { return $scope.txt; }
+//    }
+//  });
+//};
 
 //  $scope.mail = function() {
 //    // Problem : is not always ready on time

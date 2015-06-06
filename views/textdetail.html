@@ -59,7 +59,7 @@
   <!--col-xs-1 is better for marging but does not work for very narrow screens -->
   <div ng-if="screenWidth() > 350" class="row text-center" style="vertical-align: middle; margin-top: 30px;">
     <div class="col-xs-1 col-sm-2 col-md-3 col-lg-3" style="text-align: right; vertical-align: middle;"  ">
-      <button ng-disabled="noPreviousImage()" ng-click="previousImage()" style="margin-top: 30px; margin-right: -50px; z-index: 100;" class="btn btn-default btn-lg glyphicon glyphicon-chevron-left" targetType="Photo"  actionType="next"  targetId="{{getFileName(imageUrl)}}"></button>
+      <button ng-disabled="noPreviousImage()" ng-click="previousImage()" style="margin-top: 30px; margin-right: -50px; z-index: 100;" class="btn btn-default btn-lg glyphicon glyphicon-chevron-left" targetType="Photo"  actionType="back"  targetId="{{getImageFileName()}}"></button>
     </div>
     <div class="col-xs-10 col-sm-8 col-md-6 col-lg-6" style="text-align: center;">
       <div  style="text-align: center; vertical-align: middle; ">
@@ -71,7 +71,7 @@
       </div>
     </div>
     <div class="col-xs-1 col-sm-2 col-md-3 col-lg-3" style="text-align: left;"  ng-click="changeImage()">
-      <button style="margin-top: 30px; margin-left: -50px; margin-right: 0px; z-index: 100;" class="btn btn-default btn-lg glyphicon glyphicon-chevron-right" targetType="Photo"  actionType="back"  targetId="{{getFileName(imageUrl)}}"></button>
+      <button style="margin-top: 30px; margin-left: -50px; margin-right: 0px; z-index: 100;" class="btn btn-default btn-lg glyphicon glyphicon-chevron-right" targetType="Photo"  actionType="next"  targetId="{{getImageFileName()}}"></button>
     </div>
   </div>
 
@@ -79,7 +79,7 @@
   <div ng-if="screenWidth() <= 350" class="row text-center" style="vertical-align: middle; margin-top: 30px;">
     <!--col-xs-1 would be better but does not work for very narrow screens -->
     <div class="col-xs-2 col-sm-2 col-md-3 col-lg-3" style="text-align: right; vertical-align: middle;" >
-      <button ng-disabled="noPreviousImage()" ng-click="previousImage()" style="margin-top: 30px; margin-right: -50px; z-index: 100;" class="btn btn-default btn-lg glyphicon glyphicon-chevron-left" targetType="Photo"  actionType="next"  targetId="{{getFileName(imageUrl)}}"></button>
+      <button ng-disabled="noPreviousImage()" ng-click="previousImage()" style="margin-top: 30px; margin-right: -50px; z-index: 100;" class="btn btn-default btn-lg glyphicon glyphicon-chevron-left" targetType="Photo"  actionType="back"  targetId="{{getImageFileName()}}"></button>
     </div>
     <div class="col-xs-8 col-sm-8 col-md-6 col-lg-6" style="text-align: center;">
       <div  style="text-align: center; vertical-align: middle; ">
@@ -91,7 +91,7 @@
       </div>
     </div>
     <div class="col-xs-2 col-sm-2 col-md-3 col-lg-3" style="text-align: left;"  ng-click="changeImage()">
-      <button style="margin-top: 30px; margin-left: -50px; margin-right: 0px; z-index: 100;" class="btn btn-default btn-lg glyphicon glyphicon-chevron-right" targetType="Photo"  actionType="back"  targetId="{{getFileName(imageUrl)}}"></button>
+      <button style="margin-top: 30px; margin-left: -50px; margin-right: 0px; z-index: 100;" class="btn btn-default btn-lg glyphicon glyphicon-chevron-right" targetType="Photo"  actionType="next"  targetId="{{getImageFileName()}}"></button>
     </div>
   </div>
 
@@ -125,21 +125,6 @@
       <!--<button style="margin-top: 5px; margin-left: -50px; z-index: 100;" class="btn  btn-default btn-lg glyphicon glyphicon-chevron-right" targetType="Text"  actionType="refresh"  targetId="{{Id}}"></button>-->
     </div>
   </div>
-
-  <div ng-if="screenWidth() <= 350" class="row" style="vertical-align: middle; margin-top: 35px;"  >
-    <div class="col-xs-2 col-sm-2 col-md-3 col-lg-3" style="text-align: right; vertical-align: middle;"  ng-click="changeImage()">
-      <!--<button style="margin-top: 5px; margin-right: -50px; z-index: 100;" class="btn btn-default btn-lg glyphicon glyphicon-chevron-left" targetType="Text"  actionType="refresh"  targetId="{{Id}}"></button>-->
-    </div>
-    <div class="col-xs-8 col-sm-8 col-md-6 col-lg-6" style="text-align: center;">
-      <div style=" margin-left: 15%; margin-right:15%; font-size: 110%; text-align: center;"    >
-        <span ng-bind-html="txt.Content" style="white-space: pre-wrap;  font-family: 'Open Sans', Arial, Helvetica, sans-serif; "></span>
-      </div>
-    </div>
-    <div class="col-xs-2 col-sm-2 col-md-3 col-lg-3" style="text-align: left;"  ng-click="changeImage()">
-      <!--<button style="margin-top: 5px; margin-left: -50px; z-index: 100;" class="btn  btn-default btn-lg glyphicon glyphicon-chevron-right" targetType="Text"  actionType="refresh"  targetId="{{Id}}"></button>-->
-    </div>
-  </div>
-
 
   <!-- Text -->
   <!--<div ng-hide="editText" style="text-align: center; font-family: 'Open Sans', Arial, Helvetica, sans-serif;">-->

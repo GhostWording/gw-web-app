@@ -40,18 +40,18 @@ function( weightedTextRandomPickSvc,textsSvc,currentUser,filterHelperSvc,getText
       // we could ask the server to provide us this list for areaName now that we have a Weighting Coefficient
       // client apps would override this coefficient when needed
       var arr = [
-        { name: 'jokes',               defaultWeight: 0.2, userWeight: 1, label: "Joke of the day" },
+        { name: 'jokes',               defaultWeight: 0.4, userWeight: 1, label: "Joke of the day" },
         { name: 'a-few-words-for-you', defaultWeight: 1,   userWeight: 1, label: "A few words for you" },
-        { name: 'facebook-status',     defaultWeight: 0.1, userWeight: 1, label: "Thought of the day" },
-        { name: 'positive-thoughts',   defaultWeight: 0.3, userWeight: 1, label: "Thought of the day" },
+        { name: 'facebook-status',     defaultWeight: 0.3, userWeight: 1, label: "Thought of the day" },
+        { name: 'positive-thoughts',   defaultWeight: 0.5, userWeight: 1, label: "Positive thoughts" },
         { name: 'I-think-of-you',      defaultWeight: 1,   userWeight: 1, label: "I think of you"},
         { name: 'I-love-you',          defaultWeight: 1,   userWeight: 1, label: "I love you"},
         { name: 'I-miss-you',          defaultWeight: 1,   userWeight: 1, label: "I miss you"},
         { name: 'thank-you',           defaultWeight: 0.2, userWeight: 1, label: "Thank you"},
-        { name: 'there-is-something-missing',  defaultWeight: 0.2, userWeight: 1, label: "There is something missing"},
-        { name: 'surprise-me',         defaultWeight: 0.3, userWeight: 1, label: "Surprise me"},
-        { name: 'I-want-you',         defaultWeight: 0.8, userWeight: 1, label: "I want you"},
-
+        { name: 'there-is-something-missing',  defaultWeight: 0.3, userWeight: 1, label: "There is something missing"},
+        { name: 'surprise-me',         defaultWeight: 0.4, userWeight: 1, label: "Surprise me"},
+        { name: 'I-want-you',         defaultWeight: 0.5, userWeight: 1, label: "I want you"},
+        { name: 'I-like-you',         defaultWeight: 1.0, userWeight: 1, label: "I like you"},
       ];
       return arr;
     },
