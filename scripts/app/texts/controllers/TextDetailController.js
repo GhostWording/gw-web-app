@@ -135,14 +135,14 @@ function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,curren
 
   setImageFromContext(currentRecipientId, currentIntentionSlugOrId,imageUrl);
 
-  var stack = stackedMap.createNew();
+  var imageStack = stackedMap.createNew();
 
   $scope.previousImage = function() {
-    var res = stack.top();
+    var res = imageStack.top();
     if ( res ) {
       var imageUrl = res.value;
       console.log(res.value);
-      stack.removeTop();
+      imageStack.removeTop();
       // Separate image path from image extension
       setQueryParameters (imageUrl);
       // Build image url and set as current
@@ -151,13 +151,60 @@ function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,curren
   };
 
   $scope.changeImage = function() {
-    stack.add($scope.imageUrl,$scope.imageUrl);
-    console.log(stack.length() + " " + stack.top().value);
+    imageStack.add($scope.imageUrl,$scope.imageUrl);
+    console.log(imageStack.length() + " " + imageStack.top().value);
     setImageFromContext(currentRecipientId, currentIntentionSlugOrId,undefined);
   };
 
   $scope.noPreviousImage = function() {
-    return (!stack || stack.length() === 0);
+    return (!imageStack || imageStack.length() === 0);
+  };
+
+  var textStack = stackedMap.createNew();
+
+  var setNewText = function(newText,oldText) {
+    if ( !!newText ) {
+      $scope.currentText = newText;
+      $scope.Id = newText.TextId;
+      $scope.txt.Content = helperSvc.adaptTextContentToLanguage(newText);
+    }
+  };
+
+  $scope.previousText = function() {
+    var res = textStack.top();
+    if ( res ) {
+      var previousText = res.value;
+      setNewText(previousText,$scope.currentText);
+      //console.log(res.value);
+      textStack.removeTop();
+    }
+  };
+
+  var pickNewText = function(currentTextList, currentId, allReadTriedMap,maxNbTries ) {
+    var choice;
+    var nbTries = 0;
+    do {
+      choice = weightedTextRandomPickSvc.pickOneTextFromTextList(currentTextList);
+      nbTries++;
+    } while (nbTries <= maxNbTries && choice.Id != currentId && ! allReadTriedMap.get(choice.Id));
+    return choice;
+  };
+
+
+  $scope.changeText = function() {
+    //$scope.currentText
+    textStack.add($scope.currentText.TextId,$scope.currentText);
+    //console.log(textStack.length() + " " + textStack.top().value);
+
+    // TODO : pick random text in same intention, check that not in stack, memorize in stack, replace text id with new id in url
+    //var sampleText = weightedTextRandomPickSvc.pickOneTextFromTextList(currentTextList);
+    var nextText = pickNewText (currentTextList, $scope.currentText.TextId, textStack,3 );
+    if ( nextText )
+      setNewText(nextText,$scope.currentText);
+  };
+
+  $scope.noPreviousText = function() {
+    return (!textStack || textStack.length() === 0);
   };
 
 
