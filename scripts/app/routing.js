@@ -99,6 +99,19 @@ angular.module('app/routing', ['ui.router'])
     template: '<ui-view/>',
     url:'/:languageCode/area/:areaName',
     resolve: {
+      initialCultureCode: ['$stateParams','currentLanguage', function($stateParams,currentLanguage) {
+        var culture = currentLanguage.currentCulture();
+        if ( $stateParams.languageCode ) {
+          var urlCulture = currentLanguage.defaultCultureForLanguage($stateParams.languageCode);
+          if ( !! urlCulture && urlCulture != culture ) {
+            console.log($stateParams.languageCode + " ======= " + culture);
+            currentLanguage.setLanguageCode($stateParams.languageCode,false);
+            culture = urlCulture;
+          }
+        }
+        return culture; }
+      ],
+
       // currentAreaName will be available to child states
       currentAreaName: ['$stateParams', 'areasSvc' , function ($stateParams, areasSvc) {
         var areaName = $stateParams.areaName;
@@ -229,7 +242,9 @@ angular.module('app/routing', ['ui.router'])
       currentIntentionLabel: ['currentAreaName','intentionsSvc','$stateParams', function(currentAreaName,intentionsSvc,$stateParams) {
         return intentionsSvc.getIntentionLabel(currentAreaName,$stateParams.intentionSlug);
       }],
-      currentTextList: ['textsSvc','currentLanguage', function(textsSvc,currentLanguage) { return textsSvc.getCurrentTextList( currentLanguage.currentCulture(),true ); }],
+      currentTextList: ['textsSvc','currentLanguage', function(textsSvc,currentLanguage) {
+        return textsSvc.getCurrentTextList( currentLanguage.currentCulture(),true );
+      }],
       currentRecipient: ['currentRecipientSvc', function(currentRecipientSvc) { return currentRecipientSvc.getCurrentRecipient(); }],
       currentRecipientLabel: ['currentRecipientSvc', function(currentRecipientSvc) {
         //return currentRecipientSvc.getCurrentRecipient().then(function(rec) {return rec.LocalLabel});
@@ -263,6 +278,7 @@ angular.module('app/routing', ['ui.router'])
       currentText: ['textsSvc','currentLanguage', function(textsSvc,currentLanguage) {
         return textsSvc.getCurrentText(currentLanguage.currentCulture()); }
       ],
+
       imageUrl: ['$location','currentText','serverSvc', function($location,currentText,serverSvc) {
           var queryParams = $location.search();
           if ( queryParams && queryParams.imagePath && queryParams.imageExtension ) {
