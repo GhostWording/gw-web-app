@@ -191,7 +191,7 @@ function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,curren
     do {
       choice = weightedTextRandomPickSvc.pickOneTextFromTextList(currentTextList);
       nbTries++;
-    } while (nbTries <= maxNbTries && choice.Id != currentId && ! allReadTriedMap.get(choice.Id));
+    } while (nbTries <= maxNbTries && ( choice.Id == currentId || allReadTriedMap.get(choice.Id)));
     return choice;
   };
 
