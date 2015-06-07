@@ -167,6 +167,9 @@ function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,curren
       $scope.currentText = newText;
       $scope.Id = newText.TextId;
       $scope.txt.Content = helperSvc.adaptTextContentToLanguage(newText);
+      var oldUrl = $location.url();
+      var newUrl = oldUrl.replace(oldText.TextId,newText.TextId);
+      $location.url(newUrl);
     }
   };
 
