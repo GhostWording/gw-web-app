@@ -226,6 +226,7 @@ angular.module('app/appUrl/appUrlSvc', ['common/i18n/availableLanguages','common
     // We don't want a trailing slash if we only have a
     if (!url)
       retval = service.removeTrailingSlash(retval);
+    console.log(retval);
     return retval;
   };
 

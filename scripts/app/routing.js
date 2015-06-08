@@ -362,12 +362,12 @@ angular.module('app/routing', ['ui.router'])
   })
   .state('userEMail', {
     url: '/:languageCode/userEMail',
-    templateUrl: 'views/userEMail.html',
+    templateUrl: 'views/userEmail.html',
     controller: 'UserEMailController'
   })
   .state('userEmailValidation', {
     url: '/:languageCode/userEMailValidation',
-    templateUrl: 'views/userEMailValidation.html',
+    templateUrl: 'views/userEmailvalidation.html',
     controller: 'UserEMailValidationController'
   })
   .state('whatToDo', {
