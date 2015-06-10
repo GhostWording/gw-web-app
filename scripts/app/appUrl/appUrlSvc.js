@@ -174,7 +174,7 @@ angular.module('app/appUrl/appUrlSvc', ['common/i18n/availableLanguages','common
     // Remove language from path
     languageNeutralUrl = languageNeutralUrl.replace(originalPath,  pathNoLanguage);
     // Change host to touchwording
-    languageNeutralUrl = languageNeutralUrl.replace($location.host(),"www.touchwording.com");
+    //languageNeutralUrl = languageNeutralUrl.replace($location.host(),"www.touchwording.com");
     languageNeutralUrl = service.changeSlugToEnglish(languageNeutralUrl);
     //console.log($location.absUrl() + " ===> " + languageNeutralUrl);
     return languageNeutralUrl;
@@ -226,7 +226,7 @@ angular.module('app/appUrl/appUrlSvc', ['common/i18n/availableLanguages','common
     // We don't want a trailing slash if we only have a
     if (!url)
       retval = service.removeTrailingSlash(retval);
-    console.log(retval);
+    console.log(retval)
     return retval;
   };
 
