@@ -51,10 +51,11 @@
          </span>
 
         <div id="{{txt.TextId}}">
-          <img
-          src="./assets/e-mail64.png"
-          class="pull-right envoyer"
-          ng-click="send(txt)">
+          <!-- Do not show send envelope for the time being  -->
+          <!--<img-->
+          <!--src="./assets/e-mail64.png"-->
+          <!--class="pull-right envoyer"-->
+          <!--ng-click="send(txt)">-->
           <a ng-href="{{app.appUrlSvc.getRootPath()}}area/{{ currentAreaName }}/recipient/{{ theRecipientId }}/intention/{{ theIntentionSlugOrId }}/text/{{txt.TextId}}"
           targetType="Text"
           actionType="open"
