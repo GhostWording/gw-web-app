@@ -1,3 +1,3 @@
 angular.module('app/quizz', [
-  'app/quizz/QuizzController'
+  'app/quizz/LoveQuizzController'
 ]);
