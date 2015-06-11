@@ -15,11 +15,8 @@ angular.module('app/quizz/LoveQuizzController',['common/texts/textsSvc'])
         // Set selected text
         if (currentUserLocalData.loveQuizzTextId && currentUserLocalData.loveQuizzTextId == obj.TextId)
           $scope.setSelectedText(obj);
-          //console.log(currentUserLocalData.loveQuizzTextId);
       });
 
-//      if (currentUserLocalData.loveQuizzTextId)
-//        console.log(currentUserLocalData.loveQuizzTextId);
 //    var ranks = texts.slice().map(function(v){ return sorted.indexOf(v)+1 });
 //      rankMap= sorted.map(function(obj){
 //        var rObj = {};
