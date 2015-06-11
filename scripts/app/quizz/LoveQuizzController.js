@@ -1,9 +1,17 @@
 angular.module('app/quizz/LoveQuizzController',['common/texts/textsSvc'])
 
-.controller('LoveQuizzController', ['$scope',  'serverSvc','currentUserLocalData','textsSvc','appUrlSvc','postActionSvc','areasSvc',
-  function ($scope, serverSvc,currentUserLocalData,textsSvc,appUrlSvc,postActionSvc,areasSvc) {
+.controller('LoveQuizzController', ['$scope', '$rootScope', 'currentUserLocalData','textsSvc','appUrlSvc','postActionSvc','areasSvc',
+  function ($scope,$rootScope, currentUserLocalData,textsSvc,appUrlSvc,postActionSvc,areasSvc) {
 
     areasSvc.setCurrentName('cvdWeb');
+
+    $rootScope.pageTitle1 = "La meilleure façon de me dire...";
+    $rootScope.pageTitle = "La meilleure façon de me dire...";
+    $rootScope.pageDescription = "Je t'aime";
+    $rootScope.ogDescription = "Je t'aime";
+
+    $rootScope.ogImage = "http://gw-static.azurewebsites.net/specialoccasions/I-love-you/default/small/shutterstock_237303379.jpg";
+
 
     textsSvc.getTextListForGroup('General', 'E5F46A', 'fr-FR', false, false).then(function(texts) {
       $scope.quizzQuestionTexts = texts;
@@ -29,6 +37,17 @@ angular.module('app/quizz/LoveQuizzController',['common/texts/textsSvc'])
     var selectedTextId;
     var selectedText;
 
+    $scope.showRanking = false;
+
+    $scope.setShowRanking = function() {
+      $scope.showRanking = true;
+      console.log("$scope.showRanking = true;");
+    };
+
+    $scope.choiceSelected = function() {
+      var valret =  selectedText !== undefined;
+      return valret;
+    };
 
     $scope.getSelectedTextId = function() {
       return selectedTextId;
