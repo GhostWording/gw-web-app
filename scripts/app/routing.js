@@ -39,6 +39,7 @@ angular.module('app/routing', ['ui.router'])
     .when('/about'                    ,'/xx/about')
     .when('/favoriteRecipients'       ,'/xx/favoriteRecipients')
     .when('/subscriptions'            ,'/xx/subscriptions')
+    .when('/quizz'                    ,'/xx/quizz')
     .when('/userEMail'                ,'/xx/userEMail')
     .when('/userEMailvalidation'      ,'/xx/userEMailValidation')
     .when('/whatToDo'                 ,'/xx/whatToDo')
@@ -358,6 +359,12 @@ angular.module('app/routing', ['ui.router'])
     url: '/:languageCode/subscriptions',
     templateUrl: 'views/subscriptions.html',
     controller: 'SubscriptionController',
+    showTabs: false
+  })
+  .state('quizz', {
+    url: '/:languageCode/quizz',
+    templateUrl: 'views/quizz.html',
+    controller: 'QuizzController',
     showTabs: false
   })
   .state('userEMail', {
