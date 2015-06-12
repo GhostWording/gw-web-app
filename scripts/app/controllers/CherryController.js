@@ -1,7 +1,7 @@
 angular.module('app/controllers/CherryController', [])
 
-.controller('CherryController', ['$scope',  'postActionSvc','$rootScope','$location','currentLanguage','appUrlSvc','intentionsSvc','appVersionCheck','textsSvc','$window', '$state','helperSvc','$translate','availableLanguages',
-  function ($scope,postActionSvc,$rootScope,$location,currentLanguage,appUrlSvc,intentionsSvc,appVersionCheck,textsSvc,$window,$state,helperSvc,$translate,availableLanguages) {
+.controller('CherryController', ['$scope',  'postActionSvc','$rootScope','$location','currentLanguage','appUrlSvc','intentionsSvc','appVersionCheck','textsSvc','$window', '$state','helperSvc','$translate','availableLanguages','areasSvc',
+  function ($scope,postActionSvc,$rootScope,$location,currentLanguage,appUrlSvc,intentionsSvc,appVersionCheck,textsSvc,$window,$state,helperSvc,$translate,availableLanguages,areasSvc) {
     $scope.app = {};
     $scope.app.appUrlSvc = appUrlSvc;
 
@@ -15,6 +15,9 @@ angular.module('app/controllers/CherryController', [])
     $rootScope.pageKeywords = "Statuts facebook amusants";
 
     $rootScope.ogImage = "http://www.commentvousdire.com/assets/TouchWording.jpg";
+
+    // Set default area until reset by specific area
+    areasSvc.setCurrentName('cvdWeb');
 
     console.log(navigator.userAgent);
 
