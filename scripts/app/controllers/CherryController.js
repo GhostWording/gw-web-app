@@ -1,7 +1,7 @@
 angular.module('app/controllers/CherryController', [])
 
-.controller('CherryController', ['$scope',  'postActionSvc','$rootScope','$location','currentLanguage','appUrlSvc','intentionsSvc','appVersionCheck','textsSvc','$window', '$state','helperSvc','$translate','availableLanguages','areasSvc',
-  function ($scope,postActionSvc,$rootScope,$location,currentLanguage,appUrlSvc,intentionsSvc,appVersionCheck,textsSvc,$window,$state,helperSvc,$translate,availableLanguages,areasSvc) {
+.controller('CherryController', ['$scope',  'postActionSvc','$rootScope','$location','currentLanguage','appUrlSvc','intentionsSvc','appVersionCheck','textsSvc','$window', '$state','helperSvc','$translate','availableLanguages','areasSvc','facebookSvc',
+  function ($scope,postActionSvc,$rootScope,$location,currentLanguage,appUrlSvc,intentionsSvc,appVersionCheck,textsSvc,$window,$state,helperSvc,$translate,availableLanguages,areasSvc,facebookSvc) {
     $scope.app = {};
     $scope.app.appUrlSvc = appUrlSvc;
 
@@ -18,6 +18,9 @@ angular.module('app/controllers/CherryController', [])
 
     // Set default area until reset by specific area
     areasSvc.setCurrentName('cvdWeb');
+
+    $scope.isConnectedToFacebook = facebookSvc.isConnected();
+
 
     console.log(navigator.userAgent);
 

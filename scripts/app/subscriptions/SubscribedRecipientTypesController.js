@@ -8,10 +8,12 @@ angular.module('app/subscriptions/SubscribedRecipientTypesController', ['common/
     $scope.currentUser = currentUser;
     $scope.appUrlSvc = appUrlSvc;
 
-    $scope.isConnectedToFacebook = function() {
-      var retval = facebookSvc.isConnected();
-      return retval;
-    };
+    $scope.isConnectedToFacebook = facebookSvc.isConnected();
+
+    $scope.$watch(function() { return facebookSvc.isConnected();},function() {
+      //console.log("facebookSvc.isConnected() : " +facebookSvc.isConnected() )
+      $scope.isConnectedToFacebook = facebookSvc.isConnected();
+    },true);
 
     $scope.login = facebookSvc.fbLogin;
     $scope.connectToFacebook = facebookSvc.fbLogin;

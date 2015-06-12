@@ -11,7 +11,7 @@
       <li ng-class = '{selectionne: currentUser.gender=="F"}'>
         <a  targetType="Command" targetId="SenderGender" translate ng-click = "currentUser.gender = 'F'">Une femme</a></li>
       <br><br>
-      <li ng-class = '{selectionne: isConnectedToFacebook()}'>
+      <li ng-class = '{selectionne: isConnectedToFacebook}'>
         <a  targetType="Command" targetId="FacebookConnection" translate ng-click = "connectToFacebook()">Un utilisateur Facebook :-)</a></li>
     </ul>
   </div>
