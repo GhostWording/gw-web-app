@@ -242,20 +242,20 @@
 
 
   <!-- When user has landed directly on this page, suggest a visit to intention list  -->
-  <div ng-show = "!app.appUrlSvc.getTextDetailWasCalledFromTextList() && !app.appUrlSvc.getTextDetailWasCalledFromDashboard()" style="margin-top: 15px; margin-bottom: 15px; text-align: center; ">
-    <div style="margin-bottom: 10px;">
-      <span translate >Voir les meilleures façons de dire</span>
-      <a style="color: #428bca; text-decoration: underline" id="toTextList"
-         ng-href="{{app.appUrlSvc.getFullPath('')}}/area/{{ currentAreaName }}/recipient/{{ recipientId }}/intention/{{theIntentionSlugOrId}}/text"
-         targetId="TextList" translate>{{ theIntentionLabel }}
-      </a>
-    </div>
-  </div>
+  <!--<div ng-show = "!app.appUrlSvc.getTextDetailWasCalledFromTextList() && !app.appUrlSvc.getTextDetailWasCalledFromDashboard()" style="margin-top: 15px; margin-bottom: 15px; text-align: center; ">-->
+    <!--<div style="margin-bottom: 10px;">-->
+      <!--<span translate >Voir les meilleures façons de dire</span>-->
+      <!--<a style="color: #428bca; text-decoration: underline" id="toTextList"-->
+         <!--ng-href="{{app.appUrlSvc.getFullPath('')}}/area/{{ currentAreaName }}/recipient/{{ recipientId }}/intention/{{theIntentionSlugOrId}}/text"-->
+         <!--targetId="TextList" translate>{{ theIntentionLabel }}-->
+      <!--</a>-->
+    <!--</div>-->
+  <!--</div>-->
 
 
   <!-- Switch language : we can show it some of the time or all of the time -->
   <!--<div ng-show = "!app.appUrlSvc.getTextDetailWasCalledFromTextList() && !app.appUrlSvc.getTextDetailWasCalledFromDashboard()" ng-include="'views/partials/languageBar.html'" style="margin-top: 20px; text-align: center" ></div>-->
-  <div ng-include="'views/partials/languageBar.html'" style="margin-top: 30px; text-align: center" ></div>
+  <div ng-include="'views/partials/languageBar.html'" style="margin-top: 20px; text-align: center" ></div>
 
   <!-- Mozart  -->
   <!--<div ng-if = "!app.appUrlSvc.getTextDetailWasCalledFromTextList() && !app.appUrlSvc.getTextDetailWasCalledFromDashboard()" style="margin-top:25px; margin-bottom: 15px; text-align: center;">-->
