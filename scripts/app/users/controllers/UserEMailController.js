@@ -1,17 +1,17 @@
 angular.module('app/users/UserEMailController', [])
 
-.controller('UserEMailController', ['$scope', 'serverSvc','deviceIdSvc','currentUserLocalData','currentLanguage','postActionSvc','facebookSvc',  function ($scope, serverSvc,deviceIdSvc,currentUserLocalData,currentLanguage,postActionSvc,facebookSvc) {
+.controller('UserEMailController', ['$scope', 'serverSvc','deviceIdSvc','currentUserLocalData','currentLanguage','postActionSvc','facebookSvc',
+  function ($scope, serverSvc,deviceIdSvc,currentUserLocalData,currentLanguage,postActionSvc,facebookSvc) {
   console.log(deviceIdSvc.get());
   $scope.user = currentUserLocalData;
   $scope.mailChanged = false;
   $scope.mailSent = false;
 
-  // Login
-  $scope.fbLogin = facebookSvc.fbLogin;
-
+  $scope.connectToFacebook = facebookSvc.fbLogin;
   $scope.$watch(function() { return facebookSvc.isConnected();},function() {
-    $scope.isConnected = facebookSvc.isConnected();
+    $scope.isConnectedToFacebook = facebookSvc.isConnected();
   },true);
+
 
   $scope.$watch(function() { return facebookSvc.getCurrentMe();},function() {
     console.log("facebookSvc.getCurrentMe() : " +facebookSvc.getCurrentMe());
