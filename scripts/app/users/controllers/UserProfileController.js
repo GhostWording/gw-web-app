@@ -1,13 +1,19 @@
 angular.module('app/users/UserProfileController', [])
 
-.controller('UserProfileController', ['$scope', 'currentUser', 'currentUserLocalData', 'userAges', 'localStorage','deviceIdSvc','serverSvc','currentLanguage',
-function ($scope, currentUser,currentUserLocalData, userAges,localStorage,deviceIdSvc,serverSvc,currentLanguage) {
+.controller('UserProfileController', ['$scope', 'currentUser', 'currentUserLocalData', 'userAges', 'localStorage','deviceIdSvc','serverSvc','currentLanguage','facebookSvc',
+function ($scope, currentUser,currentUserLocalData, userAges,localStorage,deviceIdSvc,serverSvc,currentLanguage,facebookSvc) {
   $scope.currentUser = currentUser;
   $scope.userAges = userAges;
   $scope.user = currentUserLocalData;
 
   $scope.sendEmails = true;
   $scope.mailDeleted = false;
+
+  $scope.connectToFacebook = facebookSvc.fbLogin;
+  $scope.$watch(function() { return facebookSvc.isConnected();},function() {
+    $scope.isConnectedToFacebook = facebookSvc.isConnected();
+  },true);
+
 
   $scope.userHasEmail = function() {
     return !!$scope.user.email;
