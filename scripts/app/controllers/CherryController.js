@@ -146,7 +146,7 @@ angular.module('app/controllers/CherryController', [])
                 $translate(intention.Label).then(function(translatedIntentionLable) {
                   $rootScope.pageDescription = translatedPrefix + " " + helperSvc.lowerFirstLetter(translatedIntentionLable);
                   $rootScope.ogDescription = translatedIntentionLable;
-                  console.log("ogDescription : " +$rootScope.ogDescription);
+                  //console.log("ogDescription : " +$rootScope.ogDescription);
                 });
               });
             });

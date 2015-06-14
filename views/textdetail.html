@@ -99,7 +99,7 @@
 <!-- TEXT : large and small version -->
   <div ng-if="screenWidth() > 350" class="row" style="vertical-align: middle; margin-top: 35px;"  >
     <div class="col-xs-1 col-sm-2 col-md-3 col-lg-3" style="text-align: right; vertical-align: middle;"  ng-click="previousText()">
-      <button ng-disabled="noPreviousText()" style="margin-top: 5px; margin-right: -50px; z-index: 100;" class="btn btn-default btn-lg glyphicon glyphicon-chevron-left" targetType="Text"  actionType="back"  targetId="{{Id}}"></button>
+      <button ng-disabled="noPreviousText()" style="margin-top: 5px; margin-right: -50px; z-index: 100;" class="btn btn-default btn-lg glyphicon glyphicon-chevron-left" targetType="Text"  actionType="back"  targetId="{{currentText.TextId}}"></button>
     </div>
     <div class="col-xs-10 col-sm-8 col-md-6 col-lg-6" style="text-align: center;">
       <div style=" margin-left: 15%; margin-right:15%; font-size: 110%; text-align: center;"    >
@@ -107,14 +107,14 @@
       </div>
     </div>
     <div class="col-xs-1 col-sm-2 col-md-3 col-lg-3" style="text-align: left;"  ng-click="changeText()">
-      <button style="margin-top: 5px; margin-left: -50px; z-index: 100;" class="btn  btn-default btn-lg glyphicon glyphicon-chevron-right" targetType="Text"  actionType="next"  targetId="{{Id}}"></button>
+      <button style="margin-top: 5px; margin-left: -50px; z-index: 100;" class="btn  btn-default btn-lg glyphicon glyphicon-chevron-right" targetType="Text"  actionType="next"  targetId="{{currentText.TextId}}"></button>
     </div>
   </div>
 
 
   <div ng-if="screenWidth() <= 350" class="row" style="vertical-align: middle; margin-top: 35px;"  >
     <div class="col-xs-2 col-sm-2 col-md-3 col-lg-3" style="text-align: right; vertical-align: middle;"  ng-click="previousText()">
-      <button ng-disabled="noPreviousText()" style="margin-top: 5px; margin-right: -50px; z-index: 100;" class="btn btn-default btn-lg glyphicon glyphicon-chevron-left" targetType="Text"  actionType="back"  targetId="{{Id}}"></button>
+      <button ng-disabled="noPreviousText()" style="margin-top: 5px; margin-right: -50px; z-index: 100;" class="btn btn-default btn-lg glyphicon glyphicon-chevron-left" targetType="Text"  actionType="back"  targetId="{{currentText.TextId}}"></button>
     </div>
     <div class="col-xs-8 col-sm-8 col-md-6 col-lg-6" style="text-align: center;">
       <div style=" margin-left: 15%; margin-right:15%; font-size: 110%; text-align: center;"    >
@@ -122,7 +122,7 @@
       </div>
     </div>
     <div class="col-xs-2 col-sm-2 col-md-3 col-lg-3" style="text-align: left;"  ng-click="changeText()">
-      <button style="margin-top: 5px; margin-left: -50px; z-index: 100;" class="btn  btn-default btn-lg glyphicon glyphicon-chevron-right" targetType="Text"  actionType="next"  targetId="{{Id}}"></button>
+      <button style="margin-top: 5px; margin-left: -50px; z-index: 100;" class="btn  btn-default btn-lg glyphicon glyphicon-chevron-right" targetType="Text"  actionType="next"  targetId="{{currentText.TextId}}"></button>
     </div>
   </div>
 
@@ -149,7 +149,7 @@
     <span class ="auteur">{{currentText.Author}}</span>
     <!--&nbsp-->
     <!--<button class="btn btn-xs btn-default " ng-class = '{disabled: authorButton=="disabled"}'-->
-            <!--targetId="{{ Id }}" targetType="Text" actionType="edit"-->
+            <!--targetId="{{ currentText.TextId }}" targetType="Text" actionType="edit"-->
             <!--ng-click="addAuthor()">+</button>-->
   </div>
 
@@ -159,17 +159,17 @@
     <div class="col-xs-10 col-sm-8 col-md-6 col-lg-6" style="text-align: center; vertical-align: middle;">
       <div class="" >
         <!-- fb Send -->
-        <button ng-if="!app.appUrlSvc.isMobile.any()" ng-click="fbSend()" targetType="Command" targetId="FbSend" ng-show="true" type="button" class="btn btn-default btn-lg glyphicon glyphicon-flash" ng-click="fbShare"></button>
+        <button ng-if="!app.appUrlSvc.isMobile.any()" ng-click="fbSend()" actionType="FbSend" targetType="Text" targetId="{{currentText.TextId}}" ng-show="true" type="button" class="btn btn-default  glyphicon glyphicon-flash" ng-click="fbShare"></button>
         <!--<button ng-if="true" ng-click="fbSend()" ng-show="true" type="button" class="btn btn-default btn-lg glyphicon glyphicon-flash" ng-click="fbShare"></button>-->
         <!-- fb Share -->
         <!--<button style="margin-left: 10px" ng-if="theIntentionSlugOrId != 'fake'" ng-click="fbShare()" ng-show="true" type="button" class="btn btn-primary btn-lg glyphicon glyphicon-share" ng-click="fbShare"></button>-->
-        <button style="margin-left: 10px" ng-if="theIntentionSlugOrId != 'fake'" ng-click="fbShare()" targetType="Command" targetId="FbShare" type="button" class="btn btn-primary btn-lg" translate>Partager</button>
+        <button style="margin-left: 15px; margin-right: 15px;" ng-if="theIntentionSlugOrId != 'fake'" ng-click="fbShare()" actionType="FbShare" targetType="Text" targetId="{{currentText.TextId}}" type="button" class="btn btn-primary " translate>Partager</button>
       <!-- Send -->
-        <a style="margin-left: 10px"  targetType="Text"
-           targetId="{{Id}}"
-           actionType="sendMail"
+        <a style=""  targetType="Text"
+           targetId="{{currentText.TextId}}"
+           actionType="SendMail"
            ng-href="{{mailToThis}}"
-           class="btn btn-default btn-lg  glyphicon glyphicon-send">
+           class="btn btn-default   glyphicon glyphicon-send">
         </a>
       </div>
     </div>
@@ -179,11 +179,11 @@
   <!-- Translations and HOMEPAGE  -->
   <!--<div ng-show = "!app.appUrlSvc.getTextDetailWasCalledFromTextList() && !app.appUrlSvc.getTextDetailWasCalledFromDashboard()" style="margin-top: 20px; margin-bottom: 15px; text-align: center; ">-->
   <div style="margin-top: 15px; margin-bottom: 30px; text-align: center; ">
-    <button style="margin-left: 10px" ng-disabled="!HasTranslations" ng-click="setShowTranslations(!getShowTranslations())" class="btn btn-default" type="button" targetType="Command" targetId="ShowTranslations"  translate>Traduire</button>
-    <a style="margin-left: 10px"  type="button"  ng-href="{{app.appUrlSvc.getFullPath('')}}" class="btn btn-default btn-lg glyphicon glyphicon-home"></a>
+    <a ng-show = "userEmailIsEmpty()" style="" class="btn btn-default  glyphicon glyphicon-off" id="discoverTheApp" ng-href="{{app.appUrlSvc.getFullPath('favoriteRecipients')}}" targetId="Welcome"></a>
+    <button style="margin-left: 15px; margin-right: 15px" ng-disabled="!HasTranslations" ng-click="setShowTranslations(!getShowTranslations())" class="btn btn-default" type="button" actionType="ShowTranslations" targetType="Text" targetId="{{currentText.TextId}}"  translate>Traduire</button>
+    <a style=""  type="button"  ng-href="{{app.appUrlSvc.getFullPath('')}}" class="btn btn-default  glyphicon glyphicon-home"></a>
     <!--<a style="margin-left: 10px"  type="button" ng-href="http://localhost:3000/fr" class="btn btn-default btn-lg glyphicon glyphicon-home"></a>-->
     <!--<a style="margin-left: 10px" class="btn btn-default" id="discoverTheApp" ng-href="{{app.appUrlSvc.getFullPath('')+'favoriteRecipients'}}" targetId="Welcome" translate>Retenez-les</a>-->
-    <a ng-show = "userEmailIsEmpty()" style="margin-left: 10px" class="btn btn-default btn-lg  glyphicon glyphicon-off" id="discoverTheApp" ng-href="{{app.appUrlSvc.getFullPath('favoriteRecipients')}}" targetId="Welcome"></a>
   </div>
 
   <!-- Translations  -->
@@ -217,13 +217,13 @@
 
 <!-- edit  -->
 <!--<button style="margin-left: 10px" class="btn btn-default  glyphicon glyphicon-pencil" translate-->
-<!--targetId="{{ Id }}" targetType="Text" actionType="edit"-->
+<!--targetId="{{ currentText.TextId }}" targetType="Text" actionType="edit"-->
 <!--ng-click="edit()" ng-hide="editText"></button>-->
 
 
 <!-- send  -->
 <!--<button style="margin-left: 10px" class="btn btn-default" translate-->
-<!--targetId="{{ Id }}" targetType="Text" actionType="send"-->
+<!--targetId="{{ currentText.TextId }}" targetType="Text" actionType="send"-->
 <!--ng-click="send()">Envoyer</button>-->
 
 <!-- fb share  -->

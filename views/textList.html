@@ -63,9 +63,10 @@
           ng-click="app.appUrlSvc.setTextDetailWasCalledFromTextList(true)"
           >
           <div cvd-text="txt" ng-class="{active: txt.TextId == selectedTextId}" style="white-space: pre-wrap"></div>
-              <span ng-repeat="tagLabel in currentText.TagLabels" >
-                <span class="label label-primary" translate>{{tagLabel}}</span>&nbsp
-              </span>
+              <!-- We don't show the labels any more -->
+              <!--<span ng-repeat="tagLabel in currentText.TagLabels" >-->
+                <!--<span class="label label-primary" translate>{{tagLabel}}</span>&nbsp-->
+              <!--</span>-->
         </a>
       </div>
     </div>

@@ -8,9 +8,9 @@ angular.module('app/texts/TextDetailController',[
 // Display text with alternative versions in other languages
 .controller('TextDetailController',
 ['$scope','currentText', 'currentAreaName', 'currentIntentionSlugOrId','currentIntentionLabel','currentRecipientId','imageUrl','currentTextList','initialCultureCode',
-          'tagLabelsSvc',  'alternativeTextsSvc','currentLanguage','helperSvc','$rootScope','$location','filtersSvc','facebookHelperSvc','postActionSvc','$modal','serverSvc','$http','currentUserLocalData','imagesSvc','ezfb','$window','stackedMap','appUrlSvc','facebookSvc','weightedTextRandomPickSvc','textStackedMap',
-function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,currentIntentionLabel, currentRecipientId, imageUrl,currentTextList,initialCultureCode,// those variables are resolved in routing.js
-          tagLabelsSvc, alternativeTextsSvc,currentLanguage,helperSvc,$rootScope,$location,filtersSvc,facebookHelperSvc,postActionSvc, $modal,serverSvc,$http,currentUserLocalData,imagesSvc,ezfb,$window,stackedMap,appUrlSvc,facebookSvc,weightedTextRandomPickSvc,textStackedMap) {
+          'alternativeTextsSvc','currentLanguage','helperSvc','$rootScope','$location','postActionSvc','serverSvc','currentUserLocalData','imagesSvc','ezfb','$window','stackedMap','appUrlSvc','facebookSvc','weightedTextRandomPickSvc','textStackedMap',
+function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,currentIntentionLabel, currentRecipientId, initialImageUrl,currentTextList,initialCultureCode,// those variables are resolved in routing.js
+          alternativeTextsSvc,currentLanguage,helperSvc,$rootScope,$location,postActionSvc, serverSvc,currentUserLocalData,imagesSvc,ezfb,$window,stackedMap,appUrlSvc,facebookSvc,weightedTextRandomPickSvc,textStackedMap) {
 
   $scope.getImageFileName = function() {
     return appUrlSvc.getFileName($scope.imageUrl);
@@ -29,35 +29,60 @@ function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,curren
   // Copy the text Content so that if we edit it we are not editing the original "text".
   // Content has to be property of a full object to avoid prototypal inheritance problems
   $scope.txt = {};
-  // Adapts formatting of quotations
-  $scope.txt.Content = helperSvc.adaptTextContentToLanguage(currentText);
 
   function setMailTo(content,imgUrl) {
     var textToSend = content;
-    if ( !!imageUrl )
+    if ( !!imgUrl )
       textToSend += '%0D%0A' + '%0D%0A' + imgUrl;
     $scope.mailToThis = helperSvc.urlMailTo(textToSend, '');
   }
-  var setCurrentImageForPage = function($scope,$rootScope,imgUrl) {
-    $scope.imageUrl = imgUrl;
-    $rootScope.ogImage = imgUrl;
-    setMailTo($scope.txt.Content,imgUrl);
+
+  var setNewText = function(newText,oldText) {
+    if ( !!newText ) {
+      $scope.currentText = newText;
+      // Adapts formatting of quotations
+      $scope.txt.Content = helperSvc.adaptTextContentToLanguage(newText);
+      // Refresh mailTo
+      setMailTo($scope.txt.Content,$scope.imageUrl);
+      // Change url to include new id
+      if ( !! oldText) {
+        var oldUrl = $location.url();
+        var newUrl = oldUrl.replace(oldText.TextId,newText.TextId);
+        if ( newUrl != oldUrl)
+          $location.url(newUrl);
+      }
+    }
   };
 
-  if ( !!imageUrl )
-    setCurrentImageForPage ($scope,$rootScope,imageUrl);
+  setNewText(currentText,null);
 
-  // Add labels to router resolved currentText
-  currentText.TagLabels = tagLabelsSvc.labelsFromStyleTagIds(currentText.TagIds);
+  var setQueryParameters = function(imageUrl) {
+    // Extract image name from url
+    var imageName= appUrlSvc.getPathFromUrl(imageUrl);
+    // Separate image file extension from image name
+    var dotIndex = imageName.lastIndexOf('.');
+    // Set url query parameters for image name and image file extension
+    var urlNoExtension = imageName.substring(0,dotIndex);
+    $location.search('imagePath',urlNoExtension);
+    var extNoDot = imageName.substring(dotIndex+1);
+    $location.search('imageExtension',extNoDot);
+  };
+
+
+  var setCurrentImageForPage = function(imgUrl) {
+    $scope.imageUrl = imgUrl;
+    $rootScope.ogImage = imgUrl;
+    setQueryParameters(imgUrl);
+    setMailTo($scope.txt.Content,$scope.imageUrl);
+  };
+
+  if ( !!initialImageUrl )
+    setCurrentImageForPage (initialImageUrl);
 
   // Give visibility
   $scope.theIntentionSlugOrId = currentIntentionSlugOrId;
   $scope.theIntentionLabel = currentIntentionLabel;
-  $scope.includeSocialPluginsOnTextPages = facebookHelperSvc.includeSocialPluginsOnTextPages;
-  $scope.url = $location.url();
   $scope.currentAreaName = currentAreaName;
-  $scope.currentText = currentText;
-  $scope.Id = currentText.TextId;
   $scope.recipientId = currentRecipientId;
 
   $scope.isQuote = function(txt) { return helperSvc.isQuote(txt); };
@@ -75,25 +100,15 @@ function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,curren
   };
 
 
-  var setQueryParameters = function(imageUrl) {
-    // Extract image name from url
-    var imageName= appUrlSvc.getPathFromUrl(imageUrl);
-    // Separate image file extension from image name
-    var dotIndex = imageName.lastIndexOf('.');
-    var extNoDot = imageName.substring(dotIndex+1);
-    var urlNoExtension = imageName.substring(0,dotIndex);
-    // Set url query parameters for image name and image file extension
-    $location.search('imagePath',urlNoExtension);
-    $location.search('imageExtension',extNoDot);
-  };
-
   var firstDisplayOfPicture = true;
   var setImageFromContext = function(currentRecipientId, currentIntentionSlugOrId,requiredImageUrl) {
     // On first display, if the query parameter requires a specific image, this is what we want
     if ( !! requiredImageUrl && firstDisplayOfPicture ) {
       firstDisplayOfPicture = false;
       if (!($scope.imageUrl))
-        setCurrentImageForPage ($scope,$rootScope,requiredImageUrl);
+        setCurrentImageForPage (requiredImageUrl);
+//      setQueryParameters (requiredImageUrl);
+
     } else {
       // else get one from the server
       var imageUrl = serverSvc.getStaticSiteRoot() + imagesSvc.staticSiteQuery(currentRecipientId, currentIntentionSlugOrId);
@@ -102,16 +117,15 @@ function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,curren
           // Get rid of first '/' if present
           var imageUrl = imagePathWithSlash.charAt(0) == '/' ? imagePathWithSlash.substr(1) : imagePathWithSlash;
           // Separate image path from image extension and set to parameters
-          setQueryParameters (imageUrl);
+//          setQueryParameters (imageUrl);
           // Build image url and set as current
-          setCurrentImageForPage ($scope,$rootScope,serverSvc.makeImageUrlFromPath(imageUrl));
+          setCurrentImageForPage (serverSvc.makeImageUrlFromPath(imageUrl));
         }
       );
-
     }
   };
 
-  setImageFromContext(currentRecipientId, currentIntentionSlugOrId,imageUrl);
+  setImageFromContext(currentRecipientId, currentIntentionSlugOrId,initialImageUrl);
 
   var imageStack = stackedMap.createNew();
 
@@ -119,18 +133,18 @@ function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,curren
     var res = imageStack.top();
     if ( res ) {
       var imageUrl = res.value;
-      console.log(res.value);
+      //console.log(res.value);
       imageStack.removeTop();
       // Separate image path from image extension
-      setQueryParameters (imageUrl);
+//      setQueryParameters (imageUrl);
       // Build image url and set as current
-      setCurrentImageForPage ($scope,$rootScope,imageUrl);
+      setCurrentImageForPage (imageUrl);
     }
   };
 
   $scope.changeImage = function() {
     imageStack.add($scope.imageUrl,$scope.imageUrl);
-    console.log(imageStack.length() + " " + imageStack.top().value);
+    //console.log(imageStack.length() + " " + imageStack.top().value);
     setImageFromContext(currentRecipientId, currentIntentionSlugOrId,undefined);
   };
 
@@ -161,22 +175,12 @@ function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,curren
     return choice;
   };
 
-  var setNewText = function(newText,oldText) {
-    if ( !!newText ) {
-      $scope.currentText = newText;
-      $scope.Id = newText.TextId;
-      $scope.txt.Content = helperSvc.adaptTextContentToLanguage(newText);
-      var oldUrl = $location.url();
-      var newUrl = oldUrl.replace(oldText.TextId,newText.TextId);
-      $location.url(newUrl);
-    }
-  };
-
   $scope.changeText = function() {
-    // Memorize current in stack, replace text id with new id in url
+    // Memorize current in stack
     textStack.add($scope.currentText.TextId,$scope.currentText);
-    //
+    // Choose new text in intention
     var nextText = pickNewText (currentTextList, $scope.currentText.TextId, textStack,3 );
+    // replace text id with new id in url
     if ( nextText )
       setNewText(nextText,$scope.currentText);
   };
@@ -206,6 +210,7 @@ function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,curren
     return valret;
   };
 
+  // TRANSLATIONS
   var showTranslations = false;
   if ( $scope.currentText.Culture != currentLanguage.getCultureCode() ) {
     showTranslations = true;
@@ -216,7 +221,6 @@ function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,curren
   $scope.getShowTranslations = function() {
     return showTranslations;
   };
-
   $scope.HasTranslations = true;
   // Should be set in a property of the text instead
   alternativeTextsSvc.getRealizationList($scope.currentAreaName,$scope.currentText.PrototypeId).then(function(textList) {
@@ -224,8 +228,13 @@ function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,curren
       $scope.HasTranslations = false;
   });
 
-
 }]);
+
+//$scope.includeSocialPluginsOnTextPages = facebookHelperSvc.includeSocialPluginsOnTextPages;
+
+
+// Add labels to router resolved currentText
+// currentText.TagLabels = tagLabelsSvc.labelsFromStyleTagIds(currentText.TagIds);
 
 
 // Popup send window
