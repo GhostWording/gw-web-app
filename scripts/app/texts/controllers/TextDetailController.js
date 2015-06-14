@@ -207,6 +207,9 @@ function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,curren
   };
 
   var showTranslations = false;
+  if ( $scope.currentText.Culture != currentLanguage.getCultureCode() ) {
+    showTranslations = true;
+  }
   $scope.setShowTranslations = function(val) {
     showTranslations = val;
   };
