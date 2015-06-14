@@ -10,7 +10,7 @@ angular.module('app/quizz/LoveQuizzController',['common/texts/textsSvc'])
     var Quizz_Text_Group_MAP = {
       'fr-FR' : 'E5F46A',
       'en-EN' : 'FDF797',
-      'es-ES' : 'FDF797'
+      'es-ES' : '1BE9B9'
     };
 
     function rankAndSetAsSelected(sortedTexts, preferredTextId) {
