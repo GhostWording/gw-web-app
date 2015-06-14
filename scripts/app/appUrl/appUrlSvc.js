@@ -45,7 +45,7 @@ angular.module('app/appUrl/appUrlSvc', ['common/i18n/availableLanguages','common
 
   service.getFileName = function(path) {
     if ( !path )
-      return path;
+      return '';
     var m = path.match(/^((http[s]?|ftp):\/)?\/?([^:\/\s]+)(:([^\/]*))?((\/[\w/-]+)*\/)([\w\-\.]+[^#?\s]+)(\?([^#]*))?(#(.*))?$/i);
     if (m && m.length >= 9)
       return m[8];

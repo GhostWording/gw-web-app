@@ -156,9 +156,9 @@
             <!--ng-click="addAuthor()">+</button>-->
   </div>
 
-  <div ng-show="currentText.ReferenceUrl">
-    Source : <a ng-href = "{{currentText.ReferenceUrl}}" >{{currentText.ReferenceUrl}}</a>
-  </div>
+  <!--<div ng-show="currentText.ReferenceUrl">-->
+    <!--Source : <a ng-href = "{{currentText.ReferenceUrl}}" >{{currentText.ReferenceUrl}}</a>-->
+  <!--</div>-->
 
   <!-- ACTIONS -->
   <div class="row" style="vertical-align: middle; margin-top: 30px;"  >
@@ -194,52 +194,10 @@
     <!--<a style="margin-left: 10px"  type="button" ng-href="http://localhost:3000/fr" class="btn btn-default btn-lg glyphicon glyphicon-home"></a>-->
     <!--<a style="margin-left: 10px" class="btn btn-default" id="discoverTheApp" ng-href="{{app.appUrlSvc.getFullPath('')+'favoriteRecipients'}}" targetId="Welcome" translate>Retenez-les</a>-->
     <a ng-show = "userEmailIsEmpty()" style="margin-left: 10px" class="btn btn-default btn-lg  glyphicon glyphicon-off" id="discoverTheApp" ng-href="{{app.appUrlSvc.getFullPath('favoriteRecipients')}}" targetId="Welcome"></a>
-
   </div>
+
   <!-- Translations  -->
-  <div ng-if="languageTextGroups && languageTextGroups.length > 0" class="row" style="margin-top: 35px; margin-bottom: 10px;"  >
-    <div class="col-xs-1 col-sm-1 col-md-3 col-lg-3"></div>
-    <div class="col-xs-10 col-sm-10 col-md-6 col-lg-6" style="text-align: center; vertical-align: middle;">
-      <accordion style="margin-top: 40px; margin-bottom: 10px; vertical-align: middle;"  ng-show="languageTextGroups.length > 0">
-        <accordion-group is-open="theAccordionStatus.open" is-disabled="false">
-          <accordion-heading >
-            <!--<i class="glyphicon" aria-hidden="true" ng-class="{'glyphicon-plus': !theAccordionStatus.open, 'glyphicon-minus': theAccordionStatus.open}"></i>-->
-            <span style="font-size: 80%;" class="glyphicon" aria-hidden="true" ng-class="{'glyphicon-plus': !theAccordionStatus.open, 'glyphicon-minus': theAccordionStatus.open}"></span>
-            <span style="font-size: 90%; vertical-align: middle;" translate >Traductions</span>
-            (
-            <span style="font-size: 80%;">{{languageTextGroups.length}}</span>
-            )
-          </accordion-heading>
-          <!-- Translations  -->
-          <div ng-repeat="languageTextGroup in  languageTextGroups" style="padding-top: 10px; padding-bottom: 20px;">
-            <h5 style="font-size: 120%; margin-top: 0px;" translate>{{ languageTextGroup.code }}</h5>
-
-            <div ng-repeat="text in languageTextGroup.texts">
-              <div class="well well-lg" style="border-color: #428bca; margin-bottom: 5px; margin-top: 25px;">
-                <span ng-bind-html="text.Content"></span>
-                <!--<div cvd-text="text"></div>-->
-                <!--<favourite-toggle is-favourite="isFavourite()" on-change="setFavourite()"></favourite-toggle>-->
-              </div>
-              <div>
-          <span ng-show="isVariationFormMorePrecise(text)" style="color: #428bca;">
-            <span translate>Ecrit</span> <span translate>{{getSenderGenderMessage(text)}}</span> <span translate>{{getRecipientGenderMessage(text)}}</span> <span translate>{{getTVMessage(text)}}</span>
-          </span>
-
-                <a rel="nofollow" ng-href="{{app.appUrlSvc.getRootPath('')}}area/{{ currentAreaName }}/recipient/{{ recipientId }}/intention/{{ theIntentionSlugOrId }}/text/{{text.TextId}}"
-                   targetType="Text"  actionType="open"  targetId="{{txt.TextId}}">
-                  <button class="btn btn-default pull-right glyphicon glyphicon-ok" translate
-                          targetId="{{ Id }}" targetType="Text"></button>
-                </a>
-              </div>
-              <div>&nbsp</div>
-            </div>
-          </div>
-        </accordion-group>
-      </accordion>
-    </div>
-    <div class="col-xs-1 col-sm-1 col-md-3 col-lg-3"></div>
-  </div>
-
+  <div ng-include="'views/partials/alternativeTexts.html'"> </div>
 
   <!-- When user has landed directly on this page, suggest a visit to intention list  -->
   <!--<div ng-show = "!app.appUrlSvc.getTextDetailWasCalledFromTextList() && !app.appUrlSvc.getTextDetailWasCalledFromDashboard()" style="margin-top: 15px; margin-bottom: 15px; text-align: center; ">-->
