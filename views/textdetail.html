@@ -146,9 +146,6 @@
   </div>
   <!-- Text author -->
   <div ng-show="isQuote(currentText) && authorButton!='disabled'" style="margin-top: 10px; text-align: center;" >
-    <!--<span class ="auteur hidden-xs " translate>Auteur</span>-->
-    <!--<span class ="auteur hidden-xs" translate> : </span>-->
-
     <span class ="auteur">{{currentText.Author}}</span>
     <!--&nbsp-->
     <!--<button class="btn btn-xs btn-default " ng-class = '{disabled: authorButton=="disabled"}'-->
@@ -156,21 +153,17 @@
             <!--ng-click="addAuthor()">+</button>-->
   </div>
 
-  <!--<div ng-show="currentText.ReferenceUrl">-->
-    <!--Source : <a ng-href = "{{currentText.ReferenceUrl}}" >{{currentText.ReferenceUrl}}</a>-->
-  <!--</div>-->
-
   <!-- ACTIONS -->
   <div class="row" style="vertical-align: middle; margin-top: 30px;"  >
     <div class="col-xs-1 col-sm-2 col-md-3 col-lg-3"></div>
     <div class="col-xs-10 col-sm-8 col-md-6 col-lg-6" style="text-align: center; vertical-align: middle;">
       <div class="" >
         <!-- fb Send -->
-        <button ng-if="!app.appUrlSvc.isMobile.any()" ng-click="fbSend()" ng-show="true" type="button" class="btn btn-default btn-lg glyphicon glyphicon-flash" ng-click="fbShare"></button>
+        <button ng-if="!app.appUrlSvc.isMobile.any()" ng-click="fbSend()" targetType="Command" targetId="FbSend" ng-show="true" type="button" class="btn btn-default btn-lg glyphicon glyphicon-flash" ng-click="fbShare"></button>
         <!--<button ng-if="true" ng-click="fbSend()" ng-show="true" type="button" class="btn btn-default btn-lg glyphicon glyphicon-flash" ng-click="fbShare"></button>-->
         <!-- fb Share -->
         <!--<button style="margin-left: 10px" ng-if="theIntentionSlugOrId != 'fake'" ng-click="fbShare()" ng-show="true" type="button" class="btn btn-primary btn-lg glyphicon glyphicon-share" ng-click="fbShare"></button>-->
-        <button style="margin-left: 10px" ng-if="theIntentionSlugOrId != 'fake'" ng-click="fbShare()" ng-show="true" type="button" class="btn btn-primary btn-lg" ng-click="fbShare" translate>Partager</button>
+        <button style="margin-left: 10px" ng-if="theIntentionSlugOrId != 'fake'" ng-click="fbShare()" targetType="Command" targetId="FbShare" type="button" class="btn btn-primary btn-lg" translate>Partager</button>
       <!-- Send -->
         <a style="margin-left: 10px"  targetType="Text"
            targetId="{{Id}}"
@@ -183,21 +176,20 @@
     <div class="col-xs-1 col-sm-2 col-md-3 col-lg-3"></div>
   </div>
 
-
-
-  <!-- When user has landed directly on this page, suggest a visit to HOMEPAGE  -->
+  <!-- Translations and HOMEPAGE  -->
   <!--<div ng-show = "!app.appUrlSvc.getTextDetailWasCalledFromTextList() && !app.appUrlSvc.getTextDetailWasCalledFromDashboard()" style="margin-top: 20px; margin-bottom: 15px; text-align: center; ">-->
   <div style="margin-top: 15px; margin-bottom: 30px; text-align: center; ">
-    <!--<div translate style="margin-bottom: 10px;">Testez le prompteur</div>-->
-
-    <a style="margin-left: 10px"  type="button" ng-href="{{app.appUrlSvc.getFullPath('')}}" class="btn btn-default btn-lg glyphicon glyphicon-home"></a>
+    <button style="margin-left: 10px" ng-disabled="!HasTranslations" ng-click="setShowTranslations(!getShowTranslations())" class="btn btn-default" type="button" targetType="Command" targetId="ShowTranslations"  translate>Traduire</button>
+    <a style="margin-left: 10px"  type="button"  ng-href="{{app.appUrlSvc.getFullPath('')}}" class="btn btn-default btn-lg glyphicon glyphicon-home"></a>
     <!--<a style="margin-left: 10px"  type="button" ng-href="http://localhost:3000/fr" class="btn btn-default btn-lg glyphicon glyphicon-home"></a>-->
     <!--<a style="margin-left: 10px" class="btn btn-default" id="discoverTheApp" ng-href="{{app.appUrlSvc.getFullPath('')+'favoriteRecipients'}}" targetId="Welcome" translate>Retenez-les</a>-->
     <a ng-show = "userEmailIsEmpty()" style="margin-left: 10px" class="btn btn-default btn-lg  glyphicon glyphicon-off" id="discoverTheApp" ng-href="{{app.appUrlSvc.getFullPath('favoriteRecipients')}}" targetId="Welcome"></a>
   </div>
 
   <!-- Translations  -->
-  <div ng-include="'views/partials/alternativeTexts.html'"> </div>
+  <div ng-if="getShowTranslations()">
+    <div ng-include="'views/partials/alternativeTexts.html'"> </div>
+  </div>
 
   <!-- When user has landed directly on this page, suggest a visit to intention list  -->
   <!--<div ng-show = "!app.appUrlSvc.getTextDetailWasCalledFromTextList() && !app.appUrlSvc.getTextDetailWasCalledFromDashboard()" style="margin-top: 15px; margin-bottom: 15px; text-align: center; ">-->

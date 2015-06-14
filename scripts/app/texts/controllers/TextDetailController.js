@@ -206,6 +206,22 @@ function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,curren
     return valret;
   };
 
+  var showTranslations = false;
+  $scope.setShowTranslations = function(val) {
+    showTranslations = val;
+  };
+  $scope.getShowTranslations = function() {
+    return showTranslations;
+  };
+
+  $scope.HasTranslations = true;
+  // Should be set in a property of the text instead
+  alternativeTextsSvc.getRealizationList($scope.currentAreaName,$scope.currentText.PrototypeId).then(function(textList) {
+    if ( !textList || textList.length < 2 )
+      $scope.HasTranslations = false;
+  });
+
+
 }]);
 
 
