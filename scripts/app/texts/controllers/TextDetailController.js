@@ -56,23 +56,10 @@ function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,curren
 
   setNewText(currentText,null);
 
-  var setQueryParameters = function(imageUrl) {
-    // Extract image name from url
-    var imageName= appUrlSvc.getPathFromUrl(imageUrl);
-    // Separate image file extension from image name
-    var dotIndex = imageName.lastIndexOf('.');
-    // Set url query parameters for image name and image file extension
-    var urlNoExtension = imageName.substring(0,dotIndex);
-    $location.search('imagePath',urlNoExtension);
-    var extNoDot = imageName.substring(dotIndex+1);
-    $location.search('imageExtension',extNoDot);
-  };
-
-
   var setCurrentImageForPage = function(imgUrl) {
     $scope.imageUrl = imgUrl;
     $rootScope.ogImage = imgUrl;
-    setQueryParameters(imgUrl);
+    appUrlSvc.setQueryParameters(imgUrl);
     setMailTo($scope.txt.Content,$scope.imageUrl);
   };
 
@@ -107,8 +94,6 @@ function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,curren
       firstDisplayOfPicture = false;
       if (!($scope.imageUrl))
         setCurrentImageForPage (requiredImageUrl);
-//      setQueryParameters (requiredImageUrl);
-
     } else {
       // else get one from the server
       var imageUrl = serverSvc.getStaticSiteRoot() + imagesSvc.staticSiteQuery(currentRecipientId, currentIntentionSlugOrId);
@@ -116,8 +101,6 @@ function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,curren
         .then(function(imagePathWithSlash) {
           // Get rid of first '/' if present
           var imageUrl = imagePathWithSlash.charAt(0) == '/' ? imagePathWithSlash.substr(1) : imagePathWithSlash;
-          // Separate image path from image extension and set to parameters
-//          setQueryParameters (imageUrl);
           // Build image url and set as current
           setCurrentImageForPage (serverSvc.makeImageUrlFromPath(imageUrl));
         }
@@ -132,19 +115,16 @@ function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,curren
   $scope.previousImage = function() {
     var res = imageStack.top();
     if ( res ) {
+      // Get image from top of stack
       var imageUrl = res.value;
-      //console.log(res.value);
       imageStack.removeTop();
-      // Separate image path from image extension
-//      setQueryParameters (imageUrl);
-      // Build image url and set as current
+      // Set as current
       setCurrentImageForPage (imageUrl);
     }
   };
 
   $scope.changeImage = function() {
     imageStack.add($scope.imageUrl,$scope.imageUrl);
-    //console.log(imageStack.length() + " " + imageStack.top().value);
     setImageFromContext(currentRecipientId, currentIntentionSlugOrId,undefined);
   };
 
@@ -153,33 +133,21 @@ function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,curren
   };
 
   var textStack =  textStackedMap.get();
-
+  // Move back to previous text
   $scope.previousText = function() {
     var res = textStack.top();
     if ( res ) {
       var previousText = res.value;
       setNewText(previousText,$scope.currentText);
-      //console.log(res.value);
       textStack.removeTop();
     }
-  };
-
-  // Pick random text in same intention, check that not in stack,
-  var pickNewText = function(currentTextList, currentId, allReadyTriedMap,maxNbTries ) {
-    var choice;
-    var nbTries = 0;
-    do {
-      choice = weightedTextRandomPickSvc.pickOneTextFromTextList(currentTextList);
-      nbTries++;
-    } while (nbTries <= maxNbTries && ( choice.Id == currentId || allReadyTriedMap.get(choice.Id)));
-    return choice;
   };
 
   $scope.changeText = function() {
     // Memorize current in stack
     textStack.add($scope.currentText.TextId,$scope.currentText);
-    // Choose new text in intention
-    var nextText = pickNewText (currentTextList, $scope.currentText.TextId, textStack,3 );
+    // Choose text in current text that is not current one or from previous choices
+    var nextText = weightedTextRandomPickSvc.pickNewTextDifferentThan (currentTextList, $scope.currentText.TextId, textStack,3 );
     // replace text id with new id in url
     if ( nextText )
       setNewText(nextText,$scope.currentText);
