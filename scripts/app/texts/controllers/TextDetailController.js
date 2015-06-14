@@ -206,29 +206,6 @@ function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,curren
     return valret;
   };
 
-
-  // TRANSLATIO?S
-  $scope.getSenderGenderMessage = alternativeTextsSvc.getSenderGenderMessage;
-  $scope.getRecipientGenderMessage = alternativeTextsSvc.getRecipientGenderMessage;
-  $scope.getTVMessage = alternativeTextsSvc.getTVMessage;
-
-  $scope.isVariationFormMorePrecise = function(text) {
-    return alternativeTextsSvc.isVariationFormMorePrecise(currentText,text);
-  };
-
-  // For each orderedPresentationLanguages, prepare an array of available texts for the language, then chose the best ones according to sender, recipient and polite form
-  alternativeTextsSvc.getRealizationList(currentAreaName,currentText.PrototypeId).then(function(textList) {
-    if ( !textList )
-      return;
-    // Adapt text Content formating to culture
-    for (var i = 0; i < textList.length; i++) {
-      var t = textList[i];
-      t.Content = helperSvc.adaptTextContentToLanguage(t);
-    }
-    // Make groups of best equivalents
-    $scope.languageTextGroups = alternativeTextsSvc.getAlternativeTexts(currentText,textList,currentLanguage.getLanguageFromCulture(currentText.Culture),filtersSvc.getCurrentFilters());
-  });
-
 }]);
 
 
