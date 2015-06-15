@@ -1,7 +1,10 @@
 angular.module('app/subscriptions/SubscriptionController',['app/recipients'])
 
-.controller('SubscriptionController', ['$scope', 'subscribedRecipientTypesSvc', 'subscriptionsSvc','serverSvc','currentUserLocalData','deviceIdSvc','recipientTypeHelperSvc','currentUser',
-  function ($scope, subscribedRecipientTypesSvc, subscriptionsSvc,serverSvc,currentUserLocalData,deviceIdSvc,recipientTypeHelperSvc,currentUser) {
+.controller('SubscriptionController', ['$scope', 'subscribedRecipientTypesSvc', 'subscriptionsSvc','serverSvc','currentUserLocalData','deviceIdSvc','recipientTypeHelperSvc','currentUser','postActionSvc',
+  function ($scope, subscribedRecipientTypesSvc, subscriptionsSvc,serverSvc,currentUserLocalData,deviceIdSvc,recipientTypeHelperSvc,currentUser,postActionSvc) {
+
+    postActionSvc.postActionInfo('Init','Page','Subscriptions','Init');
+
 
     $scope.userHasModifiedSubscription = false;
 

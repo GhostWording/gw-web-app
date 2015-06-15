@@ -2,7 +2,7 @@ angular.module('app/appUrl/appUrlSvc', ['common/i18n/availableLanguages','common
 
 // This is mostly used by the web app to create urls and track entry points
 .factory('appUrlSvc', ['$location','currentLanguage','availableLanguages','slugTranslations',
-  function ($location,currentLanguage,availableLanguages,slugTranslations) {
+function ($location,currentLanguage,availableLanguages,slugTranslations) {
   var fullrootPath = "/";
   var siterootPath = "/"; // or just "", to be tested
   var useHashBang = false;
@@ -13,17 +13,30 @@ angular.module('app/appUrl/appUrlSvc', ['common/i18n/availableLanguages','common
   //var domains  = ['commentvousdire.com','touchwording.com','localhost'];
 
 
-    service.setQueryParameters = function(imageUrl) {
-      // Extract image name from url
-      var imageName= service.getPathFromUrl(imageUrl);
-      // Separate image file extension from image name
-      var dotIndex = imageName.lastIndexOf('.');
-      // Set url query parameters for image name and image file extension
-      var urlNoExtension = imageName.substring(0,dotIndex);
-      $location.search('imagePath',urlNoExtension);
-      var extNoDot = imageName.substring(dotIndex+1);
-      $location.search('imageExtension',extNoDot);
-    };
+  service.setQueryParameters = function(imageUrl) {
+    // Extract image name from url
+    var imageName= service.getPathFromUrl(imageUrl);
+    // Separate image file extension from image name
+    var dotIndex = imageName.lastIndexOf('.');
+    // Set url query parameters for image name and image file extension
+    var urlNoExtension = imageName.substring(0,dotIndex);
+    $location.search('imagePath',urlNoExtension);
+    var extNoDot = imageName.substring(dotIndex+1);
+    $location.search('imageExtension',extNoDot);
+  };
+
+  service.makeStaticFbSendWebAppUrlFromCurrentUrl = function() {
+    var pageUrl = $location.absUrl();
+    var hostwithport = $location.$$port ? $location.$$host+":"+$location.$$port : $location.$$host;
+    var urlToLinkTo = pageUrl.replace(hostwithport,"www.commentvousdire.com/webapp");
+    urlToLinkTo = urlToLinkTo.replace("imagePath=","imagePath=/");
+    return urlToLinkTo;
+  };
+
+
+
+
+
 
   service.isMobile = {
     Android: function () {

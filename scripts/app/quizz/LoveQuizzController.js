@@ -3,6 +3,8 @@ angular.module('app/quizz/LoveQuizzController',['common/texts/textsSvc'])
 .controller('LoveQuizzController', ['$scope', '$rootScope', 'currentUserLocalData','textsSvc','appUrlSvc','postActionSvc','currentLanguage',
   function ($scope,$rootScope, currentUserLocalData,textsSvc,appUrlSvc,postActionSvc,currentLanguage) {
 
+    postActionSvc.postActionInfo('Init','Page','LoveQuizz','Init');
+
     // Set facebook image
     $rootScope.ogImage = "http://gw-static.azurewebsites.net/specialoccasions/I-love-you/default/small/shutterstock_237303379.jpg";
 

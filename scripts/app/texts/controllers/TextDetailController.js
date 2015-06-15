@@ -26,21 +26,22 @@ function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,curren
   else
     $rootScope.ogDescription = currentIntentionLabel;
 
-  // Copy the text Content so that if we edit it we are not editing the original "text".
-  // Content has to be property of a full object to avoid prototypal inheritance problems
+
+  // txt.Content has to be property of a full object to avoid prototypal inheritance problems
   $scope.txt = {};
 
+  // sets url mailto link. Does not react well when url changes
   function setMailTo(content,imgUrl) {
     var textToSend = content;
     if ( !!imgUrl )
       textToSend += '%0D%0A' + '%0D%0A' + imgUrl;
-    $scope.mailToThis = helperSvc.urlMailTo(textToSend, '');
+    $scope.mailToThis = helperSvc.urlMailTo(textToSend,'');
   }
-
+  // Set a new text as current
   var setNewText = function(newText,oldText) {
     if ( !!newText ) {
       $scope.currentText = newText;
-      // Adapts formatting of quotations
+      // Adapts formatting of quotations. Copied so that modifying txt.Content does not impact original text
       $scope.txt.Content = helperSvc.adaptTextContentToLanguage(newText);
       // Refresh mailTo
       setMailTo($scope.txt.Content,$scope.imageUrl);
@@ -53,40 +54,26 @@ function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,curren
       }
     }
   };
-
   setNewText(currentText,null);
 
+  // Set a new image as current
   var setCurrentImageForPage = function(imgUrl) {
     $scope.imageUrl = imgUrl;
     $rootScope.ogImage = imgUrl;
     appUrlSvc.setQueryParameters(imgUrl);
     setMailTo($scope.txt.Content,$scope.imageUrl);
   };
-
   if ( !!initialImageUrl )
     setCurrentImageForPage (initialImageUrl);
 
-  // Give visibility
+  // Give scope visibility
   $scope.theIntentionSlugOrId = currentIntentionSlugOrId;
   $scope.theIntentionLabel = currentIntentionLabel;
   $scope.currentAreaName = currentAreaName;
   $scope.recipientId = currentRecipientId;
-
   $scope.isQuote = function(txt) { return helperSvc.isQuote(txt); };
 
-  // Allows user to edit text content in an alternative control
-  $scope.editText = false;
-  $scope.edit = function() {
-    $scope.editText = true;
-  };
-  // When text is quotation, insert author name after the closing quotation mark : not currently used
-  $scope.authorButton = "active";
-  $scope.addAuthor = function() {
-    $scope.txt.Content = helperSvc.insertAuthorInText($scope.txt.Content, currentText.Author);
-    $scope.authorButton = "disabled";
-  };
-
-
+  // Sets the initial image :
   var firstDisplayOfPicture = true;
   var setImageFromContext = function(currentRecipientId, currentIntentionSlugOrId,requiredImageUrl) {
     // On first display, if the query parameter requires a specific image, this is what we want
@@ -110,8 +97,8 @@ function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,curren
 
   setImageFromContext(currentRecipientId, currentIntentionSlugOrId,initialImageUrl);
 
+  // IMAGE STACK
   var imageStack = stackedMap.createNew();
-
   $scope.previousImage = function() {
     var res = imageStack.top();
     if ( res ) {
@@ -122,16 +109,15 @@ function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,curren
       setCurrentImageForPage (imageUrl);
     }
   };
-
   $scope.changeImage = function() {
     imageStack.add($scope.imageUrl,$scope.imageUrl);
     setImageFromContext(currentRecipientId, currentIntentionSlugOrId,undefined);
   };
-
   $scope.noPreviousImage = function() {
     return (!imageStack || imageStack.length() === 0);
   };
 
+  // TEXT STACK
   var textStack =  textStackedMap.get();
   // Move back to previous text
   $scope.previousText = function() {
@@ -142,7 +128,6 @@ function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,curren
       textStack.removeTop();
     }
   };
-
   $scope.changeText = function() {
     // Memorize current in stack
     textStack.add($scope.currentText.TextId,$scope.currentText);
@@ -152,23 +137,17 @@ function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,curren
     if ( nextText )
       setNewText(nextText,$scope.currentText);
   };
-
   $scope.noPreviousText = function() {
     return (!textStack || textStack.length() === 0);
   };
 
-  // Facebook Share and Send
+  // FACEBOOK  Share and Send
   $scope.fbShare = function () {
     facebookSvc.fbUIShare(currentText.Content,$rootScope.ogImage, $location.absUrl());
   };
-  // Does not work well if facebook can access current page and finds something different
-  // We could try to set og:url to alternative links ?
+  // Does not work so well if facebook accesses current page and finds something different, could try to sec og.Link as well
   $scope.fbSend = function () {
-    var pageUrl = $location.absUrl();
-    var hostwithport = $location.$$port ? $location.$$host+":"+$location.$$port : $location.$$host;
-    var urlToLinkTo = pageUrl.replace(hostwithport,"www.commentvousdire.com/webapp");
-    urlToLinkTo = urlToLinkTo.replace("imagePath=","imagePath=/");
-    facebookSvc.fbUISend(urlToLinkTo);
+    facebookSvc.fbUISend(appUrlSvc.makeStaticFbSendWebAppUrlFromCurrentUrl());
   };
 
   $scope.userEmailIsEmpty = function() {
@@ -177,6 +156,19 @@ function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,curren
       valret = false;
     return valret;
   };
+
+  // EDIT TEXT (not currently used)
+  $scope.editText = false;
+  $scope.edit = function() {
+    $scope.editText = true;
+  };
+  // ADD AUTHOR  (not currently used)
+  $scope.authorButton = "active";
+  $scope.addAuthor = function() {
+    $scope.txt.Content = helperSvc.insertAuthorInText($scope.txt.Content, currentText.Author);
+    $scope.authorButton = "disabled";
+  };
+
 
   // TRANSLATIONS
   var showTranslations = false;

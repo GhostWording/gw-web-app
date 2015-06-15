@@ -271,13 +271,18 @@ angular.module('app/routing', ['ui.router'])
     resolve: {
       currentTextId: ['$stateParams', 'textsSvc' , function ($stateParams, textsSvc) {
         var textId = $stateParams.textId;
-        if ( !!textId )
+        if ( !!textId && textId != 'none') // TODO : use global label
           textsSvc.setCurrentTextId(textId);
         return textId; }
       ],
       // Current intention is inherited from parent state
-      currentText: ['textsSvc','currentLanguage', function(textsSvc,currentLanguage) {
-        return textsSvc.getCurrentText(currentLanguage.currentCulture()); }
+      currentText: ['textsSvc','currentLanguage','currentTextId','weightedTextRandomPickSvc','currentTextList', function(textsSvc,currentLanguage,currentTextId,weightedTextRandomPickSvc,currentTextList) {
+        if ( currentTextId == 'none') {
+          // TODO : set currentTextId and insert in url
+          return weightedTextRandomPickSvc.pickOneTextFromTextList(currentTextList);
+        }
+        else
+          return textsSvc.getCurrentText(currentLanguage.currentCulture()); }
       ],
 
       imageUrl: ['$location','currentText','serverSvc', function($location,currentText,serverSvc) {
