@@ -46,12 +46,8 @@ function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,curren
       // Refresh mailTo
       setMailTo($scope.txt.Content,$scope.imageUrl);
       // Change url to include new id
-      if ( !! oldText) {
-        var oldUrl = $location.url();
-        var newUrl = oldUrl.replace(oldText.TextId,newText.TextId);
-        if ( newUrl != oldUrl)
-          $location.url(newUrl);
-      }
+      if ( !! oldText)
+        appUrlSvc.replaceTextIdInUrl(oldText.TextId,newText.TextId);
     }
   };
   setNewText(currentText,null);

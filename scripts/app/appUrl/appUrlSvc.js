@@ -1,8 +1,8 @@
-angular.module('app/appUrl/appUrlSvc', ['common/i18n/availableLanguages','common/i18n/slugTranslations'])
+angular.module('app/appUrl/appUrlSvc', ['common/i18n/availableLanguages','common/i18n/slugTranslations','common/textSelection'])
 
 // This is mostly used by the web app to create urls and track entry points
-.factory('appUrlSvc', ['$location','currentLanguage','availableLanguages','slugTranslations',
-function ($location,currentLanguage,availableLanguages,slugTranslations) {
+.factory('appUrlSvc', ['$location','currentLanguage','availableLanguages','slugTranslations','weightedTextRandomPickSvc','pickSpecificThenRandom',
+function ($location,currentLanguage,availableLanguages,slugTranslations,weightedTextRandomPickSvc,pickSpecificThenRandom) {
   var fullrootPath = "/";
   var siterootPath = "/"; // or just "", to be tested
   var useHashBang = false;
@@ -10,8 +10,16 @@ function ($location,currentLanguage,availableLanguages,slugTranslations) {
 
   var service = {};
 
-  //var domains  = ['commentvousdire.com','touchwording.com','localhost'];
+  // For those special text ids, special selection functions will be used to choose in a text list
+  var special_Text_Id_MAP = {
+    'random' : weightedTextRandomPickSvc.pickOneTextFromTextList,
+    'random12' : weightedTextRandomPickSvc.textWithSortOrder12ThenRandom,
+    'random12FirstTime' : pickSpecificThenRandom.random12FirstTime
+  };
 
+  service.getSelectionFunctionForSpecialTextIdCode = function(textId) {
+    return special_Text_Id_MAP[textId];
+  };
 
   service.setQueryParameters = function(imageUrl) {
     // Extract image name from url
@@ -32,11 +40,6 @@ function ($location,currentLanguage,availableLanguages,slugTranslations) {
     urlToLinkTo = urlToLinkTo.replace("imagePath=","imagePath=/");
     return urlToLinkTo;
   };
-
-
-
-
-
 
   service.isMobile = {
     Android: function () {
@@ -144,6 +147,14 @@ function ($location,currentLanguage,availableLanguages,slugTranslations) {
     var canonicalUrl = service.changeUrlToTargetLanguageDomain($location.absUrl(),$location.host(),service.findLanguageInPath());
     //console.log("canonicalUrl : " + canonicalUrl);
     return canonicalUrl;
+  };
+
+
+  service.replaceTextIdInUrl = function(oldId,newId) {
+    var oldUrl = $location.url();
+    var newUrl = oldUrl.replace(oldId,newId);
+    if ( newUrl != oldUrl)
+      $location.url(newUrl);
   };
 
 

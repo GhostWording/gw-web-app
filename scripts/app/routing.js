@@ -269,21 +269,31 @@ angular.module('app/routing', ['ui.router'])
     controller: 'TextDetailController',
 //    controller: 'TextAndImageController',
     resolve: {
-      currentTextId: ['$stateParams', 'textsSvc' , function ($stateParams, textsSvc) {
+      currentTextId: ['$stateParams', 'textsSvc' ,'appUrlSvc', function ($stateParams, textsSvc,appUrlSvc) {
         var textId = $stateParams.textId;
-        if ( !!textId && textId != 'none') // TODO : use global label
+        // Set current text id if text id is not a special code
+        if ( !!textId && !appUrlSvc.getSelectionFunctionForSpecialTextIdCode(textId) )
           textsSvc.setCurrentTextId(textId);
-        return textId; }
-      ],
+        return textId;
+      }],
       // Current intention is inherited from parent state
-      currentText: ['textsSvc','currentLanguage','currentTextId','weightedTextRandomPickSvc','currentTextList', function(textsSvc,currentLanguage,currentTextId,weightedTextRandomPickSvc,currentTextList) {
-        if ( currentTextId == 'none') {
-          // TODO : set currentTextId and insert in url
-          return weightedTextRandomPickSvc.pickOneTextFromTextList(currentTextList);
-        }
-        else
-          return textsSvc.getCurrentText(currentLanguage.currentCulture()); }
-      ],
+      currentText: ['textsSvc','currentLanguage','currentTextId','weightedTextRandomPickSvc','currentTextList','appUrlSvc',
+        function(textsSvc,currentLanguage,currentTextId,weightedTextRandomPickSvc,currentTextList,appUrlSvc) {
+          // Check if currentTextId is really a code for random picking
+          var specialTextPickingFunction = appUrlSvc.getSelectionFunctionForSpecialTextIdCode(currentTextId);
+          if ( specialTextPickingFunction) {
+            var retval = specialTextPickingFunction(currentTextList);
+            // replace code by real text id - Will cause route change but second time the textId will be a real one
+            if ( retval)  {
+              appUrlSvc.replaceTextIdInUrl(currentTextId,retval.TextId);
+              textsSvc.setCurrentTextId(retval.TextId);
+            }
+            return retval;
+          }
+          // If return not go for current text
+          else
+            return textsSvc.getCurrentText(currentLanguage.currentCulture());
+      }],
 
       imageUrl: ['$location','currentText','serverSvc', function($location,currentText,serverSvc) {
           var queryParams = $location.search();
