@@ -12,10 +12,14 @@
         <!--</a>-->
 
         <!-- Move explicitely to  text list url -->
-        <!--<a ng-show = "app.appUrlSvc.getTextDetailWasCalledFromTextList() == false && app.appUrlSvc.isDashboardPath() == false"-->
-        <a ng-show = "app.appUrlSvc.isDashboardPath() == false"
+        <!--<a ng-show = "app.appUrlSvc.isDashboardPath() == false"-->
+        <a ng-show = "app.appUrlSvc.getTextDetailWasCalledFromTextList() == true && app.appUrlSvc.isDashboardPath() == false"
             ng-href="{{app.appUrlSvc.getFullPath('')}}/area/{{ currentAreaName }}/recipient/{{ recipientId }}/intention/{{theIntentionSlugOrId}}/text"
-
+           class="pull-left" role="button" targetId="Back">
+          <img ng-src="./assets/arrow-left.png" class="stylepicto">
+        </a>
+        <a ng-show = "app.appUrlSvc.getTextDetailWasCalledFromTextList() == false && app.appUrlSvc.isDashboardPath() == false"
+           ng-href="{{app.appUrlSvc.getFullPath('')}}"
            class="pull-left" role="button" targetId="Back">
           <img ng-src="./assets/arrow-left.png" class="stylepicto">
         </a>
