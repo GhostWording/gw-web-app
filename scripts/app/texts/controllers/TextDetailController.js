@@ -184,9 +184,9 @@ function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,curren
 //      $scope.HasTranslations = false;
 //  });
   // New : OtherRealizationIds is now available in all cases
-  $scope.HasTranslations = $scope.currentText.OtherRealizationIds
-                        && $scope.currentText.OtherRealizationIds.length > 0
-                        && $scope.currentText.OtherRealizationIds[0].length > 0;
+  $scope.HasTranslations = $scope.currentText.OtherRealizationIds &&
+                           $scope.currentText.OtherRealizationIds.length > 0 &&
+                           $scope.currentText.OtherRealizationIds[0].length > 0;
 
 
 }]);

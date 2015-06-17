@@ -44,24 +44,26 @@ angular.module('app/controllers/CherryController', [])
     // Initialize spinner object used to show that app is busy
     $scope.showSpinner = false;
     $scope.trackerIsActive = function () { return $rootScope.loadingTracker.active();};
-    var skipTracker =  true;
 
     // Inform prerender that the page is all set for prerendering
     $window.prerenderReady = true;
 
-    // Preload intentions
-    intentionsSvc.getIntentionsForArea('Friends',skipTracker);
-    intentionsSvc.getIntentionsForArea('LoveLife',skipTracker);
-    intentionsSvc.getIntentionsForArea('Family',skipTracker);
-    //intentionsSvc.getIntentionsForArea('General',skipTracker);
-
-    // Preload text lists
-    var makeShortVersionAndSort =  true;
-    textsSvc.getTextList('Friends', 'joyeux-anniversaire', currentLanguage.currentCulture(), skipTracker,makeShortVersionAndSort);
-    //textsSvc.getTextList('LoveLife', 'j-aimerais-vous-revoir', currentLanguage.currentCulture(),skipTracker,makeShortVersionAndSort);
-    textsSvc.getTextList('LoveLife', 'je-pense-a-toi',currentLanguage.currentCulture(),skipTracker,makeShortVersionAndSort);
-    textsSvc.getTextList('LoveLife', 'je-t-aime',currentLanguage.currentCulture(), skipTracker,makeShortVersionAndSort);
-    textsSvc.getTextList('LoveLife', 'j-ai-envie-de-toi',currentLanguage.currentCulture(),skipTracker,makeShortVersionAndSort);
+    // Moved to splash screen : don't need this if users land on text detail page
+    var skipTracker =  true;
+    intentionsSvc.getIntentionsForArea('General',skipTracker); // We need this one for url rewriting
+    intentionsSvc.setGeneralIntentionMap(skipTracker);
+//    // Preload intentions
+//    intentionsSvc.getIntentionsForArea('Friends',skipTracker);
+//    intentionsSvc.getIntentionsForArea('LoveLife',skipTracker);
+//    intentionsSvc.getIntentionsForArea('Family',skipTracker);
+//
+//    // Preload text lists
+//    var makeShortVersionAndSort =  true;
+//    textsSvc.getTextList('Friends', 'joyeux-anniversaire', currentLanguage.currentCulture(), skipTracker,makeShortVersionAndSort);
+//    //textsSvc.getTextList('LoveLife', 'j-aimerais-vous-revoir', currentLanguage.currentCulture(),skipTracker,makeShortVersionAndSort);
+//    textsSvc.getTextList('LoveLife', 'je-pense-a-toi',currentLanguage.currentCulture(),skipTracker,makeShortVersionAndSort);
+//    textsSvc.getTextList('LoveLife', 'je-t-aime',currentLanguage.currentCulture(), skipTracker,makeShortVersionAndSort);
+//    textsSvc.getTextList('LoveLife', 'j-ai-envie-de-toi',currentLanguage.currentCulture(),skipTracker,makeShortVersionAndSort);
 
     // Display spinner when route change starts
     $rootScope.$on("$stateChangeStart",function (event, toState, toParams, fromState, fromParams) {

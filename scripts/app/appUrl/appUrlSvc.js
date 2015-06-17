@@ -1,8 +1,8 @@
 angular.module('app/appUrl/appUrlSvc', ['common/i18n/availableLanguages','common/i18n/slugTranslations','common/textSelection'])
 
 // This is mostly used by the web app to create urls and track entry points
-.factory('appUrlSvc', ['$location','currentLanguage','availableLanguages','slugTranslations','weightedTextRandomPickSvc','pickSpecificThenRandom',
-function ($location,currentLanguage,availableLanguages,slugTranslations,weightedTextRandomPickSvc,pickSpecificThenRandom) {
+.factory('appUrlSvc', ['$location','currentLanguage','availableLanguages','slugTranslations','weightedTextRandomPickSvc','pickSpecificThenRandom','intentionsSvc',
+function ($location,currentLanguage,availableLanguages,slugTranslations,weightedTextRandomPickSvc,pickSpecificThenRandom,intentionsSvc) {
   var fullrootPath = "/";
   var siterootPath = "/"; // or just "", to be tested
   var useHashBang = false;
@@ -20,6 +20,11 @@ function ($location,currentLanguage,availableLanguages,slugTranslations,weighted
   service.getSelectionFunctionForSpecialTextIdCode = function(textId) {
     return special_Text_Id_MAP[textId];
   };
+
+//  intentionsSvc.getCurrent().then(function(currentIntention) {
+//    console.log(currentIntention);
+//  });
+
 
   service.setQueryParameters = function(imageUrl) {
     // Extract image name from url
@@ -178,12 +183,44 @@ function ($location,currentLanguage,availableLanguages,slugTranslations,weighted
       altUrl = altUrl.replace(currentPath,pathWithTargetLanguage);
     }
 
-    // We should be able to do that for all languages but we first to download proper lookup tables from the server
-    if ( targetLanguage == 'en' )
+    var lastIntention = intentionsSvc.getLastIntention();
+    if ( lastIntention && lastIntention.Labels ) {
+      var targetCulture = currentLanguage.defaultCultureForLanguage(targetLanguage);
+      var currentCulture = currentLanguage.getCultureCode();
+      var currentIntentionSlug;
+      var targetIntentionSlug;
+      for (var i = 0; i < lastIntention.Labels.length; i++ ) {
+        var label = lastIntention.Labels[i];
+        if ( label.Culture == currentCulture )
+          currentIntentionSlug = label.Slug;
+        if ( label.Culture == targetCulture )
+          targetIntentionSlug = label.Slug;
+      }
+      if ( currentIntentionSlug && targetIntentionSlug) {
+        if ( currentIntentionSlug != targetIntentionSlug ) {
+          altUrl = altUrl.replace(currentIntentionSlug,targetIntentionSlug);
+        }
+      }
+    } else if ( targetLanguage == 'en' )
       altUrl = service.changeSlugToEnglish(altUrl);
     return altUrl;
 
   };
+
+  service.getIntentionSlugOrIdFromUrl = function(urlToChange) {
+    var retval;
+    // Change slug to english
+    var strBeforeSlug = "intention/";
+    var strAfterSlug = "/text";
+    var posBefore = urlToChange.lastIndexOf(strBeforeSlug);
+    var posAfter = urlToChange.lastIndexOf(strAfterSlug);
+    var slug;
+    if ( posBefore >= 0 && posAfter >= 0) {
+      retval = urlToChange.substring(posBefore+strBeforeSlug.length,posAfter);
+    }
+    return retval;
+  };
+
 
   service.changeSlugToEnglish = function(urlToChange) {
     var retval = urlToChange;
@@ -197,7 +234,7 @@ function ($location,currentLanguage,availableLanguages,slugTranslations,weighted
       //console.log("SLUG  ===> " + slug);
       slug = urlToChange.substring(posBefore+strBeforeSlug.length,posAfter);
       var englishSlug = slugTranslations.translateSlugToEnglish(slug);
-      //console.log("englishSlug  ===> " + englishSlug);
+      console.log("englishSlug  ===> " + englishSlug);
       retval = urlToChange.replace(slug,englishSlug);
     }
     return retval;
@@ -260,10 +297,28 @@ function ($location,currentLanguage,availableLanguages,slugTranslations,weighted
   };
   service.getFullPath = function (url) {
     var retval = service.getRootPath() + url;
+
     // We don't want a trailing slash if we only have a
     if (!url)
       retval = service.removeTrailingSlash(retval);
     //console.log(retval)
+    return retval;
+  };
+
+  service.getFullPathWithIntentionIdSubstitution = function(url) {
+
+    var retval = service.getFullPath(url);
+    var generalIntentionMap = intentionsSvc.getGeneralIntentionMap();
+    if (generalIntentionMap) {
+      var targetIntentionId = service.getIntentionSlugOrIdFromUrl(url);
+      var targetIntention = generalIntentionMap[targetIntentionId];
+      var intentionSlugForCulture = service.getIntentionSlug(targetIntention);
+      if (intentionSlugForCulture && targetIntention) {
+        retval = retval.replace(targetIntentionId, intentionSlugForCulture);
+        console.log(retval);
+      }
+    }
+
     return retval;
   };
 
@@ -274,8 +329,10 @@ function ($location,currentLanguage,availableLanguages,slugTranslations,weighted
 
   // Which slug should we use as an id for an intention ?
   service.getIntentionSlug = function(intention) {
-    if ( !intention )
+    if ( !intention ) {
       console.log("getIntentionSlug called for null intention");
+      return;
+    }
     // Default value will be intention slug if no local version available
     var retval =  intention.SlugPrototypeLink; // TODO : get slug for current language
     var culture = currentLanguage.currentCulture();
