@@ -195,7 +195,7 @@ angular.module('app/routing', ['ui.router'])
     resolve: {
       recipients: ['recipientTypesSvc', function(subscribedRecipientTypesSvc) { return subscribedRecipientTypesSvc.getAll(); }]
     },
-    showTabs: true
+    showTabs: false
   })
   // Intention list for area and recipient.
   .state('area.intentionList', {
@@ -217,7 +217,7 @@ angular.module('app/routing', ['ui.router'])
         return currentRecipientSvc.getCurrentRecipientLabel();
       }]
     },
-    showTabs: true
+    showTabs: false
   })
   // Text list for an intention, and a recipient. Recipient can be 'none'
   .state('area.textList', {
@@ -253,7 +253,7 @@ angular.module('app/routing', ['ui.router'])
       }]
 
     },
-    showTabs: true,
+    showTabs: false,
     views: {
       '' : {
         templateUrl: 'views/textList.html',

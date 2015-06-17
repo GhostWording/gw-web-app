@@ -50,9 +50,9 @@ angular.module('app/controllers/CherryController', [])
 
     // Moved to splash screen : don't need this if users land on text detail page
     var skipTracker =  true;
-    intentionsSvc.getIntentionsForArea('General',skipTracker); // We need this one for url rewriting
-    intentionsSvc.setGeneralIntentionMap(skipTracker);
+    intentionsSvc.setGeneralIntentionMap(skipTracker); // We need this one for url rewriting
 //    // Preload intentions
+//    intentionsSvc.getIntentionsForArea('General',skipTracker);
 //    intentionsSvc.getIntentionsForArea('Friends',skipTracker);
 //    intentionsSvc.getIntentionsForArea('LoveLife',skipTracker);
 //    intentionsSvc.getIntentionsForArea('Family',skipTracker);
