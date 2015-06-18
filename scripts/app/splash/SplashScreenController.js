@@ -12,17 +12,18 @@ angular.module('app/splash', ['common/services'])
   var skipTracker =  true;
 // Preload intentions
   intentionsSvc.getIntentionsForArea('General',skipTracker);
-  intentionsSvc.getIntentionsForArea('Friends',skipTracker);
-  intentionsSvc.getIntentionsForArea('LoveLife',skipTracker);
-  intentionsSvc.getIntentionsForArea('Family',skipTracker);
+  intentionsSvc.getIntentionsForArea('Addressee',skipTracker);
+  //intentionsSvc.getIntentionsForArea('Friends',skipTracker);
+  //intentionsSvc.getIntentionsForArea('LoveLife',skipTracker);
+  //intentionsSvc.getIntentionsForArea('Family',skipTracker);
 
   // Preload text lists
     // TODO : that only works for French users : we should user the version with intention ids. "joyeux-anniversaire.en-EN" will not be a usefull cache entry
   var makeShortVersionAndSort =  true;
-  textsSvc.getTextList('Friends', 'joyeux-anniversaire', currentLanguage.currentCulture(), skipTracker,makeShortVersionAndSort);
-  //textsSvc.getTextList('LoveLife', 'j-aimerais-vous-revoir', currentLanguage.currentCulture(),skipTracker,makeShortVersionAndSort);
-  textsSvc.getTextList('LoveLife', 'je-pense-a-toi',currentLanguage.currentCulture(),skipTracker,makeShortVersionAndSort);
-  textsSvc.getTextList('LoveLife', 'je-t-aime',currentLanguage.currentCulture(), skipTracker,makeShortVersionAndSort);
-  textsSvc.getTextList('LoveLife', 'j-ai-envie-de-toi',currentLanguage.currentCulture(),skipTracker,makeShortVersionAndSort);
+  textsSvc.getTextList('Addressee', 'joyeux-anniversaire', currentLanguage.currentCulture(), skipTracker,makeShortVersionAndSort);
+  textsSvc.getTextList('Addressee', 'je-pense-a-toi',currentLanguage.currentCulture(),skipTracker,makeShortVersionAndSort);
+  textsSvc.getTextList('Addressee', 'statuts-facebook',currentLanguage.currentCulture(), skipTracker,makeShortVersionAndSort);
+  textsSvc.getTextList('Addressee', 'merci',currentLanguage.currentCulture(), skipTracker,makeShortVersionAndSort);
+  textsSvc.getTextList('Addressee', 'tu-me-plais',currentLanguage.currentCulture(),skipTracker,makeShortVersionAndSort);
 
 }]);
