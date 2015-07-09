@@ -9,13 +9,13 @@ function ($scope,currentLanguage,postActionSvc,appUrlSvc,intentionsSvc,textsSvc)
 
   $scope.targetDatas = [
     { 'targetId':'thank-you',       'targetUrl':'area/Addressee/recipient/CloseFriends/intention/1778B7/text/random12FirstTime', 'targetLabel': 'Merci',
-      'imageUrl':'http://gw-static.azurewebsites.net/specialoccasions/thank-you/default/small/shutterstock_99334949.jpg'  },
+      'imageUrl':'http://gw-static.azurewebsites.net/cvd/fbfriend/stockanimals/small/iStock_000009443318_Medium.jpg'  },
     { 'targetId':'I-like-you',      'targetUrl':'area/Addressee/recipient/LoveInterestF/intention/64B504/text/random12FirstTime','targetLabel': 'Tu me plais',
       'imageUrl':'http://gw-static.azurewebsites.net/specialoccasions/I-like-you/default/small/iStock_000013907982_Medium.jpg'  },
     { 'targetId':'happy-birthday',  'targetUrl':'area/Addressee/recipient/CloseFriends/intention/A730B4/text/random12FirstTime', 'targetLabel': 'Bon anniversaire',
-      'imageUrl':'http://gw-static.azurewebsites.net/specialoccasions/happy-birthday/default/small/10458894_895741113774085_143442555961041031_n.jpg'  },
+      'imageUrl':'http://gw-static.azurewebsites.net/specialoccasions/happy-birthday/default/small/shutterstock_109536749.jpg'  },
     { 'targetId':'facebook-status', 'targetUrl':'area/Addressee/recipient/OtherFriends/intention/2E2986/text/random12FirstTime', 'targetLabel': 'Votre statut facebook',
-      'imageUrl':'http://gw-static.azurewebsites.net/specialoccasions/let-me-introduce-myself/default/small/557975_337956906315586_1933846362_n.jpg'  }
+      'imageUrl':'http://gw-static.azurewebsites.net/cvd/fbfriend/stockanimals/small/shutterstock_101654053.jpg'  }
   ];
 
   appUrlSvc.setUserHasBeenOnSplashScreen(true);
