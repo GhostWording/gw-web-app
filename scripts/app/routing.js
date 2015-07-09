@@ -250,7 +250,19 @@ angular.module('app/routing', ['ui.router'])
       currentRecipientLabel: ['currentRecipientSvc', function(currentRecipientSvc) {
         //return currentRecipientSvc.getCurrentRecipient().then(function(rec) {return rec.LocalLabel});
         return currentRecipientSvc.getCurrentRecipientLabel();
+      }],
+      // This is used for TextDetail but we don't want to refilter each time
+      textListFilteredForRecipient:['textsSvc','filtersSvc','filteredTextListSvc','currentRecipient','currentUser','currentTextList',function(textsSvc,filtersSvc,filteredTextListSvc,currentRecipient,currentUser,currentTextList) {
+        if ( currentRecipient && currentRecipient.RecipientTypeTag ) {
+          filtersSvc.setRecipientTypeTag(currentRecipient.RecipientTypeTag);
+          console.log("AVANT " + currentTextList.length);
+          var filteredList = filteredTextListSvc.setFilteredAndOrderedList(currentTextList, currentUser, filtersSvc.filters.preferredStyles);
+          console.log("APRES " + filteredList.length);
+          return filteredList;
+        }
+        return currentTextList;
       }]
+
 
     },
     showTabs: false,
@@ -276,7 +288,8 @@ angular.module('app/routing', ['ui.router'])
           textsSvc.setCurrentTextId(textId);
         return textId;
       }],
-      // Current intention is inherited from parent state
+
+  // Current intention is inherited from parent state
       currentText: ['textsSvc','currentLanguage','currentTextId','weightedTextRandomPickSvc','currentTextList','appUrlSvc',
         function(textsSvc,currentLanguage,currentTextId,weightedTextRandomPickSvc,currentTextList,appUrlSvc) {
           // Check if currentTextId is really a code for random picking

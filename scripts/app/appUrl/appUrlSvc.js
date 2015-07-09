@@ -234,7 +234,7 @@ function ($location,currentLanguage,availableLanguages,slugTranslations,weighted
       //console.log("SLUG  ===> " + slug);
       slug = urlToChange.substring(posBefore+strBeforeSlug.length,posAfter);
       var englishSlug = slugTranslations.translateSlugToEnglish(slug);
-      console.log("englishSlug  ===> " + englishSlug);
+      //console.log("englishSlug  ===> " + englishSlug);
       retval = urlToChange.replace(slug,englishSlug);
     }
     return retval;
@@ -315,7 +315,7 @@ function ($location,currentLanguage,availableLanguages,slugTranslations,weighted
       var intentionSlugForCulture = service.getIntentionSlug(targetIntention);
       if (intentionSlugForCulture && targetIntention) {
         retval = retval.replace(targetIntentionId, intentionSlugForCulture);
-        console.log(retval);
+        //console.log(retval);
       }
     }
 

@@ -10,12 +10,21 @@ function ($scope,currentLanguage,postActionSvc,appUrlSvc,intentionsSvc,textsSvc)
   $scope.targetDatas = [
     { 'targetId':'thank-you',       'targetUrl':'area/Addressee/recipient/CloseFriends/intention/1778B7/text/random12FirstTime', 'targetLabel': 'Merci',
       'imageUrl':'http://gw-static.azurewebsites.net/cvd/fbfriend/stockanimals/small/iStock_000009443318_Medium.jpg'  },
+
+    { 'targetId':'I-think-of-you', 'targetUrl':'area/Addressee/recipient/SweetheartF/intention/016E91/text/random12FirstTime', 'targetLabel': 'Je pense à toi',
+      'imageUrl':'http://gw-static.azurewebsites.net/cvd/loveinterest/istockpairs/small/iStock_000015884455_Medium.jpg'  },
+
     { 'targetId':'I-like-you',      'targetUrl':'area/Addressee/recipient/LoveInterestF/intention/64B504/text/random12FirstTime','targetLabel': 'Tu me plais',
       'imageUrl':'http://gw-static.azurewebsites.net/specialoccasions/I-like-you/default/small/iStock_000013907982_Medium.jpg'  },
+
+    { 'targetId':'I-miss-you', 'targetUrl':'area/Addressee/recipient/SweetheartF/intention/8ED62C/text/random12FirstTime', 'targetLabel': 'Tu me manques',
+      'imageUrl':'http://gw-static.azurewebsites.net/cvd/loveinterest/otherlove/small/shutterstock_32076445.jpg'  },
+
     { 'targetId':'happy-birthday',  'targetUrl':'area/Addressee/recipient/CloseFriends/intention/A730B4/text/random12FirstTime', 'targetLabel': 'Bon anniversaire',
-      'imageUrl':'http://gw-static.azurewebsites.net/specialoccasions/happy-birthday/default/small/shutterstock_109536749.jpg'  },
+      'imageUrl':'http://gw-static.azurewebsites.net/specialoccasions/happy-birthday/default/small/iStock_000002415327_Medium.jpg'  },
+
     { 'targetId':'facebook-status', 'targetUrl':'area/Addressee/recipient/OtherFriends/intention/2E2986/text/random12FirstTime', 'targetLabel': 'Votre statut facebook',
-      'imageUrl':'http://gw-static.azurewebsites.net/cvd/fbfriend/stockanimals/small/shutterstock_101654053.jpg'  }
+      'imageUrl':'http://gw-static.azurewebsites.net/cvd/fbfriend/stockanimals/small/shutterstock_101654053.jpg'  },
   ];
 
   appUrlSvc.setUserHasBeenOnSplashScreen(true);

@@ -7,9 +7,9 @@ angular.module('app/texts/TextDetailController',[
 
 // Display text with alternative versions in other languages
 .controller('TextDetailController',
-['$scope','currentText', 'currentAreaName', 'currentIntentionSlugOrId','currentIntentionLabel','currentRecipientId','imageUrl','currentTextList','initialCultureCode',
+['$scope','currentText', 'currentAreaName', 'currentIntentionSlugOrId','currentIntentionLabel','currentRecipientId','imageUrl','textListFilteredForRecipient','initialCultureCode',
           'alternativeTextsSvc','currentLanguage','helperSvc','$rootScope','$location','postActionSvc','serverSvc','currentUserLocalData','imagesSvc','ezfb','$window','stackedMap','appUrlSvc','facebookSvc','weightedTextRandomPickSvc','textStackedMap',
-function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,currentIntentionLabel, currentRecipientId, initialImageUrl,currentTextList,initialCultureCode,// those variables are resolved in routing.js
+function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,currentIntentionLabel, currentRecipientId, initialImageUrl,textListFilteredForRecipient,initialCultureCode,// those variables are resolved in routing.js
           alternativeTextsSvc,currentLanguage,helperSvc,$rootScope,$location,postActionSvc, serverSvc,currentUserLocalData,imagesSvc,ezfb,$window,stackedMap,appUrlSvc,facebookSvc,weightedTextRandomPickSvc,textStackedMap) {
 
   $scope.getImageFileName = function() {
@@ -128,7 +128,7 @@ function ($scope, currentText,  currentAreaName, currentIntentionSlugOrId,curren
     // Memorize current in stack
     textStack.add($scope.currentText.TextId,$scope.currentText);
     // Choose text in current text that is not current one or from previous choices
-    var nextText = weightedTextRandomPickSvc.pickNewTextDifferentThan (currentTextList, $scope.currentText.TextId, textStack,3 );
+    var nextText = weightedTextRandomPickSvc.pickNewTextDifferentThan (textListFilteredForRecipient, $scope.currentText.TextId, textStack,3 );
     // replace text id with new id in url
     if ( nextText )
       setNewText(nextText,$scope.currentText);
