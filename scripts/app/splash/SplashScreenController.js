@@ -2,10 +2,21 @@
 angular.module('app/splash', ['common/services'])
 
 .controller('SplashScreenController', ['$scope','currentLanguage', 'postActionSvc','appUrlSvc','intentionsSvc','textsSvc',
-  function ($scope,currentLanguage,postActionSvc,appUrlSvc,intentionsSvc,textsSvc) {
+function ($scope,currentLanguage,postActionSvc,appUrlSvc,intentionsSvc,textsSvc) {
   postActionSvc.postActionInfo('Init','Page','Welcome','Init');
 
   $scope.isFrench = currentLanguage.isFrenchVersion();
+
+  $scope.targetDatas = [
+    { 'targetId':'thank-you',       'targetUrl':'area/Addressee/recipient/CloseFriends/intention/1778B7/text/random12FirstTime', 'targetLabel': 'Merci',
+      'imageUrl':'http://gw-static.azurewebsites.net/specialoccasions/thank-you/default/small/shutterstock_99334949.jpg'  },
+    { 'targetId':'I-like-you',      'targetUrl':'area/Addressee/recipient/LoveInterestF/intention/64B504/text/random12FirstTime','targetLabel': 'Tu me plais',
+      'imageUrl':'http://gw-static.azurewebsites.net/specialoccasions/I-like-you/default/small/iStock_000013907982_Medium.jpg'  },
+    { 'targetId':'happy-birthday',  'targetUrl':'area/Addressee/recipient/CloseFriends/intention/A730B4/text/random12FirstTime', 'targetLabel': 'Bon anniversaire',
+      'imageUrl':'http://gw-static.azurewebsites.net/specialoccasions/happy-birthday/default/small/10458894_895741113774085_143442555961041031_n.jpg'  },
+    { 'targetId':'facebook-status', 'targetUrl':'area/Addressee/recipient/OtherFriends/intention/2E2986/text/random12FirstTime', 'targetLabel': 'Votre statut facebook',
+      'imageUrl':'http://gw-static.azurewebsites.net/specialoccasions/let-me-introduce-myself/default/small/557975_337956906315586_1933846362_n.jpg'  }
+  ];
 
   appUrlSvc.setUserHasBeenOnSplashScreen(true);
 
@@ -13,9 +24,6 @@ angular.module('app/splash', ['common/services'])
 // Preload intentions
   intentionsSvc.getIntentionsForArea('General',skipTracker);
   intentionsSvc.getIntentionsForArea('Addressee',skipTracker);
-  //intentionsSvc.getIntentionsForArea('Friends',skipTracker);
-  //intentionsSvc.getIntentionsForArea('LoveLife',skipTracker);
-  //intentionsSvc.getIntentionsForArea('Family',skipTracker);
 
   // Preload text lists
     // TODO : that only works for French users : we should user the version with intention ids. "joyeux-anniversaire.en-EN" will not be a usefull cache entry
