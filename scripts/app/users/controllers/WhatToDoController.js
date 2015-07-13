@@ -21,8 +21,13 @@ angular.module('app/users/WhatToDoController', [])
     { 'targetId':'I-like-you',      'targetUrl':'area/Addressee/recipient/LoveInterestF/intention/64B504/text/random12FirstTime','targetLabel': 'Tu me plais',
       'imageUrl':'http://az767698.vo.msecnd.net/specialoccasions/I-like-you/default/small/shutterstock_243960340.jpg'  },
 
-    { 'targetId':'I-want-you', 'targetUrl':'area/Addressee/recipient/LoveInterestF/intention/F4566D/text/random12FirstTime', 'targetLabel': "J'ai envie de toi",
-      'imageUrl':'http://az767698.vo.msecnd.net/specialoccasions/I-want-you/default/small/0x550_2.jpg'  },
+//    { 'targetId':'I-want-you', 'targetUrl':'area/Addressee/recipient/LoveInterestF/intention/F4566D/text/random12FirstTime', 'targetLabel': "J'ai envie de toi",
+//      'imageUrl':'http://az767698.vo.msecnd.net/specialoccasions/I-want-you/default/small/0x550_2.jpg'  },
+
+
+    { 'targetId':'sorry', 'targetUrl':'area/Addressee/recipient/CloseFriends/intention/70D12F/text/random12FirstTime', 'targetLabel': "Pardon",
+      'imageUrl':'http://az767698.vo.msecnd.net/specialoccasions/sorry/default/small/10411303_606735176104423_5294026815236797770_n.jpg'  },
+
 
     { 'targetId':'I-would-like-to-see-you-again',      'targetUrl':'area/Addressee/recipient/LoveInterestF/intention/BD7387/text/random12FirstTime','targetLabel': "J'aimerais vous revoir",
       'imageUrl':'http://az767698.vo.msecnd.net/specialoccasions/I-would-like-to-see-you-again/default/small/542955_245208915590386_1079291617_n.jpg'  },
