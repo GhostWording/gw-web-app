@@ -28,7 +28,7 @@ function ($scope,currentLanguage,postActionSvc,appUrlSvc,intentionsSvc,textsSvc)
 
     { 'targetId':'sorry', 'targetUrl':'area/Addressee/recipient/CloseFriends/intention/70D12F/text/random12FirstTime', 'targetLabel': "Pardon",
       'imageUrl':'http://az767698.vo.msecnd.net/cvd/fbfriend/other/small/iStock_000002709786_Full.jpg'  },
-    
+
     { 'targetId':'I-love-you', 'targetUrl':'area/Addressee/recipient/SweetheartF/intention/5CDCF2/text/random12FirstTime', 'targetLabel': "Je t'aime",
       'imageUrl':'http://az767698.vo.msecnd.net/specialoccasions/I-love-you/default/small/iStock_000008451325_Full.jpg'  },
 

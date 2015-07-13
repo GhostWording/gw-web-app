@@ -72,13 +72,49 @@
       </div>
     </div>
 
+    <div style="margin-bottom: 20px; margin-top: 30px;" class="brandBlue" translate>
+      Nos applications
+    </div>
+
+    <div class="row">
+      <div class="col-md-4" style="margin-bottom: 40px;">
+        <a ng-href="http://apps.microsoft.com/windows/app/comment-vous-dire/819c4bbc-0f2e-477b-a534-2ab985436564" targetId="CommentVousDireApp" target="_blank" class="list-group-item" >
+          <img ng-src="/assets/cvd.jpg" height="150px;" style="margin-top: 10px;" >
+          <div style="margin-top: 10px;" translate>Comment Vous Dire</div>
+          <!--<img ng-src="/assets/French_wstore_black_258x67.png" width="220px" style="margin-top: 10px;" >-->
+          <img ng-src="/assets/French_wstore_black_258x67.png" height="50px" style="margin-top: 10px;" >
+          <div style="margin-top: 10px;" translate>Dites-le avec humour et élégance</div>
+        </a>
+      </div>
+      <div class="col-md-4" style="margin-bottom: 40px;">
+        <a ng-href="http://www.leboutdeslevres.com/" targetId="LeBoutDesLevresApp" target="_blank" class="list-group-item" >
+          <img ng-src="/assets/logo4Small.jpg" height="150px;" style="margin-top: 10px;" >
+          <div style="margin-top: 10px;" translate>Le bout des lèvres</div>
+          <img ng-src="/assets/app-store-badge.png" height="50px" style="margin-top: 10px;" >
+          <div style="margin-top: 10px;" translate>Séduisez votre partenaire avec humour</div>
+        </a>
+      </div>
+      <div class="col-md-4" style="margin-bottom: 40px;">
+        <a ng-href="https://itunes.apple.com/app/je-pense-a-toi/id939248895?ls=1&mt=8" target="_blank" targetId="JePenseAToiApp" class="list-group-item" >
+          <img ng-src="/assets/JePenseAToi.png" height="150px;" style="margin-top: 10px;" >
+          <div style="margin-top: 10px;" translate>Je pense à toi</div>
+          <img ng-src="/assets/app-store-badge.png" height="50px" style="margin-top: 10px;" >
+          <div style="margin-top: 10px;" translate>Vos messages de tous les jours (en mieux)</div>
+        </a>
+      </div>
+    </div>
+
+    <!--<a ng-href="" targetType="SplashChoice" targetId="{{targetData.targetId}}" class="list-group-item" >-->
+      <!--<img ng-src="/assets/logo4Small.jpg"  style="margin-top: 10px;" >-->
+      <!--<div style="margin-top: 10px;" translate>Le bout des lèvres pour iPhone&nbsp</div>-->
+    <!--</a>-->
 
   </div>
 
   </div>
 
   <!-- Unlike in the partial, those are real links  -->
-  <div style="margin-top:25px; margin-bottom: 30px;">
+  <div style="margin-top:10px; margin-bottom: 30px;">
     <a href="/fr" class="frontpageLink" ng-class='{"active": getLanguage()=="fr"}'>Français</a>
     <a href="/en" class="frontpageLink" ng-class='{"active": getLanguage()=="en"}'>English</a>
     <a href="/es" class="frontpageLink" ng-class='{"active": getLanguage()=="es"}'>Español</a>
