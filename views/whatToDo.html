@@ -22,7 +22,8 @@
   <div class="row">
     <div  ng-repeat="targetData in targetDatas" style="margin-bottom: 10px; margin-top: 30px;">
       <div class="col-md-4" style="margin-bottom: 40px;">
-        <a ng-href="{{ app.appUrlSvc.getFullPathWithIntentionIdSubstitution(targetData.targetUrl) }}" targetType="SplashChoice" targetId="{{targetData.targetId}}" class="list-group-item" >
+        <a ng-href="{{ app.appUrlSvc.getFullPathWithIntentionIdSubstitution(targetData.targetUrl) }}" ng-click="app.appUrlSvc.setTextDetailWasCalledFromWhatToDo(true)"
+           targetType="SplashChoice" targetId="{{targetData.targetId}}" class="list-group-item" >
           <div style="vertical-align: middle; text-align: center;">
             <img ng-src="{{targetData.imageUrl}}" class="image-responsive center-block" height="150px;" style="margin-top: 10px;" >
             <div style="margin-top: 10px;" translate>{{ targetData.targetLabel }}&nbsp</div>

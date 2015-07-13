@@ -5,8 +5,6 @@ angular.module('app/users/WhatToDoController', [])
   postActionSvc.postActionInfo('Init','Page','WhatToDo','Init');
 
   $scope.targetDatas = [
-  // /area/Addressee/recipient/Mother/intention/016E91/text
-
 
     { 'targetId':'what-is-up-with-you-lately', 'targetUrl':'area/Addressee/recipient/LongLostFriend/intention/F82B5C/text/random12FirstTime', 'targetLabel': 'Que deviens-tu à un ami perdu de vue',
       'imageUrl':'http://az767698.vo.msecnd.net/cvd/parent/stockparent/small/shutterstock_2755831.jpg'  },

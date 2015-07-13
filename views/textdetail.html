@@ -1,5 +1,4 @@
 ﻿<div action-location="TextDetail">
-
   <!-- Back button : behaviour will vary according to context -->
   <div>
     <ul class="pager bmwQuestionButton" style="margin-top: 5px;  margin-bottom: 10px;">
@@ -13,23 +12,24 @@
 
         <!-- Move explicitely to  text list url -->
         <!--<a ng-show = "app.appUrlSvc.isDashboardPath() == false"-->
-        <a ng-show = "app.appUrlSvc.getTextDetailWasCalledFromTextList() == true && app.appUrlSvc.isDashboardPath() == false"
+        <!--<a ng-show = "app.appUrlSvc.getTextDetailWasCalledFromTextList() == true && app.appUrlSvc.isDashboardPath() == false"-->
+        <a ng-show = "app.appUrlSvc.getTextDetailWasCalledFromTextList() == true || app.appUrlSvc.getTextDetailWasCalledFromWhatToDo() == true"
             ng-href="{{app.appUrlSvc.getFullPath('')}}/area/{{ currentAreaName }}/recipient/{{ recipientId }}/intention/{{theIntentionSlugOrId}}/text"
            class="pull-left" role="button" targetId="Back">
           <img ng-src="./assets/arrow-left.png" class="stylepicto">
         </a>
-        <a ng-show = "app.appUrlSvc.getTextDetailWasCalledFromTextList() == false && app.appUrlSvc.isDashboardPath() == false"
+        <a ng-show = "app.appUrlSvc.getTextDetailWasCalledFromTextList() == false && app.appUrlSvc.getTextDetailWasCalledFromWhatToDo() == false"
            ng-href="{{app.appUrlSvc.getFullPath('')}}"
            class="pull-left" role="button" targetId="Back">
           <img ng-src="./assets/arrow-left.png" class="stylepicto">
         </a>
 
         <!-- Move explicitely to dashboard -->
-        <a ng-show = "app.appUrlSvc.getTextDetailWasCalledFromDashboard() == false && app.appUrlSvc.isDashboardPath() == true"
-           ng-href="{{app.appUrlSvc.getFullPath('')}}/area/{{ currentAreaName }}/dashboard"
-           class="pull-left" role="button" targetId="Back">
-          <img ng-src="./assets/arrow-left.png" class="stylepicto">
-        </a>
+        <!--<a ng-show = "app.appUrlSvc.getTextDetailWasCalledFromDashboard() == false && app.appUrlSvc.isDashboardPath() == true"-->
+           <!--ng-href="{{app.appUrlSvc.getFullPath('')}}/area/{{ currentAreaName }}/dashboard"-->
+           <!--class="pull-left" role="button" targetId="Back">-->
+          <!--<img ng-src="./assets/arrow-left.png" class="stylepicto">-->
+        <!--</a>-->
 
         <!-- Page title -->
         <h4 class="pull-left" style="margin-left: 10px; font-size: 120%;" translate>{{ theIntentionLabel }}</h4>

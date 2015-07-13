@@ -259,6 +259,7 @@ function ($location,currentLanguage,availableLanguages,slugTranslations,weighted
     // text detail page may be the first page the user sees if he comes form another web site
   var textDetailWasCalledFromTextList = false;
   var textDetailWasCalledFromDashboard = false;
+  var textDetailWasCalledFromWhatToDo = false;
   var userHasBeenOnSplashScreen = false;
 
   service.setTextDetailWasCalledFromTextList = function(value) {
@@ -275,6 +276,14 @@ function ($location,currentLanguage,availableLanguages,slugTranslations,weighted
   service.getTextDetailWasCalledFromDashboard = function() {
     return textDetailWasCalledFromDashboard;
   };
+  service.setTextDetailWasCalledFromWhatToDo = function(value) {
+    textDetailWasCalledFromWhatToDo = value;
+    console.log("textDetailWasCalledFromWhatToDo to " + value);
+  };
+  service.getTextDetailWasCalledFromWhatToDo = function() {
+    return textDetailWasCalledFromWhatToDo;
+  };
+
 
   service.getUserHasBeenOnSplashScreen = function() {
     return userHasBeenOnSplashScreen;
