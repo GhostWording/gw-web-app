@@ -17,35 +17,48 @@
   <!--</div>-->
 
   <!--<h3 class="splashTitle" style="text-align: center; margin-top: 40px; margin-bottom: 40px;  font-size: 140%;" translate>Et si vous disiez</h3>-->
-  <h3 class="splashTitle" style="text-align: center; margin-top: 40px; margin-bottom: 40px;  font-size: 140%;" translate>Quelques façons de dire</h3>
+  <h3 class="splashTitle" style="text-align: center; margin-top: 40px; margin-bottom: 20px;  font-size: 140%;" translate>Quelques façons de dire</h3>
 
-  <ul class="pager bmwQuestionButton" style="margin-top: 25px;">
-    <li>
-      <a  ng-href="{{app.appUrlSvc.getFullPath('')}}/area/Addressee/recipient/Mother/intention/je-pense-a-toi/text" targetId="Mother" targetParameters="je-pense-a-toi" translate>Je pense à toi à votre maman</a>
-    </li>
-  </ul>
+  <div class="row">
+    <div  ng-repeat="targetData in targetDatas" style="margin-bottom: 10px; margin-top: 30px;">
+      <div class="col-md-4" style="margin-bottom: 40px;">
+        <a ng-href="{{ app.appUrlSvc.getFullPathWithIntentionIdSubstitution(targetData.targetUrl) }}" targetType="SplashChoice" targetId="{{targetData.targetId}}" class="list-group-item" >
+          <div style="vertical-align: middle; text-align: center;">
+            <img ng-src="{{targetData.imageUrl}}" class="image-responsive center-block" height="150px;" style="margin-top: 10px;" >
+            <div style="margin-top: 10px;" translate>{{ targetData.targetLabel }}&nbsp</div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
 
-  <ul class="pager bmwQuestionButton" style="margin-top: 25px;">
-    <li>
-      <!--<a  ng-href="{{app.appUrlSvc.getFullPath('')}}area/General/dashboard" targetId="Dashboard" translate>Joyeux Anniversaire à vos amis</a>-->
-      <a  ng-href="{{app.appUrlSvc.getFullPath('')}}/area/Addressee/recipient/OtherFriends/intention/statuts-facebook/text" targetId="FbFriends" translate>Une chose amusante à vos amis facebook</a>
-    </li>
-  </ul>
-  <ul class="pager bmwQuestionButton" style="margin-top: 25px;" >
-    <li>
-      <a  ng-href="{{app.appUrlSvc.getFullPath('')}}/area/Addressee/recipient/CloseFriends/intention/humour/text" targetId="CloseFriends" targetParameters="humour" translate>Tu vas rire à un ami</a>
-    </li>
-  </ul>
-  <ul class="pager bmwQuestionButton" style="margin-top: 25px;" >
-    <li>
-      <a  ng-href="{{app.appUrlSvc.getFullPath('')}}/area/Addressee/recipient/LongLostFriends/intention/que-deviens-tu/text" targetId="LongLostFriends" targetParameters="que-deviens-tu" translate>Que deviens-tu à un ami perdu de vue</a>
-    </li>
-  </ul>
-  <ul class="pager bmwQuestionButton" style="margin-top: 25px;" >
-    <li>
-      <a  ng-href="{{app.appUrlSvc.getFullPath('')}}/area/Addressee/recipient/CloseFriends/intention/je-suis-la-pour-toi/text" targetId="CloseFriends" targetParameters="je-suis-la-pour-toi" translate>Je suis là pour toi à un ami</a>
-    </li>
-  </ul>
+
+  <!--<ul class="pager bmwQuestionButton" style="margin-top: 25px;">-->
+    <!--<li>-->
+      <!--<a  ng-href="{{app.appUrlSvc.getFullPath('')}}/area/Addressee/recipient/Mother/intention/je-pense-a-toi/text" targetId="Mother" targetParameters="je-pense-a-toi" translate>Je pense à toi à votre maman</a>-->
+    <!--</li>-->
+  <!--</ul>-->
+
+  <!--<ul class="pager bmwQuestionButton" style="margin-top: 25px;">-->
+    <!--<li>-->
+      <!--<a  ng-href="{{app.appUrlSvc.getFullPath('')}}/area/Addressee/recipient/OtherFriends/intention/statuts-facebook/text" targetId="FbFriends" translate>Une chose amusante à vos amis facebook</a>-->
+    <!--</li>-->
+  <!--</ul>-->
+  <!--<ul class="pager bmwQuestionButton" style="margin-top: 25px;" >-->
+    <!--<li>-->
+      <!--<a  ng-href="{{app.appUrlSvc.getFullPath('')}}/area/Addressee/recipient/CloseFriends/intention/humour/text" targetId="CloseFriends" targetParameters="humour" translate>Tu vas rire à un ami</a>-->
+    <!--</li>-->
+  <!--</ul>-->
+  <!--<ul class="pager bmwQuestionButton" style="margin-top: 25px;" >-->
+    <!--<li>-->
+      <!--<a  ng-href="{{app.appUrlSvc.getFullPath('')}}/area/Addressee/recipient/LongLostFriends/intention/que-deviens-tu/text" targetId="LongLostFriends" targetParameters="que-deviens-tu" translate>Que deviens-tu à un ami perdu de vue</a>-->
+    <!--</li>-->
+  <!--</ul>-->
+  <!--<ul class="pager bmwQuestionButton" style="margin-top: 25px;" >-->
+    <!--<li>-->
+      <!--<a  ng-href="{{app.appUrlSvc.getFullPath('')}}/area/Addressee/recipient/CloseFriends/intention/je-suis-la-pour-toi/text" targetId="CloseFriends" targetParameters="je-suis-la-pour-toi" translate>Je suis là pour toi à un ami</a>-->
+    <!--</li>-->
+  <!--</ul>-->
 
   <!--<ul ng-show="user.gender=='H'" class="pager bmwQuestionButton" style="margin-top: 25px;">-->
     <!--<li>-->
