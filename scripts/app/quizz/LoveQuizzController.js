@@ -1,7 +1,7 @@
 angular.module('app/quizz/LoveQuizzController',['common/texts/textsSvc'])
 
-.controller('LoveQuizzController', ['$scope', '$rootScope', 'currentUserLocalData','textsSvc','appUrlSvc','postActionSvc','currentLanguage',
-  function ($scope,$rootScope, currentUserLocalData,textsSvc,appUrlSvc,postActionSvc,currentLanguage) {
+.controller('LoveQuizzController', ['$scope', '$rootScope', 'currentUserLocalData','textsSvc','appUrlSvc','postActionSvc','currentLanguage','serverSvc',
+  function ($scope,$rootScope, currentUserLocalData,textsSvc,appUrlSvc,postActionSvc,currentLanguage,serverSvc) {
 
     postActionSvc.postActionInfo('Init','Page','LoveQuizz','Init');
 
@@ -33,16 +33,46 @@ angular.module('app/quizz/LoveQuizzController',['common/texts/textsSvc'])
       //      });
     }
 
+//    function getTextPrototypeIds() {
+//      //var retval = [{'PrototypeId' : "01C699"}, {'PrototypeId' : "53F203"}, {'PrototypeId': "94A261"}, {'PrototypeId': "B00253"},{'PrototypeId': "E44511"} ,{'PrototypeId': "F440F4"}];
+//      //var retval = ["01C699","53F203","94A261", "B00253","E44511","F440F4"];
+//      var retval = {"PrototypeIds" : "01C699,53F203,94A261,B00253,E44511,F440F4"};
+//      serverSvc.getConfigResource('data/quizz/LoveQuizz.json').then(function(res) {
+//        console.log(res);
+//      });
+//      return retval;
+//    }
+
     function getTextListGroupForCulture(groupCulture) {
-      var groupID = Quizz_Text_Group_MAP[groupCulture];
-      textsSvc.getTextListForGroup('General', groupID, groupCulture, false, false).then(function(texts) {
-        $scope.quizzQuestionTexts = texts;
-        // Sort text according to SortBy
-        var sorted = texts.slice().sort(function(a,b){return -(b.SortBy- a.SortBy);});
-        // Mark one text as selected if applicable, and calculate ranking
-        rankAndSetAsSelected(sorted,currentUserLocalData.loveQuizzTextId);
-      });
+      // Read the config file
+      serverSvc.getConfigResource('data/quizz/LoveQuizz.json')
+        .then(function(configFile) {
+          // Get the (comma separated) text prototype ids from the config file
+          var ids = configFile.PrototypeIds;
+          // Ask server for the texts corresponding to the prototype ids and the current culture
+          return textsSvc.getTextListFromPrototypeIds('General',ids,groupCulture);
+      },function(error) {console.log(error);})
+        .then(function(texts) {
+          // Display the texts
+          $scope.quizzQuestionTexts = texts;
+          // Sort text according to SortBy : not used
+          var sorted = texts.slice().sort(function(a,b){return -(b.SortBy- a.SortBy);});
+          // Mark one text as selected if applicable, and calculate ranking : not used
+          rankAndSetAsSelected(sorted,currentUserLocalData.loveQuizzTextId);
+        });
     }
+
+
+//    function getTextListGroupForCulture(groupCulture) {
+//      var groupID = Quizz_Text_Group_MAP[groupCulture];
+//      textsSvc.getTextListForGroup('General', groupID, groupCulture, false, false).then(function(texts) {
+//        $scope.quizzQuestionTexts = texts;
+//        // Sort text according to SortBy
+//        var sorted = texts.slice().sort(function(a,b){return -(b.SortBy- a.SortBy);});
+//        // Mark one text as selected if applicable, and calculate ranking
+//        rankAndSetAsSelected(sorted,currentUserLocalData.loveQuizzTextId);
+//      });
+//    }
 
     getTextListGroupForCulture(currentLanguage.getCultureCode());
 
