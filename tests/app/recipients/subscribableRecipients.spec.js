@@ -5,9 +5,13 @@ describe("recipientTypesSvc", function() {
 
 
   describe("getAll", function() {
-		it("should return a promise to a list of recipients", inject(function($rootScope, recipientTypesSvc) {
+		it("should return a promise to a list of recipients", inject(function($rootScope,$httpBackend, recipientTypesSvc) {
 			var recipients;
-			recipientTypesSvc.getAll().then(function(_recipients_) {
+
+      $httpBackend.whenGET("http://gw-static-apis.azurewebsites.net/recipients/RelationTypes.json").respond(recipientTypesSvc.getBackup());
+      $httpBackend.expectGET('http://gw-static-apis.azurewebsites.net/recipients/RelationTypes.json');
+
+			recipientTypesSvc.getBackup().then(function(_recipients_) {
 				recipients = _recipients_;
 			});
 			// Trigger the promise to resolve
