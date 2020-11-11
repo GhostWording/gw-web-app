@@ -2,12 +2,16 @@
 
   <div style="text-align: center;">
     <div class="hidden-xs" >
-      <img ng-show="!userHasModifiedSubscription" style="margin-top:15px" src="./assets/makeMyDay.jpg">
-      <img ng-show="userHasModifiedSubscription" style="margin-top:15px" src="./assets/catEyesWide.jpg">
+      <!--<img ng-show="!userHasModifiedSubscription" style="margin-top:15px" src="./assets/makeMyDay.jpg">-->
+      <!--<img ng-show="!userHasModifiedSubscription" style="margin-top:15px" width="448px;" src="http://gw-static.azurewebsites.net/cvd/loveinterest/stocklove/small/a.aaa-Panda-love.jpg">-->
+      <img ng-show="true || !userHasModifiedSubscription" style="margin-top:15px" width="500px;" src="http://az767698.vo.msecnd.net/specialoccasions/I-would-like-to-see-you-again/default/small/shutterstock_189863267.jpg">
+      <!--<img ng-show="userHasModifiedSubscription" style="margin-top:15px" src="./assets/catEyesWide.jpg">-->
     </div>
     <div class="visible-xs">
-      <img ng-show="!userHasModifiedSubscription" style="margin-left: -13px; margin-top: -17px;"  width="350;" src="./assets/makeMyDay.jpg">
-      <img ng-show="userHasModifiedSubscription" style="margin-left: -13px; margin-top: -17px;"  width="350;" src="./assets/catEyesWide.jpg">
+      <!--<img ng-show="!userHasModifiedSubscription" style="margin-left: -13px; margin-top: -17px;"  width="350;" src="./assets/makeMyDay.jpg">-->
+      <img ng-show="true || !userHasModifiedSubscription" style="margin-left: -13px; margin-top: -17px;"  width="350;" src="http://az767698.vo.msecnd.net/specialoccasions/I-would-like-to-see-you-again/default/small/shutterstock_189863267.jpg">
+
+      <!--<img ng-show="userHasModifiedSubscription" style="margin-left: -13px; margin-top: -17px;"  width="350;" src="./assets/catEyesWide.jpg">-->
     </div>
   </div>
 
@@ -15,7 +19,6 @@
     <h3 class="splashTitle" style="text-align: center; font-size: 140%;" translate>Et si vous disiez ?</h3>
     <!--<span style="font-size: 70%;" translate>de façon plus originale et assidue</span>-->
   </div>
-
 
   <!-- Old version with toggle button -->
   <!--<div class = "row" ng-repeat="recipient in recipientsWithSubscriptions" style="padding-bottom:5px;">-->
@@ -54,12 +57,12 @@
     <div  style="margin-top: 25px; margin-bottom: 0px; text-align: center" >
         <ul class="pager bmwQuestionButton pull-left" >
             <li ng-class= '{selectionne: false}' >
-                <a ng-href="{{app.appUrlSvc.getFullPath('')}}favoriteRecipients" role="button"  targetId="Previous" ng-click="sendSubscriptionsToServer(); " > <img ng-src="./assets/arrow-left.png" class="stylepicto"> </a>
+                <a ng-href="{{app.appUrlSvc.getFullPath('favoriteRecipients')}}" role="button"  targetId="Previous" ng-click="sendSubscriptionsToServer(); " > <img ng-src="./assets/arrow-left.png" class="stylepicto"> </a>
             </li>
         </ul>
         <ul class="pager bmwQuestionButton pull-right" >
             <li ng-class= '{selectionne: false}' >
-                <a ng-href="{{app.appUrlSvc.getFullPath('')}}userEMail" role="button"  targetId="Next" ng-click="sendSubscriptionsToServer();"> <img ng-src="./assets/arrow-right.png" class="stylepicto"> </a>
+                <a ng-href="{{app.appUrlSvc.getFullPath('userEMail')}}" role="button"  targetId="Next" ng-click="sendSubscriptionsToServer();"> <img ng-src="./assets/arrow-right.png" class="stylepicto"> </a>
             </li>
         </ul>
     </div>

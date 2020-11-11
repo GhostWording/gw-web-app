@@ -264,7 +264,9 @@ function taskAsssets() {
 
 
 function taskIndex(cb) {
-  if(release) {
+  
+if(release) {
+    gUtil.log("..... release");
     // Find bundles (with their correct revision hashes)
     var appBundle = glob.sync('build/assets/app-*.js')[0];
     var vendorBundle = glob.sync('build/assets/vendor-*.js')[0];
@@ -272,9 +274,9 @@ function taskIndex(cb) {
     if(!appBundle) { cb('app bundle not found'); return; } 
     if(!vendorBundle) { cb('vendor bundle not found'); return; } 
     if(!styleBundle) { cb('style bundle not found'); return; }
-    appBundle = appBundle.replace('build/','');
-    vendorBundle = vendorBundle.replace('build/','');
-    styleBundle = styleBundle.replace('build/','');
+    appBundle = appBundle.replace('build/','').replace(__dirname,'');
+    vendorBundle = vendorBundle.replace('build/','').replace(__dirname,'');
+    styleBundle = styleBundle.replace('build/','').replace(__dirname,'');
     if(deploy) {
       var cdnUrl = config.get('CDN_URL'); 
       appBundle = cdnUrl + appBundle;
@@ -290,11 +292,12 @@ function taskIndex(cb) {
       .pipe(replace('<!-- style:css --><!-- endinject -->','<link rel="stylesheet" href="' + styleBundle + '">'))
       .pipe(gulp.dest('./build'));
 } else {
+    gUtil.log("..... normal");
     return gulp.src('index.html')
       // Inject app js files
-      .pipe(inject(gulp.src('scripts/app/**/*.js', {cwd:'build', read: false}), {name: 'app'}))
+      .pipe(inject(gulp.src('scripts/app/**/*.js', {cwd:'build', read: false}), {name: 'app',ignorePath:"/.."+__dirname+"/build"}))
       // Inject common js files
-      .pipe(inject(gulp.src('scripts/common/**/*.js', {cwd:'build', read: false}), {name: 'common'}))
+      .pipe(inject(gulp.src('scripts/common/**/*.js', {cwd:'build', read: false}), {name: 'common',ignorePath:"/.."+__dirname+"/build"}))
       // Inject vendor js files
       .pipe(inject(gulp.src(vendorJSFilesMinified().concat(vendorJSFiles()), {read: false}), {name: 'vendor'}))
       // Inject style css files

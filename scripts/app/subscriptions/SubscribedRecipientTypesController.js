@@ -1,11 +1,17 @@
 // Chose several recipient types you want to subscribe
 angular.module('app/subscriptions/SubscribedRecipientTypesController', ['common/services/cache','common/recipients'])
-.controller('SubscribedRecipientTypesController', ['$scope', 'recipientTypesSvc', 'subscribedRecipientTypesSvc','recipientTypeHelperSvc','currentUser','appUrlSvc',
-  function ($scope, recipientTypesSvc, subscribedRecipientTypesSvc,recipientTypeHelperSvc,currentUser,appUrlSvc) {
+.controller('SubscribedRecipientTypesController', ['$scope', 'recipientTypesSvc', 'subscribedRecipientTypesSvc','recipientTypeHelperSvc','currentUser','appUrlSvc','areasSvc','facebookSvc',
+  function ($scope, recipientTypesSvc, subscribedRecipientTypesSvc,recipientTypeHelperSvc,currentUser,appUrlSvc,areasSvc,facebookSvc) {
+
+    areasSvc.setCurrentName('cvdWeb');
 
     $scope.currentUser = currentUser;
-
     $scope.appUrlSvc = appUrlSvc;
+
+    $scope.$watch(function() { return facebookSvc.isConnected();},function() {
+      $scope.isConnectedToFacebook = facebookSvc.isConnected();
+    },true);
+    $scope.connectToFacebook = facebookSvc.fbLogin;
 
     subscribedRecipientTypesSvc.countSubscribedRecipients();
 

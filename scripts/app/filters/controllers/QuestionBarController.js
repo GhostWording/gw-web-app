@@ -5,6 +5,8 @@ function($scope,currentUser,filtersSvc,currentLanguage,questionBarSvc,filteredTe
 
   //var filters = $scope.filters = filtersSvc.filters;
 
+  $scope.filters = filtersSvc.filters;
+
   $scope.currentUser = currentUser;
   $scope.questionBar = questionBarSvc;
 

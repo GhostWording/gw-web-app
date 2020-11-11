@@ -1,0 +1,86 @@
+<div ng-show="true" action-location="LoveQuizz">
+
+  <!-- Title image -->
+  <div style="text-align: center;">
+    <div class="hidden-xs" >
+      <!--<img style="margin-top:15px" width="350" src="./assets/FunnyFacebookStatusCompressed.jpg">-->
+      <!--<img style="margin-top:15px" width="350" src="http://az767698.vo.msecnd.net/specialoccasions/I-love-you/default/small/iStock_000015884455_Medium.jpg">-->
+      <img style="margin-top:15px" width="350" src="http://az767698.vo.msecnd.net/specialoccasions/I-love-you/default/small/shutterstock_32076445.jpg">
+
+
+
+
+    </div>
+    <div class="visible-xs">
+      <!--<img style="margin-left: -0px; margin-top: -17px;"  width="250;" src="./assets/FunnyFacebookStatusCompressed.jpg">-->
+      <!--<img style="margin-left: -0px; margin-top: -17px;"  width="250;" src="http://az767698.vo.msecnd.net/specialoccasions/I-love-you/default/small/iStock_000015884455_Medium.jpg">-->
+      <img style="margin-left: -0px; margin-top: -17px;"  width="250;" src="http://az767698.vo.msecnd.net/specialoccasions/I-love-you/default/small/shutterstock_32076445.jpg">
+    </div>
+  </div>
+
+  <!-- Title -->
+  <div style="text-align: center; margin: 30px;">
+    <!-- My preferred way of hearing -->
+    <!--<h4 class="splashTitle" style="text-align: center; font-size: 140%;" translate>Comment aimeriez-vous que l'on vous dise&nbsp?</h4>-->
+    <!--<h4 style="text-align: center; font-size: 140%;" translate>Comment j'aimerais que l'on me dise...</h4>-->
+    <!--<h4 style="text-align: center; font-size: 140%;" translate>La meilleure façon de me dire...</h4>-->
+    <h4 style="text-align: center; font-size: 140%;" translate>Comment j'aimerais que l'on me dise...</h4>
+    <h4 class="splashTitle brandColoured" style="text-align: center; font-size: 140%;" translate>Je t'aime</h4>
+    <div style="margin: 10px; font-size: 85%; text-align: center;">
+      <!--<div>Choisissez un texte pour commencer votre profil</div>-->
+      <!--<div>et découvrez sa position au classement général</div>-->
+      <!--<div>Cliquez sur votre préférence - Comparez au classement général</div>-->
+      <!--<div>Comparez votre préférence au classement général </div>-->
+      <div translate>Cliquez sur le texte que vous préférez</div>
+    </div>
+  </div>
+
+  <!-- QuizzChoices -->
+  <div class="row">
+    <div class="col-xs-1 col-sm-2 col-md-3"></div>
+    <div class="col-xs-10 col-sm-8 col-md-6 ">
+      <div ng-repeat="quizzText in quizzQuestionTexts" class="list-group" >
+        <a ng-click="setSelectedText(quizzText)" targetType="QuizzChoice" targetId="{{ quizzText.TextId  }}" targetParameters="{{ getImageName(quizzText) }}" class="list-group-item" ng-class="{active: getSelectedTextId() == quizzText.TextId}">
+          <div style="vertical-align: middle; text-align: center;;">
+            <img ng-src="{{quizzText.ImageUrl}}" class="image-responsive center-block" height="150px;" style="margin-top: 10px;" >
+            <!--<div ng-show="showRanking" ng-class="{'label label-info': getTextRanking(quizzText) != 1, 'label label-warning': getTextRanking(quizzText) == 1}"><span>classement général : </span>{{ getTextRanking(quizzText) }}</div>-->
+            <div ng-show="showRanking" ng-class="'label label-warning'"><span translate>Rang du texte : n°</span>{{ getTextRanking(quizzText) }}</div>
+            <div style="margin-top: 10px;" >{{ quizzText.Content }}&nbsp</div>
+          </div>
+        </a>
+      </div>
+    </div>
+    <div class="col-xs-1 col-sm-2 col-md-3"></div>
+  </div>
+
+  <!-- Previous and next step -->
+  <div  style="margin-top: 25px; margin-bottom: 0px; text-align: center" >
+    <ul class="pager bmwQuestionButton pull-left" >
+      <li ng-class= '{selectionne: false}' >
+        <a ng-href="{{app.appUrlSvc.getFullPath('')}}" role="button"  targetId="Previous" ng-click="confirmQuizzChoice(); " > <img ng-src="./assets/arrow-left.png" class="stylepicto"> </a>
+      </li>
+    </ul>
+
+    <button ng-if="false" ng-disabled="!choiceSelected()" type="button" targetId="SeeVotes"  class="btn btn-default" style="vertical-align:middle;" ng-click="setShowRanking()" translate>Voir l'avis des femmes</button>
+
+    <ul class="pager bmwQuestionButton pull-right" >
+      <li ng-class= '{selectionne: false}' >
+        <a ng-href="{{app.appUrlSvc.getFullPath('favoriteRecipients')}}" role="button"  targetId="Next" ng-click="confirmQuizzChoice();"> <img ng-src="./assets/arrow-right.png" class="stylepicto"> </a>
+      </li>
+    </ul>
+  </div>
+
+</div>
+
+<!-- This version displays image and text side by side  -->
+<!--&lt;!&ndash;<img ng-src="{{quizzText.ImageUrl}}" width="150px;" style="text-align: center;" class="img-responsive center-block" style=""  >&ndash;&gt;-->
+<!--<img ng-src="{{quizzText.ImageUrl}}" width="150px;" style="text-align: center;" class="" style="" >-->
+<!--{{ quizzText.Content }}&nbsp<span class="label label-info">{{ getTextRanking(quizzText) }}</span>-->
+<!--<div class="row v-center">-->
+<!--&lt;!&ndash;<div class="col-xs-3 col-sm-3 col-md-3"><img ng-src="{{quizzText.ImageUrl}}" width="150px;" style="text-align: center;" class="" style="" ></div>&ndash;&gt;-->
+<!--<div class="col-xs-4 col-sm-4 col-md-4"><img ng-src="{{quizzText.ImageUrl}}" class=" img-responsive" >-->
+<!--</div>-->
+<!--<div class="col-xs-8 col-sm-8 col-md-8 v-center" >-->
+<!--{{ quizzText.Content }}&nbsp<span class="label label-info">{{ getTextRanking(quizzText) }}</span>-->
+<!--</div>-->
+<!--</div>-->

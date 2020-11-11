@@ -9,6 +9,7 @@ angular.module('app', [
   'app/favourites',
   'app/userDashboard',
   'app/subscriptions',
+  'app/quizz',
   'app/appUrl',
   'app/controllers',
   'app/helloMum',

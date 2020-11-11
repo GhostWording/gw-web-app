@@ -1,7 +1,11 @@
 <div action-location="LanguageBar" ng-controller="LanguageBarController">
   <div style="margin-bottom: 15px;">
-    <a href="" ng-click="changeLanguage('fr')" class="frontpageLink" TargetId="fr" ng-class='{"active": getLanguage()=="fr"}'>Français</a>
-    <a href="" ng-click="changeLanguage('en')" class="frontpageLink" TargetId="en" ng-class='{"active": getLanguage()=="en"}'>English</a>
-    <a href="" ng-click="changeLanguage('es')" class="frontpageLink" TargetId="es" ng-class='{"active": getLanguage()=="es"}'>Español</a>
+    <!--<a href="" ng-click="changeLanguage('fr')" class="frontpageLink" TargetId="fr" ng-class='{"active": getLanguage()=="fr"}'>Français</a>-->
+    <!--<a href="" ng-click="changeLanguage('en')" class="frontpageLink" TargetId="en" ng-class='{"active": getLanguage()=="en"}'>English</a>-->
+    <!--<a href="" ng-click="changeLanguage('es')" class="frontpageLink" TargetId="es" ng-class='{"active": getLanguage()=="es"}'>Español</a>-->
+
+    <a ng-href="{{app.appUrlSvc.makeAltUrlForLanguage('fr')}}" hreflang="fr" lang="fr" class="frontpageLink" TargetId="fr" ng-class='{"active": getLanguage()=="fr"}'>Français</a>
+    <a ng-href="{{app.appUrlSvc.makeAltUrlForLanguage('en')}}" hreflang="en" lang="en" class="frontpageLink" TargetId="en" ng-class='{"active": getLanguage()=="en"}'>English</a>
+    <a ng-href="{{app.appUrlSvc.makeAltUrlForLanguage('es')}}" hreflang="es" lang="es" class="frontpageLink" TargetId="es" ng-class='{"active": getLanguage()=="es"}'>Español</a>
   </div>
 </div>

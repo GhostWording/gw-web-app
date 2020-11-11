@@ -10,19 +10,54 @@
     <meta name="msvalidate.01" content="B3A7DA86CB037333C6DBD49A5CEE100C" />
 
     <!-- Could use directive like in http://stackoverflow.com/questions/20807761/angular-modify-meta-tag-->
-    <title ng-bind-template="{{pageTitle1 | translate}} {{pageTitle2 | translate}}">Mots magiques pour belles occasions</title>
+    <title ng-bind-template="{{pageTitle1 | translate}}{{pageTitle2 | translate}}">Les cartes postales de l'amour et du hasard</title>
     <meta name="description" content="{{ pageDescription | translate }}">
+    <meta name="keywords" content="{{ pageKeywords | translate }}">
 
-    <meta property="og:title" content="{{pageTitle1 | translate}} {{pageTitle2 | translate}}"/>
+    <meta property="og:title" content="{{pageTitle1 | translate}}{{pageTitle2 | translate}}"/>
     <!--<meta property="og:image" content="http://www.commentvousdire.com/assets/TouchWording.jpg"/>-->
     <meta property="og:image" content="{{ ogImage }}"/>
-    <meta property="og:description" content="{{ ogDescription | translate }}">
+
+    <!--<meta property="og:description" content="{{ ogDescription | translate }}">-->
+    <meta property="og:description" content="CVD">
+    <!--<meta property="og:description" content="{{pageTitle1 | translate}} {{pageTitle2 | translate}}"/>-->
+
     <meta property="og:url" content="{{ ogUrl }}">
     <meta property="og:type" content="website">
     <meta property="fb:app_id" content="582577148493403">     <!--679461192138331 for test id -->
 
+    <meta property="og:image:width" content="400"/>
+    <meta property="og:image:height" content="350"/>
+
+    <meta name="apple-itunes-app" content="app-id=992242564">
+
+
+    <link rel="canonical" href="{{canonicalUrl}}" />
+    <link rel="alternate" href="{{languageNeutralUrl}}" hreflang="x-default" />
+    <link ng-if="!isEnglish" rel="alternate" href="{{enAltUrl}}" hreflang="en" />
+    <link ng-if="!isEnglish" rel="alternate" href="{{canonicalUrlForThisLanguage}}" hreflang="{{ thisLanguage }}" />
+
+
+    <!--<link rel="alternate" href="{{frAltUrl}}" hreflang="fr" />-->
+    <!--<link rel="alternate" href="{{esAltUrl}}" hreflang="es" />-->
+
     <!-- This may slow down page activation a bit  -->
     <!--<script src="http://api.cvd.io/userevent?ActionLocation=Header&ActionType=Load&AreaId=na&ClientTime=&TargetId=na"></script>-->
+
+    <script> window.prerenderReady = false; </script>
+
+    <!--Google scripts-->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-47718196-1', 'auto'); // 22/07/2014
+      //ga('require', 'linkid', 'linkid.js'); // improves accuracy. might cause loading delay
+      //ga('send', 'pageview'); // called on $stateChangeSuccess
+    </script>
+
 
     <!-- VENDOR JS INJECTION POINT -->
     <!-- vendor:js --><!-- endinject -->
@@ -34,17 +69,6 @@
       }, false);
     </script>
 
-    <!--Google scripts-->
-    <script>
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-        ga('create', 'UA-47718196-1', 'auto'); // 22/07/2014
-        //ga('require', 'linkid', 'linkid.js'); // improves accuracy. might cause loading delay
-        //ga('send', 'pageview'); // called on $stateChangeSuccess
-    </script>
 
     <!-- WEINRE debuguer-->
     <!--<script src="http://192.168.0.8:8080/target/target-script-min.js"></script>-->
@@ -73,8 +97,8 @@
   </head>
 
   <body  id="leCorps">
-  <h4 ng-show="false">Comment vous dire : ne laissez pas le temps au temps</h4>
-  <h4 ng-show>Touchwording helps you send better messsages</h4>
+  <h1 style="font-size: 100%; text-align: center;" ng-show="false">Séduction, humour et cartes postales à l'ère du statut facebook</h1>
+  <h1 style="font-size: 100%; text-align: center;" ng-show>Love postcards for the facebook status era</h1>
 
     <!-- Menu bar -->
     <nav class="navbar navbar-inverse navbar-static-top" role="navigation" ng-init="navCollapsed = true"
@@ -82,27 +106,31 @@
      <div class="container-fluid">
 
       <div class="navbar-header">
-        <a class="navbar-brand hidden-xs" ng-href="/" TargetId="welcome" translate>CommentVousDire</a>
+        <a class="navbar-brand hidden-xs" ng-href="{{app.appUrlSvc.getFullPath('')}}" TargetId="welcome" translate>CommentVousDire</a>
         <a class="navbar-brand glyphicon glyphicon-home visible-xs" ng-href="/" TargetId="welcome" ></a>
         <div class="pull-right visible-xs">
-          <a href="" TargetId="fr" style="margin-right: 0px; padding-left: 0px; padding-right: 7px;" ng-class='{active: getLanguage()=="fr"}' ng-click="changeLanguage('fr')" class="navbar-brand ">fr</a>
-          <a href="" TargetId="en" style="margin-right: 0px; padding-left: 0px; padding-right: 7px;" ng-class='{active: getLanguage()=="en"}' ng-click="changeLanguage('en')" class="navbar-brand ">en</a>
-          <a href="" TargetId="es" style="margin-right: 0px; padding-left: 0px; padding-right: 7px;" ng-class='{active: getLanguage()=="es"}'  ng-click="changeLanguage('es')" class="navbar-brand">es</a>
+          <!--<a href="" TargetId="fr" style="margin-right: 0px; padding-left: 0px; padding-right: 7px;" ng-class='{active: getLanguage()=="fr"}' ng-click="changeLanguage('fr')" class="navbar-brand ">fr</a>-->
+          <!--<a href="" TargetId="en" style="margin-right: 0px; padding-left: 0px; padding-right: 7px;" ng-class='{active: getLanguage()=="en"}' ng-click="changeLanguage('en')" class="navbar-brand ">en</a>-->
+          <!--<a href="" TargetId="es" style="margin-right: 0px; padding-left: 0px; padding-right: 7px;" ng-class='{active: getLanguage()=="es"}'  ng-click="changeLanguage('es')" class="navbar-brand">es</a>-->
+
+          <a ng-href="{{app.appUrlSvc.makeAltUrlForLanguage('fr')}}" hreflang="fr" lang="fr"  TargetId="fr" style="margin-right: 0px; padding-left: 0px; padding-right: 7px;" ng-class='{active: getLanguage()=="fr"}' class="navbar-brand ">fr</a>
+          <a ng-href="{{app.appUrlSvc.makeAltUrlForLanguage('en')}}" hreflang="en" lang="en"  TargetId="en" style="margin-right: 0px; padding-left: 0px; padding-right: 7px;" ng-class='{active: getLanguage()=="en"}' class="navbar-brand ">en</a>
+          <a ng-href="{{app.appUrlSvc.makeAltUrlForLanguage('es')}}" hreflang="es" lang="es"  TargetId="es" style="margin-right: 0px; padding-left: 0px; padding-right: 7px;" ng-class='{active: getLanguage()=="es"}' class="navbar-brand ">es</a>
 
           <!-- Recipient list  -->
-          <a ng-href="{{app.appUrlSvc.getFullPath('')}}recipientList" class="navbar-brand glyphicon glyphicon-user" TargetId="recipientList" translate></a>
+          <a ng-href="{{app.appUrlSvc.getFullPath('recipientList')}}" class="navbar-brand glyphicon glyphicon-user" TargetId="recipientList" translate></a>
           <!-- Subscriptions  -->
-          <!--<a ng-href="{{app.appUrlSvc.getFullPath('')}}favoriteRecipients" class = "navbar-brand glyphicon glyphicon-bell" TargetId="favoriteRecipients" translate></a>-->
+          <!--<a ng-href="{{app.appUrlSvc.getFullPath('favoriteRecipients')}}" class = "navbar-brand glyphicon glyphicon-bell" TargetId="favoriteRecipients" translate></a>-->
           <!-- Dashboard  -->
-          <!--<a ng-href="{{app.appUrlSvc.getFullPath('')}}area/General/dashboard" class = "navbar-brand glyphicon glyphicon-play" TargetId="dashboard" translate></a>-->
+          <!--<a ng-href="{{app.appUrlSvc.getFullPath('area/General/dashboard')}}" class = "navbar-brand glyphicon glyphicon-play" TargetId="dashboard" translate></a>-->
 
           <!-- Search -->
-          <a rel="nofollow" ng-href="{{app.appUrlSvc.getFullPath('')}}area/General/recipient/none/intention" class ="navbar-brand glyphicon glyphicon-search" translate></a>
+          <a rel="nofollow" ng-href="{{app.appUrlSvc.getFullPath('area/General/recipient/none/intention')}}" class ="navbar-brand glyphicon glyphicon-search" translate></a>
           <!-- Favourites  -->
           <!--<a ng-show = "hasFavourite()" ng-href="{{app.appUrlSvc.getFullPath('')}}favouriteTexts" class="navbar-brand glyphicon glyphicon-star"></a>-->
           <!-- Mon profil  -->
-          <a ng-href="{{app.appUrlSvc.getFullPath('')}}userprofile" class ="navbar-brand glyphicon glyphicon-cog" TargetId="userprofile" translate></a>
-          <a  class="navbar-brand" ng-href="{{app.appUrlSvc.getFullPath('')}}about" TargetId="about" translate>?</a>
+          <a ng-href="{{app.appUrlSvc.getFullPath('userprofile')}}" class ="navbar-brand glyphicon glyphicon-cog" TargetId="userprofile" translate></a>
+          <a  class="navbar-brand" ng-href="{{app.appUrlSvc.getFullPath('about')}}" TargetId="about" translate>?</a>
         </div>
       </div>
 
@@ -111,26 +139,33 @@
           <!--<li style="margin-right: 12px;" ng-class='{active: getLanguage()=="fr"}' ng-click="changeLanguage('fr')"><a href="" class="flag flag-icon flag-icon-fr flag-icon-squared"></a></li>-->
           <!--<li style="margin-right: 12px;" ng-class='{active: getLanguage()=="en"}' ng-click="changeLanguage('en')"><a href="" class="flag flag-icon flag-icon-uk flag-icon-squared"></a></li>-->
           <!--<li style="margin-right: 12px;" ng-class='{active: getLanguage()=="es"}' ng-click="changeLanguage('es')"><a href="" class="flag flag-icon flag-icon-es flag-icon-squared"></a></li>-->
-          <li style="margin-right: 12px;" ng-class='{active: getLanguage()=="fr"}' ng-click="changeLanguage('fr')" ><a href="" TargetId="fr">fr</a></li>
-          <li style="margin-right: 12px;" ng-class='{active: getLanguage()=="en"}' ng-click="changeLanguage('en')"><a href=""  TargetId="en">en</a></li>
-          <li style="margin-right: 12px;" ng-class='{active: getLanguage()=="es"}' ng-click="changeLanguage('es')"><a href="" TargetId="es">es</a></li>
+          <!--<li style="margin-right: 12px;" ng-class='{active: getLanguage()=="fr"}' ng-click="changeLanguage('fr')" ><a href="" TargetId="fr">fr</a></li>-->
+          <!--<li style="margin-right: 12px;" ng-class='{active: getLanguage()=="en"}' ng-click="changeLanguage('en')"><a href=""  TargetId="en">en</a></li>-->
+          <!--<li style="margin-right: 12px;" ng-class='{active: getLanguage()=="es"}' ng-click="changeLanguage('es')"><a href="" TargetId="es">es</a></li>-->
+
+          <li style="margin-right: 12px;" ng-class='{active: getLanguage()=="fr"}' ><a ng-href="{{app.appUrlSvc.makeAltUrlForLanguage('fr')}}" hreflang="fr" lang="fr" TargetId="fr">fr</a></li>
+          <li style="margin-right: 12px;" ng-class='{active: getLanguage()=="en"}' ><a ng-href="{{app.appUrlSvc.makeAltUrlForLanguage('en')}}" hreflang="en" lang="en" TargetId="en">en</a></li>
+          <li style="margin-right: 12px;" ng-class='{active: getLanguage()=="es"}' ><a ng-href="{{app.appUrlSvc.makeAltUrlForLanguage('es')}}" hreflang="es" lang="es" TargetId="es">es</a></li>
+
+
+          <!--ng-href="{{app.appUrlSvc.makeAltUrlForLanguage('es')}}" hreflang="es" lang="es"-->
 
           <!-- Recipient list  -->
-          <li class="active"><a ng-href="{{app.appUrlSvc.getFullPath('')}}recipientList" class = "glyphicon glyphicon-user" TargetId="recipientList" translate></a></li>
+          <li class="active"><a ng-href="{{app.appUrlSvc.getFullPath('recipientList')}}" class = "glyphicon glyphicon-user" TargetId="recipientList" translate></a></li>
           <!-- Subscriptions  -->
           <!--<li class="active"><a ng-href="{{app.appUrlSvc.getFullPath('')}}favoriteRecipients" class = "glyphicon glyphicon-bell" TargetId="favoriteRecipients" translate></a></li>-->
           <!-- All texts  -->
-          <li class="active"><a  rel="nofollow" ng-href="{{app.appUrlSvc.getFullPath('')}}area/General/recipient/none/intention" class ="glyphicon glyphicon-search" translate></a></li>
+          <li class="active"><a  rel="nofollow" ng-href="{{app.appUrlSvc.getFullPath('area/General/recipient/none/intention')}}" class ="glyphicon glyphicon-search" translate></a></li>
           <!-- Favoris  -->
-          <!--<li class="active" ng-show = "hasFavourite()"><a ng-href="{{app.appUrlSvc.getFullPath('')}}favouriteTexts" class="glyphicon glyphicon-star"></a></li>-->
+          <!--<li class="active" ng-show = "hasFavourite()"><a ng-href="{{app.appUrlSvc.getFullPath('favouriteTexts')}}" class="glyphicon glyphicon-star"></a></li>-->
 
           <!-- Dashboard  -->
-          <!--<li class="active"><a ng-href="{{app.appUrlSvc.getFullPath('')}}fbLogin" ng-show="true" class ="glyphicon glyphicon-play"></a></li>-->
-          <!--<li class="active"><a ng-href="{{app.appUrlSvc.getFullPath('')}}area/General/dashboard" ng-show="true" class ="glyphicon glyphicon-play" TargetId="dashboard"></a></li>-->
+          <!--<li class="active"><a ng-href="{{app.appUrlSvc.getFullPath('fbLogin')}}" ng-show="true" class ="glyphicon glyphicon-play"></a></li>-->
+          <!--<li class="active"><a ng-href="{{app.appUrlSvc.getFullPath('area/General/dashboard')}}" ng-show="true" class ="glyphicon glyphicon-play" TargetId="dashboard"></a></li>-->
 
           <!-- Mon profil  -->
-          <li class="active"><a ng-href="{{app.appUrlSvc.getFullPath('')}}userprofile" class ="glyphicon glyphicon-cog" TargetId="userprofile" translate></a></li>
-          <li class="active"><a ng-href="{{app.appUrlSvc.getFullPath('')}}about" TargetId="about" translate>A propos</a></li>
+          <li class="active"><a ng-href="{{app.appUrlSvc.getFullPath('userprofile')}}" class ="glyphicon glyphicon-cog" TargetId="userprofile" translate></a></li>
+          <li class="active"><a ng-href="{{app.appUrlSvc.getFullPath('about')}}" TargetId="about" translate>A propos</a></li>
         </ul>
       </div>
 
@@ -145,7 +180,7 @@
         <div class="tabBar" ng-show="showTabs" action-location="Tabs">
           <ul id="myTab" class="nav nav-pills ">
             <li ng-class="{active: currentAreaName() == tab.name}" ng-repeat="tab in tabs">
-              <a ng-href="{{app.appUrlSvc.getFullPath('')}}area/{{tab.name}}/recipient/none/intention" translate> {{tab.label}} </a>
+              <a ng-href="{{app.appUrlSvc.getFullPath('area')}}/{{tab.name}}/recipient/none/intention" translate> {{tab.label}} </a>
             </li>
           </ul>
         </div>

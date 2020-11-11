@@ -39,6 +39,7 @@ angular.module('app/routing', ['ui.router'])
     .when('/about'                    ,'/xx/about')
     .when('/favoriteRecipients'       ,'/xx/favoriteRecipients')
     .when('/subscriptions'            ,'/xx/subscriptions')
+    .when('/loveQuizz'                ,'/xx/loveQuizz')
     .when('/userEMail'                ,'/xx/userEMail')
     .when('/userEMailvalidation'      ,'/xx/userEMailValidation')
     .when('/whatToDo'                 ,'/xx/whatToDo')
@@ -75,10 +76,10 @@ angular.module('app/routing', ['ui.router'])
 
     // Allow shorter urls with no recipient
     .when('/:languageCode/area/:areaName/intention/:intentionId/text','/:languageCode/area/:areaName/recipient/none/intention/:intentionId/text')
-    .when('/:languageCode/area/:areaName/intention/:intentionId/text/:textId','/:languageCode/area/:areaName/recipient/none/intention/:intentionId/text/:textId');
+    .when('/:languageCode/area/:areaName/intention/:intentionId/text/:textId','/:languageCode/area/:areaName/recipient/none/intention/:intentionId/text/:textId')
+    .when('/:languageCode/area/:areaName/intention/:intentionId/text/:textId/image/:imageId','/:languageCode/area/:areaName/recipient/none/intention/:intentionId/text/:textId/image/:imageId');
 
   $stateProvider
-
   .state('helloMum', {
     url: '/:languageCode/mum',
     templateUrl: 'views/helloMum.html',
@@ -99,6 +100,19 @@ angular.module('app/routing', ['ui.router'])
     template: '<ui-view/>',
     url:'/:languageCode/area/:areaName',
     resolve: {
+      initialCultureCode: ['$stateParams','currentLanguage', function($stateParams,currentLanguage) {
+        var culture = currentLanguage.currentCulture();
+        if ( $stateParams.languageCode ) {
+          var urlCulture = currentLanguage.defaultCultureForLanguage($stateParams.languageCode);
+          if ( !! urlCulture && urlCulture != culture ) {
+            console.log($stateParams.languageCode + " ======= " + culture);
+            currentLanguage.setLanguageCode($stateParams.languageCode,false);
+            culture = urlCulture;
+          }
+        }
+        return culture; }
+      ],
+
       // currentAreaName will be available to child states
       currentAreaName: ['$stateParams', 'areasSvc' , function ($stateParams, areasSvc) {
         var areaName = $stateParams.areaName;
@@ -168,8 +182,8 @@ angular.module('app/routing', ['ui.router'])
       }],
       imageUrl: ['$location', function($location) {
         var queryParams = $location.search();
-        return queryParams.imageUrl; }
-      ]
+        return queryParams.imageUrl;
+      }]
 
     }
   })
@@ -181,7 +195,7 @@ angular.module('app/routing', ['ui.router'])
     resolve: {
       recipients: ['recipientTypesSvc', function(subscribedRecipientTypesSvc) { return subscribedRecipientTypesSvc.getAll(); }]
     },
-    showTabs: true
+    showTabs: false
   })
   // Intention list for area and recipient.
   .state('area.intentionList', {
@@ -203,7 +217,7 @@ angular.module('app/routing', ['ui.router'])
         return currentRecipientSvc.getCurrentRecipientLabel();
       }]
     },
-    showTabs: true
+    showTabs: false
   })
   // Text list for an intention, and a recipient. Recipient can be 'none'
   .state('area.textList', {
@@ -229,15 +243,29 @@ angular.module('app/routing', ['ui.router'])
       currentIntentionLabel: ['currentAreaName','intentionsSvc','$stateParams', function(currentAreaName,intentionsSvc,$stateParams) {
         return intentionsSvc.getIntentionLabel(currentAreaName,$stateParams.intentionSlug);
       }],
-      currentTextList: ['textsSvc','currentLanguage', function(textsSvc,currentLanguage) { return textsSvc.getCurrentTextList( currentLanguage.currentCulture(),true ); }],
+      currentTextList: ['textsSvc','currentLanguage', function(textsSvc,currentLanguage) {
+        return textsSvc.getCurrentTextList( currentLanguage.currentCulture(),true );
+      }],
       currentRecipient: ['currentRecipientSvc', function(currentRecipientSvc) { return currentRecipientSvc.getCurrentRecipient(); }],
       currentRecipientLabel: ['currentRecipientSvc', function(currentRecipientSvc) {
         //return currentRecipientSvc.getCurrentRecipient().then(function(rec) {return rec.LocalLabel});
         return currentRecipientSvc.getCurrentRecipientLabel();
+      }],
+      // This is used for TextDetail but we don't want to refilter each time
+      textListFilteredForRecipient:['textsSvc','filtersSvc','filteredTextListSvc','currentRecipient','currentUser','currentTextList',function(textsSvc,filtersSvc,filteredTextListSvc,currentRecipient,currentUser,currentTextList) {
+        if ( currentRecipient && currentRecipient.RecipientTypeTag ) {
+          filtersSvc.setRecipientTypeTag(currentRecipient.RecipientTypeTag);
+          console.log("AVANT " + currentTextList.length);
+          var filteredList = filteredTextListSvc.setFilteredAndOrderedList(currentTextList, currentUser, filtersSvc.filters.preferredStyles);
+          console.log("APRES " + filteredList.length);
+          return filteredList;
+        }
+        return currentTextList;
       }]
 
+
     },
-    showTabs: true,
+    showTabs: false,
     views: {
       '' : {
         templateUrl: 'views/textList.html',
@@ -246,10 +274,62 @@ angular.module('app/routing', ['ui.router'])
       'questionBarView@': { templateUrl: 'views/partials/questionBar.html', controller: 'QuestionBarController' }
     }
   })
+
   .state('area.textList.textDetail', {
     url: '/:textId',
     templateUrl: 'views/textdetail.html',
     controller: 'TextDetailController',
+//    controller: 'TextAndImageController',
+    resolve: {
+      currentTextId: ['$stateParams', 'textsSvc' ,'appUrlSvc', function ($stateParams, textsSvc,appUrlSvc) {
+        var textId = $stateParams.textId;
+        // Set current text id if text id is not a special code
+        if ( !!textId && !appUrlSvc.getSelectionFunctionForSpecialTextIdCode(textId) )
+          textsSvc.setCurrentTextId(textId);
+        return textId;
+      }],
+
+  // Current intention is inherited from parent state
+      currentText: ['textsSvc','currentLanguage','currentTextId','weightedTextRandomPickSvc','currentTextList','appUrlSvc',
+        function(textsSvc,currentLanguage,currentTextId,weightedTextRandomPickSvc,currentTextList,appUrlSvc) {
+          // Check if currentTextId is really a code for random picking
+          var specialTextPickingFunction = appUrlSvc.getSelectionFunctionForSpecialTextIdCode(currentTextId);
+          if ( specialTextPickingFunction) {
+            var retval = specialTextPickingFunction(currentTextList);
+            // replace code by real text id - Will cause route change but second time the textId will be a real one
+            if ( retval)  {
+              appUrlSvc.replaceTextIdInUrl(currentTextId,retval.TextId);
+              textsSvc.setCurrentTextId(retval.TextId);
+            }
+            return retval;
+          }
+          // If return not go for current text
+          else
+            return textsSvc.getCurrentText(currentLanguage.currentCulture());
+      }],
+
+      imageUrl: ['$location','currentText','serverSvc', function($location,currentText,serverSvc) {
+          var queryParams = $location.search();
+          if ( queryParams && queryParams.imagePath && queryParams.imageExtension ) {
+            return  serverSvc.makeImageUrlFromPath(queryParams.imagePath + '.' + queryParams.imageExtension);
+          } else
+          if ( queryParams && queryParams.imageUrl ) {
+            return  serverSvc.makeImageUrlFromPath(queryParams.imageUrl);
+          } else
+          if ( currentText && currentText.ImageUrl )
+            return currentText.ImageUrl;
+        }
+      ]
+    }
+  })
+
+  .state('area.textList.image', {
+    url: '/:textId/image/:imageId',
+//    templateUrl: 'views/textdetail.html',
+    templateUrl: 'views/textandimage.html',
+    controller: 'TextAndImageController',
+//    controller: 'TextDetailController',
+
     resolve: {
       currentTextId: ['$stateParams', 'textsSvc' , function ($stateParams, textsSvc) {
         var textId = $stateParams.textId;
@@ -262,19 +342,41 @@ angular.module('app/routing', ['ui.router'])
         return textsSvc.getCurrentText(currentLanguage.currentCulture()); }
       ],
       imageUrl: ['$location','currentText','serverSvc', function($location,currentText,serverSvc) {
-          var queryParams = $location.search();
-          if ( queryParams && queryParams.imageUrl ) {
-            var url = serverSvc.makeImageUrlFromPath(queryParams.imageUrl);
-            return url;
-          }
-          else if ( currentText && currentText.ImageUrl )
-            return currentText.ImageUrl;
+        var queryParams = $location.search();
+        if ( queryParams && queryParams.imagePath && queryParams.imageExtension ) {
+          return  serverSvc.makeImageUrlFromPath(queryParams.imagePath + '.' + queryParams.imageExtension);
+        } else
+        if ( queryParams && queryParams.imageUrl ) {
+          return  serverSvc.makeImageUrlFromPath(queryParams.imageUrl);
+        } else
+        if ( currentText && currentText.ImageUrl )
+          return currentText.ImageUrl;
+      }
+      ],
+      imageName:['$stateParams','$location','$window','localStorage',function($stateParams,$location,$window,localStorage) {
+        //$location.url("http://www.google.com");
+        //$window.location = "http://www.google.com";
+        //$location.path('/someNewPath');
+//        $location.replace();
+        //$window.history.replaceState("/");
+        console.log($window.history.length);
+        // TODO : use timer or have target page write 'back' in localstorage
+        var nb = localStorage.get('history');
+        if ( !nb || nb < 3 ) {
+          localStorage.set('history',$window.history.length);
+          $window.location.href = "http://www.google.com";
+      } else {
+          localStorage.set('history',null);
+          //$window.history.back();
         }
-      ]
 
-
+        //$location.replace();
+//        $window.location.path("http://www.google.com").replace();
+        return $stateParams.imageId;
+      }]
     }
   })
+
   .state('favoriteRecipients', {
     url: '/:languageCode/favoriteRecipients',
     templateUrl: 'views/favoriteRecipients.html',
@@ -287,14 +389,20 @@ angular.module('app/routing', ['ui.router'])
     controller: 'SubscriptionController',
     showTabs: false
   })
+  .state('loveQuizz', {
+    url: '/:languageCode/loveQuizz',
+    templateUrl: 'views/loveQuizz.html',
+    controller: 'LoveQuizzController',
+    showTabs: false
+  })
   .state('userEMail', {
     url: '/:languageCode/userEMail',
-    templateUrl: 'views/userEMail.html',
+    templateUrl: 'views/userEmail.html',
     controller: 'UserEMailController'
   })
   .state('userEmailValidation', {
     url: '/:languageCode/userEMailValidation',
-    templateUrl: 'views/userEMailValidation.html',
+    templateUrl: 'views/userEmailvalidation.html',
     controller: 'UserEMailValidationController'
   })
   .state('whatToDo', {

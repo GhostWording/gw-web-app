@@ -76,7 +76,7 @@ function ($scope, currentTextList, currentAreaName,  currentUser, currentRecipie
   // Filter when filters change
   $scope.$watch(function() { return filtersSvc.filters; },function() {$scope.filteredList = filterList(unfilteredTextList);},true);
   // Update styles suggested by accordion when unfiltered list changes
-  $scope.$watch(function() { return unfilteredTextList.length; }, function() {accordionSvc.calculateMostSelectiveStyles(); },true);
+  $scope.$watch(function() { return !! unfilteredTextList  ? unfilteredTextList.length : 0; }, function() {accordionSvc.calculateMostSelectiveStyles(); },true);
 
   // Get displayable style names for the text (imaginative, poetic,..)
   $scope.labelsThatShouldBeDisplayed = function(txt) {

@@ -2,7 +2,8 @@
 <!-- TextDetail view: will be shown here when a text is selected : both views will be active at the same time-->
 <ui-view></ui-view>
 
-<div ng-show="getCurrentTextId() == undefined" class="panneauTexte" action-location="TextList">
+<!--<div ng-show="getCurrentTextId() == undefined" class="panneauTexte" action-location="TextList">-->
+<div ng-if="getCurrentTextId() == undefined" class="panneauTexte" action-location="TextList">
 
   <!--<div ng-hide="true || filtersWellDefined()" style="padding-top: 0px; margin-top: 0px; margin-bottom: 5px; ">-->
     <!--<span ng-show="textList.length">-->
@@ -17,13 +18,12 @@
   <div style="vertical-align: middle;">
     <h4 class="intentionCourante " style="  vertical-align: middle;">
       <a class="backArrow" style="margin-right: 5px"
-         ng-href="{{app.appUrlSvc.getFullPath('')}}area/{{ currentAreaName }}/recipient/{{ theRecipientId }}/intention"
+         ng-href="{{app.appUrlSvc.getFullPath('')}}/area/{{ currentAreaName }}/recipient/{{ theRecipientId }}/intention"
          role="button"  targetId="Back" > <img ng-src="./assets/arrow-left.png" class="stylepicto"> </a>
       <span translate>{{ theIntentionLabel }}</span>
-
-      <span ng-show="theRecipientLabel != ''"> - </span>
-      <span translate>{{ theRecipientLabel }}</span>
-    </h4>
+      <!--<span ng-show="theRecipientLabel != ''"> - </span>-->
+      <!--<span translate>{{ theRecipientLabel }}</span>-->
+    <!--</h4>-->
   </div>
 
   <div ng-controller="MyAccordionController">
@@ -51,10 +51,11 @@
          </span>
 
         <div id="{{txt.TextId}}">
-          <img
-          src="./assets/e-mail64.png"
-          class="pull-right envoyer"
-          ng-click="send(txt)">
+          <!-- Do not show send envelope for the time being  -->
+          <!--<img-->
+          <!--src="./assets/e-mail64.png"-->
+          <!--class="pull-right envoyer"-->
+          <!--ng-click="send(txt)">-->
           <a ng-href="{{app.appUrlSvc.getRootPath()}}area/{{ currentAreaName }}/recipient/{{ theRecipientId }}/intention/{{ theIntentionSlugOrId }}/text/{{txt.TextId}}"
           targetType="Text"
           actionType="open"
@@ -62,9 +63,10 @@
           ng-click="app.appUrlSvc.setTextDetailWasCalledFromTextList(true)"
           >
           <div cvd-text="txt" ng-class="{active: txt.TextId == selectedTextId}" style="white-space: pre-wrap"></div>
-              <span ng-repeat="tagLabel in currentText.TagLabels" >
-                <span class="label label-primary" translate>{{tagLabel}}</span>&nbsp
-              </span>
+              <!-- We don't show the labels any more -->
+              <!--<span ng-repeat="tagLabel in currentText.TagLabels" >-->
+                <!--<span class="label label-primary" translate>{{tagLabel}}</span>&nbsp-->
+              <!--</span>-->
         </a>
       </div>
     </div>

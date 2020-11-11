@@ -82,6 +82,11 @@ a.backArrow:hover, a.backArrow:focus, a.backArrow:active  { background-color: rg
     display:none;
 }
 
+.fb_pixel_Inscription{
+    background-image: url('https://www.facebook.com/offsite_event.php?id=6026678240342&amp;value=0.01&amp;currency=GBP');
+    display:none;
+}
+
 .flag-icon {
     position: relative;
     display: inline-block;

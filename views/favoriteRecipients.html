@@ -10,8 +10,13 @@
         <a  targetType="Command" targetId="SenderGender" translate  ng-click = 'currentUser.gender = "H"'>Un homme</a></li>
       <li ng-class = '{selectionne: currentUser.gender=="F"}'>
         <a  targetType="Command" targetId="SenderGender" translate ng-click = "currentUser.gender = 'F'">Une femme</a></li>
+      <br><br>
+      <li ng-class = '{selectionne: isConnectedToFacebook}'>
+        <a  targetType="Command" targetId="FacebookConnection" translate ng-click = "connectToFacebook()">Un utilisateur Facebook :-)</a></li>
     </ul>
   </div>
+
+  <!--<button type="button" ng-click="login()"  ng-hide="false ||isLoggedIn" class="btn btn-default navbar-btn">Login</button>-->
 
   <!-- Favorite recipient types -->
   <div class="row" style="margin-top: 0px; margin-bottom: 30px;margin-left: 10px; margin-right: 10px; " >
