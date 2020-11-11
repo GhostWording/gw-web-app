@@ -105,11 +105,17 @@ function fontFiles() {
   ];
 }
 
-/*************************************************************/
-define('serve','run a simple express server with built files');
-/*************************************************************/
+
 var serveChildProcess = null;
-gulp.task('serve', function(cb) {
+
+/*****************************************************************************
+ * 
+ * 
+ *    T A S K S      F U N C T I O N S
+ * 
+ * 
+ *****************************************************************************/
+function taskServe(cb) {
   // Spawn server as a child process
   serveChildProcess = childProcess.spawn('node', ['build/server.js'], {stdio:'inherit', stderr:'inherit'});
   serveChildProcess.on('close', function (code) {
@@ -121,45 +127,34 @@ gulp.task('serve', function(cb) {
   });
   // Done 
   cb();
-});
+}
 
-/*************************************************************/
-define('clean','clean up build folder by removing all files');
-/*************************************************************/
-gulp.task('clean', function() {
-  return gulp.src('build', { read: false })
+
+function taskClean() {
+  return gulp.src('build', { read: false, allowEmpty : true })
     .pipe(rimraf());
-});
+}
 
-/*************************************************************/
-define('jshint','check the code for jshint errors');
-/*************************************************************/
-gulp.task('jshint', function() {
+function taskJsHint (){
   return gulp.src(appJSGlobs().concat(commonJSGlobs()))
     .pipe(jshint())
     .pipe(jshint.reporter('jshint-stylish'));
-});
+}
 
-/*************************************************************/
-define('copyappjs','copy application javascript to build folder');
-/*************************************************************/
-gulp.task('copyappjs', function() {
+function taskCopyAppJs() {
+  gUtil.log("..... copy app js");
   return gulp.src(appJSGlobs())
     .pipe(gulp.dest('build/scripts/app'));
-});
+}
 
-/*************************************************************/
-define('copycommonjs','copy common javascript to build folder');
-/*************************************************************/
-gulp.task('copycommonjs', function() {
+function taskCopyCommonJs() {
+  gUtil.log("..... copy common js");
   return gulp.src(commonJSGlobs())
     .pipe(gulp.dest('build/scripts/common'));
-});
+}
 
-/*************************************************************/
-define('appjs','process application javascript');
-/*************************************************************/
-gulp.task('appjs', function(cb) {
+
+function taskAppJs (cb) {
   if(release) {
     var appAndCommonJSGlobs = appJSGlobs().concat(commonJSGlobs());
     generateRevisionHash(appAndCommonJSGlobs, function(revision) {
@@ -183,14 +178,14 @@ gulp.task('appjs', function(cb) {
     });
   } else {
     // Copy app/common javascript to build folder in development mode
-    runSequence(['copyappjs', 'copycommonjs'], cb);
+    //runSequence('copyappjs','copycommonjs', cb);
+    
+    //return gulp.parallel(taskCopyCommonJs);
+    return Promise.resolve(taskCopyAppJs(),taskCopyCommonJs());
   }
-});
+}
 
-/*************************************************************/
-define('vendorjs','process vendor javascript');
-/*************************************************************/
-gulp.task('vendorjs', function(cb) {
+function taskVendorJs (cb) {
   if(release) {
     generateRevisionHash(vendorJSFilesMinified(true).concat(vendorJSFiles()), function(revision) {
       // Minify the vendor js that doesn't come with minifed versions
@@ -212,12 +207,9 @@ gulp.task('vendorjs', function(cb) {
     return gulp.src(vendorJSFilesMinified(false).concat(vendorJSFiles()), {base: '.'})
       .pipe(gulp.dest('build'));
   }
-});
+}
 
-/*************************************************************/
-define('styles','process styles');
-/*************************************************************/
-gulp.task('styles', function(cb) {
+function taskStyles(cb) {
   if(release) {
     generateRevisionHash(cssFiles(true), function(revision) {
       gulp.src(cssFiles(true))
@@ -239,56 +231,42 @@ gulp.task('styles', function(cb) {
       .pipe(replace('../fonts', '/assets/fonts'))
       .pipe(gulp.dest('build'));
   }
-});
+}
 
-/*************************************************************/
-define('fonts','process fonts');
-/*************************************************************/
-gulp.task('fonts', function() {
+function taskFonts() {
   return gulp.src(fontFiles())
     .pipe(gulp.dest('build/assets/fonts'));
-});
+}
 
-/*************************************************************/
-define('maps','process maps');
-/*************************************************************/
-gulp.task('maps', function(cb) {
+function taskMaps(cb) {
   if(release) { cb(); return; }
   return gulp.src(['./bower_components/**/*.map','./scripts/lib/**/*.map'], {base: '.'})
     .pipe(gulp.dest('build'));
-});
+}
 
-/*************************************************************/
-define('views','process views');
-/*************************************************************/
-gulp.task('views', function(cb) {
+function taskViews(cb) {
   // Dont copy views in release since we are bundling them into app.js
   if(release) { cb(); return; }
   return gulp.src(['views/**/*'])
     .pipe(gulp.dest('build/views'));
-});
+}
 
-/*************************************************************/
-define('server','process server');
-/*************************************************************/
-gulp.task('server', function() {
+
+function taskServer() {
   return gulp.src(['server.js'])
     .pipe(gulp.dest('build'));
-});
+}
 
-/*************************************************************/
-define('assets','process assets');
-/*************************************************************/
-gulp.task('assets', function() {
+function taskAsssets() {
   return gulp.src(['assets/**/*', '!assets/app.css'])
     .pipe(gulp.dest('build/assets'));
-});
+}
 
-/*************************************************************/
-define('index','process index');
-/*************************************************************/
-gulp.task('index', function(cb) {
+
+function taskIndex(cb) {
+  gUtil.log("in task index");
   if(release) {
+    gUtil.log("..... release");
     // Find bundles (with their correct revision hashes)
     var appBundle = glob.sync('build/assets/app-*.js')[0];
     var vendorBundle = glob.sync('build/assets/vendor-*.js')[0];
@@ -296,9 +274,9 @@ gulp.task('index', function(cb) {
     if(!appBundle) { cb('app bundle not found'); return; } 
     if(!vendorBundle) { cb('vendor bundle not found'); return; } 
     if(!styleBundle) { cb('style bundle not found'); return; }
-    appBundle = appBundle.replace('build/','');
-    vendorBundle = vendorBundle.replace('build/','');
-    styleBundle = styleBundle.replace('build/','');
+    appBundle = appBundle.replace('build/','').replace(__dirname,'');
+    vendorBundle = vendorBundle.replace('build/','').replace(__dirname,'');
+    styleBundle = styleBundle.replace('build/','').replace(__dirname,'');
     if(deploy) {
       var cdnUrl = config.get('CDN_URL'); 
       appBundle = cdnUrl + appBundle;
@@ -314,11 +292,12 @@ gulp.task('index', function(cb) {
       .pipe(replace('<!-- style:css --><!-- endinject -->','<link rel="stylesheet" href="' + styleBundle + '">'))
       .pipe(gulp.dest('./build'));
 } else {
+    gUtil.log("..... normal");
     return gulp.src('index.html')
       // Inject app js files
-      .pipe(inject(gulp.src('scripts/app/**/*.js', {cwd:'build', read: false}), {name: 'app'}))
+      .pipe(inject(gulp.src('scripts/app/**/*.js', {cwd:'build', read: false}), {name: 'app',ignorePath:"/.."+__dirname+"/build"}))
       // Inject common js files
-      .pipe(inject(gulp.src('scripts/common/**/*.js', {cwd:'build', read: false}), {name: 'common'}))
+      .pipe(inject(gulp.src('scripts/common/**/*.js', {cwd:'build', read: false}), {name: 'common',ignorePath:"/.."+__dirname+"/build"}))
       // Inject vendor js files
       .pipe(inject(gulp.src(vendorJSFilesMinified().concat(vendorJSFiles()), {read: false}), {name: 'vendor'}))
       // Inject style css files
@@ -326,48 +305,44 @@ gulp.task('index', function(cb) {
       // Output to build folder
       .pipe(gulp.dest('./build'));
     }
-});
+}
 
-/*************************************************************/
-define('install','install npm/bower dependencies');
-/*************************************************************/
-gulp.task('install', function() {
+
+function taskInstall() {
   return gulp.src(['./bower.json', './package.json'])
   .pipe(install());
-});
+}
 
-/*************************************************************/
-define('build','create a local development build (unbundled/unminified)');
-/*************************************************************/
-gulp.task('build', function(cb) {
-  runSequence(['clean', 'jshint'], ['appjs', 'vendorjs', 'assets', 'server', 'views', 'styles', 'fonts', 'maps'], 'index', cb);
-});
+/*function taskSequenceBuild(cb) {
+  runSequence(taskClean,taskJsHint,taskAppJs,taskVendorJs,taskAsssets,taskServer, taskViews, taskStyles, taskFonts, taskMaps, taskIndex, cb);
+}*/
+function taskSequenceBuild() {
+  return gulp.series(taskClean,taskJsHint,taskAppJs,taskVendorJs,taskAsssets,taskServer, taskViews, taskStyles, taskFonts, taskMaps, taskIndex);
+}
 
-/*************************************************************/
-define('release','create a local release build for pre-deployment testing');
-/*************************************************************/
-gulp.task('release', function(cb) {
+function taskSequenceRelease() {
   release = true;
-  runSequence('build', cb);
-});
+  return taskSequenceBuild();
+}
 
-/*************************************************************/
-define('deploy','create a deployment build');
-/*************************************************************/
-gulp.task('deploy', function(cb) {
+function taskSetReleaseTrue(){
+  release = true;
+}
+function taskSetDeployTrue(){
+  release = true;
+}
+function taskSequenceDeploy(cb) {
   release = true;
   deploy = true;
   // TODO: Bump package.json/bower.json versions
   // TODO: Git tag release
   // TODO: Upload build to server?
   // TODO: Copy assets to CDN?
-  runSequence('build', cb);
-});
+  runSequence(taskSequenceBuild, cb);
+}
 
-/*************************************************************/
-define('test','run karma unit tests (as defined in karma.conf)');
-/*************************************************************/
-gulp.task('test', function(cb) {
+
+function taskTest(cb) {
   var karma = path.resolve('node_modules', '.bin', 'karma');
   var configFile = path.resolve('karma.conf.js');
   var result = shelljs.exec(karma + ' start ' + configFile);
@@ -375,24 +350,19 @@ gulp.task('test', function(cb) {
     gUtil.beep();
     gUtil.log(gUtil.colors.red('Karma tests failed'));
   }
-});
+}
 
-/*************************************************************/
-define('e2etest:run','ensure all dependencies, start the server and run the e2e tests');
-/*************************************************************/
-gulp.task('e2etest:run', ['default'], function(cb) {
-  runSequence('e2etest', cb);
-});
+function taskE2etestWebdriverUpdate()
+{
+  gProtractor.webdriver_update();
+}
 
-/*************************************************************/
-define('e2etest:webdriver_update','updates the selenium server standalone jar file');
-/*************************************************************/
-gulp.task('e2etest:webdriver_update', gProtractor.webdriver_update);
 
-/*************************************************************/
-define('e2etest','run the e2e tests (assumes app built and \'serve\' running)');
-/*************************************************************/
-gulp.task('e2etest', ['e2etest:webdriver_update'], function(cb) {
+function taskE2eTestRun(cb) {
+  runSequence(taskE2etest, cb);
+}
+
+function taskE2etest(cb) {
   gUtil.log(gUtil.colors.yellow('E2E TEST RUN -----------------------------------------'));
   gulp.src(['./e2etests/**/*.scenario.js'])
     .pipe(gProtractor.protractor({
@@ -407,47 +377,184 @@ gulp.task('e2etest', ['e2etest:webdriver_update'], function(cb) {
       if(serveChildProcess) serveChildProcess.kill();
       cb();
     });
-});
+}
+function taskWatch() {
+  gulp.watch(['scripts/**','bower_components/gw-common/**', 'assets/**', 'views/**', 'index.html', 'tests/**'], function() {
+    runSequence(taskSequenceBuild);
+  });
+}
+
+
+function taskEnv(){
+  gUtil.log(process.env);
+}
+
+function taskHelp (){
+  gUtil.log('----------------------------------------');
+  gUtil.log('GULP Tasks: ');
+  gUtil.log('----------------------------------------');
+  Object.keys(definitions).map(function(key){
+      var def = definitions[key];
+      var name = gUtil.colors.yellow(def.name + columnSpace.substring(0,10 - def.name.length));
+      var description = gUtil.colors.white(def.description);
+      gUtil.log(name + ' : ' + description);
+  });
+}
+
+function taskSequenceDefault(cb) {
+  //runSequence(taskInstall, taskSequenceBuild, taskServe, cb);
+}
+
+
+/*****************************************************************************
+ * 
+ * 
+ *    T A S K S      D E F I N I T I O N S
+ * 
+ * 
+ *****************************************************************************/
+
+/*************************************************************/
+define('serve','run a simple express server with built files');
+/*************************************************************/
+gulp.task('serve', taskServe);
+
+/*************************************************************/
+define('clean','clean up build folder by removing all files');
+/*************************************************************/
+gulp.task('clean', taskClean);
+
+/*************************************************************/
+define('jshint','check the code for jshint errors');
+/*************************************************************/
+gulp.task('jshint', taskJsHint);
+
+/*************************************************************/
+define('copyappjs','copy application javascript to build folder');
+/*************************************************************/
+gulp.task('copyappjs', taskCopyAppJs);
+
+/*************************************************************/
+define('copycommonjs','copy common javascript to build folder');
+/*************************************************************/
+gulp.task('copycommonjs',taskCopyCommonJs);
+
+/*************************************************************/
+define('appjs','process application javascript');
+/*************************************************************/
+gulp.task('appjs', taskAppJs);
+
+/*************************************************************/
+define('vendorjs','process vendor javascript');
+/*************************************************************/
+gulp.task('vendorjs', gulp.series(taskVendorJs));
+
+/*************************************************************/
+define('styles','process styles');
+/*************************************************************/
+gulp.task('styles', gulp.series(taskStyles));
+
+/*************************************************************/
+define('fonts','process fonts');
+/*************************************************************/
+gulp.task('fonts', gulp.series(taskFonts));
+
+/*************************************************************/
+define('maps','process maps');
+/*************************************************************/
+gulp.task('maps', gulp.series(taskMaps));
+
+/*************************************************************/
+define('views','process views');
+/*************************************************************/
+gulp.task('views', gulp.series(taskViews));
+
+/*************************************************************/
+define('server','process server');
+/*************************************************************/
+gulp.task('server', gulp.series(taskServer) );
+
+/*************************************************************/
+define('assets','process assets');
+/*************************************************************/
+gulp.task('assets', gulp.series(taskAsssets));
+
+/*************************************************************/
+define('index','process index');
+/*************************************************************/
+gulp.task('index', gulp.series(taskIndex));
+
+/*************************************************************/
+define('install','install npm/bower dependencies');
+/*************************************************************/
+gulp.task('install', gulp.series(taskInstall));
+
+/*************************************************************/
+define('build','create a local development build (unbundled/unminified)');
+/*************************************************************/
+//gulp.task('build', gulp.series(taskSequenceBuild));
+gulp.task('build', gulp.series(
+  gulp.parallel(taskClean,taskJsHint),
+  gulp.parallel(taskAppJs,taskVendorJs,taskAsssets,taskServer, taskViews, taskStyles, taskFonts, taskMaps), 
+  taskIndex));
+
+/* ===  debug & experiment  ===  */
+define('de','debug & experiment');
+gulp.task('de', gulp.series(
+  gulp.parallel(taskClean,taskJsHint),
+  gulp.parallel(taskAppJs,taskVendorJs,taskAsssets,taskServer, taskViews, taskStyles, taskFonts, taskMaps),
+  taskIndex));
+
+
+/*************************************************************/
+define('release','create a local release build for pre-deployment testing');
+/*************************************************************/
+gulp.task('release', taskSequenceRelease);
+
+/*************************************************************/
+define('deploy','create a deployment build');
+/*************************************************************/
+gulp.task('deploy', gulp.series(taskSequenceDeploy));
+
+/*************************************************************/
+define('test','run karma unit tests (as defined in karma.conf)');
+/*************************************************************/
+gulp.task('test', gulp.series(taskTest));
+
+/*************************************************************/
+define('e2etest:run','ensure all dependencies, start the server and run the e2e tests');
+/*************************************************************/
+gulp.task('e2etest:run', gulp.series(taskSequenceDefault,taskE2eTestRun));
+
+/*************************************************************/
+define('e2etest:webdriver_update','updates the selenium server standalone jar file');
+/*************************************************************/
+gulp.task('e2etest:webdriver_update', gulp.series(taskE2etestWebdriverUpdate));
+
+/*************************************************************/
+define('e2etest','run the e2e tests (assumes app built and \'serve\' running)');
+/*************************************************************/
+gulp.task('e2etest', gulp.series(taskE2etestWebdriverUpdate,taskE2etest));
 
 /*************************************************************/
 define('watch','activate watch mode to run tests and serve on file changes');
 /*************************************************************/
-gulp.task('watch', function() {
-  runSequence('install', 'build', function() {
-    gulp.watch(['scripts/**','bower_components/gw-common/**', 'assets/**', 'views/**', 'index.html', 'tests/**'], function() {
-      runSequence('build');
-    });
-  });
-});
+gulp.task('watch', gulp.series(taskInstall, taskSequenceBuild, taskWatch));
 
 /*************************************************************/
 define('env','show environment');
 /*************************************************************/
-gulp.task('env',function(){
-   gUtil.log(process.env);
-});
+gulp.task('env', gulp.series(taskEnv));
 
 /*************************************************************/
 define('help','show this help');
 /*************************************************************/
-gulp.task('help',function(){
-    gUtil.log('----------------------------------------');
-    gUtil.log('GULP Tasks: ');
-    gUtil.log('----------------------------------------');
-    Object.keys(definitions).map(function(key){
-        var def = definitions[key];
-        var name = gUtil.colors.yellow(def.name + columnSpace.substring(0,10 - def.name.length));
-        var description = gUtil.colors.white(def.description);
-        gUtil.log(name + ' : ' + description);
-    });
-});
+gulp.task('help', gulp.series(taskHelp));
 
 /*************************************************************/
 define('default','install, build and run the app');
 /*************************************************************/
-gulp.task('default', function(cb) {
-  runSequence('install', 'build', 'serve', cb);
-});
+gulp.task('default', gulp.series(taskInstall, taskSequenceBuild, taskServe));
 
 // Self validation
 gulp.src('gulpfile.js')
