@@ -313,20 +313,19 @@ function taskInstall() {
   .pipe(install());
 }
 
-/*function taskSequenceBuild(cb) {
-  runSequence(taskClean,taskJsHint,taskAppJs,taskVendorJs,taskAsssets,taskServer, taskViews, taskStyles, taskFonts, taskMaps, taskIndex, cb);
-}*/
+
 function taskSequenceBuild() {
   return gulp.series(taskClean,taskJsHint,taskAppJs,taskVendorJs,taskAsssets,taskServer, taskViews, taskStyles, taskFonts, taskMaps, taskIndex);
 }
 
 function taskSequenceRelease() {
   release = true;
-  return taskSequenceBuild();
+  return taskSequenceBuildDebug();
 }
 
-function taskSetReleaseTrue(){
+function taskSetReleaseTrue(cb){
   release = true;
+  cb();
 }
 function taskSetDeployTrue(){
   release = true;
@@ -509,7 +508,11 @@ gulp.task('de', gulp.series(
 /*************************************************************/
 define('release','create a local release build for pre-deployment testing');
 /*************************************************************/
-gulp.task('release', taskSequenceRelease);
+gulp.task('release', gulp.series(
+  taskSetReleaseTrue,
+  gulp.parallel(taskClean,taskJsHint),
+  gulp.parallel(taskAppJs,taskVendorJs,taskAsssets,taskServer, taskViews, taskStyles, taskFonts, taskMaps), 
+  taskIndex));
 
 /*************************************************************/
 define('deploy','create a deployment build');
