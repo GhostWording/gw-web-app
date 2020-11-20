@@ -22,7 +22,7 @@ jobs:
 
     - name: npm install, build, and test
       run: |
-        git clone "https://$GITHUB\_TOKEN@github.com/GhostWording/gw-common.git" bower_components/gw-common
+        git clone "https://github.com/GhostWording/gw-common.git" bower_components/gw-common
         npm install
         npm install -g bower
         npm install -g gulp
