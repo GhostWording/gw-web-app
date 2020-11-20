@@ -14,7 +14,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@master
-
+    
     - name: Set up Node.js version
       uses: actions/setup-node@v1
       with:
@@ -22,7 +22,7 @@ jobs:
 
     - name: npm install, build, and test
       run: |
-        git clone "https://github.com/GhostWording/gw-common.git" bower_components/gw-common
+        git clone "https://${{ secrets.ACCESS_TOKEN }}@github.com/GhostWording/gw-common.git" bower_components/gw-common
         npm install
         npm install -g bower
         npm install -g gulp
