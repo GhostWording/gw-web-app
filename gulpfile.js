@@ -327,9 +327,11 @@ function taskSetReleaseTrue(cb){
   release = true;
   cb();
 }
-function taskSetDeployTrue(){
-  release = true;
+function taskSetDeployTrue(cb){
+  deploy = true;
+  cb();
 }
+
 function taskSequenceDeploy(cb) {
   release = true;
   deploy = true;
@@ -377,10 +379,13 @@ function taskE2etest(cb) {
       cb();
     });
 }
-function taskWatch() {
-  gulp.watch(['scripts/**','bower_components/gw-common/**', 'assets/**', 'views/**', 'index.html', 'tests/**'], function() {
-    runSequence(taskSequenceBuild);
-  });
+function taskWatch(cb) {
+  gulp.watch(
+    ['scripts/**','bower_components/gw-common/**', 'assets/**', 'views/**', 'index.html', 'tests/**'], function(cb){
+      gulp.series(taskSequenceBuild, taskServe);
+      cb();
+    });
+  
 }
 
 
@@ -542,7 +547,7 @@ gulp.task('e2etest', gulp.series(taskE2etestWebdriverUpdate,taskE2etest));
 /*************************************************************/
 define('watch','activate watch mode to run tests and serve on file changes');
 /*************************************************************/
-gulp.task('watch', gulp.series(taskInstall, taskSequenceBuild, taskWatch));
+gulp.task('watch', gulp.series(taskWatch));
 
 /*************************************************************/
 define('env','show environment');

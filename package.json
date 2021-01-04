@@ -1,6 +1,6 @@
 {
   "name": "cyrano-html-app",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "",
   "main": "gulpfile.js",
   "repository": {
@@ -57,8 +57,9 @@
     "phantomjs": "^1.9.20"
   },
   "scripts": {
-    "build" : "gulp release",
-    "dev": "node gulp build",
+    "build": "gulp build",
+    "dev": "gulp build && gulp",
+    "release": "gulp release",
     "test": "karma karma.conf.js",
     "start": "node build/server.js"
   },

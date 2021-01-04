@@ -9,7 +9,6 @@ var config =
     release: {
     },
     deploy: {
-      "API_URL": "/api/"
     }
   };
 
