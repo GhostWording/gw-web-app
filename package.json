@@ -46,7 +46,7 @@
     "protractor": "^7.0.0",
     "requirejs": "~2.3.6",
     "run-sequence": "^2.2.1",
-    "shelljs": "~0.8.4",
+    "shelljs": "~0.8.5",
     "sort-stream": "^1.0.1",
     "streamqueue": "^1.1.2",
     "tiny-lr": "2.0.0"
